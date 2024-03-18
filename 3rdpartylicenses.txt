@@ -7,9 +7,6 @@ MIT
 @angular/core
 MIT
 
-@angular/fire
-MIT
-
 @angular/forms
 MIT
 
@@ -652,7 +649,7 @@ SOFTWARE.
 
 core-js
 MIT
-Copyright (c) 2014-2023 Denis Pushkarev
+Copyright (c) 2014-2024 Denis Pushkarev
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -672,10 +669,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
-
-firebase/app
-
-firebase/auth
 
 firebase/firestore
 
