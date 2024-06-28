@@ -11866,6 +11866,93 @@ let TutorialGameWrapperComponent = class TutorialGameWrapperComponent extends sr
     super(activatedRoute, connectedUserService, router, messageDisplayer);
     this.cdr = cdr;
   }
+  canUserPlay(elementName) {
+    var _this = this;
+    return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+      _this.currentReason = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.empty();
+      if (_this.stepFinished[_this.stepIndex] || _this.moveAttemptMade) {
+        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPValidation.failure(_TutorialFailure__WEBPACK_IMPORTED_MODULE_5__.TutorialFailure.STEP_FINISHED());
+      }
+      const currentStep = _this.steps[_this.stepIndex];
+      if (currentStep.isClick()) {
+        _this.gameComponent.hideLastMove();
+        _this.moveAttemptMade = true;
+        if (_everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.Utils.getNonNullable(currentStep.acceptedClicks).some(m => m === elementName)) {
+          _this.showStepSuccess(currentStep.getSuccessMessage());
+        } else {
+          _this.currentMessage = currentStep.getFailureMessage();
+        }
+        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPValidation.SUCCESS;
+      } else if (currentStep.isMove() || currentStep.isPredicate() || currentStep.isAnyMove()) {
+        _this.gameComponent.hideLastMove();
+        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPValidation.SUCCESS;
+      } else {
+        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPValidation.failure(_TutorialFailure__WEBPACK_IMPORTED_MODULE_5__.TutorialFailure.INFORMATIONAL_STEP());
+      }
+    })();
+  }
+  onCancelMove(reason) {
+    var _superprop_getOnCancelMove = () => super.onCancelMove,
+      _this2 = this;
+    return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+      yield _superprop_getOnCancelMove().call(_this2, reason);
+      if (reason !== undefined) {
+        _this2.currentReason = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.of(reason);
+      }
+      _this2.cdr.detectChanges();
+    })();
+  }
+  onLegalUserMove(move) {
+    var _this3 = this;
+    return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+      const currentStep = _this3.steps[_this3.stepIndex];
+      const config = yield _this3.getConfig();
+      const node = _this3.gameComponent.rules.choose(_this3.gameComponent.node, move, config);
+      _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.Utils.assert(node.isSuccess(), 'It should be impossible to call onLegalUserMove with an illegal move, but got ' + node.getReasonOr(''));
+      _this3.gameComponent.node = node.get();
+      yield _this3.showNewMove(false);
+      _this3.moveAttemptMade = true;
+      if (currentStep.isPredicate()) {
+        const previousState = _this3.gameComponent.getPreviousState();
+        const resultingState = _this3.gameComponent.getState();
+        const moveValidity = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.Utils.getNonNullable(currentStep.predicate)(move, previousState, resultingState);
+        if (moveValidity.isSuccess()) {
+          _this3.showStepSuccess(currentStep.getSuccessMessage());
+        } else {
+          _this3.currentReason = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.of(moveValidity.getReason());
+        }
+      } else if (currentStep.isAnyMove()) {
+        src_app_utils_Debug__WEBPACK_IMPORTED_MODULE_6__.Debug.display('TutorialGameWrapperComponent', 'onLegalUserMove', 'awaited move!');
+        _this3.showStepSuccess(currentStep.getSuccessMessage());
+      } else if (currentStep.isMove()) {
+        const currentStepMove = currentStep;
+        if (currentStepMove.acceptedMoves.some(m => m.equals(move))) {
+          src_app_utils_Debug__WEBPACK_IMPORTED_MODULE_6__.Debug.display('TutorialGameWrapperComponent', 'onLegalUserMove', 'awaited move!');
+          _this3.showStepSuccess(currentStepMove.getSuccessMessage());
+        } else {
+          src_app_utils_Debug__WEBPACK_IMPORTED_MODULE_6__.Debug.display('TutorialGameWrapperComponent', 'onLegalUserMove', 'not the move that was awaited.');
+          _this3.currentReason = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.of(currentStepMove.getFailureMessage());
+        }
+      } else {
+        // No need to do anything there, canUserPlay did it
+        _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.Utils.assert(currentStep.isClick(), 'Here, we should have a click');
+      }
+      // We don't cover the click case here, it is covered in canUserPlay
+      _this3.cdr.detectChanges();
+    })();
+  }
+  getPlayer() {
+    return 'tutorial-player';
+  }
+  ngAfterViewInit() {
+    var _this4 = this;
+    return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+      const createdSuccessfully = yield _this4.createMatchingGameComponent();
+      if (createdSuccessfully) {
+        yield _this4.start();
+      }
+    })();
+  }
   getNumberOfSteps() {
     return this.steps.length;
   }
@@ -11876,30 +11963,21 @@ let TutorialGameWrapperComponent = class TutorialGameWrapperComponent extends sr
       return '';
     }
   }
-  ngAfterViewInit() {
-    var _this = this;
-    return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      const createdSuccessfully = yield _this.createMatchingGameComponent();
-      if (createdSuccessfully) {
-        yield _this.start();
-      }
-    })();
-  }
   start() {
-    var _this2 = this;
+    var _this5 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      const tutorial = _this2.gameComponent.tutorial;
-      yield _this2.startTutorial(tutorial);
+      const tutorial = _this5.gameComponent.tutorial;
+      yield _this5.startTutorial(tutorial);
     })();
   }
   startTutorial(tutorial) {
-    var _this3 = this;
+    var _this6 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      _this3.steps = tutorial;
-      _this3.tutorialOver = false;
-      _this3.stepFinished = _this3.getCompletionArray();
-      _this3.successfulSteps = 0;
-      yield _this3.showStep(0);
+      _this6.steps = tutorial;
+      _this6.tutorialOver = false;
+      _this6.stepFinished = _this6.getCompletionArray();
+      _this6.successfulSteps = 0;
+      yield _this6.showStep(0);
     })();
   }
   getCompletionArray() {
@@ -11908,110 +11986,35 @@ let TutorialGameWrapperComponent = class TutorialGameWrapperComponent extends sr
     });
   }
   changeStep(event) {
-    var _this4 = this;
+    var _this7 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       const target = event.target;
-      yield _this4.showStep(Number.parseInt(target.value, 10));
+      yield _this7.showStep(Number.parseInt(target.value, 10));
     })();
   }
   showStep(stepIndex) {
-    var _this5 = this;
+    var _this8 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      _this5.moveAttemptMade = false;
-      _this5.stepFinished[stepIndex] = false;
-      _this5.updateSuccessCount();
-      _this5.stepIndex = stepIndex;
-      const currentStep = _this5.steps[_this5.stepIndex];
-      _this5.currentMessage = currentStep.instruction;
-      _this5.currentReason = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.empty();
-      _this5.gameComponent.node = new src_app_jscaip_AI_GameNode__WEBPACK_IMPORTED_MODULE_2__.GameNode(currentStep.state, currentStep.parent, currentStep.previousMove);
+      _this8.moveAttemptMade = false;
+      _this8.stepFinished[stepIndex] = false;
+      _this8.updateSuccessCount();
+      _this8.stepIndex = stepIndex;
+      const currentStep = _this8.steps[_this8.stepIndex];
+      _this8.currentMessage = currentStep.instruction;
+      _this8.currentReason = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.empty();
+      _this8.gameComponent.node = new src_app_jscaip_AI_GameNode__WEBPACK_IMPORTED_MODULE_2__.GameNode(currentStep.state, currentStep.parent, currentStep.previousMove);
       // Set role will update view with showCurrentState
-      yield _this5.setRole(_this5.gameComponent.getCurrentPlayer());
+      yield _this8.setRole(_this8.gameComponent.getCurrentPlayer());
       // All steps but informational ones are interactive
-      yield _this5.setInteractive(currentStep.isInformation() === false);
-      _this5.cdr.detectChanges();
-    })();
-  }
-  onLegalUserMove(move) {
-    var _this6 = this;
-    return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      const currentStep = _this6.steps[_this6.stepIndex];
-      const config = yield _this6.getConfig();
-      const node = _this6.gameComponent.rules.choose(_this6.gameComponent.node, move, config);
-      _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.Utils.assert(node.isSuccess(), 'It should be impossible to call onLegalUserMove with an illegal move, but got ' + node.getReasonOr(''));
-      _this6.gameComponent.node = node.get();
-      yield _this6.showNewMove(false);
-      _this6.moveAttemptMade = true;
-      if (currentStep.isPredicate()) {
-        const previousState = _this6.gameComponent.getPreviousState();
-        const resultingState = _this6.gameComponent.getState();
-        const moveValidity = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.Utils.getNonNullable(currentStep.predicate)(move, previousState, resultingState);
-        if (moveValidity.isSuccess()) {
-          _this6.showStepSuccess(currentStep.getSuccessMessage());
-        } else {
-          _this6.currentReason = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.of(moveValidity.getReason());
-        }
-      } else if (currentStep.isAnyMove()) {
-        src_app_utils_Debug__WEBPACK_IMPORTED_MODULE_6__.Debug.display('TutorialGameWrapperComponent', 'onLegalUserMove', 'awaited move!');
-        _this6.showStepSuccess(currentStep.getSuccessMessage());
-      } else if (currentStep.isMove()) {
-        const currentStepMove = currentStep;
-        if (currentStepMove.acceptedMoves.some(m => m.equals(move))) {
-          src_app_utils_Debug__WEBPACK_IMPORTED_MODULE_6__.Debug.display('TutorialGameWrapperComponent', 'onLegalUserMove', 'awaited move!');
-          _this6.showStepSuccess(currentStepMove.getSuccessMessage());
-        } else {
-          src_app_utils_Debug__WEBPACK_IMPORTED_MODULE_6__.Debug.display('TutorialGameWrapperComponent', 'onLegalUserMove', 'not the move that was awaited.');
-          _this6.currentReason = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.of(currentStepMove.getFailureMessage());
-        }
-      } else {
-        // No need to do anything there, canUserPlay did it
-        _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.Utils.assert(currentStep.isClick(), 'Here, we should have a click');
-      }
-      // We don't cover the click case here, it is covered in canUserPlay
-      _this6.cdr.detectChanges();
+      yield _this8.setInteractive(currentStep.isInformation() === false);
+      _this8.cdr.detectChanges();
     })();
   }
   retry() {
-    var _this7 = this;
+    var _this9 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      _this7.moveAttemptMade = false;
-      yield _this7.showStep(_this7.stepIndex);
-    })();
-  }
-  canUserPlay(elementName) {
-    var _this8 = this;
-    return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      _this8.currentReason = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.empty();
-      if (_this8.stepFinished[_this8.stepIndex] || _this8.moveAttemptMade) {
-        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPValidation.failure(_TutorialFailure__WEBPACK_IMPORTED_MODULE_5__.TutorialFailure.STEP_FINISHED());
-      }
-      const currentStep = _this8.steps[_this8.stepIndex];
-      if (currentStep.isClick()) {
-        _this8.gameComponent.hideLastMove();
-        _this8.moveAttemptMade = true;
-        if (_everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.Utils.getNonNullable(currentStep.acceptedClicks).some(m => m === elementName)) {
-          _this8.showStepSuccess(currentStep.getSuccessMessage());
-        } else {
-          _this8.currentMessage = currentStep.getFailureMessage();
-        }
-        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPValidation.SUCCESS;
-      } else if (currentStep.isMove() || currentStep.isPredicate() || currentStep.isAnyMove()) {
-        _this8.gameComponent.hideLastMove();
-        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPValidation.SUCCESS;
-      } else {
-        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPValidation.failure(_TutorialFailure__WEBPACK_IMPORTED_MODULE_5__.TutorialFailure.INFORMATIONAL_STEP());
-      }
-    })();
-  }
-  onCancelMove(reason) {
-    var _superprop_getOnCancelMove = () => super.onCancelMove,
-      _this9 = this;
-    return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      yield _superprop_getOnCancelMove().call(_this9, reason);
-      if (reason !== undefined) {
-        _this9.currentReason = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.of(reason);
-      }
-      _this9.cdr.detectChanges();
+      _this9.moveAttemptMade = false;
+      yield _this9.showStep(_this9.stepIndex);
     })();
   }
   showStepSuccess(successMessage) {
@@ -12082,9 +12085,6 @@ let TutorialGameWrapperComponent = class TutorialGameWrapperComponent extends sr
       const urlName = _this13.getGameUrlName();
       yield _this13.router.navigate(['/play', urlName]);
     })();
-  }
-  getPlayer() {
-    return 'tutorial-player';
   }
   static ɵfac = function TutorialGameWrapperComponent_Factory(t) {
     return new (t || TutorialGameWrapperComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_9__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_10__.ActivatedRoute), _angular_core__WEBPACK_IMPORTED_MODULE_9__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_10__.Router), _angular_core__WEBPACK_IMPORTED_MODULE_9__["ɵɵdirectiveInject"](src_app_services_MessageDisplayer__WEBPACK_IMPORTED_MODULE_7__.MessageDisplayer), _angular_core__WEBPACK_IMPORTED_MODULE_9__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_9__.ChangeDetectorRef), _angular_core__WEBPACK_IMPORTED_MODULE_9__["ɵɵdirectiveInject"](src_app_services_ConnectedUserService__WEBPACK_IMPORTED_MODULE_8__.ConnectedUserService));
@@ -48091,7 +48091,7 @@ __webpack_require__.r(__webpack_exports__);
 
 class SquarzMinimax extends src_app_jscaip_AI_Minimax__WEBPACK_IMPORTED_MODULE_0__.Minimax {
   constructor() {
-    super('Dummy', _SquarzRules__WEBPACK_IMPORTED_MODULE_2__.SquarzRules.get(), new _SquarzHeuristic__WEBPACK_IMPORTED_MODULE_3__.SquarzHeuristic(), new _SquarzMoveGenerator__WEBPACK_IMPORTED_MODULE_1__.SquarzMoveGenerator());
+    super('Score', _SquarzRules__WEBPACK_IMPORTED_MODULE_2__.SquarzRules.get(), new _SquarzHeuristic__WEBPACK_IMPORTED_MODULE_3__.SquarzHeuristic(), new _SquarzMoveGenerator__WEBPACK_IMPORTED_MODULE_1__.SquarzMoveGenerator());
   }
 }
 
@@ -48515,7 +48515,7 @@ function SquarzComponent__svg_g_1__svg_g_1__svg_circle_2_Template(rf, ctx) {
     const x_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵnextContext"]().index;
     const y_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵnextContext"]().index;
     const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵnextContext"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵpropertyInterpolate2"]("id", "piece_", x_r2, "_", y_r3, "");
+    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵpropertyInterpolate2"]("id", "piece-", x_r2, "-", y_r3, "");
     _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵproperty"]("ngClass", ctx_r3.getPieceClasses(x_r2, y_r3));
     _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵattribute"]("r", ctx_r3.SPACE_SIZE / 2 - ctx_r3.STROKE_WIDTH)("cx", ctx_r3.SPACE_SIZE * x_r2 + ctx_r3.SPACE_SIZE / 2)("cy", ctx_r3.SPACE_SIZE * y_r3 + ctx_r3.SPACE_SIZE / 2);
   }
@@ -48539,9 +48539,9 @@ function SquarzComponent__svg_g_1__svg_g_1_Template(rf, ctx) {
     const x_r2 = ctx.index;
     const y_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵnextContext"]().index;
     const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵnextContext"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵpropertyInterpolate2"]("id", "click_", x_r2, "_", y_r3, "");
+    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵpropertyInterpolate2"]("id", "click-", x_r2, "-", y_r3, "");
     _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵpropertyInterpolate2"]("id", "space_", x_r2, "_", y_r3, "");
+    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵpropertyInterpolate2"]("id", "space-", x_r2, "-", y_r3, "");
     _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵproperty"]("ngClass", ctx_r3.getRectClasses(x_r2, y_r3));
     _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵattribute"]("x", ctx_r3.SPACE_SIZE * x_r2)("y", ctx_r3.SPACE_SIZE * y_r3)("width", ctx_r3.SPACE_SIZE)("height", ctx_r3.SPACE_SIZE);
     _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵadvance"]();
@@ -48634,13 +48634,13 @@ class SquarzComponent extends src_app_components_game_components_rectangular_gam
   onClick(x, y) {
     var _this3 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      const clickValidity = yield _this3.canUserPlay('#click_' + x + '_' + y);
+      const clickValidity = yield _this3.canUserPlay('#click-' + x + '-' + y);
       if (clickValidity.isFailure()) {
         return _this3.cancelMove(clickValidity.getReason());
       }
       const clicked = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_9__.Coord(x, y);
       if (_this3.selected.equalsValue(clicked)) {
-        _this3.cancelMoveAttempt();
+        yield _this3.cancelMove();
         return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.SUCCESS;
       }
       if (_this3.selected.isAbsent() || _this3.pieceBelongsToCurrentPlayer(clicked)) {
