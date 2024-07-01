@@ -29288,18 +29288,20 @@ function HiveComponent__svg_g_5__svg_g_1_Template(rf, ctx) {
     const ctx_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵnextContext"](2);
     _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵpropertyInterpolate2"]("id", "remaining-piece-", piece_r16.toString(), "-", z_r17, "");
     _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵproperty"]("piece", piece_r16)("pieceHeight", ctx_r2.PIECE_HEIGHT)("x", 0)("y", 0)("layer", z_r17)("hexaLayout", ctx_r2.hexaLayout);
-    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵattribute"]("transform", ctx_r2.getHexaCenterTranslationAtXY(0, 0))("transform", ctx_r2.getRemainingPieceTransform(piece_r16));
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵattribute"]("transform", ctx_r2.getRemainingPieceTransform(piece_r16));
   }
 }
 function HiveComponent__svg_g_5_Template(rf, ctx) {
   if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵnamespaceSVG"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementStart"](0, "g");
-    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵtemplate"](1, HiveComponent__svg_g_5__svg_g_1_Template, 1, 11, "g", 10);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵtemplate"](1, HiveComponent__svg_g_5__svg_g_1_Template, 1, 10, "g", 10);
     _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementEnd"]();
   }
   if (rf & 2) {
     const stack_r18 = ctx.$implicit;
+    const ctx_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵnextContext"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵattribute"]("transform", ctx_r2.getHexaCenterTranslationAt(ctx_r2.ORIGIN));
     _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵadvance"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵproperty"]("ngForOf", stack_r18.pieces);
   }
@@ -29478,7 +29480,7 @@ class HiveComponent extends src_app_components_game_components_game_component_He
     if (this.getState().remainingPieces.getAny(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_7__.Player.ONE).isPresent()) {
       spaceForOne = spaceForRemainingPieces;
     }
-    const boardAndRemainingViewBox = this.boardViewBox.containingAtLeast(minimalViewBox).expandAbove(spaceForZero).expandBelow(spaceForOne).expandLeft(2 * this.SPACE_SIZE).expandRight(-1.5 * this.SPACE_SIZE);
+    const boardAndRemainingViewBox = this.boardViewBox.containingAtLeast(minimalViewBox).expandAbove(spaceForZero).expandBelow(spaceForOne);
     if (this.inspectedStack.isPresent()) {
       const inspectedStackPosition = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(boardAndRemainingViewBox.right() + this.SPACE_SIZE, boardAndRemainingViewBox.center().y);
       const stackSize = this.inspectedStack.get().size();
@@ -29765,7 +29767,7 @@ class HiveComponent extends src_app_components_game_components_game_component_He
       if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵnamespaceSVG"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementStart"](0, "svg", 0);
-        _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵtemplate"](1, HiveComponent__svg_g_1_Template, 2, 6, "g", 1)(2, HiveComponent__svg_g_2_Template, 2, 1, "g", 1)(3, HiveComponent__svg_g_3_Template, 2, 1, "g", 1)(4, HiveComponent__svg_g_4_Template, 3, 2, "g", 1)(5, HiveComponent__svg_g_5_Template, 2, 1, "g", 1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵtemplate"](1, HiveComponent__svg_g_1_Template, 2, 6, "g", 1)(2, HiveComponent__svg_g_2_Template, 2, 1, "g", 1)(3, HiveComponent__svg_g_3_Template, 2, 1, "g", 1)(4, HiveComponent__svg_g_4_Template, 3, 2, "g", 1)(5, HiveComponent__svg_g_5_Template, 2, 2, "g", 1);
         _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementStart"](6, "g");
         _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵtemplate"](7, HiveComponent__svg_polygon_7_Template, 1, 2, "polygon", 2);
         _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementEnd"]();
