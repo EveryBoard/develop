@@ -37921,130 +37921,107 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const _c0 = a0 => [a0];
-function MartianChessComponent__svg_g_2__svg_g_1__svg_g_2__svg_g_1_Template(rf, ctx) {
+function MartianChessComponent__svg_g_2__svg_g_2__svg_g_1_Template(rf, ctx) {
   if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnamespaceSVG"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelement"](0, "g", 19);
   }
   if (rf & 2) {
-    const x_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"](2).index;
-    const y_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]().index;
-    const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵstyleMap"](ctx_r3.style);
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵpropertyInterpolate2"]("mainShapeId", "pawn-", x_r2, "-", y_r3, "");
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("pieceClasses", ctx_r3.getPieceClasses(x_r2, y_r3));
+    const coordAndContent_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"](2).$implicit;
+    const ctx_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵstyleMap"](ctx_r2.style);
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵpropertyInterpolate2"]("mainShapeId", "pawn-", coordAndContent_r2.coord.x, "-", coordAndContent_r2.coord.y, "");
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("pieceClasses", ctx_r2.getPieceClasses(coordAndContent_r2.coord));
   }
 }
-function MartianChessComponent__svg_g_2__svg_g_1__svg_g_2__svg_g_2_Template(rf, ctx) {
+function MartianChessComponent__svg_g_2__svg_g_2__svg_g_2_Template(rf, ctx) {
   if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnamespaceSVG"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelement"](0, "g", 20);
   }
   if (rf & 2) {
-    const x_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"](2).index;
-    const y_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]().index;
-    const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵstyleMap"](ctx_r3.style);
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵpropertyInterpolate2"]("mainShapeId", "drone-", x_r2, "-", y_r3, "");
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("pieceClasses", ctx_r3.getPieceClasses(x_r2, y_r3));
+    const coordAndContent_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"](2).$implicit;
+    const ctx_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵstyleMap"](ctx_r2.style);
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵpropertyInterpolate2"]("mainShapeId", "drone-", coordAndContent_r2.coord.x, "-", coordAndContent_r2.coord.y, "");
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("pieceClasses", ctx_r2.getPieceClasses(coordAndContent_r2.coord));
   }
 }
-function MartianChessComponent__svg_g_2__svg_g_1__svg_g_2__svg_g_3_Template(rf, ctx) {
+function MartianChessComponent__svg_g_2__svg_g_2__svg_g_3_Template(rf, ctx) {
   if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnamespaceSVG"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelement"](0, "g", 21);
   }
   if (rf & 2) {
-    const x_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"](2).index;
-    const y_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]().index;
-    const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵstyleMap"](ctx_r3.style);
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵpropertyInterpolate2"]("mainShapeId", "queen-", x_r2, "-", y_r3, "");
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("pieceClasses", ctx_r3.getPieceClasses(x_r2, y_r3));
+    const coordAndContent_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"](2).$implicit;
+    const ctx_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵstyleMap"](ctx_r2.style);
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵpropertyInterpolate2"]("mainShapeId", "queen-", coordAndContent_r2.coord.x, "-", coordAndContent_r2.coord.y, "");
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("pieceClasses", ctx_r2.getPieceClasses(coordAndContent_r2.coord));
   }
 }
-function MartianChessComponent__svg_g_2__svg_g_1__svg_g_2_Template(rf, ctx) {
+function MartianChessComponent__svg_g_2__svg_g_2_Template(rf, ctx) {
   if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnamespaceSVG"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelementStart"](0, "g");
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵtemplate"](1, MartianChessComponent__svg_g_2__svg_g_1__svg_g_2__svg_g_1_Template, 1, 6, "g", 16)(2, MartianChessComponent__svg_g_2__svg_g_1__svg_g_2__svg_g_2_Template, 1, 6, "g", 17)(3, MartianChessComponent__svg_g_2__svg_g_1__svg_g_2__svg_g_3_Template, 1, 6, "g", 18);
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵtemplate"](1, MartianChessComponent__svg_g_2__svg_g_2__svg_g_1_Template, 1, 6, "g", 16)(2, MartianChessComponent__svg_g_2__svg_g_2__svg_g_2_Template, 1, 6, "g", 17)(3, MartianChessComponent__svg_g_2__svg_g_2__svg_g_3_Template, 1, 6, "g", 18);
     _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelementEnd"]();
   }
   if (rf & 2) {
-    const ctx_r4 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]();
-    const piece_r6 = ctx_r4.$implicit;
-    const x_r2 = ctx_r4.index;
-    const y_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]().index;
-    const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵattribute"]("transform", ctx_r3.getPieceLocation(x_r2, y_r3));
+    const coordAndContent_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]().$implicit;
+    const ctx_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("ngIf", piece_r6 === ctx_r3.pieces.PAWN);
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("ngIf", coordAndContent_r2.content === ctx_r2.pieces.PAWN);
     _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("ngIf", piece_r6 === ctx_r3.pieces.DRONE);
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("ngIf", coordAndContent_r2.content === ctx_r2.pieces.DRONE);
     _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("ngIf", piece_r6 === ctx_r3.pieces.QUEEN);
-  }
-}
-function MartianChessComponent__svg_g_2__svg_g_1_Template(rf, ctx) {
-  if (rf & 1) {
-    const _r1 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵgetCurrentView"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnamespaceSVG"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelementStart"](0, "g", 14);
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵlistener"]("click", function MartianChessComponent__svg_g_2__svg_g_1_Template_g_click_0_listener() {
-      const x_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵrestoreView"](_r1).index;
-      const y_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]().index;
-      const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]();
-      return _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵresetView"](ctx_r3.onClick(x_r2, y_r3));
-    });
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelement"](1, "rect", 15);
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵtemplate"](2, MartianChessComponent__svg_g_2__svg_g_1__svg_g_2_Template, 4, 4, "g", 2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelementEnd"]();
-  }
-  if (rf & 2) {
-    const piece_r6 = ctx.$implicit;
-    const x_r2 = ctx.index;
-    const y_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]().index;
-    const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵpropertyInterpolate2"]("id", "click-", x_r2, "-", y_r3, "");
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵattribute"]("transform", ctx_r3.getPieceTranslation(y_r3));
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵpropertyInterpolate2"]("id", "square-", x_r2, "-", y_r3, "");
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("ngClass", ctx_r3.getSquareClasses(x_r2, y_r3));
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵattribute"]("x", x_r2 * ctx_r3.SPACE_SIZE)("y", y_r3 * ctx_r3.SPACE_SIZE)("width", ctx_r3.SPACE_SIZE)("height", ctx_r3.SPACE_SIZE);
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("ngIf", piece_r6 !== ctx_r3.pieces.EMPTY);
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("ngIf", coordAndContent_r2.content === ctx_r2.pieces.QUEEN);
   }
 }
 function MartianChessComponent__svg_g_2_Template(rf, ctx) {
   if (rf & 1) {
+    const _r1 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵgetCurrentView"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnamespaceSVG"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelementStart"](0, "g");
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵtemplate"](1, MartianChessComponent__svg_g_2__svg_g_1_Template, 3, 13, "g", 13);
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelementStart"](0, "g", 14);
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵlistener"]("click", function MartianChessComponent__svg_g_2_Template_g_click_0_listener() {
+      const coordAndContent_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵrestoreView"](_r1).$implicit;
+      const ctx_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]();
+      return _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵresetView"](ctx_r2.onClick(coordAndContent_r2.coord));
+    });
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelement"](1, "rect", 15);
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵtemplate"](2, MartianChessComponent__svg_g_2__svg_g_2_Template, 4, 3, "g", 2);
     _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelementEnd"]();
   }
   if (rf & 2) {
-    const line_r7 = ctx.$implicit;
+    const coordAndContent_r2 = ctx.$implicit;
+    const ctx_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵpropertyInterpolate2"]("id", "click-", coordAndContent_r2.coord.x, "-", coordAndContent_r2.coord.y, "");
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵattribute"]("transform", ctx_r2.getPieceTranslation(coordAndContent_r2.coord));
     _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("ngForOf", line_r7);
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵpropertyInterpolate2"]("id", "square-", coordAndContent_r2.coord.x, "-", coordAndContent_r2.coord.y, "");
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("ngClass", ctx_r2.getSquareClasses(coordAndContent_r2.coord));
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵattribute"]("width", ctx_r2.SPACE_SIZE)("height", ctx_r2.SPACE_SIZE);
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("ngIf", coordAndContent_r2.content !== ctx_r2.pieces.EMPTY);
   }
 }
 function MartianChessComponent__svg_g_3__svg_rect_1_Template(rf, ctx) {
   if (rf & 1) {
-    const _r8 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵgetCurrentView"]();
+    const _r4 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵgetCurrentView"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnamespaceSVG"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelementStart"](0, "rect", 23);
     _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵlistener"]("click", function MartianChessComponent__svg_g_3__svg_rect_1_Template_rect_click_0_listener() {
-      const possibleLanding_r9 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵrestoreView"](_r8).$implicit;
-      const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"](2);
-      return _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵresetView"](ctx_r3.onClick(possibleLanding_r9.x, possibleLanding_r9.y));
+      const possibleLanding_r5 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵrestoreView"](_r4).$implicit;
+      const ctx_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"](2);
+      return _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵresetView"](ctx_r2.onClick(possibleLanding_r5));
     });
     _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelementEnd"]();
   }
   if (rf & 2) {
-    const possibleLanding_r9 = ctx.$implicit;
-    const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵpropertyInterpolate2"]("id", "indicator-", possibleLanding_r9.x, "-", possibleLanding_r9.y, "");
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵattribute"]("transform", ctx_r3.getPieceTranslation(possibleLanding_r9.y))("x", possibleLanding_r9.x * ctx_r3.SPACE_SIZE + (ctx_r3.SPACE_SIZE / 2 - ctx_r3.INDICATOR_SIZE / 2))("y", possibleLanding_r9.y * ctx_r3.SPACE_SIZE + (ctx_r3.SPACE_SIZE / 2 - ctx_r3.INDICATOR_SIZE / 2))("width", ctx_r3.INDICATOR_SIZE)("height", ctx_r3.INDICATOR_SIZE);
+    const possibleLanding_r5 = ctx.$implicit;
+    const ctx_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵpropertyInterpolate2"]("id", "indicator-", possibleLanding_r5.x, "-", possibleLanding_r5.y, "");
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵattribute"]("transform", ctx_r2.getPieceTranslation(possibleLanding_r5))("x", ctx_r2.SPACE_SIZE / 2 - ctx_r2.INDICATOR_SIZE / 2)("y", ctx_r2.SPACE_SIZE / 2 - ctx_r2.INDICATOR_SIZE / 2)("width", ctx_r2.INDICATOR_SIZE)("height", ctx_r2.INDICATOR_SIZE);
   }
 }
 function MartianChessComponent__svg_g_3_Template(rf, ctx) {
@@ -38055,9 +38032,9 @@ function MartianChessComponent__svg_g_3_Template(rf, ctx) {
     _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelementEnd"]();
   }
   if (rf & 2) {
-    const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]();
+    const ctx_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("ngForOf", ctx_r3.selectedPieceInfo.get().legalLandings);
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("ngForOf", ctx_r2.selectedPieceInfo.get().legalLandings);
   }
 }
 function MartianChessComponent__svg_text_7_Template(rf, ctx) {
@@ -38068,11 +38045,11 @@ function MartianChessComponent__svg_text_7_Template(rf, ctx) {
     _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelementEnd"]();
   }
   if (rf & 2) {
-    const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("ngClass", "player" + ctx_r3.getCurrentPlayer().getValue())("ngClass", ctx_r3.getClockCircleClasses());
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵattribute"]("x", 0.5 * ctx_r3.SPACE_SIZE)("y", 0.5 * ctx_r3.SPACE_SIZE);
+    const ctx_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("ngClass", "player" + ctx_r2.getCurrentPlayer().getValue())("ngClass", ctx_r2.getClockCircleClasses());
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵattribute"]("x", 0.5 * ctx_r2.SPACE_SIZE)("y", 0.5 * ctx_r2.SPACE_SIZE);
     _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵtextInterpolate"](ctx_r3.countDown.get());
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵtextInterpolate"](ctx_r2.countDown.get());
   }
 }
 function MartianChessComponent__svg_polyline_8_Template(rf, ctx) {
@@ -38081,33 +38058,33 @@ function MartianChessComponent__svg_polyline_8_Template(rf, ctx) {
     _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelement"](0, "polyline", 25);
   }
   if (rf & 2) {
-    const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("ngClass", ctx_r3.getClockCircleClasses());
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵattribute"]("points", ctx_r3.clockNeedlesPoints);
+    const ctx_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("ngClass", ctx_r2.getClockCircleClasses());
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵattribute"]("points", ctx_r2.clockNeedlesPoints);
   }
 }
 function MartianChessComponent__svg_g_13__svg_ng_container_2_Template(rf, ctx) {
   if (rf & 1) {
-    const _r10 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵgetCurrentView"]();
+    const _r6 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵgetCurrentView"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnamespaceSVG"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelementContainerStart"](0);
     _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelementStart"](1, "g", 28);
     _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵlistener"]("click", function MartianChessComponent__svg_g_13__svg_ng_container_2_Template_g_click_1_listener() {
-      const y_r11 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵrestoreView"](_r10).index;
-      const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"](2);
-      return _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵresetView"](ctx_r3.chooseStyle(y_r11));
+      const y_r7 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵrestoreView"](_r6).index;
+      const ctx_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"](2);
+      return _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵresetView"](ctx_r2.chooseStyle(y_r7));
     });
     _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelementContainerEnd"]();
   }
   if (rf & 2) {
-    const proposedStyle_r12 = ctx.$implicit;
-    const y_r11 = ctx.index;
-    const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"](2);
+    const proposedStyle_r8 = ctx.$implicit;
+    const y_r7 = ctx.index;
+    const ctx_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"](2);
     _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵstyleMap"](proposedStyle_r12.style);
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("id", proposedStyle_r12.name)("pieceClasses", _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵpureFunction1"](5, _c0, "player" + ctx_r3.getCurrentPlayer().getValue() + "-fill"));
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵattribute"]("transform", ctx_r3.getTranslationAtXY(0, -y_r11 - 1));
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵstyleMap"](proposedStyle_r8.style);
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("id", proposedStyle_r8.name)("pieceClasses", _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵpureFunction1"](5, _c0, "player" + ctx_r2.getCurrentPlayer().getValue() + "-fill"));
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵattribute"]("transform", ctx_r2.getTranslationAtXY(0, -y_r7 - 1));
   }
 }
 function MartianChessComponent__svg_g_13_Template(rf, ctx) {
@@ -38115,15 +38092,15 @@ function MartianChessComponent__svg_g_13_Template(rf, ctx) {
     _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnamespaceSVG"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelementStart"](0, "g", 26);
     _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelement"](1, "rect", 27);
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵtemplate"](2, MartianChessComponent__svg_g_13__svg_ng_container_2_Template, 2, 7, "ng-container", 1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵtemplate"](2, MartianChessComponent__svg_g_13__svg_ng_container_2_Template, 2, 7, "ng-container", 13);
     _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelementEnd"]();
   }
   if (rf & 2) {
-    const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]();
+    const ctx_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵattribute"]("x", 0)("y", -ctx_r3.listOfStyles.length * ctx_r3.SPACE_SIZE)("width", 1 * ctx_r3.SPACE_SIZE)("height", ctx_r3.listOfStyles.length * ctx_r3.SPACE_SIZE);
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵattribute"]("y", -ctx_r2.listOfStyles.length * ctx_r2.SPACE_SIZE)("width", 1 * ctx_r2.SPACE_SIZE)("height", ctx_r2.listOfStyles.length * ctx_r2.SPACE_SIZE);
     _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("ngForOf", ctx_r3.listOfStyles);
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("ngForOf", ctx_r2.listOfStyles);
   }
 }
 function MartianChessComponent__svg_g_15__svg_g_2__svg_g_1__svg_text_1_Template(rf, ctx) {
@@ -38134,13 +38111,13 @@ function MartianChessComponent__svg_g_15__svg_g_2__svg_g_1__svg_text_1_Template(
     _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelementEnd"]();
   }
   if (rf & 2) {
-    const value_r13 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"](2).$implicit;
-    const player_r14 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]().$implicit;
-    const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("ngClass", ctx_r3.getPlayerClass(player_r14));
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵattribute"]("x", ctx_r3.SPACE_SIZE / 2)("y", ctx_r3.SPACE_SIZE / 2);
+    const value_r9 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"](2).$implicit;
+    const player_r10 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]().$implicit;
+    const ctx_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("ngClass", ctx_r2.getPlayerClass(player_r10));
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵattribute"]("x", ctx_r2.SPACE_SIZE / 2)("y", ctx_r2.SPACE_SIZE / 2);
     _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵtextInterpolate"](value_r13 + " x ");
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵtextInterpolate"](value_r9 + " x ");
   }
 }
 function MartianChessComponent__svg_g_15__svg_g_2__svg_g_1__svg_g_3_Template(rf, ctx) {
@@ -38149,10 +38126,10 @@ function MartianChessComponent__svg_g_15__svg_g_2__svg_g_1__svg_g_3_Template(rf,
     _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelement"](0, "g", 35);
   }
   if (rf & 2) {
-    const player_r14 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"](3).$implicit;
-    const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵstyleMap"](ctx_r3.style);
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("pieceClasses", _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵpureFunction1"](3, _c0, ctx_r3.getPlayerClass(player_r14)));
+    const player_r10 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"](3).$implicit;
+    const ctx_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵstyleMap"](ctx_r2.style);
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("pieceClasses", _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵpureFunction1"](3, _c0, ctx_r2.getPlayerClass(player_r10)));
   }
 }
 function MartianChessComponent__svg_g_15__svg_g_2__svg_g_1__svg_g_4_Template(rf, ctx) {
@@ -38161,10 +38138,10 @@ function MartianChessComponent__svg_g_15__svg_g_2__svg_g_1__svg_g_4_Template(rf,
     _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelement"](0, "g", 36);
   }
   if (rf & 2) {
-    const player_r14 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"](3).$implicit;
-    const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵstyleMap"](ctx_r3.style);
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("pieceClasses", _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵpureFunction1"](3, _c0, ctx_r3.getPlayerClass(player_r14)));
+    const player_r10 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"](3).$implicit;
+    const ctx_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵstyleMap"](ctx_r2.style);
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("pieceClasses", _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵpureFunction1"](3, _c0, ctx_r2.getPlayerClass(player_r10)));
   }
 }
 function MartianChessComponent__svg_g_15__svg_g_2__svg_g_1__svg_g_5_Template(rf, ctx) {
@@ -38173,10 +38150,10 @@ function MartianChessComponent__svg_g_15__svg_g_2__svg_g_1__svg_g_5_Template(rf,
     _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelement"](0, "g", 37);
   }
   if (rf & 2) {
-    const player_r14 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"](3).$implicit;
-    const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵstyleMap"](ctx_r3.style);
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("pieceClasses", _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵpureFunction1"](3, _c0, ctx_r3.getPlayerClass(player_r14)));
+    const player_r10 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"](3).$implicit;
+    const ctx_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵstyleMap"](ctx_r2.style);
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("pieceClasses", _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵpureFunction1"](3, _c0, ctx_r2.getPlayerClass(player_r10)));
   }
 }
 function MartianChessComponent__svg_g_15__svg_g_2__svg_g_1_Template(rf, ctx) {
@@ -38189,23 +38166,23 @@ function MartianChessComponent__svg_g_15__svg_g_2__svg_g_1_Template(rf, ctx) {
     _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelementEnd"]()();
   }
   if (rf & 2) {
-    const ctx_r14 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]();
-    const value_r13 = ctx_r14.$implicit;
-    const piece_r16 = ctx_r14.index;
-    const player_r14 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]().$implicit;
-    const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵattribute"]("transform", ctx_r3.getTranslationAtXY(0, 2 * piece_r16));
+    const ctx_r10 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]();
+    const value_r9 = ctx_r10.$implicit;
+    const piece_r12 = ctx_r10.index;
+    const player_r10 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]().$implicit;
+    const ctx_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵattribute"]("transform", ctx_r2.getTranslationAtXY(0, 2 * piece_r12));
     _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("ngIf", value_r13 > 1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("ngIf", value_r9 > 1);
     _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵpropertyInterpolate2"]("id", "piece-", piece_r16, "-player-", player_r14.toString(), "");
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵattribute"]("transform", ctx_r3.getTranslationAtXY(1, 0));
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵpropertyInterpolate2"]("id", "piece-", piece_r12, "-player-", player_r10.toString(), "");
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵattribute"]("transform", ctx_r2.getTranslationAtXY(1, 0));
     _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("ngIf", piece_r16 === 0);
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("ngIf", piece_r12 === 0);
     _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("ngIf", piece_r16 === 1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("ngIf", piece_r12 === 1);
     _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("ngIf", piece_r16 === 2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("ngIf", piece_r12 === 2);
   }
 }
 function MartianChessComponent__svg_g_15__svg_g_2_Template(rf, ctx) {
@@ -38216,26 +38193,26 @@ function MartianChessComponent__svg_g_15__svg_g_2_Template(rf, ctx) {
     _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelementEnd"]();
   }
   if (rf & 2) {
-    const value_r13 = ctx.$implicit;
+    const value_r9 = ctx.$implicit;
     _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("ngIf", value_r13 > 0);
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("ngIf", value_r9 > 0);
   }
 }
 function MartianChessComponent__svg_g_15_Template(rf, ctx) {
   if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnamespaceSVG"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelementStart"](0, "g")(1, "g", 29);
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵtemplate"](2, MartianChessComponent__svg_g_15__svg_g_2_Template, 2, 1, "g", 1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵtemplate"](2, MartianChessComponent__svg_g_15__svg_g_2_Template, 2, 1, "g", 13);
     _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelementEnd"]()();
   }
   if (rf & 2) {
-    const player_r14 = ctx.$implicit;
-    const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]();
+    const player_r10 = ctx.$implicit;
+    const ctx_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵpropertyInterpolate1"]("id", "capture-of-player-", player_r14.toString(), "");
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵattribute"]("transform", ctx_r3.getCapturesTransformation(player_r14));
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵpropertyInterpolate1"]("id", "capture-of-player-", player_r10.toString(), "");
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵattribute"]("transform", ctx_r2.getCapturesTransformation(player_r10));
     _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("ngForOf", ctx_r3.state.getCapturesOf(player_r14));
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("ngForOf", ctx_r2.state.getCapturesOf(player_r10));
   }
 }
 /**
@@ -38425,15 +38402,9 @@ class MartianChessComponent extends src_app_components_game_components_rectangul
     this.captured = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.empty();
     this.promoted = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.empty();
   }
-  getPieceLocation(x, y) {
-    const cx = this.SPACE_SIZE * x;
-    const cy = this.SPACE_SIZE * y;
-    return 'translate(' + cx + ', ' + cy + ')';
-  }
-  getPieceClasses(x, y) {
-    const coord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(x, y);
+  getPieceClasses(coord) {
     const classes = [];
-    classes.push(y > 3 ? 'player0-fill' : 'player1-fill');
+    classes.push(coord.y > 3 ? 'player0-fill' : 'player1-fill');
     if (this.selectedPieceInfo.isPresent() && this.selectedPieceInfo.get().selectedPiece.equals(coord)) {
       classes.push('selected-stroke');
     }
@@ -38442,19 +38413,18 @@ class MartianChessComponent extends src_app_components_game_components_rectangul
     }
     return classes;
   }
-  onClick(x, y) {
+  onClick(coord) {
     var _this3 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       _this3.displayModePanel = false;
-      const clickValidity = yield _this3.canUserPlay('#click-' + x + '-' + y);
+      const clickValidity = yield _this3.canUserPlay('#click-' + coord.x + '-' + coord.y);
       if (clickValidity.isFailure()) {
         return _this3.cancelMove(clickValidity.getReason());
       }
-      const clickedCoord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(x, y);
       if (_this3.selectedPieceInfo.isPresent()) {
-        return _this3.secondClick(clickedCoord);
+        return _this3.secondClick(coord);
       } else {
-        return _this3.firstClick(clickedCoord);
+        return _this3.firstClick(coord);
       }
     })();
   }
@@ -38570,8 +38540,7 @@ class MartianChessComponent extends src_app_components_game_components_rectangul
     }
     return classes;
   }
-  getSquareClasses(x, y) {
-    const square = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(x, y);
+  getSquareClasses(square) {
     const classes = ['base'];
     if (this.captured.equalsValue(square)) {
       classes.push('captured-fill');
@@ -38587,8 +38556,14 @@ class MartianChessComponent extends src_app_components_game_components_rectangul
     this.style = this.listOfStyles[n].style;
     this.displayModePanel = false;
   }
-  getPieceTranslation(y) {
-    return 'translate(0, ' + (y <= 3 ? 0 : 2 * this.STROKE_WIDTH) + ')';
+  getPieceTranslation(coord) {
+    const cx = coord.x * this.SPACE_SIZE;
+    let cy = coord.y * this.SPACE_SIZE;
+    if (coord.y > 3) {
+      // Need to take into account the double stroke of the middle of the board
+      cy += 2 * this.STROKE_WIDTH;
+    }
+    return this.getSVGTranslation(cx, cy);
   }
   getBoardTransformation() {
     const translation = 'translate(' + this.SPACE_SIZE + ', 0)';
@@ -38614,14 +38589,13 @@ class MartianChessComponent extends src_app_components_game_components_rectangul
     features: [_angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵInheritDefinitionFeature"]],
     decls: 16,
     vars: 20,
-    consts: [["xmlns", "http://www.w3.org/2000/svg", "width", "100%", "height", "100%", "preserveAspectRatio", "xMidYMid meet"], [4, "ngFor", "ngForOf"], [4, "ngIf"], ["id", "clock-or-count-down-view", 3, "click"], ["x", "0", "y", "0", 1, "transparent"], ["id", "clock-or-count-down-circle", 3, "ngClass"], ["id", "count-down-text", "class", "text-giant text-center", 3, "ngClass", 4, "ngIf"], ["class", "base", "stroke-linecap", "round", 3, "ngClass", 4, "ngIf"], ["id", "mode-cog-view"], ["id", "mode-cog", 3, "click"], ["d", "M35.497,15.111h-1.656c-0.282-0.924-0.653-1.807-1.102-2.646l1.176-1.175c1.364-1.366,1.366-3.582,0-4.949l-1.258-1.258 c-0.656-0.656-1.548-1.025-2.476-1.025l0,0c-0.93,0-1.818,0.369-2.477,1.025l-1.176,1.175c-0.838-0.446-1.721-0.817-2.645-1.102 V3.501c0-1.934-1.566-3.5-3.5-3.5h-1.778c-1.934,0-3.5,1.566-3.5,3.5v1.655c-0.923,0.282-1.807,0.653-2.645,1.102l-1.174-1.175 c-1.367-1.367-3.584-1.367-4.951,0L5.081,6.34c-1.367,1.366-1.367,3.583,0,4.949l1.174,1.175c-0.446,0.84-0.818,1.723-1.102,2.646 H3.5c-1.934,0-3.5,1.566-3.5,3.5v1.778c0,1.932,1.566,3.5,3.5,3.5h1.654c0.283,0.922,0.654,1.807,1.102,2.645l-1.175,1.176 c-1.366,1.365-1.366,3.582-0.001,4.949l1.258,1.258c0.656,0.654,1.547,1.023,2.475,1.023h0.001c0.929,0,1.818-0.369,2.475-1.023 l1.176-1.176c0.837,0.447,1.722,0.818,2.644,1.102v1.656c0,1.932,1.566,3.5,3.5,3.5h1.778c1.934,0,3.5-1.568,3.5-3.5v-1.656 c0.924-0.283,1.807-0.654,2.645-1.102l1.177,1.176c0.655,0.656,1.547,1.023,2.476,1.023c0.93,0,1.817-0.369,2.477-1.023 l1.256-1.258c1.366-1.367,1.365-3.582,0-4.949l-1.176-1.174c0.447-0.84,0.818-1.725,1.102-2.646h1.656c1.934,0,3.5-1.568,3.5-3.5 v-1.777C38.997,16.679,37.43,15.111,35.497,15.111z M19.499,27.499c-4.41,0-8-3.588-8-8c0-4.411,3.59-8,8-8c4.412,0,8,3.589,8,8 C27.499,23.911,23.911,27.499,19.499,27.499z", 3, "ngClass"], ["id", "mode-panel", 4, "ngIf"], ["id", "captures"], [3, "id", "click", 4, "ngFor", "ngForOf"], [3, "click", "id"], [3, "id", "ngClass"], ["app-martian-chess-pawn", "", 3, "mainShapeId", "pieceClasses", "style", 4, "ngIf"], ["app-martian-chess-drone", "", 3, "pieceClasses", "mainShapeId", "style", 4, "ngIf"], ["app-martian-chess-queen", "", 3, "mainShapeId", "pieceClasses", "style", 4, "ngIf"], ["app-martian-chess-pawn", "", 3, "mainShapeId", "pieceClasses"], ["app-martian-chess-drone", "", 3, "pieceClasses", "mainShapeId"], ["app-martian-chess-queen", "", 3, "mainShapeId", "pieceClasses"], ["class", "indicator", 3, "id", "click", 4, "ngFor", "ngForOf"], [1, "indicator", 3, "click", "id"], ["id", "count-down-text", 1, "text-giant", "text-center", 3, "ngClass"], ["stroke-linecap", "round", 1, "base", 3, "ngClass"], ["id", "mode-panel"], ["stroke-width", "8", 1, "base"], ["app-martian-chess-queen", "", 3, "click", "id", "pieceClasses"], [3, "id"], ["class", "text-giant text-center", 3, "ngClass", 4, "ngIf"], ["app-martian-chess-pawn", "", 3, "pieceClasses", "style", 4, "ngIf"], ["app-martian-chess-drone", "", 3, "pieceClasses", "style", 4, "ngIf"], ["app-martian-chess-queen", "", 3, "pieceClasses", "style", 4, "ngIf"], [1, "text-giant", "text-center", 3, "ngClass"], ["app-martian-chess-pawn", "", 3, "pieceClasses"], ["app-martian-chess-drone", "", 3, "pieceClasses"], ["app-martian-chess-queen", "", 3, "pieceClasses"]],
+    consts: [["xmlns", "http://www.w3.org/2000/svg", "width", "100%", "height", "100%", "preserveAspectRatio", "xMidYMid meet"], [3, "id", "click", 4, "ngFor", "ngForOf"], [4, "ngIf"], ["id", "clock-or-count-down-view", 3, "click"], ["x", "0", "y", "0", 1, "transparent"], ["id", "clock-or-count-down-circle", 3, "ngClass"], ["id", "count-down-text", "class", "text-giant text-center", 3, "ngClass", 4, "ngIf"], ["class", "base", "stroke-linecap", "round", 3, "ngClass", 4, "ngIf"], ["id", "mode-cog-view"], ["id", "mode-cog", 3, "click"], ["d", "M35.497,15.111h-1.656c-0.282-0.924-0.653-1.807-1.102-2.646l1.176-1.175c1.364-1.366,1.366-3.582,0-4.949l-1.258-1.258 c-0.656-0.656-1.548-1.025-2.476-1.025l0,0c-0.93,0-1.818,0.369-2.477,1.025l-1.176,1.175c-0.838-0.446-1.721-0.817-2.645-1.102 V3.501c0-1.934-1.566-3.5-3.5-3.5h-1.778c-1.934,0-3.5,1.566-3.5,3.5v1.655c-0.923,0.282-1.807,0.653-2.645,1.102l-1.174-1.175 c-1.367-1.367-3.584-1.367-4.951,0L5.081,6.34c-1.367,1.366-1.367,3.583,0,4.949l1.174,1.175c-0.446,0.84-0.818,1.723-1.102,2.646 H3.5c-1.934,0-3.5,1.566-3.5,3.5v1.778c0,1.932,1.566,3.5,3.5,3.5h1.654c0.283,0.922,0.654,1.807,1.102,2.645l-1.175,1.176 c-1.366,1.365-1.366,3.582-0.001,4.949l1.258,1.258c0.656,0.654,1.547,1.023,2.475,1.023h0.001c0.929,0,1.818-0.369,2.475-1.023 l1.176-1.176c0.837,0.447,1.722,0.818,2.644,1.102v1.656c0,1.932,1.566,3.5,3.5,3.5h1.778c1.934,0,3.5-1.568,3.5-3.5v-1.656 c0.924-0.283,1.807-0.654,2.645-1.102l1.177,1.176c0.655,0.656,1.547,1.023,2.476,1.023c0.93,0,1.817-0.369,2.477-1.023 l1.256-1.258c1.366-1.367,1.365-3.582,0-4.949l-1.176-1.174c0.447-0.84,0.818-1.725,1.102-2.646h1.656c1.934,0,3.5-1.568,3.5-3.5 v-1.777C38.997,16.679,37.43,15.111,35.497,15.111z M19.499,27.499c-4.41,0-8-3.588-8-8c0-4.411,3.59-8,8-8c4.412,0,8,3.589,8,8 C27.499,23.911,23.911,27.499,19.499,27.499z", 3, "ngClass"], ["id", "mode-panel", 4, "ngIf"], ["id", "captures"], [4, "ngFor", "ngForOf"], [3, "click", "id"], ["x", "0", "y", "0", 3, "id", "ngClass"], ["app-martian-chess-pawn", "", 3, "mainShapeId", "pieceClasses", "style", 4, "ngIf"], ["app-martian-chess-drone", "", 3, "pieceClasses", "mainShapeId", "style", 4, "ngIf"], ["app-martian-chess-queen", "", 3, "mainShapeId", "pieceClasses", "style", 4, "ngIf"], ["app-martian-chess-pawn", "", 3, "mainShapeId", "pieceClasses"], ["app-martian-chess-drone", "", 3, "pieceClasses", "mainShapeId"], ["app-martian-chess-queen", "", 3, "mainShapeId", "pieceClasses"], ["class", "indicator", 3, "id", "click", 4, "ngFor", "ngForOf"], [1, "indicator", 3, "click", "id"], ["id", "count-down-text", 1, "text-giant", "text-center", 3, "ngClass"], ["stroke-linecap", "round", 1, "base", 3, "ngClass"], ["id", "mode-panel"], ["x", "0", "stroke-width", "8", 1, "base"], ["app-martian-chess-queen", "", 3, "click", "id", "pieceClasses"], [3, "id"], ["class", "text-giant text-center", 3, "ngClass", 4, "ngIf"], ["app-martian-chess-pawn", "", 3, "pieceClasses", "style", 4, "ngIf"], ["app-martian-chess-drone", "", 3, "pieceClasses", "style", 4, "ngIf"], ["app-martian-chess-queen", "", 3, "pieceClasses", "style", 4, "ngIf"], [1, "text-giant", "text-center", 3, "ngClass"], ["app-martian-chess-pawn", "", 3, "pieceClasses"], ["app-martian-chess-drone", "", 3, "pieceClasses"], ["app-martian-chess-queen", "", 3, "pieceClasses"]],
     template: function MartianChessComponent_Template(rf, ctx) {
       if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnamespaceSVG"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelementStart"](0, "svg", 0)(1, "g");
-        _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵtemplate"](2, MartianChessComponent__svg_g_2_Template, 2, 1, "g", 1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵtemplate"](2, MartianChessComponent__svg_g_2_Template, 3, 11, "g", 1)(3, MartianChessComponent__svg_g_3_Template, 2, 1, "g", 2);
         _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵtemplate"](3, MartianChessComponent__svg_g_3_Template, 2, 1, "g", 2);
         _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelementStart"](4, "g", 3);
         _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵlistener"]("click", function MartianChessComponent_Template_g_click_4_listener() {
           return ctx.onClockClick();
@@ -38635,10 +38609,10 @@ class MartianChessComponent extends src_app_components_game_components_rectangul
         });
         _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelement"](11, "rect", 4)(12, "path", 10);
         _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵtemplate"](13, MartianChessComponent__svg_g_13_Template, 3, 5, "g", 11);
+        _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵtemplate"](13, MartianChessComponent__svg_g_13_Template, 3, 4, "g", 11);
         _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelementStart"](14, "g", 12);
-        _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵtemplate"](15, MartianChessComponent__svg_g_15_Template, 3, 4, "g", 1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵtemplate"](15, MartianChessComponent__svg_g_15_Template, 3, 4, "g", 13);
         _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelementEnd"]()();
       }
       if (rf & 2) {
@@ -38646,7 +38620,7 @@ class MartianChessComponent extends src_app_components_game_components_rectangul
         _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵadvance"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵattribute"]("transform", ctx.getBoardTransformation());
         _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵadvance"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("ngForOf", ctx.board);
+        _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("ngForOf", ctx.state.getCoordsAndContents());
         _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵadvance"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("ngIf", ctx.selectedPieceInfo.isPresent());
         _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵadvance"]();
@@ -39754,18 +39728,18 @@ function PentagoComponent__svg_circle_8_Template(rf, ctx) {
     _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵnamespaceSVG"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵelementStart"](0, "circle", 12);
     _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵlistener"]("click", function PentagoComponent__svg_circle_8_Template_circle_click_0_listener() {
-      const cac_r8 = _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵrestoreView"](_r7).$implicit;
+      const coordAndContent_r8 = _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵrestoreView"](_r7).$implicit;
       const ctx_r5 = _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵnextContext"]();
-      return _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵresetView"](ctx_r5.onClick(cac_r8.coord));
+      return _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵresetView"](ctx_r5.onClick(coordAndContent_r8.coord));
     });
     _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵelementEnd"]();
   }
   if (rf & 2) {
-    const cac_r8 = ctx.$implicit;
+    const coordAndContent_r8 = ctx.$implicit;
     const ctx_r5 = _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵnextContext"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵpropertyInterpolate2"]("id", "click-", cac_r8.coord.x, "-", cac_r8.coord.y, "");
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵproperty"]("ngClass", ctx_r5.getSquareClasses(cac_r8.coord));
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵattribute"]("transform", ctx_r5.getPieceTranslate(cac_r8.coord))("cx", 0.5 * ctx_r5.SPACE_SIZE)("cy", 0.5 * ctx_r5.SPACE_SIZE)("r", (ctx_r5.SPACE_SIZE - ctx_r5.STROKE_WIDTH) / 2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵpropertyInterpolate2"]("id", "click-", coordAndContent_r8.coord.x, "-", coordAndContent_r8.coord.y, "");
+    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵproperty"]("ngClass", ctx_r5.getSquareClasses(coordAndContent_r8.coord));
+    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵattribute"]("transform", ctx_r5.getPieceTranslate(coordAndContent_r8.coord))("cx", 0.5 * ctx_r5.SPACE_SIZE)("cy", 0.5 * ctx_r5.SPACE_SIZE)("r", (ctx_r5.SPACE_SIZE - ctx_r5.STROKE_WIDTH) / 2);
   }
 }
 function PentagoComponent__svg_circle_9_Template(rf, ctx) {
