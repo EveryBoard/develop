@@ -2298,7 +2298,7 @@ class DemoPageComponent {
     });
   }
   fillColumns(numberOfColumns) {
-    const allGames = _pick_game_pick_game_component__WEBPACK_IMPORTED_MODULE_2__.GameInfo.ALL_GAMES();
+    const allGames = _pick_game_pick_game_component__WEBPACK_IMPORTED_MODULE_2__.GameInfo.getAllGames();
     let column = 0;
     let i = 0;
     this.columns = [];
@@ -3831,7 +3831,7 @@ class OnlineGameCreationComponent {
     })();
   }
   gameExists(gameName) {
-    const optionalGameInfo = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.ofNullable(_pick_game_pick_game_component__WEBPACK_IMPORTED_MODULE_2__.GameInfo.ALL_GAMES().find(gameInfo => gameInfo.urlName === gameName));
+    const optionalGameInfo = _pick_game_pick_game_component__WEBPACK_IMPORTED_MODULE_2__.GameInfo.getByUrlName(gameName);
     return optionalGameInfo.isPresent();
   }
   static ɵfac = function OnlineGameCreationComponent_Factory(t) {
@@ -4287,10 +4287,17 @@ class GameInfo {
   creationDate;
   description;
   display;
+  static ALL_GAMES = []; // Initialized like a singleton
   // Games sorted by creation date
+  static getAllGames() {
+    if (GameInfo.ALL_GAMES.length === 0) {
+      GameInfo.fillAllGames();
+    }
+    return GameInfo.ALL_GAMES;
+  }
   // eslint-disable-next-line max-lines-per-function
-  static ALL_GAMES() {
-    return [new GameInfo($localize`Four in a Row`, 'P4', src_app_games_p4_p4_component__WEBPACK_IMPORTED_MODULE_73__.P4Component, new src_app_games_p4_P4Tutorial__WEBPACK_IMPORTED_MODULE_74__.P4Tutorial(), src_app_games_p4_P4Rules__WEBPACK_IMPORTED_MODULE_75__.P4Rules.get(), new Date('2018-08-28'), GameDescription.P4()),
+  static fillAllGames() {
+    GameInfo.ALL_GAMES = [new GameInfo($localize`Four in a Row`, 'P4', src_app_games_p4_p4_component__WEBPACK_IMPORTED_MODULE_73__.P4Component, new src_app_games_p4_P4Tutorial__WEBPACK_IMPORTED_MODULE_74__.P4Tutorial(), src_app_games_p4_P4Rules__WEBPACK_IMPORTED_MODULE_75__.P4Rules.get(), new Date('2018-08-28'), GameDescription.P4()),
     //                             * Martin
     new GameInfo($localize`Awalé`, 'Awale', src_app_games_mancala_awale_awale_component__WEBPACK_IMPORTED_MODULE_5__.AwaleComponent, new src_app_games_mancala_awale_AwaleTutorial__WEBPACK_IMPORTED_MODULE_7__.AwaleTutorial(), src_app_games_mancala_awale_AwaleRules__WEBPACK_IMPORTED_MODULE_6__.AwaleRules.get(), new Date('2018-11-29'), GameDescription.AWALE()),
     // 93 days after P4            * Martin
@@ -4374,7 +4381,7 @@ class GameInfo {
     // 9d 10d 12d 13d 18d - 18d 20d 22d 25d 26d - (26d) - 49d 65d 71d 76d 93d - 94j 4m 4m 7m 11m
   }
   static getByUrlName(urlName) {
-    const games = GameInfo.ALL_GAMES().filter(gameInfo => gameInfo.urlName === urlName);
+    const games = GameInfo.getAllGames().filter(gameInfo => gameInfo.urlName === urlName);
     _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.Utils.assert(games.length <= 1, `There should only be one game matching $urlName!`);
     if (games.length === 0) {
       return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.empty();
@@ -4412,7 +4419,7 @@ class GameInfo {
   }
 }
 class PickGameComponent {
-  games = GameInfo.ALL_GAMES();
+  games = GameInfo.getAllGames();
   pickGame = new _angular_core__WEBPACK_IMPORTED_MODULE_121__.EventEmitter();
   onChange(event) {
     const select = event.target;
@@ -5851,7 +5858,7 @@ class WelcomeComponent {
     this.messageDisplayer = messageDisplayer;
     this.currentGameService = currentGameService;
     this.theme = themeService.getTheme();
-    const allGames = _pick_game_pick_game_component__WEBPACK_IMPORTED_MODULE_1__.GameInfo.ALL_GAMES();
+    const allGames = _pick_game_pick_game_component__WEBPACK_IMPORTED_MODULE_1__.GameInfo.getAllGames();
     let column = 0;
     for (let i = 0; i < allGames.length; i++) {
       if (i < this.numberOfColumns) {
@@ -6163,7 +6170,7 @@ class GameWrapper extends _game_components_game_component_GameComponent__WEBPACK
     this.messageDisplayer = messageDisplayer;
   }
   getMatchingComponent(gameName) {
-    const optionalGameInfo = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.ofNullable(_normal_component_pick_game_pick_game_component__WEBPACK_IMPORTED_MODULE_2__.GameInfo.ALL_GAMES().find(gameInfo => gameInfo.urlName === gameName));
+    const optionalGameInfo = _normal_component_pick_game_pick_game_component__WEBPACK_IMPORTED_MODULE_2__.GameInfo.getByUrlName(gameName);
     return optionalGameInfo.map(gameInfo => gameInfo.component);
   }
   /**
@@ -8486,7 +8493,7 @@ let OnlineGameWrapperComponent = class OnlineGameWrapperComponent extends _GameW
     var _this = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       const urlName = _this.getGameUrlName();
-      const gameExists = _normal_component_pick_game_pick_game_component__WEBPACK_IMPORTED_MODULE_6__.GameInfo.ALL_GAMES().some(gameInfo => gameInfo.urlName === urlName);
+      const gameExists = _normal_component_pick_game_pick_game_component__WEBPACK_IMPORTED_MODULE_6__.GameInfo.getByUrlName(urlName).isPresent();
       if (gameExists) {
         const partValidity = yield _this.gameService.getGameValidity(_this.currentPartId, urlName);
         if (partValidity.isFailure()) {
