@@ -8470,6 +8470,7 @@ let OnlineGameWrapperComponent = class OnlineGameWrapperComponent extends _GameW
   turnTimeMessage = $localize`30 seconds`;
   requestInfos = _OGWCRequestManagerService__WEBPACK_IMPORTED_MODULE_8__.OGWCRequestManagerService.requestInfos;
   allRequests = ['TakeBack', 'Draw', 'Rematch'];
+  moveSentButNotReceivedYet = false;
   constructor(activatedRoute, connectedUserService, router, messageDisplayer, currentGameService, gameService, gameEventService, timeManager, requestManager, serverTimeService, cdr) {
     super(activatedRoute, connectedUserService, router, messageDisplayer);
     this.currentGameService = currentGameService;
@@ -8582,7 +8583,7 @@ let OnlineGameWrapperComponent = class OnlineGameWrapperComponent extends _GameW
       _this4.configRoom = configRoom;
       _this4.gameStarted = true;
       window.setTimeout( /*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-        // the small waiting is there to make sure that the chronos are charged by view
+        // the small waiting is there to make sure that the chronos are loaded by view
         const createdSuccessfully = yield _this4.createMatchingGameComponent();
         _this4.timeManager.setClocks([_this4.chronoZeroTurn, _this4.chronoOneTurn], [_this4.chronoZeroGlobal, _this4.chronoOneGlobal]);
         _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.Utils.assert(createdSuccessfully, 'Game should be created successfully, otherwise part-creation would have redirected');
@@ -8703,24 +8704,17 @@ let OnlineGameWrapperComponent = class OnlineGameWrapperComponent extends _GameW
   onReceivedMove(moveEvent, isLastMoveOfBatch) {
     var _this10 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      const rules = _this10.gameComponent.rules;
-      const currentPartTurn = _this10.gameComponent.getTurn();
-      const chosenMove = _this10.gameComponent.encoder.decode(moveEvent.move);
-      const state = _this10.gameComponent.node.gameState;
-      const config = yield _this10.getConfig();
-      const legality = _this10.gameComponent.rules.isLegal(chosenMove, state, config);
-      const message = 'We received an incorrect db move: ' + chosenMove.toString() + ' at turn ' + currentPartTurn + 'because "' + legality.getReasonOr('') + '"';
-      _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.Utils.assert(legality.isSuccess(), message);
-      const success = rules.choose(_this10.gameComponent.node, chosenMove, config);
-      _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.Utils.assert(success.isSuccess(), 'Chosen move should be legal after all checks, but it is not! Reason: ' + success.getReasonOr(''));
-      _this10.gameComponent.node = success.get();
-      if (_this10.role.isNone()) {
-        yield _this10.showNewMove(isLastMoveOfBatch);
+      if (_this10.moveSentButNotReceivedYet) {
+        // This is our move, we have already shown it
+        // So we do nothing to show it again.
+        _this10.moveSentButNotReceivedYet = false;
       } else {
-        // We only animate the move of opponent, because the users move has already been animated before sending it
-        const triggerAnimation = currentPartTurn % 2 !== _this10.role.getValue();
-        yield _this10.showNewMove(triggerAnimation && isLastMoveOfBatch);
+        // This is not our move, it is either the move of the opponent, or we are observing.
+        // In any case, we have to show and animate it.
+        const move = _this10.gameComponent.encoder.decode(moveEvent.move);
+        yield _this10.applyMove(move, isLastMoveOfBatch);
       }
+      // Need to handle the rest irrespective of which move we received
       yield _this10.setCurrentPlayerAccordingToCurrentTurn();
       _this10.timeManager.onReceivedMove(moveEvent);
       _this10.requestManager.onReceivedMove();
@@ -8868,104 +8862,110 @@ let OnlineGameWrapperComponent = class OnlineGameWrapperComponent extends _GameW
   onLegalUserMove(move) {
     var _this17 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      // We will update the part with new scores and game status (if needed)
-      // We have to compute the game status before adding the move to avoid
-      // risking receiving the move before computing the game status (thereby adding twice the same move)
-      const oldNode = _this17.gameComponent.node;
-      const rules = _this17.gameComponent.rules;
-      const state = oldNode.gameState;
+      // First, show the move in the component
+      yield _this17.applyMove(move, false); // Move was already animated by its game component, no need to animate again
+      // Then, send the move
       const config = yield _this17.getConfig();
-      const legality = _this17.gameComponent.rules.isLegal(move, state, config);
-      _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.Utils.assert(legality.isSuccess(), 'onLegalUserMove called with an illegal move');
-      const stateAfterMove = rules.applyLegalMove(move, state, config, legality.get());
-      const newNode = new src_app_jscaip_AI_GameNode__WEBPACK_IMPORTED_MODULE_7__.GameNode(stateAfterMove, _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.of(oldNode), _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.of(move));
-      const gameStatus = rules.getGameStatus(newNode, config);
-      // To adhere to security rules, we must add the move before updating the part
+      const gameStatus = _this17.gameComponent.rules.getGameStatus(_this17.gameComponent.node, config);
       const encodedMove = _this17.gameComponent.encoder.encode(move);
       const partId = _this17.currentPartId;
       const scores = _this17.gameComponent.scores;
+      _this17.moveSentButNotReceivedYet = true;
       if (gameStatus.isEndGame) {
-        return _this17.gameService.addMoveAndEndGame(partId, encodedMove, scores, gameStatus.winner);
+        yield _this17.gameService.addMoveAndEndGame(partId, encodedMove, scores, gameStatus.winner);
       } else {
-        return _this17.gameService.addMove(partId, encodedMove, scores);
+        yield _this17.gameService.addMove(partId, encodedMove, scores);
       }
     })();
   }
-  notifyTimeoutVictory(victoriousPlayer, loser) {
+  applyMove(move, triggerAnimation) {
     var _this18 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      yield _this18.gameService.notifyTimeout(_this18.currentPartId, victoriousPlayer, loser);
+      const oldNode = _this18.gameComponent.node;
+      const state = oldNode.gameState;
+      const config = yield _this18.getConfig();
+      const legality = _this18.gameComponent.rules.isLegal(move, state, config);
+      _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.Utils.assert(legality.isSuccess(), 'OGWC.applyMove called with an illegal move');
+      const stateAfterMove = _this18.gameComponent.rules.applyLegalMove(move, state, config, legality.get());
+      _this18.gameComponent.node = new src_app_jscaip_AI_GameNode__WEBPACK_IMPORTED_MODULE_7__.GameNode(stateAfterMove, _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.of(oldNode), _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.of(move));
+      yield _this18.showNewMove(triggerAnimation);
+    })();
+  }
+  notifyTimeoutVictory(victoriousPlayer, loser) {
+    var _this19 = this;
+    return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+      yield _this19.gameService.notifyTimeout(_this19.currentPartId, victoriousPlayer, loser);
     })();
   }
   // Called by the resign button
   resign() {
-    var _this19 = this;
+    var _this20 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      yield _this19.gameService.resign(_this19.currentPartId);
+      yield _this20.gameService.resign(_this20.currentPartId);
     })();
   }
   // Called by the clocks
   reachedOutOfTime(player) {
-    var _this20 = this;
+    var _this21 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      if (_this20.isPlaying() === false) {
+      if (_this21.isPlaying() === false) {
         return;
       }
-      const opponent = _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.Utils.getNonNullable(_this20.opponent);
-      if (player === _this20.role) {
-        yield _this20.notifyTimeoutVictory(opponent, _this20.authUser.toMinimalUser());
+      const opponent = _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.Utils.getNonNullable(_this21.opponent);
+      if (player === _this21.role) {
+        yield _this21.notifyTimeoutVictory(opponent, _this21.authUser.toMinimalUser());
       } else {
-        yield _this20.notifyTimeoutVictory(_this20.authUser.toMinimalUser(), opponent);
+        yield _this21.notifyTimeoutVictory(_this21.authUser.toMinimalUser(), opponent);
       }
     })();
   }
   // Called by the corresponding button
   propose(request) {
-    var _this21 = this;
+    var _this22 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.Utils.assert(_this21.role.isPlayer(), 'cannot propose request if not player');
+      _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.Utils.assert(_this22.role.isPlayer(), 'cannot propose request if not player');
       switch (request) {
         case 'Rematch':
-          return _this21.gameService.proposeRematch(_this21.currentPartId);
+          return _this22.gameService.proposeRematch(_this22.currentPartId);
         case 'Draw':
-          return _this21.gameService.proposeDraw(_this21.currentPartId);
+          return _this22.gameService.proposeDraw(_this22.currentPartId);
         default:
           _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.Utils.expectToBe(request, 'TakeBack');
-          return _this21.gameService.askTakeBack(_this21.currentPartId);
+          return _this22.gameService.askTakeBack(_this22.currentPartId);
       }
     })();
   }
   // Called by the 'accept' button
   accept() {
-    var _this22 = this;
+    var _this23 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.Utils.assert(_this22.role.isPlayer(), 'cannot accept request if not player');
-      const request = _this22.requestManager.getCurrentRequest().get().requestType;
+      _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.Utils.assert(_this23.role.isPlayer(), 'cannot accept request if not player');
+      const request = _this23.requestManager.getCurrentRequest().get().requestType;
       switch (request) {
         case 'Rematch':
-          return _this22.gameService.acceptRematch(_this22.currentPartId);
+          return _this23.gameService.acceptRematch(_this23.currentPartId);
         case 'Draw':
-          return _this22.gameService.acceptDraw(_this22.currentPartId);
+          return _this23.gameService.acceptDraw(_this23.currentPartId);
         default:
           _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.Utils.expectToBe(request, 'TakeBack');
-          return _this22.gameService.acceptTakeBack(_this22.currentPartId);
+          return _this23.gameService.acceptTakeBack(_this23.currentPartId);
       }
     })();
   }
   // Called by the 'reject' button
   reject() {
-    var _this23 = this;
+    var _this24 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.Utils.assert(_this23.role.isPlayer(), 'cannot reject request if not player');
-      const request = _this23.requestManager.getCurrentRequest().get().requestType;
+      _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.Utils.assert(_this24.role.isPlayer(), 'cannot reject request if not player');
+      const request = _this24.requestManager.getCurrentRequest().get().requestType;
       switch (request) {
         case 'Rematch':
-          return _this23.gameService.rejectRematch(_this23.currentPartId);
+          return _this24.gameService.rejectRematch(_this24.currentPartId);
         case 'Draw':
-          return _this23.gameService.refuseDraw(_this23.currentPartId);
+          return _this24.gameService.refuseDraw(_this24.currentPartId);
         default:
           _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.Utils.expectToBe(request, 'TakeBack');
-          return _this23.gameService.refuseTakeBack(_this23.currentPartId);
+          return _this24.gameService.refuseTakeBack(_this24.currentPartId);
       }
     })();
   }
@@ -8993,35 +8993,35 @@ let OnlineGameWrapperComponent = class OnlineGameWrapperComponent extends _GameW
   }
   onCancelMove(reason) {
     var _superprop_getOnCancelMove = () => super.onCancelMove,
-      _this24 = this;
+      _this25 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      yield _superprop_getOnCancelMove().call(_this24, reason);
-      if (_this24.gameComponent.node.previousMove.isPresent()) {
-        const move = _this24.gameComponent.node.previousMove.get();
-        yield _this24.gameComponent.showLastMove(move);
+      yield _superprop_getOnCancelMove().call(_this25, reason);
+      if (_this25.gameComponent.node.previousMove.isPresent()) {
+        const move = _this25.gameComponent.node.previousMove.get();
+        yield _this25.gameComponent.showLastMove(move);
       }
-      _this24.cdr.detectChanges();
+      _this25.cdr.detectChanges();
     })();
   }
   ngOnDestroy() {
-    var _this25 = this;
+    var _this26 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      _this25.routerEventsSubscription.unsubscribe();
-      _this25.userSubscription.unsubscribe();
-      _this25.currentGameSubscription.unsubscribe();
-      if (_this25.isPlaying() === false && _this25.userLinkedToThisPart && _this25.connectedUserService.user.isPresent()) {
-        yield _this25.currentGameService.removeCurrentGame();
+      _this26.routerEventsSubscription.unsubscribe();
+      _this26.userSubscription.unsubscribe();
+      _this26.currentGameSubscription.unsubscribe();
+      if (_this26.isPlaying() === false && _this26.userLinkedToThisPart && _this26.connectedUserService.user.isPresent()) {
+        yield _this26.currentGameService.removeCurrentGame();
       }
-      if (_this25.gameStarted === true) {
-        _this25.partSubscription.unsubscribe();
-        _this25.gameEventsSubscription.unsubscribe();
+      if (_this26.gameStarted === true) {
+        _this26.partSubscription.unsubscribe();
+        _this26.gameEventsSubscription.unsubscribe();
       }
     })();
   }
   getConfig() {
-    var _this26 = this;
+    var _this27 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      const rulesConfig = _this26.configRoom.rulesConfig;
+      const rulesConfig = _this27.configRoom.rulesConfig;
       return _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.of(rulesConfig);
     })();
   }
