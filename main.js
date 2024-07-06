@@ -35716,7 +35716,7 @@ class MancalaRules extends src_app_jscaip_Rules__WEBPACK_IMPORTED_MODULE_8__.Con
   }]);
   static isStarving(player, board) {
     let i = 0;
-    const playerY = player.getOpponent().getValue(); // For player 0 has row 1
+    const playerY = player.getOpponent().getValue(); // player 0 has row 1
     while (i < board[0].length) {
       if (board[playerY][i++] > 0) {
         return false; // found some food there, so not starving
@@ -35840,6 +35840,7 @@ class MancalaRules extends src_app_jscaip_Rules__WEBPACK_IMPORTED_MODULE_8__.Con
     const player = postCaptureState.getCurrentPlayer();
     if (config.mustFeed) {
       if (MancalaRules.isStarving(player, postCaptureBoard) && this.canDistribute(opponent, postCaptureState, config) === false) {
+        // We are starving, and opponent can't feed us.
         // Opponent takes all their last piece for themselves
         return [opponent];
       }
@@ -35872,12 +35873,12 @@ class MancalaRules extends src_app_jscaip_Rules__WEBPACK_IMPORTED_MODULE_8__.Con
     const distributionsResult = this.distributeMove(move, state, config.get());
     const captureResult = this.applyCapture(distributionsResult, config.get());
     let resultingState = captureResult.resultingState;
-    const playerTomonsoon = this.mustMonsoon(resultingState, config.get());
-    if (playerTomonsoon.length === 1) {
+    const playerToMonsoon = this.mustMonsoon(resultingState, config.get());
+    if (playerToMonsoon.length === 1) {
       // if the player distributed their last seeds and the opponent could not give them seeds
-      const monsoonResult = this.monsoon(playerTomonsoon[0], captureResult);
+      const monsoonResult = this.monsoon(playerToMonsoon[0], captureResult);
       resultingState = monsoonResult.resultingState;
-    } else if (playerTomonsoon.length === 2) {
+    } else if (playerToMonsoon.length === 2) {
       // if the player distributed their last seeds and the opponent could not give them seeds
       const monsoonResult = this.sharedMonsoon(captureResult);
       resultingState = monsoonResult.resultingState;
@@ -35975,7 +35976,7 @@ class MancalaRules extends src_app_jscaip_Rules__WEBPACK_IMPORTED_MODULE_8__.Con
     const board = state.board;
     let pieceNeededToFeedStore;
     if (y === 0) {
-      pieceNeededToFeedStore = state.getWidth() - (x + 1);
+      pieceNeededToFeedStore = state.getWidth() - x;
     } else {
       pieceNeededToFeedStore = x + 1;
     }
