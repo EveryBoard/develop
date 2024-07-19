@@ -12363,8 +12363,26 @@ html {
   background-color: var(--player0);
 }
 
+.player0-bg-darker {
+  background-color: var(--player0);
+  filter: brightness(80%);
+}
+
+.player0-fg {
+  color: black;
+}
+
 .player1-bg {
   background-color: var(--player1);
+}
+
+.player1-bg-darker {
+  background-color: var(--player1);
+  filter: brightness(80%);
+}
+
+.player1-fg {
+  color: black;
 }
 
 .endgame-bg {
@@ -12409,6 +12427,10 @@ html {
   cursor: default;
   background-color: rgba(0, 0, 0, 0) !important;
   border-color: var(--tab-highlight-on-hover) !important;
+}
+
+.is-fullheight {
+  height: 100%;
 }
 
 .hero {
@@ -12547,10 +12569,6 @@ html {
   color: #fff;
 }
 
-.modal-card-head, .is-primary {
-  background-color: #994d00;
-}
-
 .button.is-primary.is-light {
   color: white;
 }
@@ -12566,6 +12584,11 @@ html {
 /* Show the page only after the CSS has been loaded */
 html, body {
   display: block;
+}
+
+.left-border {
+  border-left: 0.15em solid #994d00;
+  padding-left: 1em;
 }
 
 /*# sourceMappingURL=dark.css.map*/

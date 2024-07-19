@@ -12255,8 +12255,26 @@ html {
   background-color: var(--player0);
 }
 
+.player0-bg-darker {
+  background-color: var(--player0);
+  filter: brightness(80%);
+}
+
+.player0-fg {
+  color: black;
+}
+
 .player1-bg {
   background-color: var(--player1);
+}
+
+.player1-bg-darker {
+  background-color: var(--player1);
+  filter: brightness(80%);
+}
+
+.player1-fg {
+  color: black;
 }
 
 .endgame-bg {
@@ -12303,12 +12321,12 @@ html {
   border-color: var(--tab-highlight-on-hover) !important;
 }
 
-.button {
-  justify-content: center;
+.is-fullheight {
+  height: 100%;
 }
 
-.modal-card-head, .is-primary {
-  background-color: #ffc34d;
+.button {
+  justify-content: center;
 }
 
 .has-text-passive {
@@ -12318,6 +12336,11 @@ html {
 /* Show the page only after the CSS has been loaded */
 html, body {
   display: block;
+}
+
+.left-border {
+  border-left: 0.15em solid #ffc34d;
+  padding-left: 1em;
 }
 
 /*# sourceMappingURL=light.css.map*/
