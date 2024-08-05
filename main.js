@@ -830,6 +830,9 @@ class BaseGameComponent extends _BaseComponent__WEBPACK_IMPORTED_MODULE_5__.Base
   getSVGTranslation(x, y) {
     return 'translate(' + x + ', ' + y + ')';
   }
+  getSVGTranslationAt(coord) {
+    return this.getSVGTranslation(coord.x, coord.y);
+  }
 }
 /**
  * All method are to be implemented by the "final" GameComponent classes
@@ -1092,7 +1095,7 @@ class TriangularGameComponent extends _GameComponent__WEBPACK_IMPORTED_MODULE_1_
   getTriangleTranslationAtXY(x, y) {
     const coord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_0__.Coord(x, y);
     const translation = this.getTriangleTranslationCoord(coord);
-    return 'translate(' + translation.x + ', ' + translation.y + ')';
+    return this.getSVGTranslationAt(translation);
   }
   getDownwardCoordinate() {
     const left = 0;
@@ -26640,17 +26643,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var src_app_games_gos_GoMove__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/games/gos/GoMove */ 9671);
 /* harmony import */ var _GoPiece__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../GoPiece */ 10598);
-/* harmony import */ var src_app_jscaip_AI_MCTS__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/jscaip/AI/MCTS */ 37123);
-/* harmony import */ var _TrigoMoveGenerator__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./TrigoMoveGenerator */ 19063);
-/* harmony import */ var src_app_utils_Debug__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/app/utils/Debug */ 36355);
-/* harmony import */ var src_app_jscaip_PlayerMap__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! src/app/jscaip/PlayerMap */ 95208);
-/* harmony import */ var src_app_components_game_components_game_component_TriangularGameComponent__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! src/app/components/game-components/game-component/TriangularGameComponent */ 52520);
-/* harmony import */ var src_app_components_game_components_GameComponentUtils__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! src/app/components/game-components/GameComponentUtils */ 88207);
-/* harmony import */ var src_app_jscaip_state_TriangularCheckerBoard__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! src/app/jscaip/state/TriangularCheckerBoard */ 43599);
-/* harmony import */ var _TrigoMinimax__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./TrigoMinimax */ 23002);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @angular/core */ 37580);
-/* harmony import */ var src_app_services_MessageDisplayer__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! src/app/services/MessageDisplayer */ 78055);
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @angular/common */ 60316);
+/* harmony import */ var src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/jscaip/Coord */ 16904);
+/* harmony import */ var src_app_jscaip_AI_MCTS__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/jscaip/AI/MCTS */ 37123);
+/* harmony import */ var _TrigoMoveGenerator__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./TrigoMoveGenerator */ 19063);
+/* harmony import */ var src_app_utils_Debug__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! src/app/utils/Debug */ 36355);
+/* harmony import */ var src_app_jscaip_PlayerMap__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! src/app/jscaip/PlayerMap */ 95208);
+/* harmony import */ var src_app_components_game_components_game_component_TriangularGameComponent__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! src/app/components/game-components/game-component/TriangularGameComponent */ 52520);
+/* harmony import */ var src_app_components_game_components_GameComponentUtils__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! src/app/components/game-components/GameComponentUtils */ 88207);
+/* harmony import */ var src_app_jscaip_state_TriangularCheckerBoard__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! src/app/jscaip/state/TriangularCheckerBoard */ 43599);
+/* harmony import */ var _TrigoMinimax__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./TrigoMinimax */ 23002);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @angular/core */ 37580);
+/* harmony import */ var src_app_services_MessageDisplayer__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! src/app/services/MessageDisplayer */ 78055);
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @angular/common */ 60316);
 
 var __decorate = undefined && undefined.__decorate || function (decorators, target, key, desc) {
   var c = arguments.length,
@@ -26673,118 +26677,119 @@ var __decorate = undefined && undefined.__decorate || function (decorators, targ
 
 
 
+
 function TrigoComponent__svg_g_1__svg_polygon_1_Template(rf, ctx) {
   if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵnamespaceSVG"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵelement"](0, "polygon", 8);
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnamespaceSVG"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelement"](0, "polygon", 8);
   }
   if (rf & 2) {
-    const coordAndContent_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵnextContext"]().$implicit;
-    const ctx_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵnextContext"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵpropertyInterpolate2"]("id", "polygon-", coordAndContent_r2.coord.x, "-", coordAndContent_r2.coord.y, "");
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵproperty"]("ngClass", ctx_r2.getPlayerClassAt(coordAndContent_r2.coord));
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵattribute"]("points", ctx_r2.getTrianglePointsAt(coordAndContent_r2.coord));
+    const coordAndContent_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]().$implicit;
+    const ctx_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵpropertyInterpolate2"]("id", "polygon-", coordAndContent_r2.coord.x, "-", coordAndContent_r2.coord.y, "");
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("ngClass", ctx_r2.getPlayerClassAt(coordAndContent_r2.coord));
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵattribute"]("points", ctx_r2.getTrianglePointsAt(coordAndContent_r2.coord));
   }
 }
 function TrigoComponent__svg_g_1__svg_g_2__svg_line_1_Template(rf, ctx) {
   if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵnamespaceSVG"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵelement"](0, "line", 11);
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnamespaceSVG"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelement"](0, "line", 11);
   }
   if (rf & 2) {
-    const ctx_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵnextContext"](3);
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵattribute"]("x1", 25)("y1", 50)("x2", ctx_r2.SPACE_SIZE)("y2", ctx_r2.SPACE_SIZE);
+    const ctx_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"](3);
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵattribute"]("x1", 25)("y1", 50)("x2", ctx_r2.SPACE_SIZE)("y2", ctx_r2.SPACE_SIZE);
   }
 }
 function TrigoComponent__svg_g_1__svg_g_2__svg_line_2_Template(rf, ctx) {
   if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵnamespaceSVG"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵelement"](0, "line", 11);
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnamespaceSVG"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelement"](0, "line", 11);
   }
   if (rf & 2) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵattribute"]("x1", 0)("y1", 0)("x2", 75)("y2", 50);
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵattribute"]("x1", 0)("y1", 0)("x2", 75)("y2", 50);
   }
 }
 function TrigoComponent__svg_g_1__svg_g_2_Template(rf, ctx) {
   if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵnamespaceSVG"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵelementStart"](0, "g", 9);
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵtemplate"](1, TrigoComponent__svg_g_1__svg_g_2__svg_line_1_Template, 1, 4, "line", 10)(2, TrigoComponent__svg_g_1__svg_g_2__svg_line_2_Template, 1, 4, "line", 10);
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnamespaceSVG"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelementStart"](0, "g", 9);
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵtemplate"](1, TrigoComponent__svg_g_1__svg_g_2__svg_line_1_Template, 1, 4, "line", 10)(2, TrigoComponent__svg_g_1__svg_g_2__svg_line_2_Template, 1, 4, "line", 10);
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelementEnd"]();
   }
   if (rf & 2) {
-    const coordAndContent_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵnextContext"]().$implicit;
-    const ctx_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵnextContext"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵpropertyInterpolate2"]("id", "dead-", coordAndContent_r2.coord.x, "-", coordAndContent_r2.coord.y, "");
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵproperty"]("ngIf", ctx_r2.isUpward(coordAndContent_r2.coord));
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵproperty"]("ngIf", ctx_r2.isDownward(coordAndContent_r2.coord));
+    const coordAndContent_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]().$implicit;
+    const ctx_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵpropertyInterpolate2"]("id", "dead-", coordAndContent_r2.coord.x, "-", coordAndContent_r2.coord.y, "");
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("ngIf", ctx_r2.isUpward(coordAndContent_r2.coord));
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("ngIf", ctx_r2.isDownward(coordAndContent_r2.coord));
   }
 }
 function TrigoComponent__svg_g_1__svg_polygon_3_Template(rf, ctx) {
   if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵnamespaceSVG"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵelement"](0, "polygon", 12);
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnamespaceSVG"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelement"](0, "polygon", 12);
   }
   if (rf & 2) {
-    const coordAndContent_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵnextContext"]().$implicit;
-    const ctx_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵnextContext"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵpropertyInterpolate2"]("id", "territory-", coordAndContent_r2.coord.x, "-", coordAndContent_r2.coord.y, "");
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵproperty"]("ngClass", ctx_r2.getPlayerClass(coordAndContent_r2.content.player));
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵattribute"]("points", ctx_r2.getTrianglePointsAt(coordAndContent_r2.coord))("transform", ctx_r2.getTerritoryTriangleTransform(coordAndContent_r2.coord));
+    const coordAndContent_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]().$implicit;
+    const ctx_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵpropertyInterpolate2"]("id", "territory-", coordAndContent_r2.coord.x, "-", coordAndContent_r2.coord.y, "");
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("ngClass", ctx_r2.getPlayerClass(coordAndContent_r2.content.player));
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵattribute"]("points", ctx_r2.getTrianglePointsAt(coordAndContent_r2.coord))("transform", ctx_r2.getTerritoryTriangleTransform(coordAndContent_r2.coord));
   }
 }
 function TrigoComponent__svg_g_1_Template(rf, ctx) {
   if (rf & 1) {
-    const _r1 = _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵgetCurrentView"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵnamespaceSVG"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵelementStart"](0, "g", 4);
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵlistener"]("click", function TrigoComponent__svg_g_1_Template_g_click_0_listener() {
-      const coordAndContent_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵrestoreView"](_r1).$implicit;
-      const ctx_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵnextContext"]();
-      return _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵresetView"](ctx_r2.onClick(coordAndContent_r2.coord));
+    const _r1 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵgetCurrentView"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnamespaceSVG"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelementStart"](0, "g", 4);
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵlistener"]("click", function TrigoComponent__svg_g_1_Template_g_click_0_listener() {
+      const coordAndContent_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵrestoreView"](_r1).$implicit;
+      const ctx_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]();
+      return _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵresetView"](ctx_r2.onClick(coordAndContent_r2.coord));
     });
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵtemplate"](1, TrigoComponent__svg_g_1__svg_polygon_1_Template, 1, 5, "polygon", 5)(2, TrigoComponent__svg_g_1__svg_g_2_Template, 3, 5, "g", 6)(3, TrigoComponent__svg_g_1__svg_polygon_3_Template, 1, 6, "polygon", 7);
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵtemplate"](1, TrigoComponent__svg_g_1__svg_polygon_1_Template, 1, 5, "polygon", 5)(2, TrigoComponent__svg_g_1__svg_g_2_Template, 3, 5, "g", 6)(3, TrigoComponent__svg_g_1__svg_polygon_3_Template, 1, 6, "polygon", 7);
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelementEnd"]();
   }
   if (rf & 2) {
     const coordAndContent_r2 = ctx.$implicit;
-    const ctx_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵnextContext"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵpropertyInterpolate2"]("id", "click-", coordAndContent_r2.coord.x, "-", coordAndContent_r2.coord.y, "");
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵattribute"]("transform", ctx_r2.getTriangleTranslationAt(coordAndContent_r2.coord));
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵproperty"]("ngIf", coordAndContent_r2.content.isReachable());
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵproperty"]("ngIf", coordAndContent_r2.content.isDead());
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵproperty"]("ngIf", coordAndContent_r2.content.isTerritory());
+    const ctx_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵpropertyInterpolate2"]("id", "click-", coordAndContent_r2.coord.x, "-", coordAndContent_r2.coord.y, "");
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵattribute"]("transform", ctx_r2.getTriangleTranslationAt(coordAndContent_r2.coord));
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("ngIf", coordAndContent_r2.content.isReachable());
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("ngIf", coordAndContent_r2.content.isDead());
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("ngIf", coordAndContent_r2.content.isTerritory());
   }
 }
 function TrigoComponent__svg_rect_2_Template(rf, ctx) {
   if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵnamespaceSVG"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵelement"](0, "rect", 13);
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnamespaceSVG"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelement"](0, "rect", 13);
   }
   if (rf & 2) {
-    const ctx_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵnextContext"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵpropertyInterpolate2"]("id", "ko-", ctx_r2.ko.get().x, "-", ctx_r2.ko.get().y, "");
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵattribute"]("transform", ctx_r2.getTriangleTranslationAt(ctx_r2.ko.get()))("width", ctx_r2.SPACE_SIZE * 0.25)("height", ctx_r2.SPACE_SIZE * 0.25)("x", ctx_r2.SPACE_SIZE * 0.375)("y", ctx_r2.SPACE_SIZE * 0.25);
+    const ctx_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵpropertyInterpolate2"]("id", "ko-", ctx_r2.ko.get().x, "-", ctx_r2.ko.get().y, "");
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵattribute"]("transform", ctx_r2.getKoTranslationAt(ctx_r2.ko.get()))("width", ctx_r2.SPACE_SIZE * 0.25)("height", ctx_r2.SPACE_SIZE * 0.25)("x", ctx_r2.SPACE_SIZE * 0.375)("y", ctx_r2.SPACE_SIZE * 0.25);
   }
 }
 function TrigoComponent__svg_polygon_3_Template(rf, ctx) {
   if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵnamespaceSVG"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵelement"](0, "polygon", 14);
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnamespaceSVG"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelement"](0, "polygon", 14);
   }
   if (rf & 2) {
-    const ctx_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵnextContext"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵpropertyInterpolate2"]("id", "last-", ctx_r2.last.get().x, "-", ctx_r2.last.get().y, "");
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵproperty"]("ngClass", ctx_r2.getPlayerClassAt(ctx_r2.last.get()));
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵattribute"]("transform", ctx_r2.getTriangleTranslationAt(ctx_r2.last.get()))("points", ctx_r2.getTrianglePointsAt(ctx_r2.last.get()));
+    const ctx_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵpropertyInterpolate2"]("id", "last-", ctx_r2.last.get().x, "-", ctx_r2.last.get().y, "");
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("ngClass", ctx_r2.getPlayerClassAt(ctx_r2.last.get()));
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵattribute"]("transform", ctx_r2.getTriangleTranslationAt(ctx_r2.last.get()))("points", ctx_r2.getTrianglePointsAt(ctx_r2.last.get()));
   }
 }
-let TrigoComponent = class TrigoComponent extends src_app_components_game_components_game_component_TriangularGameComponent__WEBPACK_IMPORTED_MODULE_8__.TriangularGameComponent {
+let TrigoComponent = class TrigoComponent extends src_app_components_game_components_game_component_TriangularGameComponent__WEBPACK_IMPORTED_MODULE_9__.TriangularGameComponent {
   boardInfo;
   ko = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
   last = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
@@ -26793,10 +26798,10 @@ let TrigoComponent = class TrigoComponent extends src_app_components_game_compon
   constructor(messageDisplayer, cdr) {
     super(messageDisplayer, cdr);
     this.setRulesAndNode('Trigo');
-    this.availableAIs = [new _TrigoMinimax__WEBPACK_IMPORTED_MODULE_11__.TrigoMinimax(), new src_app_jscaip_AI_MCTS__WEBPACK_IMPORTED_MODULE_4__.MCTS($localize`MCTS`, new _TrigoMoveGenerator__WEBPACK_IMPORTED_MODULE_5__.TrigoMoveGenerator(), this.rules)];
+    this.availableAIs = [new _TrigoMinimax__WEBPACK_IMPORTED_MODULE_12__.TrigoMinimax(), new src_app_jscaip_AI_MCTS__WEBPACK_IMPORTED_MODULE_5__.MCTS($localize`MCTS`, new _TrigoMoveGenerator__WEBPACK_IMPORTED_MODULE_6__.TrigoMoveGenerator(), this.rules)];
     this.encoder = src_app_games_gos_GoMove__WEBPACK_IMPORTED_MODULE_2__.GoMove.encoder;
     this.canPass = true;
-    this.scores = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(src_app_jscaip_PlayerMap__WEBPACK_IMPORTED_MODULE_7__.PlayerNumberMap.of(0, 0));
+    this.scores = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(src_app_jscaip_PlayerMap__WEBPACK_IMPORTED_MODULE_8__.PlayerNumberMap.of(0, 0));
   }
   showLastMove(move) {
     var _this = this;
@@ -26814,7 +26819,7 @@ let TrigoComponent = class TrigoComponent extends src_app_components_game_compon
     const abstractSize = state.getWidth() / 2;
     const oddnessOffset = 0.5 * this.SPACE_SIZE * (state.getWidth() % 2);
     const evennessOffset = 0.5 * this.SPACE_SIZE * ((state.getWidth() + 1) % 2);
-    return new src_app_components_game_components_GameComponentUtils__WEBPACK_IMPORTED_MODULE_9__.ViewBox(evennessOffset, 0, this.SPACE_SIZE * abstractSize + oddnessOffset, this.SPACE_SIZE * state.getHeight()).expandAll(this.STROKE_WIDTH / 2);
+    return new src_app_components_game_components_GameComponentUtils__WEBPACK_IMPORTED_MODULE_10__.ViewBox(evennessOffset, 0, this.SPACE_SIZE * abstractSize + oddnessOffset, this.SPACE_SIZE * state.getHeight()).expandAll(this.STROKE_WIDTH / 2);
   }
   onClick(coord) {
     var _this2 = this;
@@ -26885,43 +26890,54 @@ let TrigoComponent = class TrigoComponent extends src_app_components_game_compon
     return 'translate(20 ' + y + ') scale(0.6)';
   }
   isUpward(coord) {
-    return src_app_jscaip_state_TriangularCheckerBoard__WEBPACK_IMPORTED_MODULE_10__.TriangularCheckerBoard.isSpaceDark(coord);
+    return src_app_jscaip_state_TriangularCheckerBoard__WEBPACK_IMPORTED_MODULE_11__.TriangularCheckerBoard.isSpaceDark(coord);
   }
   isDownward(coord) {
-    return src_app_jscaip_state_TriangularCheckerBoard__WEBPACK_IMPORTED_MODULE_10__.TriangularCheckerBoard.isSpaceDark(coord) === false;
+    return src_app_jscaip_state_TriangularCheckerBoard__WEBPACK_IMPORTED_MODULE_11__.TriangularCheckerBoard.isSpaceDark(coord) === false;
+  }
+  getKoTranslationAt(koCoord) {
+    const koTranslationCoord = this.getKoTranslationCoordAt(koCoord);
+    return this.getSVGTranslationAt(koTranslationCoord);
+  }
+  getKoTranslationCoordAt(koCoord) {
+    if (this.isUpward(koCoord)) {
+      return this.getTriangleTranslationCoord(koCoord).getNext(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_4__.Coord(0, 25));
+    } else {
+      return this.getTriangleTranslationCoord(koCoord);
+    }
   }
   static ɵfac = function TrigoComponent_Factory(t) {
-    return new (t || TrigoComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵdirectiveInject"](src_app_services_MessageDisplayer__WEBPACK_IMPORTED_MODULE_12__.MessageDisplayer), _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_13__.ChangeDetectorRef));
+    return new (t || TrigoComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵdirectiveInject"](src_app_services_MessageDisplayer__WEBPACK_IMPORTED_MODULE_13__.MessageDisplayer), _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_14__.ChangeDetectorRef));
   };
-  static ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵdefineComponent"]({
+  static ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵdefineComponent"]({
     type: TrigoComponent,
     selectors: [["app-trigo"]],
-    features: [_angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵInheritDefinitionFeature"]],
+    features: [_angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵInheritDefinitionFeature"]],
     decls: 4,
     vars: 4,
     consts: [["xmlns", "http://www.w3.org/2000/svg", "width", "100%", "height", "100%", "preserveAspectRatio", "xMidYMid meet"], [3, "id", "click", 4, "ngFor", "ngForOf"], ["class", "captured-stroke mid-stroke no-fill", 3, "id", 4, "ngIf"], ["class", "last-move-stroke big-stroke no-fill", 3, "id", "ngClass", 4, "ngIf"], [3, "click", "id"], ["class", "base mid-stroke", 3, "id", "ngClass", 4, "ngIf"], [3, "id", 4, "ngIf"], [3, "id", "ngClass", 4, "ngIf"], [1, "base", "mid-stroke", 3, "id", "ngClass"], [3, "id"], ["class", "base no-fill captured-stroke", 4, "ngIf"], [1, "base", "no-fill", "captured-stroke"], [3, "id", "ngClass"], [1, "captured-stroke", "mid-stroke", "no-fill", 3, "id"], [1, "last-move-stroke", "big-stroke", "no-fill", 3, "id", "ngClass"]],
     template: function TrigoComponent_Template(rf, ctx) {
       if (rf & 1) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵnamespaceSVG"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵelementStart"](0, "svg", 0);
-        _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵtemplate"](1, TrigoComponent__svg_g_1_Template, 4, 7, "g", 1)(2, TrigoComponent__svg_rect_2_Template, 1, 8, "rect", 2)(3, TrigoComponent__svg_polygon_3_Template, 1, 6, "polygon", 3);
-        _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnamespaceSVG"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelementStart"](0, "svg", 0);
+        _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵtemplate"](1, TrigoComponent__svg_g_1_Template, 4, 7, "g", 1)(2, TrigoComponent__svg_rect_2_Template, 1, 8, "rect", 2)(3, TrigoComponent__svg_polygon_3_Template, 1, 6, "polygon", 3);
+        _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelementEnd"]();
       }
       if (rf & 2) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵattribute"]("viewBox", ctx.getViewBox().toSVGString());
-        _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵadvance"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵproperty"]("ngForOf", ctx.getState().getCoordsAndContents());
-        _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵadvance"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵproperty"]("ngIf", ctx.ko.isPresent());
-        _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵadvance"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵproperty"]("ngIf", ctx.last.isPresent() && ctx.getState().isOnBoard(ctx.last.get()));
+        _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵattribute"]("viewBox", ctx.getViewBox().toSVGString());
+        _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵadvance"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("ngForOf", ctx.getState().getCoordsAndContents());
+        _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵadvance"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("ngIf", ctx.ko.isPresent());
+        _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵadvance"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("ngIf", ctx.last.isPresent() && ctx.getState().isOnBoard(ctx.last.get()));
       }
     },
-    dependencies: [_angular_common__WEBPACK_IMPORTED_MODULE_14__.NgClass, _angular_common__WEBPACK_IMPORTED_MODULE_14__.NgForOf, _angular_common__WEBPACK_IMPORTED_MODULE_14__.NgIf],
+    dependencies: [_angular_common__WEBPACK_IMPORTED_MODULE_15__.NgClass, _angular_common__WEBPACK_IMPORTED_MODULE_15__.NgForOf, _angular_common__WEBPACK_IMPORTED_MODULE_15__.NgIf],
     styles: [".base[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n\n.manual-stroke[_ngcontent-%COMP%] {\n  stroke-width: 0;\n}\n\n.base.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n}\n\n.base-no-stroke[_ngcontent-%COMP%] {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n\n.base-no-fill[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n\n.arrow[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n\n.text[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n}\n\n.white-background[_ngcontent-%COMP%] {\n  fill: white;\n}\n\n.background[_ngcontent-%COMP%] {\n  fill: var(--spaces-fill);\n}\n\n.transparent[_ngcontent-%COMP%] {\n  opacity: 0;\n}\n\n.background2[_ngcontent-%COMP%] {\n  fill: var(--alt-background-fill);\n}\n\n.background3[_ngcontent-%COMP%] {\n  fill: var(--alt-alt-background-fill);\n}\n\n.player0-fill[_ngcontent-%COMP%] {\n  fill: var(--player0);\n}\n\n.player0-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--player0-alternate);\n}\n\n.player0-stroke[_ngcontent-%COMP%] {\n  stroke: var(--player0);\n}\n\n.player1-fill[_ngcontent-%COMP%] {\n  fill: var(--player1);\n}\n\n.player1-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--player1-alternate);\n}\n\n.player1-stroke[_ngcontent-%COMP%] {\n  stroke: var(--player1);\n}\n\n.nonplayer-fill[_ngcontent-%COMP%] {\n  fill: var(--nonplayer);\n}\n\n.nonplayer-light-fill[_ngcontent-%COMP%] {\n  fill: var(--nonplayer-light);\n}\n\n.nonplayer-stroke[_ngcontent-%COMP%] {\n  stroke: var(--nonplayer);\n}\n\n.dashed-stroke[_ngcontent-%COMP%] {\n  stroke-dasharray: 2;\n}\n\n.pre-captured-fill[_ngcontent-%COMP%] {\n  fill: var(--pre-captured);\n}\n\n.captured-fill[_ngcontent-%COMP%] {\n  fill: var(--captured);\n}\n\n.captured-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--alt-captured);\n}\n\n.captured-stroke[_ngcontent-%COMP%] {\n  stroke: var(--captured);\n}\n\n.moved-fill[_ngcontent-%COMP%] {\n  fill: var(--moved);\n}\n\n.moved-stroke[_ngcontent-%COMP%] {\n  stroke: var(--moved);\n}\n\n.indicator[_ngcontent-%COMP%] {\n  fill: var(--indicator);\n  stroke: none;\n}\n\n.indicator-fill[_ngcontent-%COMP%] {\n  fill: var(--indicator);\n}\n\n.selectable-fill[_ngcontent-%COMP%] {\n  fill: var(--selectable);\n}\n\n.selectable-stroke[_ngcontent-%COMP%] {\n  stroke: var(--selectable);\n}\n\n.selectable[_ngcontent-%COMP%]    > .base-no-stroke[_ngcontent-%COMP%] {\n  fill: var(--selectable);\n}\n\n.last-move-stroke[_ngcontent-%COMP%] {\n  stroke: var(--last-move);\n}\n\n.last-move-stroke.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--last-move);\n}\n\n.last-move-fill[_ngcontent-%COMP%] {\n  fill: var(--last-move);\n}\n\n.victory-fill[_ngcontent-%COMP%] {\n  fill: var(--victory);\n}\n\n.victory-stroke[_ngcontent-%COMP%] {\n  stroke: var(--victory);\n}\n\n.victory-stroke.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--victory);\n}\n\n.defeat-fill[_ngcontent-%COMP%] {\n  fill: var(--defeat);\n}\n\n.defeat-stroke[_ngcontent-%COMP%] {\n  stroke: var(--defeat);\n}\n\n.selected-fill[_ngcontent-%COMP%] {\n  fill: var(--selected);\n}\n\n.selected-stroke[_ngcontent-%COMP%] {\n  stroke: var(--selected);\n}\n\n.clickable-stroke[_ngcontent-%COMP%] {\n  stroke: var(--clickable);\n}\n\n.clickable-stroke-hover[_ngcontent-%COMP%]:hover {\n  stroke: var(--clickable);\n}\n\n.capturable-stroke[_ngcontent-%COMP%] {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n\n.capturable-fill[_ngcontent-%COMP%] {\n  fill: var(--capturable);\n}\n\n.capturable-stroke[_ngcontent-%COMP%]:hover {\n  stroke-width: 8;\n}\n\n.no-fill[_ngcontent-%COMP%] {\n  fill: none;\n}\n\n.no-stroke[_ngcontent-%COMP%] {\n  stroke: none;\n}\n\n.small-stroke[_ngcontent-%COMP%] {\n  stroke-width: 2;\n}\n\n.mid-small-stroke[_ngcontent-%COMP%] {\n  stroke-width: 3;\n}\n\n.mid-stroke[_ngcontent-%COMP%] {\n  stroke-width: 5;\n}\n\n.big-stroke[_ngcontent-%COMP%] {\n  stroke-width: 8;\n}\n\n.huge-stroke[_ngcontent-%COMP%] {\n  stroke-width: 12;\n}\n\n.semi-transparent[_ngcontent-%COMP%] {\n  fill-opacity: 0.5;\n  stroke-opacity: 0.5;\n}\n\n.round[_ngcontent-%COMP%] {\n  stroke-linecap: round;\n}\n\n.text-giant[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n\n.text-big[_ngcontent-%COMP%] {\n  font: 50px sans-serif;\n}\n\n.text-medium[_ngcontent-%COMP%] {\n  font: 35px sans-serif;\n}\n\n.text-20[_ngcontent-%COMP%] {\n  font: 20px sans-serif;\n}\n\n.text-bold[_ngcontent-%COMP%] {\n  font-weight: bold;\n}\n\n.text-center[_ngcontent-%COMP%] {\n  text-anchor: middle;\n}\n\n.black-fill[_ngcontent-%COMP%] {\n  fill: black;\n}\n\n.darker[_ngcontent-%COMP%] {\n  filter: brightness(80%);\n}\n\n.lighter[_ngcontent-%COMP%] {\n  filter: brightness(110%);\n}\n\nsvg[_ngcontent-%COMP%] {\n  max-height: calc(100vh - 15rem); \n\n}\n\n.click-delegator[_ngcontent-%COMP%] {\n  pointer-events: none;\n}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly8uL3NyYy9hcHAvY29tcG9uZW50cy9nYW1lLWNvbXBvbmVudHMvZ2FtZS1jb21wb25lbnQvZ2FtZS1jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNJLDBCQUFBO0VBQ0EsZUFBQTtFQUNBLHdCQUFBO0VBQ0Esb0JBQUE7RUFDQSxzQkFBQTtBQUNKOztBQUNBO0VBQ0ksZUFBQTtBQUVKOztBQUFBO0VBQ0ksd0JBQUE7QUFHSjs7QUFEQTtFQUNJLFlBQUE7RUFDQSxlQUFBO0VBQ0Esd0JBQUE7QUFJSjs7QUFGQTtFQUNJLDBCQUFBO0VBQ0EsZUFBQTtBQUtKOztBQUhBO0VBQ0ksMEJBQUE7RUFDQSxlQUFBO0FBTUo7O0FBSkE7RUFDSSx3QkFBQTtBQU9KOztBQUxBO0VBQ0ksV0FBQTtBQVFKOztBQU5BO0VBQ0ksd0JBQUE7QUFTSjs7QUFQQTtFQUNJLFVBQUE7QUFVSjs7QUFSQTtFQUNJLGdDQUFBO0FBV0o7O0FBVEE7RUFDSSxvQ0FBQTtBQVlKOztBQVZBO0VBQ0ksb0JBQUE7QUFhSjs7QUFYQTtFQUNJLDhCQUFBO0FBY0o7O0FBWkE7RUFDSSxzQkFBQTtBQWVKOztBQWJBO0VBQ0ksb0JBQUE7QUFnQko7O0FBZEE7RUFDSSw4QkFBQTtBQWlCSjs7QUFmQTtFQUNJLHNCQUFBO0FBa0JKOztBQWhCQTtFQUNJLHNCQUFBO0FBbUJKOztBQWpCQTtFQUNJLDRCQUFBO0FBb0JKOztBQWxCQTtFQUNJLHdCQUFBO0FBcUJKOztBQW5CQTtFQUNJLG1CQUFBO0FBc0JKOztBQXBCQTtFQUNJLHlCQUFBO0FBdUJKOztBQXJCQTtFQUNJLHFCQUFBO0FBd0JKOztBQXRCQTtFQUNJLHlCQUFBO0FBeUJKOztBQXZCQTtFQUNJLHVCQUFBO0FBMEJKOztBQXhCQTtFQUNJLGtCQUFBO0FBMkJKOztBQXpCQTtFQUNJLG9CQUFBO0FBNEJKOztBQTFCQTtFQUNJLHNCQUFBO0VBQ0EsWUFBQTtBQTZCSjs7QUEzQkE7RUFDSSxzQkFBQTtBQThCSjs7QUE1QkE7RUFDSSx1QkFBQTtBQStCSjs7QUE3QkE7RUFDSSx5QkFBQTtBQWdDSjs7QUE5QkE7RUFDSSx1QkFBQTtBQWlDSjs7QUEvQkE7RUFDSSx3QkFBQTtBQWtDSjs7QUFoQ0E7RUFDSSxzQkFBQTtBQW1DSjs7QUFqQ0E7RUFDSSxzQkFBQTtBQW9DSjs7QUFsQ0E7RUFDSSxvQkFBQTtBQXFDSjs7QUFuQ0E7RUFDSSxzQkFBQTtBQXNDSjs7QUFwQ0E7RUFDSSxvQkFBQTtBQXVDSjs7QUFyQ0E7RUFDSSxtQkFBQTtBQXdDSjs7QUF0Q0E7RUFDSSxxQkFBQTtBQXlDSjs7QUF2Q0E7RUFDSSxxQkFBQTtBQTBDSjs7QUF4Q0E7RUFDSSx1QkFBQTtBQTJDSjs7QUF6Q0E7RUFDSSx3QkFBQTtBQTRDSjs7QUExQ0E7RUFDSSx3QkFBQTtBQTZDSjs7QUEzQ0E7RUFDSSxlQUFBO0VBQ0EseUJBQUE7QUE4Q0o7O0FBNUNBO0VBQ0ksdUJBQUE7QUErQ0o7O0FBN0NBO0VBQ0ksZUFBQTtBQWdESjs7QUE5Q0E7RUFDSSxVQUFBO0FBaURKOztBQS9DQTtFQUNJLFlBQUE7QUFrREo7O0FBaERBO0VBQ0ksZUFBQTtBQW1ESjs7QUFqREE7RUFDSSxlQUFBO0FBb0RKOztBQWxEQTtFQUNJLGVBQUE7QUFxREo7O0FBbkRBO0VBQ0ksZUFBQTtBQXNESjs7QUFwREE7RUFDSSxnQkFBQTtBQXVESjs7QUFyREE7RUFDSSxpQkFBQTtFQUNBLG1CQUFBO0FBd0RKOztBQXREQTtFQUNJLHFCQUFBO0FBeURKOztBQXZEQTtFQUNJLHdCQUFBO0VBQ0EsdUJBQUE7RUFDQSxxQkFBQTtFQUNBLDBCQUFBO0FBMERKOztBQXhEQTtFQUNJLHFCQUFBO0FBMkRKOztBQXpEQTtFQUNJLHFCQUFBO0FBNERKOztBQTFEQTtFQUNJLHFCQUFBO0FBNkRKOztBQTNEQTtFQUNJLGlCQUFBO0FBOERKOztBQTVEQTtFQUNJLG1CQUFBO0FBK0RKOztBQTdEQTtFQUNJLFdBQUE7QUFnRUo7O0FBOURBO0VBQ0ksdUJBQUE7QUFpRUo7O0FBL0RBO0VBQ0ksd0JBQUE7QUFrRUo7O0FBaEVBO0VBQ0ksK0JBQUEsRUFBQSxpQ0FBQTtBQW1FSjs7QUFqRUE7RUFDSSxvQkFBQTtBQW9FSiIsInNvdXJjZXNDb250ZW50IjpbIi5iYXNlIHtcbiAgICBzdHJva2U6IHZhcigtLWJhc2Utc3Ryb2tlKTtcbiAgICBzdHJva2Utd2lkdGg6IDg7XG4gICAgZmlsbDogdmFyKC0tc3BhY2VzLWZpbGwpO1xuICAgIHN0cm9rZS1saW5lY2FwOiBidXR0O1xuICAgIHN0cm9rZS1saW5lam9pbjogcm91bmQ7XG59XG4ubWFudWFsLXN0cm9rZSB7XG4gICAgc3Ryb2tlLXdpZHRoOiAwO1xufVxuLmJhc2UubWFudWFsLXN0cm9rZSB7XG4gICAgZmlsbDogdmFyKC0tYmFzZS1zdHJva2UpO1xufVxuLmJhc2Utbm8tc3Ryb2tlIHtcbiAgICBzdHJva2U6IG5vbmU7XG4gICAgc3Ryb2tlLXdpZHRoOiAwO1xuICAgIGZpbGw6IHZhcigtLWJhc2Utc3Ryb2tlKTtcbn1cbi5iYXNlLW5vLWZpbGwge1xuICAgIHN0cm9rZTogdmFyKC0tYmFzZS1zdHJva2UpO1xuICAgIHN0cm9rZS13aWR0aDogODtcbn1cbi5hcnJvdyB7XG4gICAgc3Ryb2tlOiB2YXIoLS1iYXNlLXN0cm9rZSk7XG4gICAgc3Ryb2tlLXdpZHRoOiAzO1xufVxuLnRleHQge1xuICAgIGZpbGw6IHZhcigtLWJhc2Utc3Ryb2tlKTtcbn1cbi53aGl0ZS1iYWNrZ3JvdW5kIHtcbiAgICBmaWxsOiB3aGl0ZTtcbn1cbi5iYWNrZ3JvdW5kIHtcbiAgICBmaWxsOiB2YXIoLS1zcGFjZXMtZmlsbCk7XG59XG4udHJhbnNwYXJlbnQge1xuICAgIG9wYWNpdHk6IDA7XG59XG4uYmFja2dyb3VuZDIge1xuICAgIGZpbGw6IHZhcigtLWFsdC1iYWNrZ3JvdW5kLWZpbGwpO1xufVxuLmJhY2tncm91bmQzIHtcbiAgICBmaWxsOiB2YXIoLS1hbHQtYWx0LWJhY2tncm91bmQtZmlsbCk7XG59XG4ucGxheWVyMC1maWxsIHtcbiAgICBmaWxsOiB2YXIoLS1wbGF5ZXIwKTtcbn1cbi5wbGF5ZXIwLWFsdGVybmF0ZS1maWxsIHtcbiAgICBmaWxsOiB2YXIoLS1wbGF5ZXIwLWFsdGVybmF0ZSk7XG59XG4ucGxheWVyMC1zdHJva2Uge1xuICAgIHN0cm9rZTogdmFyKC0tcGxheWVyMCk7XG59XG4ucGxheWVyMS1maWxsIHtcbiAgICBmaWxsOiB2YXIoLS1wbGF5ZXIxKTtcbn1cbi5wbGF5ZXIxLWFsdGVybmF0ZS1maWxsIHtcbiAgICBmaWxsOiB2YXIoLS1wbGF5ZXIxLWFsdGVybmF0ZSk7XG59XG4ucGxheWVyMS1zdHJva2Uge1xuICAgIHN0cm9rZTogdmFyKC0tcGxheWVyMSk7XG59XG4ubm9ucGxheWVyLWZpbGwge1xuICAgIGZpbGw6IHZhcigtLW5vbnBsYXllcik7XG59XG4ubm9ucGxheWVyLWxpZ2h0LWZpbGwge1xuICAgIGZpbGw6IHZhcigtLW5vbnBsYXllci1saWdodCk7XG59XG4ubm9ucGxheWVyLXN0cm9rZSB7XG4gICAgc3Ryb2tlOiB2YXIoLS1ub25wbGF5ZXIpO1xufVxuLmRhc2hlZC1zdHJva2Uge1xuICAgIHN0cm9rZS1kYXNoYXJyYXk6IDI7XG59XG4ucHJlLWNhcHR1cmVkLWZpbGwge1xuICAgIGZpbGw6IHZhcigtLXByZS1jYXB0dXJlZCk7XG59XG4uY2FwdHVyZWQtZmlsbCB7XG4gICAgZmlsbDogdmFyKC0tY2FwdHVyZWQpO1xufVxuLmNhcHR1cmVkLWFsdGVybmF0ZS1maWxsIHtcbiAgICBmaWxsOiB2YXIoLS1hbHQtY2FwdHVyZWQpO1xufVxuLmNhcHR1cmVkLXN0cm9rZSB7XG4gICAgc3Ryb2tlOiB2YXIoLS1jYXB0dXJlZCk7XG59XG4ubW92ZWQtZmlsbCB7XG4gICAgZmlsbDogdmFyKC0tbW92ZWQpO1xufVxuLm1vdmVkLXN0cm9rZSB7XG4gICAgc3Ryb2tlOiB2YXIoLS1tb3ZlZCk7XG59XG4uaW5kaWNhdG9yIHtcbiAgICBmaWxsOiB2YXIoLS1pbmRpY2F0b3IpO1xuICAgIHN0cm9rZTogbm9uZTtcbn1cbi5pbmRpY2F0b3ItZmlsbCB7XG4gICAgZmlsbDogdmFyKC0taW5kaWNhdG9yKTtcbn1cbi5zZWxlY3RhYmxlLWZpbGwge1xuICAgIGZpbGw6IHZhcigtLXNlbGVjdGFibGUpO1xufVxuLnNlbGVjdGFibGUtc3Ryb2tlIHtcbiAgICBzdHJva2U6IHZhcigtLXNlbGVjdGFibGUpO1xufVxuLnNlbGVjdGFibGUgPiAuYmFzZS1uby1zdHJva2Uge1xuICAgIGZpbGw6IHZhcigtLXNlbGVjdGFibGUpO1xufVxuLmxhc3QtbW92ZS1zdHJva2Uge1xuICAgIHN0cm9rZTogdmFyKC0tbGFzdC1tb3ZlKTtcbn1cbi5sYXN0LW1vdmUtc3Ryb2tlLm1hbnVhbC1zdHJva2Uge1xuICAgIGZpbGw6IHZhcigtLWxhc3QtbW92ZSk7XG59XG4ubGFzdC1tb3ZlLWZpbGwge1xuICAgIGZpbGw6IHZhcigtLWxhc3QtbW92ZSk7XG59XG4udmljdG9yeS1maWxsIHtcbiAgICBmaWxsOiB2YXIoLS12aWN0b3J5KTtcbn1cbi52aWN0b3J5LXN0cm9rZSB7XG4gICAgc3Ryb2tlOiB2YXIoLS12aWN0b3J5KTtcbn1cbi52aWN0b3J5LXN0cm9rZS5tYW51YWwtc3Ryb2tlIHtcbiAgICBmaWxsOiB2YXIoLS12aWN0b3J5KTtcbn1cbi5kZWZlYXQtZmlsbCB7XG4gICAgZmlsbDogdmFyKC0tZGVmZWF0KTtcbn1cbi5kZWZlYXQtc3Ryb2tlIHtcbiAgICBzdHJva2U6IHZhcigtLWRlZmVhdCk7XG59XG4uc2VsZWN0ZWQtZmlsbCB7XG4gICAgZmlsbDogdmFyKC0tc2VsZWN0ZWQpO1xufVxuLnNlbGVjdGVkLXN0cm9rZSB7XG4gICAgc3Ryb2tlOiB2YXIoLS1zZWxlY3RlZCk7XG59XG4uY2xpY2thYmxlLXN0cm9rZSB7XG4gICAgc3Ryb2tlOiB2YXIoLS1jbGlja2FibGUpO1xufVxuLmNsaWNrYWJsZS1zdHJva2UtaG92ZXI6aG92ZXIge1xuICAgIHN0cm9rZTogdmFyKC0tY2xpY2thYmxlKTtcbn1cbi5jYXB0dXJhYmxlLXN0cm9rZSB7XG4gICAgc3Ryb2tlLXdpZHRoOiAyO1xuICAgIHN0cm9rZTogdmFyKC0tY2FwdHVyYWJsZSk7XG59XG4uY2FwdHVyYWJsZS1maWxsIHtcbiAgICBmaWxsOiB2YXIoLS1jYXB0dXJhYmxlKTtcbn1cbi5jYXB0dXJhYmxlLXN0cm9rZTpob3ZlciB7XG4gICAgc3Ryb2tlLXdpZHRoOiA4O1xufVxuLm5vLWZpbGwge1xuICAgIGZpbGw6IG5vbmU7XG59XG4ubm8tc3Ryb2tlIHtcbiAgICBzdHJva2U6IG5vbmU7XG59XG4uc21hbGwtc3Ryb2tlIHtcbiAgICBzdHJva2Utd2lkdGg6IDI7XG59XG4ubWlkLXNtYWxsLXN0cm9rZSB7XG4gICAgc3Ryb2tlLXdpZHRoOiAzO1xufVxuLm1pZC1zdHJva2Uge1xuICAgIHN0cm9rZS13aWR0aDogNTtcbn1cbi5iaWctc3Ryb2tlIHtcbiAgICBzdHJva2Utd2lkdGg6IDg7XG59XG4uaHVnZS1zdHJva2Uge1xuICAgIHN0cm9rZS13aWR0aDogMTI7XG59XG4uc2VtaS10cmFuc3BhcmVudCB7XG4gICAgZmlsbC1vcGFjaXR5OiAwLjU7XG4gICAgc3Ryb2tlLW9wYWNpdHk6IDAuNTtcbn1cbi5yb3VuZCB7XG4gICAgc3Ryb2tlLWxpbmVjYXA6IHJvdW5kO1xufVxuLnRleHQtZ2lhbnQge1xuICAgIGZpbGw6IHZhcigtLWJhc2Utc3Ryb2tlKTtcbiAgICBmb250OiAzLjdyZW0gc2Fucy1zZXJpZjtcbiAgICBzdHJva2Utd2lkdGg6IDAuMzdyZW07XG4gICAgZG9taW5hbnQtYmFzZWxpbmU6IGNlbnRyYWw7XG59XG4udGV4dC1iaWcge1xuICAgIGZvbnQ6IDUwcHggc2Fucy1zZXJpZjtcbn1cbi50ZXh0LW1lZGl1bSB7XG4gICAgZm9udDogMzVweCBzYW5zLXNlcmlmO1xufVxuLnRleHQtMjAge1xuICAgIGZvbnQ6IDIwcHggc2Fucy1zZXJpZjtcbn1cbi50ZXh0LWJvbGQge1xuICAgIGZvbnQtd2VpZ2h0OiBib2xkO1xufVxuLnRleHQtY2VudGVyIHtcbiAgICB0ZXh0LWFuY2hvcjogbWlkZGxlO1xufVxuLmJsYWNrLWZpbGwge1xuICAgIGZpbGw6IGJsYWNrO1xufVxuLmRhcmtlciB7XG4gICAgZmlsdGVyOiBicmlnaHRuZXNzKDgwJSk7XG59XG4ubGlnaHRlciB7XG4gICAgZmlsdGVyOiBicmlnaHRuZXNzKDExMCUpO1xufVxuc3ZnIHtcbiAgICBtYXgtaGVpZ2h0OiBjYWxjKDEwMHZoIC0gMTVyZW0pOyAvKiBGdWxsIGhlaWdodCBtaW51cyB0aGUgbmF2YmFyICovXG59XG4uY2xpY2stZGVsZWdhdG9yIHtcbiAgICBwb2ludGVyLWV2ZW50czogbm9uZTtcbn1cbiJdLCJzb3VyY2VSb290IjoiIn0= */"]
   });
 };
-TrigoComponent = __decorate([src_app_utils_Debug__WEBPACK_IMPORTED_MODULE_6__.Debug.log], TrigoComponent);
+TrigoComponent = __decorate([src_app_utils_Debug__WEBPACK_IMPORTED_MODULE_7__.Debug.log], TrigoComponent);
 
 
 /***/ }),
