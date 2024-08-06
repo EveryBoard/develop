@@ -6999,6 +6999,7 @@ let LocalGameWrapperComponent = class LocalGameWrapperComponent extends src_app_
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       const config = yield _this11.getConfig();
       _this11.gameComponent.node = _this11.gameComponent.rules.getInitialNode(config);
+      _this11.gameComponent.cancelMoveAttempt();
       _this11.gameComponent.hideLastMove();
       yield _this11.gameComponent.updateBoardAndRedraw(false);
       _this11.endGame = false;
