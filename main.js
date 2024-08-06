@@ -2965,7 +2965,7 @@ function LobbyComponent_div_11_tr_14_Template(rf, ctx) {
     _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵadvance"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵpropertyInterpolate1"]("id", "part-of-", part_r2.data.playerZero.name, "");
     _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtextInterpolate"](part_r2.data.playerZero.name);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtextInterpolate"](part_r2.data.playerZero.name + " (" + part_r2.getPlayerZeroFloorElo() + ")");
     _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵadvance"](2);
     _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵproperty"]("ngIf", part_r2.data.playerOne)("ngIfElse", waitingForOpponent_r5);
     _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵadvance"](4);
@@ -6156,7 +6156,8 @@ class GameWrapper extends _BaseWrapperComponent__WEBPACK_IMPORTED_MODULE_5__.Bas
     if (this.endGame) {
       return ['endgame-bg'];
     } else if (this.isPlayerTurn()) {
-      const player = this.role;
+      const turn = this.gameComponent.getTurn();
+      const player = src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ofTurn(turn % 2);
       return [player.getHTMLClass('-bg')];
     } else {
       return [];
@@ -7558,19 +7559,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   OnlineGameWrapperMessages: () => (/* binding */ OnlineGameWrapperMessages)
 /* harmony export */ });
 /* harmony import */ var _home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 89204);
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! @angular/router */ 95072);
 /* harmony import */ var async_mutex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! async-mutex */ 22027);
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! @angular/router */ 95072);
-/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! rxjs */ 2510);
-/* harmony import */ var _domain_Part__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../domain/Part */ 87074);
-/* harmony import */ var _GameWrapper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../GameWrapper */ 20459);
-/* harmony import */ var src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/jscaip/Player */ 22092);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @everyboard/lib */ 65042);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! rxjs */ 2510);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @everyboard/lib */ 65042);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _domain_Part__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../domain/Part */ 87074);
+/* harmony import */ var _GameWrapper__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../GameWrapper */ 20459);
+/* harmony import */ var src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/jscaip/Player */ 22092);
 /* harmony import */ var _normal_component_pick_game_pick_game_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../normal-component/pick-game/pick-game.component */ 59903);
 /* harmony import */ var src_app_jscaip_AI_GameNode__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! src/app/jscaip/AI/GameNode */ 49120);
 /* harmony import */ var _OGWCRequestManagerService__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./OGWCRequestManagerService */ 31736);
 /* harmony import */ var src_app_utils_Debug__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! src/app/utils/Debug */ 36355);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! @angular/core */ 37580);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! @angular/core */ 37580);
 /* harmony import */ var src_app_services_ConnectedUserService__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! src/app/services/ConnectedUserService */ 52952);
 /* harmony import */ var src_app_services_MessageDisplayer__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! src/app/services/MessageDisplayer */ 78055);
 /* harmony import */ var src_app_services_CurrentGameService__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! src/app/services/CurrentGameService */ 31533);
@@ -7578,11 +7579,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var src_app_services_GameEventService__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! src/app/services/GameEventService */ 61030);
 /* harmony import */ var _OGWCTimeManagerService__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./OGWCTimeManagerService */ 21364);
 /* harmony import */ var src_app_services_ServerTimeService__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! src/app/services/ServerTimeService */ 62858);
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! @angular/common */ 60316);
-/* harmony import */ var _fortawesome_angular_fontawesome__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! @fortawesome/angular-fontawesome */ 17518);
-/* harmony import */ var _normal_component_chat_chat_component__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../../normal-component/chat/chat.component */ 34705);
-/* harmony import */ var _part_creation_part_creation_component__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../part-creation/part-creation.component */ 30480);
-/* harmony import */ var _normal_component_count_down_count_down_component__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ../../normal-component/count-down/count-down.component */ 41449);
+/* harmony import */ var src_app_services_UserService__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! src/app/services/UserService */ 4961);
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! @angular/common */ 60316);
+/* harmony import */ var _fortawesome_angular_fontawesome__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! @fortawesome/angular-fontawesome */ 17518);
+/* harmony import */ var _normal_component_chat_chat_component__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../../normal-component/chat/chat.component */ 34705);
+/* harmony import */ var _part_creation_part_creation_component__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ../part-creation/part-creation.component */ 30480);
+/* harmony import */ var _normal_component_count_down_count_down_component__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ../../normal-component/count-down/count-down.component */ 41449);
 
 var __decorate = undefined && undefined.__decorate || function (decorators, target, key, desc) {
   var c = arguments.length,
@@ -7617,558 +7619,559 @@ var __decorate = undefined && undefined.__decorate || function (decorators, targ
 
 
 
+
 const _c0 = ["chronoZeroGlobal"];
 const _c1 = ["chronoOneGlobal"];
 const _c2 = ["chronoZeroTurn"];
 const _c3 = ["chronoOneTurn"];
 function OnlineGameWrapperComponent_app_part_creation_0_Template(rf, ctx) {
   if (rf & 1) {
-    const _r1 = _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵgetCurrentView"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementStart"](0, "app-part-creation", 37, 0);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵlistener"]("gameStartNotification", function OnlineGameWrapperComponent_app_part_creation_0_Template_app_part_creation_gameStartNotification_0_listener($event) {
-      _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵrestoreView"](_r1);
-      const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵnextContext"]();
-      return _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵresetView"](ctx_r1.startGame($event));
+    const _r1 = _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵgetCurrentView"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementStart"](0, "app-part-creation", 37, 0);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵlistener"]("gameStartNotification", function OnlineGameWrapperComponent_app_part_creation_0_Template_app_part_creation_gameStartNotification_0_listener($event) {
+      _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵrestoreView"](_r1);
+      const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵnextContext"]();
+      return _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵresetView"](ctx_r1.startGame($event));
     });
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementEnd"]();
   }
   if (rf & 2) {
-    const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵnextContext"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵproperty"]("partId", ctx_r1.currentPartId)("rulesConfigDescription", ctx_r1.getRulesConfigDescription());
+    const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵnextContext"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵproperty"]("partId", ctx_r1.currentPartId)("rulesConfigDescription", ctx_r1.getRulesConfigDescription());
   }
 }
 function OnlineGameWrapperComponent_div_1_div_3_p_5_ng_container_1_Template(rf, ctx) {
   if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementContainerStart"](0);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementStart"](1, "span", 64);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵi18n"](2, 9);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementContainerEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementContainerStart"](0);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementStart"](1, "span", 64);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵi18n"](2, 9);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementContainerEnd"]();
   }
 }
 function OnlineGameWrapperComponent_div_1_div_3_p_5_ng_template_2_Template(rf, ctx) {
   if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementStart"](0, "span", 65);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵi18n"](1, 10);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementStart"](0, "span", 65);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵi18n"](1, 10);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementEnd"]();
   }
   if (rf & 2) {
-    const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵnextContext"](4);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵi18nExp"](ctx_r1.currentUser == null ? null : ctx_r1.currentUser.name);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵi18nApply"](1);
+    const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵnextContext"](4);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵi18nExp"](ctx_r1.currentUser == null ? null : ctx_r1.currentUser.name);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵi18nApply"](1);
   }
 }
 function OnlineGameWrapperComponent_div_1_div_3_p_5_Template(rf, ctx) {
   if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementStart"](0, "p", 62);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵtemplate"](1, OnlineGameWrapperComponent_div_1_div_3_p_5_ng_container_1_Template, 3, 0, "ng-container", 63)(2, OnlineGameWrapperComponent_div_1_div_3_p_5_ng_template_2_Template, 2, 1, "ng-template", null, 6, _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵtemplateRefExtractor"]);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementStart"](0, "p", 62);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵtemplate"](1, OnlineGameWrapperComponent_div_1_div_3_p_5_ng_container_1_Template, 3, 0, "ng-container", 63)(2, OnlineGameWrapperComponent_div_1_div_3_p_5_ng_template_2_Template, 2, 1, "ng-template", null, 6, _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵtemplateRefExtractor"]);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementEnd"]();
   }
   if (rf & 2) {
-    const opponentsTurn_r4 = _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵreference"](3);
-    const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵnextContext"](3);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵproperty"]("ngIf", (ctx_r1.currentUser == null ? null : ctx_r1.currentUser.name) === ctx_r1.getPlayer().name)("ngIfElse", opponentsTurn_r4);
+    const opponentsTurn_r4 = _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵreference"](3);
+    const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵnextContext"](3);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵproperty"]("ngIf", (ctx_r1.currentUser == null ? null : ctx_r1.currentUser.name) === ctx_r1.getPlayer().name)("ngIfElse", opponentsTurn_r4);
   }
 }
 function OnlineGameWrapperComponent_div_1_div_3_Template(rf, ctx) {
   if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementStart"](0, "div", 58)(1, "p", 59);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵtext"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementStart"](3, "p", 60);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵi18n"](4, 8);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵtemplate"](5, OnlineGameWrapperComponent_div_1_div_3_p_5_Template, 4, 2, "p", 61);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementStart"](0, "div", 58)(1, "p", 59);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵtext"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementStart"](3, "p", 60);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵi18n"](4, 8);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵtemplate"](5, OnlineGameWrapperComponent_div_1_div_3_p_5_Template, 4, 2, "p", 61);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementEnd"]();
   }
   if (rf & 2) {
-    const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵnextContext"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵadvance"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵtextInterpolate"](ctx_r1.getGameName().getOrElse(""));
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵadvance"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵi18nExp"](ctx_r1.currentPart.getTurn() + 1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵi18nApply"](4);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵproperty"]("ngIf", ctx_r1.endGame === false);
+    const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵnextContext"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵadvance"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵtextInterpolate"](ctx_r1.getGameName().getOrElse(""));
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵadvance"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵi18nExp"](ctx_r1.currentPart.getTurn() + 1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵi18nApply"](4);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵproperty"]("ngIf", ctx_r1.endGame === false);
   }
 }
 function OnlineGameWrapperComponent_div_1_p_5_Template(rf, ctx) {
   if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementStart"](0, "p", 66);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵtext"](1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementStart"](0, "p", 66);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵtext"](1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementEnd"]();
   }
   if (rf & 2) {
-    const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵnextContext"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵtextInterpolate"](ctx_r1.players[0].get().name);
+    const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵnextContext"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵtextInterpolate"](ctx_r1.players[0].get().name);
   }
 }
 function OnlineGameWrapperComponent_div_1_p_6_Template(rf, ctx) {
   if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementStart"](0, "p", 67);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵi18n"](1, 11);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementStart"](0, "p", 67);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵi18n"](1, 11);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementEnd"]();
   }
   if (rf & 2) {
-    const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵnextContext"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵi18nExp"](ctx_r1.gameComponent.scores.get().get(ctx_r1.Player.ZERO));
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵi18nApply"](1);
+    const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵnextContext"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵi18nExp"](ctx_r1.gameComponent.scores.get().get(ctx_r1.Player.ZERO));
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵi18nApply"](1);
   }
 }
 function OnlineGameWrapperComponent_div_1_p_12_Template(rf, ctx) {
   if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementStart"](0, "p", 68);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵtext"](1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementStart"](0, "p", 68);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵtext"](1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementEnd"]();
   }
   if (rf & 2) {
-    const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵnextContext"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵtextInterpolate"](ctx_r1.players[1].get().name);
+    const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵnextContext"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵtextInterpolate"](ctx_r1.players[1].get().name);
   }
 }
 function OnlineGameWrapperComponent_div_1_p_13_Template(rf, ctx) {
   if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementStart"](0, "p", 69);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵi18n"](1, 12);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementStart"](0, "p", 69);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵi18n"](1, 12);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementEnd"]();
   }
   if (rf & 2) {
-    const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵnextContext"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵi18nExp"](ctx_r1.gameComponent.scores.get().get(ctx_r1.Player.ONE));
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵi18nApply"](1);
+    const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵnextContext"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵi18nExp"](ctx_r1.gameComponent.scores.get().get(ctx_r1.Player.ONE));
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵi18nApply"](1);
   }
 }
 function OnlineGameWrapperComponent_div_1_div_18_div_1_Template(rf, ctx) {
   if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementStart"](0, "div")(1, "p", 71);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵi18n"](2, 13);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementEnd"]()();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementStart"](0, "div")(1, "p", 71);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵi18n"](2, 13);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementEnd"]()();
   }
 }
 function OnlineGameWrapperComponent_div_1_div_18_div_2_p_1_Template(rf, ctx) {
   if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementStart"](0, "p", 75);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵi18n"](1, 14);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementStart"](0, "p", 75);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵi18n"](1, 14);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementEnd"]();
   }
 }
 function OnlineGameWrapperComponent_div_1_div_18_div_2_p_2_Template(rf, ctx) {
   if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementStart"](0, "p", 76);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵi18n"](1, 15);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementStart"](0, "p", 76);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵi18n"](1, 15);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementEnd"]();
   }
 }
 function OnlineGameWrapperComponent_div_1_div_18_div_2_p_3_Template(rf, ctx) {
   if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementStart"](0, "p", 77);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵi18n"](1, 16);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementStart"](0, "p", 77);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵi18n"](1, 16);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementEnd"]();
   }
 }
 function OnlineGameWrapperComponent_div_1_div_18_div_2_Template(rf, ctx) {
   if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementStart"](0, "div");
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵtemplate"](1, OnlineGameWrapperComponent_div_1_div_18_div_2_p_1_Template, 2, 0, "p", 72)(2, OnlineGameWrapperComponent_div_1_div_18_div_2_p_2_Template, 2, 0, "p", 73)(3, OnlineGameWrapperComponent_div_1_div_18_div_2_p_3_Template, 2, 0, "p", 74);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementStart"](0, "div");
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵtemplate"](1, OnlineGameWrapperComponent_div_1_div_18_div_2_p_1_Template, 2, 0, "p", 72)(2, OnlineGameWrapperComponent_div_1_div_18_div_2_p_2_Template, 2, 0, "p", 73)(3, OnlineGameWrapperComponent_div_1_div_18_div_2_p_3_Template, 2, 0, "p", 74);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementEnd"]();
   }
   if (rf & 2) {
-    const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵnextContext"](3);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵproperty"]("ngIf", ctx_r1.currentPart.getDrawAccepter().name === ctx_r1.getPlayer().name);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵproperty"]("ngIf", ctx_r1.currentPart.getDrawAccepter().name !== ctx_r1.getPlayer().name && ctx_r1.isPlaying());
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵproperty"]("ngIf", ctx_r1.isPlaying() === false);
+    const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵnextContext"](3);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵproperty"]("ngIf", ctx_r1.currentPart.getDrawAccepter().name === ctx_r1.getPlayer().name);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵproperty"]("ngIf", ctx_r1.currentPart.getDrawAccepter().name !== ctx_r1.getPlayer().name && ctx_r1.isPlaying());
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵproperty"]("ngIf", ctx_r1.isPlaying() === false);
   }
 }
 function OnlineGameWrapperComponent_div_1_div_18_div_3_p_1_Template(rf, ctx) {
   if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementStart"](0, "p", 81);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵi18n"](1, 17);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementStart"](0, "p", 81);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵi18n"](1, 17);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementEnd"]();
   }
 }
 function OnlineGameWrapperComponent_div_1_div_18_div_3_p_2_Template(rf, ctx) {
   if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementStart"](0, "p", 82);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵi18n"](1, 18);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementStart"](0, "p", 82);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵi18n"](1, 18);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementEnd"]();
   }
 }
 function OnlineGameWrapperComponent_div_1_div_18_div_3_p_3_Template(rf, ctx) {
   if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementStart"](0, "p", 59);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵi18n"](1, 19);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementStart"](0, "p", 59);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵi18n"](1, 19);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementEnd"]();
   }
   if (rf & 2) {
-    const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵnextContext"](4);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵi18nExp"](ctx_r1.currentPart.getWinner().get().name);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵi18nApply"](1);
+    const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵnextContext"](4);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵi18nExp"](ctx_r1.currentPart.getWinner().get().name);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵi18nApply"](1);
   }
 }
 function OnlineGameWrapperComponent_div_1_div_18_div_3_Template(rf, ctx) {
   if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementStart"](0, "div");
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵtemplate"](1, OnlineGameWrapperComponent_div_1_div_18_div_3_p_1_Template, 2, 0, "p", 78)(2, OnlineGameWrapperComponent_div_1_div_18_div_3_p_2_Template, 2, 0, "p", 79)(3, OnlineGameWrapperComponent_div_1_div_18_div_3_p_3_Template, 2, 1, "p", 80);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementStart"](0, "div");
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵtemplate"](1, OnlineGameWrapperComponent_div_1_div_18_div_3_p_1_Template, 2, 0, "p", 78)(2, OnlineGameWrapperComponent_div_1_div_18_div_3_p_2_Template, 2, 0, "p", 79)(3, OnlineGameWrapperComponent_div_1_div_18_div_3_p_3_Template, 2, 1, "p", 80);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementEnd"]();
   }
   if (rf & 2) {
-    const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵnextContext"](3);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵproperty"]("ngIf", ctx_r1.currentPart.getWinner().get().name === ctx_r1.getPlayer().name);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵproperty"]("ngIf", ctx_r1.currentPart.getWinner().get().name !== ctx_r1.getPlayer().name && ctx_r1.isPlaying());
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵproperty"]("ngIf", ctx_r1.isPlaying() === false);
+    const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵnextContext"](3);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵproperty"]("ngIf", ctx_r1.currentPart.getWinner().get().name === ctx_r1.getPlayer().name);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵproperty"]("ngIf", ctx_r1.currentPart.getWinner().get().name !== ctx_r1.getPlayer().name && ctx_r1.isPlaying());
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵproperty"]("ngIf", ctx_r1.isPlaying() === false);
   }
 }
 function OnlineGameWrapperComponent_div_1_div_18_div_4_p_1_Template(rf, ctx) {
   if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementStart"](0, "p", 81);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵi18n"](1, 20);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementStart"](0, "p", 81);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵi18n"](1, 20);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementEnd"]();
   }
   if (rf & 2) {
-    const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵnextContext"](4);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵi18nExp"](ctx_r1.currentPart.getLoser().get().name);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵi18nApply"](1);
+    const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵnextContext"](4);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵi18nExp"](ctx_r1.currentPart.getLoser().get().name);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵi18nApply"](1);
   }
 }
 function OnlineGameWrapperComponent_div_1_div_18_div_4_p_2_Template(rf, ctx) {
   if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementStart"](0, "p", 59);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵi18n"](1, 21);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementStart"](0, "p", 59);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵi18n"](1, 21);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementEnd"]();
   }
 }
 function OnlineGameWrapperComponent_div_1_div_18_div_4_p_3_Template(rf, ctx) {
   if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementStart"](0, "p", 59);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵi18n"](1, 22);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementStart"](0, "p", 59);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵi18n"](1, 22);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementEnd"]();
   }
   if (rf & 2) {
-    const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵnextContext"](4);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵi18nExp"](ctx_r1.currentPart.getLoser().get().name);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵi18nApply"](1);
+    const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵnextContext"](4);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵi18nExp"](ctx_r1.currentPart.getLoser().get().name);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵi18nApply"](1);
   }
 }
 function OnlineGameWrapperComponent_div_1_div_18_div_4_Template(rf, ctx) {
   if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementStart"](0, "div");
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵtemplate"](1, OnlineGameWrapperComponent_div_1_div_18_div_4_p_1_Template, 2, 1, "p", 78)(2, OnlineGameWrapperComponent_div_1_div_18_div_4_p_2_Template, 2, 0, "p", 80)(3, OnlineGameWrapperComponent_div_1_div_18_div_4_p_3_Template, 2, 1, "p", 80);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementStart"](0, "div");
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵtemplate"](1, OnlineGameWrapperComponent_div_1_div_18_div_4_p_1_Template, 2, 1, "p", 78)(2, OnlineGameWrapperComponent_div_1_div_18_div_4_p_2_Template, 2, 0, "p", 80)(3, OnlineGameWrapperComponent_div_1_div_18_div_4_p_3_Template, 2, 1, "p", 80);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementEnd"]();
   }
   if (rf & 2) {
-    const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵnextContext"](3);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵproperty"]("ngIf", ctx_r1.currentPart.getWinner().get().name === ctx_r1.getPlayer().name);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵproperty"]("ngIf", ctx_r1.currentPart.getWinner().get().name !== ctx_r1.getPlayer().name && ctx_r1.isPlaying());
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵproperty"]("ngIf", ctx_r1.isPlaying() === false);
+    const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵnextContext"](3);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵproperty"]("ngIf", ctx_r1.currentPart.getWinner().get().name === ctx_r1.getPlayer().name);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵproperty"]("ngIf", ctx_r1.currentPart.getWinner().get().name !== ctx_r1.getPlayer().name && ctx_r1.isPlaying());
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵproperty"]("ngIf", ctx_r1.isPlaying() === false);
   }
 }
 function OnlineGameWrapperComponent_div_1_div_18_div_5_p_1_Template(rf, ctx) {
   if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementStart"](0, "p", 84);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵi18n"](1, 23);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementStart"](0, "p", 84);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵi18n"](1, 23);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementEnd"]();
   }
 }
 function OnlineGameWrapperComponent_div_1_div_18_div_5_p_2_Template(rf, ctx) {
   if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementStart"](0, "p", 84);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵi18n"](1, 24);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementStart"](0, "p", 84);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵi18n"](1, 24);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementEnd"]();
   }
   if (rf & 2) {
-    const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵnextContext"](4);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵi18nExp"](ctx_r1.currentPart.getLoser().get().name);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵi18nApply"](1);
+    const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵnextContext"](4);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵi18nExp"](ctx_r1.currentPart.getLoser().get().name);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵi18nApply"](1);
   }
 }
 function OnlineGameWrapperComponent_div_1_div_18_div_5_Template(rf, ctx) {
   if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementStart"](0, "div");
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵtemplate"](1, OnlineGameWrapperComponent_div_1_div_18_div_5_p_1_Template, 2, 0, "p", 83)(2, OnlineGameWrapperComponent_div_1_div_18_div_5_p_2_Template, 2, 1, "p", 83);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementStart"](0, "div");
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵtemplate"](1, OnlineGameWrapperComponent_div_1_div_18_div_5_p_1_Template, 2, 0, "p", 83)(2, OnlineGameWrapperComponent_div_1_div_18_div_5_p_2_Template, 2, 1, "p", 83);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementEnd"]();
   }
   if (rf & 2) {
-    const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵnextContext"](3);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵproperty"]("ngIf", ctx_r1.currentPart.getWinner().get().name !== ctx_r1.getPlayer().name && ctx_r1.isPlaying());
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵproperty"]("ngIf", ctx_r1.isPlaying() === false || ctx_r1.currentPart.getWinner().get().name === ctx_r1.getPlayer().name);
+    const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵnextContext"](3);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵproperty"]("ngIf", ctx_r1.currentPart.getWinner().get().name !== ctx_r1.getPlayer().name && ctx_r1.isPlaying());
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵproperty"]("ngIf", ctx_r1.isPlaying() === false || ctx_r1.currentPart.getWinner().get().name === ctx_r1.getPlayer().name);
   }
 }
 function OnlineGameWrapperComponent_div_1_div_18_Template(rf, ctx) {
   if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementStart"](0, "div", 70);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵtemplate"](1, OnlineGameWrapperComponent_div_1_div_18_div_1_Template, 3, 0, "div", 53)(2, OnlineGameWrapperComponent_div_1_div_18_div_2_Template, 4, 3, "div", 53)(3, OnlineGameWrapperComponent_div_1_div_18_div_3_Template, 4, 3, "div", 53)(4, OnlineGameWrapperComponent_div_1_div_18_div_4_Template, 4, 3, "div", 53)(5, OnlineGameWrapperComponent_div_1_div_18_div_5_Template, 3, 2, "div", 53);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementStart"](0, "div", 70);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵtemplate"](1, OnlineGameWrapperComponent_div_1_div_18_div_1_Template, 3, 0, "div", 53)(2, OnlineGameWrapperComponent_div_1_div_18_div_2_Template, 4, 3, "div", 53)(3, OnlineGameWrapperComponent_div_1_div_18_div_3_Template, 4, 3, "div", 53)(4, OnlineGameWrapperComponent_div_1_div_18_div_4_Template, 4, 3, "div", 53)(5, OnlineGameWrapperComponent_div_1_div_18_div_5_Template, 3, 2, "div", 53);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementEnd"]();
   }
   if (rf & 2) {
-    const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵnextContext"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵproperty"]("ngIf", ctx_r1.currentPart.isHardDraw());
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵproperty"]("ngIf", ctx_r1.currentPart.isAgreedDraw());
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵproperty"]("ngIf", ctx_r1.currentPart.isWin());
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵproperty"]("ngIf", ctx_r1.currentPart.isTimeout());
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵproperty"]("ngIf", ctx_r1.currentPart.isResign());
+    const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵnextContext"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵproperty"]("ngIf", ctx_r1.currentPart.isHardDraw());
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵproperty"]("ngIf", ctx_r1.currentPart.isAgreedDraw());
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵproperty"]("ngIf", ctx_r1.currentPart.isWin());
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵproperty"]("ngIf", ctx_r1.currentPart.isTimeout());
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵproperty"]("ngIf", ctx_r1.currentPart.isResign());
   }
 }
 function OnlineGameWrapperComponent_div_1_ng_container_19_ng_container_1_ng_container_5_Template(rf, ctx) {
   if (rf & 1) {
-    const _r6 = _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵgetCurrentView"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementContainerStart"](0);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementStart"](1, "button", 90);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵlistener"]("click", function OnlineGameWrapperComponent_div_1_ng_container_19_ng_container_1_ng_container_5_Template_button_click_1_listener() {
-      const request_r7 = _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵrestoreView"](_r6).$implicit;
-      const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵnextContext"](4);
-      return _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵresetView"](ctx_r1.propose(request_r7));
+    const _r6 = _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵgetCurrentView"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementContainerStart"](0);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementStart"](1, "button", 90);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵlistener"]("click", function OnlineGameWrapperComponent_div_1_ng_container_19_ng_container_1_ng_container_5_Template_button_click_1_listener() {
+      const request_r7 = _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵrestoreView"](_r6).$implicit;
+      const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵnextContext"](4);
+      return _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵresetView"](ctx_r1.propose(request_r7));
     });
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵtext"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelement"](3, "fa-icon", 91);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementContainerEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵtext"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelement"](3, "fa-icon", 91);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementContainerEnd"]();
   }
   if (rf & 2) {
     const request_r7 = ctx.$implicit;
-    const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵnextContext"](4);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵpropertyInterpolate1"]("id", "propose", request_r7, "");
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵproperty"]("disabled", ctx_r1.requestAvailable(request_r7) === false);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵtextInterpolate1"]("", ctx_r1.requestInfos[request_r7].textForRequest(), "\u00A0\u00A0");
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵproperty"]("icon", ctx_r1.requestInfos[request_r7].icon);
+    const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵnextContext"](4);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵpropertyInterpolate1"]("id", "propose", request_r7, "");
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵproperty"]("disabled", ctx_r1.requestAvailable(request_r7) === false);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵtextInterpolate1"]("", ctx_r1.requestInfos[request_r7].textForRequest(), "\u00A0\u00A0");
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵproperty"]("icon", ctx_r1.requestInfos[request_r7].icon);
   }
 }
 function OnlineGameWrapperComponent_div_1_ng_container_19_ng_container_1_Template(rf, ctx) {
   if (rf & 1) {
-    const _r5 = _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵgetCurrentView"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementContainerStart"](0);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementStart"](1, "button", 87);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵlistener"]("click", function OnlineGameWrapperComponent_div_1_ng_container_19_ng_container_1_Template_button_click_1_listener() {
-      _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵrestoreView"](_r5);
-      const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵnextContext"](3);
-      return _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵresetView"](ctx_r1.resign());
+    const _r5 = _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵgetCurrentView"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementContainerStart"](0);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementStart"](1, "button", 87);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵlistener"]("click", function OnlineGameWrapperComponent_div_1_ng_container_19_ng_container_1_Template_button_click_1_listener() {
+      _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵrestoreView"](_r5);
+      const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵnextContext"](3);
+      return _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵresetView"](ctx_r1.resign());
     });
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵi18n"](2, 25);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementStart"](3, "button", 88);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵlistener"]("click", function OnlineGameWrapperComponent_div_1_ng_container_19_ng_container_1_Template_button_click_3_listener() {
-      _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵrestoreView"](_r5);
-      const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵnextContext"](3);
-      return _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵresetView"](ctx_r1.gameComponent.pass());
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵi18n"](2, 25);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementStart"](3, "button", 88);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵlistener"]("click", function OnlineGameWrapperComponent_div_1_ng_container_19_ng_container_1_Template_button_click_3_listener() {
+      _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵrestoreView"](_r5);
+      const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵnextContext"](3);
+      return _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵresetView"](ctx_r1.gameComponent.pass());
     });
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵi18n"](4, 26);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵtemplate"](5, OnlineGameWrapperComponent_div_1_ng_container_19_ng_container_1_ng_container_5_Template, 4, 5, "ng-container", 89);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementContainerEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵi18n"](4, 26);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵtemplate"](5, OnlineGameWrapperComponent_div_1_ng_container_19_ng_container_1_ng_container_5_Template, 4, 5, "ng-container", 89);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementContainerEnd"]();
   }
   if (rf & 2) {
-    const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵnextContext"](3);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵproperty"]("disabled", ctx_r1.canResign() === false);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵadvance"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵproperty"]("disabled", ctx_r1.canPass() === false);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵadvance"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵproperty"]("ngForOf", ctx_r1.allRequests);
+    const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵnextContext"](3);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵproperty"]("disabled", ctx_r1.canResign() === false);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵadvance"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵproperty"]("disabled", ctx_r1.canPass() === false);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵadvance"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵproperty"]("ngForOf", ctx_r1.allRequests);
   }
 }
 function OnlineGameWrapperComponent_div_1_ng_container_19_ng_template_2_Template(rf, ctx) {
   if (rf & 1) {
-    const _r8 = _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵgetCurrentView"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementStart"](0, "div", 92)(1, "p");
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵtext"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelement"](3, "fa-icon", 91);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementStart"](4, "button", 93);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵlistener"]("click", function OnlineGameWrapperComponent_div_1_ng_container_19_ng_template_2_Template_button_click_4_listener() {
-      _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵrestoreView"](_r8);
-      const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵnextContext"](3);
-      return _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵresetView"](ctx_r1.accept());
+    const _r8 = _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵgetCurrentView"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementStart"](0, "div", 92)(1, "p");
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵtext"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelement"](3, "fa-icon", 91);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementStart"](4, "button", 93);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵlistener"]("click", function OnlineGameWrapperComponent_div_1_ng_container_19_ng_template_2_Template_button_click_4_listener() {
+      _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵrestoreView"](_r8);
+      const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵnextContext"](3);
+      return _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵresetView"](ctx_r1.accept());
     });
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵi18n"](5, 27);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementStart"](6, "button", 94);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵlistener"]("click", function OnlineGameWrapperComponent_div_1_ng_container_19_ng_template_2_Template_button_click_6_listener() {
-      _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵrestoreView"](_r8);
-      const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵnextContext"](3);
-      return _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵresetView"](ctx_r1.reject());
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵi18n"](5, 27);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementStart"](6, "button", 94);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵlistener"]("click", function OnlineGameWrapperComponent_div_1_ng_container_19_ng_template_2_Template_button_click_6_listener() {
+      _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵrestoreView"](_r8);
+      const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵnextContext"](3);
+      return _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵresetView"](ctx_r1.reject());
     });
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵi18n"](7, 28);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementEnd"]()();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵi18n"](7, 28);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementEnd"]()();
   }
   if (rf & 2) {
-    const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵnextContext"](3);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵadvance"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵtextInterpolate1"](" ", ctx_r1.requestInfos[ctx_r1.getRequestAwaitingReplyFromUs().get()].textForReply(), "\u00A0\u00A0 ");
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵproperty"]("icon", ctx_r1.requestInfos[ctx_r1.getRequestAwaitingReplyFromUs().get()].icon);
+    const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵnextContext"](3);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵadvance"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵtextInterpolate1"](" ", ctx_r1.requestInfos[ctx_r1.getRequestAwaitingReplyFromUs().get()].textForReply(), "\u00A0\u00A0 ");
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵproperty"]("icon", ctx_r1.requestInfos[ctx_r1.getRequestAwaitingReplyFromUs().get()].icon);
   }
 }
 function OnlineGameWrapperComponent_div_1_ng_container_19_div_4_Template(rf, ctx) {
   if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementStart"](0, "div", 95)(1, "p")(2, "span");
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵi18nStart"](3, 29);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelement"](4, "fa-icon", 91);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵi18nEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementEnd"]()()();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementStart"](0, "div", 95)(1, "p")(2, "span");
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵi18nStart"](3, 29);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelement"](4, "fa-icon", 91);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵi18nEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementEnd"]()()();
   }
   if (rf & 2) {
-    const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵnextContext"](3);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵadvance"](4);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵproperty"]("icon", ctx_r1.requestInfos[ctx_r1.deniedRequest().get()].icon);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵi18nExp"](ctx_r1.requestInfos[ctx_r1.deniedRequest().get()].name());
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵi18nApply"](3);
+    const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵnextContext"](3);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵadvance"](4);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵproperty"]("icon", ctx_r1.requestInfos[ctx_r1.deniedRequest().get()].icon);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵi18nExp"](ctx_r1.requestInfos[ctx_r1.deniedRequest().get()].name());
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵi18nApply"](3);
   }
 }
 function OnlineGameWrapperComponent_div_1_ng_container_19_div_5_Template(rf, ctx) {
   if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementStart"](0, "div", 96)(1, "p")(2, "span");
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵi18nStart"](3, 30);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelement"](4, "fa-icon", 91);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵi18nEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementEnd"]()()();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementStart"](0, "div", 96)(1, "p")(2, "span");
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵi18nStart"](3, 30);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelement"](4, "fa-icon", 91);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵi18nEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementEnd"]()()();
   }
   if (rf & 2) {
-    const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵnextContext"](3);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵadvance"](4);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵproperty"]("icon", ctx_r1.requestInfos[ctx_r1.getRequestAwaitingReplyFromOpponent().get()].icon);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵi18nExp"](ctx_r1.requestInfos[ctx_r1.getRequestAwaitingReplyFromOpponent().get()].name());
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵi18nApply"](3);
+    const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵnextContext"](3);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵadvance"](4);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵproperty"]("icon", ctx_r1.requestInfos[ctx_r1.getRequestAwaitingReplyFromOpponent().get()].icon);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵi18nExp"](ctx_r1.requestInfos[ctx_r1.getRequestAwaitingReplyFromOpponent().get()].name());
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵi18nApply"](3);
   }
 }
 function OnlineGameWrapperComponent_div_1_ng_container_19_Template(rf, ctx) {
   if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementContainerStart"](0);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵtemplate"](1, OnlineGameWrapperComponent_div_1_ng_container_19_ng_container_1_Template, 6, 3, "ng-container", 63)(2, OnlineGameWrapperComponent_div_1_ng_container_19_ng_template_2_Template, 8, 2, "ng-template", null, 7, _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵtemplateRefExtractor"])(4, OnlineGameWrapperComponent_div_1_ng_container_19_div_4_Template, 5, 2, "div", 85)(5, OnlineGameWrapperComponent_div_1_ng_container_19_div_5_Template, 5, 2, "div", 86);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementContainerEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementContainerStart"](0);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵtemplate"](1, OnlineGameWrapperComponent_div_1_ng_container_19_ng_container_1_Template, 6, 3, "ng-container", 63)(2, OnlineGameWrapperComponent_div_1_ng_container_19_ng_template_2_Template, 8, 2, "ng-template", null, 7, _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵtemplateRefExtractor"])(4, OnlineGameWrapperComponent_div_1_ng_container_19_div_4_Template, 5, 2, "div", 85)(5, OnlineGameWrapperComponent_div_1_ng_container_19_div_5_Template, 5, 2, "div", 86);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementContainerEnd"]();
   }
   if (rf & 2) {
-    const replyButtons_r9 = _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵreference"](3);
-    const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵnextContext"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵproperty"]("ngIf", ctx_r1.mustReply() === false)("ngIfElse", replyButtons_r9);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵadvance"](3);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵproperty"]("ngIf", ctx_r1.deniedRequest().isPresent());
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵproperty"]("ngIf", ctx_r1.getRequestAwaitingReplyFromOpponent().isPresent());
+    const replyButtons_r9 = _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵreference"](3);
+    const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵnextContext"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵproperty"]("ngIf", ctx_r1.mustReply() === false)("ngIfElse", replyButtons_r9);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵadvance"](3);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵproperty"]("ngIf", ctx_r1.deniedRequest().isPresent());
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵproperty"]("ngIf", ctx_r1.getRequestAwaitingReplyFromOpponent().isPresent());
   }
 }
 function OnlineGameWrapperComponent_div_1_button_20_Template(rf, ctx) {
   if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementStart"](0, "button", 97);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵi18n"](1, 31);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementStart"](0, "button", 97);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵi18n"](1, 31);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementEnd"]();
   }
 }
 function OnlineGameWrapperComponent_div_1_Template(rf, ctx) {
   if (rf & 1) {
-    const _r3 = _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵgetCurrentView"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementStart"](0, "div", 38)(1, "div", 39)(2, "div", 40);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵtemplate"](3, OnlineGameWrapperComponent_div_1_div_3_Template, 6, 3, "div", 41);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementStart"](4, "div", 42);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵtemplate"](5, OnlineGameWrapperComponent_div_1_p_5_Template, 2, 1, "p", 43)(6, OnlineGameWrapperComponent_div_1_p_6_Template, 2, 1, "p", 44);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementStart"](7, "app-count-down", 45, 1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵlistener"]("outOfTimeAction", function OnlineGameWrapperComponent_div_1_Template_app_count_down_outOfTimeAction_7_listener() {
-      _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵrestoreView"](_r3);
-      const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵnextContext"]();
-      return _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵresetView"](ctx_r1.reachedOutOfTime(ctx_r1.Player.ZERO));
+    const _r3 = _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵgetCurrentView"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementStart"](0, "div", 38)(1, "div", 39)(2, "div", 40);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵtemplate"](3, OnlineGameWrapperComponent_div_1_div_3_Template, 6, 3, "div", 41);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementStart"](4, "div", 42);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵtemplate"](5, OnlineGameWrapperComponent_div_1_p_5_Template, 2, 1, "p", 43)(6, OnlineGameWrapperComponent_div_1_p_6_Template, 2, 1, "p", 44);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementStart"](7, "app-count-down", 45, 1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵlistener"]("outOfTimeAction", function OnlineGameWrapperComponent_div_1_Template_app_count_down_outOfTimeAction_7_listener() {
+      _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵrestoreView"](_r3);
+      const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵnextContext"]();
+      return _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵresetView"](ctx_r1.reachedOutOfTime(ctx_r1.Player.ZERO));
     })("addTimeToOpponent", function OnlineGameWrapperComponent_div_1_Template_app_count_down_addTimeToOpponent_7_listener() {
-      _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵrestoreView"](_r3);
-      const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵnextContext"]();
-      return _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵresetView"](ctx_r1.addGlobalTime());
+      _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵrestoreView"](_r3);
+      const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵnextContext"]();
+      return _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵresetView"](ctx_r1.addGlobalTime());
     });
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementStart"](9, "app-count-down", 46, 2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵlistener"]("outOfTimeAction", function OnlineGameWrapperComponent_div_1_Template_app_count_down_outOfTimeAction_9_listener() {
-      _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵrestoreView"](_r3);
-      const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵnextContext"]();
-      return _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵresetView"](ctx_r1.reachedOutOfTime(ctx_r1.Player.ZERO));
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementStart"](9, "app-count-down", 46, 2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵlistener"]("outOfTimeAction", function OnlineGameWrapperComponent_div_1_Template_app_count_down_outOfTimeAction_9_listener() {
+      _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵrestoreView"](_r3);
+      const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵnextContext"]();
+      return _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵresetView"](ctx_r1.reachedOutOfTime(ctx_r1.Player.ZERO));
     })("addTimeToOpponent", function OnlineGameWrapperComponent_div_1_Template_app_count_down_addTimeToOpponent_9_listener() {
-      _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵrestoreView"](_r3);
-      const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵnextContext"]();
-      return _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵresetView"](ctx_r1.addTurnTime());
+      _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵrestoreView"](_r3);
+      const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵnextContext"]();
+      return _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵresetView"](ctx_r1.addTurnTime());
     });
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementEnd"]()();
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementStart"](11, "div", 47);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵtemplate"](12, OnlineGameWrapperComponent_div_1_p_12_Template, 2, 1, "p", 48)(13, OnlineGameWrapperComponent_div_1_p_13_Template, 2, 1, "p", 49);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementStart"](14, "app-count-down", 50, 3);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵlistener"]("outOfTimeAction", function OnlineGameWrapperComponent_div_1_Template_app_count_down_outOfTimeAction_14_listener() {
-      _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵrestoreView"](_r3);
-      const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵnextContext"]();
-      return _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵresetView"](ctx_r1.reachedOutOfTime(ctx_r1.Player.ONE));
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementEnd"]()();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementStart"](11, "div", 47);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵtemplate"](12, OnlineGameWrapperComponent_div_1_p_12_Template, 2, 1, "p", 48)(13, OnlineGameWrapperComponent_div_1_p_13_Template, 2, 1, "p", 49);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementStart"](14, "app-count-down", 50, 3);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵlistener"]("outOfTimeAction", function OnlineGameWrapperComponent_div_1_Template_app_count_down_outOfTimeAction_14_listener() {
+      _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵrestoreView"](_r3);
+      const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵnextContext"]();
+      return _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵresetView"](ctx_r1.reachedOutOfTime(ctx_r1.Player.ONE));
     })("addTimeToOpponent", function OnlineGameWrapperComponent_div_1_Template_app_count_down_addTimeToOpponent_14_listener() {
-      _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵrestoreView"](_r3);
-      const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵnextContext"]();
-      return _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵresetView"](ctx_r1.addGlobalTime());
+      _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵrestoreView"](_r3);
+      const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵnextContext"]();
+      return _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵresetView"](ctx_r1.addGlobalTime());
     });
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementStart"](16, "app-count-down", 51, 4);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵlistener"]("outOfTimeAction", function OnlineGameWrapperComponent_div_1_Template_app_count_down_outOfTimeAction_16_listener() {
-      _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵrestoreView"](_r3);
-      const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵnextContext"]();
-      return _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵresetView"](ctx_r1.reachedOutOfTime(ctx_r1.Player.ONE));
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementStart"](16, "app-count-down", 51, 4);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵlistener"]("outOfTimeAction", function OnlineGameWrapperComponent_div_1_Template_app_count_down_outOfTimeAction_16_listener() {
+      _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵrestoreView"](_r3);
+      const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵnextContext"]();
+      return _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵresetView"](ctx_r1.reachedOutOfTime(ctx_r1.Player.ONE));
     })("addTimeToOpponent", function OnlineGameWrapperComponent_div_1_Template_app_count_down_addTimeToOpponent_16_listener() {
-      _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵrestoreView"](_r3);
-      const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵnextContext"]();
-      return _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵresetView"](ctx_r1.addTurnTime());
+      _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵrestoreView"](_r3);
+      const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵnextContext"]();
+      return _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵresetView"](ctx_r1.addTurnTime());
     });
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementEnd"]()();
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵtemplate"](18, OnlineGameWrapperComponent_div_1_div_18_Template, 6, 5, "div", 52)(19, OnlineGameWrapperComponent_div_1_ng_container_19_Template, 6, 4, "ng-container", 53)(20, OnlineGameWrapperComponent_div_1_button_20_Template, 2, 0, "button", 54);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementEnd"]()();
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementStart"](21, "div", 55)(22, "div", 56)(23, "div", 57);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelement"](24, "div", null, 5);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementEnd"]()()()();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementEnd"]()();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵtemplate"](18, OnlineGameWrapperComponent_div_1_div_18_Template, 6, 5, "div", 52)(19, OnlineGameWrapperComponent_div_1_ng_container_19_Template, 6, 4, "ng-container", 53)(20, OnlineGameWrapperComponent_div_1_button_20_Template, 2, 0, "button", 54);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementEnd"]()();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementStart"](21, "div", 55)(22, "div", 56)(23, "div", 57);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelement"](24, "div", null, 5);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementEnd"]()()()();
   }
   if (rf & 2) {
-    const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵnextContext"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵadvance"](3);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵproperty"]("ngIf", ctx_r1.currentPart !== null);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵadvance"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵproperty"]("ngIf", ctx_r1.players[0].isPresent());
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵproperty"]("ngIf", ctx_r1.currentPart !== null && ctx_r1.gameComponent && ctx_r1.gameComponent.scores.isPresent());
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵproperty"]("dangerTimeLimit", 60 * 1000)("active", ctx_r1.currentPart === null ? false : ctx_r1.currentPart.getTurn() % 2 === 0)("canAddTime", ctx_r1.role === ctx_r1.Player.ONE && ctx_r1.endGame === false)("timeToAdd", ctx_r1.globalTimeMessage)("debugName", "ZERO Global")("player", ctx_r1.Player.ZERO);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵadvance"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵproperty"]("dangerTimeLimit", 15 * 1000)("active", ctx_r1.currentPart === null ? false : ctx_r1.currentPart.getTurn() % 2 === 0)("canAddTime", ctx_r1.role === ctx_r1.Player.ONE && ctx_r1.endGame === false)("timeToAdd", ctx_r1.turnTimeMessage)("debugName", "ZERO Turn")("player", ctx_r1.Player.ZERO);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵadvance"](3);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵproperty"]("ngIf", ctx_r1.players[1].isPresent());
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵproperty"]("ngIf", ctx_r1.currentPart !== null && ctx_r1.gameComponent && ctx_r1.gameComponent.scores.isPresent());
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵproperty"]("dangerTimeLimit", 60 * 1000)("active", ctx_r1.currentPart === null ? false : ctx_r1.currentPart.getTurn() % 2 === 1)("canAddTime", ctx_r1.role === ctx_r1.Player.ZERO && ctx_r1.endGame === false)("timeToAdd", ctx_r1.globalTimeMessage)("debugName", "ONE Global")("player", ctx_r1.Player.ONE);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵadvance"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵproperty"]("dangerTimeLimit", 15 * 1000)("active", ctx_r1.currentPart === null ? false : ctx_r1.currentPart.getTurn() % 2 === 1)("canAddTime", ctx_r1.role === ctx_r1.Player.ZERO && ctx_r1.endGame === false)("timeToAdd", ctx_r1.turnTimeMessage)("debugName", "ONE Turn")("player", ctx_r1.Player.ONE);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵadvance"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵproperty"]("ngIf", ctx_r1.endGame && ctx_r1.currentPart !== null);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵproperty"]("ngIf", ctx_r1.isPlaying());
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵproperty"]("ngIf", ctx_r1.endGame);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵadvance"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵproperty"]("ngClass", ctx_r1.getBoardHighlight());
+    const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵnextContext"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵadvance"](3);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵproperty"]("ngIf", ctx_r1.currentPart !== null);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵadvance"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵproperty"]("ngIf", ctx_r1.players[0].isPresent());
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵproperty"]("ngIf", ctx_r1.currentPart !== null && ctx_r1.gameComponent && ctx_r1.gameComponent.scores.isPresent());
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵproperty"]("dangerTimeLimit", 60 * 1000)("active", ctx_r1.currentPart === null ? false : ctx_r1.currentPart.getTurn() % 2 === 0)("canAddTime", ctx_r1.role === ctx_r1.Player.ONE && ctx_r1.endGame === false)("timeToAdd", ctx_r1.globalTimeMessage)("debugName", "ZERO Global")("player", ctx_r1.Player.ZERO);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵadvance"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵproperty"]("dangerTimeLimit", 15 * 1000)("active", ctx_r1.currentPart === null ? false : ctx_r1.currentPart.getTurn() % 2 === 0)("canAddTime", ctx_r1.role === ctx_r1.Player.ONE && ctx_r1.endGame === false)("timeToAdd", ctx_r1.turnTimeMessage)("debugName", "ZERO Turn")("player", ctx_r1.Player.ZERO);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵadvance"](3);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵproperty"]("ngIf", ctx_r1.players[1].isPresent());
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵproperty"]("ngIf", ctx_r1.currentPart !== null && ctx_r1.gameComponent && ctx_r1.gameComponent.scores.isPresent());
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵproperty"]("dangerTimeLimit", 60 * 1000)("active", ctx_r1.currentPart === null ? false : ctx_r1.currentPart.getTurn() % 2 === 1)("canAddTime", ctx_r1.role === ctx_r1.Player.ZERO && ctx_r1.endGame === false)("timeToAdd", ctx_r1.globalTimeMessage)("debugName", "ONE Global")("player", ctx_r1.Player.ONE);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵadvance"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵproperty"]("dangerTimeLimit", 15 * 1000)("active", ctx_r1.currentPart === null ? false : ctx_r1.currentPart.getTurn() % 2 === 1)("canAddTime", ctx_r1.role === ctx_r1.Player.ZERO && ctx_r1.endGame === false)("timeToAdd", ctx_r1.turnTimeMessage)("debugName", "ONE Turn")("player", ctx_r1.Player.ONE);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵadvance"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵproperty"]("ngIf", ctx_r1.endGame && ctx_r1.currentPart !== null);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵproperty"]("ngIf", ctx_r1.isPlaying());
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵproperty"]("ngIf", ctx_r1.endGame);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵadvance"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵproperty"]("ngClass", ctx_r1.getBoardHighlight());
   }
 }
 class OnlineGameWrapperMessages {
@@ -8176,13 +8179,14 @@ class OnlineGameWrapperMessages {
   static CANNOT_PLAY_AS_OBSERVER = () => $localize`You are an observer in this game, you cannot play.`;
   static MUST_ANSWER_REQUEST = () => $localize`You must answer your opponent's request.`;
 }
-let OnlineGameWrapperComponent = class OnlineGameWrapperComponent extends _GameWrapper__WEBPACK_IMPORTED_MODULE_3__.GameWrapper {
+let OnlineGameWrapperComponent = class OnlineGameWrapperComponent extends _GameWrapper__WEBPACK_IMPORTED_MODULE_4__.GameWrapper {
   currentGameService;
   gameService;
   gameEventService;
   timeManager;
   requestManager;
   serverTimeService;
+  userService;
   cdr;
   // GameWrapping's Template
   chronoZeroGlobal;
@@ -8197,13 +8201,13 @@ let OnlineGameWrapperComponent = class OnlineGameWrapperComponent extends _GameW
   authUser; // Initialized in ngOnInit
   currentUser = null;
   configRoom;
-  currentGame = _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.empty();
+  currentGame = _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPOptional.empty();
   userLinkedToThisPart = true;
   routerEventsSubscription; // Initialized in ngOnInit
   userSubscription; // Initialized in ngOnInit
-  partSubscription = new rxjs__WEBPACK_IMPORTED_MODULE_21__.Subscription();
-  gameEventsSubscription = new rxjs__WEBPACK_IMPORTED_MODULE_21__.Subscription();
-  currentGameSubscription = new rxjs__WEBPACK_IMPORTED_MODULE_21__.Subscription();
+  partSubscription = new rxjs__WEBPACK_IMPORTED_MODULE_22__.Subscription();
+  gameEventsSubscription = new rxjs__WEBPACK_IMPORTED_MODULE_22__.Subscription();
+  currentGameSubscription = new rxjs__WEBPACK_IMPORTED_MODULE_22__.Subscription();
   OFFLINE_FONT_COLOR = {
     color: 'lightgrey'
   };
@@ -8212,7 +8216,7 @@ let OnlineGameWrapperComponent = class OnlineGameWrapperComponent extends _GameW
   requestInfos = _OGWCRequestManagerService__WEBPACK_IMPORTED_MODULE_8__.OGWCRequestManagerService.requestInfos;
   allRequests = ['TakeBack', 'Draw', 'Rematch'];
   moveSentButNotReceivedYet = false;
-  constructor(activatedRoute, connectedUserService, router, messageDisplayer, currentGameService, gameService, gameEventService, timeManager, requestManager, serverTimeService, cdr) {
+  constructor(activatedRoute, connectedUserService, router, messageDisplayer, currentGameService, gameService, gameEventService, timeManager, requestManager, serverTimeService, userService, cdr) {
     super(activatedRoute, connectedUserService, router, messageDisplayer);
     this.currentGameService = currentGameService;
     this.gameService = gameService;
@@ -8220,10 +8224,11 @@ let OnlineGameWrapperComponent = class OnlineGameWrapperComponent extends _GameW
     this.timeManager = timeManager;
     this.requestManager = requestManager;
     this.serverTimeService = serverTimeService;
+    this.userService = userService;
     this.cdr = cdr;
   }
   extractPartIdFromURL() {
-    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.Utils.getNonNullable(this.activatedRoute.snapshot.paramMap.get('id'));
+    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.Utils.getNonNullable(this.activatedRoute.snapshot.paramMap.get('id'));
   }
   isPlaying() {
     return this.role.isPlayer();
@@ -8247,7 +8252,7 @@ let OnlineGameWrapperComponent = class OnlineGameWrapperComponent extends _GameW
         }
       } else {
         _this.routerEventsSubscription.unsubscribe();
-        const message = _GameWrapper__WEBPACK_IMPORTED_MODULE_3__.GameWrapperMessages.NO_MATCHING_GAME(urlName);
+        const message = _GameWrapper__WEBPACK_IMPORTED_MODULE_4__.GameWrapperMessages.NO_MATCHING_GAME(urlName);
         yield _this.router.navigate(['/notFound', message], {
           skipLocationChange: true
         });
@@ -8263,7 +8268,7 @@ let OnlineGameWrapperComponent = class OnlineGameWrapperComponent extends _GameW
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       _this2.routerEventsSubscription = _this2.router.events.subscribe( /*#__PURE__*/function () {
         var _ref = (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (ev) {
-          if (ev instanceof _angular_router__WEBPACK_IMPORTED_MODULE_22__.NavigationEnd) {
+          if (ev instanceof _angular_router__WEBPACK_IMPORTED_MODULE_23__.NavigationEnd) {
             yield _this2.setCurrentPartIdOrRedirect();
           }
         });
@@ -8271,18 +8276,23 @@ let OnlineGameWrapperComponent = class OnlineGameWrapperComponent extends _GameW
           return _ref.apply(this, arguments);
         };
       }());
-      _this2.userSubscription = _this2.connectedUserService.subscribeToUser(user => {
-        // player should be authenticated and have a username to be here
-        _this2.authUser = user;
-      });
-      yield _this2.setCurrentPartIdOrRedirect();
-      // onCurrentGameUpdate needs to access to currentPartId, so it must do it after setCurrentPartIdOrRedirect
-      _this2.currentGameSubscription = _this2.currentGameService.subscribeToCurrentGame( /*#__PURE__*/function () {
-        var _ref2 = (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (part) {
-          yield _this2.onCurrentGameUpdate(part);
+      _this2.userSubscription = _this2.connectedUserService.subscribeToUser( /*#__PURE__*/function () {
+        var _ref2 = (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (user) {
+          // player should be authenticated and have a username to be here
+          _this2.authUser = user;
         });
         return function (_x2) {
           return _ref2.apply(this, arguments);
+        };
+      }());
+      yield _this2.setCurrentPartIdOrRedirect();
+      // onCurrentGameUpdate needs to access to currentPartId, so it must do it after setCurrentPartIdOrRedirect
+      _this2.currentGameSubscription = _this2.currentGameService.subscribeToCurrentGame( /*#__PURE__*/function () {
+        var _ref3 = (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (part) {
+          yield _this2.onCurrentGameUpdate(part);
+        });
+        return function (_x3) {
+          return _ref3.apply(this, arguments);
         };
       }());
     })();
@@ -8312,7 +8322,7 @@ let OnlineGameWrapperComponent = class OnlineGameWrapperComponent extends _GameW
           yield _this3.router.navigate(['/lobby']);
         }
       } else {
-        _this3.currentGame = _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.empty();
+        _this3.currentGame = _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPOptional.empty();
       }
       _this3.cdr.detectChanges();
     })();
@@ -8320,16 +8330,16 @@ let OnlineGameWrapperComponent = class OnlineGameWrapperComponent extends _GameW
   startGame(configRoom) {
     var _this4 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.Utils.assert(_this4.gameStarted === false, 'Should not start already started game');
+      _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.Utils.assert(_this4.gameStarted === false, 'Should not start already started game');
       _this4.configRoom = configRoom;
       _this4.gameStarted = true;
       window.setTimeout( /*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
         // the small waiting is there to make sure that the chronos are loaded by view
         const createdSuccessfully = yield _this4.createMatchingGameComponent();
         _this4.timeManager.setClocks([_this4.chronoZeroTurn, _this4.chronoOneTurn], [_this4.chronoZeroGlobal, _this4.chronoOneGlobal]);
-        _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.Utils.assert(createdSuccessfully, 'Game should be created successfully, otherwise part-creation would have redirected');
-        _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.Utils.assert(_this4.gameComponent !== null, 'Game component should exist');
-        _this4.gameComponent.config = _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.of(configRoom.rulesConfig);
+        _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.Utils.assert(createdSuccessfully, 'Game should be created successfully, otherwise part-creation would have redirected');
+        _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.Utils.assert(_this4.gameComponent !== null, 'Game component should exist');
+        _this4.gameComponent.config = _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPOptional.of(configRoom.rulesConfig);
         yield _this4.startPart();
       }), 2);
     })();
@@ -8340,16 +8350,16 @@ let OnlineGameWrapperComponent = class OnlineGameWrapperComponent extends _GameW
       // Trigger the first update manually, so that we will have info on the part before receiving any moves
       // This is useful when we join a part in the middle.
       const part = yield _this5.gameService.getExistingGame(_this5.currentPartId);
-      _this5.currentPart = new _domain_Part__WEBPACK_IMPORTED_MODULE_2__.PartDocument(_this5.currentPartId, part);
+      _this5.currentPart = new _domain_Part__WEBPACK_IMPORTED_MODULE_3__.PartDocument(_this5.currentPartId, part);
       // We subscribe to the part only at this point.
       // Once we receive the notification that the part started, we will subscribe to the events
       _this5.partSubscription = _this5.gameService.subscribeToChanges(_this5.currentPartId, /*#__PURE__*/function () {
-        var _ref4 = (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (p) {
-          _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.Utils.assert(p.isPresent(), 'OnlineGameWrapper observed a part being deleted, this should not happen');
-          _this5.currentPart = new _domain_Part__WEBPACK_IMPORTED_MODULE_2__.PartDocument(_this5.currentPartId, p.get());
+        var _ref5 = (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (p) {
+          _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.Utils.assert(p.isPresent(), 'OnlineGameWrapper observed a part being deleted, this should not happen');
+          _this5.currentPart = new _domain_Part__WEBPACK_IMPORTED_MODULE_3__.PartDocument(_this5.currentPartId, p.get());
         });
-        return function (_x3) {
-          return _ref4.apply(this, arguments);
+        return function (_x4) {
+          return _ref5.apply(this, arguments);
         };
       }());
       _this5.subscribeToEvents();
@@ -8360,7 +8370,7 @@ let OnlineGameWrapperComponent = class OnlineGameWrapperComponent extends _GameW
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       yield _this6.initializePlayersData(_this6.currentPart);
       const turn = _this6.gameComponent.getTurn();
-      _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.Utils.assert(turn === 0, 'turn should always be 0 upon game start');
+      _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.Utils.assert(turn === 0, 'turn should always be 0 upon game start');
       _this6.timeManager.onGameStart(_this6.configRoom, _this6.players);
       _this6.requestManager.onGameStart();
       _this6.cdr.detectChanges();
@@ -8375,7 +8385,7 @@ let OnlineGameWrapperComponent = class OnlineGameWrapperComponent extends _GameW
     // we don't want to apply all clock actions then
     const mutex = new async_mutex__WEBPACK_IMPORTED_MODULE_1__.Mutex(); // Need to ensure we receive events one at a time
     const callback = /*#__PURE__*/function () {
-      var _ref5 = (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (events) {
+      var _ref6 = (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (events) {
         if (events.length === 0) return; // Only happens in the test suite
         yield mutex.runExclusive( /*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
           const numberOfMoves = events.filter(g => g.eventType === 'Move').length;
@@ -8398,7 +8408,7 @@ let OnlineGameWrapperComponent = class OnlineGameWrapperComponent extends _GameW
                 }
                 break;
               default:
-                _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.Utils.expectToBe(event.eventType, 'Action', 'Event should be an action');
+                _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.Utils.expectToBe(event.eventType, 'Action', 'Event should be an action');
                 _this7.timeManager.onReceivedAction(event);
                 if (event.action === 'EndGame') yield _this7.onGameEnd();else if (event.action === 'StartGame') yield _this7.onGameStart();
                 break;
@@ -8408,8 +8418,8 @@ let OnlineGameWrapperComponent = class OnlineGameWrapperComponent extends _GameW
           _this7.cdr.detectChanges();
         }));
       });
-      return function callback(_x4) {
-        return _ref5.apply(this, arguments);
+      return function callback(_x5) {
+        return _ref6.apply(this, arguments);
       };
     }();
     this.gameEventsSubscription = this.gameEventService.subscribeToEvents(this.currentPartId, callback);
@@ -8475,7 +8485,7 @@ let OnlineGameWrapperComponent = class OnlineGameWrapperComponent extends _GameW
   afterEventsBatch() {
     var _this12 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      const player = src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_4__.Player.ofTurn(_this12.gameComponent.getTurn());
+      const player = src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_5__.Player.ofTurn(_this12.gameComponent.getTurn());
       const serverTimeMs = yield _this12.serverTimeService.getServerTimeInMs();
       _this12.timeManager.afterEventsBatch(_this12.endGame, player, serverTimeMs);
     })();
@@ -8486,7 +8496,7 @@ let OnlineGameWrapperComponent = class OnlineGameWrapperComponent extends _GameW
       // Take back once, in any case
       _this13.gameComponent.node = _this13.gameComponent.node.parent.get();
       if (_this13.gameComponent.getCurrentPlayer() !== player) {
-        _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.Utils.assert(_this13.gameComponent.getTurn() > 0, 'Should not allow player that never played to take back');
+        _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.Utils.assert(_this13.gameComponent.getTurn() > 0, 'Should not allow player that never played to take back');
         // Take back a second time to make sure it end up on player's turn
         _this13.gameComponent.node = _this13.gameComponent.node.parent.get();
       }
@@ -8496,7 +8506,7 @@ let OnlineGameWrapperComponent = class OnlineGameWrapperComponent extends _GameW
     })();
   }
   canResign() {
-    _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.Utils.assert(this.isPlaying(), 'Non playing should not call canResign');
+    _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.Utils.assert(this.isPlaying(), 'Non playing should not call canResign');
     if (this.endGame === true) {
       return false;
     }
@@ -8510,7 +8520,7 @@ let OnlineGameWrapperComponent = class OnlineGameWrapperComponent extends _GameW
       case 'Draw':
         return this.canProposeDraw();
       default:
-        _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.Utils.expectToBe(request, 'Rematch');
+        _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.Utils.expectToBe(request, 'Rematch');
         return this.canProposeRematch();
     }
   }
@@ -8518,35 +8528,35 @@ let OnlineGameWrapperComponent = class OnlineGameWrapperComponent extends _GameW
     return this.getRequestAwaitingReplyFromUs().isPresent();
   }
   getRequestAwaitingReplyFromUs() {
-    _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.Utils.assert(this.role.isPlayer(), 'User should be playing');
-    return this.requestManager.getUnrespondedRequestFrom(_everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.Utils.getNonNullable(this.opponent));
+    _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.Utils.assert(this.role.isPlayer(), 'User should be playing');
+    return this.requestManager.getUnrespondedRequestFrom(_everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.Utils.getNonNullable(this.opponent));
   }
   getRequestAwaitingReplyFromOpponent() {
-    _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.Utils.assert(this.role.isPlayer(), 'User should be playing');
-    return this.requestManager.getUnrespondedRequestFrom(_everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.Utils.getNonNullable(this.currentUser));
+    _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.Utils.assert(this.role.isPlayer(), 'User should be playing');
+    return this.requestManager.getUnrespondedRequestFrom(_everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.Utils.getNonNullable(this.currentUser));
   }
   deniedRequest() {
     return this.requestManager.deniedRequest();
   }
   canPass() {
-    _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.Utils.assert(this.isPlaying(), 'Non playing should not call canPass');
+    _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.Utils.assert(this.isPlaying(), 'Non playing should not call canPass');
     if (this.endGame) return false;
     if (this.currentUser?.name !== this.getPlayer().name) return false;
     return this.gameComponent.canPass;
   }
   canAskTakeBack() {
-    _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.Utils.assert(this.isPlaying(), 'Non playing should not call canAskTakeBack');
-    _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.Utils.assert(this.currentPart != null, 'should not call canAskTakeBack when currentPart is not defined yet');
+    _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.Utils.assert(this.isPlaying(), 'Non playing should not call canAskTakeBack');
+    _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.Utils.assert(this.currentPart != null, 'should not call canAskTakeBack when currentPart is not defined yet');
     // Cannot do a request in end game
     if (this.endGame === true) return false;
     // Cannot do a take back request before we played
-    const currentPart = _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.Utils.getNonNullable(this.currentPart);
+    const currentPart = _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.Utils.getNonNullable(this.currentPart);
     if (currentPart.data.turn <= this.role.getValue()) return false;
     // Otherwise, it depends on the request manager
     return this.requestManager.canMakeRequest('TakeBack');
   }
   canProposeDraw() {
-    _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.Utils.assert(this.isPlaying(), 'Non playing should not call canProposeDraw');
+    _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.Utils.assert(this.isPlaying(), 'Non playing should not call canProposeDraw');
     // Cannot propose draw in end game
     if (this.endGame) return false;
     // Otherwise, it depends on the request manager
@@ -8561,23 +8571,23 @@ let OnlineGameWrapperComponent = class OnlineGameWrapperComponent extends _GameW
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       if (_this14.role.isNone()) {
         const message = OnlineGameWrapperMessages.CANNOT_PLAY_AS_OBSERVER();
-        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPValidation.failure(message);
+        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPValidation.failure(message);
       }
       const result = yield _superprop_getCanUserPlay().call(_this14, clickedElementName);
       if (result.isFailure()) {
         return result; // NOT_YOUR_TURN or GAME_HAS_ENDED are checked here
       } else if (_this14.mustReply()) {
-        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPValidation.failure(OnlineGameWrapperMessages.MUST_ANSWER_REQUEST());
+        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPValidation.failure(OnlineGameWrapperMessages.MUST_ANSWER_REQUEST());
       } else {
-        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPValidation.SUCCESS;
+        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPValidation.SUCCESS;
       }
     })();
   }
   initializePlayersData(part) {
     var _this15 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      _this15.players = [_everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.of(part.data.playerZero), _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.ofNullable(part.data.playerOne)];
-      _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.Utils.assert(part.data.playerOne != null, 'should not initializePlayersData when players data is not received');
+      _this15.players = [_everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPOptional.of(part.data.playerZero), _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPOptional.ofNullable(part.data.playerOne)];
+      _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.Utils.assert(part.data.playerOne != null, 'should not initializePlayersData when players data is not received');
       yield _this15.setCurrentPlayerAccordingToCurrentTurn();
       yield _this15.setRealObserverRole();
     })();
@@ -8586,13 +8596,13 @@ let OnlineGameWrapperComponent = class OnlineGameWrapperComponent extends _GameW
     var _this16 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       if (_this16.players[0].equalsValue(_this16.getPlayer())) {
-        yield _this16.setRole(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_4__.Player.ZERO);
+        yield _this16.setRole(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_5__.Player.ZERO);
         _this16.opponent = _this16.players[1].get();
       } else if (_this16.players[1].equalsValue(_this16.getPlayer())) {
-        yield _this16.setRole(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_4__.Player.ONE);
+        yield _this16.setRole(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_5__.Player.ONE);
         _this16.opponent = _this16.players[0].get();
       } else {
-        yield _this16.setRole(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_4__.PlayerOrNone.NONE);
+        yield _this16.setRole(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_5__.PlayerOrNone.NONE);
       }
       yield _this16.currentGameService.updateCurrentGame({
         ..._this16.currentGame.get(),
@@ -8626,9 +8636,9 @@ let OnlineGameWrapperComponent = class OnlineGameWrapperComponent extends _GameW
       const state = oldNode.gameState;
       const config = yield _this18.getConfig();
       const legality = _this18.gameComponent.rules.isLegal(move, state, config);
-      _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.Utils.assert(legality.isSuccess(), 'OGWC.applyMove called with an illegal move');
+      _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.Utils.assert(legality.isSuccess(), 'OGWC.applyMove called with an illegal move');
       const stateAfterMove = _this18.gameComponent.rules.applyLegalMove(move, state, config, legality.get());
-      _this18.gameComponent.node = new src_app_jscaip_AI_GameNode__WEBPACK_IMPORTED_MODULE_7__.GameNode(stateAfterMove, _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.of(oldNode), _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.of(move));
+      _this18.gameComponent.node = new src_app_jscaip_AI_GameNode__WEBPACK_IMPORTED_MODULE_7__.GameNode(stateAfterMove, _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPOptional.of(oldNode), _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPOptional.of(move));
       yield _this18.showNewMove(triggerAnimation);
     })();
   }
@@ -8652,7 +8662,7 @@ let OnlineGameWrapperComponent = class OnlineGameWrapperComponent extends _GameW
       if (_this21.isPlaying() === false) {
         return;
       }
-      const opponent = _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.Utils.getNonNullable(_this21.opponent);
+      const opponent = _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.Utils.getNonNullable(_this21.opponent);
       if (player === _this21.role) {
         yield _this21.notifyTimeoutVictory(opponent, _this21.authUser.toMinimalUser());
       } else {
@@ -8664,14 +8674,14 @@ let OnlineGameWrapperComponent = class OnlineGameWrapperComponent extends _GameW
   propose(request) {
     var _this22 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.Utils.assert(_this22.role.isPlayer(), 'cannot propose request if not player');
+      _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.Utils.assert(_this22.role.isPlayer(), 'cannot propose request if not player');
       switch (request) {
         case 'Rematch':
           return _this22.gameService.proposeRematch(_this22.currentPartId);
         case 'Draw':
           return _this22.gameService.proposeDraw(_this22.currentPartId);
         default:
-          _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.Utils.expectToBe(request, 'TakeBack');
+          _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.Utils.expectToBe(request, 'TakeBack');
           return _this22.gameService.askTakeBack(_this22.currentPartId);
       }
     })();
@@ -8680,7 +8690,7 @@ let OnlineGameWrapperComponent = class OnlineGameWrapperComponent extends _GameW
   accept() {
     var _this23 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.Utils.assert(_this23.role.isPlayer(), 'cannot accept request if not player');
+      _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.Utils.assert(_this23.role.isPlayer(), 'cannot accept request if not player');
       const request = _this23.requestManager.getCurrentRequest().get().requestType;
       switch (request) {
         case 'Rematch':
@@ -8688,7 +8698,7 @@ let OnlineGameWrapperComponent = class OnlineGameWrapperComponent extends _GameW
         case 'Draw':
           return _this23.gameService.acceptDraw(_this23.currentPartId);
         default:
-          _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.Utils.expectToBe(request, 'TakeBack');
+          _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.Utils.expectToBe(request, 'TakeBack');
           return _this23.gameService.acceptTakeBack(_this23.currentPartId);
       }
     })();
@@ -8697,7 +8707,7 @@ let OnlineGameWrapperComponent = class OnlineGameWrapperComponent extends _GameW
   reject() {
     var _this24 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.Utils.assert(_this24.role.isPlayer(), 'cannot reject request if not player');
+      _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.Utils.assert(_this24.role.isPlayer(), 'cannot reject request if not player');
       const request = _this24.requestManager.getCurrentRequest().get().requestType;
       switch (request) {
         case 'Rematch':
@@ -8705,7 +8715,7 @@ let OnlineGameWrapperComponent = class OnlineGameWrapperComponent extends _GameW
         case 'Draw':
           return _this24.gameService.refuseDraw(_this24.currentPartId);
         default:
-          _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.Utils.expectToBe(request, 'TakeBack');
+          _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.Utils.expectToBe(request, 'TakeBack');
           return _this24.gameService.refuseTakeBack(_this24.currentPartId);
       }
     })();
@@ -8749,31 +8759,31 @@ let OnlineGameWrapperComponent = class OnlineGameWrapperComponent extends _GameW
     var _this27 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       const rulesConfig = _this27.configRoom.rulesConfig;
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.of(rulesConfig);
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPOptional.of(rulesConfig);
     })();
   }
   static ɵfac = function OnlineGameWrapperComponent_Factory(t) {
-    return new (t || OnlineGameWrapperComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_22__.ActivatedRoute), _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵdirectiveInject"](src_app_services_ConnectedUserService__WEBPACK_IMPORTED_MODULE_10__.ConnectedUserService), _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_22__.Router), _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵdirectiveInject"](src_app_services_MessageDisplayer__WEBPACK_IMPORTED_MODULE_11__.MessageDisplayer), _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵdirectiveInject"](src_app_services_CurrentGameService__WEBPACK_IMPORTED_MODULE_12__.CurrentGameService), _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵdirectiveInject"](src_app_services_GameService__WEBPACK_IMPORTED_MODULE_13__.GameService), _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵdirectiveInject"](src_app_services_GameEventService__WEBPACK_IMPORTED_MODULE_14__.GameEventService), _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵdirectiveInject"](_OGWCTimeManagerService__WEBPACK_IMPORTED_MODULE_15__.OGWCTimeManagerService), _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵdirectiveInject"](_OGWCRequestManagerService__WEBPACK_IMPORTED_MODULE_8__.OGWCRequestManagerService), _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵdirectiveInject"](src_app_services_ServerTimeService__WEBPACK_IMPORTED_MODULE_16__.ServerTimeService), _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_20__.ChangeDetectorRef));
+    return new (t || OnlineGameWrapperComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_23__.ActivatedRoute), _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵdirectiveInject"](src_app_services_ConnectedUserService__WEBPACK_IMPORTED_MODULE_10__.ConnectedUserService), _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_23__.Router), _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵdirectiveInject"](src_app_services_MessageDisplayer__WEBPACK_IMPORTED_MODULE_11__.MessageDisplayer), _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵdirectiveInject"](src_app_services_CurrentGameService__WEBPACK_IMPORTED_MODULE_12__.CurrentGameService), _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵdirectiveInject"](src_app_services_GameService__WEBPACK_IMPORTED_MODULE_13__.GameService), _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵdirectiveInject"](src_app_services_GameEventService__WEBPACK_IMPORTED_MODULE_14__.GameEventService), _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵdirectiveInject"](_OGWCTimeManagerService__WEBPACK_IMPORTED_MODULE_15__.OGWCTimeManagerService), _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵdirectiveInject"](_OGWCRequestManagerService__WEBPACK_IMPORTED_MODULE_8__.OGWCRequestManagerService), _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵdirectiveInject"](src_app_services_ServerTimeService__WEBPACK_IMPORTED_MODULE_16__.ServerTimeService), _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵdirectiveInject"](src_app_services_UserService__WEBPACK_IMPORTED_MODULE_17__.UserService), _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_21__.ChangeDetectorRef));
   };
-  static ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵdefineComponent"]({
+  static ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵdefineComponent"]({
     type: OnlineGameWrapperComponent,
     selectors: [["app-online-game-wrapper"]],
     viewQuery: function OnlineGameWrapperComponent_Query(rf, ctx) {
       if (rf & 1) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵviewQuery"](_c0, 5);
-        _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵviewQuery"](_c1, 5);
-        _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵviewQuery"](_c2, 5);
-        _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵviewQuery"](_c3, 5);
+        _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵviewQuery"](_c0, 5);
+        _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵviewQuery"](_c1, 5);
+        _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵviewQuery"](_c2, 5);
+        _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵviewQuery"](_c3, 5);
       }
       if (rf & 2) {
         let _t;
-        _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵqueryRefresh"](_t = _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵloadQuery"]()) && (ctx.chronoZeroGlobal = _t.first);
-        _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵqueryRefresh"](_t = _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵloadQuery"]()) && (ctx.chronoOneGlobal = _t.first);
-        _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵqueryRefresh"](_t = _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵloadQuery"]()) && (ctx.chronoZeroTurn = _t.first);
-        _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵqueryRefresh"](_t = _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵloadQuery"]()) && (ctx.chronoOneTurn = _t.first);
+        _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵqueryRefresh"](_t = _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵloadQuery"]()) && (ctx.chronoZeroGlobal = _t.first);
+        _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵqueryRefresh"](_t = _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵloadQuery"]()) && (ctx.chronoOneGlobal = _t.first);
+        _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵqueryRefresh"](_t = _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵloadQuery"]()) && (ctx.chronoZeroTurn = _t.first);
+        _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵqueryRefresh"](_t = _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵloadQuery"]()) && (ctx.chronoOneTurn = _t.first);
       }
     },
-    features: [_angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵInheritDefinitionFeature"]],
+    features: [_angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵInheritDefinitionFeature"]],
     decls: 5,
     vars: 4,
     consts: () => {
@@ -9089,20 +9099,20 @@ let OnlineGameWrapperComponent = class OnlineGameWrapperComponent extends _GameW
     },
     template: function OnlineGameWrapperComponent_Template(rf, ctx) {
       if (rf & 1) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵtemplate"](0, OnlineGameWrapperComponent_app_part_creation_0_Template, 2, 2, "app-part-creation", 32)(1, OnlineGameWrapperComponent_div_1_Template, 26, 33, "div", 33);
-        _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementStart"](2, "div", 34)(3, "div", 35);
-        _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelement"](4, "app-chat", 36);
-        _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵelementEnd"]()();
+        _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵtemplate"](0, OnlineGameWrapperComponent_app_part_creation_0_Template, 2, 2, "app-part-creation", 32)(1, OnlineGameWrapperComponent_div_1_Template, 26, 33, "div", 33);
+        _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementStart"](2, "div", 34)(3, "div", 35);
+        _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelement"](4, "app-chat", 36);
+        _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵelementEnd"]()();
       }
       if (rf & 2) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵproperty"]("ngIf", ctx.gameStarted === false);
-        _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵadvance"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵproperty"]("ngIf", ctx.gameStarted);
-        _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵadvance"](3);
-        _angular_core__WEBPACK_IMPORTED_MODULE_20__["ɵɵproperty"]("chatId", ctx.currentPartId)("turn", ctx.currentPart == null ? null : ctx.currentPart.getTurn());
+        _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵproperty"]("ngIf", ctx.gameStarted === false);
+        _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵadvance"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵproperty"]("ngIf", ctx.gameStarted);
+        _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵadvance"](3);
+        _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵproperty"]("chatId", ctx.currentPartId)("turn", ctx.currentPart == null ? null : ctx.currentPart.getTurn());
       }
     },
-    dependencies: [_angular_common__WEBPACK_IMPORTED_MODULE_23__.NgClass, _angular_common__WEBPACK_IMPORTED_MODULE_23__.NgForOf, _angular_common__WEBPACK_IMPORTED_MODULE_23__.NgIf, _angular_router__WEBPACK_IMPORTED_MODULE_22__.RouterLink, _fortawesome_angular_fontawesome__WEBPACK_IMPORTED_MODULE_24__.FaIconComponent, _normal_component_chat_chat_component__WEBPACK_IMPORTED_MODULE_17__.ChatComponent, _part_creation_part_creation_component__WEBPACK_IMPORTED_MODULE_18__.PartCreationComponent, _normal_component_count_down_count_down_component__WEBPACK_IMPORTED_MODULE_19__.CountDownComponent],
+    dependencies: [_angular_common__WEBPACK_IMPORTED_MODULE_24__.NgClass, _angular_common__WEBPACK_IMPORTED_MODULE_24__.NgForOf, _angular_common__WEBPACK_IMPORTED_MODULE_24__.NgIf, _angular_router__WEBPACK_IMPORTED_MODULE_23__.RouterLink, _fortawesome_angular_fontawesome__WEBPACK_IMPORTED_MODULE_25__.FaIconComponent, _normal_component_chat_chat_component__WEBPACK_IMPORTED_MODULE_18__.ChatComponent, _part_creation_part_creation_component__WEBPACK_IMPORTED_MODULE_19__.PartCreationComponent, _normal_component_count_down_count_down_component__WEBPACK_IMPORTED_MODULE_20__.CountDownComponent],
     encapsulation: 2,
     changeDetection: 0
   });
@@ -12282,10 +12292,16 @@ class FirestoreDAO {
     })();
   }
   delete(id) {
-    return _firebase_firestore__WEBPACK_IMPORTED_MODULE_2__.deleteDoc(_firebase_firestore__WEBPACK_IMPORTED_MODULE_2__.doc(this.collection, id));
+    var _this5 = this;
+    return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+      return _firebase_firestore__WEBPACK_IMPORTED_MODULE_2__.deleteDoc(_firebase_firestore__WEBPACK_IMPORTED_MODULE_2__.doc(_this5.collection, id));
+    })();
   }
   set(id, element) {
-    return _firebase_firestore__WEBPACK_IMPORTED_MODULE_2__.setDoc(_firebase_firestore__WEBPACK_IMPORTED_MODULE_2__.doc(this.collection, id), element);
+    var _this6 = this;
+    return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+      return _firebase_firestore__WEBPACK_IMPORTED_MODULE_2__.setDoc(_firebase_firestore__WEBPACK_IMPORTED_MODULE_2__.doc(_this6.collection, id), element);
+    })();
   }
   subscribeToChanges(id, callback) {
     return new rxjs__WEBPACK_IMPORTED_MODULE_4__.Subscription(_firebase_firestore__WEBPACK_IMPORTED_MODULE_2__.onSnapshot(_firebase_firestore__WEBPACK_IMPORTED_MODULE_2__.doc(this.collection, id), doc => {
@@ -12293,9 +12309,9 @@ class FirestoreDAO {
     }));
   }
   findWhere(conditions, order, limit) {
-    var _this5 = this;
+    var _this7 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      const query = _this5.constructQuery(conditions, order, limit);
+      const query = _this7.constructQuery(conditions, order, limit);
       const snapshot = yield _firebase_firestore__WEBPACK_IMPORTED_MODULE_2__.getDocs(query);
       return snapshot.docs.map(doc => {
         return {
@@ -12564,6 +12580,7 @@ class MGPResult {
   static UNACHIEVED = new MGPResult(5);
   static AGREED_DRAW_BY_ZERO = new MGPResult(6);
   static AGREED_DRAW_BY_ONE = new MGPResult(7);
+  static PRE_FINISHED = new MGPResult(8);
   constructor(value) {
     this.value = value;
   }
@@ -12609,6 +12626,9 @@ class PartDocument {
   }
   getLoser() {
     return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.ofNullable(this.data.loser);
+  }
+  getPlayerZeroFloorElo() {
+    return Math.floor(this.data.playerZeroElo);
   }
 }
 
@@ -60864,9 +60884,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   UserService: () => (/* binding */ UserService)
 /* harmony export */ });
 /* harmony import */ var _home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 89204);
-/* harmony import */ var firebase_firestore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! firebase/firestore */ 63783);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @everyboard/lib */ 65042);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @everyboard/lib */ 65042);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var firebase_firestore__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! firebase/firestore */ 63783);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/core */ 37580);
 /* harmony import */ var _dao_UserDAO__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../dao/UserDAO */ 99124);
 
@@ -60928,17 +60948,17 @@ class UserService {
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       const user = yield _this4.userDAO.read(id);
       if (user.isAbsent()) {
-        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPOptional.empty();
+        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
       } else {
         const lastUpdateTime = user.get().lastUpdateTime;
-        _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.Utils.assert(lastUpdateTime != null, 'should not receive a lastUpdateTime equal to null');
-        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPOptional.of(lastUpdateTime);
+        _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.Utils.assert(lastUpdateTime != null, 'should not receive a lastUpdateTime equal to null');
+        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(lastUpdateTime);
       }
     })();
   }
   updatePresenceToken(userId) {
     return this.userDAO.update(userId, {
-      lastUpdateTime: (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.serverTimestamp)()
+      lastUpdateTime: (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_2__.serverTimestamp)()
     });
   }
   static ɵfac = function UserService_Factory(t) {
