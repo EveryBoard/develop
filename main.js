@@ -35231,7 +35231,7 @@ class MancalaComponent extends src_app_components_game_components_rectangular_ga
         let indexDistribution = 0;
         const move = _this2.node.previousMove.get();
         for (const distributions of move) {
-          yield _this2.showSimpleDistribution(distributions);
+          yield _this2.showSeedBySeedDistribution(distributions);
           if (indexDistribution + 1 < move.distributions.length) {
             // This prevent to wait 1sec at the end of the animation for nothing
             yield _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.TimeUtils.sleep(MancalaComponent.TIMEOUT_BETWEEN_LAPS);
@@ -35279,9 +35279,12 @@ class MancalaComponent extends src_app_components_game_components_rectangular_ga
   continueMoveConstruction(x) {
     var _this5 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      const distributionResult = yield _this5.showSimpleDistribution(_MancalaMove__WEBPACK_IMPORTED_MODULE_5__.MancalaDistribution.of(x));
-      const config = _this5.getConfig().get();
-      if (distributionResult.endsUpInStore && config.mustContinueDistributionAfterStore) {
+      const moveValidity = yield _this5.isDistributionLegal(x);
+      if (moveValidity.isFailure()) {
+        return _this5.cancelMove(moveValidity.getReason());
+      }
+      const distributionResult = yield _this5.showSeedBySeedDistribution(_MancalaMove__WEBPACK_IMPORTED_MODULE_5__.MancalaDistribution.of(x));
+      if (distributionResult.endsUpInStore && _this5.getConfig().get().mustContinueDistributionAfterStore) {
         const player = _this5.constructedState.getCurrentPlayer();
         if (_MancalaRules__WEBPACK_IMPORTED_MODULE_7__.MancalaRules.isStarving(player, distributionResult.resultingState.board)) {
           // Player has no more seed to distribute
@@ -35295,23 +35298,57 @@ class MancalaComponent extends src_app_components_game_components_rectangular_ga
       }
     })();
   }
-  showSimpleDistribution(distribution) {
+  isDistributionLegal(x) {
     var _this6 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      const state = _this6.constructedState;
+      const config = _this6.getConfig();
+      const distributionResult = yield _this6.getDistributionResult(_MancalaMove__WEBPACK_IMPORTED_MODULE_5__.MancalaDistribution.of(x));
+      if (distributionResult.endsUpInStore && config.get().mustContinueDistributionAfterStore) {
+        const player = _this6.constructedState.getCurrentPlayer();
+        if (_MancalaRules__WEBPACK_IMPORTED_MODULE_7__.MancalaRules.isStarving(player, distributionResult.resultingState.board)) {
+          // Player has no more seed to distribute
+          return _this6.rules.isLegal(_this6.currentMove.get(), _this6.getState(), config);
+        } else {
+          // Player can still distribute
+          return _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPValidation.SUCCESS;
+        }
+      } else {
+        return _this6.rules.isLegal(_this6.currentMove.get(), _this6.getState(), config);
+      }
+    })();
+  }
+  getDistributionResult(distribution) {
+    var _this7 = this;
+    return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+      return _this7.getSimpleDistributionResult(distribution, false);
+    })();
+  }
+  showSeedBySeedDistribution(distribution) {
+    var _this8 = this;
+    return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+      return _this8.getSimpleDistributionResult(distribution, true);
+    })();
+  }
+  getSimpleDistributionResult(distribution, showSeedBySeed) {
+    var _this9 = this;
+    return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+      const state = _this9.constructedState;
       const playerY = state.getCurrentPlayerY();
       const coord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(distribution.x, playerY);
-      _this6.lastDistributedHouses.push(coord);
-      const config = _this6.getConfig().get();
-      yield _this6.showSeedBySeed(coord, state, config);
+      _this9.lastDistributedHouses.push(coord);
+      const config = _this9.getConfig().get();
+      if (showSeedBySeed) {
+        yield _this9.showSeedBySeed(coord, state);
+      }
       const previousDistributionResult = _MancalaRules__WEBPACK_IMPORTED_MODULE_7__.MancalaRules.getEmptyDistributionResult(state);
-      const distributionResult = _this6.rules.distributeHouse(distribution.x, playerY, previousDistributionResult, config);
+      const distributionResult = _this9.rules.distributeHouse(distribution.x, playerY, previousDistributionResult, config);
       return distributionResult;
     })();
   }
-  showSeedBySeed(coord, state, config) {
-    var _this7 = this;
+  showSeedBySeed(coord, state) {
+    var _this10 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+      const config = _this10.getConfig().get();
       const initial = coord; // to remember in order not to sow in the starting space if we make a full turn
       let mustDoOneMoreLap = true;
       let seedDropResult = {
@@ -35324,10 +35361,10 @@ class MancalaComponent extends src_app_components_game_components_rectangular_ga
         seedDropResult.seedsInHand = seedDropResult.resultingState.getPieceAt(seedDropResult.houseToDistribute);
         seedDropResult.resultingState = seedDropResult.resultingState.setPieceAt(seedDropResult.houseToDistribute, 0);
         // Changing immediately the chosen house
-        _this7.changeVisibleState(seedDropResult.resultingState);
+        _this10.changeVisibleState(seedDropResult.resultingState);
         yield _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.TimeUtils.sleep(MancalaComponent.TIMEOUT_BETWEEN_SEEDS);
         while (seedDropResult.seedsInHand > 0) {
-          seedDropResult = yield _this7.showSeedDrop(seedDropResult, config, initial);
+          seedDropResult = yield _this10.showSeedDrop(seedDropResult, config, initial);
         }
         if (seedDropResult.currentDropIsStore || config.continueLapUntilCaptureOrEmptyHouse === false) {
           mustDoOneMoreLap = false;
@@ -35342,31 +35379,31 @@ class MancalaComponent extends src_app_components_game_components_rectangular_ga
     })();
   }
   showSeedDrop(seedDropResult, config, initial) {
-    var _this8 = this;
+    var _this11 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       const player = seedDropResult.resultingState.getCurrentPlayer();
-      const nextCoord = _this8.rules.getNextCoord(seedDropResult.houseToDistribute, seedDropResult.currentDropIsStore, seedDropResult.resultingState, config);
+      const nextCoord = _this11.rules.getNextCoord(seedDropResult.houseToDistribute, seedDropResult.currentDropIsStore, seedDropResult.resultingState, config);
       const currentDropIsStore = nextCoord.isAbsent();
       let seedsInHand = seedDropResult.seedsInHand;
       let resultingState = seedDropResult.resultingState;
       let houseToDistribute = seedDropResult.houseToDistribute;
       if (currentDropIsStore) {
         seedsInHand--;
-        _this8.filledCoords.push(_MancalaRules__WEBPACK_IMPORTED_MODULE_7__.MancalaRules.FAKE_STORE_COORD.get(player).get());
-        _this8.droppedInStore.add(player, 1);
+        _this11.filledCoords.push(_MancalaRules__WEBPACK_IMPORTED_MODULE_7__.MancalaRules.FAKE_STORE_COORD.get(player).get());
+        _this11.droppedInStore.add(player, 1);
         resultingState = resultingState.feedStore(player);
       } else {
         houseToDistribute = nextCoord.get();
         if (initial.equals(houseToDistribute) === false || config.feedOriginalHouse) {
           // not to distribute on our starting space
-          const feedResult = _this8.rules.getDropResult(seedsInHand, resultingState, houseToDistribute);
+          const feedResult = _this11.rules.getDropResult(seedsInHand, resultingState, houseToDistribute);
           resultingState = feedResult.resultingState;
-          _this8.captured = src_app_jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_4__.TableUtils.add(_this8.captured, feedResult.captureMap);
-          _this8.filledCoords.push(houseToDistribute);
+          _this11.captured = src_app_jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_4__.TableUtils.add(_this11.captured, feedResult.captureMap);
+          _this11.filledCoords.push(houseToDistribute);
           seedsInHand--; // drop in this space a piece we have in hand
         }
       }
-      _this8.changeVisibleState(resultingState);
+      _this11.changeVisibleState(resultingState);
       if (seedsInHand > 0) {
         yield _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.TimeUtils.sleep(MancalaComponent.TIMEOUT_BETWEEN_SEEDS);
       }
@@ -35473,13 +35510,13 @@ class MancalaComponent extends src_app_components_game_components_rectangular_ga
     }
   }
   onStoreClick(owner) {
-    var _this9 = this;
+    var _this12 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      const clickValidity = yield _this9.canUserPlay('#store-' + owner.toString());
+      const clickValidity = yield _this12.canUserPlay('#store-' + owner.toString());
       if (clickValidity.isFailure()) {
-        return _this9.cancelMove(clickValidity.getReason());
+        return _this12.cancelMove(clickValidity.getReason());
       }
-      return _this9.cancelMove(_MancalaFailure__WEBPACK_IMPORTED_MODULE_8__.MancalaFailure.MUST_DISTRIBUTE_YOUR_OWN_HOUSES());
+      return _this12.cancelMove(_MancalaFailure__WEBPACK_IMPORTED_MODULE_8__.MancalaFailure.MUST_DISTRIBUTE_YOUR_OWN_HOUSES());
     })();
   }
   changeVisibleState(state) {
@@ -36164,7 +36201,7 @@ class MancalaTutorial {
   static sowing(state) {
     const initialHouseContent = state.getPieceAtXY(5, 1);
     _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.Utils.assert(initialHouseContent === 4, '(5, 1) should contain 4 seed');
-    return src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_0__.TutorialStep.fromMove($localize`Sowing`, $localize`The main move in Mancala games is sowing, let's see how seeds are sown. As you are playing Dark, the 6 houses on the bottom are yours.<br/><br/>Click on the rightmost bottom house to sow the seeds it contains: they will be sown clockwise, one seed per house.<br/><br/>Click on the rightmost house!`, state, [_MancalaMove__WEBPACK_IMPORTED_MODULE_1__.MancalaMove.of(_MancalaMove__WEBPACK_IMPORTED_MODULE_1__.MancalaDistribution.of(5))], $localize`Look at the 4 houses that follow clockwise the one you picked, they now contain one more seed. This is how seeds are sown: one by one from the house next to the one they come from, clockwise.`, $localize`Failed. Choose the rightmost house on the bottom.`);
+    return src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_0__.TutorialStep.fromMove($localize`Sowing`, $localize`The main move in Mancala games is sowing, let's see how seeds are sown. As you are playing Dark, the 6 houses on the bottom are yours.<br/><br/>When you sow a house, the seeds it contains are sown clockwise, one seed per house.<br/><br/>Click on the rightmost house!`, state, [_MancalaMove__WEBPACK_IMPORTED_MODULE_1__.MancalaMove.of(_MancalaMove__WEBPACK_IMPORTED_MODULE_1__.MancalaDistribution.of(5))], $localize`Look at the 4 houses that follow clockwise the one you picked, they now contain one more seed. This is how seeds are sown: one by one from the house next to the one they come from, clockwise.`, $localize`Failed. Choose the rightmost house on the bottom.`);
   }
   static YOU_DID_NOT_CAPTURE_ANY_SEEDS = () => $localize`Failed. You did not capture anything. Try again.`;
 }
