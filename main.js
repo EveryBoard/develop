@@ -512,15 +512,9 @@ class BaseComponent {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   GameComponentUtils: () => (/* binding */ GameComponentUtils),
 /* harmony export */   ViewBox: () => (/* binding */ ViewBox)
 /* harmony export */ });
 /* harmony import */ var src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! src/app/jscaip/Coord */ 16904);
-/* harmony import */ var src_app_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/jscaip/Orthogonal */ 99342);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @everyboard/lib */ 65042);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_2__);
-
-
 
 class ViewBox {
   left;
@@ -601,40 +595,6 @@ class ViewBox {
   }
   toSVGString() {
     return `${this.left} ${this.up} ${this.width} ${this.height}`;
-  }
-}
-class GameComponentUtils {
-  static getArrowTransform(boardWidth, boardHeight, orthogonal) {
-    // The triangle will be wrapped inside a square
-    // The board will be considered in this example as a 3x3 on which we place the triangle in (tx, ty)
-    let tx;
-    let ty;
-    switch (orthogonal) {
-      case src_app_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_1__.Orthogonal.UP:
-        tx = 1;
-        ty = 0;
-        break;
-      case src_app_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_1__.Orthogonal.DOWN:
-        tx = 1;
-        ty = 2;
-        break;
-      case src_app_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_1__.Orthogonal.LEFT:
-        tx = 0;
-        ty = 1;
-        break;
-      default:
-        _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.Utils.expectToBe(orthogonal, src_app_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_1__.Orthogonal.RIGHT);
-        tx = 2;
-        ty = 1;
-        break;
-    }
-    const scale = `scale( ${boardWidth / 300} ${boardHeight / 300} )`;
-    const realX = tx * 100;
-    const realY = ty * 100;
-    const translation = `translate(${realX} ${realY})`;
-    const angle = orthogonal.getAngle();
-    const rotation = 'rotate(' + angle + ' 50 50)';
-    return [scale, translation, rotation].join(' ');
   }
 }
 
@@ -801,8 +761,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var src_app_utils_Debug__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/utils/Debug */ 36355);
 /* harmony import */ var _normal_component_pick_game_pick_game_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../normal-component/pick-game/pick-game.component */ 59903);
 /* harmony import */ var _BaseComponent__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../BaseComponent */ 65523);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/core */ 37580);
-/* harmony import */ var src_app_services_MessageDisplayer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/app/services/MessageDisplayer */ 78055);
+/* harmony import */ var src_app_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/app/jscaip/Orthogonal */ 99342);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/core */ 37580);
+/* harmony import */ var src_app_services_MessageDisplayer__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! src/app/services/MessageDisplayer */ 78055);
 
 var __decorate = undefined && undefined.__decorate || function (decorators, target, key, desc) {
   var c = arguments.length,
@@ -811,6 +772,7 @@ var __decorate = undefined && undefined.__decorate || function (decorators, targ
   if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
   return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -976,13 +938,45 @@ let GameComponent = class GameComponent extends BaseGameComponent {
     const svgY = y * this.SPACE_SIZE;
     return this.getSVGTranslation(svgX, svgY);
   }
+  getArrowTransform(boardWidth, boardHeight, orthogonal) {
+    // The triangle that forms the arrow head will be wrapped inside a square
+    // The board will be considered here as a 3x3 on which we place the triangle in (tx, ty)
+    let tx;
+    let ty;
+    switch (orthogonal) {
+      case src_app_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_6__.Orthogonal.UP:
+        tx = 1;
+        ty = 0;
+        break;
+      case src_app_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_6__.Orthogonal.DOWN:
+        tx = 1;
+        ty = 2;
+        break;
+      case src_app_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_6__.Orthogonal.LEFT:
+        tx = 0;
+        ty = 1;
+        break;
+      default:
+        _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.Utils.expectToBe(orthogonal, src_app_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_6__.Orthogonal.RIGHT);
+        tx = 2;
+        ty = 1;
+        break;
+    }
+    const scale = `scale( ${boardWidth / 300} ${boardHeight / 300} )`;
+    const realX = tx * 100;
+    const realY = ty * 100;
+    const translation = this.getSVGTranslation(realX, realY);
+    const angle = orthogonal.getAngle();
+    const rotation = 'rotate(' + angle + ' 50 50)';
+    return [scale, translation, rotation].join(' ');
+  }
   static ɵfac = function GameComponent_Factory(t) {
-    return new (t || GameComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵdirectiveInject"](src_app_services_MessageDisplayer__WEBPACK_IMPORTED_MODULE_6__.MessageDisplayer), _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_7__.ChangeDetectorRef));
+    return new (t || GameComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵdirectiveInject"](src_app_services_MessageDisplayer__WEBPACK_IMPORTED_MODULE_7__.MessageDisplayer), _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_8__.ChangeDetectorRef));
   };
-  static ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵdefineComponent"]({
+  static ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵdefineComponent"]({
     type: GameComponent,
     selectors: [["ng-component"]],
-    features: [_angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵInheritDefinitionFeature"]],
+    features: [_angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵInheritDefinitionFeature"]],
     decls: 0,
     vars: 0,
     template: function GameComponent_Template(rf, ctx) {},
@@ -1030,7 +1024,7 @@ class HexagonalGameComponent extends _GameComponent__WEBPACK_IMPORTED_MODULE_1__
   }
   getHexaCenterTranslationAtXY(x, y) {
     const centerAtXY = this.getCenterAtXY(x, y);
-    return `translate(${centerAtXY.x}, ${centerAtXY.y})`;
+    return this.getSVGTranslationAt(centerAtXY);
   }
   static ɵfac = /*@__PURE__*/(() => {
     let ɵHexagonalGameComponent_BaseFactory;
@@ -14324,7 +14318,7 @@ function ApagosComponent__svg_g_5__svg_polygon_1_Template(rf, ctx) {
     const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵnextContext"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵpropertyInterpolate1"]("id", "dropArrow_zero_", x_r6, "");
     _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵproperty"]("ngClass", ctx_r1.getArrowClasses(ctx_r1.PlayerOrNone.ZERO));
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵattribute"]("points", ctx_r1.ARROW_COORD)("transform", "translate(" + ctx_r1.SPACE_SIZE / 2 + " " + -ctx_r1.SPACE_SIZE / 2 + ")");
+    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵattribute"]("points", ctx_r1.ARROW_COORD)("transform", ctx_r1.getSVGTranslation(ctx_r1.SPACE_SIZE / 2, -ctx_r1.SPACE_SIZE / 2));
   }
 }
 function ApagosComponent__svg_g_5__svg_polygon_2_Template(rf, ctx) {
@@ -14345,7 +14339,7 @@ function ApagosComponent__svg_g_5__svg_polygon_2_Template(rf, ctx) {
     const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵnextContext"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵpropertyInterpolate1"]("id", "dropArrow_one_", x_r6, "");
     _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵproperty"]("ngClass", ctx_r1.getArrowClasses(ctx_r1.PlayerOrNone.ONE));
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵattribute"]("points", ctx_r1.ARROW_COORD)("transform", "translate(0 " + -ctx_r1.SPACE_SIZE / 2 + ")");
+    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵattribute"]("points", ctx_r1.ARROW_COORD)("transform", ctx_r1.getSVGTranslation(0, -ctx_r1.SPACE_SIZE / 2));
   }
 }
 function ApagosComponent__svg_g_5__svg_ng_container_4_Template(rf, ctx) {
@@ -14546,14 +14540,14 @@ class ApagosComponent extends src_app_components_game_components_game_component_
     const x = this.SPACE_SIZE / 2;
     const y = this.SPACE_SIZE / 2;
     if (square.count(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.PlayerOrNone.NONE) === 1) {
-      return `translate(${x}, ${y})`;
+      return this.getSVGTranslation(x, y);
     }
     const nbCircle = square.count(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.PlayerOrNone.NONE);
     const angle = i * 2 * Math.PI / nbCircle - Math.PI / 2;
     const radius = this.SPACE_SIZE * 0.30;
     const deltaX = radius * Math.cos(angle);
     const deltaY = radius * Math.sin(angle);
-    return `translate(${x + deltaX}, ${y + deltaY})`;
+    return this.getSVGTranslation(x + deltaX, y + deltaY);
   }
   canDisplayArrow(x, player) {
     return this.displayableArrow.some(a => a.x === x && a.player.equals(player));
@@ -14565,7 +14559,7 @@ class ApagosComponent extends src_app_components_game_components_game_component_
   getBlockTransform(x) {
     const yOffset = (this.board.length - 1 - x) * this.SPACE_SIZE + 0.5 * this.SPACE_SIZE;
     const xOffset = x * this.SPACE_SIZE;
-    return 'translate(' + xOffset + ', ' + yOffset + ')';
+    return this.getSVGTranslation(xOffset, yOffset);
   }
   getSquareClasses(x) {
     const classes = ['base'];
@@ -16226,7 +16220,7 @@ class CoerceoComponent extends src_app_components_game_components_game_component
       yHexagonalPadding = 2 * Math.abs(Math.floor((y - 1) / 2)) * this.STROKE_WIDTH;
       yHexagonalPadding += this.STROKE_WIDTH;
     }
-    return 'translate(' + (triangleTranslation.x + xHexagonalPadding) + ', ' + (triangleTranslation.y + yHexagonalPadding) + ')';
+    return this.getSVGTranslation(triangleTranslation.x + xHexagonalPadding, triangleTranslation.y + yHexagonalPadding);
   }
   getTilesCountTranslation(player) {
     let x;
@@ -16238,7 +16232,7 @@ class CoerceoComponent extends src_app_components_game_components_game_component
       x = this.getWidth() - this.SPACE_SIZE;
       y = this.getHeight() - this.SPACE_SIZE;
     }
-    return 'translate(' + x + ', ' + y + ')';
+    return this.getSVGTranslation(x, y);
   }
   getViewBox() {
     const left = 0;
@@ -26908,7 +26902,7 @@ let TrigoComponent = class TrigoComponent extends src_app_components_game_compon
     } else {
       y = 15;
     }
-    return 'translate(20 ' + y + ') scale(0.6)';
+    return this.getSVGTranslation(20, y) + ' scale(0.6)';
   }
   isUpward(coord) {
     return src_app_jscaip_state_TriangularCheckerBoard__WEBPACK_IMPORTED_MODULE_11__.TriangularCheckerBoard.isSpaceDark(coord);
@@ -28817,7 +28811,7 @@ class HivePieceComponent extends src_app_components_game_components_game_compone
     this.isoPointsLight = isoPointsSVG[0];
     this.isoPointsDark = isoPointsSVG[1];
     this.isoPointsStroke = isoPointsSVG[2];
-    this.layerTransform = `translate(0 -${(this.layer + 1) * this.pieceHeight})`;
+    this.layerTransform = this.getSVGTranslation(0, -(this.layer + 1) * this.pieceHeight);
   }
   static ɵfac = /*@__PURE__*/(() => {
     let ɵHivePieceComponent_BaseFactory;
@@ -28866,7 +28860,7 @@ class HivePieceComponent extends src_app_components_game_components_game_compone
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("ngClass", ctx.pieceClass);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵattribute"]("points", ctx.hexaPoints);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵattribute"]("transform", "translate(" + ctx.hexaCenter.x + " " + ctx.hexaCenter.y + ")");
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵattribute"]("transform", ctx.getSVGTranslationAt(ctx.hexaCenter));
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("ngIf", ctx.piece.kind === "QueenBee");
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"]();
@@ -29072,7 +29066,7 @@ function HiveComponent__svg_g_4__svg_g_2__svg_polygon_1_Template(rf, ctx) {
     const ctx_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵnextContext"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵpropertyInterpolate3"]("id", "piece-stroke-", pieceInfo_r12.x, "-", pieceInfo_r12.y, "-", z_r10, "");
     _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵproperty"]("ngClass", pieceInfo_r12.content.strokeClasses);
-    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵattribute"]("points", ctx_r2.getHexaPoints())("transform", "translate(0 " + -(z_r10 + 1) * ctx_r2.PIECE_HEIGHT + ")");
+    _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵattribute"]("points", ctx_r2.getHexaPoints())("transform", ctx_r2.getSVGTranslation(0, -(z_r10 + 1) * ctx_r2.PIECE_HEIGHT));
   }
 }
 function HiveComponent__svg_g_4__svg_g_2_Template(rf, ctx) {
@@ -29323,7 +29317,7 @@ class HiveComponent extends src_app_components_game_components_game_component_He
       const stackSize = this.inspectedStack.get().size();
       // y to get it centered vertically
       const y = inspectedStackPosition.y + (stackSize - 1) * 3 * this.PIECE_HEIGHT;
-      this.inspectedStackTransform = `translate(${inspectedStackPosition.x} ${y})`;
+      this.inspectedStackTransform = this.getSVGTranslation(inspectedStackPosition.x, y);
       const spaceForInspectedStack = this.SPACE_SIZE * 5;
       this.viewBox = boardAndRemainingViewBox.expand(0, spaceForInspectedStack, 0, 0).toSVGString();
     } else {
@@ -29403,12 +29397,12 @@ class HiveComponent extends src_app_components_game_components_game_component_He
   }
   getRemainingPieceTransform(piece) {
     const transform = this.getRemainingPieceTransformAsCoord(piece);
-    return `translate(${transform.x} ${transform.y})`;
+    return this.getSVGTranslationAt(transform);
   }
   getRemainingPieceHighlightTransform(piece) {
     const transform = this.getRemainingPieceTransformAsCoord(piece);
     const size = this.getState().remainingPieces.getQuantity(piece);
-    return `translate(${transform.x} ${transform.y - this.PIECE_HEIGHT * size})`;
+    return this.getSVGTranslation(transform.x, transform.y - this.PIECE_HEIGHT * size);
   }
   getRemainingPieceShift(piece) {
     switch (piece.kind) {
@@ -31740,8 +31734,7 @@ class LascaComponent extends src_app_components_game_components_parallelogram_ga
   getTranslationAtXYZ(x, y, z) {
     const adaptedCoord = this.adaptXY(x, y);
     const coordTransform = this.getCoordTranslation(adaptedCoord.x, adaptedCoord.y, z, this.mode);
-    const translation = 'translate(' + coordTransform.x + ' ' + coordTransform.y + ')';
-    return translation;
+    return this.getSVGTranslationAt(coordTransform);
   }
   adaptXY(x, y) {
     if (this.getPointOfView() === src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ONE) {
@@ -31804,7 +31797,7 @@ class LascaComponent extends src_app_components_game_components_parallelogram_ga
     const offsetY = cy - pieceCy;
     // Each piece on the Z axis will be higher, here is how much (see the define to confirm)
     const pieceHeight = this.SPACE_SIZE * 0.15;
-    return 'translate(' + 0 + ' ' + (offsetY - z * pieceHeight) + ')';
+    return this.getSVGTranslation(0, offsetY - z * pieceHeight);
   }
   static ɵfac = function LascaComponent_Factory(t) {
     return new (t || LascaComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵdirectiveInject"](src_app_services_MessageDisplayer__WEBPACK_IMPORTED_MODULE_13__.MessageDisplayer), _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_14__.ChangeDetectorRef));
@@ -34502,13 +34495,13 @@ class LodestoneComponent extends src_app_components_game_components_game_compone
     const halfSize = _LodestoneState__WEBPACK_IMPORTED_MODULE_10__.LodestoneState.SIZE / 2;
     const dx = (x + (halfSize - this.viewInfo.capturesToPlace.length / 2)) * this.SPACE_SIZE + this.SPACE_SIZE / 2;
     const dy = -(this.platesGroupSize + 0.5 * this.SPACE_SIZE + this.STROKE_WIDTH);
-    return `translate(${dx}, ${dy})`;
+    return this.getSVGTranslation(dx, dy);
   }
   getAvailableLodestoneTransform(x) {
     const halfSize = _LodestoneState__WEBPACK_IMPORTED_MODULE_10__.LodestoneState.SIZE / 2;
     const dx = (x + (halfSize - this.viewInfo.availableLodestones.length / 2)) * this.SPACE_SIZE;
     const dy = this.boardSize + this.platesGroupSize + this.STROKE_WIDTH;
-    return `translate(${dx}, ${dy})`;
+    return this.getSVGTranslation(dx, dy);
   }
   static ɵfac = function LodestoneComponent_Factory(t) {
     return new (t || LodestoneComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_17__["ɵɵdirectiveInject"](src_app_services_MessageDisplayer__WEBPACK_IMPORTED_MODULE_16__.MessageDisplayer), _angular_core__WEBPACK_IMPORTED_MODULE_17__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_17__.ChangeDetectorRef));
@@ -35461,7 +35454,9 @@ class MancalaComponent extends src_app_components_game_components_rectangular_ga
     return 60 + 120 * y;
   }
   getPieceTransform(x, y) {
-    return 'translate(' + this.getPieceCx(x) + ', ' + this.getPieceCy(y) + ')';
+    const cx = this.getPieceCx(x);
+    const cy = this.getPieceCy(y);
+    return this.getSVGTranslation(cx, cy);
   }
   getPieceRotation() {
     return 'rotate(' + this.getPointOfView().getValue() * 180 + ')';
@@ -38225,15 +38220,14 @@ class MartianChessComponent extends src_app_components_game_components_rectangul
     const padding = 0;
     const translationX = 5.25 * this.SPACE_SIZE + padding;
     const translationY = 7 * this.SPACE_SIZE + padding + 2 * this.STROKE_WIDTH;
-    const translation = 'translate(' + translationX + ', ' + translationY + ')';
-    return translation;
+    return this.getSVGTranslation(translationX, translationY);
   }
   getConfigCogTransformation() {
     const padding = this.STROKE_WIDTH;
     const wantedSize = this.SPACE_SIZE - padding;
     const scaler = wantedSize / 40;
     const scale = 'scale(' + scaler + ' ' + scaler + ')';
-    const translation = 'translate(' + 1.0 * padding + ', ' + 1.0 * padding + ')';
+    const translation = this.getSVGTranslation(padding, padding);
     return translation + ' ' + scale;
   }
   getClockNeedlesPoints() {
@@ -38441,7 +38435,7 @@ class MartianChessComponent extends src_app_components_game_components_rectangul
     return this.getSVGTranslation(cx, cy);
   }
   getBoardTransformation() {
-    const translation = 'translate(' + this.SPACE_SIZE + ', 0)';
+    const translation = this.getSVGTranslation(this.SPACE_SIZE, 0);
     const rotation = 'rotate(' + this.getPointOfView().getValue() * 180 + ' ' + this.HORIZONTAL_CENTER + ' ' + this.VERTICAL_CENTER + ')';
     return translation + ' ' + rotation;
   }
@@ -38452,7 +38446,7 @@ class MartianChessComponent extends src_app_components_game_components_rectangul
     if (player === this.getPointOfView()) {
       translationY += 10 * this.SPACE_SIZE + 4 * this.STROKE_WIDTH;
     }
-    const translation = 'translate(' + translationX + ', ' + translationY + ')';
+    const translation = this.getSVGTranslation(translationX, translationY);
     return scale + ' ' + translation;
   }
   static ɵfac = function MartianChessComponent_Factory(t) {
@@ -39733,7 +39727,7 @@ class PentagoComponent extends src_app_components_game_components_rectangular_ga
     let yTranslate = (this.SPACE_SIZE + this.PIECE_SEPARATION) * coord.y;
     xTranslate += this.STROKE_WIDTH;
     yTranslate += this.STROKE_WIDTH;
-    return 'translate(' + xTranslate + ', ' + yTranslate + ')';
+    return this.getSVGTranslation(xTranslate, yTranslate);
   }
   updateBoard(_triggerAnimation) {
     var _this = this;
@@ -39943,7 +39937,7 @@ class PentagoComponent extends src_app_components_game_components_rectangular_ga
   }
   getSkipRotationCircleTranslate() {
     const translate = this.BLOCK_WIDTH + this.PIECE_SEPARATION / 2 - this.STROKE_WIDTH;
-    return `translate(${translate} ${translate})`;
+    return this.getSVGTranslation(translate, translate);
   }
   static ɵfac = function PentagoComponent_Factory(t) {
     return new (t || PentagoComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵdirectiveInject"](src_app_services_MessageDisplayer__WEBPACK_IMPORTED_MODULE_11__.MessageDisplayer), _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_12__.ChangeDetectorRef));
@@ -43530,12 +43524,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var src_app_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! src/app/jscaip/RulesFailure */ 68566);
 /* harmony import */ var src_app_jscaip_AI_MCTS__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! src/app/jscaip/AI/MCTS */ 37123);
 /* harmony import */ var _QuixoMoveGenerator__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./QuixoMoveGenerator */ 12307);
-/* harmony import */ var src_app_components_game_components_GameComponentUtils__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! src/app/components/game-components/GameComponentUtils */ 88207);
-/* harmony import */ var _QuixoMinimax__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./QuixoMinimax */ 65662);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @angular/core */ 37580);
-/* harmony import */ var src_app_services_MessageDisplayer__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! src/app/services/MessageDisplayer */ 78055);
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @angular/common */ 60316);
-
+/* harmony import */ var _QuixoMinimax__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./QuixoMinimax */ 65662);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @angular/core */ 37580);
+/* harmony import */ var src_app_services_MessageDisplayer__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! src/app/services/MessageDisplayer */ 78055);
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @angular/common */ 60316);
 
 
 
@@ -43553,70 +43545,70 @@ __webpack_require__.r(__webpack_exports__);
 
 function QuixoComponent__svg_g_3__svg_g_1_Template(rf, ctx) {
   if (rf & 1) {
-    const _r1 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵgetCurrentView"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnamespaceSVG"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelementStart"](0, "g")(1, "circle", 4);
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵlistener"]("click", function QuixoComponent__svg_g_3__svg_g_1_Template_circle_click_1_listener() {
-      const x_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵrestoreView"](_r1).index;
-      const y_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]().index;
-      const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]();
-      return _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵresetView"](ctx_r3.onBoardClick(x_r2, y_r3));
+    const _r1 = _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵgetCurrentView"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵnamespaceSVG"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵelementStart"](0, "g")(1, "circle", 4);
+    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵlistener"]("click", function QuixoComponent__svg_g_3__svg_g_1_Template_circle_click_1_listener() {
+      const x_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵrestoreView"](_r1).index;
+      const y_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵnextContext"]().index;
+      const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵnextContext"]();
+      return _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵresetView"](ctx_r3.onBoardClick(x_r2, y_r3));
     });
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelementEnd"]()();
+    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵelementEnd"]()();
   }
   if (rf & 2) {
     const x_r2 = ctx.index;
-    const y_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]().index;
-    const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵpropertyInterpolate2"]("id", "click_", x_r2, "_", y_r3, "");
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("ngClass", ctx_r3.getPieceClasses(x_r2, y_r3));
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵattribute"]("r", 0.45 * ctx_r3.SPACE_SIZE)("cx", (x_r2 + 0.5) * ctx_r3.SPACE_SIZE)("cy", (y_r3 + 0.5) * ctx_r3.SPACE_SIZE);
+    const y_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵnextContext"]().index;
+    const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵnextContext"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵpropertyInterpolate2"]("id", "click_", x_r2, "_", y_r3, "");
+    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵproperty"]("ngClass", ctx_r3.getPieceClasses(x_r2, y_r3));
+    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵattribute"]("r", 0.45 * ctx_r3.SPACE_SIZE)("cx", (x_r2 + 0.5) * ctx_r3.SPACE_SIZE)("cy", (y_r3 + 0.5) * ctx_r3.SPACE_SIZE);
   }
 }
 function QuixoComponent__svg_g_3_Template(rf, ctx) {
   if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnamespaceSVG"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelementStart"](0, "g");
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵtemplate"](1, QuixoComponent__svg_g_3__svg_g_1_Template, 2, 7, "g", 2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵnamespaceSVG"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵelementStart"](0, "g");
+    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵtemplate"](1, QuixoComponent__svg_g_3__svg_g_1_Template, 2, 7, "g", 2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵelementEnd"]();
   }
   if (rf & 2) {
     const line_r5 = ctx.$implicit;
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("ngForOf", line_r5);
+    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵproperty"]("ngForOf", line_r5);
   }
 }
 function QuixoComponent__svg_g_4__svg_use_1_Template(rf, ctx) {
   if (rf & 1) {
-    const _r6 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵgetCurrentView"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnamespaceSVG"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelementStart"](0, "use", 6);
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵlistener"]("click", function QuixoComponent__svg_g_4__svg_use_1_Template_use_click_0_listener() {
-      const direction_r7 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵrestoreView"](_r6).$implicit;
-      const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"](2);
-      return _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵresetView"](ctx_r3.chooseDirection(direction_r7));
+    const _r6 = _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵgetCurrentView"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵnamespaceSVG"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵelementStart"](0, "use", 6);
+    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵlistener"]("click", function QuixoComponent__svg_g_4__svg_use_1_Template_use_click_0_listener() {
+      const direction_r7 = _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵrestoreView"](_r6).$implicit;
+      const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵnextContext"](2);
+      return _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵresetView"](ctx_r3.chooseDirection(direction_r7));
     });
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵelementEnd"]();
   }
   if (rf & 2) {
     const direction_r7 = ctx.$implicit;
-    const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵpropertyInterpolate1"]("id", "chooseDirection_", direction_r7, "");
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵattribute"]("transform", ctx_r3.getArrowTransform(direction_r7));
+    const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵnextContext"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵpropertyInterpolate1"]("id", "chooseDirection_", direction_r7, "");
+    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵattribute"]("transform", ctx_r3.getQuixoArrowTransform(direction_r7));
   }
 }
 function QuixoComponent__svg_g_4_Template(rf, ctx) {
   if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnamespaceSVG"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelementStart"](0, "g");
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵtemplate"](1, QuixoComponent__svg_g_4__svg_use_1_Template, 1, 3, "use", 5);
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵnamespaceSVG"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵelementStart"](0, "g");
+    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵtemplate"](1, QuixoComponent__svg_g_4__svg_use_1_Template, 1, 3, "use", 5);
+    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵelementEnd"]();
   }
   if (rf & 2) {
-    const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("ngForOf", ctx_r3.getPossiblesDirections());
+    const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵnextContext"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵproperty"]("ngForOf", ctx_r3.getPossiblesDirections());
   }
 }
 class QuixoComponent extends _components_game_components_rectangular_game_component_RectangularGameComponent__WEBPACK_IMPORTED_MODULE_1__.RectangularGameComponent {
@@ -43628,7 +43620,7 @@ class QuixoComponent extends _components_game_components_rectangular_game_compon
   constructor(messageDisplayer, cdr) {
     super(messageDisplayer, cdr);
     this.setRulesAndNode('Quixo');
-    this.availableAIs = [new _QuixoMinimax__WEBPACK_IMPORTED_MODULE_12__.QuixoMinimax(), new src_app_jscaip_AI_MCTS__WEBPACK_IMPORTED_MODULE_9__.MCTS($localize`MCTS`, new _QuixoMoveGenerator__WEBPACK_IMPORTED_MODULE_10__.QuixoMoveGenerator(), this.rules)];
+    this.availableAIs = [new _QuixoMinimax__WEBPACK_IMPORTED_MODULE_11__.QuixoMinimax(), new src_app_jscaip_AI_MCTS__WEBPACK_IMPORTED_MODULE_9__.MCTS($localize`MCTS`, new _QuixoMoveGenerator__WEBPACK_IMPORTED_MODULE_10__.QuixoMoveGenerator(), this.rules)];
     this.encoder = src_app_games_quixo_QuixoMove__WEBPACK_IMPORTED_MODULE_4__.QuixoMove.encoder;
   }
   showLastMove(move) {
@@ -43714,40 +43706,40 @@ class QuixoComponent extends _components_game_components_rectangular_game_compon
       return _this5.chooseMove(move);
     })();
   }
-  getArrowTransform(orientation) {
+  getQuixoArrowTransform(orientation) {
     const state = this.getState();
     const boardWidth = state.getWidth() * this.SPACE_SIZE;
     const boardHeight = state.getHeight() * this.SPACE_SIZE;
-    return src_app_components_game_components_GameComponentUtils__WEBPACK_IMPORTED_MODULE_11__.GameComponentUtils.getArrowTransform(boardWidth, boardHeight, orientation);
+    return this.getArrowTransform(boardWidth, boardHeight, orientation);
   }
   static ɵfac = function QuixoComponent_Factory(t) {
-    return new (t || QuixoComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵdirectiveInject"](src_app_services_MessageDisplayer__WEBPACK_IMPORTED_MODULE_13__.MessageDisplayer), _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_14__.ChangeDetectorRef));
+    return new (t || QuixoComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵdirectiveInject"](src_app_services_MessageDisplayer__WEBPACK_IMPORTED_MODULE_12__.MessageDisplayer), _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_13__.ChangeDetectorRef));
   };
-  static ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵdefineComponent"]({
+  static ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵdefineComponent"]({
     type: QuixoComponent,
     selectors: [["app-quixo"]],
-    features: [_angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵInheritDefinitionFeature"]],
+    features: [_angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵInheritDefinitionFeature"]],
     decls: 5,
     vars: 3,
     consts: [["xmlns", "http://www.w3.org/2000/svg", "width", "100%", "height", "100%", "preserveAspectRatio", "xMidYMid meet"], ["id", "triangle", "points", "0 0, 100 50, 0 100"], [4, "ngFor", "ngForOf"], [4, "ngIf"], [1, "base", 3, "click", "id", "ngClass"], [0, "xlink", "href", "#triangle", "class", "semi-transparent", 3, "id", "click", 4, "ngFor", "ngForOf"], [0, "xlink", "href", "#triangle", 1, "semi-transparent", 3, "click", "id"]],
     template: function QuixoComponent_Template(rf, ctx) {
       if (rf & 1) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnamespaceSVG"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelementStart"](0, "svg", 0)(1, "defs");
-        _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelement"](2, "polygon", 1);
-        _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵtemplate"](3, QuixoComponent__svg_g_3_Template, 2, 1, "g", 2)(4, QuixoComponent__svg_g_4_Template, 2, 1, "g", 3);
-        _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵnamespaceSVG"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵelementStart"](0, "svg", 0)(1, "defs");
+        _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵelement"](2, "polygon", 1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵtemplate"](3, QuixoComponent__svg_g_3_Template, 2, 1, "g", 2)(4, QuixoComponent__svg_g_4_Template, 2, 1, "g", 3);
+        _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵelementEnd"]();
       }
       if (rf & 2) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵattribute"]("viewBox", ctx.getViewBox().toSVGString());
-        _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵadvance"](3);
-        _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("ngForOf", ctx.board);
-        _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵadvance"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("ngIf", ctx.chosenCoord.isPresent());
+        _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵattribute"]("viewBox", ctx.getViewBox().toSVGString());
+        _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵadvance"](3);
+        _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵproperty"]("ngForOf", ctx.board);
+        _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵadvance"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵproperty"]("ngIf", ctx.chosenCoord.isPresent());
       }
     },
-    dependencies: [_angular_common__WEBPACK_IMPORTED_MODULE_15__.NgClass, _angular_common__WEBPACK_IMPORTED_MODULE_15__.NgForOf, _angular_common__WEBPACK_IMPORTED_MODULE_15__.NgIf],
+    dependencies: [_angular_common__WEBPACK_IMPORTED_MODULE_14__.NgClass, _angular_common__WEBPACK_IMPORTED_MODULE_14__.NgForOf, _angular_common__WEBPACK_IMPORTED_MODULE_14__.NgIf],
     styles: [".base[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n\n.manual-stroke[_ngcontent-%COMP%] {\n  stroke-width: 0;\n}\n\n.base.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n}\n\n.base-no-stroke[_ngcontent-%COMP%] {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n\n.base-no-fill[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n\n.arrow[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n\n.text[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n}\n\n.white-background[_ngcontent-%COMP%] {\n  fill: white;\n}\n\n.background[_ngcontent-%COMP%] {\n  fill: var(--spaces-fill);\n}\n\n.transparent[_ngcontent-%COMP%] {\n  opacity: 0;\n}\n\n.background2[_ngcontent-%COMP%] {\n  fill: var(--alt-background-fill);\n}\n\n.background3[_ngcontent-%COMP%] {\n  fill: var(--alt-alt-background-fill);\n}\n\n.player0-fill[_ngcontent-%COMP%] {\n  fill: var(--player0);\n}\n\n.player0-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--player0-alternate);\n}\n\n.player0-stroke[_ngcontent-%COMP%] {\n  stroke: var(--player0);\n}\n\n.player1-fill[_ngcontent-%COMP%] {\n  fill: var(--player1);\n}\n\n.player1-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--player1-alternate);\n}\n\n.player1-stroke[_ngcontent-%COMP%] {\n  stroke: var(--player1);\n}\n\n.nonplayer-fill[_ngcontent-%COMP%] {\n  fill: var(--nonplayer);\n}\n\n.nonplayer-light-fill[_ngcontent-%COMP%] {\n  fill: var(--nonplayer-light);\n}\n\n.nonplayer-stroke[_ngcontent-%COMP%] {\n  stroke: var(--nonplayer);\n}\n\n.dashed-stroke[_ngcontent-%COMP%] {\n  stroke-dasharray: 2;\n}\n\n.pre-captured-fill[_ngcontent-%COMP%] {\n  fill: var(--pre-captured);\n}\n\n.captured-fill[_ngcontent-%COMP%] {\n  fill: var(--captured);\n}\n\n.captured-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--alt-captured);\n}\n\n.captured-stroke[_ngcontent-%COMP%] {\n  stroke: var(--captured);\n}\n\n.moved-fill[_ngcontent-%COMP%] {\n  fill: var(--moved);\n}\n\n.moved-stroke[_ngcontent-%COMP%] {\n  stroke: var(--moved);\n}\n\n.indicator[_ngcontent-%COMP%] {\n  fill: var(--indicator);\n  stroke: none;\n}\n\n.indicator-fill[_ngcontent-%COMP%] {\n  fill: var(--indicator);\n}\n\n.selectable-fill[_ngcontent-%COMP%] {\n  fill: var(--selectable);\n}\n\n.selectable-stroke[_ngcontent-%COMP%] {\n  stroke: var(--selectable);\n}\n\n.selectable[_ngcontent-%COMP%]    > .base-no-stroke[_ngcontent-%COMP%] {\n  fill: var(--selectable);\n}\n\n.last-move-stroke[_ngcontent-%COMP%] {\n  stroke: var(--last-move);\n}\n\n.last-move-stroke.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--last-move);\n}\n\n.last-move-fill[_ngcontent-%COMP%] {\n  fill: var(--last-move);\n}\n\n.victory-fill[_ngcontent-%COMP%] {\n  fill: var(--victory);\n}\n\n.victory-stroke[_ngcontent-%COMP%] {\n  stroke: var(--victory);\n}\n\n.victory-stroke.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--victory);\n}\n\n.defeat-fill[_ngcontent-%COMP%] {\n  fill: var(--defeat);\n}\n\n.defeat-stroke[_ngcontent-%COMP%] {\n  stroke: var(--defeat);\n}\n\n.selected-fill[_ngcontent-%COMP%] {\n  fill: var(--selected);\n}\n\n.selected-stroke[_ngcontent-%COMP%] {\n  stroke: var(--selected);\n}\n\n.clickable-stroke[_ngcontent-%COMP%] {\n  stroke: var(--clickable);\n}\n\n.clickable-stroke-hover[_ngcontent-%COMP%]:hover {\n  stroke: var(--clickable);\n}\n\n.capturable-stroke[_ngcontent-%COMP%] {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n\n.capturable-fill[_ngcontent-%COMP%] {\n  fill: var(--capturable);\n}\n\n.capturable-stroke[_ngcontent-%COMP%]:hover {\n  stroke-width: 8;\n}\n\n.no-fill[_ngcontent-%COMP%] {\n  fill: none;\n}\n\n.no-stroke[_ngcontent-%COMP%] {\n  stroke: none;\n}\n\n.small-stroke[_ngcontent-%COMP%] {\n  stroke-width: 2;\n}\n\n.mid-small-stroke[_ngcontent-%COMP%] {\n  stroke-width: 3;\n}\n\n.mid-stroke[_ngcontent-%COMP%] {\n  stroke-width: 5;\n}\n\n.big-stroke[_ngcontent-%COMP%] {\n  stroke-width: 8;\n}\n\n.huge-stroke[_ngcontent-%COMP%] {\n  stroke-width: 12;\n}\n\n.semi-transparent[_ngcontent-%COMP%] {\n  fill-opacity: 0.5;\n  stroke-opacity: 0.5;\n}\n\n.round[_ngcontent-%COMP%] {\n  stroke-linecap: round;\n}\n\n.text-giant[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n\n.text-big[_ngcontent-%COMP%] {\n  font: 50px sans-serif;\n}\n\n.text-medium[_ngcontent-%COMP%] {\n  font: 35px sans-serif;\n}\n\n.text-20[_ngcontent-%COMP%] {\n  font: 20px sans-serif;\n}\n\n.text-bold[_ngcontent-%COMP%] {\n  font-weight: bold;\n}\n\n.text-center[_ngcontent-%COMP%] {\n  text-anchor: middle;\n}\n\n.black-fill[_ngcontent-%COMP%] {\n  fill: black;\n}\n\n.darker[_ngcontent-%COMP%] {\n  filter: brightness(80%);\n}\n\n.lighter[_ngcontent-%COMP%] {\n  filter: brightness(110%);\n}\n\nsvg[_ngcontent-%COMP%] {\n  max-height: calc(100vh - 15rem); \n\n}\n\n.click-delegator[_ngcontent-%COMP%] {\n  pointer-events: none;\n}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly8uL3NyYy9hcHAvY29tcG9uZW50cy9nYW1lLWNvbXBvbmVudHMvZ2FtZS1jb21wb25lbnQvZ2FtZS1jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNJLDBCQUFBO0VBQ0EsZUFBQTtFQUNBLHdCQUFBO0VBQ0Esb0JBQUE7RUFDQSxzQkFBQTtBQUNKOztBQUNBO0VBQ0ksZUFBQTtBQUVKOztBQUFBO0VBQ0ksd0JBQUE7QUFHSjs7QUFEQTtFQUNJLFlBQUE7RUFDQSxlQUFBO0VBQ0Esd0JBQUE7QUFJSjs7QUFGQTtFQUNJLDBCQUFBO0VBQ0EsZUFBQTtBQUtKOztBQUhBO0VBQ0ksMEJBQUE7RUFDQSxlQUFBO0FBTUo7O0FBSkE7RUFDSSx3QkFBQTtBQU9KOztBQUxBO0VBQ0ksV0FBQTtBQVFKOztBQU5BO0VBQ0ksd0JBQUE7QUFTSjs7QUFQQTtFQUNJLFVBQUE7QUFVSjs7QUFSQTtFQUNJLGdDQUFBO0FBV0o7O0FBVEE7RUFDSSxvQ0FBQTtBQVlKOztBQVZBO0VBQ0ksb0JBQUE7QUFhSjs7QUFYQTtFQUNJLDhCQUFBO0FBY0o7O0FBWkE7RUFDSSxzQkFBQTtBQWVKOztBQWJBO0VBQ0ksb0JBQUE7QUFnQko7O0FBZEE7RUFDSSw4QkFBQTtBQWlCSjs7QUFmQTtFQUNJLHNCQUFBO0FBa0JKOztBQWhCQTtFQUNJLHNCQUFBO0FBbUJKOztBQWpCQTtFQUNJLDRCQUFBO0FBb0JKOztBQWxCQTtFQUNJLHdCQUFBO0FBcUJKOztBQW5CQTtFQUNJLG1CQUFBO0FBc0JKOztBQXBCQTtFQUNJLHlCQUFBO0FBdUJKOztBQXJCQTtFQUNJLHFCQUFBO0FBd0JKOztBQXRCQTtFQUNJLHlCQUFBO0FBeUJKOztBQXZCQTtFQUNJLHVCQUFBO0FBMEJKOztBQXhCQTtFQUNJLGtCQUFBO0FBMkJKOztBQXpCQTtFQUNJLG9CQUFBO0FBNEJKOztBQTFCQTtFQUNJLHNCQUFBO0VBQ0EsWUFBQTtBQTZCSjs7QUEzQkE7RUFDSSxzQkFBQTtBQThCSjs7QUE1QkE7RUFDSSx1QkFBQTtBQStCSjs7QUE3QkE7RUFDSSx5QkFBQTtBQWdDSjs7QUE5QkE7RUFDSSx1QkFBQTtBQWlDSjs7QUEvQkE7RUFDSSx3QkFBQTtBQWtDSjs7QUFoQ0E7RUFDSSxzQkFBQTtBQW1DSjs7QUFqQ0E7RUFDSSxzQkFBQTtBQW9DSjs7QUFsQ0E7RUFDSSxvQkFBQTtBQXFDSjs7QUFuQ0E7RUFDSSxzQkFBQTtBQXNDSjs7QUFwQ0E7RUFDSSxvQkFBQTtBQXVDSjs7QUFyQ0E7RUFDSSxtQkFBQTtBQXdDSjs7QUF0Q0E7RUFDSSxxQkFBQTtBQXlDSjs7QUF2Q0E7RUFDSSxxQkFBQTtBQTBDSjs7QUF4Q0E7RUFDSSx1QkFBQTtBQTJDSjs7QUF6Q0E7RUFDSSx3QkFBQTtBQTRDSjs7QUExQ0E7RUFDSSx3QkFBQTtBQTZDSjs7QUEzQ0E7RUFDSSxlQUFBO0VBQ0EseUJBQUE7QUE4Q0o7O0FBNUNBO0VBQ0ksdUJBQUE7QUErQ0o7O0FBN0NBO0VBQ0ksZUFBQTtBQWdESjs7QUE5Q0E7RUFDSSxVQUFBO0FBaURKOztBQS9DQTtFQUNJLFlBQUE7QUFrREo7O0FBaERBO0VBQ0ksZUFBQTtBQW1ESjs7QUFqREE7RUFDSSxlQUFBO0FBb0RKOztBQWxEQTtFQUNJLGVBQUE7QUFxREo7O0FBbkRBO0VBQ0ksZUFBQTtBQXNESjs7QUFwREE7RUFDSSxnQkFBQTtBQXVESjs7QUFyREE7RUFDSSxpQkFBQTtFQUNBLG1CQUFBO0FBd0RKOztBQXREQTtFQUNJLHFCQUFBO0FBeURKOztBQXZEQTtFQUNJLHdCQUFBO0VBQ0EsdUJBQUE7RUFDQSxxQkFBQTtFQUNBLDBCQUFBO0FBMERKOztBQXhEQTtFQUNJLHFCQUFBO0FBMkRKOztBQXpEQTtFQUNJLHFCQUFBO0FBNERKOztBQTFEQTtFQUNJLHFCQUFBO0FBNkRKOztBQTNEQTtFQUNJLGlCQUFBO0FBOERKOztBQTVEQTtFQUNJLG1CQUFBO0FBK0RKOztBQTdEQTtFQUNJLFdBQUE7QUFnRUo7O0FBOURBO0VBQ0ksdUJBQUE7QUFpRUo7O0FBL0RBO0VBQ0ksd0JBQUE7QUFrRUo7O0FBaEVBO0VBQ0ksK0JBQUEsRUFBQSxpQ0FBQTtBQW1FSjs7QUFqRUE7RUFDSSxvQkFBQTtBQW9FSiIsInNvdXJjZXNDb250ZW50IjpbIi5iYXNlIHtcbiAgICBzdHJva2U6IHZhcigtLWJhc2Utc3Ryb2tlKTtcbiAgICBzdHJva2Utd2lkdGg6IDg7XG4gICAgZmlsbDogdmFyKC0tc3BhY2VzLWZpbGwpO1xuICAgIHN0cm9rZS1saW5lY2FwOiBidXR0O1xuICAgIHN0cm9rZS1saW5lam9pbjogcm91bmQ7XG59XG4ubWFudWFsLXN0cm9rZSB7XG4gICAgc3Ryb2tlLXdpZHRoOiAwO1xufVxuLmJhc2UubWFudWFsLXN0cm9rZSB7XG4gICAgZmlsbDogdmFyKC0tYmFzZS1zdHJva2UpO1xufVxuLmJhc2Utbm8tc3Ryb2tlIHtcbiAgICBzdHJva2U6IG5vbmU7XG4gICAgc3Ryb2tlLXdpZHRoOiAwO1xuICAgIGZpbGw6IHZhcigtLWJhc2Utc3Ryb2tlKTtcbn1cbi5iYXNlLW5vLWZpbGwge1xuICAgIHN0cm9rZTogdmFyKC0tYmFzZS1zdHJva2UpO1xuICAgIHN0cm9rZS13aWR0aDogODtcbn1cbi5hcnJvdyB7XG4gICAgc3Ryb2tlOiB2YXIoLS1iYXNlLXN0cm9rZSk7XG4gICAgc3Ryb2tlLXdpZHRoOiAzO1xufVxuLnRleHQge1xuICAgIGZpbGw6IHZhcigtLWJhc2Utc3Ryb2tlKTtcbn1cbi53aGl0ZS1iYWNrZ3JvdW5kIHtcbiAgICBmaWxsOiB3aGl0ZTtcbn1cbi5iYWNrZ3JvdW5kIHtcbiAgICBmaWxsOiB2YXIoLS1zcGFjZXMtZmlsbCk7XG59XG4udHJhbnNwYXJlbnQge1xuICAgIG9wYWNpdHk6IDA7XG59XG4uYmFja2dyb3VuZDIge1xuICAgIGZpbGw6IHZhcigtLWFsdC1iYWNrZ3JvdW5kLWZpbGwpO1xufVxuLmJhY2tncm91bmQzIHtcbiAgICBmaWxsOiB2YXIoLS1hbHQtYWx0LWJhY2tncm91bmQtZmlsbCk7XG59XG4ucGxheWVyMC1maWxsIHtcbiAgICBmaWxsOiB2YXIoLS1wbGF5ZXIwKTtcbn1cbi5wbGF5ZXIwLWFsdGVybmF0ZS1maWxsIHtcbiAgICBmaWxsOiB2YXIoLS1wbGF5ZXIwLWFsdGVybmF0ZSk7XG59XG4ucGxheWVyMC1zdHJva2Uge1xuICAgIHN0cm9rZTogdmFyKC0tcGxheWVyMCk7XG59XG4ucGxheWVyMS1maWxsIHtcbiAgICBmaWxsOiB2YXIoLS1wbGF5ZXIxKTtcbn1cbi5wbGF5ZXIxLWFsdGVybmF0ZS1maWxsIHtcbiAgICBmaWxsOiB2YXIoLS1wbGF5ZXIxLWFsdGVybmF0ZSk7XG59XG4ucGxheWVyMS1zdHJva2Uge1xuICAgIHN0cm9rZTogdmFyKC0tcGxheWVyMSk7XG59XG4ubm9ucGxheWVyLWZpbGwge1xuICAgIGZpbGw6IHZhcigtLW5vbnBsYXllcik7XG59XG4ubm9ucGxheWVyLWxpZ2h0LWZpbGwge1xuICAgIGZpbGw6IHZhcigtLW5vbnBsYXllci1saWdodCk7XG59XG4ubm9ucGxheWVyLXN0cm9rZSB7XG4gICAgc3Ryb2tlOiB2YXIoLS1ub25wbGF5ZXIpO1xufVxuLmRhc2hlZC1zdHJva2Uge1xuICAgIHN0cm9rZS1kYXNoYXJyYXk6IDI7XG59XG4ucHJlLWNhcHR1cmVkLWZpbGwge1xuICAgIGZpbGw6IHZhcigtLXByZS1jYXB0dXJlZCk7XG59XG4uY2FwdHVyZWQtZmlsbCB7XG4gICAgZmlsbDogdmFyKC0tY2FwdHVyZWQpO1xufVxuLmNhcHR1cmVkLWFsdGVybmF0ZS1maWxsIHtcbiAgICBmaWxsOiB2YXIoLS1hbHQtY2FwdHVyZWQpO1xufVxuLmNhcHR1cmVkLXN0cm9rZSB7XG4gICAgc3Ryb2tlOiB2YXIoLS1jYXB0dXJlZCk7XG59XG4ubW92ZWQtZmlsbCB7XG4gICAgZmlsbDogdmFyKC0tbW92ZWQpO1xufVxuLm1vdmVkLXN0cm9rZSB7XG4gICAgc3Ryb2tlOiB2YXIoLS1tb3ZlZCk7XG59XG4uaW5kaWNhdG9yIHtcbiAgICBmaWxsOiB2YXIoLS1pbmRpY2F0b3IpO1xuICAgIHN0cm9rZTogbm9uZTtcbn1cbi5pbmRpY2F0b3ItZmlsbCB7XG4gICAgZmlsbDogdmFyKC0taW5kaWNhdG9yKTtcbn1cbi5zZWxlY3RhYmxlLWZpbGwge1xuICAgIGZpbGw6IHZhcigtLXNlbGVjdGFibGUpO1xufVxuLnNlbGVjdGFibGUtc3Ryb2tlIHtcbiAgICBzdHJva2U6IHZhcigtLXNlbGVjdGFibGUpO1xufVxuLnNlbGVjdGFibGUgPiAuYmFzZS1uby1zdHJva2Uge1xuICAgIGZpbGw6IHZhcigtLXNlbGVjdGFibGUpO1xufVxuLmxhc3QtbW92ZS1zdHJva2Uge1xuICAgIHN0cm9rZTogdmFyKC0tbGFzdC1tb3ZlKTtcbn1cbi5sYXN0LW1vdmUtc3Ryb2tlLm1hbnVhbC1zdHJva2Uge1xuICAgIGZpbGw6IHZhcigtLWxhc3QtbW92ZSk7XG59XG4ubGFzdC1tb3ZlLWZpbGwge1xuICAgIGZpbGw6IHZhcigtLWxhc3QtbW92ZSk7XG59XG4udmljdG9yeS1maWxsIHtcbiAgICBmaWxsOiB2YXIoLS12aWN0b3J5KTtcbn1cbi52aWN0b3J5LXN0cm9rZSB7XG4gICAgc3Ryb2tlOiB2YXIoLS12aWN0b3J5KTtcbn1cbi52aWN0b3J5LXN0cm9rZS5tYW51YWwtc3Ryb2tlIHtcbiAgICBmaWxsOiB2YXIoLS12aWN0b3J5KTtcbn1cbi5kZWZlYXQtZmlsbCB7XG4gICAgZmlsbDogdmFyKC0tZGVmZWF0KTtcbn1cbi5kZWZlYXQtc3Ryb2tlIHtcbiAgICBzdHJva2U6IHZhcigtLWRlZmVhdCk7XG59XG4uc2VsZWN0ZWQtZmlsbCB7XG4gICAgZmlsbDogdmFyKC0tc2VsZWN0ZWQpO1xufVxuLnNlbGVjdGVkLXN0cm9rZSB7XG4gICAgc3Ryb2tlOiB2YXIoLS1zZWxlY3RlZCk7XG59XG4uY2xpY2thYmxlLXN0cm9rZSB7XG4gICAgc3Ryb2tlOiB2YXIoLS1jbGlja2FibGUpO1xufVxuLmNsaWNrYWJsZS1zdHJva2UtaG92ZXI6aG92ZXIge1xuICAgIHN0cm9rZTogdmFyKC0tY2xpY2thYmxlKTtcbn1cbi5jYXB0dXJhYmxlLXN0cm9rZSB7XG4gICAgc3Ryb2tlLXdpZHRoOiAyO1xuICAgIHN0cm9rZTogdmFyKC0tY2FwdHVyYWJsZSk7XG59XG4uY2FwdHVyYWJsZS1maWxsIHtcbiAgICBmaWxsOiB2YXIoLS1jYXB0dXJhYmxlKTtcbn1cbi5jYXB0dXJhYmxlLXN0cm9rZTpob3ZlciB7XG4gICAgc3Ryb2tlLXdpZHRoOiA4O1xufVxuLm5vLWZpbGwge1xuICAgIGZpbGw6IG5vbmU7XG59XG4ubm8tc3Ryb2tlIHtcbiAgICBzdHJva2U6IG5vbmU7XG59XG4uc21hbGwtc3Ryb2tlIHtcbiAgICBzdHJva2Utd2lkdGg6IDI7XG59XG4ubWlkLXNtYWxsLXN0cm9rZSB7XG4gICAgc3Ryb2tlLXdpZHRoOiAzO1xufVxuLm1pZC1zdHJva2Uge1xuICAgIHN0cm9rZS13aWR0aDogNTtcbn1cbi5iaWctc3Ryb2tlIHtcbiAgICBzdHJva2Utd2lkdGg6IDg7XG59XG4uaHVnZS1zdHJva2Uge1xuICAgIHN0cm9rZS13aWR0aDogMTI7XG59XG4uc2VtaS10cmFuc3BhcmVudCB7XG4gICAgZmlsbC1vcGFjaXR5OiAwLjU7XG4gICAgc3Ryb2tlLW9wYWNpdHk6IDAuNTtcbn1cbi5yb3VuZCB7XG4gICAgc3Ryb2tlLWxpbmVjYXA6IHJvdW5kO1xufVxuLnRleHQtZ2lhbnQge1xuICAgIGZpbGw6IHZhcigtLWJhc2Utc3Ryb2tlKTtcbiAgICBmb250OiAzLjdyZW0gc2Fucy1zZXJpZjtcbiAgICBzdHJva2Utd2lkdGg6IDAuMzdyZW07XG4gICAgZG9taW5hbnQtYmFzZWxpbmU6IGNlbnRyYWw7XG59XG4udGV4dC1iaWcge1xuICAgIGZvbnQ6IDUwcHggc2Fucy1zZXJpZjtcbn1cbi50ZXh0LW1lZGl1bSB7XG4gICAgZm9udDogMzVweCBzYW5zLXNlcmlmO1xufVxuLnRleHQtMjAge1xuICAgIGZvbnQ6IDIwcHggc2Fucy1zZXJpZjtcbn1cbi50ZXh0LWJvbGQge1xuICAgIGZvbnQtd2VpZ2h0OiBib2xkO1xufVxuLnRleHQtY2VudGVyIHtcbiAgICB0ZXh0LWFuY2hvcjogbWlkZGxlO1xufVxuLmJsYWNrLWZpbGwge1xuICAgIGZpbGw6IGJsYWNrO1xufVxuLmRhcmtlciB7XG4gICAgZmlsdGVyOiBicmlnaHRuZXNzKDgwJSk7XG59XG4ubGlnaHRlciB7XG4gICAgZmlsdGVyOiBicmlnaHRuZXNzKDExMCUpO1xufVxuc3ZnIHtcbiAgICBtYXgtaGVpZ2h0OiBjYWxjKDEwMHZoIC0gMTVyZW0pOyAvKiBGdWxsIGhlaWdodCBtaW51cyB0aGUgbmF2YmFyICovXG59XG4uY2xpY2stZGVsZWdhdG9yIHtcbiAgICBwb2ludGVyLWV2ZW50czogbm9uZTtcbn1cbiJdLCJzb3VyY2VSb290IjoiIn0= */"]
   });
 }
@@ -46182,7 +46174,7 @@ class SiamOrientationArrowComponent extends src_app_components_game_components_g
     centralCoord = centralCoord.getNext(orientation, scaleValue - sizeRatio);
     centralCoord = centralCoord.scale(this.SPACE_SIZE, this.SPACE_SIZE);
     const orientationDegrees = (orientation.toInt() - 2) * 90;
-    const translation = `translate(${centralCoord.x}, ${centralCoord.y})`;
+    const translation = this.getSVGTranslationAt(centralCoord);
     const scale = `scale(${scaleValue})`;
     const rotation = `rotate(${orientationDegrees} ${this.SPACE_SIZE / 2} ${this.SPACE_SIZE / 2})`;
     return [translation, scale, rotation].join(' ');
@@ -46750,10 +46742,10 @@ let SiamComponent = class SiamComponent extends _components_game_components_rect
   isMountain(piece) {
     return piece === src_app_games_siam_SiamPiece__WEBPACK_IMPORTED_MODULE_5__.SiamPiece.MOUNTAIN;
   }
-  getArrowTransform(x, y, direction) {
+  getSiamArrowTransform(x, y, direction) {
     const orientation = direction.toInt() - 2;
     const rotation = this.getRotation(orientation);
-    const translation = 'translate(' + x * this.SPACE_SIZE + ', ' + y * this.SPACE_SIZE + ')';
+    const translation = this.getSVGTranslation(x * this.SPACE_SIZE, y * this.SPACE_SIZE);
     return [translation, rotation].join(' ');
   }
   getRotation(orientation) {
@@ -46766,11 +46758,11 @@ let SiamComponent = class SiamComponent extends _components_game_components_rect
   }
   getPieceTransform(x, y) {
     const piece = this.board[y][x];
-    return this.getArrowTransform(x, y, piece.getDirection());
+    return this.getSiamArrowTransform(x, y, piece.getDirection());
   }
   getIndicatorTransform(arrow) {
     const startingAt = arrow.target.getPrevious(arrow.direction, 0.5);
-    return this.getArrowTransform(startingAt.x, startingAt.y, arrow.direction);
+    return this.getSiamArrowTransform(startingAt.x, startingAt.y, arrow.direction);
   }
   getRemainingPieceTransform(piece, player) {
     const config = this.getConfig().get();
@@ -46792,7 +46784,7 @@ let SiamComponent = class SiamComponent extends _components_game_components_rect
       y = -1;
       orientation = src_app_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_7__.Orthogonal.RIGHT;
     }
-    return this.getArrowTransform(x, y, orientation);
+    return this.getSiamArrowTransform(x, y, orientation);
   }
   getPieceClasses(x, y, c) {
     const coord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_6__.Coord(x, y);
@@ -53671,7 +53663,7 @@ class TrexoComponent extends src_app_components_game_components_parallelogram_ga
   getTranslationAtXYZ(x, y, z) {
     const mode = TrexoComponent.modeMap[this.chosenMode];
     const coordTransform = this.getCoordTranslation(x, y, z, mode);
-    const translation = 'translate(' + coordTransform.x + ' ' + coordTransform.y + ')';
+    const translation = this.getSVGTranslationAt(coordTransform);
     return translation;
   }
   getParallelogramPoints() {
@@ -53694,7 +53686,7 @@ class TrexoComponent extends src_app_components_game_components_parallelogram_ga
     const verticalUnWideness = (1 - 1 / widness) / 2;
     const translationX = (10 + mode3D.offsetRatio) * mode3D.parallelogramHeight;
     const translationY = (9 + verticalUnWideness) * mode3D.parallelogramHeight;
-    const translation = 'translate(' + translationX + ', ' + translationY + ')';
+    const translation = this.getSVGTranslation(translationX, translationY);
     return translation + scale;
   }
   static ɵfac = function TrexoComponent_Factory(t) {
