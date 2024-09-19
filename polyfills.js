@@ -1,7 +1,7 @@
 "use strict";
 (self["webpackChunkeveryboard"] = self["webpackChunkeveryboard"] || []).push([["polyfills"],{
 
-/***/ 24050:
+/***/ 10762:
 /*!**************************!*\
   !*** ./src/polyfills.ts ***!
   \**************************/
@@ -3405,8 +3405,8 @@ module.exports = {
       setInternalState(that, {
         type: CONSTRUCTOR_NAME,
         index: create(null),
-        first: undefined,
-        last: undefined,
+        first: null,
+        last: null,
         size: 0
       });
       if (!DESCRIPTORS) that.size = 0;
@@ -3431,7 +3431,7 @@ module.exports = {
           key: key,
           value: value,
           previous: previous = state.last,
-          next: undefined,
+          next: null,
           removed: false
         };
         if (!state.first) state.first = entry;
@@ -3465,10 +3465,10 @@ module.exports = {
         var entry = state.first;
         while (entry) {
           entry.removed = true;
-          if (entry.previous) entry.previous = entry.previous.next = undefined;
+          if (entry.previous) entry.previous = entry.previous.next = null;
           entry = entry.next;
         }
-        state.first = state.last = undefined;
+        state.first = state.last = null;
         state.index = create(null);
         if (DESCRIPTORS) state.size = 0;
         else that.size = 0;
@@ -3560,7 +3560,7 @@ module.exports = {
         target: iterated,
         state: getInternalCollectionState(iterated),
         kind: kind,
-        last: undefined
+        last: null
       });
     }, function () {
       var state = getInternalIteratorState(this);
@@ -3571,7 +3571,7 @@ module.exports = {
       // get next entry
       if (!state.target || !(state.last = entry = entry ? entry.next : state.state.first)) {
         // or finish the iteration
-        state.target = undefined;
+        state.target = null;
         return createIterResultObject(undefined, true);
       }
       // return step by kind
@@ -3660,7 +3660,7 @@ module.exports = {
       setInternalState(that, {
         type: CONSTRUCTOR_NAME,
         id: id++,
-        frozen: undefined
+        frozen: null
       });
       if (!isNullOrUndefined(iterable)) iterate(iterable, that[ADDER], { that: that, AS_ENTRIES: IS_MAP });
     });
@@ -3708,7 +3708,7 @@ module.exports = {
         if (isObject(key)) {
           var data = getWeakData(key);
           if (data === true) return uncaughtFrozenStore(state).get(key);
-          return data ? data[state.id] : undefined;
+          if (data) return data[state.id];
         }
       },
       // `WeakMap.prototype.set(key, value)` method
@@ -6296,10 +6296,10 @@ var SHARED = '__core-js_shared__';
 var store = module.exports = globalThis[SHARED] || defineGlobalProperty(SHARED, {});
 
 (store.versions || (store.versions = [])).push({
-  version: '3.38.0',
+  version: '3.38.1',
   mode: IS_PURE ? 'pure' : 'global',
   copyright: '© 2014-2024 Denis Pushkarev (zloirock.ru)',
-  license: 'https://github.com/zloirock/core-js/blob/v3.38.0/LICENSE',
+  license: 'https://github.com/zloirock/core-js/blob/v3.38.1/LICENSE',
   source: 'https://github.com/zloirock/core-js'
 });
 
@@ -7126,7 +7126,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _angular_localize__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/localize */ 95116);
 /**
- * @license Angular v18.2.0
+ * @license Angular v18.2.4
  * (c) 2010-2024 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -7163,7 +7163,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "ɵtranslate": () => (/* binding */ translate$1)
 /* harmony export */ });
 /**
- * @license Angular v18.2.0
+ * @license Angular v18.2.4
  * (c) 2010-2024 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -7238,14 +7238,14 @@ function computeDigest(message) {
 /**
  * Return the message id or compute it using the XLIFF2/XMB/$localize digest.
  */
-function decimalDigest(message) {
-  return message.id || computeDecimalDigest(message);
+function decimalDigest(message, preservePlaceholders) {
+  return message.id || computeDecimalDigest(message, preservePlaceholders);
 }
 /**
  * Compute the message id using the XLIFF2/XMB/$localize digest.
  */
-function computeDecimalDigest(message) {
-  const visitor = new _SerializerIgnoreIcuExpVisitor();
+function computeDecimalDigest(message, preservePlaceholders) {
+  const visitor = new _SerializerIgnoreExpVisitor(preservePlaceholders);
   const parts = message.nodes.map(a => a.visit(visitor, null));
   return computeMsgId(parts.join(''), message.meaning);
 }
@@ -7287,12 +7287,20 @@ function serializeNodes(nodes) {
 /**
  * Serialize the i18n ast to something xml-like in order to generate an UID.
  *
- * Ignore the ICU expressions so that message IDs stays identical if only the expression changes.
+ * Ignore the expressions so that message IDs stays identical if only the expression changes.
  *
  * @internal
  */
-class _SerializerIgnoreIcuExpVisitor extends _SerializerVisitor {
-  visitIcu(icu, context) {
+class _SerializerIgnoreExpVisitor extends _SerializerVisitor {
+  constructor(preservePlaceholders) {
+    super();
+    this.preservePlaceholders = preservePlaceholders;
+  }
+  visitPlaceholder(ph, context) {
+    // Do not take the expression into account when `preservePlaceholders` is disabled.
+    return this.preservePlaceholders ? super.visitPlaceholder(ph, context) : `<ph name="${ph.name}"/>`;
+  }
+  visitIcu(icu) {
     let strCases = Object.keys(icu.cases).map(k => `${k} {${icu.cases[k].visit(this)}}`);
     // Do not take the expression into account
     return `{${icu.type}, ${strCases.join(', ')}}`;
@@ -8052,7 +8060,7 @@ function stripBlock(messagePart, rawMessagePart) {
 },
 /******/ __webpack_require__ => { // webpackRuntimeModules
 /******/ var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-/******/ var __webpack_exports__ = (__webpack_exec__(24050));
+/******/ var __webpack_exports__ = (__webpack_exec__(10762));
 /******/ }
 ]);
 //# sourceMappingURL=polyfills.js.map
