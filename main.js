@@ -13348,7 +13348,7 @@ class AbaloneComponent extends src_app_components_game_components_game_component
         this.moveds.push(landing);
       } else {
         // Since only current player could have translated out their pieces
-        const previousPlayer = this.getPreviousState().getCurrentPlayer();
+        const previousPlayer = this.getState().getPreviousPlayer();
         this.captureds.push({
           coord: landing,
           pieceClasses: [this.getPlayerClass(previousPlayer)]
@@ -16170,8 +16170,9 @@ class CoerceoComponent extends src_app_components_game_components_game_component
     const spaceContent = this.state.getPieceAt(coord);
     const parent = this.node.parent;
     if (spaceContent === src_app_jscaip_FourStatePiece__WEBPACK_IMPORTED_MODULE_6__.FourStatePiece.UNREACHABLE && parent.isPresent()) {
-      const previousContent = parent.get().gameState.getPieceAt(coord);
-      return previousContent === src_app_jscaip_FourStatePiece__WEBPACK_IMPORTED_MODULE_6__.FourStatePiece.EMPTY || previousContent.is(parent.get().gameState.getCurrentPlayer());
+      const previousState = parent.get().gameState;
+      const previousContent = previousState.getPieceAt(coord);
+      return previousContent === src_app_jscaip_FourStatePiece__WEBPACK_IMPORTED_MODULE_6__.FourStatePiece.EMPTY || previousContent.is(previousState.getCurrentPlayer());
     } else {
       return false;
     }
@@ -23601,7 +23602,7 @@ class EpaminondasComponent extends _components_game_components_rectangular_game_
         _this2.moveds.push(moved);
       }
       const previousNode = _this2.node.parent.get();
-      const previousOpponent = previousNode.gameState.getCurrentOpponent();
+      const previousOpponent = _this2.getState().getPreviousOpponent();
       while (previousNode.gameState.isOnBoard(moved) && previousNode.gameState.getPieceAt(moved) === previousOpponent) {
         _this2.capturedCoords.push(moved);
         moved = moved.getNext(move.direction, 1);
@@ -24065,19 +24066,19 @@ class GipfRules extends src_app_jscaip_Rules__WEBPACK_IMPORTED_MODULE_4__.Rules 
   static applyPlacement(placement, state) {
     const player = state.getCurrentPlayer();
     let newState = state;
-    let prevPiece = src_app_jscaip_FourStatePiece__WEBPACK_IMPORTED_MODULE_8__.FourStatePiece.ofPlayer(state.getCurrentPlayer());
+    let previousPiece = src_app_jscaip_FourStatePiece__WEBPACK_IMPORTED_MODULE_8__.FourStatePiece.ofPlayer(state.getPreviousOpponent());
     if (placement.direction.isAbsent()) {
       // Only valid if there is an empty spot
       const coord = placement.coord;
       if (state.getPieceAt(coord) !== src_app_jscaip_FourStatePiece__WEBPACK_IMPORTED_MODULE_8__.FourStatePiece.EMPTY) {
         throw new Error('Apply placement called without direction while the coord is occupied');
       }
-      newState = newState.setAt(coord, prevPiece);
+      newState = newState.setAt(coord, previousPiece);
     } else {
-      for (let cur = placement.coord; newState.isOnBoard(cur) && prevPiece !== src_app_jscaip_FourStatePiece__WEBPACK_IMPORTED_MODULE_8__.FourStatePiece.EMPTY; cur = cur.getNext(placement.direction.get())) {
+      for (let cur = placement.coord; newState.isOnBoard(cur) && previousPiece !== src_app_jscaip_FourStatePiece__WEBPACK_IMPORTED_MODULE_8__.FourStatePiece.EMPTY; cur = cur.getNext(placement.direction.get())) {
         const curPiece = state.getPieceAt(cur);
-        newState = newState.setAt(cur, prevPiece);
-        prevPiece = curPiece;
+        newState = newState.setAt(cur, previousPiece);
+        previousPiece = curPiece;
       }
     }
     const sidePieces = state.sidePieces.getCopy();
@@ -37090,9 +37091,9 @@ class MartianChessRules extends src_app_jscaip_Rules__WEBPACK_IMPORTED_MODULE_2_
     }
     const emptyTerritory = state.getEmptyTerritory();
     if (emptyTerritory.isPresent()) {
-      const lastPlayer = state.getCurrentOpponent();
-      const lastPlayerVictoryStatus = src_app_jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_9__.GameStatus.getVictory(lastPlayer);
-      return this.getGameStatusScoreVictoryOr(state, lastPlayerVictoryStatus);
+      const previousPlayer = state.getPreviousPlayer();
+      const previousPlayerVictoryStatus = src_app_jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_9__.GameStatus.getVictory(previousPlayer);
+      return this.getGameStatusScoreVictoryOr(state, previousPlayerVictoryStatus);
     }
     return src_app_jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_9__.GameStatus.ONGOING;
   }
@@ -43417,7 +43418,26 @@ class QuixoRules extends src_app_jscaip_Rules__WEBPACK_IMPORTED_MODULE_4__.Confi
     return sums;
   }
   static getVictoriousCoords(state) {
-    return QuixoRules.QUIXO_HELPER.getVictoriousCoord(state);
+    const victoriousCoord = QuixoRules.QUIXO_HELPER.getVictoriousCoord(state);
+    const opponentCoords = QuixoRules.getPlayersCoords(victoriousCoord, state, state.getPreviousOpponent());
+    const playerCoords = QuixoRules.getPlayersCoords(victoriousCoord, state, state.getPreviousPlayer());
+    if (opponentCoords.length === 0) {
+      if (playerCoords.length === 0) {
+        return []; // Nobody won
+      } else {
+        return playerCoords; // Player won
+      }
+    } else {
+      // if there is no player coords, then opponent won
+      // if there is both player coords,
+      // Then player made opponent win by making two victories
+      return opponentCoords;
+    }
+  }
+  static getPlayersCoords(coords, state, player) {
+    return coords.filter(coord => {
+      return state.getPieceAt(coord).equals(player);
+    });
   }
   static getFullestLine(playerLinesInfo) {
     let linesScores = playerLinesInfo.get('columns').get().getValueList();
@@ -46738,11 +46758,11 @@ let SiamComponent = class SiamComponent extends _components_game_components_rect
           const clickedPiece = _this5.board[y][x];
           if (clickedPiece.getOwner().isNone()) {
             return _this5.cancelMove(src_app_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_9__.RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_EMPTY());
-          } else if (clickedPiece.getOwner() !== _this5.getCurrentPlayer()) {
-            return _this5.cancelMove(src_app_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_9__.RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
-          } else {
+          } else if (clickedPiece.getOwner() === _this5.getCurrentPlayer()) {
             // Select the piece
             return _this5.selectPiece(clickedCoord, clickedPiece);
+          } else {
+            return _this5.cancelMove(src_app_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_9__.RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
           }
         }
       }
@@ -47071,8 +47091,8 @@ class SixHeuristic extends src_app_jscaip_AI_AlignmentHeuristic__WEBPACK_IMPORTE
   getBoardValue(node, _config) {
     const move = node.previousMove;
     const state = node.gameState;
-    const lastPlayer = state.getCurrentOpponent();
-    const victoryValue = lastPlayer.getVictoryValue();
+    const previousPlayer = state.getPreviousPlayer();
+    const victoryValue = previousPlayer.getVictoryValue();
     let shapeInfo = {
       status: src_app_jscaip_AI_AlignmentHeuristic__WEBPACK_IMPORTED_MODULE_4__.AlignmentStatus.NOTHING,
       victory: _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPOptional.empty(),
@@ -47090,9 +47110,9 @@ class SixHeuristic extends src_app_jscaip_AI_AlignmentHeuristic__WEBPACK_IMPORTE
       return src_app_jscaip_AI_BoardValue__WEBPACK_IMPORTED_MODULE_3__.BoardValue.ofPlayerNumberMap(pieces);
     }
     if (shapeInfo.status === src_app_jscaip_AI_AlignmentHeuristic__WEBPACK_IMPORTED_MODULE_4__.AlignmentStatus.PRE_VICTORY) {
-      return src_app_jscaip_AI_BoardValue__WEBPACK_IMPORTED_MODULE_3__.BoardValue.of(lastPlayer.getPreVictory());
+      return src_app_jscaip_AI_BoardValue__WEBPACK_IMPORTED_MODULE_3__.BoardValue.of(previousPlayer.getPreVictory());
     }
-    return src_app_jscaip_AI_BoardValue__WEBPACK_IMPORTED_MODULE_3__.BoardValue.of(shapeInfo.sum * lastPlayer.getScoreModifier());
+    return src_app_jscaip_AI_BoardValue__WEBPACK_IMPORTED_MODULE_3__.BoardValue.of(shapeInfo.sum * previousPlayer.getScoreModifier());
   }
   startSearchingVictorySources() {
     this.currentVictorySource = {
@@ -47148,13 +47168,13 @@ class SixHeuristic extends src_app_jscaip_AI_AlignmentHeuristic__WEBPACK_IMPORTE
     }
   }
   searchVictoryOnlyForCircle(index, lastDrop, state) {
-    const lastPlayer = state.getCurrentOpponent();
+    const previousPlayer = state.getPreviousPlayer();
     const initialDirection = src_app_jscaip_HexaDirection__WEBPACK_IMPORTED_MODULE_0__.HexaDirection.factory.all[index];
     const testedCoords = [lastDrop];
     let testCoord = lastDrop.getNext(initialDirection, 1);
     while (testedCoords.length < 6) {
       const testedPiece = state.getPieceAt(testCoord);
-      if (testedPiece !== lastPlayer) {
+      if (testedPiece !== previousPlayer) {
         return {
           status: src_app_jscaip_AI_AlignmentHeuristic__WEBPACK_IMPORTED_MODULE_4__.AlignmentStatus.PRE_VICTORY,
           victory: _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPOptional.empty(),
@@ -47175,14 +47195,14 @@ class SixHeuristic extends src_app_jscaip_AI_AlignmentHeuristic__WEBPACK_IMPORTE
     };
   }
   searchVictoryOnlyForLine(index, lastDrop, state) {
-    const lastPlayer = state.getCurrentOpponent();
+    const previousPlayer = state.getPreviousPlayer();
     let dir = src_app_jscaip_HexaDirection__WEBPACK_IMPORTED_MODULE_0__.HexaDirection.factory.all[index];
     let testCoord = lastDrop.getNext(dir, 1);
     const victory = [lastDrop];
     let twoDirectionCovered = false;
     while (victory.length < 6) {
       const testedPiece = state.getPieceAt(testCoord);
-      if (testedPiece === lastPlayer) {
+      if (testedPiece === previousPlayer) {
         victory.push(testCoord);
       } else {
         if (twoDirectionCovered) {
@@ -47208,14 +47228,14 @@ class SixHeuristic extends src_app_jscaip_AI_AlignmentHeuristic__WEBPACK_IMPORTE
     };
   }
   searchVictoryOnlyForTriangleCorner(index, lastDrop, state) {
-    const lastPlayer = state.getCurrentOpponent();
+    const previousPlayer = state.getPreviousPlayer();
     let edgeDirection = src_app_jscaip_HexaDirection__WEBPACK_IMPORTED_MODULE_0__.HexaDirection.factory.all[index];
     const testedCoords = [lastDrop];
     let testCoord = lastDrop.getNext(edgeDirection, 1);
     while (testedCoords.length < 6) {
       // Testing the corner
       const testedPiece = state.getPieceAt(testCoord);
-      if (testedPiece !== lastPlayer) {
+      if (testedPiece !== previousPlayer) {
         return {
           status: src_app_jscaip_AI_AlignmentHeuristic__WEBPACK_IMPORTED_MODULE_4__.AlignmentStatus.PRE_VICTORY,
           victory: _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPOptional.empty(),
@@ -47239,14 +47259,14 @@ class SixHeuristic extends src_app_jscaip_AI_AlignmentHeuristic__WEBPACK_IMPORTE
     };
   }
   searchVictoryOnlyForTriangleEdge(index, lastDrop, state) {
-    const lastPlayer = state.getCurrentOpponent();
+    const previousPlayer = state.getPreviousPlayer();
     let edgeDirection = src_app_jscaip_HexaDirection__WEBPACK_IMPORTED_MODULE_0__.HexaDirection.factory.all[index];
     const testedCoords = [lastDrop];
     let testCoord = lastDrop.getNext(edgeDirection, 1);
     while (testedCoords.length < 6) {
       // Testing the corner
       const testedPiece = state.getPieceAt(testCoord);
-      if (testedPiece !== lastPlayer) {
+      if (testedPiece !== previousPlayer) {
         return {
           status: src_app_jscaip_AI_AlignmentHeuristic__WEBPACK_IMPORTED_MODULE_4__.AlignmentStatus.PRE_VICTORY,
           victory: _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPOptional.empty(),
@@ -47283,7 +47303,7 @@ class SixHeuristic extends src_app_jscaip_AI_AlignmentHeuristic__WEBPACK_IMPORTE
     }
   }
   getBoardInfoForCircle(index, lastDrop, state, boardInfo) {
-    const lastOpponent = state.getCurrentPlayer();
+    const previousOpponent = state.getPreviousOpponent();
     const initialDirection = src_app_jscaip_HexaDirection__WEBPACK_IMPORTED_MODULE_0__.HexaDirection.factory.all[index];
     const testedCoords = [lastDrop];
     let testCoord = lastDrop.getNext(initialDirection, 1);
@@ -47291,7 +47311,7 @@ class SixHeuristic extends src_app_jscaip_AI_AlignmentHeuristic__WEBPACK_IMPORTE
     let lastEmpty = _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPOptional.empty();
     while (testedCoords.length < 6) {
       const testedPiece = state.getPieceAt(testCoord);
-      if (testedPiece === lastOpponent) {
+      if (testedPiece === previousOpponent) {
         return boardInfo; // nothing to add here
       }
       const dirIndex = (index + testedCoords.length) % 6;
@@ -47384,9 +47404,9 @@ class SixHeuristic extends src_app_jscaip_AI_AlignmentHeuristic__WEBPACK_IMPORTE
     return this.getBoardInfoResult(finalSubSum, lastEmpty, testedCoords, newBoardInfo);
   }
   updateEncounterAndReturnLastEmpty(state, testedCoord, encountered) {
-    const lastOpponent = state.getCurrentPlayer();
+    const previousOpponent = state.getPreviousOpponent();
     switch (state.getPieceAt(testedCoord)) {
-      case lastOpponent:
+      case previousOpponent:
         encountered.push(-7);
         // just enough to make sum negative when opponent encountered
         return _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPOptional.empty();
@@ -47399,7 +47419,7 @@ class SixHeuristic extends src_app_jscaip_AI_AlignmentHeuristic__WEBPACK_IMPORTE
     }
   }
   getBoardInfoForTriangleCorner(index, lastDrop, state, boardInfo) {
-    const lastOpponent = state.getCurrentPlayer();
+    const previousOpponent = state.getPreviousOpponent();
     let edgeDirection = src_app_jscaip_HexaDirection__WEBPACK_IMPORTED_MODULE_0__.HexaDirection.factory.all[index];
     const testedCoords = [lastDrop];
     let testCoord = lastDrop.getNext(edgeDirection, 1);
@@ -47408,7 +47428,7 @@ class SixHeuristic extends src_app_jscaip_AI_AlignmentHeuristic__WEBPACK_IMPORTE
     while (testedCoords.length < 6) {
       // Testing the corner
       const testedPiece = state.getPieceAt(testCoord);
-      if (testedPiece === lastOpponent) {
+      if (testedPiece === previousOpponent) {
         return boardInfo;
       }
       if (testedPiece.isNone()) {
@@ -47428,7 +47448,7 @@ class SixHeuristic extends src_app_jscaip_AI_AlignmentHeuristic__WEBPACK_IMPORTE
     return this.getBoardInfoResult(subSum, lastEmpty, testedCoords, boardInfo);
   }
   getBoardInfoForTriangleEdge(index, lastDrop, state, boardInfo) {
-    const lastOpponent = state.getCurrentPlayer();
+    const previousOpponent = state.getPreviousOpponent();
     let edgeDirection = src_app_jscaip_HexaDirection__WEBPACK_IMPORTED_MODULE_0__.HexaDirection.factory.all[index];
     const testedCoords = [lastDrop];
     let testCoord = lastDrop.getNext(edgeDirection, 1);
@@ -47437,7 +47457,7 @@ class SixHeuristic extends src_app_jscaip_AI_AlignmentHeuristic__WEBPACK_IMPORTE
     while (testedCoords.length < 6) {
       // Testing the corner
       const testedPiece = state.getPieceAt(testCoord);
-      if (testedPiece === lastOpponent) {
+      if (testedPiece === previousOpponent) {
         return boardInfo;
       }
       if (testedPiece.isNone()) {
@@ -47794,13 +47814,13 @@ let SixRules = class SixRules extends src_app_jscaip_Rules__WEBPACK_IMPORTED_MOD
   }
   getGameStatus(node) {
     const state = node.gameState;
-    const lastPlayer = state.getCurrentOpponent();
+    const previousPlayer = state.getPreviousPlayer();
     let shapeVictory = [];
     if (node.previousMove.isPresent()) {
       shapeVictory = this.getShapeVictory(node.previousMove.get(), state);
     }
     if (shapeVictory.length === 6) {
-      return src_app_jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_8__.GameStatus.getVictory(lastPlayer);
+      return src_app_jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_8__.GameStatus.getVictory(previousPlayer);
     }
     if (state.turn > 39) {
       const pieces = state.countPieces();
@@ -47889,13 +47909,13 @@ let SixRules = class SixRules extends src_app_jscaip_Rules__WEBPACK_IMPORTED_MOD
     }
   }
   searchVictoryOnlyForCircle(index, lastDrop, state) {
-    const lastPlayer = state.getCurrentOpponent();
+    const previousPlayer = state.getPreviousPlayer();
     const initialDirection = src_app_jscaip_HexaDirection__WEBPACK_IMPORTED_MODULE_0__.HexaDirection.factory.all[index];
     const victory = [lastDrop];
     let testCoord = lastDrop.getNext(initialDirection, 1);
     while (victory.length < 6) {
       const testedPiece = state.getPieceAt(testCoord);
-      if (testedPiece !== lastPlayer) {
+      if (testedPiece !== previousPlayer) {
         return [];
       }
       const dirIndex = (index + victory.length) % 6;
@@ -47906,14 +47926,14 @@ let SixRules = class SixRules extends src_app_jscaip_Rules__WEBPACK_IMPORTED_MOD
     return victory;
   }
   searchVictoryOnlyForLine(index, lastDrop, state) {
-    const lastPlayer = state.getCurrentOpponent();
+    const previousPlayer = state.getPreviousPlayer();
     let dir = src_app_jscaip_HexaDirection__WEBPACK_IMPORTED_MODULE_0__.HexaDirection.factory.all[index];
     let testCoord = lastDrop.getNext(dir, 1);
     const victory = [lastDrop];
     let twoDirectionCovered = false;
     while (victory.length < 6) {
       const testedPiece = state.getPieceAt(testCoord);
-      if (testedPiece === lastPlayer) {
+      if (testedPiece === previousPlayer) {
         victory.push(testCoord);
       } else {
         if (twoDirectionCovered) {
@@ -47929,14 +47949,14 @@ let SixRules = class SixRules extends src_app_jscaip_Rules__WEBPACK_IMPORTED_MOD
     return victory;
   }
   searchVictoryOnlyForTriangleCorner(index, lastDrop, state) {
-    const lastPlayer = state.getCurrentOpponent();
+    const previousPlayer = state.getPreviousPlayer();
     let edgeDirection = src_app_jscaip_HexaDirection__WEBPACK_IMPORTED_MODULE_0__.HexaDirection.factory.all[index];
     const victory = [lastDrop];
     let testCoord = lastDrop.getNext(edgeDirection, 1);
     while (victory.length < 6) {
       // Testing the corner
       const testedPiece = state.getPieceAt(testCoord);
-      if (testedPiece !== lastPlayer) {
+      if (testedPiece !== previousPlayer) {
         return [];
       }
       if (victory.length % 2 === 0) {
@@ -47950,14 +47970,14 @@ let SixRules = class SixRules extends src_app_jscaip_Rules__WEBPACK_IMPORTED_MOD
     return victory;
   }
   searchVictoryOnlyForTriangleEdge(index, lastDrop, state) {
-    const lastPlayer = state.getCurrentOpponent();
+    const previousPlayer = state.getPreviousPlayer();
     let edgeDirection = src_app_jscaip_HexaDirection__WEBPACK_IMPORTED_MODULE_0__.HexaDirection.factory.all[index];
     const victory = [lastDrop];
     let testCoord = lastDrop.getNext(edgeDirection, 1);
     while (victory.length < 6) {
       // Testing the corner
       const testedPiece = state.getPieceAt(testCoord);
-      if (testedPiece !== lastPlayer) {
+      if (testedPiece !== previousPlayer) {
         return [];
       }
       victory.push(testCoord);
@@ -49189,7 +49209,7 @@ class SquarzComponent extends src_app_components_game_components_rectangular_gam
     var _this2 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       const previousState = _this2.getPreviousState();
-      const opponent = previousState.getCurrentOpponent();
+      const previousOpponent = previousState.getCurrentOpponent();
       if (move.isJump()) {
         _this2.movedSpaces.push(move.getStart());
       } else {
@@ -49200,7 +49220,7 @@ class SquarzComponent extends src_app_components_game_components_rectangular_gam
       _this2.movedSpaces.push(moveEnd);
       for (const direction of src_app_jscaip_Ordinal__WEBPACK_IMPORTED_MODULE_11__.Ordinal.ORDINALS) {
         const neighbor = moveEnd.getNext(direction);
-        if (previousState.isOnBoard(neighbor) && previousState.getPieceAt(neighbor) === opponent) {
+        if (previousState.isOnBoard(neighbor) && previousState.getPieceAt(neighbor) === previousOpponent) {
           _this2.captured.push(neighbor);
         }
       }
@@ -52607,7 +52627,7 @@ class TrexoRules extends src_app_jscaip_Rules__WEBPACK_IMPORTED_MODULE_6__.Rules
   static getVictoriousCoords(state) {
     const victoryOfLastPlayer = [];
     const victoryOfNextPlayer = [];
-    const lastPlayer = state.getCurrentOpponent();
+    const previousPlayer = state.getPreviousPlayer();
     for (const coordAndContent of state.getCoordsAndContents()) {
       // for every column, starting from the bottom of each column
       // while we haven't reached the top or an empty space
@@ -52616,7 +52636,7 @@ class TrexoRules extends src_app_jscaip_Rules__WEBPACK_IMPORTED_MODULE_6__.Rules
       if (pieceOwner.isPlayer()) {
         const squareScore = TrexoRules.getSquareScore(state, coord);
         if (src_app_jscaip_AI_BoardValue__WEBPACK_IMPORTED_MODULE_0__.BoardValue.isVictory(squareScore)) {
-          if (pieceOwner === lastPlayer) {
+          if (pieceOwner === previousPlayer) {
             victoryOfLastPlayer.push(coord);
           } else {
             victoryOfNextPlayer.push(coord);
@@ -52661,7 +52681,7 @@ class TrexoRules extends src_app_jscaip_Rules__WEBPACK_IMPORTED_MODULE_6__.Rules
   }
   getGameStatus(node) {
     const state = node.gameState;
-    const lastPlayer = state.getCurrentOpponent();
+    const previousPlayer = state.getPreviousPlayer();
     let lastPlayerAligned5 = false;
     for (const coordAndContent of state.getCoordsAndContents()) {
       // for every column, starting from the bottom of each column
@@ -52671,18 +52691,18 @@ class TrexoRules extends src_app_jscaip_Rules__WEBPACK_IMPORTED_MODULE_6__.Rules
       if (pieceOwner.isPlayer()) {
         const squareScore = TrexoRules.getSquareScore(state, coord);
         if (src_app_jscaip_AI_BoardValue__WEBPACK_IMPORTED_MODULE_0__.BoardValue.isVictory(squareScore)) {
-          if (pieceOwner === lastPlayer) {
+          if (pieceOwner === previousPlayer) {
             // Cannot return right away
             // because the last player only wins if the other does not get an alignment
             lastPlayerAligned5 = true;
           } else {
-            return src_app_jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_2__.GameStatus.getDefeat(lastPlayer);
+            return src_app_jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_2__.GameStatus.getDefeat(previousPlayer);
           }
         }
       }
     }
     if (lastPlayerAligned5) {
-      return src_app_jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_2__.GameStatus.getVictory(lastPlayer);
+      return src_app_jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_2__.GameStatus.getVictory(previousPlayer);
     }
     return src_app_jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_2__.GameStatus.ONGOING;
   }
@@ -58798,8 +58818,14 @@ class GameState {
   getCurrentPlayer() {
     return _Player__WEBPACK_IMPORTED_MODULE_0__.Player.ofTurn(this.turn);
   }
+  getPreviousOpponent() {
+    return this.getCurrentPlayer();
+  }
   getCurrentOpponent() {
     return this.turn % 2 === 1 ? _Player__WEBPACK_IMPORTED_MODULE_0__.Player.ZERO : _Player__WEBPACK_IMPORTED_MODULE_0__.Player.ONE;
+  }
+  getPreviousPlayer() {
+    return this.getCurrentOpponent();
   }
 }
 
