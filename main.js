@@ -9620,7 +9620,7 @@ function PartCreationComponent_div_0_div_2_ng_template_2_Template(rf, ctx) {
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵi18nExp"](_angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵpipeBind1"](20, 14, ctx_r2.viewInfo.totalPartDuration || 0));
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵi18nApply"](18);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵproperty"]("rulesConfigDescriptionOptional", ctx_r2.rulesConfigDescription)("editable", false)("rulesConfigToDisplay", ctx_r2.currentConfigRoom == null ? null : ctx_r2.currentConfigRoom.rulesConfig);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵproperty"]("rulesConfigDescriptionOptional", ctx_r2.rulesConfigDescription)("editable", false)("rulesConfigToDisplay", ctx_r2.getRulesConfigToDisplay());
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵadvance"](6);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵproperty"]("ngIf", ctx_r2.getConfigDemo() !== undefined);
   }
@@ -9756,7 +9756,8 @@ let PartCreationComponent = class PartCreationComponent extends _BaseWrapperComp
   navigateThereAfterGameCanceled = ['/lobby'];
   configFormGroup;
   allDocDeleted = false;
-  rulesConfig = _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPOptional.empty(); // Provided by RulesConfigurationComponent
+  // Provided by RulesConfigurationComponent
+  rulesConfig = _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPOptional.empty();
   configDemo;
   constructor(activatedRoute, router, connectedUserService, currentGameService, gameService, configRoomService, userService, formBuilder, messageDisplayer, cdr) {
     super(activatedRoute);
@@ -10245,6 +10246,9 @@ let PartCreationComponent = class PartCreationComponent extends _BaseWrapperComp
       _this19.navigateThereAfterGameCanceled = ['/local', urlName];
       yield _this19.cancelGameCreation();
     })();
+  }
+  getRulesConfigToDisplay() {
+    return this.currentConfigRoom?.rulesConfig;
   }
   static ɵfac = function PartCreationComponent_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || PartCreationComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_21__.ActivatedRoute), _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_21__.Router), _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵdirectiveInject"](src_app_services_ConnectedUserService__WEBPACK_IMPORTED_MODULE_3__.ConnectedUserService), _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵdirectiveInject"](src_app_services_CurrentGameService__WEBPACK_IMPORTED_MODULE_9__.CurrentGameService), _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵdirectiveInject"](_services_GameService__WEBPACK_IMPORTED_MODULE_10__.GameService), _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵdirectiveInject"](_services_ConfigRoomService__WEBPACK_IMPORTED_MODULE_11__.ConfigRoomService), _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵdirectiveInject"](src_app_services_UserService__WEBPACK_IMPORTED_MODULE_12__.UserService), _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵdirectiveInject"](_angular_forms__WEBPACK_IMPORTED_MODULE_19__.FormBuilder), _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵdirectiveInject"](src_app_services_MessageDisplayer__WEBPACK_IMPORTED_MODULE_13__.MessageDisplayer), _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_16__.ChangeDetectorRef));
@@ -10802,6 +10806,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 class RulesConfigDescriptionLocalizable {
+  static CUSTOM = () => $localize`Custom`;
   static WIDTH = () => $localize`Width`;
   static HEIGHT = () => $localize`Height`;
   static SIZE = () => $localize`Size`;
@@ -10895,13 +10900,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   RulesConfigurationComponent: () => (/* binding */ RulesConfigurationComponent)
 /* harmony export */ });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ 37580);
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/forms */ 34456);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/core */ 37580);
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/forms */ 34456);
 /* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @everyboard/lib */ 65042);
 /* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _BaseWrapperComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../BaseWrapperComponent */ 73235);
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */ 95072);
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/common */ 60316);
+/* harmony import */ var _RulesConfigDescription__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./RulesConfigDescription */ 53052);
+/* harmony import */ var _BaseWrapperComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../BaseWrapperComponent */ 73235);
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/router */ 95072);
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/common */ 60316);
+
 
 
 
@@ -10912,132 +10919,137 @@ __webpack_require__.r(__webpack_exports__);
 
 function RulesConfigurationComponent_div_0_option_11_Template(rf, ctx) {
   if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](0, "option", 17);
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](0, "option", 11);
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtext"](1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementEnd"]();
   }
   if (rf & 2) {
     const standardConfig_r3 = ctx.$implicit;
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("value", standardConfig_r3.name());
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtextInterpolate1"](" ", standardConfig_r3.name(), " ");
+    const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵnextContext"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵpropertyInterpolate1"]("id", "config-dropdown-", standardConfig_r3.name(), "");
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵproperty"]("value", standardConfig_r3.name())("selected", ctx_r1.isSelectedConfig(standardConfig_r3.name()));
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtextInterpolate1"](" ", standardConfig_r3.name(), " ");
   }
 }
 function RulesConfigurationComponent_div_0_div_16_label_8_Template(rf, ctx) {
   if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](0, "label", 23);
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelement"](1, "input", 24);
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](0, "label", 22);
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelement"](1, "input", 23);
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementEnd"]();
   }
   if (rf & 2) {
-    const configParameter_r4 = _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵnextContext"]().$implicit;
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵpropertyInterpolate1"]("id", "", configParameter_r4, "_boolean_config_input");
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("formControlName", configParameter_r4);
+    const configParameter_r4 = _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵnextContext"]().$implicit;
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵpropertyInterpolate1"]("id", "", configParameter_r4, "_boolean_config_input");
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵproperty"]("formControlName", configParameter_r4);
   }
 }
 function RulesConfigurationComponent_div_0_div_16_ng_template_9_div_0_Template(rf, ctx) {
   if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](0, "div", 8);
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelement"](1, "input", 27);
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](0, "div", 8);
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelement"](1, "input", 26);
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementEnd"]();
   }
   if (rf & 2) {
-    const configParameter_r4 = _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵnextContext"](2).$implicit;
-    const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵnextContext"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵpropertyInterpolate1"]("id", "", configParameter_r4, "_number_config_input");
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵpropertyInterpolate"]("placeholder", ctx_r1.rulesConfigDescription.getI18nName(configParameter_r4));
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("formControlName", configParameter_r4)("ngClass", ctx_r1.isValid(configParameter_r4) === false ? "is-danger" : "");
+    const configParameter_r4 = _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵnextContext"](2).$implicit;
+    const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵnextContext"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵpropertyInterpolate1"]("id", "", configParameter_r4, "_number_config_input");
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵpropertyInterpolate"]("placeholder", ctx_r1.rulesConfigDescription.getI18nName(configParameter_r4));
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵproperty"]("formControlName", configParameter_r4)("ngClass", ctx_r1.isValid(configParameter_r4) === false ? "is-danger" : "");
   }
 }
 function RulesConfigurationComponent_div_0_div_16_ng_template_9_div_1_Template(rf, ctx) {
   if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](0, "div", 28);
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](0, "div", 27);
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtext"](1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementEnd"]();
   }
   if (rf & 2) {
-    const configParameter_r4 = _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵnextContext"](2).$implicit;
-    const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵnextContext"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵpropertyInterpolate1"]("id", "", configParameter_r4, "-error");
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtextInterpolate"](ctx_r1.getErrorMessage(configParameter_r4));
+    const configParameter_r4 = _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵnextContext"](2).$implicit;
+    const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵnextContext"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵpropertyInterpolate1"]("id", "", configParameter_r4, "-error");
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtextInterpolate"](ctx_r1.getErrorMessage(configParameter_r4));
   }
 }
 function RulesConfigurationComponent_div_0_div_16_ng_template_9_Template(rf, ctx) {
   if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtemplate"](0, RulesConfigurationComponent_div_0_div_16_ng_template_9_div_0_Template, 2, 5, "div", 25)(1, RulesConfigurationComponent_div_0_div_16_ng_template_9_div_1_Template, 2, 3, "div", 26);
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtemplate"](0, RulesConfigurationComponent_div_0_div_16_ng_template_9_div_0_Template, 2, 5, "div", 24)(1, RulesConfigurationComponent_div_0_div_16_ng_template_9_div_1_Template, 2, 3, "div", 25);
   }
   if (rf & 2) {
-    const configParameter_r4 = _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵnextContext"]().$implicit;
-    const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵnextContext"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("ngIf", ctx_r1.isNumber(configParameter_r4));
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("ngIf", ctx_r1.isValid(configParameter_r4) === false);
+    const configParameter_r4 = _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵnextContext"]().$implicit;
+    const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵnextContext"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵproperty"]("ngIf", ctx_r1.isNumber(configParameter_r4));
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵproperty"]("ngIf", ctx_r1.isValid(configParameter_r4) === false);
   }
 }
 function RulesConfigurationComponent_div_0_div_16_Template(rf, ctx) {
   if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](0, "div", 18)(1, "div", 19)(2, "div", 20)(3, "label", 6);
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](4);
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]()();
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](5, "div", 7)(6, "div", 21)(7, "div", 8);
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtemplate"](8, RulesConfigurationComponent_div_0_div_16_label_8_Template, 2, 3, "label", 22)(9, RulesConfigurationComponent_div_0_div_16_ng_template_9_Template, 2, 2, "ng-template", null, 0, _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtemplateRefExtractor"]);
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]()()()()();
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](0, "div", 17)(1, "div", 18)(2, "div", 19)(3, "label", 6);
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtext"](4);
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementEnd"]()();
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](5, "div", 7)(6, "div", 20)(7, "div", 8);
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtemplate"](8, RulesConfigurationComponent_div_0_div_16_label_8_Template, 2, 3, "label", 21)(9, RulesConfigurationComponent_div_0_div_16_ng_template_9_Template, 2, 2, "ng-template", null, 0, _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtemplateRefExtractor"]);
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementEnd"]()()()()();
   }
   if (rf & 2) {
     const configParameter_r4 = ctx.$implicit;
-    const notBoolean_r5 = _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵreference"](10);
-    const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵnextContext"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵpropertyInterpolate1"]("id", "", configParameter_r4, "_config");
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](4);
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtextInterpolate"](ctx_r1.rulesConfigDescription.getI18nName(configParameter_r4));
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](4);
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("ngIf", ctx_r1.isBoolean(configParameter_r4))("ngIfElse", notBoolean_r5);
+    const notBoolean_r5 = _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵreference"](10);
+    const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵnextContext"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵpropertyInterpolate1"]("id", "", configParameter_r4, "_config");
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵadvance"](4);
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtextInterpolate"](ctx_r1.rulesConfigDescription.getI18nName(configParameter_r4));
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵadvance"](4);
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵproperty"]("ngIf", ctx_r1.isBoolean(configParameter_r4))("ngIfElse", notBoolean_r5);
   }
 }
 function RulesConfigurationComponent_div_0_Template(rf, ctx) {
   if (rf & 1) {
-    const _r1 = _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵgetCurrentView"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](0, "div")(1, "div", 4)(2, "div", 5)(3, "label", 6);
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵi18n"](4, 1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]()();
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](5, "div", 7)(6, "div", 8)(7, "div", 9)(8, "select", 10);
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵlistener"]("change", function RulesConfigurationComponent_div_0_Template_select_change_8_listener($event) {
-      _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵrestoreView"](_r1);
-      const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵnextContext"]();
-      return _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵresetView"](ctx_r1.onChange($event));
+    const _r1 = _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵgetCurrentView"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](0, "div")(1, "div", 4)(2, "div", 5)(3, "label", 6);
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵi18n"](4, 1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementEnd"]()();
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](5, "div", 7)(6, "div", 8)(7, "div", 9)(8, "select", 10);
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵlistener"]("change", function RulesConfigurationComponent_div_0_Template_select_change_8_listener($event) {
+      _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵrestoreView"](_r1);
+      const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵnextContext"]();
+      return _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵresetView"](ctx_r1.onChange($event));
     });
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](9, "option", 11);
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](10);
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtemplate"](11, RulesConfigurationComponent_div_0_option_11_Template, 2, 2, "option", 12);
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](12, "option", 13);
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵi18n"](13, 2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]()()()()()();
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](14, "form", 14)(15, "fieldset", 15);
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtemplate"](16, RulesConfigurationComponent_div_0_div_16_Template, 11, 5, "div", 16);
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]()()();
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](9, "option", 11);
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtext"](10);
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtemplate"](11, RulesConfigurationComponent_div_0_option_11_Template, 2, 5, "option", 12);
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](12, "option", 13);
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵi18n"](13, 2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementEnd"]()()()()()();
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](14, "form", 14)(15, "fieldset", 15);
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtemplate"](16, RulesConfigurationComponent_div_0_div_16_Template, 11, 5, "div", 16);
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementEnd"]()()();
   }
   if (rf & 2) {
-    const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵnextContext"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](8);
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("disabled", ctx_r1.editable === false);
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("value", ctx_r1.rulesConfigDescription.getDefaultConfig().name());
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtextInterpolate1"](" ", ctx_r1.rulesConfigDescription.getDefaultConfig().name(), " ");
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("ngForOf", ctx_r1.rulesConfigDescription.getNonDefaultStandardConfigs());
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](3);
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵpropertyInterpolate1"]("id", "", ctx_r1.getChosenConfigName(), "_values");
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("formGroup", ctx_r1.rulesConfigForm);
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("ngForOf", ctx_r1.getFields());
+    const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵnextContext"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵadvance"](8);
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵproperty"]("disabled", ctx_r1.editable === false);
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵpropertyInterpolate1"]("id", "config-dropdown-", ctx_r1.rulesConfigDescription.getDefaultConfig().name(), "");
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵproperty"]("value", ctx_r1.rulesConfigDescription.getDefaultConfig().name())("selected", ctx_r1.isSelectedConfig(ctx_r1.rulesConfigDescription.getDefaultConfig().name()));
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtextInterpolate1"](" ", ctx_r1.rulesConfigDescription.getDefaultConfig().name(), " ");
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵproperty"]("ngForOf", ctx_r1.rulesConfigDescription.getNonDefaultStandardConfigs());
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵproperty"]("selected", ctx_r1.isSelectedConfig("Custom"));
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵadvance"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵpropertyInterpolate1"]("id", "", ctx_r1.getChosenConfigName(), "_values");
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵproperty"]("formGroup", ctx_r1.rulesConfigForm);
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵadvance"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵproperty"]("ngForOf", ctx_r1.getFields());
   }
 }
-class RulesConfigurationComponent extends _BaseWrapperComponent__WEBPACK_IMPORTED_MODULE_1__.BaseWrapperComponent {
+class RulesConfigurationComponent extends _BaseWrapperComponent__WEBPACK_IMPORTED_MODULE_2__.BaseWrapperComponent {
   rulesConfigDescriptionOptional;
   rulesConfigDescription;
   // Only needed for the non-creator
@@ -11050,8 +11062,8 @@ class RulesConfigurationComponent extends _BaseWrapperComponent__WEBPACK_IMPORTE
    * we do want to emit something when the current config is invalid,
    * so that the parent component knows that the situation is not ok
    */
-  updateCallback = new _angular_core__WEBPACK_IMPORTED_MODULE_2__.EventEmitter();
-  rulesConfigForm = new _angular_forms__WEBPACK_IMPORTED_MODULE_3__.FormGroup({});
+  updateCallback = new _angular_core__WEBPACK_IMPORTED_MODULE_3__.EventEmitter();
+  rulesConfigForm = new _angular_forms__WEBPACK_IMPORTED_MODULE_4__.FormGroup({});
   urlName; // set in onInit
   chosenConfigName = '';
   constructor(activatedRoute) {
@@ -11081,7 +11093,7 @@ class RulesConfigurationComponent extends _BaseWrapperComponent__WEBPACK_IMPORTE
       const value = this.getRulesConfigDescriptionValue(parameterName, config[parameterName]);
       group[parameterName] = this.getFormControl(value, configurable);
     });
-    this.rulesConfigForm = new _angular_forms__WEBPACK_IMPORTED_MODULE_3__.FormGroup(group);
+    this.rulesConfigForm = new _angular_forms__WEBPACK_IMPORTED_MODULE_4__.FormGroup(group);
   }
   getRulesConfigDescriptionValue(name, defaultValue) {
     if (this.editable) {
@@ -11092,7 +11104,7 @@ class RulesConfigurationComponent extends _BaseWrapperComponent__WEBPACK_IMPORTE
     }
   }
   getFormControl(value, configurable) {
-    const formControl = new _angular_forms__WEBPACK_IMPORTED_MODULE_3__.FormControl(value);
+    const formControl = new _angular_forms__WEBPACK_IMPORTED_MODULE_4__.FormControl(value);
     if (configurable === false) {
       formControl.disable();
     }
@@ -11154,20 +11166,19 @@ class RulesConfigurationComponent extends _BaseWrapperComponent__WEBPACK_IMPORTE
   }
   setChosenConfig(configName) {
     this.chosenConfigName = configName;
-    let config;
     if (this.chosenConfigName === 'Custom') {
-      config = this.rulesConfigDescription.getDefaultConfig().config;
-      this.generateForm(config, this.editable);
+      const defaultConfig = this.rulesConfigDescription.getDefaultConfig().config;
+      this.generateForm(defaultConfig, this.editable);
     } else {
-      config = this.rulesConfigDescription.getConfig(this.chosenConfigName);
-      this.generateForm(config, false);
+      const chosenConfig = this.rulesConfigDescription.getConfig(this.chosenConfigName);
+      this.generateForm(chosenConfig, false);
       // Emit the config directly because standard config are always legal
-      this.updateCallback.emit(_everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.of(config));
+      this.updateCallback.emit(_everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.of(chosenConfig));
     }
   }
   isCustomisable() {
     if (this.rulesConfigDescriptionOptional.isAbsent()) {
-      // This game has no configurability, so no need to show  this component
+      // This game has no configurability, so no need to show this component
       return false;
     } else {
       _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.Utils.assert(this.rulesConfigDescriptionOptional.get().getFields().length > 0, 'If rulesConfigDescriptionOptional is present it should have fields !');
@@ -11183,10 +11194,36 @@ class RulesConfigurationComponent extends _BaseWrapperComponent__WEBPACK_IMPORTE
       this.rulesConfigForm.disable();
     }
   }
+  isSelectedConfig(configName) {
+    if (this.rulesConfigToDisplay == null) {
+      // For creator, who knows the config name
+      return this.chosenConfigName === configName;
+    } else {
+      const defactoConfigName = this.getDefactoConfigName();
+      return defactoConfigName === configName;
+    }
+  }
+  /*
+   * Checks the config parameter values.
+   * If it matches an existing configuration, returns its name.
+   * Otherwise, returns the custom config name ("Custom")
+   */
+  getDefactoConfigName() {
+    const currentConfig = this.rulesConfigToDisplay;
+    const defaultConfigs = this.rulesConfigDescription.getStandardConfigs();
+    const matchingConfigs = defaultConfigs.filter(nameConfig => {
+      return (0,_everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.comparableEquals)(nameConfig.config, currentConfig);
+    });
+    if (matchingConfigs.length === 1) {
+      return matchingConfigs[0].name();
+    } else {
+      return _RulesConfigDescription__WEBPACK_IMPORTED_MODULE_1__.RulesConfigDescriptionLocalizable.CUSTOM();
+    }
+  }
   static ɵfac = function RulesConfigurationComponent_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || RulesConfigurationComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_4__.ActivatedRoute));
+    return new (__ngFactoryType__ || RulesConfigurationComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_5__.ActivatedRoute));
   };
-  static ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdefineComponent"]({
+  static ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵdefineComponent"]({
     type: RulesConfigurationComponent,
     selectors: [["app-rules-configuration"]],
     inputs: {
@@ -11197,7 +11234,7 @@ class RulesConfigurationComponent extends _BaseWrapperComponent__WEBPACK_IMPORTE
     outputs: {
       updateCallback: "updateCallback"
     },
-    features: [_angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵInheritDefinitionFeature"]],
+    features: [_angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵInheritDefinitionFeature"]],
     decls: 1,
     vars: 1,
     consts: () => {
@@ -11221,17 +11258,17 @@ class RulesConfigurationComponent extends _BaseWrapperComponent__WEBPACK_IMPORTE
       } else {
         i18n_1 = $localize`Custom`;
       }
-      return [["notBoolean", ""], i18n_0, i18n_1, [4, "ngIf"], [1, "field", "columns", "is-gapless", "mb-0"], [1, "field-label", "column"], [1, "label", "has-text-left"], [1, "field-body", "column", "has-text-right"], [1, "control"], [1, "select", "is-primary", "is-fullwidth"], ["id", "ruleSelect", 3, "change", "disabled"], ["selected", "", 3, "value"], [3, "value", 4, "ngFor", "ngForOf"], ["value", "Custom"], [1, "mt-2", 3, "formGroup", "id"], [1, "left-border"], ["class", "mb-2", 3, "id", 4, "ngFor", "ngForOf"], [3, "value"], [1, "mb-2", 3, "id"], [1, "field", "is-horizontal", "columns", "is-gapless"], [1, "field-label", "column", "is-three-quarters"], [1, "field", "is-narrow"], ["class", "checkbox", 4, "ngIf", "ngIfElse"], [1, "checkbox"], ["type", "checkbox", "required", "", 1, "checkbox", 3, "id", "formControlName"], ["class", "control", 4, "ngIf"], ["class", "help is-danger", "role", "alert", 3, "id", 4, "ngIf"], ["type", "number", "required", "", 1, "input", "is-small", 3, "id", "formControlName", "ngClass", "placeholder"], ["role", "alert", 1, "help", "is-danger", 3, "id"]];
+      return [["notBoolean", ""], i18n_0, i18n_1, [4, "ngIf"], [1, "field", "columns", "is-gapless", "mb-0"], [1, "field-label", "column"], [1, "label", "has-text-left"], [1, "field-body", "column", "has-text-right"], [1, "control"], [1, "select", "is-primary", "is-fullwidth"], ["id", "ruleSelect", 3, "change", "disabled"], [3, "id", "value", "selected"], [3, "id", "value", "selected", 4, "ngFor", "ngForOf"], ["value", "Custom", "id", "config-dropdown-custom", 3, "selected"], [1, "mt-2", 3, "formGroup", "id"], [1, "left-border"], ["class", "mb-2", 3, "id", 4, "ngFor", "ngForOf"], [1, "mb-2", 3, "id"], [1, "field", "is-horizontal", "columns", "is-gapless"], [1, "field-label", "column", "is-three-quarters"], [1, "field", "is-narrow"], ["class", "checkbox", 4, "ngIf", "ngIfElse"], [1, "checkbox"], ["type", "checkbox", "required", "", 1, "checkbox", 3, "id", "formControlName"], ["class", "control", 4, "ngIf"], ["class", "help is-danger", "role", "alert", 3, "id", 4, "ngIf"], ["type", "number", "required", "", 1, "input", "is-small", 3, "id", "formControlName", "ngClass", "placeholder"], ["role", "alert", 1, "help", "is-danger", 3, "id"]];
     },
     template: function RulesConfigurationComponent_Template(rf, ctx) {
       if (rf & 1) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtemplate"](0, RulesConfigurationComponent_div_0_Template, 17, 8, "div", 3);
+        _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtemplate"](0, RulesConfigurationComponent_div_0_Template, 17, 12, "div", 3);
       }
       if (rf & 2) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("ngIf", ctx.isCustomisable());
+        _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵproperty"]("ngIf", ctx.isCustomisable());
       }
     },
-    dependencies: [_angular_common__WEBPACK_IMPORTED_MODULE_5__.NgClass, _angular_common__WEBPACK_IMPORTED_MODULE_5__.NgForOf, _angular_common__WEBPACK_IMPORTED_MODULE_5__.NgIf, _angular_forms__WEBPACK_IMPORTED_MODULE_3__["ɵNgNoValidate"], _angular_forms__WEBPACK_IMPORTED_MODULE_3__.NgSelectOption, _angular_forms__WEBPACK_IMPORTED_MODULE_3__["ɵNgSelectMultipleOption"], _angular_forms__WEBPACK_IMPORTED_MODULE_3__.DefaultValueAccessor, _angular_forms__WEBPACK_IMPORTED_MODULE_3__.NumberValueAccessor, _angular_forms__WEBPACK_IMPORTED_MODULE_3__.CheckboxControlValueAccessor, _angular_forms__WEBPACK_IMPORTED_MODULE_3__.NgControlStatus, _angular_forms__WEBPACK_IMPORTED_MODULE_3__.NgControlStatusGroup, _angular_forms__WEBPACK_IMPORTED_MODULE_3__.RequiredValidator, _angular_forms__WEBPACK_IMPORTED_MODULE_3__.CheckboxRequiredValidator, _angular_forms__WEBPACK_IMPORTED_MODULE_3__.FormGroupDirective, _angular_forms__WEBPACK_IMPORTED_MODULE_3__.FormControlName],
+    dependencies: [_angular_common__WEBPACK_IMPORTED_MODULE_6__.NgClass, _angular_common__WEBPACK_IMPORTED_MODULE_6__.NgForOf, _angular_common__WEBPACK_IMPORTED_MODULE_6__.NgIf, _angular_forms__WEBPACK_IMPORTED_MODULE_4__["ɵNgNoValidate"], _angular_forms__WEBPACK_IMPORTED_MODULE_4__.NgSelectOption, _angular_forms__WEBPACK_IMPORTED_MODULE_4__["ɵNgSelectMultipleOption"], _angular_forms__WEBPACK_IMPORTED_MODULE_4__.DefaultValueAccessor, _angular_forms__WEBPACK_IMPORTED_MODULE_4__.NumberValueAccessor, _angular_forms__WEBPACK_IMPORTED_MODULE_4__.CheckboxControlValueAccessor, _angular_forms__WEBPACK_IMPORTED_MODULE_4__.NgControlStatus, _angular_forms__WEBPACK_IMPORTED_MODULE_4__.NgControlStatusGroup, _angular_forms__WEBPACK_IMPORTED_MODULE_4__.RequiredValidator, _angular_forms__WEBPACK_IMPORTED_MODULE_4__.CheckboxRequiredValidator, _angular_forms__WEBPACK_IMPORTED_MODULE_4__.FormGroupDirective, _angular_forms__WEBPACK_IMPORTED_MODULE_4__.FormControlName],
     encapsulation: 2
   });
 }
