@@ -11434,6 +11434,7 @@ class TutorialStepMessage {
   static FAILED_TRY_AGAIN = () => $localize`Failed, try again.`;
   static OBJECT_OF_THE_GAME = () => $localize`Object of the game`;
   static INITIAL_BOARD_AND_OBJECT_OF_THE_GAME = () => $localize`Initial board and object of the game`;
+  static TRANSLATIONS = () => $localize`Translations`;
   static RULES_CONFIGURATION = () => $localize`Rules configuration`;
 }
 
@@ -12660,7 +12661,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   AbaloneFailure: () => (/* binding */ AbaloneFailure)
 /* harmony export */ });
 class AbaloneFailure {
-  static CANNOT_MOVE_MORE_THAN_THREE_PIECES = () => $localize`You cannot move more than 3 of your pieces!`;
+  static CANNOT_MOVE_MORE_THAN_N_PIECES = n => $localize`You cannot move more than ${n} of your pieces!`;
   static NOT_ENOUGH_PIECE_TO_PUSH = () => $localize`You don't have enough pieces to push that group!`;
   static CANNOT_PUSH_YOUR_OWN_PIECES = () => $localize`You cannot push this piece because it is blocked by one of yours!`;
   static MUST_ONLY_TRANSLATE_YOUR_PIECES = () => $localize`This line contains pieces of your opponent or empty spaces, which is forbidden.`;
@@ -12704,8 +12705,6 @@ class AbaloneMove extends src_app_jscaip_MoveCoord__WEBPACK_IMPORTED_MODULE_3__.
     const hexaDirectionOptional = src_app_jscaip_HexaDirection__WEBPACK_IMPORTED_MODULE_2__.HexaDirection.factory.fromDelta(direction.x, direction.y);
     _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.Utils.assert(hexaDirectionOptional.isSuccess(), 'Invalid direction'); // Should be ensured by component
     const hexaDirection = hexaDirectionOptional.get();
-    const distance = coords[1].getLinearDistanceToward(coords[0]);
-    _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.Utils.assert(distance <= 2, 'Distance between first coord and last coord is too big');
     if (hexaDirection.equals(dir)) {
       return AbaloneMove.ofSingleCoord(coords[1], dir);
     } else if (hexaDirection.getOpposite().equals(dir)) {
@@ -12733,6 +12732,9 @@ class AbaloneMove extends src_app_jscaip_MoveCoord__WEBPACK_IMPORTED_MODULE_3__.
   }
   equals(other) {
     return other.coord.equals(this.coord) && other.dir.equals(this.dir) && other.lastPiece.equals(this.lastPiece);
+  }
+  isTranslation() {
+    return this.lastPiece.isPresent() && this.coord.getDirectionToward(this.lastPiece.get()).get().equals(this.dir) === false;
   }
 }
 
@@ -12764,7 +12766,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 class AbaloneMoveGenerator extends src_app_jscaip_AI_AI__WEBPACK_IMPORTED_MODULE_0__.MoveGenerator {
-  getListMoves(node, _config) {
+  getListMoves(node, config) {
     const moves = [];
     const state = node.gameState;
     const player = state.getCurrentPlayer();
@@ -12776,7 +12778,7 @@ class AbaloneMoveGenerator extends src_app_jscaip_AI_AI__WEBPACK_IMPORTED_MODULE
         }
         for (const dir of src_app_jscaip_HexaDirection__WEBPACK_IMPORTED_MODULE_2__.HexaDirection.factory.all) {
           const move = _AbaloneMove__WEBPACK_IMPORTED_MODULE_4__.AbaloneMove.ofSingleCoord(first, dir);
-          if (this.isAcceptablePush(move, state)) {
+          if (this.isAcceptablePush(move, state, config)) {
             moves.push(move);
           } else {
             continue;
@@ -12789,7 +12791,7 @@ class AbaloneMoveGenerator extends src_app_jscaip_AI_AI__WEBPACK_IMPORTED_MODULE
               const second = first.getNext(alignment, distance);
               if (_AbaloneState__WEBPACK_IMPORTED_MODULE_6__.AbaloneState.isOnBoard(second)) {
                 const translation = _AbaloneMove__WEBPACK_IMPORTED_MODULE_4__.AbaloneMove.ofDoubleCoord(first, second, dir);
-                if (_AbaloneRules__WEBPACK_IMPORTED_MODULE_5__.AbaloneRules.get().isLegal(translation, state).isSuccess()) {
+                if (_AbaloneRules__WEBPACK_IMPORTED_MODULE_5__.AbaloneRules.get().isLegal(translation, state, config).isSuccess()) {
                   moves.push(translation);
                 }
               } else {
@@ -12802,9 +12804,9 @@ class AbaloneMoveGenerator extends src_app_jscaip_AI_AI__WEBPACK_IMPORTED_MODULE
     }
     return new _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.Set(moves).toList();
   }
-  isAcceptablePush(move, state) {
+  isAcceptablePush(move, state, config) {
     const scores = state.getScores();
-    const status = _AbaloneRules__WEBPACK_IMPORTED_MODULE_5__.AbaloneRules.get().isLegal(move, state);
+    const status = _AbaloneRules__WEBPACK_IMPORTED_MODULE_5__.AbaloneRules.get().isLegal(move, state, config);
     if (status.isSuccess()) {
       const opponent = state.getCurrentOpponent();
       const newState = new _AbaloneState__WEBPACK_IMPORTED_MODULE_6__.AbaloneState(status.get(), state.turn + 1);
@@ -12843,6 +12845,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _AbaloneState__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./AbaloneState */ 44996);
 /* harmony import */ var src_app_jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! src/app/jscaip/GameStatus */ 92933);
 /* harmony import */ var src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! src/app/jscaip/Player */ 33412);
+/* harmony import */ var src_app_components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! src/app/components/wrapper-components/rules-configuration/RulesConfigDescription */ 53052);
+/* harmony import */ var src_app_utils_MGPValidator__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! src/app/utils/MGPValidator */ 15936);
+
+
 
 
 
@@ -12853,13 +12859,23 @@ __webpack_require__.r(__webpack_exports__);
 
 
 class AbaloneNode extends src_app_jscaip_AI_GameNode__WEBPACK_IMPORTED_MODULE_1__.GameNode {}
-class AbaloneRules extends src_app_jscaip_Rules__WEBPACK_IMPORTED_MODULE_2__.Rules {
+class AbaloneRules extends src_app_jscaip_Rules__WEBPACK_IMPORTED_MODULE_2__.ConfigurableRules {
   static singleton = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.empty();
+  static RULES_CONFIG_DESCRIPTION = new src_app_components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_9__.RulesConfigDescription({
+    name: () => $localize`Abalone`,
+    config: {
+      nbToCapture: new src_app_components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_9__.NumberConfig(6, () => $localize`Number of pieces to capture in order to win`, src_app_utils_MGPValidator__WEBPACK_IMPORTED_MODULE_10__.MGPValidators.range(1, 14)),
+      maximumPushingGroupSize: new src_app_components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_9__.NumberConfig(3, () => $localize`Maximum pushing group size`, src_app_utils_MGPValidator__WEBPACK_IMPORTED_MODULE_10__.MGPValidators.range(1, 9))
+    }
+  });
   static get() {
     if (AbaloneRules.singleton.isAbsent()) {
       AbaloneRules.singleton = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.of(new AbaloneRules());
     }
     return AbaloneRules.singleton.get();
+  }
+  getRulesConfigDescription() {
+    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.of(AbaloneRules.RULES_CONFIG_DESCRIPTION);
   }
   getInitialState() {
     const _ = src_app_jscaip_FourStatePiece__WEBPACK_IMPORTED_MODULE_0__.FourStatePiece.EMPTY;
@@ -12892,13 +12908,13 @@ class AbaloneRules extends src_app_jscaip_Rules__WEBPACK_IMPORTED_MODULE_2__.Rul
   applyLegalMove(_move, state, _config, newBoard) {
     return new _AbaloneState__WEBPACK_IMPORTED_MODULE_6__.AbaloneState(newBoard, state.turn + 1);
   }
-  isLegal(move, state) {
+  isLegal(move, state, config) {
     const firstPieceValidity = this.getFirstPieceValidity(move, state);
     if (firstPieceValidity.isFailure()) {
       return firstPieceValidity.toOtherFallible();
     }
     if (move.isSingleCoord()) {
-      return this.isLegalPush(move, state);
+      return this.isLegalPush(move, state, config.get());
     } else {
       return this.isLegalSideStep(move, state);
     }
@@ -12913,19 +12929,19 @@ class AbaloneRules extends src_app_jscaip_Rules__WEBPACK_IMPORTED_MODULE_2__.Rul
       return _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPValidation.SUCCESS;
     }
   }
-  isLegalPush(move, state) {
+  isLegalPush(move, state, config) {
     let pieces = 1;
     let tested = move.coord.getNext(move.dir);
     const player = src_app_jscaip_FourStatePiece__WEBPACK_IMPORTED_MODULE_0__.FourStatePiece.ofPlayer(state.getCurrentPlayer());
     const empty = src_app_jscaip_FourStatePiece__WEBPACK_IMPORTED_MODULE_0__.FourStatePiece.EMPTY;
     const newBoard = state.getCopiedBoard();
     newBoard[move.coord.y][move.coord.x] = empty;
-    while (pieces <= 3 && state.isOnBoard(tested) && state.getPieceAt(tested) === player) {
+    while (pieces <= config.maximumPushingGroupSize && state.isOnBoard(tested) && state.getPieceAt(tested) === player) {
       pieces++;
       tested = tested.getNext(move.dir);
     }
-    if (pieces > 3) {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPFallible.failure(_AbaloneFailure__WEBPACK_IMPORTED_MODULE_5__.AbaloneFailure.CANNOT_MOVE_MORE_THAN_THREE_PIECES());
+    if (pieces > config.maximumPushingGroupSize) {
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPFallible.failure(_AbaloneFailure__WEBPACK_IMPORTED_MODULE_5__.AbaloneFailure.CANNOT_MOVE_MORE_THAN_N_PIECES(config.maximumPushingGroupSize));
     } else if (_AbaloneState__WEBPACK_IMPORTED_MODULE_6__.AbaloneState.isOnBoard(tested) === false) {
       return _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPFallible.success(newBoard);
     }
@@ -12960,11 +12976,12 @@ class AbaloneRules extends src_app_jscaip_Rules__WEBPACK_IMPORTED_MODULE_2__.Rul
     }
     return _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPFallible.success(newBoard);
   }
-  getGameStatus(node) {
+  getGameStatus(node, config) {
     const scores = node.gameState.getScores();
-    if (5 < scores.get(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_8__.Player.ZERO)) {
+    const nbToCapture = config.get().nbToCapture;
+    if (nbToCapture <= scores.get(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_8__.Player.ZERO)) {
       return src_app_jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_7__.GameStatus.ZERO_WON;
-    } else if (5 < scores.get(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_8__.Player.ONE)) {
+    } else if (nbToCapture <= scores.get(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_8__.Player.ONE)) {
       return src_app_jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_7__.GameStatus.ONE_WON;
     } else {
       return src_app_jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_7__.GameStatus.ONGOING;
@@ -13070,14 +13087,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   AbaloneTutorial: () => (/* binding */ AbaloneTutorial)
 /* harmony export */ });
-/* harmony import */ var src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! src/app/components/wrapper-components/tutorial-game-wrapper/TutorialStep */ 94270);
-/* harmony import */ var src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/jscaip/Coord */ 95600);
-/* harmony import */ var src_app_jscaip_FourStatePiece__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/jscaip/FourStatePiece */ 57304);
-/* harmony import */ var src_app_jscaip_HexaDirection__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/jscaip/HexaDirection */ 95716);
-/* harmony import */ var _AbaloneState__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./AbaloneState */ 44996);
-/* harmony import */ var _AbaloneMove__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./AbaloneMove */ 52444);
-/* harmony import */ var _AbaloneRules__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./AbaloneRules */ 25782);
-/* harmony import */ var src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! src/app/components/wrapper-components/tutorial-game-wrapper/TutorialStepMessage */ 22303);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @everyboard/lib */ 65042);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/components/wrapper-components/tutorial-game-wrapper/TutorialStep */ 94270);
+/* harmony import */ var src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/jscaip/Coord */ 95600);
+/* harmony import */ var src_app_jscaip_FourStatePiece__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/jscaip/FourStatePiece */ 57304);
+/* harmony import */ var src_app_jscaip_HexaDirection__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/jscaip/HexaDirection */ 95716);
+/* harmony import */ var _AbaloneState__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./AbaloneState */ 44996);
+/* harmony import */ var _AbaloneMove__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./AbaloneMove */ 52444);
+/* harmony import */ var _AbaloneRules__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./AbaloneRules */ 25782);
+/* harmony import */ var src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! src/app/components/wrapper-components/tutorial-game-wrapper/TutorialStepMessage */ 22303);
 
 
 
@@ -13086,20 +13105,19 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const _ = src_app_jscaip_FourStatePiece__WEBPACK_IMPORTED_MODULE_2__.FourStatePiece.EMPTY;
-const N = src_app_jscaip_FourStatePiece__WEBPACK_IMPORTED_MODULE_2__.FourStatePiece.UNREACHABLE;
-const O = src_app_jscaip_FourStatePiece__WEBPACK_IMPORTED_MODULE_2__.FourStatePiece.ZERO;
-const X = src_app_jscaip_FourStatePiece__WEBPACK_IMPORTED_MODULE_2__.FourStatePiece.ONE;
-class AbaloneTutorial extends src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_0__.Tutorial {
-  tutorial = [src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_0__.TutorialStep.informational(src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_7__.TutorialStepMessage.INITIAL_BOARD_AND_OBJECT_OF_THE_GAME(), $localize`At Abalone, the object of the game is to be the first player to push 6 opponent's pieces out of the board. Let us see how!`, _AbaloneRules__WEBPACK_IMPORTED_MODULE_6__.AbaloneRules.get().getInitialState()), src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_0__.TutorialStep.anyMove($localize`Moving a piece`, $localize`At each turn, move one, two, or three pieces either along their line, or on their side.
-        For your moves you can therefore choose between up to 6 directions.
-        The pieces you move must be aligned and consecutive, and the move should land on an empty space (except to push, we will see that later).
-        To make a move, click on one of your pieces, then click on an arrow to choose the move direction.<br/><br/>
-        You're playing Dark, make any move!`, _AbaloneRules__WEBPACK_IMPORTED_MODULE_6__.AbaloneRules.get().getInitialState(), _AbaloneMove__WEBPACK_IMPORTED_MODULE_5__.AbaloneMove.ofSingleCoord(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord(2, 6), src_app_jscaip_HexaDirection__WEBPACK_IMPORTED_MODULE_3__.HexaDirection.UP), src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_7__.TutorialStepMessage.CONGRATULATIONS()), src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_0__.TutorialStep.fromMove($localize`Pushing`, $localize`To push one opponent piece, you must move at least two of your pieces.
-        To push two opponent pieces, you must move three of your pieces.
-        If one of your pieces is in the way, it will be impossible to push.
-        You cannot move more than three pieces.<br/><br/>
-        Only one push towards the right is possible here, find it. (You're playing Dark).`, new _AbaloneState__WEBPACK_IMPORTED_MODULE_4__.AbaloneState([[N, N, N, N, _, O, O, X, X], [N, N, N, _, _, _, _, _, _], [N, N, _, O, O, O, X, O, _], [N, _, _, _, _, _, _, _, _], [_, _, _, _, O, O, O, X, X], [_, _, _, _, _, _, _, _, N], [_, _, _, _, O, X, _, N, N], [_, _, _, O, _, _, N, N, N], [_, _, O, _, _, N, N, N, N]], 0), [_AbaloneMove__WEBPACK_IMPORTED_MODULE_5__.AbaloneMove.ofSingleCoord(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord(4, 4), src_app_jscaip_HexaDirection__WEBPACK_IMPORTED_MODULE_3__.HexaDirection.RIGHT)], $localize`Congratulations! You know everything you need to start a game!`, src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_7__.TutorialStepMessage.FAILED_TRY_AGAIN())];
+
+const _ = src_app_jscaip_FourStatePiece__WEBPACK_IMPORTED_MODULE_3__.FourStatePiece.EMPTY;
+const N = src_app_jscaip_FourStatePiece__WEBPACK_IMPORTED_MODULE_3__.FourStatePiece.UNREACHABLE;
+const O = src_app_jscaip_FourStatePiece__WEBPACK_IMPORTED_MODULE_3__.FourStatePiece.ZERO;
+const X = src_app_jscaip_FourStatePiece__WEBPACK_IMPORTED_MODULE_3__.FourStatePiece.ONE;
+class AbaloneTutorial extends src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_1__.Tutorial {
+  tutorial = [src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_1__.TutorialStep.informational(src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_8__.TutorialStepMessage.INITIAL_BOARD_AND_OBJECT_OF_THE_GAME(), $localize`At Abalone, the object of the game is to be the first player to push 6 opponent's pieces out of the board. Let us see how!`, _AbaloneRules__WEBPACK_IMPORTED_MODULE_7__.AbaloneRules.get().getInitialState()), src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_1__.TutorialStep.anyMove($localize`Moving a piece`, $localize`At each turn, move one, two, or three pieces either along their line, or on their side. For your moves you can therefore choose between up to 6 directions. The pieces you move must be aligned and consecutive, and the move should land on an empty space (except to push, we will see that later). To make a move, click on one of your pieces, then click on an arrow to choose the move direction.<br/><br/> You're playing Dark, make any move!`, _AbaloneRules__WEBPACK_IMPORTED_MODULE_7__.AbaloneRules.get().getInitialState(), _AbaloneMove__WEBPACK_IMPORTED_MODULE_6__.AbaloneMove.ofSingleCoord(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(2, 6), src_app_jscaip_HexaDirection__WEBPACK_IMPORTED_MODULE_4__.HexaDirection.UP), src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_8__.TutorialStepMessage.CONGRATULATIONS()), src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_1__.TutorialStep.fromMove($localize`Pushing`, $localize`To push one opponent piece, you must move at least two of your pieces. To push two opponent pieces, you must move three of your pieces. If one of your pieces is in the way, it will be impossible to push. You cannot move more than three pieces.<br/><br/> Only one push towards the right is possible here, find it. (You're playing Dark).`, new _AbaloneState__WEBPACK_IMPORTED_MODULE_5__.AbaloneState([[N, N, N, N, _, O, O, X, X], [N, N, N, _, _, _, _, _, _], [N, N, _, O, O, O, X, O, _], [N, _, _, _, _, _, _, _, _], [_, _, _, _, O, O, O, X, X], [_, _, _, _, _, _, _, _, N], [_, _, _, _, O, X, _, N, N], [_, _, _, O, _, _, N, N, N], [_, _, O, _, _, N, N, N, N]], 0), [_AbaloneMove__WEBPACK_IMPORTED_MODULE_6__.AbaloneMove.ofSingleCoord(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(4, 4), src_app_jscaip_HexaDirection__WEBPACK_IMPORTED_MODULE_4__.HexaDirection.RIGHT)], src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_8__.TutorialStepMessage.CONGRATULATIONS(), src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_8__.TutorialStepMessage.FAILED_TRY_AGAIN()), src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_1__.TutorialStep.fromPredicate(src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_8__.TutorialStepMessage.TRANSLATIONS(), $localize`To translate a group of pieces, first select the first piece, then the last piece, and finally click on one of the four lateral directions in which the group can move without touching opponent pieces.<br/><br/>Go ahead, translate some pieces.`, _AbaloneRules__WEBPACK_IMPORTED_MODULE_7__.AbaloneRules.get().getInitialState(), _AbaloneMove__WEBPACK_IMPORTED_MODULE_6__.AbaloneMove.ofDoubleCoord(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(2, 6), new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(4, 6), src_app_jscaip_HexaDirection__WEBPACK_IMPORTED_MODULE_4__.HexaDirection.UP), (move, _ps, _rs) => {
+    if (move.isTranslation()) {
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.SUCCESS;
+    } else {
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.failure($localize`This is not a translation, this is a "pushing move", try a translation.`);
+    }
+  }, $localize`Congratulations! You know everything you need to start a game!`), src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_1__.TutorialStep.informational(src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_8__.TutorialStepMessage.RULES_CONFIGURATION(), $localize`You will see when creating a game that you can configure two things.<br/><ul><li>First, the number of captures needed to win. The default is 6, changing it will help changing the game's duration if wanted.</li><li>Last, the maximum size of a moved group. The default is 3 but if you want a more chaotic and fun game, you could increase that limit and play a more powerful alternative version of the game!</li></ul>`, _AbaloneRules__WEBPACK_IMPORTED_MODULE_7__.AbaloneRules.get().getInitialState())];
 }
 
 /***/ }),
@@ -13409,6 +13427,7 @@ class AbaloneComponent extends src_app_components_game_components_game_component
   }
   showDirection() {
     const state = this.getState();
+    const config = this.getConfig();
     for (const dir of src_app_jscaip_HexaDirection__WEBPACK_IMPORTED_MODULE_6__.HexaDirection.factory.all) {
       const startToEnd = this.getArrowPath(dir);
       let theoretical;
@@ -13417,7 +13436,7 @@ class AbaloneComponent extends src_app_components_game_components_game_component
       } else {
         theoretical = _AbaloneMove__WEBPACK_IMPORTED_MODULE_12__.AbaloneMove.ofDoubleCoord(startToEnd.start, startToEnd.end, dir);
       }
-      const isLegal = this.rules.isLegal(theoretical, state);
+      const isLegal = this.rules.isLegal(theoretical, state, config);
       if (isLegal.isSuccess()) {
         const arrow = new src_app_components_game_components_arrow_component_Arrow__WEBPACK_IMPORTED_MODULE_16__.Arrow(startToEnd.start, startToEnd.pointed, dir, c => this.hexaLayout.getCenterAt(c));
         this.directions.push(arrow);
@@ -13463,6 +13482,7 @@ class AbaloneComponent extends src_app_components_game_components_game_component
   secondClick(coord) {
     var _this7 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+      const maxGroup = _this7.getConfig().get().maximumPushingGroupSize;
       const firstPiece = _this7.selecteds[0];
       if (coord.equals(firstPiece)) {
         return _this7.cancelMove();
@@ -13471,20 +13491,18 @@ class AbaloneComponent extends src_app_components_game_components_game_component
         return _this7.firstClick(coord);
       }
       const distance = coord.getLinearDistanceToward(firstPiece);
-      if (distance > 2) {
-        return _this7.cancelMove(_AbaloneFailure__WEBPACK_IMPORTED_MODULE_10__.AbaloneFailure.CANNOT_MOVE_MORE_THAN_THREE_PIECES());
+      if (maxGroup <= distance) {
+        return _this7.cancelMove(_AbaloneFailure__WEBPACK_IMPORTED_MODULE_10__.AbaloneFailure.CANNOT_MOVE_MORE_THAN_N_PIECES(maxGroup));
       }
       const alignment = firstPiece.getDirectionToward(coord).get();
       _this7.selecteds = [firstPiece];
       for (let i = 0; i < distance; i++) {
-        _this7.selecteds.push(firstPiece.getNext(alignment, i + 1));
-      }
-      if (_this7.selecteds.length === 3) {
-        const middle = _this7.selecteds[1];
+        const testedCoord = firstPiece.getNext(alignment, i + 1);
         const player = _this7.getState().getCurrentPlayer();
-        if (_this7.hexaBoard[middle.y][middle.x].is(player) === false) {
+        if (_this7.hexaBoard[testedCoord.y][testedCoord.x].is(player) === false) {
           return _this7.firstClick(coord);
         }
+        _this7.selecteds.push(testedCoord);
       }
       _this7.showPossibleDirections();
       return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.SUCCESS;
@@ -13503,11 +13521,14 @@ class AbaloneComponent extends src_app_components_game_components_game_component
         return _this8.deselectExtremity(false);
         // move lastPiece one step closer to firstPiece if possible
       }
-      if (_this8.selecteds.length === 3 && clicked.equals(_this8.selecteds[1])) {
+      if (_this8.selecteds.length > 2 && _this8.isClickedCoordSelected(clicked)) {
         return _this8.cancelMove();
       }
       return _this8.tryExtension(clicked, firstPiece, lastPiece);
     })();
+  }
+  isClickedCoordSelected(clicked) {
+    return this.selecteds.length > 2 && this.selecteds.some(coord => coord.equals(clicked));
   }
   tryExtension(clicked, firstPiece, lastPiece) {
     var _this9 = this;
@@ -13519,13 +13540,15 @@ class AbaloneComponent extends src_app_components_game_components_game_component
           // Then it's an extension of the line
           const firstDistance = firstPiece.getLinearDistanceToward(clicked);
           const secondDistance = lastPiece.getLinearDistanceToward(clicked);
-          if (Math.max(firstDistance, secondDistance) === 2) {
+          const config = _this9.getConfig().get();
+          const maxSizeGroup = config.maximumPushingGroupSize;
+          if (Math.max(firstDistance, secondDistance) === maxSizeGroup - 1) {
             _this9.selecteds.push(clicked);
             _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.ArrayUtils.sortByDescending(_this9.selecteds, _AbaloneMove__WEBPACK_IMPORTED_MODULE_12__.AbaloneMove.sortCoord);
             _this9.showPossibleDirections();
             return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.SUCCESS;
           } else {
-            return _this9.cancelMove(_AbaloneFailure__WEBPACK_IMPORTED_MODULE_10__.AbaloneFailure.CANNOT_MOVE_MORE_THAN_THREE_PIECES());
+            return _this9.cancelMove(_AbaloneFailure__WEBPACK_IMPORTED_MODULE_10__.AbaloneFailure.CANNOT_MOVE_MORE_THAN_N_PIECES(maxSizeGroup));
           }
         }
       }
@@ -18980,7 +19003,7 @@ const X = _DiaballikState__WEBPACK_IMPORTED_MODULE_1__.DiaballikPiece.ONE;
 const Ẋ = _DiaballikState__WEBPACK_IMPORTED_MODULE_1__.DiaballikPiece.ONE_WITH_BALL;
 const _ = _DiaballikState__WEBPACK_IMPORTED_MODULE_1__.DiaballikPiece.NONE;
 class DiaballikTutorial extends src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_0__.Tutorial {
-  tutorial = [src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_0__.TutorialStep.informational(src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`The goal of Diaballik is to bring your ball, represented by the small circle, into the home line of the opponent (i.e, its starting position). The ball is currently being held by your center piece.`, _DiaballikRules__WEBPACK_IMPORTED_MODULE_5__.DiaballikRules.get().getInitialState()), src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_0__.TutorialStep.fromMove($localize`Translations`, $localize`During a turn, you are allowed up to three actions, including at most two translations. A translation is an orthogonal step of any piece that does not hold the ball.<br/><br/>Move your leftmost piece by one step. Once you are done, click on the green button that will appear on the bottom right of the board to indicate that you are done with your turn.`, _DiaballikRules__WEBPACK_IMPORTED_MODULE_5__.DiaballikRules.get().getInitialState(), [new _DiaballikMove__WEBPACK_IMPORTED_MODULE_2__.DiaballikMove(_DiaballikMove__WEBPACK_IMPORTED_MODULE_2__.DiaballikTranslation.from(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(0, 6), new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(0, 5)).get(), _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.empty(), _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.empty())], src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.CONGRATULATIONS(), src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.FAILED_TRY_AGAIN()), src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_0__.TutorialStep.fromMove($localize`Pass`, $localize`Another action that you are allowed to do at most once per turn is a pass. You can pass the ball by clicking on the piece that holds the ball, then on another one of your piece that can receive it. A pass must be made in a straight line along an unobstructed path.<br/><br/>Here, playing Dark, you can make two moves and a pass to win the game, do it!`, new _DiaballikState__WEBPACK_IMPORTED_MODULE_1__.DiaballikState([[X, X, X, Ẋ, _, X, X], [_, _, _, O, _, _, _], [_, _, _, _, _, _, _], [_, _, _, _, _, _, _], [Ȯ, _, _, X, _, _, _], [_, _, _, _, _, _, _], [_, O, O, _, O, O, O]], 0), [new _DiaballikMove__WEBPACK_IMPORTED_MODULE_2__.DiaballikMove(_DiaballikMove__WEBPACK_IMPORTED_MODULE_2__.DiaballikTranslation.from(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(3, 1), new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(4, 1)).get(), _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.of(_DiaballikMove__WEBPACK_IMPORTED_MODULE_2__.DiaballikTranslation.from(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(4, 1), new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(4, 0)).get()), _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.of(_DiaballikMove__WEBPACK_IMPORTED_MODULE_2__.DiaballikBallPass.from(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(0, 4), new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(4, 0)).get()))], src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.CONGRATULATIONS(), src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.FAILED_TRY_AGAIN()), src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_0__.TutorialStep.fromMove($localize`Blocking the opponent`, $localize`There is a special anti-game rule. If a player forms a contiguous line, with one piece in each column, they block the opponent from reaching their home line. If the opponent is in contact with three pieces in this case, they win instantaneously.<br/><br/>Here, playing Light, your opponent is blocking you and you already have two pieces in contact with their line. If you can connect a third piece, you win. Do it!`, new _DiaballikState__WEBPACK_IMPORTED_MODULE_1__.DiaballikState([[X, X, X, _, _, _, _], [X, _, _, _, _, _, Ẋ], [_, _, _, _, _, _, _], [_, _, _, _, _, _, _], [O, X, _, _, _, _, _], [_, O, _, X, _, _, _], [_, _, O, Ȯ, O, O, O]], 1), [new _DiaballikMove__WEBPACK_IMPORTED_MODULE_2__.DiaballikMove(_DiaballikMove__WEBPACK_IMPORTED_MODULE_2__.DiaballikTranslation.from(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(0, 1), new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(0, 2)).get(), _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.of(_DiaballikMove__WEBPACK_IMPORTED_MODULE_2__.DiaballikTranslation.from(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(0, 2), new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(0, 3)).get()), _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.empty())], src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.CONGRATULATIONS(), src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.FAILED_TRY_AGAIN())];
+  tutorial = [src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_0__.TutorialStep.informational(src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`The goal of Diaballik is to bring your ball, represented by the small circle, into the home line of the opponent (i.e, its starting position). The ball is currently being held by your center piece.`, _DiaballikRules__WEBPACK_IMPORTED_MODULE_5__.DiaballikRules.get().getInitialState()), src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_0__.TutorialStep.fromMove(src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.TRANSLATIONS(), $localize`During a turn, you are allowed up to three actions, including at most two translations. A translation is an orthogonal step of any piece that does not hold the ball.<br/><br/>Move your leftmost piece by one step. Once you are done, click on the green button that will appear on the bottom right of the board to indicate that you are done with your turn.`, _DiaballikRules__WEBPACK_IMPORTED_MODULE_5__.DiaballikRules.get().getInitialState(), [new _DiaballikMove__WEBPACK_IMPORTED_MODULE_2__.DiaballikMove(_DiaballikMove__WEBPACK_IMPORTED_MODULE_2__.DiaballikTranslation.from(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(0, 6), new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(0, 5)).get(), _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.empty(), _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.empty())], src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.CONGRATULATIONS(), src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.FAILED_TRY_AGAIN()), src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_0__.TutorialStep.fromMove($localize`Pass`, $localize`Another action that you are allowed to do at most once per turn is a pass. You can pass the ball by clicking on the piece that holds the ball, then on another one of your piece that can receive it. A pass must be made in a straight line along an unobstructed path.<br/><br/>Here, playing Dark, you can make two moves and a pass to win the game, do it!`, new _DiaballikState__WEBPACK_IMPORTED_MODULE_1__.DiaballikState([[X, X, X, Ẋ, _, X, X], [_, _, _, O, _, _, _], [_, _, _, _, _, _, _], [_, _, _, _, _, _, _], [Ȯ, _, _, X, _, _, _], [_, _, _, _, _, _, _], [_, O, O, _, O, O, O]], 0), [new _DiaballikMove__WEBPACK_IMPORTED_MODULE_2__.DiaballikMove(_DiaballikMove__WEBPACK_IMPORTED_MODULE_2__.DiaballikTranslation.from(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(3, 1), new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(4, 1)).get(), _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.of(_DiaballikMove__WEBPACK_IMPORTED_MODULE_2__.DiaballikTranslation.from(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(4, 1), new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(4, 0)).get()), _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.of(_DiaballikMove__WEBPACK_IMPORTED_MODULE_2__.DiaballikBallPass.from(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(0, 4), new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(4, 0)).get()))], src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.CONGRATULATIONS(), src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.FAILED_TRY_AGAIN()), src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_0__.TutorialStep.fromMove($localize`Blocking the opponent`, $localize`There is a special anti-game rule. If a player forms a contiguous line, with one piece in each column, they block the opponent from reaching their home line. If the opponent is in contact with three pieces in this case, they win instantaneously.<br/><br/>Here, playing Light, your opponent is blocking you and you already have two pieces in contact with their line. If you can connect a third piece, you win. Do it!`, new _DiaballikState__WEBPACK_IMPORTED_MODULE_1__.DiaballikState([[X, X, X, _, _, _, _], [X, _, _, _, _, _, Ẋ], [_, _, _, _, _, _, _], [_, _, _, _, _, _, _], [O, X, _, _, _, _, _], [_, O, _, X, _, _, _], [_, _, O, Ȯ, O, O, O]], 1), [new _DiaballikMove__WEBPACK_IMPORTED_MODULE_2__.DiaballikMove(_DiaballikMove__WEBPACK_IMPORTED_MODULE_2__.DiaballikTranslation.from(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(0, 1), new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(0, 2)).get(), _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.of(_DiaballikMove__WEBPACK_IMPORTED_MODULE_2__.DiaballikTranslation.from(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(0, 2), new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(0, 3)).get()), _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.empty())], src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.CONGRATULATIONS(), src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.FAILED_TRY_AGAIN())];
 }
 
 /***/ }),
