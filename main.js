@@ -1788,7 +1788,7 @@ let ChatComponent = class ChatComponent {
   updateMessages(newMessages) {
     this.chat = this.chat.concat(newMessages);
     const nbMessages = this.chat.length;
-    if (this.visible === true && this.isNearBottom === true) {
+    if (this.visible && this.isNearBottom) {
       this.readMessages = nbMessages;
       this.updateUnreadMessagesText(0);
       this.scrollToBottom();
@@ -1852,7 +1852,7 @@ let ChatComponent = class ChatComponent {
     this.chatSubscription.unsubscribe();
   }
   switchChatVisibility() {
-    if (this.visible === true) {
+    if (this.visible) {
       this.visible = false;
     } else {
       this.visible = true;
@@ -5341,11 +5341,11 @@ class VerifyAccountComponent {
           } else {
             // Otherwise, it means the user needs to verify its email
             _this.verificationType = 'send-email';
-            if (_this.triedToFinalize === true && user.verified === false) {
+            if (_this.triedToFinalize && user.verified === false) {
               // The user already clicked on the "finalize" button but hasn't verified the email!
               _this.errorMessage = $localize`You have not verified your email! Click on the link in the verification email.`;
             }
-            if (user.verified === true) {
+            if (user.verified) {
               // The user is now verified
               yield _this.router.navigate(['/lobby']);
             }
@@ -6817,7 +6817,7 @@ let LocalGameWrapperComponent = class LocalGameWrapperComponent extends src_app_
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       const config = yield _this4.getConfig();
       const gameStatus = _this4.gameComponent.rules.getGameStatus(_this4.gameComponent.node, config);
-      if (gameStatus.isEndGame === true) {
+      if (gameStatus.isEndGame) {
         _this4.endGame = true;
         if (gameStatus.winner.isPlayer()) {
           const winner = $localize`Player ${gameStatus.winner.getValue() + 1}`;
@@ -8501,7 +8501,7 @@ let OnlineGameWrapperComponent = class OnlineGameWrapperComponent extends _GameW
   }
   canResign() {
     _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.Utils.assert(this.isPlaying(), 'Non playing should not call canResign');
-    if (this.endGame === true) {
+    if (this.endGame) {
       return false;
     }
     const hasOpponent = this.opponent != null;
@@ -8542,7 +8542,7 @@ let OnlineGameWrapperComponent = class OnlineGameWrapperComponent extends _GameW
     _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.Utils.assert(this.isPlaying(), 'Non playing should not call canAskTakeBack');
     _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.Utils.assert(this.currentPart != null, 'should not call canAskTakeBack when currentPart is not defined yet');
     // Cannot do a request in end game
-    if (this.endGame === true) return false;
+    if (this.endGame) return false;
     // Cannot do a take back request before we played
     const currentPart = _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.Utils.getNonNullable(this.currentPart);
     if (currentPart.data.turn <= this.role.getValue()) return false;
@@ -8743,7 +8743,7 @@ let OnlineGameWrapperComponent = class OnlineGameWrapperComponent extends _GameW
       if (_this26.isPlaying() === false && _this26.userLinkedToThisPart && _this26.connectedUserService.user.isPresent()) {
         yield _this26.currentGameService.removeCurrentGame();
       }
-      if (_this26.gameStarted === true) {
+      if (_this26.gameStarted) {
         _this26.partSubscription.unsubscribe();
         _this26.gameEventsSubscription.unsubscribe();
       }
@@ -10215,13 +10215,13 @@ let PartCreationComponent = class PartCreationComponent extends _BaseWrapperComp
         return;
       }
       const authUser = _this17.connectedUserService.user.get();
-      if (_this17.gameStarted === true) {
+      if (_this17.gameStarted) {
         // Avoid canceling game creation if part started but user leave
         return;
       }
       if (_this17.currentConfigRoom === null) {
         src_app_utils_Debug__WEBPACK_IMPORTED_MODULE_6__.Debug.display('PartCreationComponent', 'ngOnDestroy', 'there is no part here');
-      } else if (_this17.allDocDeleted === true) {
+      } else if (_this17.allDocDeleted) {
         src_app_utils_Debug__WEBPACK_IMPORTED_MODULE_6__.Debug.display('PartCreationComponent', 'ngOnDestroy', 'part has already been deleted');
       } else if (authUser.id === _this17.currentConfigRoom.creator.id) {
         src_app_utils_Debug__WEBPACK_IMPORTED_MODULE_6__.Debug.display('PartCreationComponent', 'ngOnDestroy', 'you(creator) about to cancel creation.');
@@ -11915,7 +11915,7 @@ let TutorialGameWrapperComponent = class TutorialGameWrapperComponent extends sr
         _this10.tutorialOver = true;
       } else {
         let indexUndone = (_this10.stepIndex + 1) % _this10.steps.length;
-        while (_this10.stepFinished[indexUndone] === true) {
+        while (_this10.stepFinished[indexUndone]) {
           indexUndone = (indexUndone + 1) % _this10.steps.length;
         }
         yield _this10.showStep(indexUndone);
@@ -12094,7 +12094,7 @@ let TutorialGameWrapperComponent = class TutorialGameWrapperComponent extends sr
         _angular_core__WEBPACK_IMPORTED_MODULE_9__["ɵɵadvance"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_9__["ɵɵproperty"]("ngIf", ctx.currentReason.isPresent());
         _angular_core__WEBPACK_IMPORTED_MODULE_9__["ɵɵadvance"](2);
-        _angular_core__WEBPACK_IMPORTED_MODULE_9__["ɵɵproperty"]("ngIf", ctx.tutorialOver === false && (ctx.stepFinished && ctx.stepFinished[ctx.stepIndex] === true || ctx.moveAttemptMade));
+        _angular_core__WEBPACK_IMPORTED_MODULE_9__["ɵɵproperty"]("ngIf", ctx.tutorialOver === false && (ctx.stepFinished && ctx.stepFinished[ctx.stepIndex] || ctx.moveAttemptMade));
         _angular_core__WEBPACK_IMPORTED_MODULE_9__["ɵɵadvance"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_9__["ɵɵproperty"]("ngIf", ctx.tutorialOver === false);
         _angular_core__WEBPACK_IMPORTED_MODULE_9__["ɵɵadvance"]();
@@ -16557,14 +16557,14 @@ class ConnectSixMoveGenerator extends src_app_jscaip_AI_AI__WEBPACK_IMPORTED_MOD
     const availableCoords = [];
     for (const coordAndContent of state.getCoordsAndContents()) {
       const coord = coordAndContent.coord;
-      if (usefulCoord[coord.y][coord.x] === true && coordAndContent.content.isNone()) {
+      if (usefulCoord[coord.y][coord.x] && coordAndContent.content.isNone()) {
         availableCoords.push(coord);
       }
     }
     return availableCoords;
   }
   /**
-   * This function returns a table on which table[y][x] === true only if:
+   * This function returns a table on which table[y][x] is true only if:
    *     (x, y) is empty but has occupied neighbors
    */
   getUsefulCoordsMap(state) {
@@ -17884,7 +17884,7 @@ class ConspirateursComponent extends src_app_components_game_components_game_com
   updateShelterHighlights() {
     const state = this.getState();
     const gameStatus = _ConspirateursRules__WEBPACK_IMPORTED_MODULE_7__.ConspirateursRules.get().getGameStatus(this.node);
-    const gameFinished = gameStatus.isEndGame === true;
+    const gameFinished = gameStatus.isEndGame;
     this.victoriousCoords = [];
     for (const shelter of _ConspirateursState__WEBPACK_IMPORTED_MODULE_8__.ConspirateursState.ALL_SHELTERS) {
       const squareInfo = this.viewInfo.boardInfo[shelter.y][shelter.x];
@@ -18763,7 +18763,7 @@ class DiaballikRules extends src_app_jscaip_Rules__WEBPACK_IMPORTED_MODULE_0__.R
       return _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__.MGPFallible.failure(src_app_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_5__.RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
     }
     // The moved piece must not hold the ball
-    if (startPiece.holdsBall === true) {
+    if (startPiece.holdsBall) {
       return _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__.MGPFallible.failure(_DiaballikFailure__WEBPACK_IMPORTED_MODULE_11__.DiaballikFailure.CANNOT_MOVE_WITH_BALL());
     }
     // The destination must be empty
@@ -18845,7 +18845,7 @@ class DiaballikRules extends src_app_jscaip_Rules__WEBPACK_IMPORTED_MODULE_0__.R
   getBallCoordInRow(state, y, player) {
     for (let x = 0; x < state.getHeight(); x++) {
       const piece = state.getPieceAtXY(x, y);
-      if (piece.holdsBall === true && piece.owner === player) {
+      if (piece.holdsBall && piece.owner === player) {
         return _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__.MGPOptional.of(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_6__.Coord(x, y));
       }
     }
@@ -21535,7 +21535,7 @@ class DvonnComponent extends src_app_components_game_components_game_component_H
       for (let y = 0; y < state.getHeight(); y++) {
         for (let x = 0; x < state.board[y].length; x++) {
           const coord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord(x, y);
-          if (state.isOnBoard(coord) === true && coord.equals(_this2.lastMove.get().getStart()) === false) {
+          if (state.isOnBoard(coord) && coord.equals(_this2.lastMove.get().getStart()) === false) {
             const stack = state.getPieceAt(coord);
             const previousStack = previousState.getPieceAt(coord);
             if (stack.isEmpty() && previousStack.hasPieces()) {
@@ -27265,14 +27265,14 @@ class HexodiaMoveGenerator extends src_app_jscaip_AI_AI__WEBPACK_IMPORTED_MODULE
     const availableCoords = [];
     for (const coordAndContent of state.getCoordsAndContents()) {
       const coord = coordAndContent.coord;
-      if (usefulCoordTable[coord.y][coord.x] === true && coordAndContent.content === src_app_jscaip_FourStatePiece__WEBPACK_IMPORTED_MODULE_6__.FourStatePiece.EMPTY) {
+      if (usefulCoordTable[coord.y][coord.x] && coordAndContent.content === src_app_jscaip_FourStatePiece__WEBPACK_IMPORTED_MODULE_6__.FourStatePiece.EMPTY) {
         availableCoords.push(coord);
       }
     }
     return availableCoords;
   }
   /**
-   * This function returns a table on which table[y][x] === true only if:
+   * This function returns a table on which table[y][x] is true only if:
    *     (x, y) is empty but has occupied neighbors
    */
   getUsefulCoordsTable(state) {
@@ -35416,7 +35416,7 @@ class MancalaComponent extends src_app_components_game_components_rectangular_ga
       if (clickValidity.isFailure()) {
         return _this3.cancelMove(clickValidity.getReason());
       }
-      if (_this3.animationOngoing === true) {
+      if (_this3.animationOngoing) {
         return _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPValidation.SUCCESS;
       } else {
         _this3.animationOngoing = true;
@@ -35664,7 +35664,7 @@ class MancalaComponent extends src_app_components_game_components_rectangular_ga
       _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.Utils.assert(this.getTurn() > 0, 'Kalah: Should not animate move at turn 0');
       return this.node.parent.get().gameState;
     } else {
-      if (this.constructedState.equals(this.getState()) === true) {
+      if (this.constructedState.equals(this.getState())) {
         if (this.node.parent.isPresent()) {
           return this.node.parent.get().gameState;
         } else {
@@ -39534,14 +39534,14 @@ class PentagoRules extends src_app_jscaip_Rules__WEBPACK_IMPORTED_MODULE_4__.Rul
     for (let i = 0; i < victoryCoords.length; i += 5) {
       victoryFound.put(state.getPieceAt(victoryCoords[i]), true);
     }
-    if (victoryFound.get(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ZERO) === true) {
-      if (victoryFound.get(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ONE) === true) {
+    if (victoryFound.get(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ZERO)) {
+      if (victoryFound.get(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ONE)) {
         return src_app_jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_9__.GameStatus.DRAW;
       } else {
         return src_app_jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_9__.GameStatus.ZERO_WON;
       }
     }
-    if (victoryFound.get(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ONE) === true) {
+    if (victoryFound.get(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ONE)) {
       return src_app_jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_9__.GameStatus.ONE_WON;
     }
     if (state.turn === _PentagoState__WEBPACK_IMPORTED_MODULE_8__.PentagoState.SIZE * _PentagoState__WEBPACK_IMPORTED_MODULE_8__.PentagoState.SIZE) {
@@ -45023,7 +45023,7 @@ let SaharaRules = class SaharaRules extends src_app_jscaip_Rules__WEBPACK_IMPORT
       return _SaharaState__WEBPACK_IMPORTED_MODULE_4__.SaharaState.isOnBoard(c) && board[c.y][c.x] === src_app_jscaip_FourStatePiece__WEBPACK_IMPORTED_MODULE_10__.FourStatePiece.EMPTY;
     };
     const landings = new src_app_jscaip_CoordSet__WEBPACK_IMPORTED_MODULE_13__.CoordSet(src_app_jscaip_state_TriangularCheckerBoard__WEBPACK_IMPORTED_MODULE_5__.TriangularCheckerBoard.getNeighbors(coord).filter(isOnBoardAndEmpty));
-    if (src_app_jscaip_state_TriangularCheckerBoard__WEBPACK_IMPORTED_MODULE_5__.TriangularCheckerBoard.isSpaceDark(coord) === true) {
+    if (src_app_jscaip_state_TriangularCheckerBoard__WEBPACK_IMPORTED_MODULE_5__.TriangularCheckerBoard.isSpaceDark(coord)) {
       return landings.toList();
     } else {
       let farLandings = new src_app_jscaip_CoordSet__WEBPACK_IMPORTED_MODULE_13__.CoordSet(landings.toList()); // Deep copy
@@ -57386,7 +57386,7 @@ class GipfProjectHelper {
           const combinationIntersectsWithIndex = combination.some(c => {
             return intersections[index].some(c2 => c === c2);
           });
-          if (combinationIntersectsWithIndex === true) {
+          if (combinationIntersectsWithIndex) {
             // Don't add it if there is an intersection
             newCombinations.push(_everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.ArrayUtils.copy(combination));
           } else if (intersectsWithFutureIndex) {
@@ -60216,8 +60216,8 @@ let ConnectedUserService = class ConnectedUserService {
               const doc = docOpt.get();
               const username = doc.username;
               _utils_Debug__WEBPACK_IMPORTED_MODULE_4__.Debug.display('ConnectedUserService', 'subscription', `User ${username} is connected, and the verified status is ${_this.emailVerified(user)}`);
-              const userHasFinalizedVerification = _this.emailVerified(user) === true && username != null;
-              if (userHasFinalizedVerification === true && doc.verified === false) {
+              const userHasFinalizedVerification = _this.emailVerified(user) && username != null;
+              if (userHasFinalizedVerification && doc.verified === false) {
                 // The user has finalized verification but isn't yet marked as so in the DB.
                 // So we mark it, and we'll get notified when the user is marked.
                 return _this.userService.markAsVerified(user.uid);
