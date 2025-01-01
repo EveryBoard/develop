@@ -47219,7 +47219,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   SixFailure: () => (/* binding */ SixFailure)
 /* harmony export */ });
 class SixFailure {
-  static NO_MOVEMENT_BEFORE_TURN_40 = () => $localize`You cannot move yet. Pick a space where you will put a new piece.`;
+  static CANNOT_MOVE_YET = () => $localize`You cannot move yet. Pick a space where you will put a new piece.`;
   static MUST_CUT = () => $localize`Several groups are of the same size, you must pick the one to keep.`;
   static CANNOT_CHOOSE_TO_KEEP = () => $localize`You cannot choose which part to keep when one is smaller than the other.`;
   static CAN_NO_LONGER_DROP = () => $localize`You cannot put new pieces anymore. Pick a piece to move.`;
@@ -47252,9 +47252,9 @@ __webpack_require__.r(__webpack_exports__);
 
 class SixFilteredMoveGenerator extends _SixMoveGenerator__WEBPACK_IMPORTED_MODULE_1__.SixMoveGenerator {
   heuristic = new _SixHeuristic__WEBPACK_IMPORTED_MODULE_2__.SixHeuristic();
-  getMovements(state, legalLandings) {
+  getTranslations(state, legalLandings) {
     const safelyMovablePieceOrFirstOne = this.getSafelyMovablePieceOrFirstOne(state);
-    return this.getMovementsFrom(state, safelyMovablePieceOrFirstOne, legalLandings);
+    return this.getTranslationsFrom(state, safelyMovablePieceOrFirstOne, legalLandings);
   }
   getSafelyMovablePieceOrFirstOne(state) {
     const allPieces = state.getPieces().reverse();
@@ -47314,7 +47314,7 @@ __webpack_require__.r(__webpack_exports__);
 class SixHeuristic extends src_app_jscaip_AI_AlignmentHeuristic__WEBPACK_IMPORTED_MODULE_4__.AlignmentHeuristic {
   VERBOSE = false;
   currentVictorySource;
-  getBoardValue(node, _config) {
+  getBoardValue(node, config) {
     const move = node.previousMove;
     const state = node.gameState;
     const previousPlayer = state.getPreviousPlayer();
@@ -47331,7 +47331,8 @@ class SixHeuristic extends src_app_jscaip_AI_AlignmentHeuristic__WEBPACK_IMPORTE
     if (shapeInfo.status === src_app_jscaip_AI_AlignmentHeuristic__WEBPACK_IMPORTED_MODULE_4__.AlignmentStatus.VICTORY) {
       return src_app_jscaip_AI_BoardValue__WEBPACK_IMPORTED_MODULE_3__.BoardValue.of(victoryValue);
     }
-    if (state.turn > 39) {
+    const lastDropTurn = 2 * config.get().piecesPerPlayer - 1;
+    if (state.turn > lastDropTurn) {
       const pieces = state.countPieces();
       return src_app_jscaip_AI_BoardValue__WEBPACK_IMPORTED_MODULE_3__.BoardValue.ofPlayerNumberMap(pieces);
     }
@@ -47760,7 +47761,7 @@ class SixMove extends src_app_jscaip_Move__WEBPACK_IMPORTED_MODULE_2__.Move {
   static ofDrop(landing) {
     return new SixMove(_everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty(), landing, _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty());
   }
-  static ofMovement(start, landing) {
+  static ofTranslation(start, landing) {
     return new SixMove(_everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(start), landing, _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty());
   }
   static ofCut(start, landing, keep) {
@@ -47771,7 +47772,7 @@ class SixMove extends src_app_jscaip_Move__WEBPACK_IMPORTED_MODULE_2__.Move {
     this.start = start;
     this.landing = landing;
     this.keep = keep;
-    _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.Utils.assert(start.equalsValue(landing) === false, 'Deplacement cannot be static!');
+    _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.Utils.assert(start.equalsValue(landing) === false, 'Translation cannot be static!');
     _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.Utils.assert(start.isAbsent() || start.equals(keep) === false, 'Cannot keep starting coord, since it will always be empty after move!');
   }
   isDrop() {
@@ -47831,46 +47832,47 @@ var __decorate = undefined && undefined.__decorate || function (decorators, targ
 
 
 let SixMoveGenerator = class SixMoveGenerator extends src_app_jscaip_AI_AI__WEBPACK_IMPORTED_MODULE_4__.MoveGenerator {
-  getListMoves(node, _config) {
+  getListMoves(node, config) {
     const legalLandings = _SixRules__WEBPACK_IMPORTED_MODULE_2__.SixRules.getLegalLandings(node.gameState);
-    if (node.gameState.turn < 40) {
+    const totalDroppablePieces = 2 * config.get().piecesPerPlayer;
+    if (node.gameState.turn < totalDroppablePieces) {
       return this.getListDrops(legalLandings);
     } else {
-      return this.getMovements(node.gameState, legalLandings);
+      return this.getTranslations(node.gameState, legalLandings);
     }
   }
-  getMovements(state, legalLandings) {
+  getTranslations(state, legalLandings) {
     const allPieces = state.getPieces().reverse();
     const currentPlayer = state.getCurrentPlayer();
     const playerPieces = allPieces.get(currentPlayer).get();
-    return this.getMovementsFrom(state, playerPieces, legalLandings);
+    return this.getTranslationsFrom(state, playerPieces, legalLandings);
   }
-  getMovementsFrom(state, starts, landings) {
-    const deplacements = [];
+  getTranslationsFrom(state, starts, landings) {
+    const translations = [];
     for (const start of starts) {
       for (const landing of landings) {
-        const move = _SixMove__WEBPACK_IMPORTED_MODULE_1__.SixMove.ofMovement(start, landing);
+        const move = _SixMove__WEBPACK_IMPORTED_MODULE_1__.SixMove.ofTranslation(start, landing);
         if (state.isCoordConnected(landing, _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.of(start))) {
           const stateAfterMove = state.movePiece(move);
           const groupsAfterMove = stateAfterMove.getGroups();
           if (_SixRules__WEBPACK_IMPORTED_MODULE_2__.SixRules.isSplit(groupsAfterMove)) {
             const largestGroups = _SixRules__WEBPACK_IMPORTED_MODULE_2__.SixRules.getLargestGroups(groupsAfterMove);
             if (largestGroups.size() === 1) {
-              deplacements.push(_SixMove__WEBPACK_IMPORTED_MODULE_1__.SixMove.ofMovement(start, landing));
+              translations.push(_SixMove__WEBPACK_IMPORTED_MODULE_1__.SixMove.ofTranslation(start, landing));
             } else {
               for (const group of largestGroups) {
                 const subGroup = group.getAnyElement().get();
                 const cut = _SixMove__WEBPACK_IMPORTED_MODULE_1__.SixMove.ofCut(start, landing, subGroup);
-                deplacements.push(cut);
+                translations.push(cut);
               }
             }
           } else {
-            deplacements.push(move);
+            translations.push(move);
           }
         }
       }
     }
-    return deplacements;
+    return translations;
   }
   getListDrops(legalLandings) {
     const drops = [];
@@ -47909,6 +47911,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var src_app_jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! src/app/jscaip/GameStatus */ 92933);
 /* harmony import */ var src_app_utils_Debug__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! src/app/utils/Debug */ 20027);
 /* harmony import */ var src_app_jscaip_CoordSet__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! src/app/jscaip/CoordSet */ 49622);
+/* harmony import */ var src_app_components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! src/app/components/wrapper-components/rules-configuration/RulesConfigDescription */ 53052);
+/* harmony import */ var src_app_utils_MGPValidator__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! src/app/utils/MGPValidator */ 15936);
 var __decorate = undefined && undefined.__decorate || function (decorators, target, key, desc) {
   var c = arguments.length,
     r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
@@ -47928,34 +47932,47 @@ var SixRules_1;
 
 
 
+
+
 class SixNode extends src_app_jscaip_AI_GameNode__WEBPACK_IMPORTED_MODULE_1__.GameNode {}
-let SixRules = class SixRules extends src_app_jscaip_Rules__WEBPACK_IMPORTED_MODULE_5__.Rules {
+let SixRules = class SixRules extends src_app_jscaip_Rules__WEBPACK_IMPORTED_MODULE_5__.ConfigurableRules {
   static #_ = SixRules_1 = this;
   static singleton = _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPOptional.empty();
   currentVictorySource;
+  static RULES_CONFIG_DESCRIPTION = new src_app_components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_11__.RulesConfigDescription({
+    name: () => $localize`Six`,
+    config: {
+      piecesPerPlayer: new src_app_components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_11__.NumberConfig(20, () => $localize`Number of pieces to drop per player`, src_app_utils_MGPValidator__WEBPACK_IMPORTED_MODULE_12__.MGPValidators.range(5, 99))
+    }
+  });
   static get() {
     if (SixRules_1.singleton.isAbsent()) {
       SixRules_1.singleton = _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPOptional.of(new SixRules_1());
     }
     return SixRules_1.singleton.get();
   }
+  getRulesConfigDescription() {
+    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPOptional.of(SixRules_1.RULES_CONFIG_DESCRIPTION);
+  }
   getInitialState() {
     const board = [[src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_2__.Player.ZERO], [src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_2__.Player.ONE]];
     return _SixState__WEBPACK_IMPORTED_MODULE_3__.SixState.ofRepresentation(board, 0);
   }
-  applyLegalMove(move, state, _config, kept) {
-    if (state.turn < 40) {
+  applyLegalMove(move, state, config, kept) {
+    const totalDroppablePieces = 2 * config.get().piecesPerPlayer;
+    if (state.turn < totalDroppablePieces) {
       return state.applyLegalDrop(move.landing);
     } else {
-      return state.applyLegalDeplacement(move, kept);
+      return state.applyLegalTranslation(move, kept);
     }
   }
-  isLegal(move, state) {
+  isLegal(move, state, config) {
     const landingLegality = state.isIllegalLandingZone(move.landing, move.start);
     if (landingLegality.isFailure()) {
       return landingLegality.toOtherFallible();
     }
-    if (state.turn < 40) {
+    const totalDroppablePieces = 2 * config.get().piecesPerPlayer;
+    if (state.turn < totalDroppablePieces) {
       return this.isLegalDrop(move, state);
     } else {
       return SixRules_1.isLegalPhaseTwoMove(move, state);
@@ -47975,7 +47992,7 @@ let SixRules = class SixRules extends src_app_jscaip_Rules__WEBPACK_IMPORTED_MOD
   }
   isLegalDrop(move, state) {
     if (move.isDrop() === false) {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPFallible.failure(_SixFailure__WEBPACK_IMPORTED_MODULE_4__.SixFailure.NO_MOVEMENT_BEFORE_TURN_40());
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPFallible.failure(_SixFailure__WEBPACK_IMPORTED_MODULE_4__.SixFailure.CANNOT_MOVE_YET());
     }
     return _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPFallible.success(new src_app_jscaip_CoordSet__WEBPACK_IMPORTED_MODULE_10__.CoordSet(state.getPieceCoords()));
   }
@@ -48038,7 +48055,7 @@ let SixRules = class SixRules extends src_app_jscaip_Rules__WEBPACK_IMPORTED_MOD
     }
     return _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPFallible.failure(_SixFailure__WEBPACK_IMPORTED_MODULE_4__.SixFailure.MUST_CAPTURE_BIGGEST_GROUPS());
   }
-  getGameStatus(node) {
+  getGameStatus(node, config) {
     const state = node.gameState;
     const previousPlayer = state.getPreviousPlayer();
     let shapeVictory = [];
@@ -48048,7 +48065,8 @@ let SixRules = class SixRules extends src_app_jscaip_Rules__WEBPACK_IMPORTED_MOD
     if (shapeVictory.length === 6) {
       return src_app_jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_8__.GameStatus.getVictory(previousPlayer);
     }
-    if (state.turn > 39) {
+    const lastDropTurn = 2 * config.get().piecesPerPlayer - 1;
+    if (state.turn > lastDropTurn) {
       const pieces = state.countPieces();
       const zeroPieces = pieces.get(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_2__.Player.ZERO);
       const onePieces = pieces.get(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_2__.Player.ONE);
@@ -48319,7 +48337,7 @@ class SixState extends src_app_jscaip_state_OpenHexagonalGameState__WEBPACK_IMPO
     pieces.put(coord, this.getCurrentPlayer());
     return new SixState(pieces, this.turn + 1);
   }
-  applyLegalDeplacement(move, kept) {
+  applyLegalTranslation(move, kept) {
     const stateAfterMove = this.movePiece(move);
     if (kept.size() > 0) {
       const newPieces = new _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.ReversibleMap();
@@ -48336,6 +48354,13 @@ class SixState extends src_app_jscaip_state_OpenHexagonalGameState__WEBPACK_IMPO
     const zeroPieces = pieces.get(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_2__.Player.ZERO).getOrElse(new src_app_jscaip_CoordSet__WEBPACK_IMPORTED_MODULE_9__.CoordSet());
     const onePieces = pieces.get(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_2__.Player.ONE).getOrElse(new src_app_jscaip_CoordSet__WEBPACK_IMPORTED_MODULE_9__.CoordSet());
     return src_app_jscaip_PlayerMap__WEBPACK_IMPORTED_MODULE_10__.PlayerNumberMap.of(zeroPieces.size(), onePieces.size());
+  }
+  countRemainingPieces(config) {
+    const total = config.piecesPerPlayer + 1;
+    const pieces = this.pieces.reverse();
+    const zeroPieces = pieces.get(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_2__.Player.ZERO).getOrElse(new src_app_jscaip_CoordSet__WEBPACK_IMPORTED_MODULE_9__.CoordSet());
+    const onePieces = pieces.get(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_2__.Player.ONE).getOrElse(new src_app_jscaip_CoordSet__WEBPACK_IMPORTED_MODULE_9__.CoordSet());
+    return src_app_jscaip_PlayerMap__WEBPACK_IMPORTED_MODULE_10__.PlayerNumberMap.of(total - zeroPieces.size(), total - onePieces.size());
   }
   switchPiece(coord) {
     const newPieces = this.pieces.getCopy();
@@ -48395,7 +48420,7 @@ class SixTutorial extends _components_wrapper_components_tutorial_game_wrapper_T
         Find the victory. You're playing Dark.`, src_app_games_six_SixState__WEBPACK_IMPORTED_MODULE_0__.SixState.ofRepresentation([[_, _, _, X, _, _], [_, O, X, O, O, O], [_, O, _, O, O, _], [X, X, X, _, X, _]], 0), [src_app_games_six_SixMove__WEBPACK_IMPORTED_MODULE_1__.SixMove.ofDrop(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(3, 3))], src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_7__.TutorialStepMessage.CONGRATULATIONS(), src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_7__.TutorialStepMessage.FAILED_TRY_AGAIN()), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_5__.TutorialStep.fromPredicate($localize`Second phase`, $localize`After 40 turns, your pieces have all been placed and we move on to the second phase of the game.
         You now have to move your pieces, paying attention not to remove a piece that was preventing the opponent's victory.
         From now on, if after move, on or more pieces are disconnected from the largest group of pieces, these will be taken out of the game.<br/><br/>
-        You're playing Dark. Make a move that disconnects one of your opponent's pieces.`, src_app_games_six_SixState__WEBPACK_IMPORTED_MODULE_0__.SixState.ofRepresentation([[_, _, _, _, _, _, _, X, _], [_, _, _, _, _, _, O, _, _], [_, _, _, _, O, O, O, _, _], [_, _, _, _, X, X, _, X, O], [_, O, X, X, O, O, X, _, _], [O, O, O, O, X, X, X, O, _], [X, X, O, _, X, X, O, _, _], [_, O, _, O, O, _, _, _, _], [X, X, X, X, _, _, _, _, _], [_, O, _, X, _, _, _, _, _]], 40), src_app_games_six_SixMove__WEBPACK_IMPORTED_MODULE_1__.SixMove.ofMovement(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(6, 1), new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(5, 1)), (_move, _previousState, resultingState) => {
+        You're playing Dark. Make a move that disconnects one of your opponent's pieces.`, src_app_games_six_SixState__WEBPACK_IMPORTED_MODULE_0__.SixState.ofRepresentation([[_, _, _, _, _, _, _, X, _], [_, _, _, _, _, _, O, _, _], [_, _, _, _, O, O, O, _, _], [_, _, _, _, X, X, _, X, O], [_, O, X, X, O, O, X, _, _], [O, O, O, O, X, X, X, O, _], [X, X, O, _, X, X, O, _, _], [_, O, _, O, O, _, _, _, _], [X, X, X, X, _, _, _, _, _], [_, O, _, X, _, _, _, _, _]], 40), src_app_games_six_SixMove__WEBPACK_IMPORTED_MODULE_1__.SixMove.ofTranslation(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(6, 1), new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(5, 1)), (_move, _previousState, resultingState) => {
     const pieces = resultingState.countPieces();
     if (pieces.get(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ZERO) === 19) {
       if (pieces.get(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ONE) === 18) {
@@ -48409,7 +48434,7 @@ class SixTutorial extends _components_wrapper_components_tutorial_game_wrapper_T
   }, $localize`Congratulations, your opponent now has one piece less and you're closer to victory!`), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_5__.TutorialStep.fromPredicate($localize`Victory by disconnection`, $localize`During the second phase of the game, on top of normal victories (line, circle, triangle), you can win by disconnection.
         If at any time, at least one player does not have enough pieces to win (less than 6), the game ends.
         The one with the most pieces wins. In case they both have the same number of pieces, it's a draw.<br/><br/>
-        Here, you're playing Dark and you can win. Do it!`, src_app_games_six_SixState__WEBPACK_IMPORTED_MODULE_0__.SixState.ofRepresentation([[_, _, _, _, _, X], [_, _, _, _, O, X], [_, _, _, X, O, O], [_, _, O, _, X, O], [X, X, _, _, _, O], [O, X, _, _, _, _], [O, _, _, _, _, _]], 40), src_app_games_six_SixMove__WEBPACK_IMPORTED_MODULE_1__.SixMove.ofMovement(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(2, 3), new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(3, 3)), (move, _previousState, _resultingState) => {
+        Here, you're playing Dark and you can win. Do it!`, src_app_games_six_SixState__WEBPACK_IMPORTED_MODULE_0__.SixState.ofRepresentation([[_, _, _, _, _, X], [_, _, _, _, O, X], [_, _, _, X, O, O], [_, _, O, _, X, O], [X, X, _, _, _, O], [O, X, _, _, _, _], [O, _, _, _, _, _]], 40), src_app_games_six_SixMove__WEBPACK_IMPORTED_MODULE_1__.SixMove.ofTranslation(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(2, 3), new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(3, 3)), (move, _previousState, _resultingState) => {
     if (move.start.equalsValue(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(2, 3))) {
       return _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPValidation.SUCCESS;
     } else {
@@ -48536,23 +48561,11 @@ function SixComponent__svg_polygon_3_Template(rf, ctx) {
 }
 function SixComponent__svg_polygon_4_Template(rf, ctx) {
   if (rf & 1) {
+    const _r7 = _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵgetCurrentView"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵnamespaceSVG"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵelement"](0, "polygon", 12);
-  }
-  if (rf & 2) {
-    const disconnected_r7 = ctx.$implicit;
-    const ctx_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵnextContext"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵpropertyInterpolate2"]("id", "disconnected-", disconnected_r7.x, "-", disconnected_r7.y, "");
-    _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵattribute"]("points", ctx_r2.getHexaPoints())("transform", ctx_r2.getHexaCenterTranslationAtXY(disconnected_r7.x, disconnected_r7.y));
-  }
-}
-function SixComponent__svg_polygon_5_Template(rf, ctx) {
-  if (rf & 1) {
-    const _r8 = _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵgetCurrentView"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵnamespaceSVG"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵelementStart"](0, "polygon", 13);
-    _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵlistener"]("click", function SixComponent__svg_polygon_5_Template_polygon_click_0_listener() {
-      _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵrestoreView"](_r8);
+    _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵelementStart"](0, "polygon", 12);
+    _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵlistener"]("click", function SixComponent__svg_polygon_4_Template_polygon_click_0_listener() {
+      _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵrestoreView"](_r7);
       const ctx_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵnextContext"]();
       return _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵresetView"](ctx_r2.onNeighborClick(ctx_r2.leftCoord.get()));
     });
@@ -48562,6 +48575,19 @@ function SixComponent__svg_polygon_5_Template(rf, ctx) {
     const ctx_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵnextContext"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵpropertyInterpolate2"]("id", "left-coord-", ctx_r2.leftCoord.get().x, "-", ctx_r2.leftCoord.get().y, "");
     _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵattribute"]("points", ctx_r2.getHexaPoints())("transform", ctx_r2.getHexaCenterTranslationAtXY(ctx_r2.leftCoord.get().x, ctx_r2.leftCoord.get().y));
+  }
+}
+function SixComponent__svg_polygon_5_Template(rf, ctx) {
+  if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵnamespaceSVG"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵelement"](0, "polygon", 13);
+  }
+  if (rf & 2) {
+    const disconnected_r8 = ctx.$implicit;
+    const ctx_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵnextContext"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵpropertyInterpolate2"]("id", "disconnected-", disconnected_r8.coord.x, "-", disconnected_r8.coord.y, "");
+    _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵproperty"]("ngClass", disconnected_r8.class);
+    _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵattribute"]("points", ctx_r2.getHexaPoints())("transform", ctx_r2.getHexaCenterTranslationAt(disconnected_r8.coord));
   }
 }
 function SixComponent__svg_polygon_6_Template(rf, ctx) {
@@ -48678,7 +48704,18 @@ class SixComponent extends _components_game_components_game_component_HexagonalG
     var _this2 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       _this2.resetPiecesAndNeighbors();
+      _this2.scores = _this2.getScores();
     })();
+  }
+  getScores() {
+    const state = this.getState();
+    const config = this.getConfig().get();
+    const lastDropTurn = 2 * config.piecesPerPlayer;
+    if (state.turn <= lastDropTurn) {
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__.MGPOptional.of(state.countRemainingPieces(config));
+    } else {
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__.MGPOptional.of(state.countPieces());
+    }
   }
   resetPiecesAndNeighbors() {
     this.state = this.node.gameState;
@@ -48692,7 +48729,8 @@ class SixComponent extends _components_game_components_game_component_HexagonalG
     this.disconnectedCoords = [];
   }
   getViewBox() {
-    const coords = this.pieces.concat(this.disconnectedCoords).concat(this.neighbors);
+    const disconnectedCoords = this.disconnectedCoords.map(value => value.coord);
+    const coords = this.pieces.concat(disconnectedCoords).concat(this.neighbors);
     return src_app_components_game_components_GameComponentUtils__WEBPACK_IMPORTED_MODULE_10__.ViewBox.fromHexa(coords, this.hexaLayout, this.STROKE_WIDTH).expandAbove(this.SPACE_SIZE + this.STROKE_WIDTH).expandBelow(this.SPACE_SIZE + this.STROKE_WIDTH).expandLeft(this.SPACE_SIZE + 2 * this.STROKE_WIDTH).expandRight(this.SPACE_SIZE + 2 * this.STROKE_WIDTH);
   }
   showLastMove(move) {
@@ -48705,25 +48743,32 @@ class SixComponent extends _components_game_components_game_component_HexagonalG
         _this3.leftCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__.MGPOptional.empty();
       }
       const state = _this3.getState();
-      if (_this3.rules.getGameStatus(_this3.node).isEndGame) {
+      if (_this3.rules.getGameStatus(_this3.node, _this3.getConfig()).isEndGame) {
         _this3.victoryCoords = _this3.rules.getShapeVictory(move, state);
       }
       _this3.disconnectedCoords = _this3.getDisconnected();
     })();
   }
   getDisconnected() {
-    const oldPieces = this.getPreviousState().getPieceCoords();
+    const oldState = this.getPreviousState();
+    const oldPieces = oldState.getPieceCoords();
     const newPieces = this.getState().getPieceCoords();
     const disconnecteds = [];
     for (const oldPiece of oldPieces) {
       const start = this.node.previousMove.get().start;
       if (start.equalsValue(oldPiece) === false && newPieces.some(newCoord => newCoord.equals(oldPiece)) === false) {
-        disconnecteds.push(oldPiece);
+        disconnecteds.push({
+          coord: oldPiece,
+          class: this.getPlayerClass(oldState.getPieceAt(oldPiece))
+        });
       }
     }
     const lastDrop = this.lastDrop.get();
     if (this.pieces.some(coord => coord.equals(lastDrop)) === false && newPieces.some(coord => coord.equals(lastDrop)) === false) {
-      disconnecteds.push(lastDrop); // Dummy captured his own piece
+      disconnecteds.push({
+        coord: lastDrop,
+        class: this.getCurrentOpponent().getHTMLClass('-fill')
+      }); // Dummy captured his own piece
     }
     return disconnecteds;
   }
@@ -48746,8 +48791,10 @@ class SixComponent extends _components_game_components_game_component_HexagonalG
       if (clickValidity.isFailure()) {
         return _this4.cancelMove(clickValidity.getReason());
       }
-      if (_this4.state.turn < 40) {
-        return _this4.cancelMove(src_app_games_six_SixFailure__WEBPACK_IMPORTED_MODULE_2__.SixFailure.NO_MOVEMENT_BEFORE_TURN_40());
+      const config = _this4.getConfig().get();
+      const maxPiece = 2 * config.piecesPerPlayer;
+      if (_this4.state.turn < maxPiece) {
+        return _this4.cancelMove(src_app_games_six_SixFailure__WEBPACK_IMPORTED_MODULE_2__.SixFailure.CANNOT_MOVE_YET());
       } else if (_this4.chosenLanding.isAbsent()) {
         if (_this4.state.getPieceAt(piece) === _this4.state.getCurrentOpponent()) {
           return _this4.cancelMove(src_app_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_8__.RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
@@ -48773,13 +48820,15 @@ class SixComponent extends _components_game_components_game_component_HexagonalG
       if (_this5.nextClickShouldSelectGroup) {
         return _this5.cancelMove(src_app_games_six_SixFailure__WEBPACK_IMPORTED_MODULE_2__.SixFailure.MUST_CUT());
       }
-      if (_this5.state.turn < 40) {
+      const config = _this5.getConfig().get();
+      const maxPiece = 2 * config.piecesPerPlayer;
+      if (_this5.state.turn < maxPiece) {
         return _this5.chooseMove(src_app_games_six_SixMove__WEBPACK_IMPORTED_MODULE_1__.SixMove.ofDrop(neighbor));
       } else {
         if (_this5.selectedPiece.isAbsent()) {
           return _this5.cancelMove(src_app_games_six_SixFailure__WEBPACK_IMPORTED_MODULE_2__.SixFailure.CAN_NO_LONGER_DROP());
         } else {
-          const movement = src_app_games_six_SixMove__WEBPACK_IMPORTED_MODULE_1__.SixMove.ofMovement(_this5.selectedPiece.get(), neighbor);
+          const movement = src_app_games_six_SixMove__WEBPACK_IMPORTED_MODULE_1__.SixMove.ofTranslation(_this5.selectedPiece.get(), neighbor);
           const legality = src_app_games_six_SixRules__WEBPACK_IMPORTED_MODULE_3__.SixRules.isLegalPhaseTwoMove(movement, _this5.state);
           if (_this5.neededCutting(legality)) {
             _this5.chosenLanding = _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__.MGPOptional.of(neighbor);
@@ -48803,7 +48852,7 @@ class SixComponent extends _components_game_components_game_component_HexagonalG
     this.neighbors = this.getEmptyNeighbors();
   }
   showCuttable() {
-    const movement = src_app_games_six_SixMove__WEBPACK_IMPORTED_MODULE_1__.SixMove.ofMovement(this.selectedPiece.get(), this.chosenLanding.get());
+    const movement = src_app_games_six_SixMove__WEBPACK_IMPORTED_MODULE_1__.SixMove.ofTranslation(this.selectedPiece.get(), this.chosenLanding.get());
     const stateAfterMove = this.state.movePiece(movement);
     const groupsAfterMove = stateAfterMove.getGroups();
     const biggerGroups = src_app_games_six_SixRules__WEBPACK_IMPORTED_MODULE_3__.SixRules.getLargestGroups(groupsAfterMove);
@@ -48828,12 +48877,12 @@ class SixComponent extends _components_game_components_game_component_HexagonalG
     features: [_angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵInheritDefinitionFeature"]],
     decls: 10,
     vars: 10,
-    consts: [["xmlns", "http://www.w3.org/2000/svg", "preserveAspectRatio", "xMidYMid meet", 1, "board"], ["class", "base round", 3, "id", "ngClass", "click", 4, "ngFor", "ngForOf"], ["class", "base round", 3, "id", "click", 4, "ngFor", "ngForOf"], ["class", "base round", 3, "id", "ngClass", "click", 4, "ngIf"], ["class", "base round captured-fill", 3, "id", 4, "ngFor", "ngForOf"], ["class", "base round moved-fill mid-stroke", 3, "id", "click", 4, "ngIf"], ["class", "base no-fill round last-move-stroke mid-stroke", 3, "id", "click", 4, "ngIf"], ["class", "base no-fill round", 3, "id", "ngClass", "click", 4, "ngIf"], ["class", "base no-fill round victory-stroke mid-stroke", 3, "id", 4, "ngFor", "ngForOf"], ["pointer-events", "fill", "class", "capturable-stroke", 4, "ngFor", "ngForOf"], [1, "base", "round", 3, "click", "id", "ngClass"], [1, "base", "round", 3, "click", "id"], [1, "base", "round", "captured-fill", 3, "id"], [1, "base", "round", "moved-fill", "mid-stroke", 3, "click", "id"], [1, "base", "no-fill", "round", "last-move-stroke", "mid-stroke", 3, "click", "id"], [1, "base", "no-fill", "round", 3, "click", "id", "ngClass"], [1, "base", "no-fill", "round", "victory-stroke", "mid-stroke", 3, "id"], ["pointer-events", "fill", 1, "capturable-stroke"], ["class", "no-fill", "stroke-linecap", "round", 3, "id", "click", 4, "ngFor", "ngForOf"], ["stroke-linecap", "round", 1, "no-fill", 3, "click", "id"]],
+    consts: [["xmlns", "http://www.w3.org/2000/svg", "preserveAspectRatio", "xMidYMid meet", 1, "board"], ["class", "base round", 3, "id", "ngClass", "click", 4, "ngFor", "ngForOf"], ["class", "base round", 3, "id", "click", 4, "ngFor", "ngForOf"], ["class", "base round", 3, "id", "ngClass", "click", 4, "ngIf"], ["class", "base round moved-fill mid-stroke", 3, "id", "click", 4, "ngIf"], ["class", "base round captured-stroke", 3, "id", "ngClass", 4, "ngFor", "ngForOf"], ["class", "base no-fill round last-move-stroke mid-stroke", 3, "id", "click", 4, "ngIf"], ["class", "base no-fill round", 3, "id", "ngClass", "click", 4, "ngIf"], ["class", "base no-fill round victory-stroke mid-stroke", 3, "id", 4, "ngFor", "ngForOf"], ["pointer-events", "fill", "class", "capturable-stroke", 4, "ngFor", "ngForOf"], [1, "base", "round", 3, "click", "id", "ngClass"], [1, "base", "round", 3, "click", "id"], [1, "base", "round", "moved-fill", "mid-stroke", 3, "click", "id"], [1, "base", "round", "captured-stroke", 3, "id", "ngClass"], [1, "base", "no-fill", "round", "last-move-stroke", "mid-stroke", 3, "click", "id"], [1, "base", "no-fill", "round", 3, "click", "id", "ngClass"], [1, "base", "no-fill", "round", "victory-stroke", "mid-stroke", 3, "id"], ["pointer-events", "fill", 1, "capturable-stroke"], ["class", "no-fill", "stroke-linecap", "round", 3, "id", "click", 4, "ngFor", "ngForOf"], ["stroke-linecap", "round", 1, "no-fill", 3, "click", "id"]],
     template: function SixComponent_Template(rf, ctx) {
       if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵnamespaceSVG"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵelementStart"](0, "svg", 0);
-        _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵtemplate"](1, SixComponent__svg_polygon_1_Template, 1, 6, "polygon", 1)(2, SixComponent__svg_polygon_2_Template, 1, 5, "polygon", 2)(3, SixComponent__svg_polygon_3_Template, 1, 6, "polygon", 3)(4, SixComponent__svg_polygon_4_Template, 1, 5, "polygon", 4)(5, SixComponent__svg_polygon_5_Template, 1, 5, "polygon", 5)(6, SixComponent__svg_polygon_6_Template, 1, 5, "polygon", 6)(7, SixComponent__svg_polygon_7_Template, 1, 6, "polygon", 7)(8, SixComponent__svg_polygon_8_Template, 1, 5, "polygon", 8)(9, SixComponent__svg_g_9_Template, 2, 1, "g", 9);
+        _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵtemplate"](1, SixComponent__svg_polygon_1_Template, 1, 6, "polygon", 1)(2, SixComponent__svg_polygon_2_Template, 1, 5, "polygon", 2)(3, SixComponent__svg_polygon_3_Template, 1, 6, "polygon", 3)(4, SixComponent__svg_polygon_4_Template, 1, 5, "polygon", 4)(5, SixComponent__svg_polygon_5_Template, 1, 6, "polygon", 5)(6, SixComponent__svg_polygon_6_Template, 1, 5, "polygon", 6)(7, SixComponent__svg_polygon_7_Template, 1, 6, "polygon", 7)(8, SixComponent__svg_polygon_8_Template, 1, 5, "polygon", 8)(9, SixComponent__svg_g_9_Template, 2, 1, "g", 9);
         _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵelementEnd"]();
       }
       if (rf & 2) {
@@ -48845,9 +48894,9 @@ class SixComponent extends _components_game_components_game_component_HexagonalG
         _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵadvance"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵproperty"]("ngIf", ctx.chosenLanding.isPresent());
         _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵadvance"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵproperty"]("ngForOf", ctx.disconnectedCoords);
-        _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵadvance"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵproperty"]("ngIf", ctx.leftCoord.isPresent());
+        _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵadvance"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵproperty"]("ngForOf", ctx.disconnectedCoords);
         _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵadvance"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵproperty"]("ngIf", ctx.lastDrop.isPresent());
         _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵadvance"]();
