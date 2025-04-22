@@ -1,7 +1,7 @@
 "use strict";
 (self["webpackChunkeveryboard"] = self["webpackChunkeveryboard"] || []).push([["polyfills"],{
 
-/***/ 10762:
+/***/ 24050:
 /*!**************************!*\
   !*** ./src/polyfills.ts ***!
   \**************************/
@@ -108,7 +108,9 @@ function initZone() {
   mark('Zone');
   class ZoneImpl {
     // tslint:disable-next-line:require-internal-with-underscore
-    static #_ = this.__symbol__ = __symbol__;
+    static {
+      this.__symbol__ = __symbol__;
+    }
     static assertZonePatched() {
       if (global['Promise'] !== patches['ZoneAwarePromise']) {
         throw new Error('Zone.js has detected that ZoneAwarePromise `(window|global).Promise` ' + 'has been overwritten.\n' + 'Most likely cause is that a Promise polyfill has been loaded ' + 'after Zone.js (Polyfilling Promise api is not necessary when zone.js is loaded. ' + 'If you must load one, do so before loading zone.js.)');
@@ -6296,10 +6298,10 @@ var SHARED = '__core-js_shared__';
 var store = module.exports = globalThis[SHARED] || defineGlobalProperty(SHARED, {});
 
 (store.versions || (store.versions = [])).push({
-  version: '3.38.1',
+  version: '3.39.0',
   mode: IS_PURE ? 'pure' : 'global',
   copyright: '© 2014-2024 Denis Pushkarev (zloirock.ru)',
-  license: 'https://github.com/zloirock/core-js/blob/v3.38.1/LICENSE',
+  license: 'https://github.com/zloirock/core-js/blob/v3.39.0/LICENSE',
   source: 'https://github.com/zloirock/core-js'
 });
 
@@ -6578,9 +6580,9 @@ module.exports = function (key) {
 /* eslint-disable es/no-symbol -- required for testing */
 var NATIVE_SYMBOL = __webpack_require__(/*! ../internals/symbol-constructor-detection */ 1918);
 
-module.exports = NATIVE_SYMBOL
-  && !Symbol.sham
-  && typeof Symbol.iterator == 'symbol';
+module.exports = NATIVE_SYMBOL &&
+  !Symbol.sham &&
+  typeof Symbol.iterator == 'symbol';
 
 
 /***/ }),
@@ -7126,7 +7128,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _angular_localize__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/localize */ 95116);
 /**
- * @license Angular v18.2.4
+ * @license Angular v18.2.13
  * (c) 2010-2024 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -7163,7 +7165,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "ɵtranslate": () => (/* binding */ translate$1)
 /* harmony export */ });
 /**
- * @license Angular v18.2.4
+ * @license Angular v18.2.13
  * (c) 2010-2024 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -8013,7 +8015,6 @@ function translate(messageParts, substitutions) {
  * @param expressions a collection of the values of each placeholder in the template string.
  * @returns the translated string, with the `messageParts` and `expressions` interleaved together.
  *
- * @globalApi
  * @publicApi
  */
 const $localize$1 = function (messageParts, ...expressions) {
@@ -8060,7 +8061,7 @@ function stripBlock(messagePart, rawMessagePart) {
 },
 /******/ __webpack_require__ => { // webpackRuntimeModules
 /******/ var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-/******/ var __webpack_exports__ = (__webpack_exec__(10762));
+/******/ var __webpack_exports__ = (__webpack_exec__(24050));
 /******/ }
 ]);
 //# sourceMappingURL=polyfills.js.map

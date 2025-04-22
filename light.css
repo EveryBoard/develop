@@ -21584,6 +21584,10 @@ html {
   min-height: 100%;
 }
 
+.primary-fg {
+  color: var(--primary);
+}
+
 .player0-bg {
   background-color: var(--player0);
 }
@@ -21678,7 +21682,7 @@ html, body {
 }
 
 :root {
-  --primary: $primary;
+  --primary: #ffc34d;
   --alt-alt-background-fill: dimgray;
   --alt-background-fill: gray;
   --alt-captured: #990000;

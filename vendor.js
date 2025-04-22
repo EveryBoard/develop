@@ -1,8 +1,8 @@
 (self["webpackChunkeveryboard"] = self["webpackChunkeveryboard"] || []).push([["vendor"],{
 
-/***/ 30169:
+/***/ 23281:
 /*!********************************************************************!*\
-  !*** ./node_modules/@firebase/auth/dist/esm2017/index-2788dcb0.js ***!
+  !*** ./node_modules/@firebase/auth/dist/esm2017/index-68602d24.js ***!
   \********************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -997,11 +997,18 @@ function _performApiRequest2() {
       if (auth.languageCode) {
         headers["X-Firebase-Locale" /* HttpHeader.X_FIREBASE_LOCALE */] = auth.languageCode;
       }
-      return FetchProvider.fetch()(_getFinalTarget(auth, auth.config.apiHost, path, query), Object.assign({
+      const fetchArgs = Object.assign({
         method,
-        headers,
-        referrerPolicy: 'no-referrer'
-      }, body));
+        headers
+      }, body);
+      /* Security-conscious server-side frameworks tend to have built in mitigations for referrer
+         problems". See the Cloudflare GitHub issue #487: Error: The 'referrerPolicy' field on
+         'RequestInitializerDict' is not implemented."
+         https://github.com/cloudflare/next-on-pages/issues/487 */
+      if (!(0,_firebase_util__WEBPACK_IMPORTED_MODULE_2__.isCloudflareWorker)()) {
+        fetchArgs.referrerPolicy = 'no-referrer';
+      }
+      return FetchProvider.fetch()(_getFinalTarget(auth, auth.config.apiHost, path, query), fetchArgs);
     }));
   });
   return _performApiRequest2.apply(this, arguments);
@@ -11336,7 +11343,7 @@ function _isEmptyString(input) {
   return typeof input === 'undefined' || (input === null || input === void 0 ? void 0 : input.length) === 0;
 }
 var name = "@firebase/auth";
-var version = "1.7.8";
+var version = "1.7.9";
 
 /**
  * @license
@@ -11607,92 +11614,92 @@ registerAuth("Browser" /* ClientPlatform.BROWSER */);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   ActionCodeOperation: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.A),
-/* harmony export */   ActionCodeURL: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.ai),
-/* harmony export */   AuthCredential: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.L),
-/* harmony export */   AuthErrorCodes: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.I),
-/* harmony export */   EmailAuthCredential: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.M),
-/* harmony export */   EmailAuthProvider: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.V),
-/* harmony export */   FacebookAuthProvider: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.W),
-/* harmony export */   FactorId: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.F),
-/* harmony export */   GithubAuthProvider: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.Y),
-/* harmony export */   GoogleAuthProvider: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.X),
-/* harmony export */   OAuthCredential: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.N),
-/* harmony export */   OAuthProvider: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.Z),
-/* harmony export */   OperationType: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.O),
-/* harmony export */   PhoneAuthCredential: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.Q),
-/* harmony export */   PhoneAuthProvider: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.P),
-/* harmony export */   PhoneMultiFactorGenerator: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.m),
-/* harmony export */   ProviderId: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.p),
-/* harmony export */   RecaptchaVerifier: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.R),
-/* harmony export */   SAMLAuthProvider: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__._),
-/* harmony export */   SignInMethod: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.S),
-/* harmony export */   TotpMultiFactorGenerator: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.T),
-/* harmony export */   TotpSecret: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.n),
-/* harmony export */   TwitterAuthProvider: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.$),
-/* harmony export */   applyActionCode: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.a7),
-/* harmony export */   beforeAuthStateChanged: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.x),
-/* harmony export */   browserLocalPersistence: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.b),
-/* harmony export */   browserPopupRedirectResolver: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.k),
-/* harmony export */   browserSessionPersistence: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.a),
-/* harmony export */   checkActionCode: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.a8),
-/* harmony export */   confirmPasswordReset: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.a6),
-/* harmony export */   connectAuthEmulator: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.K),
-/* harmony export */   createUserWithEmailAndPassword: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.aa),
-/* harmony export */   debugErrorMap: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.G),
-/* harmony export */   deleteUser: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.E),
-/* harmony export */   fetchSignInMethodsForEmail: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.af),
-/* harmony export */   getAdditionalUserInfo: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.aq),
-/* harmony export */   getAuth: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.o),
-/* harmony export */   getIdToken: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.an),
-/* harmony export */   getIdTokenResult: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.ao),
-/* harmony export */   getMultiFactorResolver: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.as),
-/* harmony export */   getRedirectResult: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.j),
-/* harmony export */   inMemoryPersistence: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.U),
-/* harmony export */   indexedDBLocalPersistence: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.i),
-/* harmony export */   initializeAuth: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.J),
-/* harmony export */   initializeRecaptchaConfig: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.t),
-/* harmony export */   isSignInWithEmailLink: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.ad),
-/* harmony export */   linkWithCredential: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.a2),
-/* harmony export */   linkWithPhoneNumber: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.l),
-/* harmony export */   linkWithPopup: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.d),
-/* harmony export */   linkWithRedirect: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.g),
-/* harmony export */   multiFactor: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.at),
-/* harmony export */   onAuthStateChanged: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.y),
-/* harmony export */   onIdTokenChanged: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.w),
-/* harmony export */   parseActionCodeURL: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.aj),
-/* harmony export */   prodErrorMap: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.H),
-/* harmony export */   reauthenticateWithCredential: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.a3),
-/* harmony export */   reauthenticateWithPhoneNumber: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.r),
-/* harmony export */   reauthenticateWithPopup: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.e),
-/* harmony export */   reauthenticateWithRedirect: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.h),
-/* harmony export */   reload: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.ar),
-/* harmony export */   revokeAccessToken: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.D),
-/* harmony export */   sendEmailVerification: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.ag),
-/* harmony export */   sendPasswordResetEmail: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.a5),
-/* harmony export */   sendSignInLinkToEmail: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.ac),
-/* harmony export */   setPersistence: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.q),
-/* harmony export */   signInAnonymously: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.a0),
-/* harmony export */   signInWithCredential: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.a1),
-/* harmony export */   signInWithCustomToken: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.a4),
-/* harmony export */   signInWithEmailAndPassword: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.ab),
-/* harmony export */   signInWithEmailLink: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.ae),
-/* harmony export */   signInWithPhoneNumber: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.s),
-/* harmony export */   signInWithPopup: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.c),
-/* harmony export */   signInWithRedirect: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.f),
-/* harmony export */   signOut: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.C),
-/* harmony export */   unlink: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.ap),
-/* harmony export */   updateCurrentUser: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.B),
-/* harmony export */   updateEmail: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.al),
-/* harmony export */   updatePassword: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.am),
-/* harmony export */   updatePhoneNumber: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.u),
-/* harmony export */   updateProfile: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.ak),
-/* harmony export */   useDeviceLanguage: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.z),
-/* harmony export */   validatePassword: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.v),
-/* harmony export */   verifyBeforeUpdateEmail: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.ah),
-/* harmony export */   verifyPasswordResetCode: () => (/* reexport safe */ _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__.a9)
+/* harmony export */   ActionCodeOperation: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.A),
+/* harmony export */   ActionCodeURL: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.ai),
+/* harmony export */   AuthCredential: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.L),
+/* harmony export */   AuthErrorCodes: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.I),
+/* harmony export */   EmailAuthCredential: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.M),
+/* harmony export */   EmailAuthProvider: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.V),
+/* harmony export */   FacebookAuthProvider: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.W),
+/* harmony export */   FactorId: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.F),
+/* harmony export */   GithubAuthProvider: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.Y),
+/* harmony export */   GoogleAuthProvider: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.X),
+/* harmony export */   OAuthCredential: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.N),
+/* harmony export */   OAuthProvider: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.Z),
+/* harmony export */   OperationType: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.O),
+/* harmony export */   PhoneAuthCredential: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.Q),
+/* harmony export */   PhoneAuthProvider: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.P),
+/* harmony export */   PhoneMultiFactorGenerator: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.m),
+/* harmony export */   ProviderId: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.p),
+/* harmony export */   RecaptchaVerifier: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.R),
+/* harmony export */   SAMLAuthProvider: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__._),
+/* harmony export */   SignInMethod: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.S),
+/* harmony export */   TotpMultiFactorGenerator: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.T),
+/* harmony export */   TotpSecret: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.n),
+/* harmony export */   TwitterAuthProvider: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.$),
+/* harmony export */   applyActionCode: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.a7),
+/* harmony export */   beforeAuthStateChanged: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.x),
+/* harmony export */   browserLocalPersistence: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.b),
+/* harmony export */   browserPopupRedirectResolver: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.k),
+/* harmony export */   browserSessionPersistence: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.a),
+/* harmony export */   checkActionCode: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.a8),
+/* harmony export */   confirmPasswordReset: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.a6),
+/* harmony export */   connectAuthEmulator: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.K),
+/* harmony export */   createUserWithEmailAndPassword: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.aa),
+/* harmony export */   debugErrorMap: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.G),
+/* harmony export */   deleteUser: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.E),
+/* harmony export */   fetchSignInMethodsForEmail: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.af),
+/* harmony export */   getAdditionalUserInfo: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.aq),
+/* harmony export */   getAuth: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.o),
+/* harmony export */   getIdToken: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.an),
+/* harmony export */   getIdTokenResult: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.ao),
+/* harmony export */   getMultiFactorResolver: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.as),
+/* harmony export */   getRedirectResult: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.j),
+/* harmony export */   inMemoryPersistence: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.U),
+/* harmony export */   indexedDBLocalPersistence: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.i),
+/* harmony export */   initializeAuth: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.J),
+/* harmony export */   initializeRecaptchaConfig: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.t),
+/* harmony export */   isSignInWithEmailLink: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.ad),
+/* harmony export */   linkWithCredential: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.a2),
+/* harmony export */   linkWithPhoneNumber: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.l),
+/* harmony export */   linkWithPopup: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.d),
+/* harmony export */   linkWithRedirect: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.g),
+/* harmony export */   multiFactor: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.at),
+/* harmony export */   onAuthStateChanged: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.y),
+/* harmony export */   onIdTokenChanged: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.w),
+/* harmony export */   parseActionCodeURL: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.aj),
+/* harmony export */   prodErrorMap: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.H),
+/* harmony export */   reauthenticateWithCredential: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.a3),
+/* harmony export */   reauthenticateWithPhoneNumber: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.r),
+/* harmony export */   reauthenticateWithPopup: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.e),
+/* harmony export */   reauthenticateWithRedirect: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.h),
+/* harmony export */   reload: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.ar),
+/* harmony export */   revokeAccessToken: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.D),
+/* harmony export */   sendEmailVerification: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.ag),
+/* harmony export */   sendPasswordResetEmail: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.a5),
+/* harmony export */   sendSignInLinkToEmail: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.ac),
+/* harmony export */   setPersistence: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.q),
+/* harmony export */   signInAnonymously: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.a0),
+/* harmony export */   signInWithCredential: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.a1),
+/* harmony export */   signInWithCustomToken: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.a4),
+/* harmony export */   signInWithEmailAndPassword: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.ab),
+/* harmony export */   signInWithEmailLink: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.ae),
+/* harmony export */   signInWithPhoneNumber: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.s),
+/* harmony export */   signInWithPopup: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.c),
+/* harmony export */   signInWithRedirect: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.f),
+/* harmony export */   signOut: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.C),
+/* harmony export */   unlink: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.ap),
+/* harmony export */   updateCurrentUser: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.B),
+/* harmony export */   updateEmail: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.al),
+/* harmony export */   updatePassword: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.am),
+/* harmony export */   updatePhoneNumber: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.u),
+/* harmony export */   updateProfile: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.ak),
+/* harmony export */   useDeviceLanguage: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.z),
+/* harmony export */   validatePassword: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.v),
+/* harmony export */   verifyBeforeUpdateEmail: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.ah),
+/* harmony export */   verifyPasswordResetCode: () => (/* reexport safe */ _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__.a9)
 /* harmony export */ });
-/* harmony import */ var _index_2788dcb0_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index-2788dcb0.js */ 30169);
+/* harmony import */ var _index_68602d24_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index-68602d24.js */ 23281);
 /* harmony import */ var _firebase_app__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @firebase/app */ 2615);
 /* harmony import */ var _firebase_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @firebase/util */ 5219);
 /* harmony import */ var _firebase_logger__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @firebase/logger */ 86110);
@@ -11719,7 +11726,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   AggregateField: () => (/* binding */ AggregateField),
 /* harmony export */   AggregateQuerySnapshot: () => (/* binding */ AggregateQuerySnapshot),
 /* harmony export */   Bytes: () => (/* binding */ Bytes),
-/* harmony export */   CACHE_SIZE_UNLIMITED: () => (/* binding */ be),
+/* harmony export */   CACHE_SIZE_UNLIMITED: () => (/* binding */ Se),
 /* harmony export */   CollectionReference: () => (/* binding */ CollectionReference),
 /* harmony export */   DocumentReference: () => (/* binding */ DocumentReference),
 /* harmony export */   DocumentSnapshot: () => (/* binding */ DocumentSnapshot),
@@ -11846,7 +11853,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const S = "@firebase/firestore";
+const w = "@firebase/firestore";
 
 /**
  * @license
@@ -11909,7 +11916,7 @@ User.GOOGLE_CREDENTIALS = new User("google-credentials-uid"), User.FIRST_PARTY =
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-let b = "10.13.1";
+let S = "10.14.0";
 
 /**
  * @license
@@ -11927,11 +11934,11 @@ let b = "10.13.1";
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-const D = new _firebase_logger__WEBPACK_IMPORTED_MODULE_3__.Logger("@firebase/firestore");
+const b = new _firebase_logger__WEBPACK_IMPORTED_MODULE_3__.Logger("@firebase/firestore");
 
 // Helper methods are needed because variables can't be exported as read/write
 function __PRIVATE_getLogLevel() {
-  return D.logLevel;
+  return b.logLevel;
 }
 
 /**
@@ -11948,18 +11955,18 @@ function __PRIVATE_getLogLevel() {
  *   </ul>
  */
 function setLogLevel(e) {
-  D.setLogLevel(e);
+  b.setLogLevel(e);
 }
 function __PRIVATE_logDebug(e, ...t) {
-  if (D.logLevel <= _firebase_logger__WEBPACK_IMPORTED_MODULE_3__.LogLevel.DEBUG) {
+  if (b.logLevel <= _firebase_logger__WEBPACK_IMPORTED_MODULE_3__.LogLevel.DEBUG) {
     const n = t.map(__PRIVATE_argToString);
-    D.debug(`Firestore (${b}): ${e}`, ...n);
+    b.debug(`Firestore (${S}): ${e}`, ...n);
   }
 }
 function __PRIVATE_logError(e, ...t) {
-  if (D.logLevel <= _firebase_logger__WEBPACK_IMPORTED_MODULE_3__.LogLevel.ERROR) {
+  if (b.logLevel <= _firebase_logger__WEBPACK_IMPORTED_MODULE_3__.LogLevel.ERROR) {
     const n = t.map(__PRIVATE_argToString);
-    D.error(`Firestore (${b}): ${e}`, ...n);
+    b.error(`Firestore (${S}): ${e}`, ...n);
   }
 }
 
@@ -11967,9 +11974,9 @@ function __PRIVATE_logError(e, ...t) {
  * @internal
  */
 function __PRIVATE_logWarn(e, ...t) {
-  if (D.logLevel <= _firebase_logger__WEBPACK_IMPORTED_MODULE_3__.LogLevel.WARN) {
+  if (b.logLevel <= _firebase_logger__WEBPACK_IMPORTED_MODULE_3__.LogLevel.WARN) {
     const n = t.map(__PRIVATE_argToString);
-    D.warn(`Firestore (${b}): ${e}`, ...n);
+    b.warn(`Firestore (${S}): ${e}`, ...n);
   }
 }
 
@@ -12032,7 +12039,7 @@ function __PRIVATE_argToString(e) {
 function fail(e = "Unexpected state") {
   // Log the failure in addition to throw an exception, just in case the
   // exception is swallowed.
-  const t = `FIRESTORE (${b}) INTERNAL ASSERTION FAILED: ` + e;
+  const t = `FIRESTORE (${S}) INTERNAL ASSERTION FAILED: ` + e;
   // NOTE: We don't use FirestoreError here because these are internal failures
   // that cannot be handled by the user. (Also it would create a circular
   // dependency between the error and assert modules which doesn't work.)
@@ -12089,7 +12096,7 @@ t) {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-const v = {
+const D = {
   // Causes are copied from:
   // https://github.com/grpc/grpc/blob/bceec94ea4fc5f0085d81235d8e1c06798dc341a/include/grpc%2B%2B/impl/codegen/status_code_enum.h
   /** Not an error; returned on success. */
@@ -12323,6 +12330,7 @@ class __PRIVATE_FirebaseAuthCredentialsProvider {
   }
   start(e, t) {
     var _this = this;
+    __PRIVATE_hardAssert(void 0 === this.o);
     let n = this.i;
     // A change listener that prevents double-firing for the same token change.
     const __PRIVATE_guardedChangeListener = e => this.i !== n ? (n = this.i, t(e)) : Promise.resolve();
@@ -12339,7 +12347,7 @@ class __PRIVATE_FirebaseAuthCredentialsProvider {
         }));
       },
       __PRIVATE_registerAuth = e => {
-        __PRIVATE_logDebug("FirebaseAuthCredentialsProvider", "Auth detected"), this.auth = e, this.auth.addAuthTokenListener(this.o), __PRIVATE_awaitNextToken();
+        __PRIVATE_logDebug("FirebaseAuthCredentialsProvider", "Auth detected"), this.auth = e, this.o && (this.auth.addAuthTokenListener(this.o), __PRIVATE_awaitNextToken());
       };
     this.t.onInit(e => __PRIVATE_registerAuth(e)),
     // Our users can initialize Auth right after Firestore, so we give it
@@ -12372,7 +12380,7 @@ class __PRIVATE_FirebaseAuthCredentialsProvider {
     this.forceRefresh = !0;
   }
   shutdown() {
-    this.auth && this.auth.removeAuthTokenListener(this.o);
+    this.auth && this.o && this.auth.removeAuthTokenListener(this.o), this.o = void 0;
   }
   // Auth.getUid() can return null even with a user logged in. It is because
   // getUid() is synchronous, but the auth code populating Uid is asynchronous.
@@ -12439,6 +12447,7 @@ class __PRIVATE_FirebaseAppCheckTokenProvider {
     this.A = e, this.forceRefresh = !1, this.appCheck = null, this.R = null;
   }
   start(e, t) {
+    __PRIVATE_hardAssert(void 0 === this.o);
     const onTokenChanged = e => {
       null != e.error && __PRIVATE_logDebug("FirebaseAppCheckTokenProvider", `Error getting App Check token; using placeholder token instead. Error: ${e.error.message}`);
       const n = e.token !== this.R;
@@ -12448,7 +12457,7 @@ class __PRIVATE_FirebaseAppCheckTokenProvider {
       e.enqueueRetryable(() => onTokenChanged(t));
     };
     const __PRIVATE_registerAppCheck = e => {
-      __PRIVATE_logDebug("FirebaseAppCheckTokenProvider", "AppCheck detected"), this.appCheck = e, this.appCheck.addTokenListener(this.o);
+      __PRIVATE_logDebug("FirebaseAppCheckTokenProvider", "AppCheck detected"), this.appCheck = e, this.o && this.appCheck.addTokenListener(this.o);
     };
     this.A.onInit(e => __PRIVATE_registerAppCheck(e)),
     // Our users can initialize AppCheck after Firestore, so we give it
@@ -12472,7 +12481,7 @@ class __PRIVATE_FirebaseAppCheckTokenProvider {
     this.forceRefresh = !0;
   }
   shutdown() {
-    this.appCheck && this.appCheck.removeTokenListener(this.o);
+    this.appCheck && this.o && this.appCheck.removeTokenListener(this.o), this.o = void 0;
   }
 }
 
@@ -12635,11 +12644,11 @@ class Timestamp {
    * The fractions of a second at nanosecond resolution.*
    */
   t) {
-    if (this.seconds = e, this.nanoseconds = t, t < 0) throw new FirestoreError(v.INVALID_ARGUMENT, "Timestamp nanoseconds out of range: " + t);
-    if (t >= 1e9) throw new FirestoreError(v.INVALID_ARGUMENT, "Timestamp nanoseconds out of range: " + t);
-    if (e < -62135596800) throw new FirestoreError(v.INVALID_ARGUMENT, "Timestamp seconds out of range: " + e);
+    if (this.seconds = e, this.nanoseconds = t, t < 0) throw new FirestoreError(D.INVALID_ARGUMENT, "Timestamp nanoseconds out of range: " + t);
+    if (t >= 1e9) throw new FirestoreError(D.INVALID_ARGUMENT, "Timestamp nanoseconds out of range: " + t);
+    if (e < -62135596800) throw new FirestoreError(D.INVALID_ARGUMENT, "Timestamp seconds out of range: " + e);
     // This will break in the year 10,000.
-    if (e >= 253402300800) throw new FirestoreError(v.INVALID_ARGUMENT, "Timestamp seconds out of range: " + e);
+    if (e >= 253402300800) throw new FirestoreError(D.INVALID_ARGUMENT, "Timestamp seconds out of range: " + e);
   }
   /**
    * Creates a new timestamp with the current date, with millisecond precision.
@@ -12910,7 +12919,7 @@ class ResourcePath extends BasePath {
     // for legacy reasons and should not be used frequently).
     const t = [];
     for (const n of e) {
-      if (n.indexOf("//") >= 0) throw new FirestoreError(v.INVALID_ARGUMENT, `Invalid segment (${n}). Paths must not contain // in them.`);
+      if (n.indexOf("//") >= 0) throw new FirestoreError(D.INVALID_ARGUMENT, `Invalid segment (${n}). Paths must not contain // in them.`);
       // Strip leading and trailing slashed.
       t.push(...n.split("/").filter(e => e.length > 0));
     }
@@ -12920,7 +12929,7 @@ class ResourcePath extends BasePath {
     return new ResourcePath([]);
   }
 }
-const C = /^[_a-zA-Z][_a-zA-Z0-9]*$/;
+const v = /^[_a-zA-Z][_a-zA-Z0-9]*$/;
 
 /**
  * A dot-separated path for navigating sub-objects within a document.
@@ -12935,7 +12944,7 @@ class FieldPath$1 extends BasePath {
    * without escaping.
    */
   static isValidIdentifier(e) {
-    return C.test(e);
+    return v.test(e);
   }
   canonicalString() {
     return this.toArray().map(e => (e = e.replace(/\\/g, "\\\\").replace(/`/g, "\\`"), FieldPath$1.isValidIdentifier(e) || (e = "`" + e + "`"), e)).join(".");
@@ -12970,20 +12979,20 @@ class FieldPath$1 extends BasePath {
     let n = "",
       r = 0;
     const __PRIVATE_addCurrentSegment = () => {
-      if (0 === n.length) throw new FirestoreError(v.INVALID_ARGUMENT, `Invalid field path (${e}). Paths must not be empty, begin with '.', end with '.', or contain '..'`);
+      if (0 === n.length) throw new FirestoreError(D.INVALID_ARGUMENT, `Invalid field path (${e}). Paths must not be empty, begin with '.', end with '.', or contain '..'`);
       t.push(n), n = "";
     };
     let i = !1;
     for (; r < e.length;) {
       const t = e[r];
       if ("\\" === t) {
-        if (r + 1 === e.length) throw new FirestoreError(v.INVALID_ARGUMENT, "Path has trailing escape character: " + e);
+        if (r + 1 === e.length) throw new FirestoreError(D.INVALID_ARGUMENT, "Path has trailing escape character: " + e);
         const t = e[r + 1];
-        if ("\\" !== t && "." !== t && "`" !== t) throw new FirestoreError(v.INVALID_ARGUMENT, "Path has invalid escape sequence: " + e);
+        if ("\\" !== t && "." !== t && "`" !== t) throw new FirestoreError(D.INVALID_ARGUMENT, "Path has invalid escape sequence: " + e);
         n += t, r += 2;
       } else "`" === t ? (i = !i, r++) : "." !== t || i ? (n += t, r++) : (__PRIVATE_addCurrentSegment(), r++);
     }
-    if (__PRIVATE_addCurrentSegment(), i) throw new FirestoreError(v.INVALID_ARGUMENT, "Unterminated ` in path: " + e);
+    if (__PRIVATE_addCurrentSegment(), i) throw new FirestoreError(D.INVALID_ARGUMENT, "Unterminated ` in path: " + e);
     return new FieldPath$1(t);
   }
   static emptyPath() {
@@ -13242,7 +13251,7 @@ function __PRIVATE_indexOffsetComparator(e, t) {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-const F = "The current tab is not in the required state to perform this operation. It might be necessary to refresh the browser tab.";
+const C = "The current tab is not in the required state to perform this operation. It might be necessary to refresh the browser tab.";
 
 /**
  * A base class representing a persistence transaction, encapsulating both the
@@ -13324,7 +13333,7 @@ function __PRIVATE_ignoreIfPrimaryLeaseLoss(_x) {
  */
 function _PRIVATE_ignoreIfPrimaryLeaseLoss() {
   _PRIVATE_ignoreIfPrimaryLeaseLoss = (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (e) {
-    if (e.code !== v.FAILED_PRECONDITION || e.message !== F) throw e;
+    if (e.code !== D.FAILED_PRECONDITION || e.message !== C) throw e;
     __PRIVATE_logDebug("LocalStore", "Unexpectedly lost primary lease");
   });
   return _PRIVATE_ignoreIfPrimaryLeaseLoss.apply(this, arguments);
@@ -13620,7 +13629,7 @@ class __PRIVATE_SimpleDb {
           n(new __PRIVATE_IndexedDbTransactionError(e, "Cannot upgrade IndexedDB schema while another tab is open. Close all tabs that access Firestore and reload this page to proceed."));
         }, r.onerror = t => {
           const r = t.target.error;
-          "VersionError" === r.name ? n(new FirestoreError(v.FAILED_PRECONDITION, "A newer version of the Firestore SDK was previously used and so the persisted data is not compatible with the version of the SDK you are now using. The SDK will operate with persistence disabled. If you need persistence, please re-upgrade to a newer version of the SDK or else clear the persisted IndexedDB data for your app to start fresh.")) : "InvalidStateError" === r.name ? n(new FirestoreError(v.FAILED_PRECONDITION, "Unable to open an IndexedDB connection. This could be due to running in a private browsing session on a browser whose private browsing sessions do not support IndexedDB: " + r)) : n(new __PRIVATE_IndexedDbTransactionError(e, r));
+          "VersionError" === r.name ? n(new FirestoreError(D.FAILED_PRECONDITION, "A newer version of the Firestore SDK was previously used and so the persisted data is not compatible with the version of the SDK you are now using. The SDK will operate with persistence disabled. If you need persistence, please re-upgrade to a newer version of the SDK or else clear the persisted IndexedDB data for your app to start fresh.")) : "InvalidStateError" === r.name ? n(new FirestoreError(D.FAILED_PRECONDITION, "Unable to open an IndexedDB connection. This could be due to running in a private browsing session on a browser whose private browsing sessions do not support IndexedDB: " + r)) : n(new __PRIVATE_IndexedDbTransactionError(e, r));
         }, r.onupgradeneeded = e => {
           __PRIVATE_logDebug("SimpleDb", 'Database "' + _this2.name + '" requires upgrade from version:', e.oldVersion);
           const t = e.target.result;
@@ -13722,7 +13731,7 @@ class __PRIVATE_IterationController {
 /** An error that wraps exceptions that thrown during IndexedDB execution. */
 class __PRIVATE_IndexedDbTransactionError extends FirestoreError {
   constructor(e, t) {
-    super(v.UNAVAILABLE, `IndexedDB transaction '${e}' failed: ${t}`), this.name = "IndexedDbTransactionError";
+    super(D.UNAVAILABLE, `IndexedDB transaction '${e}' failed: ${t}`), this.name = "IndexedDbTransactionError";
   }
 }
 
@@ -13914,7 +13923,7 @@ function __PRIVATE_wrapRequest(e) {
 }
 
 // Guard so we only report the error once.
-let M = !1;
+let F = !1;
 function __PRIVATE_checkForAndReportiOSError(e) {
   const t = __PRIVATE_SimpleDb.S((0,_firebase_util__WEBPACK_IMPORTED_MODULE_4__.getUA)());
   if (t >= 12.2 && t < 13) {
@@ -13922,7 +13931,7 @@ function __PRIVATE_checkForAndReportiOSError(e) {
     if (e.message.indexOf(t) >= 0) {
       // Wrap error in a more descriptive one.
       const e = new FirestoreError("internal", `IOS_INDEXEDDB_BUG1: IndexedDb has thrown '${t}'. This is likely due to an unavoidable bug in iOS. See https://stackoverflow.com/q/56496296/110915 for details and a potential workaround.`);
-      return M || (M = !0,
+      return F || (F = !0,
       // Throw a global exception outside of this promise chain, for the user to
       // potentially catch.
       setTimeout(() => {
@@ -14181,7 +14190,7 @@ function __PRIVATE_decodeResourcePath(e) {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-const x = ["userId", "batchId"];
+const M = ["userId", "batchId"];
 
 /**
  * @license
@@ -14228,28 +14237,28 @@ function __PRIVATE_newDbDocumentMutationKey(e, t, n) {
  * path cannot be stored because IndexedDb doesn't store prototype
  * information.
  */
-const O = {},
-  N = ["prefixPath", "collectionGroup", "readTime", "documentId"],
-  L = ["prefixPath", "collectionGroup", "documentId"],
-  B = ["collectionGroup", "readTime", "prefixPath", "documentId"],
-  k = ["canonicalId", "targetId"],
-  q = ["targetId", "path"],
-  Q = ["path", "targetId"],
-  K = ["collectionId", "parent"],
-  $ = ["indexId", "uid"],
-  U = ["uid", "sequenceNumber"],
-  W = ["indexId", "uid", "arrayValue", "directionalValue", "orderedDocumentKey", "documentKey"],
-  G = ["indexId", "uid", "orderedDocumentKey"],
-  z = ["userId", "collectionPath", "documentId"],
-  j = ["userId", "collectionPath", "largestBatchId"],
-  H = ["userId", "collectionGroup", "largestBatchId"],
-  J = [...[...[...[...["mutationQueues", "mutations", "documentMutations", "remoteDocuments", "targets", "owner", "targetGlobal", "targetDocuments"], "clientMetadata"], "remoteDocumentGlobal"], "collectionParents"], "bundles", "namedQueries"],
-  Y = [...J, "documentOverlays"],
-  Z = ["mutationQueues", "mutations", "documentMutations", "remoteDocumentsV14", "targets", "owner", "targetGlobal", "targetDocuments", "clientMetadata", "remoteDocumentGlobal", "collectionParents", "bundles", "namedQueries", "documentOverlays"],
-  X = Z,
-  ee = [...X, "indexConfiguration", "indexState", "indexEntries"],
-  te = ee,
-  ne = [...ee, "globals"];
+const x = {},
+  O = ["prefixPath", "collectionGroup", "readTime", "documentId"],
+  N = ["prefixPath", "collectionGroup", "documentId"],
+  L = ["collectionGroup", "readTime", "prefixPath", "documentId"],
+  B = ["canonicalId", "targetId"],
+  k = ["targetId", "path"],
+  q = ["path", "targetId"],
+  Q = ["collectionId", "parent"],
+  K = ["indexId", "uid"],
+  $ = ["uid", "sequenceNumber"],
+  U = ["indexId", "uid", "arrayValue", "directionalValue", "orderedDocumentKey", "documentKey"],
+  W = ["indexId", "uid", "orderedDocumentKey"],
+  G = ["userId", "collectionPath", "documentId"],
+  z = ["userId", "collectionPath", "largestBatchId"],
+  j = ["userId", "collectionGroup", "largestBatchId"],
+  H = [...[...[...[...["mutationQueues", "mutations", "documentMutations", "remoteDocuments", "targets", "owner", "targetGlobal", "targetDocuments"], "clientMetadata"], "remoteDocumentGlobal"], "collectionParents"], "bundles", "namedQueries"],
+  J = [...H, "documentOverlays"],
+  Y = ["mutationQueues", "mutations", "documentMutations", "remoteDocumentsV14", "targets", "owner", "targetGlobal", "targetDocuments", "clientMetadata", "remoteDocumentGlobal", "collectionParents", "bundles", "namedQueries", "documentOverlays"],
+  Z = Y,
+  X = [...Z, "indexConfiguration", "indexState", "indexEntries"],
+  ee = X,
+  te = [...X, "globals"];
 
 /**
  * @license
@@ -15014,7 +15023,7 @@ class ByteString {
   }
 }
 ByteString.EMPTY_BYTE_STRING = new ByteString("");
-const re = new RegExp(/^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(?:\.(\d+))?Z$/);
+const ne = new RegExp(/^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(?:\.(\d+))?Z$/);
 
 /**
  * Converts the possible Proto values for a timestamp value into a "seconds and
@@ -15029,7 +15038,7 @@ function __PRIVATE_normalizeTimestamp(e) {
     // (millis), so we do some custom parsing here.
     // Parse the nanos right out of the string.
     let t = 0;
-    const n = re.exec(e);
+    const n = ne.exec(e);
     if (__PRIVATE_hardAssert(!!n), n[1]) {
       // Pad the fraction out to 9 digits (nanos).
       let e = n[1];
@@ -15199,7 +15208,7 @@ class DatabaseId {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-const ie = {
+const re = {
     mapValue: {
       fields: {
         __type__: {
@@ -15208,7 +15217,7 @@ const ie = {
       }
     }
   },
-  se = {
+  ie = {
     nullValue: "NULL_VALUE"
   };
 
@@ -15342,9 +15351,9 @@ function __PRIVATE_valueCompare(e, t) {
       }(e.mapValue, t.mapValue);
     case 11 /* TypeOrder.ObjectValue */:
       return function __PRIVATE_compareMaps(e, t) {
-        if (e === ie.mapValue && t === ie.mapValue) return 0;
-        if (e === ie.mapValue) return 1;
-        if (t === ie.mapValue) return -1;
+        if (e === re.mapValue && t === re.mapValue) return 0;
+        if (e === re.mapValue) return 1;
+        if (t === re.mapValue) return -1;
         const n = e.fields || {},
           r = Object.keys(n),
           i = t.fields || {},
@@ -15531,7 +15540,7 @@ function __PRIVATE_deepClone(e) {
 function __PRIVATE_isMaxValue(e) {
   return "__max__" === (((e.mapValue || {}).fields || {}).__type__ || {}).stringValue;
 }
-const oe = {
+const se = {
   mapValue: {
     fields: {
       __type__: {
@@ -15546,7 +15555,7 @@ const oe = {
 
 /** Returns the lowest value for the given value type (inclusive). */
 function __PRIVATE_valuesGetLowerBound(e) {
-  return "nullValue" in e ? se : "booleanValue" in e ? {
+  return "nullValue" in e ? ie : "booleanValue" in e ? {
     booleanValue: !1
   } : "integerValue" in e || "doubleValue" in e ? {
     doubleValue: NaN
@@ -15565,7 +15574,7 @@ function __PRIVATE_valuesGetLowerBound(e) {
     }
   } : "arrayValue" in e ? {
     arrayValue: {}
-  } : "mapValue" in e ? __PRIVATE_isVectorValue(e) ? oe : {
+  } : "mapValue" in e ? __PRIVATE_isVectorValue(e) ? se : {
     mapValue: {}
   } : fail();
 }
@@ -15591,9 +15600,9 @@ function __PRIVATE_valuesGetUpperBound(e) {
     }
   } : "geoPointValue" in e ? {
     arrayValue: {}
-  } : "arrayValue" in e ? oe : "mapValue" in e ? __PRIVATE_isVectorValue(e) ? {
+  } : "arrayValue" in e ? se : "mapValue" in e ? __PRIVATE_isVectorValue(e) ? {
     mapValue: {}
-  } : ie : fail();
+  } : re : fail();
 }
 function __PRIVATE_lowerBoundCompare(e, t) {
   const n = __PRIVATE_valueCompare(e.value, t.value);
@@ -16267,11 +16276,11 @@ function __PRIVATE_targetGetFieldFiltersForPath(e, t) {
  * the provided `fieldPath` (or the upper bound for an descending segment).
  */
 function __PRIVATE_targetGetAscendingBound(e, t, n) {
-  let r = se,
+  let r = ie,
     i = !0;
   // Process all filters to find a value for the current field segment
   for (const n of __PRIVATE_targetGetFieldFiltersForPath(e, t)) {
-    let e = se,
+    let e = ie,
       t = !0;
     switch (n.op) {
       case "<" /* Operator.LESS_THAN */:
@@ -16288,7 +16297,7 @@ function __PRIVATE_targetGetAscendingBound(e, t, n) {
         break;
       case "!=" /* Operator.NOT_EQUAL */:
       case "not-in" /* Operator.NOT_IN */:
-        e = se;
+        e = ie;
       // Remaining filters cannot be used as lower bounds.
     }
     __PRIVATE_lowerBoundCompare({
@@ -16325,11 +16334,11 @@ function __PRIVATE_targetGetAscendingBound(e, t, n) {
  * the provided `fieldPath` (or the lower bound for a descending segment).
  */
 function __PRIVATE_targetGetDescendingBound(e, t, n) {
-  let r = ie,
+  let r = re,
     i = !0;
   // Process all filters to find a value for the current field segment
   for (const n of __PRIVATE_targetGetFieldFiltersForPath(e, t)) {
-    let e = ie,
+    let e = re,
       t = !0;
     switch (n.op) {
       case ">=" /* Operator.GREATER_THAN_OR_EQUAL */:
@@ -16346,7 +16355,7 @@ function __PRIVATE_targetGetDescendingBound(e, t, n) {
         break;
       case "!=" /* Operator.NOT_EQUAL */:
       case "not-in" /* Operator.NOT_IN */:
-        e = ie;
+        e = re;
       // Remaining filters cannot be used as upper bounds.
     }
     __PRIVATE_upperBoundCompare({
@@ -16730,18 +16739,18 @@ class ObjectMap {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-const _e = new SortedMap(DocumentKey.comparator);
+const oe = new SortedMap(DocumentKey.comparator);
 function __PRIVATE_mutableDocumentMap() {
-  return _e;
+  return oe;
 }
-const ae = new SortedMap(DocumentKey.comparator);
+const _e = new SortedMap(DocumentKey.comparator);
 function documentMap(...e) {
-  let t = ae;
+  let t = _e;
   for (const n of e) t = t.insert(n.key, n);
   return t;
 }
 function __PRIVATE_convertOverlayedDocumentMapToDocumentMap(e) {
-  let t = ae;
+  let t = _e;
   return e.forEach((e, n) => t = t.insert(e, n.overlayedDocument)), t;
 }
 function __PRIVATE_newOverlayMap() {
@@ -16753,16 +16762,16 @@ function __PRIVATE_newMutationMap() {
 function __PRIVATE_newDocumentKeyMap() {
   return new ObjectMap(e => e.toString(), (e, t) => e.isEqual(t));
 }
-const ue = new SortedMap(DocumentKey.comparator);
-const ce = new SortedSet(DocumentKey.comparator);
+const ae = new SortedMap(DocumentKey.comparator);
+const ue = new SortedSet(DocumentKey.comparator);
 function __PRIVATE_documentKeySet(...e) {
-  let t = ce;
+  let t = ue;
   for (const n of e) t = t.add(n);
   return t;
 }
-const le = new SortedSet(__PRIVATE_primitiveComparator);
+const ce = new SortedSet(__PRIVATE_primitiveComparator);
 function __PRIVATE_targetIdSet() {
-  return le;
+  return ce;
 }
 
 /**
@@ -17477,7 +17486,7 @@ class MutationBatchResult {
   static from(e, t, n) {
     __PRIVATE_hardAssert(e.mutations.length === n.length);
     let r = function __PRIVATE_documentVersionMap() {
-      return ue;
+      return ae;
     }();
     const i = e.mutations;
     for (let e = 0; e < i.length; e++) r = r.insert(i[e].key, n[e].version);
@@ -17595,7 +17604,7 @@ class ExistenceFilter {
  * are used for reverse lookups from the webchannel stream. Do NOT change the
  * names of these identifiers or change this into a const enum.
  */
-var he, Pe;
+var le, he;
 
 /**
  * Determines whether an error code represents a permanent error when received
@@ -17607,28 +17616,28 @@ function __PRIVATE_isPermanentError(e) {
   switch (e) {
     default:
       return fail();
-    case v.CANCELLED:
-    case v.UNKNOWN:
-    case v.DEADLINE_EXCEEDED:
-    case v.RESOURCE_EXHAUSTED:
-    case v.INTERNAL:
-    case v.UNAVAILABLE:
+    case D.CANCELLED:
+    case D.UNKNOWN:
+    case D.DEADLINE_EXCEEDED:
+    case D.RESOURCE_EXHAUSTED:
+    case D.INTERNAL:
+    case D.UNAVAILABLE:
     // Unauthenticated means something went wrong with our token and we need
     // to retry with new credentials which will happen automatically.
-    case v.UNAUTHENTICATED:
+    case D.UNAUTHENTICATED:
       return !1;
-    case v.INVALID_ARGUMENT:
-    case v.NOT_FOUND:
-    case v.ALREADY_EXISTS:
-    case v.PERMISSION_DENIED:
-    case v.FAILED_PRECONDITION:
+    case D.INVALID_ARGUMENT:
+    case D.NOT_FOUND:
+    case D.ALREADY_EXISTS:
+    case D.PERMISSION_DENIED:
+    case D.FAILED_PRECONDITION:
     // Aborted might be retried in some scenarios, but that is dependent on
     // the context and should handled individually by the calling code.
     // See https://cloud.google.com/apis/design/errors.
-    case v.ABORTED:
-    case v.OUT_OF_RANGE:
-    case v.UNIMPLEMENTED:
-    case v.DATA_LOSS:
+    case D.ABORTED:
+    case D.OUT_OF_RANGE:
+    case D.UNIMPLEMENTED:
+    case D.DATA_LOSS:
       return !0;
   }
 }
@@ -17656,42 +17665,42 @@ function __PRIVATE_mapCodeFromRpcCode(e) {
   if (void 0 === e)
     // This shouldn't normally happen, but in certain error cases (like trying
     // to send invalid proto messages) we may get an error with no GRPC code.
-    return __PRIVATE_logError("GRPC error has no .code"), v.UNKNOWN;
+    return __PRIVATE_logError("GRPC error has no .code"), D.UNKNOWN;
   switch (e) {
-    case he.OK:
-      return v.OK;
-    case he.CANCELLED:
-      return v.CANCELLED;
-    case he.UNKNOWN:
-      return v.UNKNOWN;
-    case he.DEADLINE_EXCEEDED:
-      return v.DEADLINE_EXCEEDED;
-    case he.RESOURCE_EXHAUSTED:
-      return v.RESOURCE_EXHAUSTED;
-    case he.INTERNAL:
-      return v.INTERNAL;
-    case he.UNAVAILABLE:
-      return v.UNAVAILABLE;
-    case he.UNAUTHENTICATED:
-      return v.UNAUTHENTICATED;
-    case he.INVALID_ARGUMENT:
-      return v.INVALID_ARGUMENT;
-    case he.NOT_FOUND:
-      return v.NOT_FOUND;
-    case he.ALREADY_EXISTS:
-      return v.ALREADY_EXISTS;
-    case he.PERMISSION_DENIED:
-      return v.PERMISSION_DENIED;
-    case he.FAILED_PRECONDITION:
-      return v.FAILED_PRECONDITION;
-    case he.ABORTED:
-      return v.ABORTED;
-    case he.OUT_OF_RANGE:
-      return v.OUT_OF_RANGE;
-    case he.UNIMPLEMENTED:
-      return v.UNIMPLEMENTED;
-    case he.DATA_LOSS:
-      return v.DATA_LOSS;
+    case le.OK:
+      return D.OK;
+    case le.CANCELLED:
+      return D.CANCELLED;
+    case le.UNKNOWN:
+      return D.UNKNOWN;
+    case le.DEADLINE_EXCEEDED:
+      return D.DEADLINE_EXCEEDED;
+    case le.RESOURCE_EXHAUSTED:
+      return D.RESOURCE_EXHAUSTED;
+    case le.INTERNAL:
+      return D.INTERNAL;
+    case le.UNAVAILABLE:
+      return D.UNAVAILABLE;
+    case le.UNAUTHENTICATED:
+      return D.UNAUTHENTICATED;
+    case le.INVALID_ARGUMENT:
+      return D.INVALID_ARGUMENT;
+    case le.NOT_FOUND:
+      return D.NOT_FOUND;
+    case le.ALREADY_EXISTS:
+      return D.ALREADY_EXISTS;
+    case le.PERMISSION_DENIED:
+      return D.PERMISSION_DENIED;
+    case le.FAILED_PRECONDITION:
+      return D.FAILED_PRECONDITION;
+    case le.ABORTED:
+      return D.ABORTED;
+    case le.OUT_OF_RANGE:
+      return D.OUT_OF_RANGE;
+    case le.UNIMPLEMENTED:
+      return D.UNIMPLEMENTED;
+    case le.DATA_LOSS:
+      return D.DATA_LOSS;
     default:
       return fail();
   }
@@ -17705,7 +17714,7 @@ function __PRIVATE_mapCodeFromRpcCode(e) {
  * @returns The equivalent Code. Non-matching responses are mapped to
  *     Code.UNKNOWN.
  */
-(Pe = he || (he = {}))[Pe.OK = 0] = "OK", Pe[Pe.CANCELLED = 1] = "CANCELLED", Pe[Pe.UNKNOWN = 2] = "UNKNOWN", Pe[Pe.INVALID_ARGUMENT = 3] = "INVALID_ARGUMENT", Pe[Pe.DEADLINE_EXCEEDED = 4] = "DEADLINE_EXCEEDED", Pe[Pe.NOT_FOUND = 5] = "NOT_FOUND", Pe[Pe.ALREADY_EXISTS = 6] = "ALREADY_EXISTS", Pe[Pe.PERMISSION_DENIED = 7] = "PERMISSION_DENIED", Pe[Pe.UNAUTHENTICATED = 16] = "UNAUTHENTICATED", Pe[Pe.RESOURCE_EXHAUSTED = 8] = "RESOURCE_EXHAUSTED", Pe[Pe.FAILED_PRECONDITION = 9] = "FAILED_PRECONDITION", Pe[Pe.ABORTED = 10] = "ABORTED", Pe[Pe.OUT_OF_RANGE = 11] = "OUT_OF_RANGE", Pe[Pe.UNIMPLEMENTED = 12] = "UNIMPLEMENTED", Pe[Pe.INTERNAL = 13] = "INTERNAL", Pe[Pe.UNAVAILABLE = 14] = "UNAVAILABLE", Pe[Pe.DATA_LOSS = 15] = "DATA_LOSS";
+(he = le || (le = {}))[he.OK = 0] = "OK", he[he.CANCELLED = 1] = "CANCELLED", he[he.UNKNOWN = 2] = "UNKNOWN", he[he.INVALID_ARGUMENT = 3] = "INVALID_ARGUMENT", he[he.DEADLINE_EXCEEDED = 4] = "DEADLINE_EXCEEDED", he[he.NOT_FOUND = 5] = "NOT_FOUND", he[he.ALREADY_EXISTS = 6] = "ALREADY_EXISTS", he[he.PERMISSION_DENIED = 7] = "PERMISSION_DENIED", he[he.UNAUTHENTICATED = 16] = "UNAUTHENTICATED", he[he.RESOURCE_EXHAUSTED = 8] = "RESOURCE_EXHAUSTED", he[he.FAILED_PRECONDITION = 9] = "FAILED_PRECONDITION", he[he.ABORTED = 10] = "ABORTED", he[he.OUT_OF_RANGE = 11] = "OUT_OF_RANGE", he[he.UNIMPLEMENTED = 12] = "UNIMPLEMENTED", he[he.INTERNAL = 13] = "INTERNAL", he[he.UNAVAILABLE = 14] = "UNAVAILABLE", he[he.DATA_LOSS = 15] = "DATA_LOSS";
 
 /**
  * @license
@@ -17730,7 +17739,7 @@ function __PRIVATE_mapCodeFromRpcCode(e) {
  * integration tests that have registered callbacks to be notified of events
  * that happen during the test execution.
  */
-let Ie = null;
+let Pe = null;
 
 /**
  * Sets the value of the `testingHooksSpi` object.
@@ -17778,7 +17787,7 @@ function __PRIVATE_newTextEncoder() {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-const Te = new _firebase_webchannel_wrapper_bloom_blob__WEBPACK_IMPORTED_MODULE_5__.Integer([4294967295, 4294967295], 0);
+const Ie = new _firebase_webchannel_wrapper_bloom_blob__WEBPACK_IMPORTED_MODULE_5__.Integer([4294967295, 4294967295], 0);
 
 // Hash a string using md5 hashing algorithm.
 function __PRIVATE_getMd5HashValue(e) {
@@ -17817,7 +17826,7 @@ class BloomFilter {
     // Calculate hashed value h(i) = h1 + (i * h2).
     let r = e.add(t.multiply(_firebase_webchannel_wrapper_bloom_blob__WEBPACK_IMPORTED_MODULE_5__.Integer.fromNumber(n)));
     // Wrap if hash value overflow 64bit.
-    return 1 === r.compare(Te) && (r = new _firebase_webchannel_wrapper_bloom_blob__WEBPACK_IMPORTED_MODULE_5__.Integer([r.getBits(0), r.getBits(1)], 0)), r.modulo(this.Te).toNumber();
+    return 1 === r.compare(Ie) && (r = new _firebase_webchannel_wrapper_bloom_blob__WEBPACK_IMPORTED_MODULE_5__.Integer([r.getBits(0), r.getBits(1)], 0)), r.modulo(this.Te).toNumber();
   }
   // Return whether the bit on the given index in the bitmap is set to 1.
   de(e) {
@@ -18240,7 +18249,7 @@ class __PRIVATE_WatchChangeAggregator {
             const e = 2 /* BloomFilterApplicationStatus.FalsePositive */ === i ? "TargetPurposeExistenceFilterMismatchBloom" /* TargetPurpose.ExistenceFilterMismatchBloom */ : "TargetPurposeExistenceFilterMismatch" /* TargetPurpose.ExistenceFilterMismatch */;
             this.Qe = this.Qe.insert(t, e);
           }
-          null == Ie || Ie.et(function __PRIVATE_createExistenceFilterMismatchInfoForTestingHooks(e, t, n, r, i) {
+          null == Pe || Pe.et(function __PRIVATE_createExistenceFilterMismatchInfoForTestingHooks(e, t, n, r, i) {
             var s, o, _, a, u, c;
             const l = {
                 localCacheCount: e,
@@ -18465,14 +18474,14 @@ function __PRIVATE_documentTargetMap() {
 function __PRIVATE_snapshotChangesMap() {
   return new SortedMap(DocumentKey.comparator);
 }
-const Ee = (() => {
+const Te = (() => {
     const e = {
       asc: "ASCENDING",
       desc: "DESCENDING"
     };
     return e;
   })(),
-  de = (() => {
+  Ee = (() => {
     const e = {
       "<": "LESS_THAN",
       "<=": "LESS_THAN_OR_EQUAL",
@@ -18487,7 +18496,7 @@ const Ee = (() => {
     };
     return e;
   })(),
-  Ae = (() => {
+  de = (() => {
     const e = {
       and: "AND",
       or: "OR"
@@ -18584,8 +18593,8 @@ function __PRIVATE_toName(e, t) {
 }
 function fromName(e, t) {
   const n = __PRIVATE_fromResourceName(t);
-  if (n.get(1) !== e.databaseId.projectId) throw new FirestoreError(v.INVALID_ARGUMENT, "Tried to deserialize key from different project: " + n.get(1) + " vs " + e.databaseId.projectId);
-  if (n.get(3) !== e.databaseId.database) throw new FirestoreError(v.INVALID_ARGUMENT, "Tried to deserialize key from different database: " + n.get(3) + " vs " + e.databaseId.database);
+  if (n.get(1) !== e.databaseId.projectId) throw new FirestoreError(D.INVALID_ARGUMENT, "Tried to deserialize key from different project: " + n.get(1) + " vs " + e.databaseId.projectId);
+  if (n.get(3) !== e.databaseId.database) throw new FirestoreError(D.INVALID_ARGUMENT, "Tried to deserialize key from different database: " + n.get(3) + " vs " + e.databaseId.database);
   return new DocumentKey(__PRIVATE_extractLocalPathFromResourceName(n));
 }
 function __PRIVATE_toQueryPath(e, t) {
@@ -18664,7 +18673,7 @@ function __PRIVATE_fromWatchChange(e, t) {
       }(e, t.targetChange.resumeToken),
       o = t.targetChange.cause,
       _ = o && function __PRIVATE_fromRpcStatus(e) {
-        const t = void 0 === e.code ? v.UNKNOWN : __PRIVATE_mapCodeFromRpcCode(e.code);
+        const t = void 0 === e.code ? D.UNKNOWN : __PRIVATE_mapCodeFromRpcCode(e.code);
         return new FirestoreError(t, e.message || "");
       }(o);
     n = new __PRIVATE_WatchTargetChange(r, i, s, _ || null);
@@ -19052,13 +19061,13 @@ function __PRIVATE_fromFilter(e) {
   }(e) : fail();
 }
 function __PRIVATE_toDirection(e) {
-  return Ee[e];
+  return Te[e];
 }
 function __PRIVATE_toOperatorName(e) {
-  return de[e];
+  return Ee[e];
 }
 function __PRIVATE_toCompositeOperatorName(e) {
-  return Ae[e];
+  return de[e];
 }
 function __PRIVATE_toFieldPathReference(e) {
   return {
@@ -20442,7 +20451,7 @@ class __PRIVATE_MemoryCollectionParentIndex {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-const Re = new Uint8Array(0);
+const Ae = new Uint8Array(0);
 
 /**
  * A persisted implementation of IndexManager.
@@ -20665,7 +20674,7 @@ class __PRIVATE_IndexedDbIndexManager {
       a = _ / (null != t ? t.length : 1),
       u = [];
     for (let c = 0; c < _; ++c) {
-      const _ = t ? this.dn(t[c / a]) : Re,
+      const _ = t ? this.dn(t[c / a]) : Ae,
         l = this.An(e, _, n[c % a], r),
         h = this.Rn(e, _, i[c % a], s),
         P = o.map(t => this.An(e, _, t, /* inclusive= */!0));
@@ -20878,7 +20887,7 @@ class __PRIVATE_IndexedDbIndexManager {
     if (null != i) {
       const s = e.data.field(i.fieldPath);
       if (isArray(s)) for (const i of s.arrayValue.values || []) n = n.add(new __PRIVATE_IndexEntry(t.indexId, e.key, this.dn(i), r));
-    } else n = n.add(new __PRIVATE_IndexEntry(t.indexId, e.key, Re, r));
+    } else n = n.add(new __PRIVATE_IndexEntry(t.indexId, e.key, Ae, r));
     return n;
   }
   /**
@@ -20956,8 +20965,8 @@ class __PRIVATE_IndexedDbIndexManager {
       // If we encounter two bounds that will create an unmatchable key range,
       // then we return an empty set of key ranges.
       if (this.Cn(r[e], r[e + 1])) return [];
-      const t = [r[e].indexId, this.uid, r[e].arrayValue, r[e].directionalValue, Re, []],
-        n = [r[e + 1].indexId, this.uid, r[e + 1].arrayValue, r[e + 1].directionalValue, Re, []];
+      const t = [r[e].indexId, this.uid, r[e].arrayValue, r[e].directionalValue, Ae, []],
+        n = [r[e + 1].indexId, this.uid, r[e + 1].arrayValue, r[e + 1].directionalValue, Ae, []];
       i.push(IDBKeyRange.bound(t, n));
     }
     return i;
@@ -21030,7 +21039,7 @@ function __PRIVATE_getMinOffsetFromFieldIndexes(e) {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-const Ve = {
+const Re = {
   didRun: !1,
   sequenceNumbersCollected: 0,
   targetsRemoved: 0,
@@ -21200,7 +21209,7 @@ class __PRIVATE_IndexedDbMutationQueue {
       let c = new SortedSet((e, t) => __PRIVATE_primitiveComparator(e.canonicalString(), t.canonicalString()));
       for (const e of r) {
         const t = __PRIVATE_newDbDocumentMutationKey(this.userId, e.key.path, o);
-        c = c.add(e.key.path.popLast()), u.push(s.put(a)), u.push(i.put(t, O));
+        c = c.add(e.key.path.popLast()), u.push(s.put(a)), u.push(i.put(t, x));
       }
       return c.forEach(t => {
         u.push(this.indexManager.addToCollectionParentIndex(e, t));
@@ -21789,7 +21798,7 @@ class __PRIVATE_LruGarbageCollectorImpl {
     return this.Jn.removeOrphanedDocuments(e, t);
   }
   collect(e, t) {
-    return -1 === this.params.cacheSizeCollectionThreshold ? (__PRIVATE_logDebug("LruGarbageCollector", "Garbage collection skipped; disabled"), PersistencePromise.resolve(Ve)) : this.getCacheSize(e).next(n => n < this.params.cacheSizeCollectionThreshold ? (__PRIVATE_logDebug("LruGarbageCollector", `Garbage collection skipped; Cache size ${n} is lower than threshold ${this.params.cacheSizeCollectionThreshold}`), Ve) : this.Xn(e, t));
+    return -1 === this.params.cacheSizeCollectionThreshold ? (__PRIVATE_logDebug("LruGarbageCollector", "Garbage collection skipped; disabled"), PersistencePromise.resolve(Re)) : this.getCacheSize(e).next(n => n < this.params.cacheSizeCollectionThreshold ? (__PRIVATE_logDebug("LruGarbageCollector", `Garbage collection skipped; Cache size ${n} is lower than threshold ${this.params.cacheSizeCollectionThreshold}`), Re) : this.Xn(e, t));
   }
   getCacheSize(e) {
     return this.Jn.getCacheSize(e);
@@ -23630,7 +23639,7 @@ class __PRIVATE_SchemaConverter {
       e.createObjectStore("mutations", {
         keyPath: "batchId",
         autoIncrement: !0
-      }).createIndex("userMutationsIndex", x, {
+      }).createIndex("userMutationsIndex", M, {
         unique: !0
       }), e.createObjectStore("documentMutations");
     }
@@ -23676,7 +23685,7 @@ class __PRIVATE_SchemaConverter {
         e.createObjectStore("mutations", {
           keyPath: "batchId",
           autoIncrement: !0
-        }).createIndex("userMutationsIndex", x, {
+        }).createIndex("userMutationsIndex", M, {
           unique: !0
         });
         const r = t.store("mutations"),
@@ -23713,19 +23722,19 @@ class __PRIVATE_SchemaConverter {
     })), n < 12 && r >= 12 && (s = s.next(() => {
       !function __PRIVATE_createDocumentOverlayStore(e) {
         const t = e.createObjectStore("documentOverlays", {
-          keyPath: z
+          keyPath: G
         });
-        t.createIndex("collectionPathOverlayIndex", j, {
+        t.createIndex("collectionPathOverlayIndex", z, {
           unique: !1
-        }), t.createIndex("collectionGroupOverlayIndex", H, {
+        }), t.createIndex("collectionGroupOverlayIndex", j, {
           unique: !1
         });
       }(e);
     })), n < 13 && r >= 13 && (s = s.next(() => function __PRIVATE_createRemoteDocumentCache(e) {
       const t = e.createObjectStore("remoteDocumentsV14", {
-        keyPath: N
+        keyPath: O
       });
-      t.createIndex("documentKeyIndex", L), t.createIndex("collectionGroupIndex", B);
+      t.createIndex("documentKeyIndex", N), t.createIndex("collectionGroupIndex", L);
     }(e)).next(() => this._i(e, i)).next(() => e.deleteObjectStore("remoteDocuments"))), n < 14 && r >= 14 && (s = s.next(() => this.ai(e, i))), n < 15 && r >= 15 && (s = s.next(() => function __PRIVATE_createFieldIndex(e) {
       e.createObjectStore("indexConfiguration", {
         keyPath: "indexId",
@@ -23734,13 +23743,13 @@ class __PRIVATE_SchemaConverter {
         unique: !1
       });
       e.createObjectStore("indexState", {
-        keyPath: $
-      }).createIndex("sequenceNumberIndex", U, {
+        keyPath: K
+      }).createIndex("sequenceNumberIndex", $, {
         unique: !1
       });
       e.createObjectStore("indexEntries", {
-        keyPath: W
-      }).createIndex("documentKeyIndex", G, {
+        keyPath: U
+      }).createIndex("documentKeyIndex", W, {
         unique: !1
       });
     }(e))), n < 16 && r >= 16 && (
@@ -23805,7 +23814,7 @@ class __PRIVATE_SchemaConverter {
   si(e, t) {
     // Create the index.
     e.createObjectStore("collectionParents", {
-      keyPath: K
+      keyPath: Q
     });
     const n = t.store("collectionParents"),
       r = new __PRIVATE_MemoryCollectionParentIndex(),
@@ -23900,18 +23909,18 @@ class __PRIVATE_SchemaConverter {
 }
 function __PRIVATE_createQueryCache(e) {
   e.createObjectStore("targetDocuments", {
-    keyPath: q
-  }).createIndex("documentTargetsIndex", Q, {
+    keyPath: k
+  }).createIndex("documentTargetsIndex", q, {
     unique: !0
   });
   // NOTE: This is unique only because the TargetId is the suffix.
   e.createObjectStore("targets", {
     keyPath: "targetId"
-  }).createIndex("queryTargetsIndex", k, {
+  }).createIndex("queryTargetsIndex", B, {
     unique: !0
   }), e.createObjectStore("targetGlobal");
 }
-const me = "Failed to obtain exclusive access to the persistence layer. To allow shared access, multi-tab synchronization has to be enabled in all tabs. If you are using `experimentalForceOwningTab:true`, make sure that only one tab has persistence enabled at any given time.";
+const Ve = "Failed to obtain exclusive access to the persistence layer. To allow shared access, multi-tab synchronization has to be enabled in all tabs. If you are using `experimentalForceOwningTab:true`, make sure that only one tab has persistence enabled at any given time.";
 
 /**
  * Oldest acceptable age in milliseconds for client metadata before the client
@@ -23980,7 +23989,7 @@ class __PRIVATE_IndexedDbPersistence {
     this.Ii = null, /** The client metadata refresh task. */
     this.Ti = null, /** The last time we garbage collected the client metadata object store. */
     this.Ei = Number.NEGATIVE_INFINITY, /** A listener to notify on primary state changes. */
-    this.di = e => Promise.resolve(), !__PRIVATE_IndexedDbPersistence.D()) throw new FirestoreError(v.UNIMPLEMENTED, "This platform is either missing IndexedDB or is known to have an incomplete implementation. Offline persistence has been disabled.");
+    this.di = e => Promise.resolve(), !__PRIVATE_IndexedDbPersistence.D()) throw new FirestoreError(D.UNIMPLEMENTED, "This platform is either missing IndexedDB or is known to have an incomplete implementation. Offline persistence has been disabled.");
     this.referenceDelegate = new __PRIVATE_IndexedDbLruDelegateImpl(this, r), this.Ai = t + "main", this.serializer = new __PRIVATE_LocalSerializer(_), this.Ri = new __PRIVATE_SimpleDb(this.Ai, this.hi, new __PRIVATE_SchemaConverter(this.serializer)), this.$r = new __PRIVATE_IndexedDbGlobalsCache(), this.Ur = new __PRIVATE_IndexedDbTargetCache(this.referenceDelegate, this.serializer), this.remoteDocumentCache = __PRIVATE_newIndexedDbRemoteDocumentCache(this.serializer), this.Gr = new __PRIVATE_IndexedDbBundleCache(), this.window && this.window.localStorage ? this.Vi = this.window.localStorage : (this.Vi = null, !1 === u && __PRIVATE_logError("IndexedDbPersistence", "LocalStorage is unavailable. As a result, persistence may not work reliably. In particular enablePersistence() could fail immediately after refreshing the page."));
   }
   /**
@@ -23996,7 +24005,7 @@ class __PRIVATE_IndexedDbPersistence {
       if (!this.isPrimary && !this.allowTabSynchronization)
         // Fail `start()` if `synchronizeTabs` is disabled and we cannot
         // obtain the primary lease.
-        throw new FirestoreError(v.FAILED_PRECONDITION, me);
+        throw new FirestoreError(D.FAILED_PRECONDITION, Ve);
       return this.fi(), this.gi(), this.pi(), this.runTransaction("getHighestListenSequenceNumber", "readonly", e => this.Ur.getHighestSequenceNumber(e));
     }).then(e => {
       this.Qr = new __PRIVATE_ListenSequence(e, this.ci);
@@ -24160,7 +24169,7 @@ class __PRIVATE_IndexedDbPersistence {
             // settings is not supported.
             // TODO(b/114226234): Remove this check when `synchronizeTabs` can
             // no longer be turned off.
-            throw new FirestoreError(v.FAILED_PRECONDITION, me);
+            throw new FirestoreError(D.FAILED_PRECONDITION, Ve);
           return !1;
         }
       }
@@ -24237,13 +24246,13 @@ class __PRIVATE_IndexedDbPersistence {
     const r = "readonly" === t ? "readonly" : "readwrite",
       i = /** Returns the object stores for the provided schema. */
       function __PRIVATE_getObjectStores(e) {
-        return 17 === e ? ne : 16 === e ? te : 15 === e ? ee : 14 === e ? X : 13 === e ? Z : 12 === e ? Y : 11 === e ? J : void fail();
+        return 17 === e ? te : 16 === e ? ee : 15 === e ? X : 14 === e ? Z : 13 === e ? Y : 12 === e ? J : 11 === e ? H : void fail();
       }(this.hi);
     let s;
     // Do all transactions as readwrite against all object stores, since we
     // are the only reader/writer.
     return this.Ri.runTransaction(e, r, i, r => (s = new __PRIVATE_IndexedDbTransaction(r, this.Qr ? this.Qr.next() : __PRIVATE_ListenSequence.oe), "readwrite-primary" === t ? this.wi(s).next(e => !!e || this.Si(s)).next(t => {
-      if (!t) throw __PRIVATE_logError(`Failed to obtain primary lease for action '${e}'.`), this.isPrimary = !1, this.ui.enqueueRetryable(() => this.di(!1)), new FirestoreError(v.FAILED_PRECONDITION, F);
+      if (!t) throw __PRIVATE_logError(`Failed to obtain primary lease for action '${e}'.`), this.isPrimary = !1, this.ui.enqueueRetryable(() => this.di(!1)), new FirestoreError(D.FAILED_PRECONDITION, C);
       return n(s);
     }).next(e => this.Di(s).next(() => e)) : this.Ki(s).next(() => n(s)))).then(e => (s.raiseOnCommittedEvent(), e));
   }
@@ -24255,7 +24264,7 @@ class __PRIVATE_IndexedDbPersistence {
   // be turned off.
   Ki(e) {
     return __PRIVATE_primaryClientStore(e).get("owner").next(e => {
-      if (null !== e && this.Mi(e.leaseTimestampMs, 5e3) && !this.Ni(e.ownerId) && !this.vi(e) && !(this.li || this.allowTabSynchronization && e.allowTabSynchronization)) throw new FirestoreError(v.FAILED_PRECONDITION, me);
+      if (null !== e && this.Mi(e.leaseTimestampMs, 5e3) && !this.Ni(e.ownerId) && !this.vi(e) && !(this.li || this.allowTabSynchronization && e.allowTabSynchronization)) throw new FirestoreError(D.FAILED_PRECONDITION, Ve);
     });
   }
   /**
@@ -25434,18 +25443,20 @@ class __PRIVATE_WebStorageSharedClientState {
     // in order, it is safe to delete the entry right after updating it.
     this.Qs(e);
   }
-  addLocalQueryTarget(e) {
-    let t = "not-current";
+  addLocalQueryTarget(e, t = !0) {
+    let n = "not-current";
     // Lookup an existing query state if the target ID was already registered
     // by another tab
     if (this.isActiveQueryTarget(e)) {
-      const n = this.storage.getItem(createWebStorageQueryTargetMetadataKey(this.persistenceKey, e));
-      if (n) {
-        const r = __PRIVATE_QueryTargetMetadata.Rs(e, n);
-        r && (t = r.state);
+      const t = this.storage.getItem(createWebStorageQueryTargetMetadataKey(this.persistenceKey, e));
+      if (t) {
+        const r = __PRIVATE_QueryTargetMetadata.Rs(e, t);
+        r && (n = r.state);
       }
     }
-    return this.Ks.fs(e), this.Ns(), t;
+    // If the query is listening to cache only, the target ID should not be registered with the
+    // local Firestore client as an active watch target.
+    return t && this.Ks.fs(e), this.Ns(), n;
   }
   removeLocalQueryTarget(e) {
     this.Ks.gs(e), this.Ns();
@@ -25668,8 +25679,8 @@ class __PRIVATE_MemorySharedClientState {
   updateMutationState(e, t, n) {
     // No op.
   }
-  addLocalQueryTarget(e) {
-    return this.so.fs(e), this.oo[e] || "not-current";
+  addLocalQueryTarget(e, t = !0) {
+    return t && this.so.fs(e), this.oo[e] || "not-current";
   }
   updateQueryState(e, t, n) {
     this.oo[e] = t;
@@ -25800,7 +25811,7 @@ class __PRIVATE_BrowserConnectivityMonitor {
  * The value returned from the most recent invocation of
  * `generateUniqueDebugId()`, or null if it has never been invoked.
  */
-let fe = null;
+let me = null;
 
 /**
  * Generates and returns an initial value for `lastUniqueDebugId`.
@@ -25825,9 +25836,9 @@ let fe = null;
  * @return the 10-character generated ID (e.g. "0xa1b2c3d4").
  */
 function __PRIVATE_generateUniqueDebugId() {
-  return null === fe ? fe = function __PRIVATE_generateInitialUniqueDebugId() {
+  return null === me ? me = function __PRIVATE_generateInitialUniqueDebugId() {
     return 268435456 + Math.round(2147483648 * Math.random());
-  }() : fe++, "0x" + fe.toString(16);
+  }() : me++, "0x" + me.toString(16);
 }
 
 /**
@@ -25846,7 +25857,7 @@ function __PRIVATE_generateUniqueDebugId() {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-const ge = {
+const fe = {
   BatchGetDocuments: "batchGet",
   Commit: "commit",
   RunQuery: "runQuery",
@@ -25931,7 +25942,7 @@ class __PRIVATE_StreamBridge {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-const pe = "WebChannelConnection";
+const ge = "WebChannelConnection";
 class __PRIVATE_WebChannelConnection extends
 /**
  * Base class for all Rest-based connections to the backend (WebChannel and
@@ -25976,7 +25987,7 @@ class __PRIVATE_RestConnection {
     // SDK_VERSION is updated to different value at runtime depending on the entry point,
     // so we need to get its value when we need it in a function.
     function __PRIVATE_getGoogApiClientValue() {
-      return "gl-js/ fire/" + b;
+      return "gl-js/ fire/" + S;
     }(),
     // Content-Type: text/plain will avoid preflight requests which might
     // mess with CORS and redirects by proxies. If we add custom headers
@@ -25985,7 +25996,7 @@ class __PRIVATE_RestConnection {
     e["Content-Type"] = "text/plain", this.databaseInfo.appId && (e["X-Firebase-GMPID"] = this.databaseInfo.appId), t && t.headers.forEach((t, n) => e[n] = t), n && n.headers.forEach((t, n) => e[n] = t);
   }
   xo(e, t) {
-    const n = ge[e];
+    const n = fe[e];
     return `${this.Do}/v1/${t}:${n}`;
   }
   /**
@@ -26009,38 +26020,38 @@ class __PRIVATE_RestConnection {
           switch (_.getLastErrorCode()) {
             case _firebase_webchannel_wrapper_webchannel_blob__WEBPACK_IMPORTED_MODULE_6__.ErrorCode.NO_ERROR:
               const t = _.getResponseJson();
-              __PRIVATE_logDebug(pe, `XHR for RPC '${e}' ${i} received:`, JSON.stringify(t)), s(t);
+              __PRIVATE_logDebug(ge, `XHR for RPC '${e}' ${i} received:`, JSON.stringify(t)), s(t);
               break;
             case _firebase_webchannel_wrapper_webchannel_blob__WEBPACK_IMPORTED_MODULE_6__.ErrorCode.TIMEOUT:
-              __PRIVATE_logDebug(pe, `RPC '${e}' ${i} timed out`), o(new FirestoreError(v.DEADLINE_EXCEEDED, "Request time out"));
+              __PRIVATE_logDebug(ge, `RPC '${e}' ${i} timed out`), o(new FirestoreError(D.DEADLINE_EXCEEDED, "Request time out"));
               break;
             case _firebase_webchannel_wrapper_webchannel_blob__WEBPACK_IMPORTED_MODULE_6__.ErrorCode.HTTP_ERROR:
               const n = _.getStatus();
-              if (__PRIVATE_logDebug(pe, `RPC '${e}' ${i} failed with status:`, n, "response text:", _.getResponseText()), n > 0) {
+              if (__PRIVATE_logDebug(ge, `RPC '${e}' ${i} failed with status:`, n, "response text:", _.getResponseText()), n > 0) {
                 let e = _.getResponseJson();
                 Array.isArray(e) && (e = e[0]);
                 const t = null == e ? void 0 : e.error;
                 if (t && t.status && t.message) {
                   const e = function __PRIVATE_mapCodeFromHttpResponseErrorStatus(e) {
                     const t = e.toLowerCase().replace(/_/g, "-");
-                    return Object.values(v).indexOf(t) >= 0 ? t : v.UNKNOWN;
+                    return Object.values(D).indexOf(t) >= 0 ? t : D.UNKNOWN;
                   }(t.status);
                   o(new FirestoreError(e, t.message));
-                } else o(new FirestoreError(v.UNKNOWN, "Server responded with status " + _.getStatus()));
+                } else o(new FirestoreError(D.UNKNOWN, "Server responded with status " + _.getStatus()));
               } else
                 // If we received an HTTP_ERROR but there's no status code,
                 // it's most probably a connection issue
-                o(new FirestoreError(v.UNAVAILABLE, "Connection failed."));
+                o(new FirestoreError(D.UNAVAILABLE, "Connection failed."));
               break;
             default:
               fail();
           }
         } finally {
-          __PRIVATE_logDebug(pe, `RPC '${e}' ${i} completed.`);
+          __PRIVATE_logDebug(ge, `RPC '${e}' ${i} completed.`);
         }
       });
       const a = JSON.stringify(r);
-      __PRIVATE_logDebug(pe, `RPC '${e}' ${i} sending request:`, r), _.send(t, "POST", a, n, 15);
+      __PRIVATE_logDebug(ge, `RPC '${e}' ${i} sending request:`, r), _.send(t, "POST", a, n, 15);
     });
   }
   Bo(e, t, n) {
@@ -26073,7 +26084,7 @@ class __PRIVATE_RestConnection {
         detectBufferingProxy: this.autoDetectLongPolling
       },
       a = this.longPollingOptions.timeoutSeconds;
-    void 0 !== a && (_.longPollingTimeout = Math.round(1e3 * a)), this.useFetchStreams && (_.xmlHttpFactory = new _firebase_webchannel_wrapper_webchannel_blob__WEBPACK_IMPORTED_MODULE_6__.FetchXmlHttpFactory({})), this.Oo(_.initMessageHeaders, t, n),
+    void 0 !== a && (_.longPollingTimeout = Math.round(1e3 * a)), this.useFetchStreams && (_.useFetchStreams = !0), this.Oo(_.initMessageHeaders, t, n),
     // Sending the custom headers we just added to request.initMessageHeaders
     // (Authorization, etc.) will trigger the browser to make a CORS preflight
     // request because the XHR will no longer meet the criteria for a "simple"
@@ -26085,7 +26096,7 @@ class __PRIVATE_RestConnection {
     // which is recognized by the webchannel backend.
     _.encodeInitMessageHeaders = !0;
     const u = i.join("");
-    __PRIVATE_logDebug(pe, `Creating RPC '${e}' stream ${r}: ${u}`, _);
+    __PRIVATE_logDebug(ge, `Creating RPC '${e}' stream ${r}: ${u}`, _);
     const c = s.createWebChannel(u, _);
     // WebChannel supports sending the first message with the handshake - saving
     // a network round trip. However, it will have to call send in the same
@@ -26099,7 +26110,7 @@ class __PRIVATE_RestConnection {
     // on a closed stream
     const P = new __PRIVATE_StreamBridge({
         Io: t => {
-          h ? __PRIVATE_logDebug(pe, `Not sending because RPC '${e}' stream ${r} is closed:`, t) : (l || (__PRIVATE_logDebug(pe, `Opening RPC '${e}' stream ${r} transport.`), c.open(), l = !0), __PRIVATE_logDebug(pe, `RPC '${e}' stream ${r} sending:`, t), c.send(t));
+          h ? __PRIVATE_logDebug(ge, `Not sending because RPC '${e}' stream ${r} is closed:`, t) : (l || (__PRIVATE_logDebug(ge, `Opening RPC '${e}' stream ${r} transport.`), c.open(), l = !0), __PRIVATE_logDebug(ge, `RPC '${e}' stream ${r} sending:`, t), c.send(t));
         },
         To: () => c.close()
       }),
@@ -26121,11 +26132,11 @@ class __PRIVATE_RestConnection {
     // Note that eventually this function could go away if we are confident
     // enough the code is exception free.
     return __PRIVATE_unguardedEventListen(c, _firebase_webchannel_wrapper_webchannel_blob__WEBPACK_IMPORTED_MODULE_6__.WebChannel.EventType.OPEN, () => {
-      h || (__PRIVATE_logDebug(pe, `RPC '${e}' stream ${r} transport opened.`), P.yo());
+      h || (__PRIVATE_logDebug(ge, `RPC '${e}' stream ${r} transport opened.`), P.yo());
     }), __PRIVATE_unguardedEventListen(c, _firebase_webchannel_wrapper_webchannel_blob__WEBPACK_IMPORTED_MODULE_6__.WebChannel.EventType.CLOSE, () => {
-      h || (h = !0, __PRIVATE_logDebug(pe, `RPC '${e}' stream ${r} transport closed`), P.So());
+      h || (h = !0, __PRIVATE_logDebug(ge, `RPC '${e}' stream ${r} transport closed`), P.So());
     }), __PRIVATE_unguardedEventListen(c, _firebase_webchannel_wrapper_webchannel_blob__WEBPACK_IMPORTED_MODULE_6__.WebChannel.EventType.ERROR, t => {
-      h || (h = !0, __PRIVATE_logWarn(pe, `RPC '${e}' stream ${r} transport errored:`, t), P.So(new FirestoreError(v.UNAVAILABLE, "The operation could not be completed")));
+      h || (h = !0, __PRIVATE_logWarn(ge, `RPC '${e}' stream ${r} transport errored:`, t), P.So(new FirestoreError(D.UNAVAILABLE, "The operation could not be completed")));
     }), __PRIVATE_unguardedEventListen(c, _firebase_webchannel_wrapper_webchannel_blob__WEBPACK_IMPORTED_MODULE_6__.WebChannel.EventType.MESSAGE, t => {
       var n;
       if (!h) {
@@ -26139,7 +26150,7 @@ class __PRIVATE_RestConnection {
         const s = i,
           o = s.error || (null === (n = s[0]) || void 0 === n ? void 0 : n.error);
         if (o) {
-          __PRIVATE_logDebug(pe, `RPC '${e}' stream ${r} received error:`, o);
+          __PRIVATE_logDebug(ge, `RPC '${e}' stream ${r} received error:`, o);
           // error.status will be a string like 'OK' or 'NOT_FOUND'.
           const t = o.status;
           let n =
@@ -26152,17 +26163,17 @@ class __PRIVATE_RestConnection {
             function __PRIVATE_mapCodeFromRpcStatus(e) {
               // lookup by string
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              const t = he[e];
+              const t = le[e];
               if (void 0 !== t) return __PRIVATE_mapCodeFromRpcCode(t);
             }(t),
             i = o.message;
-          void 0 === n && (n = v.INTERNAL, i = "Unknown error status: " + t + " with message " + o.message),
+          void 0 === n && (n = D.INTERNAL, i = "Unknown error status: " + t + " with message " + o.message),
           // Mark closed so no further events are propagated
           h = !0, P.So(new FirestoreError(n, i)), c.close();
-        } else __PRIVATE_logDebug(pe, `RPC '${e}' stream ${r} received:`, i), P.bo(i);
+        } else __PRIVATE_logDebug(ge, `RPC '${e}' stream ${r} received:`, i), P.bo(i);
       }
     }), __PRIVATE_unguardedEventListen(o, _firebase_webchannel_wrapper_webchannel_blob__WEBPACK_IMPORTED_MODULE_6__.Event.STAT_EVENT, t => {
-      t.stat === _firebase_webchannel_wrapper_webchannel_blob__WEBPACK_IMPORTED_MODULE_6__.Stat.PROXY ? __PRIVATE_logDebug(pe, `RPC '${e}' stream ${r} detected buffering proxy`) : t.stat === _firebase_webchannel_wrapper_webchannel_blob__WEBPACK_IMPORTED_MODULE_6__.Stat.NOPROXY && __PRIVATE_logDebug(pe, `RPC '${e}' stream ${r} detected no buffering proxy`);
+      t.stat === _firebase_webchannel_wrapper_webchannel_blob__WEBPACK_IMPORTED_MODULE_6__.Stat.PROXY ? __PRIVATE_logDebug(ge, `RPC '${e}' stream ${r} detected buffering proxy`) : t.stat === _firebase_webchannel_wrapper_webchannel_blob__WEBPACK_IMPORTED_MODULE_6__.Stat.NOPROXY && __PRIVATE_logDebug(ge, `RPC '${e}' stream ${r} detected no buffering proxy`);
     }), setTimeout(() => {
       // Technically we could/should wait for the WebChannel opened event,
       // but because we want to send the first message with the WebChannel
@@ -26512,9 +26523,9 @@ class __PRIVATE_PersistentStream {
       // underlying stream), guaranteeing they won't execute.
       _this16.Yo++, 4 /* PersistentStreamState.Error */ !== e ?
       // If this is an intentional close ensure we don't delay our next connection attempt.
-      _this16.t_.reset() : t && t.code === v.RESOURCE_EXHAUSTED ? (
+      _this16.t_.reset() : t && t.code === D.RESOURCE_EXHAUSTED ? (
       // Log the error. (Probably either 'quota exceeded' or 'max queue length reached'.)
-      __PRIVATE_logError(t.toString()), __PRIVATE_logError("Using maximum backoff delay to prevent overloading the backend."), _this16.t_.Wo()) : t && t.code === v.UNAUTHENTICATED && 3 /* PersistentStreamState.Healthy */ !== _this16.state && (
+      __PRIVATE_logError(t.toString()), __PRIVATE_logError("Using maximum backoff delay to prevent overloading the backend."), _this16.t_.Wo()) : t && t.code === D.UNAUTHENTICATED && 3 /* PersistentStreamState.Healthy */ !== _this16.state && (
       // "unauthenticated" error means the token was rejected. This should rarely
       // happen since both Auth and AppCheck ensure a sufficient TTL when we
       // request a token. If a user manually resets their system clock this can
@@ -26552,7 +26563,7 @@ class __PRIVATE_PersistentStream {
       this.P_(e, n);
     }, t => {
       e(() => {
-        const e = new FirestoreError(v.UNKNOWN, "Fetching auth token failed: " + t.message);
+        const e = new FirestoreError(D.UNKNOWN, "Fetching auth token failed: " + t.message);
         return this.I_(e);
       });
     });
@@ -26775,18 +26786,18 @@ class __PRIVATE_DatastoreImpl extends class Datastore {} {
     super(), this.authCredentials = e, this.appCheckCredentials = t, this.connection = n, this.serializer = r, this.y_ = !1;
   }
   w_() {
-    if (this.y_) throw new FirestoreError(v.FAILED_PRECONDITION, "The client has already been terminated.");
+    if (this.y_) throw new FirestoreError(D.FAILED_PRECONDITION, "The client has already been terminated.");
   }
   /** Invokes the provided RPC with auth and AppCheck tokens. */
   Mo(e, t, n, r) {
     return this.w_(), Promise.all([this.authCredentials.getToken(), this.appCheckCredentials.getToken()]).then(([i, s]) => this.connection.Mo(e, __PRIVATE_toResourcePath(t, n), r, i, s)).catch(e => {
-      throw "FirebaseError" === e.name ? (e.code === v.UNAUTHENTICATED && (this.authCredentials.invalidateToken(), this.appCheckCredentials.invalidateToken()), e) : new FirestoreError(v.UNKNOWN, e.toString());
+      throw "FirebaseError" === e.name ? (e.code === D.UNAUTHENTICATED && (this.authCredentials.invalidateToken(), this.appCheckCredentials.invalidateToken()), e) : new FirestoreError(D.UNKNOWN, e.toString());
     });
   }
   /** Invokes the provided RPC with streamed results with auth and AppCheck tokens. */
   Lo(e, t, n, r, i) {
     return this.w_(), Promise.all([this.authCredentials.getToken(), this.appCheckCredentials.getToken()]).then(([s, o]) => this.connection.Lo(e, __PRIVATE_toResourcePath(t, n), r, s, o, i)).catch(e => {
-      throw "FirebaseError" === e.name ? (e.code === v.UNAUTHENTICATED && (this.authCredentials.invalidateToken(), this.appCheckCredentials.invalidateToken()), e) : new FirestoreError(v.UNKNOWN, e.toString());
+      throw "FirebaseError" === e.name ? (e.code === D.UNAUTHENTICATED && (this.authCredentials.invalidateToken(), this.appCheckCredentials.invalidateToken()), e) : new FirestoreError(D.UNKNOWN, e.toString());
     });
   }
   terminate() {
@@ -27111,7 +27122,7 @@ function _PRIVATE_onWatchStreamChange() {
             // A watched target might have been removed already.
             e.N_.has(r) && (yield e.remoteSyncer.rejectListen(r, n), e.N_.delete(r), e.Q_.removeTarget(r));
           });
-          function __PRIVATE_handleTargetError(_x134, _x135) {
+          function __PRIVATE_handleTargetError(_x135, _x136) {
             return _PRIVATE_handleTargetError.apply(this, arguments);
           }
           return __PRIVATE_handleTargetError;
@@ -27286,7 +27297,7 @@ function _PRIVATE_onWriteStreamClose() {
         // Only handle permanent errors here. If it's transient, just let the retry
         // logic kick in.
         if (function __PRIVATE_isPermanentWriteError(e) {
-          return __PRIVATE_isPermanentError(e) && e !== v.ABORTED;
+          return __PRIVATE_isPermanentError(e) && e !== D.ABORTED;
         }(t.code)) {
           // This was a permanent error, the request itself was the problem
           // so it's not going to succeed if we resend it.
@@ -27299,7 +27310,7 @@ function _PRIVATE_onWriteStreamClose() {
           yield __PRIVATE_fillWritePipeline(e);
         }
       });
-      function __PRIVATE_handleWriteError(_x136, _x137) {
+      function __PRIVATE_handleWriteError(_x137, _x138) {
         return _PRIVATE_handleWriteError.apply(this, arguments);
       }
       return __PRIVATE_handleWriteError;
@@ -27495,7 +27506,7 @@ class DelayedOperation {
    * guarantee that the operation will not be run.
    */
   cancel(e) {
-    null !== this.timerHandle && (this.clearTimeout(), this.deferred.reject(new FirestoreError(v.CANCELLED, "Operation cancelled" + (e ? ": " + e : ""))));
+    null !== this.timerHandle && (this.clearTimeout(), this.deferred.reject(new FirestoreError(D.CANCELLED, "Operation cancelled" + (e ? ": " + e : ""))));
   }
   handleDelayElapsed() {
     this.asyncQueue.enqueueAndForget(() => null !== this.timerHandle ? (this.clearTimeout(), this.op().then(e => this.deferred.resolve(e))) : Promise.resolve());
@@ -27510,7 +27521,7 @@ class DelayedOperation {
  * error is an IndexedDbTransactionError. Re-throws the error otherwise.
  */
 function __PRIVATE_wrapInUserErrorIfRecoverable(e, t) {
-  if (__PRIVATE_logError("AsyncQueue", `${t}: ${e}`), __PRIVATE_isIndexedDbTransactionError(e)) return new FirestoreError(v.UNAVAILABLE, `${t}: ${e}`);
+  if (__PRIVATE_logError("AsyncQueue", `${t}: ${e}`), __PRIVATE_isIndexedDbTransactionError(e)) return new FirestoreError(D.UNAVAILABLE, `${t}: ${e}`);
   throw e;
 }
 
@@ -27746,7 +27757,7 @@ class __PRIVATE_EventManagerImpl {
       });
     }
     // Call all global snapshot listeners that have been set.
-    (this, new FirestoreError(v.ABORTED, "Firestore shutting down"));
+    (this, new FirestoreError(D.ABORTED, "Firestore shutting down"));
   }
 }
 function __PRIVATE_newQueriesObjectMap() {
@@ -27841,11 +27852,11 @@ function __PRIVATE_raiseSnapshotsInSyncEvent(e) {
     e.next();
   });
 }
-var ye, we;
+var pe, ye;
 
 /** Listen to both cache and server changes */
-(we = ye || (ye = {})).ea = "default", /** Listen to changes in cache only */
-we.Cache = "cache";
+(ye = pe || (pe = {})).ea = "default", /** Listen to changes in cache only */
+ye.Cache = "cache";
 
 /**
  * QueryListener takes a series of internal view snapshots and determines
@@ -27917,7 +27928,7 @@ class __PRIVATE_QueryListener {
     e = ViewSnapshot.fromInitialDocuments(e.query, e.docs, e.mutatedKeys, e.fromCache, e.hasCachedResults), this.na = !0, this.ta.next(e);
   }
   J_() {
-    return this.options.source !== ye.Cache;
+    return this.options.source !== pe.Cache;
   }
 }
 
@@ -28498,7 +28509,7 @@ function _PRIVATE_allocateTargetAndMaybeListen() {
   _PRIVATE_allocateTargetAndMaybeListen = (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (e, t, n, r) {
     const i = yield __PRIVATE_localStoreAllocateTarget(e.localStore, __PRIVATE_queryToTarget(t)),
       s = i.targetId,
-      o = n ? e.sharedClientState.addLocalQueryTarget(s) : "not-current";
+      o = e.sharedClientState.addLocalQueryTarget(s, n);
     let _;
     return r && (_ = yield __PRIVATE_initializeViewAndComputeSnapshot(e, t, s, "current" === o, i.resumeToken)), e.isPrimaryClient && n && __PRIVATE_remoteStoreListen(e.remoteStore, i), _;
   });
@@ -28528,7 +28539,7 @@ function _PRIVATE_initializeViewAndComputeSnapshot() {
           _ = t.view.applyChanges(i, /* limboResolutionEnabled= */e.isPrimaryClient, s, o);
         return __PRIVATE_updateTrackedLimbos(e, t.targetId, _.wa), _.snapshot;
       });
-      function __PRIVATE_applyDocChanges(_x138, _x139, _x140, _x141) {
+      function __PRIVATE_applyDocChanges(_x139, _x140, _x141, _x142) {
         return _PRIVATE_applyDocChanges.apply(this, arguments);
       }
       return __PRIVATE_applyDocChanges;
@@ -28963,7 +28974,7 @@ function _PRIVATE_syncEngineEmitNewSnapsAndNotifyLocalStore() {
           }
         }
       });
-      function __PRIVATE_localStoreNotifyLocalViewChanges(_x142, _x143) {
+      function __PRIVATE_localStoreNotifyLocalViewChanges(_x143, _x144) {
         return _PRIVATE_localStoreNotifyLocalViewChanges.apply(this, arguments);
       }
       return __PRIVATE_localStoreNotifyLocalViewChanges;
@@ -28985,7 +28996,7 @@ function _PRIVATE_syncEngineHandleCredentialChange() {
       function __PRIVATE_rejectOutstandingPendingWritesCallbacks(e, t) {
         e.ka.forEach(e => {
           e.forEach(e => {
-            e.reject(new FirestoreError(v.CANCELLED, t));
+            e.reject(new FirestoreError(D.CANCELLED, t));
           });
         }), e.ka.clear();
       }(n, "'waitForPendingWrites' promise is rejected due to a user change."),
@@ -29333,29 +29344,29 @@ function __PRIVATE_syncEngineLoadBundle(e, t, n) {
     r.sharedClientState.notifyBundleLoaded(e);
   });
 }
-class MemoryOfflineComponentProvider {
+class __PRIVATE_MemoryOfflineComponentProvider {
   constructor() {
-    this.synchronizeTabs = !1;
+    this.kind = "memory", this.synchronizeTabs = !1;
   }
   initialize(e) {
     var _this20 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      _this20.serializer = __PRIVATE_newSerializer(e.databaseInfo.databaseId), _this20.sharedClientState = _this20.createSharedClientState(e), _this20.persistence = _this20.createPersistence(e), yield _this20.persistence.start(), _this20.localStore = _this20.createLocalStore(e), _this20.gcScheduler = _this20.createGarbageCollectionScheduler(e, _this20.localStore), _this20.indexBackfillerScheduler = _this20.createIndexBackfillerScheduler(e, _this20.localStore);
+      _this20.serializer = __PRIVATE_newSerializer(e.databaseInfo.databaseId), _this20.sharedClientState = _this20.Wa(e), _this20.persistence = _this20.Ga(e), yield _this20.persistence.start(), _this20.localStore = _this20.za(e), _this20.gcScheduler = _this20.ja(e, _this20.localStore), _this20.indexBackfillerScheduler = _this20.Ha(e, _this20.localStore);
     })();
   }
-  createGarbageCollectionScheduler(e, t) {
+  ja(e, t) {
     return null;
   }
-  createIndexBackfillerScheduler(e, t) {
+  Ha(e, t) {
     return null;
   }
-  createLocalStore(e) {
+  za(e) {
     return __PRIVATE_newLocalStore(this.persistence, new __PRIVATE_QueryEngine(), e.initialUser, this.serializer);
   }
-  createPersistence(e) {
+  Ga(e) {
     return new __PRIVATE_MemoryPersistence(__PRIVATE_MemoryEagerDelegate.Zr, this.serializer);
   }
-  createSharedClientState(e) {
+  Wa(e) {
     return new __PRIVATE_MemorySharedClientState();
   }
   terminate() {
@@ -29366,16 +29377,19 @@ class MemoryOfflineComponentProvider {
     })();
   }
 }
-class __PRIVATE_LruGcMemoryOfflineComponentProvider extends MemoryOfflineComponentProvider {
+__PRIVATE_MemoryOfflineComponentProvider.provider = {
+  build: () => new __PRIVATE_MemoryOfflineComponentProvider()
+};
+class __PRIVATE_LruGcMemoryOfflineComponentProvider extends __PRIVATE_MemoryOfflineComponentProvider {
   constructor(e) {
     super(), this.cacheSizeBytes = e;
   }
-  createGarbageCollectionScheduler(e, t) {
+  ja(e, t) {
     __PRIVATE_hardAssert(this.persistence.referenceDelegate instanceof __PRIVATE_MemoryLruDelegate);
     const n = this.persistence.referenceDelegate.garbageCollector;
     return new __PRIVATE_LruScheduler(n, e.asyncQueue, t);
   }
-  createPersistence(e) {
+  Ga(e) {
     const t = void 0 !== this.cacheSizeBytes ? LruParams.withCacheSize(this.cacheSizeBytes) : LruParams.DEFAULT;
     return new __PRIVATE_MemoryPersistence(e => __PRIVATE_MemoryLruDelegate.Zr(e, t), this.serializer);
   }
@@ -29384,37 +29398,37 @@ class __PRIVATE_LruGcMemoryOfflineComponentProvider extends MemoryOfflineCompone
 /**
  * Provides all components needed for Firestore with IndexedDB persistence.
  */
-class __PRIVATE_IndexedDbOfflineComponentProvider extends MemoryOfflineComponentProvider {
+class __PRIVATE_IndexedDbOfflineComponentProvider extends __PRIVATE_MemoryOfflineComponentProvider {
   constructor(e, t, n) {
-    super(), this.Wa = e, this.cacheSizeBytes = t, this.forceOwnership = n, this.synchronizeTabs = !1;
+    super(), this.Ja = e, this.cacheSizeBytes = t, this.forceOwnership = n, this.kind = "persistent", this.synchronizeTabs = !1;
   }
   initialize(e) {
     var _superprop_getInitialize = () => super.initialize,
       _this22 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      yield _superprop_getInitialize().call(_this22, e), yield _this22.Wa.initialize(_this22, e), // Enqueue writes from a previous session
-      yield __PRIVATE_syncEngineEnsureWriteCallbacks(_this22.Wa.syncEngine), yield __PRIVATE_fillWritePipeline(_this22.Wa.remoteStore), // NOTE: This will immediately call the listener, so we make sure to
+      yield _superprop_getInitialize().call(_this22, e), yield _this22.Ja.initialize(_this22, e), // Enqueue writes from a previous session
+      yield __PRIVATE_syncEngineEnsureWriteCallbacks(_this22.Ja.syncEngine), yield __PRIVATE_fillWritePipeline(_this22.Ja.remoteStore), // NOTE: This will immediately call the listener, so we make sure to
       // set it after localStore / remoteStore are started.
       yield _this22.persistence.yi(() => (_this22.gcScheduler && !_this22.gcScheduler.started && _this22.gcScheduler.start(), _this22.indexBackfillerScheduler && !_this22.indexBackfillerScheduler.started && _this22.indexBackfillerScheduler.start(), Promise.resolve()));
     })();
   }
-  createLocalStore(e) {
+  za(e) {
     return __PRIVATE_newLocalStore(this.persistence, new __PRIVATE_QueryEngine(), e.initialUser, this.serializer);
   }
-  createGarbageCollectionScheduler(e, t) {
+  ja(e, t) {
     const n = this.persistence.referenceDelegate.garbageCollector;
     return new __PRIVATE_LruScheduler(n, e.asyncQueue, t);
   }
-  createIndexBackfillerScheduler(e, t) {
+  Ha(e, t) {
     const n = new __PRIVATE_IndexBackfiller(t, this.persistence);
     return new __PRIVATE_IndexBackfillerScheduler(e.asyncQueue, n);
   }
-  createPersistence(e) {
+  Ga(e) {
     const t = __PRIVATE_indexedDbStoragePrefix(e.databaseInfo.databaseId, e.databaseInfo.persistenceKey),
       n = void 0 !== this.cacheSizeBytes ? LruParams.withCacheSize(this.cacheSizeBytes) : LruParams.DEFAULT;
     return new __PRIVATE_IndexedDbPersistence(this.synchronizeTabs, t, e.clientId, n, e.asyncQueue, __PRIVATE_getWindow(), getDocument(), this.serializer, this.sharedClientState, !!this.forceOwnership);
   }
-  createSharedClientState(e) {
+  Wa(e) {
     return new __PRIVATE_MemorySharedClientState();
   }
 }
@@ -29429,14 +29443,14 @@ class __PRIVATE_IndexedDbOfflineComponentProvider extends MemoryOfflineComponent
  */
 class __PRIVATE_MultiTabOfflineComponentProvider extends __PRIVATE_IndexedDbOfflineComponentProvider {
   constructor(e, t) {
-    super(e, t, /* forceOwnership= */!1), this.Wa = e, this.cacheSizeBytes = t, this.synchronizeTabs = !0;
+    super(e, t, /* forceOwnership= */!1), this.Ja = e, this.cacheSizeBytes = t, this.synchronizeTabs = !0;
   }
   initialize(e) {
     var _superprop_getInitialize2 = () => super.initialize,
       _this23 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       yield _superprop_getInitialize2().call(_this23, e);
-      const t = _this23.Wa.syncEngine;
+      const t = _this23.Ja.syncEngine;
       _this23.sharedClientState instanceof __PRIVATE_WebStorageSharedClientState && (_this23.sharedClientState.syncEngine = {
         no: __PRIVATE_syncEngineApplyBatchState.bind(null, t),
         ro: __PRIVATE_syncEngineApplyTargetState.bind(null, t),
@@ -29447,7 +29461,7 @@ class __PRIVATE_MultiTabOfflineComponentProvider extends __PRIVATE_IndexedDbOffl
       // set it after localStore / remoteStore are started.
       yield _this23.persistence.yi( /*#__PURE__*/function () {
         var _ref12 = (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (e) {
-          yield __PRIVATE_syncEngineApplyPrimaryState(_this23.Wa.syncEngine, e), _this23.gcScheduler && (e && !_this23.gcScheduler.started ? _this23.gcScheduler.start() : e || _this23.gcScheduler.stop()), _this23.indexBackfillerScheduler && (e && !_this23.indexBackfillerScheduler.started ? _this23.indexBackfillerScheduler.start() : e || _this23.indexBackfillerScheduler.stop());
+          yield __PRIVATE_syncEngineApplyPrimaryState(_this23.Ja.syncEngine, e), _this23.gcScheduler && (e && !_this23.gcScheduler.started ? _this23.gcScheduler.start() : e || _this23.gcScheduler.stop()), _this23.indexBackfillerScheduler && (e && !_this23.indexBackfillerScheduler.started ? _this23.indexBackfillerScheduler.start() : e || _this23.indexBackfillerScheduler.stop());
         });
         return function (_x107) {
           return _ref12.apply(this, arguments);
@@ -29455,9 +29469,9 @@ class __PRIVATE_MultiTabOfflineComponentProvider extends __PRIVATE_IndexedDbOffl
       }());
     })();
   }
-  createSharedClientState(e) {
+  Wa(e) {
     const t = __PRIVATE_getWindow();
-    if (!__PRIVATE_WebStorageSharedClientState.D(t)) throw new FirestoreError(v.UNIMPLEMENTED, "IndexedDB persistence is only available on platforms that support LocalStorage.");
+    if (!__PRIVATE_WebStorageSharedClientState.D(t)) throw new FirestoreError(D.UNIMPLEMENTED, "IndexedDB persistence is only available on platforms that support LocalStorage.");
     const n = __PRIVATE_indexedDbStoragePrefix(e.databaseInfo.databaseId, e.databaseInfo.persistenceKey);
     return new __PRIVATE_WebStorageSharedClientState(t, e.asyncQueue, n, e.clientId, e.initialUser);
   }
@@ -29525,28 +29539,10 @@ class OnlineComponentProvider {
     })();
   }
 }
+OnlineComponentProvider.provider = {
+  build: () => new OnlineComponentProvider()
+};
 
-/**
- * @license
- * Copyright 2020 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-/**
- * How many bytes to read each time when `ReadableStreamReader.read()` is
- * called. Only applicable for byte streams that we control (e.g. those backed
- * by an UInt8Array).
- */
 /**
  * Builds a `ByteStreamReader` from a UInt8Array.
  * @param source - The data source to use.
@@ -29633,16 +29629,16 @@ class __PRIVATE_AsyncObserver {
     this.muted = !1;
   }
   next(e) {
-    this.observer.next && this.Ga(this.observer.next, e);
+    this.muted || this.observer.next && this.Ya(this.observer.next, e);
   }
   error(e) {
-    this.observer.error ? this.Ga(this.observer.error, e) : __PRIVATE_logError("Uncaught Error in snapshot listener:", e.toString());
+    this.muted || (this.observer.error ? this.Ya(this.observer.error, e) : __PRIVATE_logError("Uncaught Error in snapshot listener:", e.toString()));
   }
-  za() {
+  Za() {
     this.muted = !0;
   }
-  Ga(e, t) {
-    this.muted || setTimeout(() => {
+  Ya(e, t) {
+    setTimeout(() => {
       this.muted || e(t);
     }, 0);
   }
@@ -29673,22 +29669,22 @@ class __PRIVATE_AsyncObserver {
 class __PRIVATE_BundleReaderImpl {
   constructor( /** The reader to read from underlying binary bundle data source. */
   e, t) {
-    this.ja = e, this.serializer = t, /** Cached bundle metadata. */
+    this.Xa = e, this.serializer = t, /** Cached bundle metadata. */
     this.metadata = new __PRIVATE_Deferred(),
     /**
      * Internal buffer to hold bundle content, accumulating incomplete element
      * content.
      */
-    this.buffer = new Uint8Array(), this.Ha = function __PRIVATE_newTextDecoder() {
+    this.buffer = new Uint8Array(), this.eu = function __PRIVATE_newTextDecoder() {
       return new TextDecoder("utf-8");
     }(),
     // Read the metadata (which is the first element).
-    this.Ja().then(e => {
+    this.tu().then(e => {
       e && e.ua() ? this.metadata.resolve(e.aa.metadata) : this.metadata.reject(new Error(`The first element of the bundle is not a metadata, it is\n             ${JSON.stringify(null == e ? void 0 : e.aa)}`));
     }, e => this.metadata.reject(e));
   }
   close() {
-    return this.ja.cancel();
+    return this.Xa.cancel();
   }
   getMetadata() {
     var _this26 = this;
@@ -29700,7 +29696,7 @@ class __PRIVATE_BundleReaderImpl {
     var _this27 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       // Makes sure metadata is read before proceeding.
-      return yield _this27.getMetadata(), _this27.Ja();
+      return yield _this27.getMetadata(), _this27.tu();
     })();
   }
   /**
@@ -29713,20 +29709,20 @@ class __PRIVATE_BundleReaderImpl {
    * Returns either the bundled element, or null if we have reached the end of
    * the stream.
    */
-  Ja() {
+  tu() {
     var _this28 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      const e = yield _this28.Ya();
+      const e = yield _this28.nu();
       if (null === e) return null;
-      const t = _this28.Ha.decode(e),
+      const t = _this28.eu.decode(e),
         n = Number(t);
-      isNaN(n) && _this28.Za(`length string (${t}) is not valid number`);
-      const r = yield _this28.Xa(n);
+      isNaN(n) && _this28.ru(`length string (${t}) is not valid number`);
+      const r = yield _this28.iu(n);
       return new __PRIVATE_SizedBundleElement(JSON.parse(r), e.length + n);
     })();
   }
   /** First index of '{' from the underlying buffer. */
-  eu() {
+  su() {
     return this.buffer.findIndex(e => e === "{".charCodeAt(0));
   }
   /**
@@ -29735,19 +29731,19 @@ class __PRIVATE_BundleReaderImpl {
    *
    * If reached end of the stream, returns a null.
    */
-  Ya() {
+  nu() {
     var _this29 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      for (; _this29.eu() < 0;) {
-        if (yield _this29.tu()) break;
+      for (; _this29.su() < 0;) {
+        if (yield _this29.ou()) break;
       }
       // Broke out of the loop because underlying stream is closed, and there
       // happens to be no more data to process.
       if (0 === _this29.buffer.length) return null;
-      const e = _this29.eu();
+      const e = _this29.su();
       // Broke out of the loop because underlying stream is closed, but still
       // cannot find an open bracket.
-      e < 0 && _this29.Za("Reached the end of bundle when a length string is expected.");
+      e < 0 && _this29.ru("Reached the end of bundle when a length string is expected.");
       const t = _this29.buffer.slice(0, e);
       // Update the internal buffer to drop the read length.
       return _this29.buffer = _this29.buffer.slice(e), t;
@@ -29759,29 +29755,29 @@ class __PRIVATE_BundleReaderImpl {
    *
    * Returns a string decoded from the read bytes.
    */
-  Xa(e) {
+  iu(e) {
     var _this30 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       for (; _this30.buffer.length < e;) {
-        (yield _this30.tu()) && _this30.Za("Reached the end of bundle when more is expected.");
+        (yield _this30.ou()) && _this30.ru("Reached the end of bundle when more is expected.");
       }
-      const t = _this30.Ha.decode(_this30.buffer.slice(0, e));
+      const t = _this30.eu.decode(_this30.buffer.slice(0, e));
       // Update the internal buffer to drop the read json string.
       return _this30.buffer = _this30.buffer.slice(e), t;
     })();
   }
-  Za(e) {
+  ru(e) {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    throw this.ja.cancel(), new Error(`Invalid bundle format: ${e}`);
+    throw this.Xa.cancel(), new Error(`Invalid bundle format: ${e}`);
   }
   /**
    * Pulls more data from underlying stream to internal buffer.
    * Returns a boolean indicating whether the stream is finished.
    */
-  tu() {
+  ou() {
     var _this31 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      const e = yield _this31.ja.read();
+      const e = yield _this31.Xa.read();
       if (!e.done) {
         const t = new Uint8Array(_this31.buffer.length + e.value.length);
         t.set(_this31.buffer), t.set(e.value, _this31.buffer.length), _this31.buffer = t;
@@ -29832,7 +29828,7 @@ class Transaction$2 {
   lookup(e) {
     var _this32 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      if (_this32.ensureCommitNotCalled(), _this32.mutations.length > 0) throw _this32.lastTransactionError = new FirestoreError(v.INVALID_ARGUMENT, "Firestore transactions require all reads to be executed before all writes."), _this32.lastTransactionError;
+      if (_this32.ensureCommitNotCalled(), _this32.mutations.length > 0) throw _this32.lastTransactionError = new FirestoreError(D.INVALID_ARGUMENT, "Firestore transactions require all reads to be executed before all writes."), _this32.lastTransactionError;
       const t = yield function () {
         var _PRIVATE_invokeBatchGetDocumentsRpc = (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (e, t) {
           const n = __PRIVATE_debugCast(e),
@@ -29913,7 +29909,7 @@ class Transaction$2 {
     if (n) {
       if (!t.isEqual(n))
         // This transaction will fail no matter what.
-        throw new FirestoreError(v.ABORTED, "Document version changed between two reads.");
+        throw new FirestoreError(D.ABORTED, "Document version changed between two reads.");
     } else this.readVersions.set(e.key.toString(), t);
   }
   /**
@@ -29942,7 +29938,7 @@ class Transaction$2 {
         // express that to the backend, we have to validate locally.
         // Note: this can change once we can send separate verify writes in the
         // transaction.
-        throw new FirestoreError(v.INVALID_ARGUMENT, "Can't update a document that doesn't exist.");
+        throw new FirestoreError(D.INVALID_ARGUMENT, "Can't update a document that doesn't exist.");
       // Document exists, base precondition on document update time.
       return Precondition.updateTime(t);
     }
@@ -29978,29 +29974,29 @@ class Transaction$2 {
  */
 class __PRIVATE_TransactionRunner {
   constructor(e, t, n, r, i) {
-    this.asyncQueue = e, this.datastore = t, this.options = n, this.updateFunction = r, this.deferred = i, this.nu = n.maxAttempts, this.t_ = new __PRIVATE_ExponentialBackoff(this.asyncQueue, "transaction_retry" /* TimerId.TransactionRetry */);
+    this.asyncQueue = e, this.datastore = t, this.options = n, this.updateFunction = r, this.deferred = i, this._u = n.maxAttempts, this.t_ = new __PRIVATE_ExponentialBackoff(this.asyncQueue, "transaction_retry" /* TimerId.TransactionRetry */);
   }
   /** Runs the transaction and sets the result on deferred. */
-  ru() {
-    this.nu -= 1, this.iu();
+  au() {
+    this._u -= 1, this.uu();
   }
-  iu() {
+  uu() {
     var _this34 = this;
     this.t_.Go( /*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       const e = new Transaction$2(_this34.datastore),
-        t = _this34.su(e);
+        t = _this34.cu(e);
       t && t.then(t => {
         _this34.asyncQueue.enqueueAndForget(() => e.commit().then(() => {
           _this34.deferred.resolve(t);
         }).catch(e => {
-          _this34.ou(e);
+          _this34.lu(e);
         }));
       }).catch(e => {
-        _this34.ou(e);
+        _this34.lu(e);
       });
     }));
   }
-  su(e) {
+  cu(e) {
     try {
       const t = this.updateFunction(e);
       return !__PRIVATE_isNullOrUndefined(t) && t.catch && t.then ? t : (this.deferred.reject(Error("Transaction callback must return a Promise")), null);
@@ -30009,10 +30005,10 @@ class __PRIVATE_TransactionRunner {
       return this.deferred.reject(e), null;
     }
   }
-  ou(e) {
-    this.nu > 0 && this._u(e) ? (this.nu -= 1, this.asyncQueue.enqueueAndForget(() => (this.iu(), Promise.resolve()))) : this.deferred.reject(e);
+  lu(e) {
+    this._u > 0 && this.hu(e) ? (this._u -= 1, this.asyncQueue.enqueueAndForget(() => (this.uu(), Promise.resolve()))) : this.deferred.reject(e);
   }
-  _u(e) {
+  hu(e) {
     if ("FirebaseError" === e.name) {
       // In transactions, the backend will fail outdated reads with FAILED_PRECONDITION and
       // non-matching document versions with ABORTED. These errors should be retried.
@@ -30054,9 +30050,9 @@ class FirestoreClient {
    * start processing a new operation while the previous one is waiting for
    * an async I/O to complete).
    */
-  n, r) {
+  n, r, i) {
     var _this35 = this;
-    this.authCredentials = e, this.appCheckCredentials = t, this.asyncQueue = n, this.databaseInfo = r, this.user = User.UNAUTHENTICATED, this.clientId = __PRIVATE_AutoId.newId(), this.authCredentialListener = () => Promise.resolve(), this.appCheckCredentialListener = () => Promise.resolve(), this.authCredentials.start(n, /*#__PURE__*/function () {
+    this.authCredentials = e, this.appCheckCredentials = t, this.asyncQueue = n, this.databaseInfo = r, this.user = User.UNAUTHENTICATED, this.clientId = __PRIVATE_AutoId.newId(), this.authCredentialListener = () => Promise.resolve(), this.appCheckCredentialListener = () => Promise.resolve(), this._uninitializedComponentsProvider = i, this.authCredentials.start(n, /*#__PURE__*/function () {
       var _ref14 = (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (e) {
         __PRIVATE_logDebug("FirestoreClient", "Received user=", e.uid), yield _this35.authCredentialListener(e), _this35.user = e;
       });
@@ -30081,13 +30077,6 @@ class FirestoreClient {
   }
   setAppCheckTokenChangeListener(e) {
     this.appCheckCredentialListener = e;
-  }
-  /**
-   * Checks that the client has not been terminated. Ensures that other methods on //
-   * this class cannot be called after the client is terminated. //
-   */
-  verifyNotTerminated() {
-    if (this.asyncQueue.isShuttingDown) throw new FirestoreError(v.FAILED_PRECONDITION, "The client has already been terminated.");
   }
   terminate() {
     var _this36 = this;
@@ -30117,11 +30106,11 @@ function _PRIVATE_setOfflineComponentProvider() {
     yield t.initialize(n);
     let r = n.initialUser;
     e.setCredentialChangeListener( /*#__PURE__*/function () {
-      var _ref38 = (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (e) {
+      var _ref37 = (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (e) {
         r.isEqual(e) || (yield __PRIVATE_localStoreHandleUserChange(t.localStore, e), r = e);
       });
-      return function (_x144) {
-        return _ref38.apply(this, arguments);
+      return function (_x145) {
+        return _ref37.apply(this, arguments);
       };
     }()),
     // When a user calls clearPersistence() in one client, all other clients
@@ -30148,16 +30137,6 @@ function _PRIVATE_setOnlineComponentProvider() {
   });
   return _PRIVATE_setOnlineComponentProvider.apply(this, arguments);
 }
-function __PRIVATE_canFallbackFromIndexedDbError(e) {
-  return "FirebaseError" === e.name ? e.code === v.FAILED_PRECONDITION || e.code === v.UNIMPLEMENTED : !("undefined" != typeof DOMException && e instanceof DOMException) ||
-  // When the browser is out of quota we could get either quota exceeded
-  // or an aborted error depending on whether the error happened during
-  // schema migration.
-  22 === e.code || 20 === e.code ||
-  // Firefox Private Browsing mode disables IndexedDb and returns
-  // INVALID_STATE for any usage.
-  11 === e.code;
-}
 function __PRIVATE_ensureOfflineComponents(_x118) {
   return _PRIVATE_ensureOfflineComponents.apply(this, arguments);
 }
@@ -30169,10 +30148,19 @@ function _PRIVATE_ensureOfflineComponents() {
         yield __PRIVATE_setOfflineComponentProvider(e, e._uninitializedComponentsProvider._offline);
       } catch (t) {
         const n = t;
-        if (!__PRIVATE_canFallbackFromIndexedDbError(n)) throw n;
-        __PRIVATE_logWarn("Error using user provided cache. Falling back to memory cache: " + n), yield __PRIVATE_setOfflineComponentProvider(e, new MemoryOfflineComponentProvider());
+        if (!function __PRIVATE_canFallbackFromIndexedDbError(e) {
+          return "FirebaseError" === e.name ? e.code === D.FAILED_PRECONDITION || e.code === D.UNIMPLEMENTED : !("undefined" != typeof DOMException && e instanceof DOMException) ||
+          // When the browser is out of quota we could get either quota exceeded
+          // or an aborted error depending on whether the error happened during
+          // schema migration.
+          22 === e.code || 20 === e.code ||
+          // Firefox Private Browsing mode disables IndexedDb and returns
+          // INVALID_STATE for any usage.
+          11 === e.code;
+        }(n)) throw n;
+        __PRIVATE_logWarn("Error using user provided cache. Falling back to memory cache: " + n), yield __PRIVATE_setOfflineComponentProvider(e, new __PRIVATE_MemoryOfflineComponentProvider());
       }
-    } else __PRIVATE_logDebug("FirestoreClient", "Using default OfflineComponentProvider"), yield __PRIVATE_setOfflineComponentProvider(e, new MemoryOfflineComponentProvider());
+    } else __PRIVATE_logDebug("FirestoreClient", "Using default OfflineComponentProvider"), yield __PRIVATE_setOfflineComponentProvider(e, new __PRIVATE_MemoryOfflineComponentProvider());
     return e._offlineComponents;
   });
   return _PRIVATE_ensureOfflineComponents.apply(this, arguments);
@@ -30259,7 +30247,7 @@ function __PRIVATE_firestoreClientGetDocumentFromLocalCache(e, t) {
             const n = __PRIVATE_debugCast(e);
             return n.persistence.runTransaction("read document", "readonly", e => n.localDocuments.getDocument(e, t));
           }(e, t);
-          r.isFoundDocument() ? n.resolve(r) : r.isNoDocument() ? n.resolve(null) : n.reject(new FirestoreError(v.UNAVAILABLE, "Failed to get document from cache. (However, this document may exist on the server. Run again without setting 'source' in the GetOptions to attempt to retrieve the document from the server.)"));
+          r.isFoundDocument() ? n.resolve(r) : r.isNoDocument() ? n.resolve(null) : n.reject(new FirestoreError(D.UNAVAILABLE, "Failed to get document from cache. (However, this document may exist on the server. Run again without setting 'source' in the GetOptions to attempt to retrieve the document from the server.)"));
         } catch (e) {
           const r = __PRIVATE_wrapInUserErrorIfRecoverable(e, `Failed to get document '${t} from cache`);
           n.reject(r);
@@ -30282,12 +30270,12 @@ function __PRIVATE_firestoreClientGetDocumentViaSnapshotListener(e, t, n = {}) {
   return e.asyncQueue.enqueueAndForget( /*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
     return function __PRIVATE_readDocumentViaSnapshotListener(e, t, n, r, i) {
       const s = new __PRIVATE_AsyncObserver({
-          next: s => {
-            // Remove query first before passing event to user to avoid
+          next: _ => {
+            // Mute and remove query first before passing event to user to avoid
             // user actions affecting the now stale query.
-            t.enqueueAndForget(() => __PRIVATE_eventManagerUnlisten(e, o));
-            const _ = s.docs.has(n);
-            !_ && s.fromCache ?
+            s.Za(), t.enqueueAndForget(() => __PRIVATE_eventManagerUnlisten(e, o));
+            const a = _.docs.has(n);
+            !a && _.fromCache ?
             // TODO(dimond): If we're online and the document doesn't
             // exist then we resolve with a doc.exists set to false. If
             // we're offline however, we reject the Promise in this
@@ -30295,7 +30283,7 @@ function __PRIVATE_firestoreClientGetDocumentViaSnapshotListener(e, t, n = {}) {
             // the server so we can deliver that even when you're
             // offline 2) Actually reject the Promise in the online case
             // if the document doesn't exist.
-            i.reject(new FirestoreError(v.UNAVAILABLE, "Failed to get document because the client is offline.")) : _ && s.fromCache && r && "server" === r.source ? i.reject(new FirestoreError(v.UNAVAILABLE, 'Failed to get document from server. (However, this document does exist in the local cache. Run again without setting source to "server" to retrieve the cached document.)')) : i.resolve(s);
+            i.reject(new FirestoreError(D.UNAVAILABLE, "Failed to get document because the client is offline.")) : a && _.fromCache && r && "server" === r.source ? i.reject(new FirestoreError(D.UNAVAILABLE, 'Failed to get document from server. (However, this document does exist in the local cache. Run again without setting source to "server" to retrieve the cached document.)')) : i.resolve(_);
           },
           error: e => i.reject(e)
         }),
@@ -30341,9 +30329,9 @@ function __PRIVATE_firestoreClientGetDocumentsViaSnapshotListener(e, t, n = {}) 
     return function __PRIVATE_executeQueryViaSnapshotListener(e, t, n, r, i) {
       const s = new __PRIVATE_AsyncObserver({
           next: n => {
-            // Remove query first before passing event to user to avoid
+            // Mute and remove query first before passing event to user to avoid
             // user actions affecting the now stale query.
-            t.enqueueAndForget(() => __PRIVATE_eventManagerUnlisten(e, o)), n.fromCache && "server" === r.source ? i.reject(new FirestoreError(v.UNAVAILABLE, 'Failed to get documents from server. (However, these documents may exist in the local cache. Run again without setting source to "server" to retrieve the cached documents.)')) : i.resolve(n);
+            s.Za(), t.enqueueAndForget(() => __PRIVATE_eventManagerUnlisten(e, o)), n.fromCache && "server" === r.source ? i.reject(new FirestoreError(D.UNAVAILABLE, 'Failed to get documents from server. (However, these documents may exist in the local cache. Run again without setting source to "server" to retrieve the cached documents.)')) : i.resolve(n);
           },
           error: e => i.reject(e)
         }),
@@ -30403,7 +30391,7 @@ function __PRIVATE_firestoreClientAddSnapshotsInSyncListener(e, t) {
       t.next();
     }(yield __PRIVATE_getEventManager(e), n);
   })), () => {
-    n.za(), e.asyncQueue.enqueueAndForget( /*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    n.Za(), e.asyncQueue.enqueueAndForget( /*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       return function __PRIVATE_removeSnapshotsInSyncListener(e, t) {
         __PRIVATE_debugCast(e).Y_.delete(t);
       }(yield __PRIVATE_getEventManager(e), n);
@@ -30612,7 +30600,7 @@ function __PRIVATE_cloneLongPollingOptions(e) {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-const Se = new Map();
+const we = new Map();
 
 /**
  * An instance map that ensures only one Datastore exists per Firestore
@@ -30635,7 +30623,7 @@ const Se = new Map();
  * limitations under the License.
  */
 function __PRIVATE_validateNonEmptyArgument(e, t, n) {
-  if (!n) throw new FirestoreError(v.INVALID_ARGUMENT, `Function ${e}() cannot be called with an empty ${t}.`);
+  if (!n) throw new FirestoreError(D.INVALID_ARGUMENT, `Function ${e}() cannot be called with an empty ${t}.`);
 }
 
 /**
@@ -30643,7 +30631,7 @@ function __PRIVATE_validateNonEmptyArgument(e, t, n) {
  * @internal
  */
 function __PRIVATE_validateIsNotUsedTogether(e, t, n, r) {
-  if (!0 === t && !0 === r) throw new FirestoreError(v.INVALID_ARGUMENT, `${e} and ${n} cannot be used together.`);
+  if (!0 === t && !0 === r) throw new FirestoreError(D.INVALID_ARGUMENT, `${e} and ${n} cannot be used together.`);
 }
 
 /**
@@ -30651,7 +30639,7 @@ function __PRIVATE_validateIsNotUsedTogether(e, t, n, r) {
  * an even numbers of segments).
  */
 function __PRIVATE_validateDocumentPath(e) {
-  if (!DocumentKey.isDocumentKey(e)) throw new FirestoreError(v.INVALID_ARGUMENT, `Invalid document reference. Document references must have an even number of segments, but ${e} has ${e.length}.`);
+  if (!DocumentKey.isDocumentKey(e)) throw new FirestoreError(D.INVALID_ARGUMENT, `Invalid document reference. Document references must have an even number of segments, but ${e} has ${e.length}.`);
 }
 
 /**
@@ -30659,7 +30647,7 @@ function __PRIVATE_validateDocumentPath(e) {
  * contains an odd numbers of segments).
  */
 function __PRIVATE_validateCollectionPath(e) {
-  if (DocumentKey.isDocumentKey(e)) throw new FirestoreError(v.INVALID_ARGUMENT, `Invalid collection reference. Collection references must have an odd number of segments, but ${e} has ${e.length}.`);
+  if (DocumentKey.isDocumentKey(e)) throw new FirestoreError(D.INVALID_ARGUMENT, `Invalid collection reference. Collection references must have an odd number of segments, but ${e} has ${e.length}.`);
 }
 
 /**
@@ -30700,16 +30688,16 @@ t) {
   // Unwrap Compat types
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   e = e._delegate), !(e instanceof t)) {
-    if (t.name === e.constructor.name) throw new FirestoreError(v.INVALID_ARGUMENT, "Type does not match the expected instance. Did you pass a reference from a different Firestore SDK?");
+    if (t.name === e.constructor.name) throw new FirestoreError(D.INVALID_ARGUMENT, "Type does not match the expected instance. Did you pass a reference from a different Firestore SDK?");
     {
       const n = __PRIVATE_valueDescription(e);
-      throw new FirestoreError(v.INVALID_ARGUMENT, `Expected type '${t.name}', but it was: ${n}`);
+      throw new FirestoreError(D.INVALID_ARGUMENT, `Expected type '${t.name}', but it was: ${n}`);
     }
   }
   return e;
 }
 function __PRIVATE_validatePositiveNumber(e, t) {
-  if (t <= 0) throw new FirestoreError(v.INVALID_ARGUMENT, `Function ${e}() requires a positive number, but it was: ${t}.`);
+  if (t <= 0) throw new FirestoreError(D.INVALID_ARGUMENT, `Function ${e}() requires a positive number, but it was: ${t}.`);
 }
 
 /**
@@ -30738,11 +30726,11 @@ class FirestoreSettingsImpl {
   constructor(e) {
     var t, n;
     if (void 0 === e.host) {
-      if (void 0 !== e.ssl) throw new FirestoreError(v.INVALID_ARGUMENT, "Can't provide ssl option if host option is not set");
+      if (void 0 !== e.ssl) throw new FirestoreError(D.INVALID_ARGUMENT, "Can't provide ssl option if host option is not set");
       this.host = "firestore.googleapis.com", this.ssl = true;
     } else this.host = e.host, this.ssl = null === (t = e.ssl) || void 0 === t || t;
     if (this.credentials = e.credentials, this.ignoreUndefinedProperties = !!e.ignoreUndefinedProperties, this.localCache = e.localCache, void 0 === e.cacheSizeBytes) this.cacheSizeBytes = 41943040;else {
-      if (-1 !== e.cacheSizeBytes && e.cacheSizeBytes < 1048576) throw new FirestoreError(v.INVALID_ARGUMENT, "cacheSizeBytes must be at least 1048576");
+      if (-1 !== e.cacheSizeBytes && e.cacheSizeBytes < 1048576) throw new FirestoreError(D.INVALID_ARGUMENT, "cacheSizeBytes must be at least 1048576");
       this.cacheSizeBytes = e.cacheSizeBytes;
     }
     __PRIVATE_validateIsNotUsedTogether("experimentalForceLongPolling", e.experimentalForceLongPolling, "experimentalAutoDetectLongPolling", e.experimentalAutoDetectLongPolling), this.experimentalForceLongPolling = !!e.experimentalForceLongPolling, this.experimentalForceLongPolling ? this.experimentalAutoDetectLongPolling = !1 : void 0 === e.experimentalAutoDetectLongPolling ? this.experimentalAutoDetectLongPolling = true :
@@ -30751,9 +30739,9 @@ class FirestoreSettingsImpl {
     // noinspection PointlessBooleanExpressionJS
     this.experimentalAutoDetectLongPolling = !!e.experimentalAutoDetectLongPolling, this.experimentalLongPollingOptions = __PRIVATE_cloneLongPollingOptions(null !== (n = e.experimentalLongPollingOptions) && void 0 !== n ? n : {}), function __PRIVATE_validateLongPollingOptions(e) {
       if (void 0 !== e.timeoutSeconds) {
-        if (isNaN(e.timeoutSeconds)) throw new FirestoreError(v.INVALID_ARGUMENT, `invalid long polling timeout: ${e.timeoutSeconds} (must not be NaN)`);
-        if (e.timeoutSeconds < 5) throw new FirestoreError(v.INVALID_ARGUMENT, `invalid long polling timeout: ${e.timeoutSeconds} (minimum allowed value is 5)`);
-        if (e.timeoutSeconds > 30) throw new FirestoreError(v.INVALID_ARGUMENT, `invalid long polling timeout: ${e.timeoutSeconds} (maximum allowed value is 30)`);
+        if (isNaN(e.timeoutSeconds)) throw new FirestoreError(D.INVALID_ARGUMENT, `invalid long polling timeout: ${e.timeoutSeconds} (must not be NaN)`);
+        if (e.timeoutSeconds < 5) throw new FirestoreError(D.INVALID_ARGUMENT, `invalid long polling timeout: ${e.timeoutSeconds} (minimum allowed value is 5)`);
+        if (e.timeoutSeconds > 30) throw new FirestoreError(D.INVALID_ARGUMENT, `invalid long polling timeout: ${e.timeoutSeconds} (maximum allowed value is 30)`);
       }
     }
     /**
@@ -30791,24 +30779,29 @@ class Firestore$1 {
     /**
      * Whether it's a Firestore or Firestore Lite instance.
      */
-    this.type = "firestore-lite", this._persistenceKey = "(lite)", this._settings = new FirestoreSettingsImpl({}), this._settingsFrozen = !1;
+    this.type = "firestore-lite", this._persistenceKey = "(lite)", this._settings = new FirestoreSettingsImpl({}), this._settingsFrozen = !1,
+    // A task that is assigned when the terminate() is invoked and resolved when
+    // all components have shut down. Otherwise, Firestore is not terminated,
+    // which can mean either the FirestoreClient is in the process of starting,
+    // or restarting.
+    this._terminateTask = "notTerminated";
   }
   /**
    * The {@link @firebase/app#FirebaseApp} associated with this `Firestore` service
    * instance.
    */
   get app() {
-    if (!this._app) throw new FirestoreError(v.FAILED_PRECONDITION, "Firestore was not initialized using the Firebase SDK. 'app' is not available");
+    if (!this._app) throw new FirestoreError(D.FAILED_PRECONDITION, "Firestore was not initialized using the Firebase SDK. 'app' is not available");
     return this._app;
   }
   get _initialized() {
     return this._settingsFrozen;
   }
   get _terminated() {
-    return void 0 !== this._terminateTask;
+    return "notTerminated" !== this._terminateTask;
   }
   _setSettings(e) {
-    if (this._settingsFrozen) throw new FirestoreError(v.FAILED_PRECONDITION, "Firestore has already been started and its settings can no longer be changed. You can only modify settings before calling any other methods on a Firestore object.");
+    if (this._settingsFrozen) throw new FirestoreError(D.FAILED_PRECONDITION, "Firestore has already been started and its settings can no longer be changed. You can only modify settings before calling any other methods on a Firestore object.");
     this._settings = new FirestoreSettingsImpl(e), void 0 !== e.credentials && (this._authCredentials = function __PRIVATE_makeAuthCredentialsProvider(e) {
       if (!e) return new __PRIVATE_EmptyAuthCredentialsProvider();
       switch (e.type) {
@@ -30817,7 +30810,7 @@ class Firestore$1 {
         case "provider":
           return e.client;
         default:
-          throw new FirestoreError(v.INVALID_ARGUMENT, "makeAuthCredentialsProvider failed due to invalid credential type");
+          throw new FirestoreError(D.INVALID_ARGUMENT, "makeAuthCredentialsProvider failed due to invalid credential type");
       }
     }(e.credentials));
   }
@@ -30828,7 +30821,18 @@ class Firestore$1 {
     return this._settingsFrozen = !0, this._settings;
   }
   _delete() {
-    return this._terminateTask || (this._terminateTask = this._terminate()), this._terminateTask;
+    // The `_terminateTask` must be assigned future that completes when
+    // terminate is complete. The existence of this future puts SDK in state
+    // that will not accept further API interaction.
+    return "notTerminated" === this._terminateTask && (this._terminateTask = this._terminate()), this._terminateTask;
+  }
+  _restart() {
+    var _this37 = this;
+    return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+      // The `_terminateTask` must equal 'notTerminated' after restart to
+      // signal that client is in a state that accepts API calls.
+      "notTerminated" === _this37._terminateTask ? yield _this37._terminate() : _this37._terminateTask = "notTerminated";
+    })();
   }
   /** Returns a JSON-serializable representation of this `Firestore` instance. */
   toJSON() {
@@ -30851,8 +30855,8 @@ class Firestore$1 {
     * when the `Firestore` instance is terminated.
     */
     return function __PRIVATE_removeComponents(e) {
-      const t = Se.get(e);
-      t && (__PRIVATE_logDebug("ComponentProvider", "Removing Datastore"), Se.delete(e), t.terminate());
+      const t = we.get(e);
+      t && (__PRIVATE_logDebug("ComponentProvider", "Removing Datastore"), we.delete(e), t.terminate());
     }(this), Promise.resolve();
   }
 }
@@ -30884,7 +30888,7 @@ function connectFirestoreEmulator(e, t, n, r = {}) {
       // invalid field "uid" and missing field "sub" / "user_id".)
       t = (0,_firebase_util__WEBPACK_IMPORTED_MODULE_4__.createMockUserToken)(r.mockUserToken, null === (i = e._app) || void 0 === i ? void 0 : i.options.projectId);
       const s = r.mockUserToken.sub || r.mockUserToken.user_id;
-      if (!s) throw new FirestoreError(v.INVALID_ARGUMENT, "mockUserToken must contain 'sub' or 'user_id' field!");
+      if (!s) throw new FirestoreError(D.INVALID_ARGUMENT, "mockUserToken must contain 'sub' or 'user_id' field!");
       n = new User(s);
     }
     e._authCredentials = new __PRIVATE_EmulatorAuthCredentialsProvider(new __PRIVATE_OAuthToken(t, n));
@@ -31008,7 +31012,7 @@ function collection(e, t, ...n) {
     return __PRIVATE_validateCollectionPath(r), new CollectionReference(e, /* converter= */null, r);
   }
   {
-    if (!(e instanceof DocumentReference || e instanceof CollectionReference)) throw new FirestoreError(v.INVALID_ARGUMENT, "Expected first argument to collection() to be a CollectionReference, a DocumentReference or FirebaseFirestore");
+    if (!(e instanceof DocumentReference || e instanceof CollectionReference)) throw new FirestoreError(D.INVALID_ARGUMENT, "Expected first argument to collection() to be a CollectionReference, a DocumentReference or FirebaseFirestore");
     const r = e._path.child(ResourcePath.fromString(t, ...n));
     return __PRIVATE_validateCollectionPath(r), new CollectionReference(e.firestore, /* converter= */null, r);
   }
@@ -31028,7 +31032,7 @@ function collection(e, t, ...n) {
  * @returns The created `Query`.
  */
 function collectionGroup(e, t) {
-  if (e = __PRIVATE_cast(e, Firestore$1), __PRIVATE_validateNonEmptyArgument("collectionGroup", "collection id", t), t.indexOf("/") >= 0) throw new FirestoreError(v.INVALID_ARGUMENT, `Invalid collection ID '${t}' passed to function collectionGroup(). Collection IDs must not contain '/'.`);
+  if (e = __PRIVATE_cast(e, Firestore$1), __PRIVATE_validateNonEmptyArgument("collectionGroup", "collection id", t), t.indexOf("/") >= 0) throw new FirestoreError(D.INVALID_ARGUMENT, `Invalid collection ID '${t}' passed to function collectionGroup(). Collection IDs must not contain '/'.`);
   return new Query(e, /* converter= */null, function __PRIVATE_newQueryForCollectionGroup(e) {
     return new __PRIVATE_QueryImpl(ResourcePath.emptyPath(), e);
   }(t));
@@ -31042,7 +31046,7 @@ function doc(e, t, ...n) {
     return __PRIVATE_validateDocumentPath(r), new DocumentReference(e, /* converter= */null, new DocumentKey(r));
   }
   {
-    if (!(e instanceof DocumentReference || e instanceof CollectionReference)) throw new FirestoreError(v.INVALID_ARGUMENT, "Expected first argument to collection() to be a CollectionReference, a DocumentReference or FirebaseFirestore");
+    if (!(e instanceof DocumentReference || e instanceof CollectionReference)) throw new FirestoreError(D.INVALID_ARGUMENT, "Expected first argument to collection() to be a CollectionReference, a DocumentReference or FirebaseFirestore");
     const r = e._path.child(ResourcePath.fromString(t, ...n));
     return __PRIVATE_validateDocumentPath(r), new DocumentReference(e.firestore, e instanceof CollectionReference ? e.converter : null, new DocumentKey(r));
   }
@@ -31090,41 +31094,39 @@ function queryEqual(e, t) {
  * limitations under the License.
  */
 class __PRIVATE_AsyncQueueImpl {
-  constructor() {
-    // The last promise in the queue.
-    this.au = Promise.resolve(),
+  constructor(e = Promise.resolve()) {
     // A list of retryable operations. Retryable operations are run in order and
     // retried with backoff.
-    this.uu = [],
+    this.Pu = [],
     // Is this AsyncQueue being shut down? Once it is set to true, it will not
     // be changed again.
-    this.cu = !1,
+    this.Iu = !1,
     // Operations scheduled to be queued in the future. Operations are
     // automatically removed after they are run or canceled.
-    this.lu = [],
+    this.Tu = [],
     // visible for testing
-    this.hu = null,
+    this.Eu = null,
     // Flag set while there's an outstanding AsyncQueue operation, used for
     // assertion sanity-checks.
-    this.Pu = !1,
+    this.du = !1,
     // Enabled during shutdown on Safari to prevent future access to IndexedDB.
-    this.Iu = !1,
+    this.Au = !1,
     // List of TimerIds to fast-forward delays for.
-    this.Tu = [],
+    this.Ru = [],
     // Backoff timer used to schedule retries for retryable operations
     this.t_ = new __PRIVATE_ExponentialBackoff(this, "async_queue_retry" /* TimerId.AsyncQueueRetry */),
     // Visibility handler that triggers an immediate retry of all retryable
     // operations. Meant to speed up recovery when we regain file system access
     // after page comes into foreground.
-    this.Eu = () => {
+    this.Vu = () => {
       const e = getDocument();
       e && __PRIVATE_logDebug("AsyncQueue", "Visibility state changed to " + e.visibilityState), this.t_.jo();
-    };
-    const e = getDocument();
-    e && "function" == typeof e.addEventListener && e.addEventListener("visibilitychange", this.Eu);
+    }, this.mu = e;
+    const t = getDocument();
+    t && "function" == typeof t.addEventListener && t.addEventListener("visibilitychange", this.Vu);
   }
   get isShuttingDown() {
-    return this.cu;
+    return this.Iu;
   }
   /**
    * Adds a new operation to the queue without waiting for it to complete (i.e.
@@ -31135,46 +31137,46 @@ class __PRIVATE_AsyncQueueImpl {
     this.enqueue(e);
   }
   enqueueAndForgetEvenWhileRestricted(e) {
-    this.du(),
+    this.fu(),
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    this.Au(e);
+    this.gu(e);
   }
   enterRestrictedMode(e) {
-    if (!this.cu) {
-      this.cu = !0, this.Iu = e || !1;
+    if (!this.Iu) {
+      this.Iu = !0, this.Au = e || !1;
       const t = getDocument();
-      t && "function" == typeof t.removeEventListener && t.removeEventListener("visibilitychange", this.Eu);
+      t && "function" == typeof t.removeEventListener && t.removeEventListener("visibilitychange", this.Vu);
     }
   }
   enqueue(e) {
-    if (this.du(), this.cu)
+    if (this.fu(), this.Iu)
       // Return a Promise which never resolves.
       return new Promise(() => {});
     // Create a deferred Promise that we can return to the callee. This
     // allows us to return a "hanging Promise" only to the callee and still
     // advance the queue even when the operation is not run.
     const t = new __PRIVATE_Deferred();
-    return this.Au(() => this.cu && this.Iu ? Promise.resolve() : (e().then(t.resolve, t.reject), t.promise)).then(() => t.promise);
+    return this.gu(() => this.Iu && this.Au ? Promise.resolve() : (e().then(t.resolve, t.reject), t.promise)).then(() => t.promise);
   }
   enqueueRetryable(e) {
-    this.enqueueAndForget(() => (this.uu.push(e), this.Ru()));
+    this.enqueueAndForget(() => (this.Pu.push(e), this.pu()));
   }
   /**
    * Runs the next operation from the retryable queue. If the operation fails,
    * reschedules with backoff.
    */
-  Ru() {
-    var _this37 = this;
+  pu() {
+    var _this38 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      if (0 !== _this37.uu.length) {
+      if (0 !== _this38.Pu.length) {
         try {
-          yield _this37.uu[0](), _this37.uu.shift(), _this37.t_.reset();
+          yield _this38.Pu[0](), _this38.Pu.shift(), _this38.t_.reset();
         } catch (e) {
           if (!__PRIVATE_isIndexedDbTransactionError(e)) throw e;
           // Failure will be handled by AsyncQueue
           __PRIVATE_logDebug("AsyncQueue", "Operation failed with retryable error: " + e);
         }
-        _this37.uu.length > 0 &&
+        _this38.Pu.length > 0 &&
         // If there are additional operations, we re-schedule `retryNextOp()`.
         // This is necessary to run retryable operations that failed during
         // their initial attempt since we don't know whether they are already
@@ -31185,13 +31187,13 @@ class __PRIVATE_AsyncQueueImpl {
         // Since `backoffAndRun()` cancels an existing backoff and schedules a
         // new backoff on every call, there is only ever a single additional
         // operation in the queue.
-        _this37.t_.Go(() => _this37.Ru());
+        _this38.t_.Go(() => _this38.pu());
       }
     })();
   }
-  Au(e) {
-    const t = this.au.then(() => (this.Pu = !0, e().catch(e => {
-      this.hu = e, this.Pu = !1;
+  gu(e) {
+    const t = this.mu.then(() => (this.du = !0, e().catch(e => {
+      this.Eu = e, this.du = !1;
       const t =
       /**
       * Chrome includes Error.message in Error.stack. Other browsers do not.
@@ -31223,26 +31225,26 @@ class __PRIVATE_AsyncQueueImpl {
       // all further attempts to chain (via .then) will just short-circuit
       // and return the rejected Promise.
       throw __PRIVATE_logError("INTERNAL UNHANDLED ERROR: ", t), e;
-    }).then(e => (this.Pu = !1, e))));
-    return this.au = t, t;
+    }).then(e => (this.du = !1, e))));
+    return this.mu = t, t;
   }
   enqueueAfterDelay(e, t, n) {
-    this.du(),
+    this.fu(),
     // Fast-forward delays for timerIds that have been overridden.
-    this.Tu.indexOf(e) > -1 && (t = 0);
-    const r = DelayedOperation.createAndSchedule(this, e, t, n, e => this.Vu(e));
-    return this.lu.push(r), r;
+    this.Ru.indexOf(e) > -1 && (t = 0);
+    const r = DelayedOperation.createAndSchedule(this, e, t, n, e => this.yu(e));
+    return this.Tu.push(r), r;
   }
-  du() {
-    this.hu && fail();
+  fu() {
+    this.Eu && fail();
   }
   verifyOperationInProgress() {}
   /**
    * Waits until all currently queued tasks are finished executing. Delayed
    * operations are not run.
    */
-  mu() {
-    var _this38 = this;
+  wu() {
+    var _this39 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       // Operations in the queue prior to draining may have enqueued additional
       // operations. Keep draining the queue until the tail is no longer advanced,
@@ -31250,16 +31252,16 @@ class __PRIVATE_AsyncQueueImpl {
       // operations were executed.
       let e;
       do {
-        e = _this38.au, yield e;
-      } while (e !== _this38.au);
+        e = _this39.mu, yield e;
+      } while (e !== _this39.mu);
     })();
   }
   /**
    * For Tests: Determine if a delayed operation with a particular TimerId
    * exists.
    */
-  fu(e) {
-    for (const t of this.lu) if (t.timerId === e) return !0;
+  Su(e) {
+    for (const t of this.Tu) if (t.timerId === e) return !0;
     return !1;
   }
   /**
@@ -31269,28 +31271,28 @@ class __PRIVATE_AsyncQueueImpl {
    * will be drained. Pass TimerId.All to run all delayed operations.
    * @returns a Promise that resolves once all operations have been run.
    */
-  gu(e) {
+  bu(e) {
     // Note that draining may generate more delayed ops, so we do that first.
-    return this.mu().then(() => {
+    return this.wu().then(() => {
       // Run ops in the same order they'd run if they ran naturally.
       /* eslint-disable-next-line @typescript-eslint/no-floating-promises */
-      this.lu.sort((e, t) => e.targetTimeMs - t.targetTimeMs);
-      for (const t of this.lu) if (t.skipDelay(), "all" /* TimerId.All */ !== e && t.timerId === e) break;
-      return this.mu();
+      this.Tu.sort((e, t) => e.targetTimeMs - t.targetTimeMs);
+      for (const t of this.Tu) if (t.skipDelay(), "all" /* TimerId.All */ !== e && t.timerId === e) break;
+      return this.wu();
     });
   }
   /**
    * For Tests: Skip all subsequent delays for a timer id.
    */
-  pu(e) {
-    this.Tu.push(e);
+  Du(e) {
+    this.Ru.push(e);
   }
   /** Called once a DelayedOperation is run or canceled. */
-  Vu(e) {
+  yu(e) {
     // NOTE: indexOf / slice are O(n), but delayedOperations is expected to be small.
-    const t = this.lu.indexOf(e);
+    const t = this.Tu.indexOf(e);
     /* eslint-disable-next-line @typescript-eslint/no-floating-promises */
-    this.lu.splice(t, 1);
+    this.Tu.splice(t, 1);
   }
 }
 function __PRIVATE_isPartialObserver(e) {
@@ -31420,7 +31422,7 @@ class LoadBundleTask {
  * Set this value as the `cacheSizeBytes` on the settings passed to the
  * {@link Firestore} instance.
  */
-const be = -1;
+const Se = -1;
 
 /**
  * The Cloud Firestore service interface.
@@ -31434,15 +31436,16 @@ class Firestore extends Firestore$1 {
     /**
      * Whether it's a {@link Firestore} or Firestore Lite instance.
      */
-    this.type = "firestore", this._queue = function __PRIVATE_newAsyncQueue() {
-      return new __PRIVATE_AsyncQueueImpl();
-    }(), this._persistenceKey = (null == r ? void 0 : r.name) || "[DEFAULT]";
+    this.type = "firestore", this._queue = new __PRIVATE_AsyncQueueImpl(), this._persistenceKey = (null == r ? void 0 : r.name) || "[DEFAULT]";
   }
   _terminate() {
-    return this._firestoreClient ||
-    // The client must be initialized to ensure that all subsequent API
-    // usage throws an exception.
-    __PRIVATE_configureFirestore(this), this._firestoreClient.terminate();
+    var _this40 = this;
+    return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+      if (_this40._firestoreClient) {
+        const e = _this40._firestoreClient.terminate();
+        _this40._queue = new __PRIVATE_AsyncQueueImpl(e), _this40._firestoreClient = void 0, yield e;
+      }
+    })();
   }
 }
 
@@ -31467,10 +31470,10 @@ function initializeFirestore(e, t, n) {
       }),
       i = r.getOptions(n);
     if ((0,_firebase_util__WEBPACK_IMPORTED_MODULE_4__.deepEqual)(i, t)) return e;
-    throw new FirestoreError(v.FAILED_PRECONDITION, "initializeFirestore() has already been called with different options. To avoid this error, call initializeFirestore() with the same options as when it was originally called, or call getFirestore() to return the already initialized instance.");
+    throw new FirestoreError(D.FAILED_PRECONDITION, "initializeFirestore() has already been called with different options. To avoid this error, call initializeFirestore() with the same options as when it was originally called, or call getFirestore() to return the already initialized instance.");
   }
-  if (void 0 !== t.cacheSizeBytes && void 0 !== t.localCache) throw new FirestoreError(v.INVALID_ARGUMENT, "cache and cacheSizeBytes cannot be specified at the same time as cacheSizeBytes willbe deprecated. Instead, specify the cache size in the cache object");
-  if (void 0 !== t.cacheSizeBytes && -1 !== t.cacheSizeBytes && t.cacheSizeBytes < 1048576) throw new FirestoreError(v.INVALID_ARGUMENT, "cacheSizeBytes must be at least 1048576");
+  if (void 0 !== t.cacheSizeBytes && void 0 !== t.localCache) throw new FirestoreError(D.INVALID_ARGUMENT, "cache and cacheSizeBytes cannot be specified at the same time as cacheSizeBytes willbe deprecated. Instead, specify the cache size in the cache object");
+  if (void 0 !== t.cacheSizeBytes && -1 !== t.cacheSizeBytes && t.cacheSizeBytes < 1048576) throw new FirestoreError(D.INVALID_ARGUMENT, "cacheSizeBytes must be at least 1048576");
   return r.initialize({
     options: t,
     instanceIdentifier: n
@@ -31493,7 +31496,8 @@ function getFirestore(t, n) {
  * @internal
  */
 function ensureFirestoreConfigured(e) {
-  return e._firestoreClient || __PRIVATE_configureFirestore(e), e._firestoreClient.verifyNotTerminated(), e._firestoreClient;
+  if (e._terminated) throw new FirestoreError(D.FAILED_PRECONDITION, "The client has already been terminated.");
+  return e._firestoreClient || __PRIVATE_configureFirestore(e), e._firestoreClient;
 }
 function __PRIVATE_configureFirestore(e) {
   var t, n, r;
@@ -31501,50 +31505,52 @@ function __PRIVATE_configureFirestore(e) {
     s = function __PRIVATE_makeDatabaseInfo(e, t, n, r) {
       return new DatabaseInfo(e, t, n, r.host, r.ssl, r.experimentalForceLongPolling, r.experimentalAutoDetectLongPolling, __PRIVATE_cloneLongPollingOptions(r.experimentalLongPollingOptions), r.useFetchStreams);
     }(e._databaseId, (null === (t = e._app) || void 0 === t ? void 0 : t.options.appId) || "", e._persistenceKey, i);
-  e._firestoreClient = new FirestoreClient(e._authCredentials, e._appCheckCredentials, e._queue, s), (null === (n = i.localCache) || void 0 === n ? void 0 : n._offlineComponentProvider) && (null === (r = i.localCache) || void 0 === r ? void 0 : r._onlineComponentProvider) && (e._firestoreClient._uninitializedComponentsProvider = {
-    _offlineKind: i.localCache.kind,
+  e._componentsProvider || (null === (n = i.localCache) || void 0 === n ? void 0 : n._offlineComponentProvider) && (null === (r = i.localCache) || void 0 === r ? void 0 : r._onlineComponentProvider) && (e._componentsProvider = {
     _offline: i.localCache._offlineComponentProvider,
     _online: i.localCache._onlineComponentProvider
-  });
+  }), e._firestoreClient = new FirestoreClient(e._authCredentials, e._appCheckCredentials, e._queue, s, e._componentsProvider && function __PRIVATE_buildComponentProvider(e) {
+    const t = null == e ? void 0 : e._online.build();
+    return {
+      _offline: null == e ? void 0 : e._offline.build(t),
+      _online: t
+    };
+  }
+  /**
+  * Attempts to enable persistent storage, if possible.
+  *
+  * On failure, `enableIndexedDbPersistence()` will reject the promise or
+  * throw an exception. There are several reasons why this can fail, which can be
+  * identified by the `code` on the error.
+  *
+  *   * failed-precondition: The app is already open in another browser tab.
+  *   * unimplemented: The browser is incompatible with the offline persistence
+  *     implementation.
+  *
+  * Note that even after a failure, the {@link Firestore} instance will remain
+  * usable, however offline persistence will be disabled.
+  *
+  * Note: `enableIndexedDbPersistence()` must be called before any other functions
+  * (other than {@link initializeFirestore}, {@link (getFirestore:1)} or
+  * {@link clearIndexedDbPersistence}.
+  *
+  * Persistence cannot be used in a Node.js environment.
+  *
+  * @param firestore - The {@link Firestore} instance to enable persistence for.
+  * @param persistenceSettings - Optional settings object to configure
+  * persistence.
+  * @returns A `Promise` that represents successfully enabling persistent storage.
+  * @deprecated This function will be removed in a future major release. Instead, set
+  * `FirestoreSettings.localCache` to an instance of `PersistentLocalCache` to
+  * turn on IndexedDb cache. Calling this function when `FirestoreSettings.localCache`
+  * is already specified will throw an exception.
+  */(e._componentsProvider));
 }
-
-/**
- * Attempts to enable persistent storage, if possible.
- *
- * On failure, `enableIndexedDbPersistence()` will reject the promise or
- * throw an exception. There are several reasons why this can fail, which can be
- * identified by the `code` on the error.
- *
- *   * failed-precondition: The app is already open in another browser tab.
- *   * unimplemented: The browser is incompatible with the offline persistence
- *     implementation.
- *
- * Note that even after a failure, the {@link Firestore} instance will remain
- * usable, however offline persistence will be disabled.
- *
- * Note: `enableIndexedDbPersistence()` must be called before any other functions
- * (other than {@link initializeFirestore}, {@link (getFirestore:1)} or
- * {@link clearIndexedDbPersistence}.
- *
- * Persistence cannot be used in a Node.js environment.
- *
- * @param firestore - The {@link Firestore} instance to enable persistence for.
- * @param persistenceSettings - Optional settings object to configure
- * persistence.
- * @returns A `Promise` that represents successfully enabling persistent storage.
- * @deprecated This function will be removed in a future major release. Instead, set
- * `FirestoreSettings.localCache` to an instance of `PersistentLocalCache` to
- * turn on IndexedDb cache. Calling this function when `FirestoreSettings.localCache`
- * is already specified will throw an exception.
- */
 function enableIndexedDbPersistence(e, t) {
-  __PRIVATE_verifyNotInitialized(e = __PRIVATE_cast(e, Firestore));
-  const n = ensureFirestoreConfigured(e);
-  if (n._uninitializedComponentsProvider) throw new FirestoreError(v.FAILED_PRECONDITION, "SDK cache is already specified.");
   __PRIVATE_logWarn("enableIndexedDbPersistence() will be deprecated in the future, you can use `FirestoreSettings.cache` instead.");
-  const r = e._freezeSettings(),
-    i = new OnlineComponentProvider();
-  return __PRIVATE_setPersistenceProviders(n, i, new __PRIVATE_IndexedDbOfflineComponentProvider(i, r.cacheSizeBytes, null == t ? void 0 : t.forceOwnership));
+  const n = e._freezeSettings();
+  return __PRIVATE_setPersistenceProviders(e, OnlineComponentProvider.provider, {
+    build: e => new __PRIVATE_IndexedDbOfflineComponentProvider(e, n.cacheSizeBytes, null == t ? void 0 : t.forceOwnership)
+  }), Promise.resolve();
 }
 
 /**
@@ -31573,33 +31579,32 @@ function enableIndexedDbPersistence(e, t) {
  * turn on indexeddb cache. Calling this function when `FirestoreSettings.localCache`
  * is already specified will throw an exception.
  */
-function enableMultiTabIndexedDbPersistence(e) {
-  __PRIVATE_verifyNotInitialized(e = __PRIVATE_cast(e, Firestore));
-  const t = ensureFirestoreConfigured(e);
-  if (t._uninitializedComponentsProvider) throw new FirestoreError(v.FAILED_PRECONDITION, "SDK cache is already specified.");
-  __PRIVATE_logWarn("enableMultiTabIndexedDbPersistence() will be deprecated in the future, you can use `FirestoreSettings.cache` instead.");
-  const n = e._freezeSettings(),
-    r = new OnlineComponentProvider();
-  return __PRIVATE_setPersistenceProviders(t, r, new __PRIVATE_MultiTabOfflineComponentProvider(r, n.cacheSizeBytes));
+function enableMultiTabIndexedDbPersistence(_x133) {
+  return _enableMultiTabIndexedDbPersistence.apply(this, arguments);
 }
-
 /**
  * Registers both the `OfflineComponentProvider` and `OnlineComponentProvider`.
  * If the operation fails with a recoverable error (see
  * `canRecoverFromIndexedDbError()` below), the returned Promise is rejected
  * but the client remains usable.
  */
+function _enableMultiTabIndexedDbPersistence() {
+  _enableMultiTabIndexedDbPersistence = (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (e) {
+    __PRIVATE_logWarn("enableMultiTabIndexedDbPersistence() will be deprecated in the future, you can use `FirestoreSettings.cache` instead.");
+    const t = e._freezeSettings();
+    __PRIVATE_setPersistenceProviders(e, OnlineComponentProvider.provider, {
+      build: e => new __PRIVATE_MultiTabOfflineComponentProvider(e, t.cacheSizeBytes)
+    });
+  });
+  return _enableMultiTabIndexedDbPersistence.apply(this, arguments);
+}
 function __PRIVATE_setPersistenceProviders(e, t, n) {
-  const r = new __PRIVATE_Deferred();
-  return e.asyncQueue.enqueue( /*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-    try {
-      yield __PRIVATE_setOfflineComponentProvider(e, n), yield __PRIVATE_setOnlineComponentProvider(e, t), r.resolve();
-    } catch (e) {
-      const t = e;
-      if (!__PRIVATE_canFallbackFromIndexedDbError(t)) throw t;
-      __PRIVATE_logWarn("Error enabling indexeddb cache. Falling back to memory cache: " + t), r.reject(t);
-    }
-  })).then(() => r.promise);
+  if ((e = __PRIVATE_cast(e, Firestore))._firestoreClient || e._terminated) throw new FirestoreError(D.FAILED_PRECONDITION, "Firestore has already been started and persistence can no longer be enabled. You can only enable persistence before calling any other methods on a Firestore object.");
+  if (e._componentsProvider || e._getSettings().localCache) throw new FirestoreError(D.FAILED_PRECONDITION, "SDK cache is already specified.");
+  e._componentsProvider = {
+    _online: t,
+    _offline: n
+  }, __PRIVATE_configureFirestore(e);
 }
 
 /**
@@ -31625,7 +31630,7 @@ function __PRIVATE_setPersistenceProviders(e, t, n) {
  * cleared. Otherwise, the promise is rejected with an error.
  */
 function clearIndexedDbPersistence(e) {
-  if (e._initialized && !e._terminated) throw new FirestoreError(v.FAILED_PRECONDITION, "Persistence can only be cleared before a Firestore instance is initialized or after it is terminated.");
+  if (e._initialized && !e._terminated) throw new FirestoreError(D.FAILED_PRECONDITION, "Persistence can only be cleared before a Firestore instance is initialized or after it is terminated.");
   const t = new __PRIVATE_Deferred();
   return e._queue.enqueueAndForgetEvenWhileRestricted( /*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
     try {
@@ -31635,7 +31640,7 @@ function clearIndexedDbPersistence(e) {
           const t = e + "main";
           yield __PRIVATE_SimpleDb.delete(t);
         });
-        function __PRIVATE_indexedDbClearPersistence(_x133) {
+        function __PRIVATE_indexedDbClearPersistence(_x134) {
           return _PRIVATE_indexedDbClearPersistence.apply(this, arguments);
         }
         return __PRIVATE_indexedDbClearPersistence;
@@ -31751,9 +31756,6 @@ function loadBundle(e, t) {
 function namedQuery(e, t) {
   return __PRIVATE_firestoreClientGetNamedQuery(ensureFirestoreConfigured(e = __PRIVATE_cast(e, Firestore)), t).then(t => t ? new Query(e, null, t.query) : null);
 }
-function __PRIVATE_verifyNotInitialized(e) {
-  if (e._initialized || e._terminated) throw new FirestoreError(v.FAILED_PRECONDITION, "Firestore has already been started and persistence can no longer be enabled. You can only enable persistence before calling any other methods on a Firestore object.");
-}
 
 /**
  * @license
@@ -31863,7 +31865,7 @@ class Bytes {
     try {
       return new Bytes(ByteString.fromBase64String(e));
     } catch (e) {
-      throw new FirestoreError(v.INVALID_ARGUMENT, "Failed to construct data from Base64 string: " + e);
+      throw new FirestoreError(D.INVALID_ARGUMENT, "Failed to construct data from Base64 string: " + e);
     }
   }
   /**
@@ -31941,7 +31943,7 @@ class FieldPath {
    * @param fieldNames - A list of field names.
    */
   constructor(...e) {
-    for (let t = 0; t < e.length; ++t) if (0 === e[t].length) throw new FirestoreError(v.INVALID_ARGUMENT, "Invalid field name at argument $(i + 1). Field names must not be empty.");
+    for (let t = 0; t < e.length; ++t) if (0 === e[t].length) throw new FirestoreError(D.INVALID_ARGUMENT, "Invalid field name at argument $(i + 1). Field names must not be empty.");
     this._internalPath = new FieldPath$1(e);
   }
   /**
@@ -32024,8 +32026,8 @@ class GeoPoint {
    * @param longitude - The longitude as number between -180 and 180.
    */
   constructor(e, t) {
-    if (!isFinite(e) || e < -90 || e > 90) throw new FirestoreError(v.INVALID_ARGUMENT, "Latitude must be a number between -90 and 90, but was: " + e);
-    if (!isFinite(t) || t < -180 || t > 180) throw new FirestoreError(v.INVALID_ARGUMENT, "Longitude must be a number between -180 and 180, but was: " + t);
+    if (!isFinite(e) || e < -90 || e > 90) throw new FirestoreError(D.INVALID_ARGUMENT, "Latitude must be a number between -90 and 90, but was: " + e);
+    if (!isFinite(t) || t < -180 || t > 180) throw new FirestoreError(D.INVALID_ARGUMENT, "Longitude must be a number between -180 and 180, but was: " + t);
     this._lat = e, this._long = t;
   }
   /**
@@ -32130,7 +32132,7 @@ class VectorValue {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-const De = /^__.*__$/;
+const be = /^__.*__$/;
 
 /** The result of parsing document data (e.g. for a setData call). */
 class ParsedSetData {
@@ -32193,59 +32195,59 @@ class __PRIVATE_ParseContextImpl {
     this.settings = e, this.databaseId = t, this.serializer = n, this.ignoreUndefinedProperties = r,
     // Minor hack: If fieldTransforms is undefined, we assume this is an
     // external call and we need to validate the entire path.
-    void 0 === i && this.yu(), this.fieldTransforms = i || [], this.fieldMask = s || [];
+    void 0 === i && this.vu(), this.fieldTransforms = i || [], this.fieldMask = s || [];
   }
   get path() {
     return this.settings.path;
   }
-  get wu() {
-    return this.settings.wu;
+  get Cu() {
+    return this.settings.Cu;
   }
   /** Returns a new context with the specified settings overwritten. */
-  Su(e) {
+  Fu(e) {
     return new __PRIVATE_ParseContextImpl(Object.assign(Object.assign({}, this.settings), e), this.databaseId, this.serializer, this.ignoreUndefinedProperties, this.fieldTransforms, this.fieldMask);
   }
-  bu(e) {
+  Mu(e) {
     var t;
     const n = null === (t = this.path) || void 0 === t ? void 0 : t.child(e),
-      r = this.Su({
+      r = this.Fu({
         path: n,
-        Du: !1
+        xu: !1
       });
-    return r.vu(e), r;
+    return r.Ou(e), r;
   }
-  Cu(e) {
+  Nu(e) {
     var t;
     const n = null === (t = this.path) || void 0 === t ? void 0 : t.child(e),
-      r = this.Su({
+      r = this.Fu({
         path: n,
-        Du: !1
+        xu: !1
       });
-    return r.yu(), r;
+    return r.vu(), r;
   }
-  Fu(e) {
+  Lu(e) {
     // TODO(b/34871131): We don't support array paths right now; so make path
     // undefined.
-    return this.Su({
+    return this.Fu({
       path: void 0,
-      Du: !0
+      xu: !0
     });
   }
-  Mu(e) {
-    return __PRIVATE_createError(e, this.settings.methodName, this.settings.xu || !1, this.path, this.settings.Ou);
+  Bu(e) {
+    return __PRIVATE_createError(e, this.settings.methodName, this.settings.ku || !1, this.path, this.settings.qu);
   }
   /** Returns 'true' if 'fieldPath' was traversed when creating this context. */
   contains(e) {
     return void 0 !== this.fieldMask.find(t => e.isPrefixOf(t)) || void 0 !== this.fieldTransforms.find(t => e.isPrefixOf(t.field));
   }
-  yu() {
+  vu() {
     // TODO(b/34871131): Remove null check once we have proper paths for fields
     // within arrays.
-    if (this.path) for (let e = 0; e < this.path.length; e++) this.vu(this.path.get(e));
+    if (this.path) for (let e = 0; e < this.path.length; e++) this.Ou(this.path.get(e));
   }
-  vu(e) {
-    if (0 === e.length) throw this.Mu("Document fields must not be empty");
-    if (__PRIVATE_isWrite(this.wu) && De.test(e)) throw this.Mu('Document fields cannot begin and end with "__"');
+  Ou(e) {
+    if (0 === e.length) throw this.Bu("Document fields must not be empty");
+    if (__PRIVATE_isWrite(this.Cu) && be.test(e)) throw this.Bu('Document fields cannot begin and end with "__"');
   }
 }
 
@@ -32258,14 +32260,14 @@ class __PRIVATE_UserDataReader {
     this.databaseId = e, this.ignoreUndefinedProperties = t, this.serializer = n || __PRIVATE_newSerializer(e);
   }
   /** Creates a new top-level parse context. */
-  Nu(e, t, n, r = !1) {
+  Qu(e, t, n, r = !1) {
     return new __PRIVATE_ParseContextImpl({
-      wu: e,
+      Cu: e,
       methodName: t,
-      Ou: n,
+      qu: n,
       path: FieldPath$1.emptyPath(),
-      Du: !1,
-      xu: r
+      xu: !1,
+      ku: r
     }, this.databaseId, this.serializer, this.ignoreUndefinedProperties);
   }
 }
@@ -32277,7 +32279,7 @@ function __PRIVATE_newUserDataReader(e) {
 
 /** Parse document data from a set() call. */
 function __PRIVATE_parseSetData(e, t, n, r, i, s = {}) {
-  const o = e.Nu(s.merge || s.mergeFields ? 2 /* UserDataSource.MergeSet */ : 0 /* UserDataSource.Set */, t, n, i);
+  const o = e.Qu(s.merge || s.mergeFields ? 2 /* UserDataSource.MergeSet */ : 0 /* UserDataSource.Set */, t, n, i);
   __PRIVATE_validatePlainObject("Data must be an object, but it was:", o, r);
   const _ = __PRIVATE_parseObject(r, o);
   let a, u;
@@ -32285,7 +32287,7 @@ function __PRIVATE_parseSetData(e, t, n, r, i, s = {}) {
     const e = [];
     for (const r of s.mergeFields) {
       const i = __PRIVATE_fieldPathFromArgument$1(t, r, n);
-      if (!o.contains(i)) throw new FirestoreError(v.INVALID_ARGUMENT, `Field '${i}' is specified in your field mask but missing from your input data.`);
+      if (!o.contains(i)) throw new FirestoreError(D.INVALID_ARGUMENT, `Field '${i}' is specified in your field mask but missing from your input data.`);
       __PRIVATE_fieldMaskContains(e, i) || e.push(i);
     }
     a = new FieldMask(e), u = o.fieldTransforms.filter(e => a.covers(e.field));
@@ -32294,7 +32296,7 @@ function __PRIVATE_parseSetData(e, t, n, r, i, s = {}) {
 }
 class __PRIVATE_DeleteFieldValueImpl extends FieldValue {
   _toFieldTransform(e) {
-    if (2 /* UserDataSource.MergeSet */ !== e.wu) throw 1 /* UserDataSource.Update */ === e.wu ? e.Mu(`${this._methodName}() can only appear at the top level of your update data`) : e.Mu(`${this._methodName}() cannot be used with set() unless you pass {merge:true}`);
+    if (2 /* UserDataSource.MergeSet */ !== e.Cu) throw 1 /* UserDataSource.Update */ === e.Cu ? e.Bu(`${this._methodName}() can only appear at the top level of your update data`) : e.Bu(`${this._methodName}() cannot be used with set() unless you pass {merge:true}`);
     // No transform to add for a delete, but we need to add it to our
     // fieldMask so it gets deleted.
     return e.fieldMask.push(e.path), null;
@@ -32322,10 +32324,10 @@ class __PRIVATE_DeleteFieldValueImpl extends FieldValue {
  */
 function __PRIVATE_createSentinelChildContext(e, t, n) {
   return new __PRIVATE_ParseContextImpl({
-    wu: 3 /* UserDataSource.Argument */,
-    Ou: t.settings.Ou,
+    Cu: 3 /* UserDataSource.Argument */,
+    qu: t.settings.qu,
     methodName: e._methodName,
-    Du: n
+    xu: n
   }, t.databaseId, t.serializer, t.ignoreUndefinedProperties);
 }
 class __PRIVATE_ServerTimestampFieldValueImpl extends FieldValue {
@@ -32338,48 +32340,48 @@ class __PRIVATE_ServerTimestampFieldValueImpl extends FieldValue {
 }
 class __PRIVATE_ArrayUnionFieldValueImpl extends FieldValue {
   constructor(e, t) {
-    super(e), this.Lu = t;
+    super(e), this.Ku = t;
   }
   _toFieldTransform(e) {
     const t = __PRIVATE_createSentinelChildContext(this, e, /*array=*/!0),
-      n = this.Lu.map(e => __PRIVATE_parseData(e, t)),
+      n = this.Ku.map(e => __PRIVATE_parseData(e, t)),
       r = new __PRIVATE_ArrayUnionTransformOperation(n);
     return new FieldTransform(e.path, r);
   }
   isEqual(e) {
-    return e instanceof __PRIVATE_ArrayUnionFieldValueImpl && (0,_firebase_util__WEBPACK_IMPORTED_MODULE_4__.deepEqual)(this.Lu, e.Lu);
+    return e instanceof __PRIVATE_ArrayUnionFieldValueImpl && (0,_firebase_util__WEBPACK_IMPORTED_MODULE_4__.deepEqual)(this.Ku, e.Ku);
   }
 }
 class __PRIVATE_ArrayRemoveFieldValueImpl extends FieldValue {
   constructor(e, t) {
-    super(e), this.Lu = t;
+    super(e), this.Ku = t;
   }
   _toFieldTransform(e) {
     const t = __PRIVATE_createSentinelChildContext(this, e, /*array=*/!0),
-      n = this.Lu.map(e => __PRIVATE_parseData(e, t)),
+      n = this.Ku.map(e => __PRIVATE_parseData(e, t)),
       r = new __PRIVATE_ArrayRemoveTransformOperation(n);
     return new FieldTransform(e.path, r);
   }
   isEqual(e) {
-    return e instanceof __PRIVATE_ArrayRemoveFieldValueImpl && (0,_firebase_util__WEBPACK_IMPORTED_MODULE_4__.deepEqual)(this.Lu, e.Lu);
+    return e instanceof __PRIVATE_ArrayRemoveFieldValueImpl && (0,_firebase_util__WEBPACK_IMPORTED_MODULE_4__.deepEqual)(this.Ku, e.Ku);
   }
 }
 class __PRIVATE_NumericIncrementFieldValueImpl extends FieldValue {
   constructor(e, t) {
-    super(e), this.Bu = t;
+    super(e), this.$u = t;
   }
   _toFieldTransform(e) {
-    const t = new __PRIVATE_NumericIncrementTransformOperation(e.serializer, toNumber(e.serializer, this.Bu));
+    const t = new __PRIVATE_NumericIncrementTransformOperation(e.serializer, toNumber(e.serializer, this.$u));
     return new FieldTransform(e.path, t);
   }
   isEqual(e) {
-    return e instanceof __PRIVATE_NumericIncrementFieldValueImpl && this.Bu === e.Bu;
+    return e instanceof __PRIVATE_NumericIncrementFieldValueImpl && this.$u === e.$u;
   }
 }
 
 /** Parse update data from an update() call. */
 function __PRIVATE_parseUpdateData(e, t, n, r) {
-  const i = e.Nu(1 /* UserDataSource.Update */, t, n);
+  const i = e.Qu(1 /* UserDataSource.Update */, t, n);
   __PRIVATE_validatePlainObject("Data must be an object, but it was:", i, r);
   const s = [],
     o = ObjectValue.empty();
@@ -32388,7 +32390,7 @@ function __PRIVATE_parseUpdateData(e, t, n, r) {
     // For Compat types, we have to "extract" the underlying types before
     // performing validation.
     r = (0,_firebase_util__WEBPACK_IMPORTED_MODULE_4__.getModularInstance)(r);
-    const a = i.Cu(_);
+    const a = i.Nu(_);
     if (r instanceof __PRIVATE_DeleteFieldValueImpl)
       // Add it to the field mask, but don't add anything to updateData.
       s.push(_);else {
@@ -32402,10 +32404,10 @@ function __PRIVATE_parseUpdateData(e, t, n, r) {
 
 /** Parse update data from a list of field/value arguments. */
 function __PRIVATE_parseUpdateVarargs(e, t, n, r, i, s) {
-  const o = e.Nu(1 /* UserDataSource.Update */, t, n),
+  const o = e.Qu(1 /* UserDataSource.Update */, t, n),
     _ = [__PRIVATE_fieldPathFromArgument$1(t, r, n)],
     a = [i];
-  if (s.length % 2 != 0) throw new FirestoreError(v.INVALID_ARGUMENT, `Function ${t}() needs to be called with an even number of arguments that alternate between field names and values.`);
+  if (s.length % 2 != 0) throw new FirestoreError(D.INVALID_ARGUMENT, `Function ${t}() needs to be called with an even number of arguments that alternate between field names and values.`);
   for (let e = 0; e < s.length; e += 2) _.push(__PRIVATE_fieldPathFromArgument$1(t, s[e])), a.push(s[e + 1]);
   const u = [],
     c = ObjectValue.empty();
@@ -32417,7 +32419,7 @@ function __PRIVATE_parseUpdateVarargs(e, t, n, r, i, s) {
     // For Compat types, we have to "extract" the underlying types before
     // performing validation.
     n = (0,_firebase_util__WEBPACK_IMPORTED_MODULE_4__.getModularInstance)(n);
-    const r = o.Cu(t);
+    const r = o.Nu(t);
     if (n instanceof __PRIVATE_DeleteFieldValueImpl)
       // Add it to the field mask, but don't add anything to updateData.
       u.push(t);else {
@@ -32437,7 +32439,7 @@ function __PRIVATE_parseUpdateVarargs(e, t, n, r, i, s) {
  * contain additional arrays (e.g. the operand of an `in` query).
  */
 function __PRIVATE_parseQueryValue(e, t, n, r = !1) {
-  return __PRIVATE_parseData(n, e.Nu(r ? 4 /* UserDataSource.ArrayArgument */ : 3 /* UserDataSource.Argument */, t));
+  return __PRIVATE_parseData(n, e.Qu(r ? 4 /* UserDataSource.ArrayArgument */ : 3 /* UserDataSource.Argument */, t));
 }
 
 /**
@@ -32466,8 +32468,8 @@ function __PRIVATE_parseData(e, t) {
     */
     return function __PRIVATE_parseSentinelFieldValue(e, t) {
       // Sentinels are only supported with writes, and not within arrays.
-      if (!__PRIVATE_isWrite(t.wu)) throw t.Mu(`${e._methodName}() can only be used with update() and set()`);
-      if (!t.path) throw t.Mu(`${e._methodName}() is not currently supported inside arrays`);
+      if (!__PRIVATE_isWrite(t.Cu)) throw t.Bu(`${e._methodName}() can only be used with update() and set()`);
+      if (!t.path) throw t.Bu(`${e._methodName}() is not currently supported inside arrays`);
       const n = e._toFieldTransform(t);
       n && t.fieldTransforms.push(n);
     }
@@ -32491,12 +32493,12 @@ function __PRIVATE_parseData(e, t) {
     // the set of values to be included for the IN query) that may directly
     // contain additional arrays (each representing an individual field
     // value), so we disable this validation.
-    if (t.settings.Du && 4 /* UserDataSource.ArrayArgument */ !== t.wu) throw t.Mu("Nested arrays are not supported");
+    if (t.settings.xu && 4 /* UserDataSource.ArrayArgument */ !== t.Cu) throw t.Bu("Nested arrays are not supported");
     return function __PRIVATE_parseArray(e, t) {
       const n = [];
       let r = 0;
       for (const i of e) {
-        let e = __PRIVATE_parseData(i, t.Fu(r));
+        let e = __PRIVATE_parseData(i, t.Lu(r));
         null == e && (
         // Just include nulls in the array for fields being replaced with a
         // sentinel.
@@ -32549,7 +32551,7 @@ function __PRIVATE_parseData(e, t) {
     if (e instanceof DocumentReference) {
       const n = t.databaseId,
         r = e.firestore._databaseId;
-      if (!r.isEqual(n)) throw t.Mu(`Document reference is for database ${r.projectId}/${r.database} but should be for database ${n.projectId}/${n.database}`);
+      if (!r.isEqual(n)) throw t.Bu(`Document reference is for database ${r.projectId}/${r.database} but should be for database ${n.projectId}/${n.database}`);
       return {
         referenceValue: __PRIVATE_toResourceName(e.firestore._databaseId || t.databaseId, e._key.path)
       };
@@ -32568,7 +32570,7 @@ function __PRIVATE_parseData(e, t) {
               value: {
                 arrayValue: {
                   values: e.toArray().map(e => {
-                    if ("number" != typeof e) throw t.Mu("VectorValues must only contain numeric values.");
+                    if ("number" != typeof e) throw t.Bu("VectorValues must only contain numeric values.");
                     return __PRIVATE_toDouble(t.serializer, e);
                   })
                 }
@@ -32584,7 +32586,7 @@ function __PRIVATE_parseData(e, t) {
       * GeoPoints, etc. are not considered to look like JSON objects since they map
       * to specific FieldValue types other than ObjectValue.
       */(e, t);
-    throw t.Mu(`Unsupported field value: ${__PRIVATE_valueDescription(e)}`);
+    throw t.Bu(`Unsupported field value: ${__PRIVATE_valueDescription(e)}`);
   }(e, t);
 }
 function __PRIVATE_parseObject(e, t) {
@@ -32593,7 +32595,7 @@ function __PRIVATE_parseObject(e, t) {
   // If we encounter an empty object, we explicitly add it to the update
   // mask to ensure that the server creates a map entry.
   t.path && t.path.length > 0 && t.fieldMask.push(t.path) : forEach(e, (e, r) => {
-    const i = __PRIVATE_parseData(r, t.bu(e));
+    const i = __PRIVATE_parseData(r, t.Mu(e));
     null != i && (n[e] = i);
   }), {
     mapValue: {
@@ -32609,7 +32611,7 @@ function __PRIVATE_validatePlainObject(e, t, n) {
     return "object" == typeof e && null !== e && (Object.getPrototypeOf(e) === Object.prototype || null === Object.getPrototypeOf(e));
   }(n)) {
     const r = __PRIVATE_valueDescription(n);
-    throw "an object" === r ? t.Mu(e + " a custom object") : t.Mu(e + " " + r);
+    throw "an object" === r ? t.Bu(e + " a custom object") : t.Bu(e + " " + r);
   }
 }
 
@@ -32628,7 +32630,7 @@ function __PRIVATE_fieldPathFromArgument$1(e, t, n) {
 /**
  * Matches any characters in a field path string that are reserved.
  */
-const ve = new RegExp("[~\\*/\\[\\]]");
+const De = new RegExp("[~\\*/\\[\\]]");
 
 /**
  * Wraps fromDotSeparatedString with an error message about the method that
@@ -32640,7 +32642,7 @@ const ve = new RegExp("[~\\*/\\[\\]]");
  * evaluated.
  */
 function __PRIVATE_fieldPathFromDotSeparatedString(e, t, n) {
-  if (t.search(ve) >= 0) throw __PRIVATE_createError(`Invalid field path (${t}). Paths must not contain '~', '*', '/', '[', or ']'`, e, /* hasConverter= */!1, /* path= */void 0, n);
+  if (t.search(De) >= 0) throw __PRIVATE_createError(`Invalid field path (${t}). Paths must not contain '~', '*', '/', '[', or ']'`, e, /* hasConverter= */!1, /* path= */void 0, n);
   try {
     return new FieldPath(...t.split("."))._internalPath;
   } catch (r) {
@@ -32653,7 +32655,7 @@ function __PRIVATE_createError(e, t, n, r, i) {
   let _ = `Function ${t}() called with invalid data`;
   n && (_ += " (via `toFirestore()`)"), _ += ". ";
   let a = "";
-  return (s || o) && (a += " (found", s && (a += ` in field ${r}`), o && (a += ` in document ${i}`), a += ")"), new FirestoreError(v.INVALID_ARGUMENT, _ + e + a);
+  return (s || o) && (a += " (found", s && (a += ` in field ${r}`), o && (a += ` in document ${i}`), a += ")"), new FirestoreError(D.INVALID_ARGUMENT, _ + e + a);
 }
 
 /** Checks `haystack` if FieldPath `needle` is present. Runs in O(n). */
@@ -32797,7 +32799,7 @@ function __PRIVATE_fieldPathFromArgument(e, t) {
  * limitations under the License.
  */
 function __PRIVATE_validateHasExplicitOrderByForLimitToLast(e) {
-  if ("L" /* LimitType.Last */ === e.limitType && 0 === e.explicitOrderBy.length) throw new FirestoreError(v.UNIMPLEMENTED, "limitToLast() queries require specifying at least one orderBy() clause");
+  if ("L" /* LimitType.Last */ === e.limitType && 0 === e.explicitOrderBy.length) throw new FirestoreError(D.UNIMPLEMENTED, "limitToLast() queries require specifying at least one orderBy() clause");
 }
 
 /**
@@ -32820,7 +32822,7 @@ function query(e, t, ...n) {
   t instanceof AppliableConstraint && r.push(t), r = r.concat(n), function __PRIVATE_validateQueryConstraintArray(e) {
     const t = e.filter(e => e instanceof QueryCompositeFilterConstraint).length,
       n = e.filter(e => e instanceof QueryFieldFilterConstraint).length;
-    if (t > 1 || t > 0 && n > 0) throw new FirestoreError(v.INVALID_ARGUMENT, "InvalidQuery. When using composite filters, you cannot use more than one filter at the top level. Consider nesting the multiple filters within an `and(...)` statement. For example: change `query(query, where(...), or(...))` to `query(query, and(where(...), or(...)))`.");
+    if (t > 1 || t > 0 && n > 0) throw new FirestoreError(D.INVALID_ARGUMENT, "InvalidQuery. When using composite filters, you cannot use more than one filter at the top level. Consider nesting the multiple filters within an `and(...)` statement. For example: change `query(query, where(...), or(...))` to `query(query, and(where(...), or(...)))`.");
   }
   /**
   * @license
@@ -32875,7 +32877,7 @@ class QueryFieldFilterConstraint extends QueryConstraint {
       n = function __PRIVATE_newQueryFilter(e, t, n, r, i, s, o) {
         let _;
         if (i.isKeyField()) {
-          if ("array-contains" /* Operator.ARRAY_CONTAINS */ === s || "array-contains-any" /* Operator.ARRAY_CONTAINS_ANY */ === s) throw new FirestoreError(v.INVALID_ARGUMENT, `Invalid Query. You can't perform '${s}' queries on documentId().`);
+          if ("array-contains" /* Operator.ARRAY_CONTAINS */ === s || "array-contains-any" /* Operator.ARRAY_CONTAINS_ANY */ === s) throw new FirestoreError(D.INVALID_ARGUMENT, `Invalid Query. You can't perform '${s}' queries on documentId().`);
           if ("in" /* Operator.IN */ === s || "not-in" /* Operator.NOT_IN */ === s) {
             __PRIVATE_validateDisjunctiveFilterElements(o, s);
             const t = [];
@@ -33004,8 +33006,8 @@ class QueryOrderByConstraint extends QueryConstraint {
   }
   _apply(e) {
     const t = function __PRIVATE_newQueryOrderBy(e, t, n) {
-      if (null !== e.startAt) throw new FirestoreError(v.INVALID_ARGUMENT, "Invalid query. You must not call startAt() or startAfter() before calling orderBy().");
-      if (null !== e.endAt) throw new FirestoreError(v.INVALID_ARGUMENT, "Invalid query. You must not call endAt() or endBefore() before calling orderBy().");
+      if (null !== e.startAt) throw new FirestoreError(D.INVALID_ARGUMENT, "Invalid query. You must not call startAt() or startAfter() before calling orderBy().");
+      if (null !== e.endAt) throw new FirestoreError(D.INVALID_ARGUMENT, "Invalid query. You must not call endAt() or endBefore() before calling orderBy().");
       return new OrderBy(t, n);
     }
     /**
@@ -33160,7 +33162,7 @@ function endAt(...e) {
 /** Helper function to create a bound from a document or fields */
 function __PRIVATE_newQueryBoundFromDocOrFields(e, t, n, r) {
   if (n[0] = (0,_firebase_util__WEBPACK_IMPORTED_MODULE_4__.getModularInstance)(n[0]), n[0] instanceof DocumentSnapshot$1) return function __PRIVATE_newQueryBoundFromDocument(e, t, n, r, i) {
-    if (!r) throw new FirestoreError(v.NOT_FOUND, `Can't use a DocumentSnapshot that doesn't exist for ${n}().`);
+    if (!r) throw new FirestoreError(D.NOT_FOUND, `Can't use a DocumentSnapshot that doesn't exist for ${n}().`);
     const s = [];
     // Because people expect to continue/end a query at the exact document
     // provided, we need to use the implicit sort order rather than the explicit
@@ -33171,10 +33173,10 @@ function __PRIVATE_newQueryBoundFromDocOrFields(e, t, n, r) {
     // results.
     for (const n of __PRIVATE_queryNormalizedOrderBy(e)) if (n.field.isKeyField()) s.push(__PRIVATE_refValue(t, r.key));else {
       const e = r.data.field(n.field);
-      if (__PRIVATE_isServerTimestamp(e)) throw new FirestoreError(v.INVALID_ARGUMENT, 'Invalid query. You are trying to start or end a query using a document for which the field "' + n.field + '" is an uncommitted server timestamp. (Since the value of this field is unknown, you cannot start/end a query with it.)');
+      if (__PRIVATE_isServerTimestamp(e)) throw new FirestoreError(D.INVALID_ARGUMENT, 'Invalid query. You are trying to start or end a query using a document for which the field "' + n.field + '" is an uncommitted server timestamp. (Since the value of this field is unknown, you cannot start/end a query with it.)');
       if (null === e) {
         const e = n.field.canonicalString();
-        throw new FirestoreError(v.INVALID_ARGUMENT, `Invalid query. You are trying to start or end a query using a document for which the field '${e}' (used as the orderBy) does not exist.`);
+        throw new FirestoreError(D.INVALID_ARGUMENT, `Invalid query. You are trying to start or end a query using a document for which the field '${e}' (used as the orderBy) does not exist.`);
       }
       s.push(e);
     }
@@ -33188,15 +33190,15 @@ function __PRIVATE_newQueryBoundFromDocOrFields(e, t, n, r) {
     return function __PRIVATE_newQueryBoundFromFields(e, t, n, r, i, s) {
       // Use explicit order by's because it has to match the query the user made
       const o = e.explicitOrderBy;
-      if (i.length > o.length) throw new FirestoreError(v.INVALID_ARGUMENT, `Too many arguments provided to ${r}(). The number of arguments must be less than or equal to the number of orderBy() clauses`);
+      if (i.length > o.length) throw new FirestoreError(D.INVALID_ARGUMENT, `Too many arguments provided to ${r}(). The number of arguments must be less than or equal to the number of orderBy() clauses`);
       const _ = [];
       for (let s = 0; s < i.length; s++) {
         const a = i[s];
         if (o[s].field.isKeyField()) {
-          if ("string" != typeof a) throw new FirestoreError(v.INVALID_ARGUMENT, `Invalid query. Expected a string for document ID in ${r}(), but got a ${typeof a}`);
-          if (!__PRIVATE_isCollectionGroupQuery(e) && -1 !== a.indexOf("/")) throw new FirestoreError(v.INVALID_ARGUMENT, `Invalid query. When querying a collection and ordering by documentId(), the value passed to ${r}() must be a plain document ID, but '${a}' contains a slash.`);
+          if ("string" != typeof a) throw new FirestoreError(D.INVALID_ARGUMENT, `Invalid query. Expected a string for document ID in ${r}(), but got a ${typeof a}`);
+          if (!__PRIVATE_isCollectionGroupQuery(e) && -1 !== a.indexOf("/")) throw new FirestoreError(D.INVALID_ARGUMENT, `Invalid query. When querying a collection and ordering by documentId(), the value passed to ${r}() must be a plain document ID, but '${a}' contains a slash.`);
           const n = e.path.child(ResourcePath.fromString(a));
-          if (!DocumentKey.isDocumentKey(n)) throw new FirestoreError(v.INVALID_ARGUMENT, `Invalid query. When querying a collection group and ordering by documentId(), the value passed to ${r}() must result in a valid document path, but '${n}' is not because it contains an odd number of segments.`);
+          if (!DocumentKey.isDocumentKey(n)) throw new FirestoreError(D.INVALID_ARGUMENT, `Invalid query. When querying a collection group and ordering by documentId(), the value passed to ${r}() must result in a valid document path, but '${n}' is not because it contains an odd number of segments.`);
           const i = new DocumentKey(n);
           _.push(__PRIVATE_refValue(t, i));
         } else {
@@ -33215,14 +33217,14 @@ function __PRIVATE_newQueryBoundFromDocOrFields(e, t, n, r) {
 }
 function __PRIVATE_parseDocumentIdValue(e, t, n) {
   if ("string" == typeof (n = (0,_firebase_util__WEBPACK_IMPORTED_MODULE_4__.getModularInstance)(n))) {
-    if ("" === n) throw new FirestoreError(v.INVALID_ARGUMENT, "Invalid query. When querying with documentId(), you must provide a valid document ID, but it was an empty string.");
-    if (!__PRIVATE_isCollectionGroupQuery(t) && -1 !== n.indexOf("/")) throw new FirestoreError(v.INVALID_ARGUMENT, `Invalid query. When querying a collection by documentId(), you must provide a plain document ID, but '${n}' contains a '/' character.`);
+    if ("" === n) throw new FirestoreError(D.INVALID_ARGUMENT, "Invalid query. When querying with documentId(), you must provide a valid document ID, but it was an empty string.");
+    if (!__PRIVATE_isCollectionGroupQuery(t) && -1 !== n.indexOf("/")) throw new FirestoreError(D.INVALID_ARGUMENT, `Invalid query. When querying a collection by documentId(), you must provide a plain document ID, but '${n}' contains a '/' character.`);
     const r = t.path.child(ResourcePath.fromString(n));
-    if (!DocumentKey.isDocumentKey(r)) throw new FirestoreError(v.INVALID_ARGUMENT, `Invalid query. When querying a collection group by documentId(), the value provided must result in a valid document path, but '${r}' is not because it has an odd number of segments (${r.length}).`);
+    if (!DocumentKey.isDocumentKey(r)) throw new FirestoreError(D.INVALID_ARGUMENT, `Invalid query. When querying a collection group by documentId(), the value provided must result in a valid document path, but '${r}' is not because it has an odd number of segments (${r.length}).`);
     return __PRIVATE_refValue(e, new DocumentKey(r));
   }
   if (n instanceof DocumentReference) return __PRIVATE_refValue(e, n._key);
-  throw new FirestoreError(v.INVALID_ARGUMENT, `Invalid query. When querying with documentId(), you must provide a valid string or a DocumentReference, but it was: ${__PRIVATE_valueDescription(n)}.`);
+  throw new FirestoreError(D.INVALID_ARGUMENT, `Invalid query. When querying with documentId(), you must provide a valid string or a DocumentReference, but it was: ${__PRIVATE_valueDescription(n)}.`);
 }
 
 /**
@@ -33230,7 +33232,7 @@ function __PRIVATE_parseDocumentIdValue(e, t, n) {
  * array requirements.
  */
 function __PRIVATE_validateDisjunctiveFilterElements(e, t) {
-  if (!Array.isArray(e) || 0 === e.length) throw new FirestoreError(v.INVALID_ARGUMENT, `Invalid Query. A non-empty array is required for '${t.toString()}' filters.`);
+  if (!Array.isArray(e) || 0 === e.length) throw new FirestoreError(D.INVALID_ARGUMENT, `Invalid Query. A non-empty array is required for '${t.toString()}' filters.`);
 }
 
 /**
@@ -33262,10 +33264,10 @@ function __PRIVATE_validateNewFieldFilter(e, t) {
   }(t.op));
   if (null !== n)
     // Special case when it's a duplicate op to give a slightly clearer error message.
-    throw n === t.op ? new FirestoreError(v.INVALID_ARGUMENT, `Invalid query. You cannot use more than one '${t.op.toString()}' filter.`) : new FirestoreError(v.INVALID_ARGUMENT, `Invalid query. You cannot use '${t.op.toString()}' filters with '${n.toString()}' filters.`);
+    throw n === t.op ? new FirestoreError(D.INVALID_ARGUMENT, `Invalid query. You cannot use more than one '${t.op.toString()}' filter.`) : new FirestoreError(D.INVALID_ARGUMENT, `Invalid query. You cannot use '${t.op.toString()}' filters with '${n.toString()}' filters.`);
 }
 function __PRIVATE_validateQueryFilterConstraint(e, t) {
-  if (!(t instanceof QueryFieldFilterConstraint || t instanceof QueryCompositeFilterConstraint)) throw new FirestoreError(v.INVALID_ARGUMENT, `Function ${e}() requires AppliableConstraints created with a call to 'where(...)', 'or(...)', or 'and(...)'.`);
+  if (!(t instanceof QueryFieldFilterConstraint || t instanceof QueryCompositeFilterConstraint)) throw new FirestoreError(D.INVALID_ARGUMENT, `Function ${e}() requires AppliableConstraints created with a call to 'where(...)', 'or(...)', or 'and(...)'.`);
 }
 class AbstractUserDataWriter {
   convertValue(e, t = "none") {
@@ -33648,7 +33650,7 @@ class QuerySnapshot {
    */
   docChanges(e = {}) {
     const t = !!e.includeMetadataChanges;
-    if (t && this._snapshot.excludesMetadataChanges) throw new FirestoreError(v.INVALID_ARGUMENT, "To include metadata changes with your document changes, you must also pass { includeMetadataChanges:true } to onSnapshot().");
+    if (t && this._snapshot.excludesMetadataChanges) throw new FirestoreError(D.INVALID_ARGUMENT, "To include metadata changes with your document changes, you must also pass { includeMetadataChanges:true } to onSnapshot().");
     return this._cachedChanges && this._cachedChangesIncludeMetadataChanges === t || (this._cachedChanges = /** Calculates the array of `DocumentChange`s for a given `ViewSnapshot`. */
     function __PRIVATE_changesFromSnapshot(e, t) {
       if (e._snapshot.oldDocs.isEmpty()) {
@@ -33920,7 +33922,7 @@ function onSnapshot(e, ...t) {
     return e.asyncQueue.enqueueAndForget( /*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       return __PRIVATE_eventManagerListen(yield __PRIVATE_getEventManager(e), s);
     })), () => {
-      i.za(), e.asyncQueue.enqueueAndForget( /*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+      i.Za(), e.asyncQueue.enqueueAndForget( /*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
         return __PRIVATE_eventManagerUnlisten(yield __PRIVATE_getEventManager(e), s);
       }));
     };
@@ -34067,7 +34069,7 @@ function getAggregateFromServer(e, t) {
 }
 class __PRIVATE_MemoryLocalCacheImpl {
   constructor(e) {
-    this.kind = "memory", this._onlineComponentProvider = new OnlineComponentProvider(), (null == e ? void 0 : e.garbageCollector) ? this._offlineComponentProvider = e.garbageCollector._offlineComponentProvider : this._offlineComponentProvider = new MemoryOfflineComponentProvider();
+    this.kind = "memory", this._onlineComponentProvider = OnlineComponentProvider.provider, (null == e ? void 0 : e.garbageCollector) ? this._offlineComponentProvider = e.garbageCollector._offlineComponentProvider : this._offlineComponentProvider = __PRIVATE_MemoryOfflineComponentProvider.provider;
   }
   toJSON() {
     return {
@@ -34088,7 +34090,7 @@ class __PRIVATE_PersistentLocalCacheImpl {
 }
 class __PRIVATE_MemoryEagerGarbageCollectorImpl {
   constructor() {
-    this.kind = "memoryEager", this._offlineComponentProvider = new MemoryOfflineComponentProvider();
+    this.kind = "memoryEager", this._offlineComponentProvider = __PRIVATE_MemoryOfflineComponentProvider.provider;
   }
   toJSON() {
     return {
@@ -34098,7 +34100,9 @@ class __PRIVATE_MemoryEagerGarbageCollectorImpl {
 }
 class __PRIVATE_MemoryLruGarbageCollectorImpl {
   constructor(e) {
-    this.kind = "memoryLru", this._offlineComponentProvider = new __PRIVATE_LruGcMemoryOfflineComponentProvider(e);
+    this.kind = "memoryLru", this._offlineComponentProvider = {
+      build: () => new __PRIVATE_LruGcMemoryOfflineComponentProvider(e)
+    };
   }
   toJSON() {
     return {
@@ -34156,7 +34160,9 @@ class __PRIVATE_SingleTabManagerImpl {
    * @internal
    */
   _initialize(e) {
-    this._onlineComponentProvider = new OnlineComponentProvider(), this._offlineComponentProvider = new __PRIVATE_IndexedDbOfflineComponentProvider(this._onlineComponentProvider, null == e ? void 0 : e.cacheSizeBytes, this.forceOwnership);
+    this._onlineComponentProvider = OnlineComponentProvider.provider, this._offlineComponentProvider = {
+      build: t => new __PRIVATE_IndexedDbOfflineComponentProvider(t, null == e ? void 0 : e.cacheSizeBytes, this.forceOwnership)
+    };
   }
 }
 class __PRIVATE_MultiTabManagerImpl {
@@ -34172,7 +34178,9 @@ class __PRIVATE_MultiTabManagerImpl {
    * @internal
    */
   _initialize(e) {
-    this._onlineComponentProvider = new OnlineComponentProvider(), this._offlineComponentProvider = new __PRIVATE_MultiTabOfflineComponentProvider(this._onlineComponentProvider, null == e ? void 0 : e.cacheSizeBytes);
+    this._onlineComponentProvider = OnlineComponentProvider.provider, this._offlineComponentProvider = {
+      build: t => new __PRIVATE_MultiTabOfflineComponentProvider(t, null == e ? void 0 : e.cacheSizeBytes)
+    };
   }
 }
 
@@ -34208,7 +34216,7 @@ function persistentMultipleTabManager() {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-const Ce = {
+const ve = {
   maxAttempts: 5
 };
 
@@ -34283,11 +34291,11 @@ class WriteBatch {
     return this._verifyNotCommitted(), this._committed = !0, this._mutations.length > 0 ? this._commitHandler(this._mutations) : Promise.resolve();
   }
   _verifyNotCommitted() {
-    if (this._committed) throw new FirestoreError(v.FAILED_PRECONDITION, "A write batch can no longer be used after commit() has been called.");
+    if (this._committed) throw new FirestoreError(D.FAILED_PRECONDITION, "A write batch can no longer be used after commit() has been called.");
   }
 }
 function __PRIVATE_validateReference(e, t) {
-  if ((e = (0,_firebase_util__WEBPACK_IMPORTED_MODULE_4__.getModularInstance)(e)).firestore !== t) throw new FirestoreError(v.INVALID_ARGUMENT, "Provided document reference is from a different Firestore instance.");
+  if ((e = (0,_firebase_util__WEBPACK_IMPORTED_MODULE_4__.getModularInstance)(e)).firestore !== t) throw new FirestoreError(D.INVALID_ARGUMENT, "Provided document reference is from a different Firestore instance.");
   return e;
 }
 
@@ -34425,15 +34433,15 @@ class Transaction extends class Transaction$1 {
  */
 function runTransaction(e, t, n) {
   e = __PRIVATE_cast(e, Firestore);
-  const r = Object.assign(Object.assign({}, Ce), n);
+  const r = Object.assign(Object.assign({}, ve), n);
   !function __PRIVATE_validateTransactionOptions(e) {
-    if (e.maxAttempts < 1) throw new FirestoreError(v.INVALID_ARGUMENT, "Max attempts must be at least 1");
+    if (e.maxAttempts < 1) throw new FirestoreError(D.INVALID_ARGUMENT, "Max attempts must be at least 1");
   }(r);
   return function __PRIVATE_firestoreClientTransaction(e, t, n) {
     const r = new __PRIVATE_Deferred();
     return e.asyncQueue.enqueueAndForget( /*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       const i = yield __PRIVATE_getDatastore(e);
-      new __PRIVATE_TransactionRunner(e.asyncQueue, i, n, t, r).ru();
+      new __PRIVATE_TransactionRunner(e.asyncQueue, i, n, t, r).au();
     })), r.promise;
   }(ensureFirestoreConfigured(e), n => t(new Transaction(e, n)), r);
 }
@@ -34587,18 +34595,17 @@ function writeBatch(e) {
  * limitations under the License.
  */
 function setIndexConfiguration(e, t) {
-  var n;
-  const r = ensureFirestoreConfigured(e = __PRIVATE_cast(e, Firestore));
-  if (!r._uninitializedComponentsProvider || "memory" === (null === (n = r._uninitializedComponentsProvider) || void 0 === n ? void 0 : n._offlineKind))
+  const n = ensureFirestoreConfigured(e = __PRIVATE_cast(e, Firestore));
+  if (!n._uninitializedComponentsProvider || "memory" === n._uninitializedComponentsProvider._offline.kind)
     // PORTING NOTE: We don't return an error if the user has not enabled
     // persistence since `enableIndexeddbPersistence()` can fail on the Web.
     return __PRIVATE_logWarn("Cannot enable indexes when persistence is disabled"), Promise.resolve();
-  const i = function __PRIVATE_parseIndexes(e) {
+  const r = function __PRIVATE_parseIndexes(e) {
     const t = "string" == typeof e ? function __PRIVATE_tryParseJson(e) {
         try {
           return JSON.parse(e);
         } catch (e) {
-          throw new FirestoreError(v.INVALID_ARGUMENT, "Failed to parse JSON: " + (null == e ? void 0 : e.message));
+          throw new FirestoreError(D.INVALID_ARGUMENT, "Failed to parse JSON: " + (null == e ? void 0 : e.message));
         }
       }(e) : e,
       n = [];
@@ -34613,10 +34620,10 @@ function setIndexConfiguration(e, t) {
     }
     return n;
   }(t);
-  return __PRIVATE_firestoreClientSetIndexConfiguration(r, i);
+  return __PRIVATE_firestoreClientSetIndexConfiguration(n, r);
 }
 function __PRIVATE_tryGetString(e, t) {
-  if ("string" != typeof e[t]) throw new FirestoreError(v.INVALID_ARGUMENT, "Missing string value for: " + t);
+  if ("string" != typeof e[t]) throw new FirestoreError(D.INVALID_ARGUMENT, "Missing string value for: " + t);
   return e[t];
 }
 
@@ -34645,7 +34652,7 @@ function __PRIVATE_tryGetString(e, t) {
 class PersistentCacheIndexManager {
   /** @hideconstructor */
   constructor(e) {
-    this._client = e, /** A type string to uniquely identify instances of this class. */
+    this._firestore = e, /** A type string to uniquely identify instances of this class. */
     this.type = "PersistentCacheIndexManager";
   }
 }
@@ -34660,12 +34667,11 @@ class PersistentCacheIndexManager {
 function getPersistentCacheIndexManager(e) {
   var t;
   e = __PRIVATE_cast(e, Firestore);
-  const n = Fe.get(e);
+  const n = Ce.get(e);
   if (n) return n;
-  const r = ensureFirestoreConfigured(e);
-  if ("persistent" !== (null === (t = r._uninitializedComponentsProvider) || void 0 === t ? void 0 : t._offlineKind)) return null;
-  const i = new PersistentCacheIndexManager(r);
-  return Fe.set(e, i), i;
+  if ("persistent" !== (null === (t = ensureFirestoreConfigured(e)._uninitializedComponentsProvider) || void 0 === t ? void 0 : t._offline.kind)) return null;
+  const r = new PersistentCacheIndexManager(e);
+  return Ce.set(e, r), r;
 }
 
 /**
@@ -34695,12 +34701,10 @@ function disablePersistentCacheIndexAutoCreation(e) {
  * `setIndexConfiguration()`, which is deprecated.
  */
 function deleteAllPersistentCacheIndexes(e) {
-  e._client.verifyNotTerminated();
-  __PRIVATE_firestoreClientDeleteAllFieldIndexes(e._client).then(e => __PRIVATE_logDebug("deleting all persistent cache indexes succeeded")).catch(e => __PRIVATE_logWarn("deleting all persistent cache indexes failed", e));
+  __PRIVATE_firestoreClientDeleteAllFieldIndexes(ensureFirestoreConfigured(e._firestore)).then(e => __PRIVATE_logDebug("deleting all persistent cache indexes succeeded")).catch(e => __PRIVATE_logWarn("deleting all persistent cache indexes failed", e));
 }
 function __PRIVATE_setPersistentCacheIndexAutoCreationEnabled(e, t) {
-  e._client.verifyNotTerminated();
-  __PRIVATE_firestoreClientSetPersistentCacheIndexAutoCreationEnabled(e._client, t).then(e => __PRIVATE_logDebug(`setting persistent cache index auto creation isEnabled=${t} succeeded`)).catch(e => __PRIVATE_logWarn(`setting persistent cache index auto creation isEnabled=${t} failed`, e));
+  __PRIVATE_firestoreClientSetPersistentCacheIndexAutoCreationEnabled(ensureFirestoreConfigured(e._firestore), t).then(e => __PRIVATE_logDebug(`setting persistent cache index auto creation isEnabled=${t} succeeded`)).catch(e => __PRIVATE_logWarn(`setting persistent cache index auto creation isEnabled=${t} failed`, e));
 }
 
 /**
@@ -34711,7 +34715,7 @@ function __PRIVATE_setPersistentCacheIndexAutoCreationEnabled(e, t) {
  * `Firestore` instance is garbage collected. This emulates a private member
  * as described in https://goo.gle/454yvug.
  */
-const Fe = new WeakMap();
+const Ce = new WeakMap();
 
 /**
  * @license
@@ -34820,24 +34824,24 @@ class TestingHooks {
  */
 class __PRIVATE_TestingHooksSpiImpl {
   constructor() {
-    this.ku = new Map();
+    this.Uu = new Map();
   }
   static get instance() {
-    return Me || (Me = new __PRIVATE_TestingHooksSpiImpl(), function __PRIVATE_setTestingHooksSpi(e) {
-      if (Ie) throw new Error("a TestingHooksSpi instance is already set");
-      Ie = e;
-    }(Me)), Me;
+    return Fe || (Fe = new __PRIVATE_TestingHooksSpiImpl(), function __PRIVATE_setTestingHooksSpi(e) {
+      if (Pe) throw new Error("a TestingHooksSpi instance is already set");
+      Pe = e;
+    }(Fe)), Fe;
   }
   et(e) {
-    this.ku.forEach(t => t(e));
+    this.Uu.forEach(t => t(e));
   }
   onExistenceFilterMismatch(e) {
     const t = Symbol(),
-      n = this.ku;
+      n = this.Uu;
     return n.set(t, e), () => n.delete(t);
   }
 }
-let Me = null;
+let Fe = null;
 
 /**
  * Cloud Firestore
@@ -34846,22 +34850,22 @@ let Me = null;
  */
 !function __PRIVATE_registerFirestore(e, t = !0) {
   !function __PRIVATE_setSDKVersion(e) {
-    b = e;
+    S = e;
   }(_firebase_app__WEBPACK_IMPORTED_MODULE_1__.SDK_VERSION), (0,_firebase_app__WEBPACK_IMPORTED_MODULE_1__._registerComponent)(new _firebase_component__WEBPACK_IMPORTED_MODULE_2__.Component("firestore", (e, {
     instanceIdentifier: n,
     options: r
   }) => {
     const i = e.getProvider("app").getImmediate(),
       s = new Firestore(new __PRIVATE_FirebaseAuthCredentialsProvider(e.getProvider("auth-internal")), new __PRIVATE_FirebaseAppCheckTokenProvider(e.getProvider("app-check-internal")), function __PRIVATE_databaseIdFromApp(e, t) {
-        if (!Object.prototype.hasOwnProperty.apply(e.options, ["projectId"])) throw new FirestoreError(v.INVALID_ARGUMENT, '"projectId" not provided in firebase.initializeApp.');
+        if (!Object.prototype.hasOwnProperty.apply(e.options, ["projectId"])) throw new FirestoreError(D.INVALID_ARGUMENT, '"projectId" not provided in firebase.initializeApp.');
         return new DatabaseId(e.options.projectId, t);
       }(i, n), i);
     return r = Object.assign({
       useFetchStreams: t
     }, r), s._setSettings(r), s;
-  }, "PUBLIC").setMultipleInstances(!0)), (0,_firebase_app__WEBPACK_IMPORTED_MODULE_1__.registerVersion)(S, "4.7.1", e),
+  }, "PUBLIC").setMultipleInstances(!0)), (0,_firebase_app__WEBPACK_IMPORTED_MODULE_1__.registerVersion)(w, "4.7.3", e),
   // BUILD_TARGET will be replaced by values like esm5, esm2017, cjs5, etc during the compilation
-  (0,_firebase_app__WEBPACK_IMPORTED_MODULE_1__.registerVersion)(S, "4.7.1", "esm2017");
+  (0,_firebase_app__WEBPACK_IMPORTED_MODULE_1__.registerVersion)(w, "4.7.3", "esm2017");
 }();
 
 
@@ -34913,6 +34917,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   isAdmin: () => (/* binding */ isAdmin),
 /* harmony export */   isBrowser: () => (/* binding */ isBrowser),
 /* harmony export */   isBrowserExtension: () => (/* binding */ isBrowserExtension),
+/* harmony export */   isCloudflareWorker: () => (/* binding */ isCloudflareWorker),
 /* harmony export */   isElectron: () => (/* binding */ isElectron),
 /* harmony export */   isEmpty: () => (/* binding */ isEmpty),
 /* harmony export */   isIE: () => (/* binding */ isIE),
@@ -35568,7 +35573,7 @@ class Deferred {
     });
   }
   /**
-   * Our API internals are not promiseified and cannot because our callback APIs have subtle expectations around
+   * Our API internals are not promisified and cannot because our callback APIs have subtle expectations around
    * invoking promises inline, which Promises are forbidden to do. This method accepts an optional node-style callback
    * and returns a node-style callback which will resolve or reject the Deferred's promise.
    */
@@ -35706,16 +35711,25 @@ function isNode() {
   }
 }
 /**
- * Detect Browser Environment
+ * Detect Browser Environment.
+ * Note: This will return true for certain test frameworks that are incompletely
+ * mimicking a browser, and should not lead to assuming all browser APIs are
+ * available.
  */
 function isBrowser() {
   return typeof window !== 'undefined' || isWebWorker();
 }
 /**
- * Detect Web Worker context
+ * Detect Web Worker context.
  */
 function isWebWorker() {
   return typeof WorkerGlobalScope !== 'undefined' && typeof self !== 'undefined' && self instanceof WorkerGlobalScope;
+}
+/**
+ * Detect Cloudflare Worker context.
+ */
+function isCloudflareWorker() {
+  return typeof navigator !== 'undefined' && navigator.userAgent === 'Cloudflare-Workers';
 }
 function isBrowserExtension() {
   const runtime = typeof chrome === 'object' ? chrome.runtime : typeof browser === 'object' ? browser.runtime : undefined;
@@ -35831,7 +35845,7 @@ function areCookiesEnabled() {
  *
  * Usage:
  *
- *   // Typescript string literals for type-safe codes
+ *   // TypeScript string literals for type-safe codes
  *   type Err =
  *     'unknown' |
  *     'object-not-found'
@@ -35940,7 +35954,7 @@ function jsonEval(str) {
 }
 /**
  * Returns JSON representing a javascript object.
- * @param {*} data Javascript object to be stringified.
+ * @param {*} data JavaScript object to be stringified.
  * @return {string} The JSON contents of the object.
  */
 function stringify(data) {
@@ -36522,7 +36536,7 @@ class ObserverProxy {
   /**
    * Subscribe function that can be used to add an Observer to the fan-out list.
    *
-   * - We require that no event is sent to a subscriber sychronously to their
+   * - We require that no event is sent to a subscriber synchronously to their
    *   call to subscribe().
    */
   subscribe(nextOrObserver, error, complete) {
@@ -36764,7 +36778,7 @@ function validateContextObject(fnName, argumentName, context, optional) {
 // so it's been modified.
 // Note that not all Unicode characters appear as single characters in JavaScript strings.
 // fromCharCode returns the UTF-16 encoding of a character - so some Unicode characters
-// use 2 characters in Javascript.  All 4-byte UTF-8 characters begin with a first
+// use 2 characters in JavaScript.  All 4-byte UTF-8 characters begin with a first
 // character in the range 0xD800 - 0xDBFF (the first character of a so-called surrogate
 // pair).
 // See http://www.ecma-international.org/ecma-262/5.1/#sec-15.1.3
@@ -40348,7 +40362,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common */ 60316);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ 37580);
 /**
- * @license Angular v18.2.4
+ * @license Angular v18.2.13
  * (c) 2010-2024 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -41385,14 +41399,18 @@ function stagger(timings, animation) {
  * @publicApi
  */
 class AnimationBuilder {
-  static #_ = this.ɵfac = function AnimationBuilder_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || AnimationBuilder)();
-  };
-  static #_2 = this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjectable"]({
-    token: AnimationBuilder,
-    factory: () => (() => (0,_angular_core__WEBPACK_IMPORTED_MODULE_0__.inject)(BrowserAnimationBuilder))(),
-    providedIn: 'root'
-  });
+  static {
+    this.ɵfac = function AnimationBuilder_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || AnimationBuilder)();
+    };
+  }
+  static {
+    this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjectable"]({
+      token: AnimationBuilder,
+      factory: () => (() => (0,_angular_core__WEBPACK_IMPORTED_MODULE_0__.inject)(BrowserAnimationBuilder))(),
+      providedIn: 'root'
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](AnimationBuilder, [{
@@ -41439,14 +41457,18 @@ class BrowserAnimationBuilder extends AnimationBuilder {
     issueAnimationCommand(this._renderer, null, id, 'register', [entry]);
     return new BrowserAnimationFactory(id, this._renderer);
   }
-  static #_ = this.ɵfac = function BrowserAnimationBuilder_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || BrowserAnimationBuilder)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_angular_core__WEBPACK_IMPORTED_MODULE_0__.RendererFactory2), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_angular_common__WEBPACK_IMPORTED_MODULE_1__.DOCUMENT));
-  };
-  static #_2 = this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjectable"]({
-    token: BrowserAnimationBuilder,
-    factory: BrowserAnimationBuilder.ɵfac,
-    providedIn: 'root'
-  });
+  static {
+    this.ɵfac = function BrowserAnimationBuilder_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || BrowserAnimationBuilder)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_angular_core__WEBPACK_IMPORTED_MODULE_0__.RendererFactory2), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_angular_common__WEBPACK_IMPORTED_MODULE_1__.DOCUMENT));
+    };
+  }
+  static {
+    this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjectable"]({
+      token: BrowserAnimationBuilder,
+      factory: BrowserAnimationBuilder.ɵfac,
+      providedIn: 'root'
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](BrowserAnimationBuilder, [{
@@ -41846,7 +41868,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_animations__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/animations */ 47172);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ 37580);
 /**
- * @license Angular v18.2.4
+ * @license Angular v18.2.13
  * (c) 2010-2024 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -42174,13 +42196,17 @@ class NoopAnimationDriver {
   animate(element, keyframes, duration, delay, easing, previousPlayers = [], scrubberAccessRequested) {
     return new _angular_animations__WEBPACK_IMPORTED_MODULE_1__.NoopAnimationPlayer(duration, delay);
   }
-  static #_ = this.ɵfac = function NoopAnimationDriver_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || NoopAnimationDriver)();
-  };
-  static #_2 = this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjectable"]({
-    token: NoopAnimationDriver,
-    factory: NoopAnimationDriver.ɵfac
-  });
+  static {
+    this.ɵfac = function NoopAnimationDriver_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || NoopAnimationDriver)();
+    };
+  }
+  static {
+    this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjectable"]({
+      token: NoopAnimationDriver,
+      factory: NoopAnimationDriver.ɵfac
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](NoopAnimationDriver, [{
@@ -42194,7 +42220,9 @@ class AnimationDriver {
   /**
    * @deprecated Use the NoopAnimationDriver class.
    */
-  static #_ = this.NOOP = new NoopAnimationDriver();
+  static {
+    this.NOOP = new NoopAnimationDriver();
+  }
 }
 class AnimationStyleNormalizer {}
 class NoopAnimationStyleNormalizer {
@@ -45723,7 +45751,9 @@ function packageNonAnimatableStyles(element, styles) {
  * `destroy()` is called then all styles will be removed.
  */
 class SpecialCasedStyles {
-  static #_ = this.initialStylesByElement = new WeakMap();
+  static {
+    this.initialStylesByElement = new WeakMap();
+  }
   constructor(_element, _startStyles, _endStyles) {
     this._element = _element;
     this._startStyles = _startStyles;
@@ -46427,7 +46457,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ 37580);
 
 /**
- * @license Angular v18.2.4
+ * @license Angular v18.2.13
  * (c) 2010-2024 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -46456,14 +46486,18 @@ class DomAdapter {}
  * implementations.
  */
 class PlatformNavigation {
-  static #_ = this.ɵfac = function PlatformNavigation_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || PlatformNavigation)();
-  };
-  static #_2 = this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
-    token: PlatformNavigation,
-    factory: () => (() => window.navigation)(),
-    providedIn: 'platform'
-  });
+  static {
+    this.ɵfac = function PlatformNavigation_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || PlatformNavigation)();
+    };
+  }
+  static {
+    this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
+      token: PlatformNavigation,
+      factory: () => (() => window.navigation)(),
+      providedIn: 'platform'
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](PlatformNavigation, [{
@@ -46510,14 +46544,18 @@ class PlatformLocation {
   historyGo(relativePosition) {
     throw new Error(ngDevMode ? 'Not implemented' : '');
   }
-  static #_ = this.ɵfac = function PlatformLocation_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || PlatformLocation)();
-  };
-  static #_2 = this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
-    token: PlatformLocation,
-    factory: () => (() => (0,_angular_core__WEBPACK_IMPORTED_MODULE_1__.inject)(BrowserPlatformLocation))(),
-    providedIn: 'platform'
-  });
+  static {
+    this.ɵfac = function PlatformLocation_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || PlatformLocation)();
+    };
+  }
+  static {
+    this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
+      token: PlatformLocation,
+      factory: () => (() => (0,_angular_core__WEBPACK_IMPORTED_MODULE_1__.inject)(BrowserPlatformLocation))(),
+      providedIn: 'platform'
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](PlatformLocation, [{
@@ -46604,14 +46642,18 @@ class BrowserPlatformLocation extends PlatformLocation {
   getState() {
     return this._history.state;
   }
-  static #_ = this.ɵfac = function BrowserPlatformLocation_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || BrowserPlatformLocation)();
-  };
-  static #_2 = this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
-    token: BrowserPlatformLocation,
-    factory: () => (() => new BrowserPlatformLocation())(),
-    providedIn: 'platform'
-  });
+  static {
+    this.ɵfac = function BrowserPlatformLocation_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || BrowserPlatformLocation)();
+    };
+  }
+  static {
+    this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
+      token: BrowserPlatformLocation,
+      factory: () => (() => new BrowserPlatformLocation())(),
+      providedIn: 'platform'
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](BrowserPlatformLocation, [{
@@ -46689,7 +46731,7 @@ function normalizeQueryParams(params) {
  * interact with application route state.
  *
  * For instance, `HashLocationStrategy` produces URLs like
- * <code class="no-auto-link">http://example.com#/foo</code>,
+ * <code class="no-auto-link">http://example.com/#/foo</code>,
  * and `PathLocationStrategy` produces
  * <code class="no-auto-link">http://example.com/foo</code> as an equivalent URL.
  *
@@ -46701,14 +46743,18 @@ class LocationStrategy {
   historyGo(relativePosition) {
     throw new Error(ngDevMode ? 'Not implemented' : '');
   }
-  static #_ = this.ɵfac = function LocationStrategy_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || LocationStrategy)();
-  };
-  static #_2 = this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
-    token: LocationStrategy,
-    factory: () => (() => (0,_angular_core__WEBPACK_IMPORTED_MODULE_1__.inject)(PathLocationStrategy))(),
-    providedIn: 'root'
-  });
+  static {
+    this.ɵfac = function LocationStrategy_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || LocationStrategy)();
+    };
+  }
+  static {
+    this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
+      token: LocationStrategy,
+      factory: () => (() => (0,_angular_core__WEBPACK_IMPORTED_MODULE_1__.inject)(PathLocationStrategy))(),
+      providedIn: 'root'
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](LocationStrategy, [{
@@ -46821,14 +46867,18 @@ class PathLocationStrategy extends LocationStrategy {
   historyGo(relativePosition = 0) {
     this._platformLocation.historyGo?.(relativePosition);
   }
-  static #_ = this.ɵfac = function PathLocationStrategy_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || PathLocationStrategy)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](PlatformLocation), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](APP_BASE_HREF, 8));
-  };
-  static #_2 = this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
-    token: PathLocationStrategy,
-    factory: PathLocationStrategy.ɵfac,
-    providedIn: 'root'
-  });
+  static {
+    this.ɵfac = function PathLocationStrategy_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || PathLocationStrategy)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](PlatformLocation), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](APP_BASE_HREF, 8));
+    };
+  }
+  static {
+    this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
+      token: PathLocationStrategy,
+      factory: PathLocationStrategy.ɵfac,
+      providedIn: 'root'
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](PathLocationStrategy, [{
@@ -46925,13 +46975,17 @@ class HashLocationStrategy extends LocationStrategy {
   historyGo(relativePosition = 0) {
     this._platformLocation.historyGo?.(relativePosition);
   }
-  static #_ = this.ɵfac = function HashLocationStrategy_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || HashLocationStrategy)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](PlatformLocation), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](APP_BASE_HREF, 8));
-  };
-  static #_2 = this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
-    token: HashLocationStrategy,
-    factory: HashLocationStrategy.ɵfac
-  });
+  static {
+    this.ɵfac = function HashLocationStrategy_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || HashLocationStrategy)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](PlatformLocation), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](APP_BASE_HREF, 8));
+    };
+  }
+  static {
+    this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
+      token: HashLocationStrategy,
+      factory: HashLocationStrategy.ɵfac
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](HashLocationStrategy, [{
@@ -47170,7 +47224,9 @@ class Location {
    *
    * @returns The normalized URL parameters string.
    */
-  static #_ = this.normalizeQueryParams = normalizeQueryParams;
+  static {
+    this.normalizeQueryParams = normalizeQueryParams;
+  }
   /**
    * Joins two parts of a URL with a slash if needed.
    *
@@ -47180,7 +47236,9 @@ class Location {
    *
    * @returns The joined URL string.
    */
-  static #_2 = this.joinWithSlash = joinWithSlash;
+  static {
+    this.joinWithSlash = joinWithSlash;
+  }
   /**
    * Removes a trailing slash from a URL string if needed.
    * Looks for the first occurrence of either `#`, `?`, or the end of the
@@ -47190,15 +47248,21 @@ class Location {
    *
    * @returns The URL string, modified if needed.
    */
-  static #_3 = this.stripTrailingSlash = stripTrailingSlash;
-  static #_4 = this.ɵfac = function Location_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || Location)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](LocationStrategy));
-  };
-  static #_5 = this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
-    token: Location,
-    factory: () => createLocation(),
-    providedIn: 'root'
-  });
+  static {
+    this.stripTrailingSlash = stripTrailingSlash;
+  }
+  static {
+    this.ɵfac = function Location_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || Location)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](LocationStrategy));
+    };
+  }
+  static {
+    this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
+      token: Location,
+      factory: () => createLocation(),
+      providedIn: 'root'
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](Location, [{
@@ -49188,22 +49252,26 @@ function parseIntAutoRadix(text) {
  * @publicApi
  */
 class NgLocalization {
-  static #_ = this.ɵfac = function NgLocalization_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || NgLocalization)();
-  };
-  static #_2 = this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
-    token: NgLocalization,
-    factory: function NgLocalization_Factory(__ngFactoryType__) {
-      let __ngConditionalFactory__ = null;
-      if (__ngFactoryType__) {
-        __ngConditionalFactory__ = new __ngFactoryType__();
-      } else {
-        __ngConditionalFactory__ = (locale => new NgLocaleLocalization(locale))(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.LOCALE_ID));
-      }
-      return __ngConditionalFactory__;
-    },
-    providedIn: 'root'
-  });
+  static {
+    this.ɵfac = function NgLocalization_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || NgLocalization)();
+    };
+  }
+  static {
+    this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
+      token: NgLocalization,
+      factory: function NgLocalization_Factory(__ngFactoryType__) {
+        let __ngConditionalFactory__ = null;
+        if (__ngFactoryType__) {
+          __ngConditionalFactory__ = new __ngFactoryType__();
+        } else {
+          __ngConditionalFactory__ = (locale => new NgLocaleLocalization(locale))(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.LOCALE_ID));
+        }
+        return __ngConditionalFactory__;
+      },
+      providedIn: 'root'
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](NgLocalization, [{
@@ -49261,13 +49329,17 @@ class NgLocaleLocalization extends NgLocalization {
         return 'other';
     }
   }
-  static #_ = this.ɵfac = function NgLocaleLocalization_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || NgLocaleLocalization)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.LOCALE_ID));
-  };
-  static #_2 = this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
-    token: NgLocaleLocalization,
-    factory: NgLocaleLocalization.ɵfac
-  });
+  static {
+    this.ɵfac = function NgLocaleLocalization_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || NgLocaleLocalization)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.LOCALE_ID));
+    };
+  }
+  static {
+    this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
+      token: NgLocaleLocalization,
+      factory: NgLocaleLocalization.ɵfac
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](NgLocaleLocalization, [{
@@ -49438,18 +49510,22 @@ class NgClass {
       });
     }
   }
-  static #_ = this.ɵfac = function NgClass_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || NgClass)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.ElementRef), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.Renderer2));
-  };
-  static #_2 = this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineDirective"]({
-    type: NgClass,
-    selectors: [["", "ngClass", ""]],
-    inputs: {
-      klass: [0, "class", "klass"],
-      ngClass: "ngClass"
-    },
-    standalone: true
-  });
+  static {
+    this.ɵfac = function NgClass_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || NgClass)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.ElementRef), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.Renderer2));
+    };
+  }
+  static {
+    this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineDirective"]({
+      type: NgClass,
+      selectors: [["", "ngClass", ""]],
+      inputs: {
+        klass: [0, "class", "klass"],
+        ngClass: "ngClass"
+      },
+      standalone: true
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](NgClass, [{
@@ -49620,23 +49696,27 @@ class NgComponentOutlet {
       }
     }
   }
-  static #_ = this.ɵfac = function NgComponentOutlet_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || NgComponentOutlet)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.ViewContainerRef));
-  };
-  static #_2 = this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineDirective"]({
-    type: NgComponentOutlet,
-    selectors: [["", "ngComponentOutlet", ""]],
-    inputs: {
-      ngComponentOutlet: "ngComponentOutlet",
-      ngComponentOutletInputs: "ngComponentOutletInputs",
-      ngComponentOutletInjector: "ngComponentOutletInjector",
-      ngComponentOutletContent: "ngComponentOutletContent",
-      ngComponentOutletNgModule: "ngComponentOutletNgModule",
-      ngComponentOutletNgModuleFactory: "ngComponentOutletNgModuleFactory"
-    },
-    standalone: true,
-    features: [_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵNgOnChangesFeature"]]
-  });
+  static {
+    this.ɵfac = function NgComponentOutlet_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || NgComponentOutlet)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.ViewContainerRef));
+    };
+  }
+  static {
+    this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineDirective"]({
+      type: NgComponentOutlet,
+      selectors: [["", "ngComponentOutlet", ""]],
+      inputs: {
+        ngComponentOutlet: "ngComponentOutlet",
+        ngComponentOutletInputs: "ngComponentOutletInputs",
+        ngComponentOutletInjector: "ngComponentOutletInjector",
+        ngComponentOutletContent: "ngComponentOutletContent",
+        ngComponentOutletNgModule: "ngComponentOutletNgModule",
+        ngComponentOutletNgModuleFactory: "ngComponentOutletNgModuleFactory"
+      },
+      standalone: true,
+      features: [_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵNgOnChangesFeature"]]
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](NgComponentOutlet, [{
@@ -49678,21 +49758,34 @@ function getParentInjector(injector) {
  * @publicApi
  */
 class NgForOfContext {
-  constructor($implicit, ngForOf, index, count) {
+  constructor( /** Reference to the current item from the collection. */
+  $implicit,
+  /**
+   * The value of the iterable expression. Useful when the expression is
+   * more complex then a property access, for example when using the async pipe
+   * (`userStreams | async`).
+   */
+  ngForOf, /** Returns an index of the current item in the collection. */
+  index, /** Returns total amount of items in the collection. */
+  count) {
     this.$implicit = $implicit;
     this.ngForOf = ngForOf;
     this.index = index;
     this.count = count;
   }
+  // Indicates whether this is the first item in the collection.
   get first() {
     return this.index === 0;
   }
+  // Indicates whether this is the last item in the collection.
   get last() {
     return this.index === this.count - 1;
   }
+  // Indicates whether an index of this item in the collection is even.
   get even() {
     return this.index % 2 === 0;
   }
+  // Indicates whether an index of this item in the collection is odd.
   get odd() {
     return !this.even;
   }
@@ -49922,19 +50015,23 @@ class NgForOf {
   static ngTemplateContextGuard(dir, ctx) {
     return true;
   }
-  static #_ = this.ɵfac = function NgForOf_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || NgForOf)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.ViewContainerRef), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.TemplateRef), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.IterableDiffers));
-  };
-  static #_2 = this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineDirective"]({
-    type: NgForOf,
-    selectors: [["", "ngFor", "", "ngForOf", ""]],
-    inputs: {
-      ngForOf: "ngForOf",
-      ngForTrackBy: "ngForTrackBy",
-      ngForTemplate: "ngForTemplate"
-    },
-    standalone: true
-  });
+  static {
+    this.ɵfac = function NgForOf_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || NgForOf)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.ViewContainerRef), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.TemplateRef), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.IterableDiffers));
+    };
+  }
+  static {
+    this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineDirective"]({
+      type: NgForOf,
+      selectors: [["", "ngFor", "", "ngForOf", ""]],
+      inputs: {
+        ngForOf: "ngForOf",
+        ngForTrackBy: "ngForTrackBy",
+        ngForTemplate: "ngForTemplate"
+      },
+      standalone: true
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](NgForOf, [{
@@ -50170,19 +50267,23 @@ class NgIf {
   static ngTemplateContextGuard(dir, ctx) {
     return true;
   }
-  static #_ = this.ɵfac = function NgIf_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || NgIf)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.ViewContainerRef), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.TemplateRef));
-  };
-  static #_2 = this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineDirective"]({
-    type: NgIf,
-    selectors: [["", "ngIf", ""]],
-    inputs: {
-      ngIf: "ngIf",
-      ngIfThen: "ngIfThen",
-      ngIfElse: "ngIfElse"
-    },
-    standalone: true
-  });
+  static {
+    this.ɵfac = function NgIf_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || NgIf)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.ViewContainerRef), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.TemplateRef));
+    };
+  }
+  static {
+    this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineDirective"]({
+      type: NgIf,
+      selectors: [["", "ngIf", ""]],
+      inputs: {
+        ngIf: "ngIf",
+        ngIfThen: "ngIfThen",
+        ngIfElse: "ngIfElse"
+      },
+      standalone: true
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](NgIf, [{
@@ -50352,17 +50453,21 @@ class NgSwitch {
       }
     }
   }
-  static #_ = this.ɵfac = function NgSwitch_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || NgSwitch)();
-  };
-  static #_2 = this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineDirective"]({
-    type: NgSwitch,
-    selectors: [["", "ngSwitch", ""]],
-    inputs: {
-      ngSwitch: "ngSwitch"
-    },
-    standalone: true
-  });
+  static {
+    this.ɵfac = function NgSwitch_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || NgSwitch)();
+    };
+  }
+  static {
+    this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineDirective"]({
+      type: NgSwitch,
+      selectors: [["", "ngSwitch", ""]],
+      inputs: {
+        ngSwitch: "ngSwitch"
+      },
+      standalone: true
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](NgSwitch, [{
@@ -50426,17 +50531,21 @@ class NgSwitchCase {
   ngDoCheck() {
     this._view.enforceState(this.ngSwitch._matchCase(this.ngSwitchCase));
   }
-  static #_ = this.ɵfac = function NgSwitchCase_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || NgSwitchCase)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.ViewContainerRef), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.TemplateRef), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](NgSwitch, 9));
-  };
-  static #_2 = this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineDirective"]({
-    type: NgSwitchCase,
-    selectors: [["", "ngSwitchCase", ""]],
-    inputs: {
-      ngSwitchCase: "ngSwitchCase"
-    },
-    standalone: true
-  });
+  static {
+    this.ɵfac = function NgSwitchCase_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || NgSwitchCase)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.ViewContainerRef), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.TemplateRef), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](NgSwitch, 9));
+    };
+  }
+  static {
+    this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineDirective"]({
+      type: NgSwitchCase,
+      selectors: [["", "ngSwitchCase", ""]],
+      inputs: {
+        ngSwitchCase: "ngSwitchCase"
+      },
+      standalone: true
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](NgSwitchCase, [{
@@ -50483,14 +50592,18 @@ class NgSwitchDefault {
     }
     ngSwitch._addDefault(new SwitchView(viewContainer, templateRef));
   }
-  static #_ = this.ɵfac = function NgSwitchDefault_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || NgSwitchDefault)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.ViewContainerRef), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.TemplateRef), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](NgSwitch, 9));
-  };
-  static #_2 = this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineDirective"]({
-    type: NgSwitchDefault,
-    selectors: [["", "ngSwitchDefault", ""]],
-    standalone: true
-  });
+  static {
+    this.ɵfac = function NgSwitchDefault_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || NgSwitchDefault)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.ViewContainerRef), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.TemplateRef), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](NgSwitch, 9));
+    };
+  }
+  static {
+    this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineDirective"]({
+      type: NgSwitchDefault,
+      selectors: [["", "ngSwitchDefault", ""]],
+      standalone: true
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](NgSwitchDefault, [{
@@ -50576,17 +50689,21 @@ class NgPlural {
       this._activeView.create();
     }
   }
-  static #_ = this.ɵfac = function NgPlural_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || NgPlural)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](NgLocalization));
-  };
-  static #_2 = this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineDirective"]({
-    type: NgPlural,
-    selectors: [["", "ngPlural", ""]],
-    inputs: {
-      ngPlural: "ngPlural"
-    },
-    standalone: true
-  });
+  static {
+    this.ɵfac = function NgPlural_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || NgPlural)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](NgLocalization));
+    };
+  }
+  static {
+    this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineDirective"]({
+      type: NgPlural,
+      selectors: [["", "ngPlural", ""]],
+      inputs: {
+        ngPlural: "ngPlural"
+      },
+      standalone: true
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](NgPlural, [{
@@ -50629,14 +50746,18 @@ class NgPluralCase {
     const isANumber = !isNaN(Number(value));
     ngPlural.addCase(isANumber ? `=${value}` : value, new SwitchView(viewContainer, template));
   }
-  static #_ = this.ɵfac = function NgPluralCase_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || NgPluralCase)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinjectAttribute"]('ngPluralCase'), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.TemplateRef), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.ViewContainerRef), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](NgPlural, 1));
-  };
-  static #_2 = this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineDirective"]({
-    type: NgPluralCase,
-    selectors: [["", "ngPluralCase", ""]],
-    standalone: true
-  });
+  static {
+    this.ɵfac = function NgPluralCase_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || NgPluralCase)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinjectAttribute"]('ngPluralCase'), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.TemplateRef), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.ViewContainerRef), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](NgPlural, 1));
+    };
+  }
+  static {
+    this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineDirective"]({
+      type: NgPluralCase,
+      selectors: [["", "ngPluralCase", ""]],
+      standalone: true
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](NgPluralCase, [{
@@ -50735,17 +50856,21 @@ class NgStyle {
     changes.forEachAddedItem(record => this._setStyle(record.key, record.currentValue));
     changes.forEachChangedItem(record => this._setStyle(record.key, record.currentValue));
   }
-  static #_ = this.ɵfac = function NgStyle_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || NgStyle)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.ElementRef), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.KeyValueDiffers), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.Renderer2));
-  };
-  static #_2 = this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineDirective"]({
-    type: NgStyle,
-    selectors: [["", "ngStyle", ""]],
-    inputs: {
-      ngStyle: "ngStyle"
-    },
-    standalone: true
-  });
+  static {
+    this.ɵfac = function NgStyle_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || NgStyle)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.ElementRef), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.KeyValueDiffers), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.Renderer2));
+    };
+  }
+  static {
+    this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineDirective"]({
+      type: NgStyle,
+      selectors: [["", "ngStyle", ""]],
+      inputs: {
+        ngStyle: "ngStyle"
+      },
+      standalone: true
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](NgStyle, [{
@@ -50858,20 +50983,24 @@ class NgTemplateOutlet {
       }
     });
   }
-  static #_ = this.ɵfac = function NgTemplateOutlet_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || NgTemplateOutlet)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.ViewContainerRef));
-  };
-  static #_2 = this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineDirective"]({
-    type: NgTemplateOutlet,
-    selectors: [["", "ngTemplateOutlet", ""]],
-    inputs: {
-      ngTemplateOutletContext: "ngTemplateOutletContext",
-      ngTemplateOutlet: "ngTemplateOutlet",
-      ngTemplateOutletInjector: "ngTemplateOutletInjector"
-    },
-    standalone: true,
-    features: [_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵNgOnChangesFeature"]]
-  });
+  static {
+    this.ɵfac = function NgTemplateOutlet_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || NgTemplateOutlet)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.ViewContainerRef));
+    };
+  }
+  static {
+    this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineDirective"]({
+      type: NgTemplateOutlet,
+      selectors: [["", "ngTemplateOutlet", ""]],
+      inputs: {
+        ngTemplateOutletContext: "ngTemplateOutletContext",
+        ngTemplateOutlet: "ngTemplateOutlet",
+        ngTemplateOutletInjector: "ngTemplateOutletInjector"
+      },
+      standalone: true,
+      features: [_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵNgOnChangesFeature"]]
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](NgTemplateOutlet, [{
@@ -51034,15 +51163,19 @@ class AsyncPipe {
       }
     }
   }
-  static #_ = this.ɵfac = function AsyncPipe_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || AsyncPipe)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.ChangeDetectorRef, 16));
-  };
-  static #_2 = this.ɵpipe = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefinePipe"]({
-    name: "async",
-    type: AsyncPipe,
-    pure: false,
-    standalone: true
-  });
+  static {
+    this.ɵfac = function AsyncPipe_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || AsyncPipe)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.ChangeDetectorRef, 16));
+    };
+  }
+  static {
+    this.ɵpipe = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefinePipe"]({
+      name: "async",
+      type: AsyncPipe,
+      pure: false,
+      standalone: true
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](AsyncPipe, [{
@@ -51080,15 +51213,19 @@ class LowerCasePipe {
     }
     return value.toLowerCase();
   }
-  static #_ = this.ɵfac = function LowerCasePipe_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || LowerCasePipe)();
-  };
-  static #_2 = this.ɵpipe = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefinePipe"]({
-    name: "lowercase",
-    type: LowerCasePipe,
-    pure: true,
-    standalone: true
-  });
+  static {
+    this.ɵfac = function LowerCasePipe_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || LowerCasePipe)();
+    };
+  }
+  static {
+    this.ɵpipe = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefinePipe"]({
+      name: "lowercase",
+      type: LowerCasePipe,
+      pure: true,
+      standalone: true
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](LowerCasePipe, [{
@@ -51133,15 +51270,19 @@ class TitleCasePipe {
     }
     return value.replace(unicodeWordMatch, txt => txt[0].toUpperCase() + txt.slice(1).toLowerCase());
   }
-  static #_ = this.ɵfac = function TitleCasePipe_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || TitleCasePipe)();
-  };
-  static #_2 = this.ɵpipe = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefinePipe"]({
-    name: "titlecase",
-    type: TitleCasePipe,
-    pure: true,
-    standalone: true
-  });
+  static {
+    this.ɵfac = function TitleCasePipe_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || TitleCasePipe)();
+    };
+  }
+  static {
+    this.ɵpipe = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefinePipe"]({
+      name: "titlecase",
+      type: TitleCasePipe,
+      pure: true,
+      standalone: true
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](TitleCasePipe, [{
@@ -51168,15 +51309,19 @@ class UpperCasePipe {
     }
     return value.toUpperCase();
   }
-  static #_ = this.ɵfac = function UpperCasePipe_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || UpperCasePipe)();
-  };
-  static #_2 = this.ɵpipe = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefinePipe"]({
-    name: "uppercase",
-    type: UpperCasePipe,
-    pure: true,
-    standalone: true
-  });
+  static {
+    this.ɵfac = function UpperCasePipe_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || UpperCasePipe)();
+    };
+  }
+  static {
+    this.ɵpipe = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefinePipe"]({
+      name: "uppercase",
+      type: UpperCasePipe,
+      pure: true,
+      standalone: true
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](UpperCasePipe, [{
@@ -51407,15 +51552,19 @@ class DatePipe {
       throw invalidPipeArgumentError(DatePipe, error.message);
     }
   }
-  static #_ = this.ɵfac = function DatePipe_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || DatePipe)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.LOCALE_ID, 16), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](DATE_PIPE_DEFAULT_TIMEZONE, 24), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](DATE_PIPE_DEFAULT_OPTIONS, 24));
-  };
-  static #_2 = this.ɵpipe = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefinePipe"]({
-    name: "date",
-    type: DatePipe,
-    pure: true,
-    standalone: true
-  });
+  static {
+    this.ɵfac = function DatePipe_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || DatePipe)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.LOCALE_ID, 16), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](DATE_PIPE_DEFAULT_TIMEZONE, 24), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](DATE_PIPE_DEFAULT_OPTIONS, 24));
+    };
+  }
+  static {
+    this.ɵpipe = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefinePipe"]({
+      name: "date",
+      type: DatePipe,
+      pure: true,
+      standalone: true
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](DatePipe, [{
@@ -51482,15 +51631,19 @@ class I18nPluralPipe {
     const key = getPluralCategory(value, Object.keys(pluralMap), this._localization, locale);
     return pluralMap[key].replace(_INTERPOLATION_REGEXP, value.toString());
   }
-  static #_ = this.ɵfac = function I18nPluralPipe_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || I18nPluralPipe)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](NgLocalization, 16));
-  };
-  static #_2 = this.ɵpipe = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefinePipe"]({
-    name: "i18nPlural",
-    type: I18nPluralPipe,
-    pure: true,
-    standalone: true
-  });
+  static {
+    this.ɵfac = function I18nPluralPipe_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || I18nPluralPipe)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](NgLocalization, 16));
+    };
+  }
+  static {
+    this.ɵpipe = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefinePipe"]({
+      name: "i18nPlural",
+      type: I18nPluralPipe,
+      pure: true,
+      standalone: true
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](I18nPluralPipe, [{
@@ -51540,15 +51693,19 @@ class I18nSelectPipe {
     }
     return '';
   }
-  static #_ = this.ɵfac = function I18nSelectPipe_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || I18nSelectPipe)();
-  };
-  static #_2 = this.ɵpipe = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefinePipe"]({
-    name: "i18nSelect",
-    type: I18nSelectPipe,
-    pure: true,
-    standalone: true
-  });
+  static {
+    this.ɵfac = function I18nSelectPipe_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || I18nSelectPipe)();
+    };
+  }
+  static {
+    this.ɵpipe = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefinePipe"]({
+      name: "i18nSelect",
+      type: I18nSelectPipe,
+      pure: true,
+      standalone: true
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](I18nSelectPipe, [{
@@ -51582,15 +51739,19 @@ class JsonPipe {
   transform(value) {
     return JSON.stringify(value, null, 2);
   }
-  static #_ = this.ɵfac = function JsonPipe_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || JsonPipe)();
-  };
-  static #_2 = this.ɵpipe = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefinePipe"]({
-    name: "json",
-    type: JsonPipe,
-    pure: false,
-    standalone: true
-  });
+  static {
+    this.ɵfac = function JsonPipe_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || JsonPipe)();
+    };
+  }
+  static {
+    this.ɵpipe = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefinePipe"]({
+      name: "json",
+      type: JsonPipe,
+      pure: false,
+      standalone: true
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](JsonPipe, [{
@@ -51654,15 +51815,19 @@ class KeyValuePipe {
     }
     return this.keyValues;
   }
-  static #_ = this.ɵfac = function KeyValuePipe_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || KeyValuePipe)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.KeyValueDiffers, 16));
-  };
-  static #_2 = this.ɵpipe = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefinePipe"]({
-    name: "keyvalue",
-    type: KeyValuePipe,
-    pure: false,
-    standalone: true
-  });
+  static {
+    this.ɵfac = function KeyValuePipe_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || KeyValuePipe)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.KeyValueDiffers, 16));
+    };
+  }
+  static {
+    this.ɵpipe = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefinePipe"]({
+      name: "keyvalue",
+      type: KeyValuePipe,
+      pure: false,
+      standalone: true
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](KeyValuePipe, [{
@@ -51769,13 +51934,6 @@ class DecimalPipe {
   constructor(_locale) {
     this._locale = _locale;
   }
-  /**
-   * @param value The value to be formatted.
-   * @param digitsInfo Sets digit and decimal representation.
-   * [See more](#digitsinfo).
-   * @param locale Specifies what locale format rules to use.
-   * [See more](#locale).
-   */
   transform(value, digitsInfo, locale) {
     if (!isValue(value)) return null;
     locale ||= this._locale;
@@ -51786,15 +51944,19 @@ class DecimalPipe {
       throw invalidPipeArgumentError(DecimalPipe, error.message);
     }
   }
-  static #_ = this.ɵfac = function DecimalPipe_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || DecimalPipe)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.LOCALE_ID, 16));
-  };
-  static #_2 = this.ɵpipe = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefinePipe"]({
-    name: "number",
-    type: DecimalPipe,
-    pure: true,
-    standalone: true
-  });
+  static {
+    this.ɵfac = function DecimalPipe_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || DecimalPipe)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.LOCALE_ID, 16));
+    };
+  }
+  static {
+    this.ɵpipe = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefinePipe"]({
+      name: "number",
+      type: DecimalPipe,
+      pure: true,
+      standalone: true
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](DecimalPipe, [{
@@ -51861,15 +52023,19 @@ class PercentPipe {
       throw invalidPipeArgumentError(PercentPipe, error.message);
     }
   }
-  static #_ = this.ɵfac = function PercentPipe_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || PercentPipe)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.LOCALE_ID, 16));
-  };
-  static #_2 = this.ɵpipe = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefinePipe"]({
-    name: "percent",
-    type: PercentPipe,
-    pure: true,
-    standalone: true
-  });
+  static {
+    this.ɵfac = function PercentPipe_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || PercentPipe)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.LOCALE_ID, 16));
+    };
+  }
+  static {
+    this.ɵpipe = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefinePipe"]({
+      name: "percent",
+      type: PercentPipe,
+      pure: true,
+      standalone: true
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](PercentPipe, [{
@@ -51912,39 +52078,6 @@ class CurrencyPipe {
     this._locale = _locale;
     this._defaultCurrencyCode = _defaultCurrencyCode;
   }
-  /**
-   *
-   * @param value The number to be formatted as currency.
-   * @param currencyCode The [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) currency code,
-   * such as `USD` for the US dollar and `EUR` for the euro. The default currency code can be
-   * configured using the `DEFAULT_CURRENCY_CODE` injection token.
-   * @param display The format for the currency indicator. One of the following:
-   *   - `code`: Show the code (such as `USD`).
-   *   - `symbol`(default): Show the symbol (such as `$`).
-   *   - `symbol-narrow`: Use the narrow symbol for locales that have two symbols for their
-   * currency.
-   * For example, the Canadian dollar CAD has the symbol `CA$` and the symbol-narrow `$`. If the
-   * locale has no narrow symbol, uses the standard symbol for the locale.
-   *   - String: Use the given string value instead of a code or a symbol.
-   * For example, an empty string will suppress the currency & symbol.
-   *   - Boolean (marked deprecated in v5): `true` for symbol and false for `code`.
-   *
-   * @param digitsInfo Decimal representation options, specified by a string
-   * in the following format:<br>
-   * <code>{minIntegerDigits}.{minFractionDigits}-{maxFractionDigits}</code>.
-   *   - `minIntegerDigits`: The minimum number of integer digits before the decimal point.
-   * Default is `1`.
-   *   - `minFractionDigits`: The minimum number of digits after the decimal point.
-   * Default is `2`.
-   *   - `maxFractionDigits`: The maximum number of digits after the decimal point.
-   * Default is `2`.
-   * If not provided, the number will be formatted with the proper amount of digits,
-   * depending on what the [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) specifies.
-   * For example, the Canadian dollar has 2 digits, whereas the Chilean peso has none.
-   * @param locale A locale code for the locale format rules to use.
-   * When not supplied, uses the value of `LOCALE_ID`, which is `en-US` by default.
-   * See [Setting your app locale](guide/i18n/locale-id).
-   */
   transform(value, currencyCode = this._defaultCurrencyCode, display = 'symbol', digitsInfo, locale) {
     if (!isValue(value)) return null;
     locale ||= this._locale;
@@ -51969,15 +52102,19 @@ class CurrencyPipe {
       throw invalidPipeArgumentError(CurrencyPipe, error.message);
     }
   }
-  static #_ = this.ɵfac = function CurrencyPipe_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || CurrencyPipe)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.LOCALE_ID, 16), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.DEFAULT_CURRENCY_CODE, 16));
-  };
-  static #_2 = this.ɵpipe = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefinePipe"]({
-    name: "currency",
-    type: CurrencyPipe,
-    pure: true,
-    standalone: true
-  });
+  static {
+    this.ɵfac = function CurrencyPipe_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || CurrencyPipe)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.LOCALE_ID, 16), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.DEFAULT_CURRENCY_CODE, 16));
+    };
+  }
+  static {
+    this.ɵpipe = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefinePipe"]({
+      name: "currency",
+      type: CurrencyPipe,
+      pure: true,
+      standalone: true
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](CurrencyPipe, [{
@@ -52063,15 +52200,19 @@ class SlicePipe {
   supports(obj) {
     return typeof obj === 'string' || Array.isArray(obj);
   }
-  static #_ = this.ɵfac = function SlicePipe_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || SlicePipe)();
-  };
-  static #_2 = this.ɵpipe = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefinePipe"]({
-    name: "slice",
-    type: SlicePipe,
-    pure: false,
-    standalone: true
-  });
+  static {
+    this.ɵfac = function SlicePipe_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || SlicePipe)();
+    };
+  }
+  static {
+    this.ɵpipe = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefinePipe"]({
+      name: "slice",
+      type: SlicePipe,
+      pure: false,
+      standalone: true
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](SlicePipe, [{
@@ -52105,13 +52246,19 @@ const COMMON_PIPES = [AsyncPipe, UpperCasePipe, LowerCasePipe, JsonPipe, SlicePi
  * @publicApi
  */
 class CommonModule {
-  static #_ = this.ɵfac = function CommonModule_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || CommonModule)();
-  };
-  static #_2 = this.ɵmod = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineNgModule"]({
-    type: CommonModule
-  });
-  static #_3 = this.ɵinj = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjector"]({});
+  static {
+    this.ɵfac = function CommonModule_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || CommonModule)();
+    };
+  }
+  static {
+    this.ɵmod = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineNgModule"]({
+      type: CommonModule
+    });
+  }
+  static {
+    this.ɵinj = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjector"]({});
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](CommonModule, [{
@@ -52147,7 +52294,7 @@ function isPlatformServer(platformId) {
 /**
  * @publicApi
  */
-const VERSION = new _angular_core__WEBPACK_IMPORTED_MODULE_1__.Version('18.2.4');
+const VERSION = new _angular_core__WEBPACK_IMPORTED_MODULE_1__.Version('18.2.13');
 
 /**
  * Defines a scroll position manager. Implemented by `BrowserViewportScroller`.
@@ -52158,11 +52305,13 @@ class ViewportScroller {
   // De-sugared tree-shakable injection
   // See #23917
   /** @nocollapse */
-  static #_ = this.ɵprov = (0,_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"])({
-    token: ViewportScroller,
-    providedIn: 'root',
-    factory: () => isPlatformBrowser((0,_angular_core__WEBPACK_IMPORTED_MODULE_1__.inject)(_angular_core__WEBPACK_IMPORTED_MODULE_1__.PLATFORM_ID)) ? new BrowserViewportScroller((0,_angular_core__WEBPACK_IMPORTED_MODULE_1__.inject)(DOCUMENT), window) : new NullViewportScroller()
-  });
+  static {
+    this.ɵprov = (0,_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"])({
+      token: ViewportScroller,
+      providedIn: 'root',
+      factory: () => isPlatformBrowser((0,_angular_core__WEBPACK_IMPORTED_MODULE_1__.inject)(_angular_core__WEBPACK_IMPORTED_MODULE_1__.PLATFORM_ID)) ? new BrowserViewportScroller((0,_angular_core__WEBPACK_IMPORTED_MODULE_1__.inject)(DOCUMENT), window) : new NullViewportScroller()
+    });
+  }
 }
 /**
  * Manages the scroll position for a browser window.
@@ -52736,14 +52885,18 @@ class LCPImageObserver {
     this.observer.disconnect();
     this.images.clear();
   }
-  static #_ = this.ɵfac = function LCPImageObserver_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || LCPImageObserver)();
-  };
-  static #_2 = this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
-    token: LCPImageObserver,
-    factory: LCPImageObserver.ɵfac,
-    providedIn: 'root'
-  });
+  static {
+    this.ɵfac = function LCPImageObserver_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || LCPImageObserver)();
+    };
+  }
+  static {
+    this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
+      token: LCPImageObserver,
+      factory: LCPImageObserver.ɵfac,
+      providedIn: 'root'
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](LCPImageObserver, [{
@@ -52862,14 +53015,18 @@ class PreconnectLinkChecker {
     this.preconnectLinks?.clear();
     this.alreadySeen.clear();
   }
-  static #_ = this.ɵfac = function PreconnectLinkChecker_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || PreconnectLinkChecker)();
-  };
-  static #_2 = this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
-    token: PreconnectLinkChecker,
-    factory: PreconnectLinkChecker.ɵfac,
-    providedIn: 'root'
-  });
+  static {
+    this.ɵfac = function PreconnectLinkChecker_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || PreconnectLinkChecker)();
+    };
+  }
+  static {
+    this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
+      token: PreconnectLinkChecker,
+      factory: PreconnectLinkChecker.ɵfac,
+      providedIn: 'root'
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](PreconnectLinkChecker, [{
@@ -52960,14 +53117,18 @@ class PreloadLinkCreator {
     }
     renderer.appendChild(this.document.head, preload);
   }
-  static #_ = this.ɵfac = function PreloadLinkCreator_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || PreloadLinkCreator)();
-  };
-  static #_2 = this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
-    token: PreloadLinkCreator,
-    factory: PreloadLinkCreator.ɵfac,
-    providedIn: 'root'
-  });
+  static {
+    this.ɵfac = function PreloadLinkCreator_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || PreloadLinkCreator)();
+    };
+  }
+  static {
+    this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
+      token: PreloadLinkCreator,
+      factory: PreloadLinkCreator.ɵfac,
+      providedIn: 'root'
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](PreloadLinkCreator, [{
@@ -53153,7 +53314,7 @@ function resetImagePriorityCount() {
  *   {
  *      provide: IMAGE_LOADER,
  *      useValue: (config: ImageLoaderConfig) => {
- *        return `https://example.com/${config.src}-${config.width}.jpg}`;
+ *        return `https://example.com/${config.src}-${config.width}.jpg`;
  *      }
  *   },
  * ],
@@ -53438,6 +53599,7 @@ class NgOptimizedImage {
     };
     const removeLoadListenerFn = this.renderer.listen(img, 'load', callback);
     const removeErrorListenerFn = this.renderer.listen(img, 'error', callback);
+    callOnLoadIfImageIsLoaded(img, callback);
   }
   /** @nodoc */
   ngOnDestroy() {
@@ -53450,37 +53612,41 @@ class NgOptimizedImage {
   setHostAttribute(name, value) {
     this.renderer.setAttribute(this.imgElement, name, value);
   }
-  static #_ = this.ɵfac = function NgOptimizedImage_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || NgOptimizedImage)();
-  };
-  static #_2 = this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineDirective"]({
-    type: NgOptimizedImage,
-    selectors: [["img", "ngSrc", ""]],
-    hostVars: 18,
-    hostBindings: function NgOptimizedImage_HostBindings(rf, ctx) {
-      if (rf & 2) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵstyleProp"]("position", ctx.fill ? "absolute" : null)("width", ctx.fill ? "100%" : null)("height", ctx.fill ? "100%" : null)("inset", ctx.fill ? "0" : null)("background-size", ctx.placeholder ? "cover" : null)("background-position", ctx.placeholder ? "50% 50%" : null)("background-repeat", ctx.placeholder ? "no-repeat" : null)("background-image", ctx.placeholder ? ctx.generatePlaceholder(ctx.placeholder) : null)("filter", ctx.placeholder && ctx.shouldBlurPlaceholder(ctx.placeholderConfig) ? "blur(15px)" : null);
-      }
-    },
-    inputs: {
-      ngSrc: [2, "ngSrc", "ngSrc", unwrapSafeUrl],
-      ngSrcset: "ngSrcset",
-      sizes: "sizes",
-      width: [2, "width", "width", _angular_core__WEBPACK_IMPORTED_MODULE_1__.numberAttribute],
-      height: [2, "height", "height", _angular_core__WEBPACK_IMPORTED_MODULE_1__.numberAttribute],
-      loading: "loading",
-      priority: [2, "priority", "priority", _angular_core__WEBPACK_IMPORTED_MODULE_1__.booleanAttribute],
-      loaderParams: "loaderParams",
-      disableOptimizedSrcset: [2, "disableOptimizedSrcset", "disableOptimizedSrcset", _angular_core__WEBPACK_IMPORTED_MODULE_1__.booleanAttribute],
-      fill: [2, "fill", "fill", _angular_core__WEBPACK_IMPORTED_MODULE_1__.booleanAttribute],
-      placeholder: [2, "placeholder", "placeholder", booleanOrUrlAttribute],
-      placeholderConfig: "placeholderConfig",
-      src: "src",
-      srcset: "srcset"
-    },
-    standalone: true,
-    features: [_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵInputTransformsFeature"], _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵNgOnChangesFeature"]]
-  });
+  static {
+    this.ɵfac = function NgOptimizedImage_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || NgOptimizedImage)();
+    };
+  }
+  static {
+    this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineDirective"]({
+      type: NgOptimizedImage,
+      selectors: [["img", "ngSrc", ""]],
+      hostVars: 18,
+      hostBindings: function NgOptimizedImage_HostBindings(rf, ctx) {
+        if (rf & 2) {
+          _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵstyleProp"]("position", ctx.fill ? "absolute" : null)("width", ctx.fill ? "100%" : null)("height", ctx.fill ? "100%" : null)("inset", ctx.fill ? "0" : null)("background-size", ctx.placeholder ? "cover" : null)("background-position", ctx.placeholder ? "50% 50%" : null)("background-repeat", ctx.placeholder ? "no-repeat" : null)("background-image", ctx.placeholder ? ctx.generatePlaceholder(ctx.placeholder) : null)("filter", ctx.placeholder && ctx.shouldBlurPlaceholder(ctx.placeholderConfig) ? "blur(15px)" : null);
+        }
+      },
+      inputs: {
+        ngSrc: [2, "ngSrc", "ngSrc", unwrapSafeUrl],
+        ngSrcset: "ngSrcset",
+        sizes: "sizes",
+        width: [2, "width", "width", _angular_core__WEBPACK_IMPORTED_MODULE_1__.numberAttribute],
+        height: [2, "height", "height", _angular_core__WEBPACK_IMPORTED_MODULE_1__.numberAttribute],
+        loading: "loading",
+        priority: [2, "priority", "priority", _angular_core__WEBPACK_IMPORTED_MODULE_1__.booleanAttribute],
+        loaderParams: "loaderParams",
+        disableOptimizedSrcset: [2, "disableOptimizedSrcset", "disableOptimizedSrcset", _angular_core__WEBPACK_IMPORTED_MODULE_1__.booleanAttribute],
+        fill: [2, "fill", "fill", _angular_core__WEBPACK_IMPORTED_MODULE_1__.booleanAttribute],
+        placeholder: [2, "placeholder", "placeholder", booleanOrUrlAttribute],
+        placeholderConfig: "placeholderConfig",
+        src: "src",
+        srcset: "srcset"
+      },
+      standalone: true,
+      features: [_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵInputTransformsFeature"], _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵNgOnChangesFeature"]]
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](NgOptimizedImage, [{
@@ -53742,7 +53908,7 @@ function assertGreaterThanZero(dir, inputValue, inputName) {
  * - Whether image styling is "correct" (see below for a longer explanation).
  */
 function assertNoImageDistortion(dir, img, renderer) {
-  const removeLoadListenerFn = renderer.listen(img, 'load', () => {
+  const callback = () => {
     removeLoadListenerFn();
     removeErrorListenerFn();
     const computedStyle = window.getComputedStyle(img);
@@ -53786,7 +53952,8 @@ function assertNoImageDistortion(dir, img, renderer) {
         console.warn((0,_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵformatRuntimeError"])(2960 /* RuntimeErrorCode.OVERSIZED_IMAGE */, `${imgDirectiveDetails(dir.ngSrc)} the intrinsic image is significantly ` + `larger than necessary. ` + `\nRendered image size: ${renderedWidth}w x ${renderedHeight}h. ` + `\nIntrinsic image size: ${intrinsicWidth}w x ${intrinsicHeight}h. ` + `\nRecommended intrinsic image size: ${recommendedWidth}w x ${recommendedHeight}h. ` + `\nNote: Recommended intrinsic image size is calculated assuming a maximum DPR of ` + `${RECOMMENDED_SRCSET_DENSITY_CAP}. To improve loading time, resize the image ` + `or consider using the "ngSrcset" and "sizes" attributes.`));
       }
     }
-  });
+  };
+  const removeLoadListenerFn = renderer.listen(img, 'load', callback);
   // We only listen to the `error` event to remove the `load` event listener because it will not be
   // fired if the image fails to load. This is done to prevent memory leaks in development mode
   // because image elements aren't garbage-collected properly. It happens because zone.js stores the
@@ -53795,6 +53962,7 @@ function assertNoImageDistortion(dir, img, renderer) {
     removeLoadListenerFn();
     removeErrorListenerFn();
   });
+  callOnLoadIfImageIsLoaded(img, callback);
 }
 /**
  * Verifies that a specified input is set.
@@ -53821,19 +53989,21 @@ function assertEmptyWidthAndHeight(dir) {
  * guidance that this can be caused by the containing element's CSS position property.
  */
 function assertNonZeroRenderedHeight(dir, img, renderer) {
-  const removeLoadListenerFn = renderer.listen(img, 'load', () => {
+  const callback = () => {
     removeLoadListenerFn();
     removeErrorListenerFn();
     const renderedHeight = img.clientHeight;
     if (dir.fill && renderedHeight === 0) {
       console.warn((0,_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵformatRuntimeError"])(2952 /* RuntimeErrorCode.INVALID_INPUT */, `${imgDirectiveDetails(dir.ngSrc)} the height of the fill-mode image is zero. ` + `This is likely because the containing element does not have the CSS 'position' ` + `property set to one of the following: "relative", "fixed", or "absolute". ` + `To fix this problem, make sure the container element has the CSS 'position' ` + `property defined and the height of the element is not zero.`));
     }
-  });
+  };
+  const removeLoadListenerFn = renderer.listen(img, 'load', callback);
   // See comments in the `assertNoImageDistortion`.
   const removeErrorListenerFn = renderer.listen(img, 'error', () => {
     removeLoadListenerFn();
     removeErrorListenerFn();
   });
+  callOnLoadIfImageIsLoaded(img, callback);
 }
 /**
  * Verifies that the `loading` attribute is set to a valid input &
@@ -53919,6 +54089,21 @@ function assertPlaceholderDimensions(dir, imgElement) {
   let renderedHeight = parseFloat(computedStyle.getPropertyValue('height'));
   if (renderedWidth > PLACEHOLDER_DIMENSION_LIMIT || renderedHeight > PLACEHOLDER_DIMENSION_LIMIT) {
     console.warn((0,_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵformatRuntimeError"])(2967 /* RuntimeErrorCode.PLACEHOLDER_DIMENSION_LIMIT_EXCEEDED */, `${imgDirectiveDetails(dir.ngSrc)} it uses a placeholder image, but at least one ` + `of the dimensions attribute (height or width) exceeds the limit of ${PLACEHOLDER_DIMENSION_LIMIT}px. ` + `To fix this, use a smaller image as a placeholder.`));
+  }
+}
+function callOnLoadIfImageIsLoaded(img, callback) {
+  // https://html.spec.whatwg.org/multipage/embedded-content.html#dom-img-complete
+  // The spec defines that `complete` is truthy once its request state is fully available.
+  // The image may already be available if it’s loaded from the browser cache.
+  // In that case, the `load` event will not fire at all, meaning that all setup
+  // callbacks listening for the `load` event will not be invoked.
+  // In Safari, there is a known behavior where the `complete` property of an
+  // `HTMLImageElement` may sometimes return `true` even when the image is not fully loaded.
+  // Checking both `img.complete` and `img.naturalWidth` is the most reliable way to
+  // determine if an image has been fully loaded, especially in browsers where the
+  // `complete` property may return `true` prematurely.
+  if (img.complete && img.naturalWidth) {
+    callback();
   }
 }
 function round(input) {
@@ -54027,7 +54212,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/common */ 60316);
 
 /**
- * @license Angular v18.2.4
+ * @license Angular v18.2.13
  * (c) 2010-2024 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -55482,13 +55667,17 @@ class HttpClient {
   put(url, body, options = {}) {
     return this.request('PUT', url, addBody(options, body));
   }
-  static #_ = this.ɵfac = function HttpClient_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || HttpClient)(_angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵinject"](HttpHandler));
-  };
-  static #_2 = this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵdefineInjectable"]({
-    token: HttpClient,
-    factory: HttpClient.ɵfac
-  });
+  static {
+    this.ɵfac = function HttpClient_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || HttpClient)(_angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵinject"](HttpHandler));
+    };
+  }
+  static {
+    this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵdefineInjectable"]({
+      token: HttpClient,
+      factory: HttpClient.ɵfac
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵsetClassMetadata"](HttpClient, [{
@@ -55723,13 +55912,17 @@ class FetchBackend {
     }
     return chunksAll;
   }
-  static #_ = this.ɵfac = function FetchBackend_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || FetchBackend)();
-  };
-  static #_2 = this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵdefineInjectable"]({
-    token: FetchBackend,
-    factory: FetchBackend.ɵfac
-  });
+  static {
+    this.ɵfac = function FetchBackend_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || FetchBackend)();
+    };
+  }
+  static {
+    this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵdefineInjectable"]({
+      token: FetchBackend,
+      factory: FetchBackend.ɵfac
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵsetClassMetadata"](FetchBackend, [{
@@ -55858,13 +56051,17 @@ class HttpInterceptorHandler extends HttpHandler {
       return this.chain(initialRequest, downstreamRequest => this.backend.handle(downstreamRequest));
     }
   }
-  static #_ = this.ɵfac = function HttpInterceptorHandler_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || HttpInterceptorHandler)(_angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵinject"](HttpBackend), _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵinject"](_angular_core__WEBPACK_IMPORTED_MODULE_5__.EnvironmentInjector));
-  };
-  static #_2 = this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵdefineInjectable"]({
-    token: HttpInterceptorHandler,
-    factory: HttpInterceptorHandler.ɵfac
-  });
+  static {
+    this.ɵfac = function HttpInterceptorHandler_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || HttpInterceptorHandler)(_angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵinject"](HttpBackend), _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵinject"](_angular_core__WEBPACK_IMPORTED_MODULE_5__.EnvironmentInjector));
+    };
+  }
+  static {
+    this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵdefineInjectable"]({
+      token: HttpInterceptorHandler,
+      factory: HttpInterceptorHandler.ɵfac
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵsetClassMetadata"](HttpInterceptorHandler, [{
@@ -55990,6 +56187,8 @@ class JsonpClientBackend {
       // the response callback from the window. This logic is used in both the
       // success, error, and cancellation paths, so it's extracted out for convenience.
       const cleanup = () => {
+        node.removeEventListener('load', onLoad);
+        node.removeEventListener('error', onError);
         // Remove the <script> tag if it's still on the page.
         node.remove();
         // Remove the response callback from the callbackMap (window object in the
@@ -56070,13 +56269,17 @@ class JsonpClientBackend {
     foreignDocument ??= this.document.implementation.createHTMLDocument();
     foreignDocument.adoptNode(script);
   }
-  static #_ = this.ɵfac = function JsonpClientBackend_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || JsonpClientBackend)(_angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵinject"](JsonpCallbackContext), _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵinject"](_angular_common__WEBPACK_IMPORTED_MODULE_8__.DOCUMENT));
-  };
-  static #_2 = this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵdefineInjectable"]({
-    token: JsonpClientBackend,
-    factory: JsonpClientBackend.ɵfac
-  });
+  static {
+    this.ɵfac = function JsonpClientBackend_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || JsonpClientBackend)(_angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵinject"](JsonpCallbackContext), _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵinject"](_angular_common__WEBPACK_IMPORTED_MODULE_8__.DOCUMENT));
+    };
+  }
+  static {
+    this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵdefineInjectable"]({
+      token: JsonpClientBackend,
+      factory: JsonpClientBackend.ɵfac
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵsetClassMetadata"](JsonpClientBackend, [{
@@ -56123,13 +56326,17 @@ class JsonpInterceptor {
   intercept(initialRequest, next) {
     return (0,_angular_core__WEBPACK_IMPORTED_MODULE_5__.runInInjectionContext)(this.injector, () => jsonpInterceptorFn(initialRequest, downstreamRequest => next.handle(downstreamRequest)));
   }
-  static #_ = this.ɵfac = function JsonpInterceptor_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || JsonpInterceptor)(_angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵinject"](_angular_core__WEBPACK_IMPORTED_MODULE_5__.EnvironmentInjector));
-  };
-  static #_2 = this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵdefineInjectable"]({
-    token: JsonpInterceptor,
-    factory: JsonpInterceptor.ɵfac
-  });
+  static {
+    this.ɵfac = function JsonpInterceptor_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || JsonpInterceptor)(_angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵinject"](_angular_core__WEBPACK_IMPORTED_MODULE_5__.EnvironmentInjector));
+    };
+  }
+  static {
+    this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵdefineInjectable"]({
+      token: JsonpInterceptor,
+      factory: JsonpInterceptor.ɵfac
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵsetClassMetadata"](JsonpInterceptor, [{
@@ -56426,13 +56633,17 @@ class HttpXhrBackend {
       });
     }));
   }
-  static #_ = this.ɵfac = function HttpXhrBackend_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || HttpXhrBackend)(_angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵinject"](_angular_common__WEBPACK_IMPORTED_MODULE_8__.XhrFactory));
-  };
-  static #_2 = this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵdefineInjectable"]({
-    token: HttpXhrBackend,
-    factory: HttpXhrBackend.ɵfac
-  });
+  static {
+    this.ɵfac = function HttpXhrBackend_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || HttpXhrBackend)(_angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵinject"](_angular_common__WEBPACK_IMPORTED_MODULE_8__.XhrFactory));
+    };
+  }
+  static {
+    this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵdefineInjectable"]({
+      token: HttpXhrBackend,
+      factory: HttpXhrBackend.ɵfac
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵsetClassMetadata"](HttpXhrBackend, [{
@@ -56485,13 +56696,17 @@ class HttpXsrfCookieExtractor {
     }
     return this.lastToken;
   }
-  static #_ = this.ɵfac = function HttpXsrfCookieExtractor_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || HttpXsrfCookieExtractor)(_angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵinject"](_angular_common__WEBPACK_IMPORTED_MODULE_8__.DOCUMENT), _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵinject"](_angular_core__WEBPACK_IMPORTED_MODULE_5__.PLATFORM_ID), _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵinject"](XSRF_COOKIE_NAME));
-  };
-  static #_2 = this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵdefineInjectable"]({
-    token: HttpXsrfCookieExtractor,
-    factory: HttpXsrfCookieExtractor.ɵfac
-  });
+  static {
+    this.ɵfac = function HttpXsrfCookieExtractor_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || HttpXsrfCookieExtractor)(_angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵinject"](_angular_common__WEBPACK_IMPORTED_MODULE_8__.DOCUMENT), _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵinject"](_angular_core__WEBPACK_IMPORTED_MODULE_5__.PLATFORM_ID), _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵinject"](XSRF_COOKIE_NAME));
+    };
+  }
+  static {
+    this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵdefineInjectable"]({
+      token: HttpXsrfCookieExtractor,
+      factory: HttpXsrfCookieExtractor.ɵfac
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵsetClassMetadata"](HttpXsrfCookieExtractor, [{
@@ -56545,13 +56760,17 @@ class HttpXsrfInterceptor {
   intercept(initialRequest, next) {
     return (0,_angular_core__WEBPACK_IMPORTED_MODULE_5__.runInInjectionContext)(this.injector, () => xsrfInterceptorFn(initialRequest, downstreamRequest => next.handle(downstreamRequest)));
   }
-  static #_ = this.ɵfac = function HttpXsrfInterceptor_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || HttpXsrfInterceptor)(_angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵinject"](_angular_core__WEBPACK_IMPORTED_MODULE_5__.EnvironmentInjector));
-  };
-  static #_2 = this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵdefineInjectable"]({
-    token: HttpXsrfInterceptor,
-    factory: HttpXsrfInterceptor.ɵfac
-  });
+  static {
+    this.ɵfac = function HttpXsrfInterceptor_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || HttpXsrfInterceptor)(_angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵinject"](_angular_core__WEBPACK_IMPORTED_MODULE_5__.EnvironmentInjector));
+    };
+  }
+  static {
+    this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵdefineInjectable"]({
+      token: HttpXsrfInterceptor,
+      factory: HttpXsrfInterceptor.ɵfac
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵsetClassMetadata"](HttpXsrfInterceptor, [{
@@ -56829,28 +57048,34 @@ class HttpClientXsrfModule {
       providers: withXsrfConfiguration(options).ɵproviders
     };
   }
-  static #_ = this.ɵfac = function HttpClientXsrfModule_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || HttpClientXsrfModule)();
-  };
-  static #_2 = this.ɵmod = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵdefineNgModule"]({
-    type: HttpClientXsrfModule
-  });
-  static #_3 = this.ɵinj = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵdefineInjector"]({
-    providers: [HttpXsrfInterceptor, {
-      provide: HTTP_INTERCEPTORS,
-      useExisting: HttpXsrfInterceptor,
-      multi: true
-    }, {
-      provide: HttpXsrfTokenExtractor,
-      useClass: HttpXsrfCookieExtractor
-    }, withXsrfConfiguration({
-      cookieName: XSRF_DEFAULT_COOKIE_NAME,
-      headerName: XSRF_DEFAULT_HEADER_NAME
-    }).ɵproviders, {
-      provide: XSRF_ENABLED,
-      useValue: true
-    }]
-  });
+  static {
+    this.ɵfac = function HttpClientXsrfModule_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || HttpClientXsrfModule)();
+    };
+  }
+  static {
+    this.ɵmod = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵdefineNgModule"]({
+      type: HttpClientXsrfModule
+    });
+  }
+  static {
+    this.ɵinj = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵdefineInjector"]({
+      providers: [HttpXsrfInterceptor, {
+        provide: HTTP_INTERCEPTORS,
+        useExisting: HttpXsrfInterceptor,
+        multi: true
+      }, {
+        provide: HttpXsrfTokenExtractor,
+        useClass: HttpXsrfCookieExtractor
+      }, withXsrfConfiguration({
+        cookieName: XSRF_DEFAULT_COOKIE_NAME,
+        headerName: XSRF_DEFAULT_HEADER_NAME
+      }).ɵproviders, {
+        provide: XSRF_ENABLED,
+        useValue: true
+      }]
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵsetClassMetadata"](HttpClientXsrfModule, [{
@@ -56884,15 +57109,21 @@ class HttpClientXsrfModule {
  * @deprecated use `provideHttpClient(withInterceptorsFromDi())` as providers instead
  */
 class HttpClientModule {
-  static #_ = this.ɵfac = function HttpClientModule_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || HttpClientModule)();
-  };
-  static #_2 = this.ɵmod = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵdefineNgModule"]({
-    type: HttpClientModule
-  });
-  static #_3 = this.ɵinj = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵdefineInjector"]({
-    providers: [provideHttpClient(withInterceptorsFromDi())]
-  });
+  static {
+    this.ɵfac = function HttpClientModule_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || HttpClientModule)();
+    };
+  }
+  static {
+    this.ɵmod = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵdefineNgModule"]({
+      type: HttpClientModule
+    });
+  }
+  static {
+    this.ɵinj = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵdefineInjector"]({
+      providers: [provideHttpClient(withInterceptorsFromDi())]
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵsetClassMetadata"](HttpClientModule, [{
@@ -56916,15 +57147,21 @@ class HttpClientModule {
  * @deprecated `withJsonpSupport()` as providers instead
  */
 class HttpClientJsonpModule {
-  static #_ = this.ɵfac = function HttpClientJsonpModule_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || HttpClientJsonpModule)();
-  };
-  static #_2 = this.ɵmod = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵdefineNgModule"]({
-    type: HttpClientJsonpModule
-  });
-  static #_3 = this.ɵinj = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵdefineInjector"]({
-    providers: [withJsonpSupport().ɵproviders]
-  });
+  static {
+    this.ɵfac = function HttpClientJsonpModule_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || HttpClientJsonpModule)();
+    };
+  }
+  static {
+    this.ɵmod = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵdefineNgModule"]({
+      type: HttpClientJsonpModule
+    });
+  }
+  static {
+    this.ɵinj = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵdefineInjector"]({
+      providers: [withJsonpSupport().ɵproviders]
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵsetClassMetadata"](HttpClientJsonpModule, [{
@@ -57225,7 +57462,7 @@ __webpack_require__.r(__webpack_exports__);
  * Copyright Google LLC All Rights Reserved.
  *
  * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
+ * found in the LICENSE file at https://angular.dev/license
  */
 // THIS CODE IS GENERATED - DO NOT MODIFY.
 const u = undefined;
@@ -57451,7 +57688,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "ɵDeferBlockBehavior": () => (/* binding */ DeferBlockBehavior),
 /* harmony export */   "ɵDeferBlockState": () => (/* binding */ DeferBlockState),
 /* harmony export */   "ɵEffectScheduler": () => (/* binding */ EffectScheduler),
-/* harmony export */   "ɵGLOBAL_EVENT_DELEGATION": () => (/* binding */ GLOBAL_EVENT_DELEGATION),
 /* harmony export */   "ɵIMAGE_CONFIG": () => (/* binding */ IMAGE_CONFIG),
 /* harmony export */   "ɵIMAGE_CONFIG_DEFAULTS": () => (/* binding */ IMAGE_CONFIG_DEFAULTS),
 /* harmony export */   "ɵINJECTOR_SCOPE": () => (/* binding */ INJECTOR_SCOPE),
@@ -57480,6 +57716,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "ɵRender3ComponentRef": () => (/* binding */ ComponentRef),
 /* harmony export */   "ɵRender3NgModuleRef": () => (/* binding */ NgModuleRef),
 /* harmony export */   "ɵRuntimeError": () => (/* binding */ RuntimeError),
+/* harmony export */   "ɵSIGNAL": () => (/* reexport safe */ _angular_core_primitives_signals__WEBPACK_IMPORTED_MODULE_0__.SIGNAL),
 /* harmony export */   "ɵSSR_CONTENT_INTEGRITY_MARKER": () => (/* binding */ SSR_CONTENT_INTEGRITY_MARKER),
 /* harmony export */   "ɵTESTABILITY": () => (/* binding */ TESTABILITY),
 /* harmony export */   "ɵTESTABILITY_GETTER": () => (/* binding */ TESTABILITY_GETTER),
@@ -57541,7 +57778,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "ɵnoSideEffects": () => (/* binding */ noSideEffects),
 /* harmony export */   "ɵpatchComponentDefWithScope": () => (/* binding */ patchComponentDefWithScope),
 /* harmony export */   "ɵperformanceMarkFeature": () => (/* binding */ performanceMarkFeature),
-/* harmony export */   "ɵprovideGlobalEventDelegation": () => (/* binding */ provideGlobalEventDelegation),
 /* harmony export */   "ɵreadHydrationInfo": () => (/* binding */ readHydrationInfo),
 /* harmony export */   "ɵregisterLocaleData": () => (/* binding */ registerLocaleData),
 /* harmony export */   "ɵrenderDeferBlockState": () => (/* binding */ renderDeferBlockState),
@@ -57772,10 +58008,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! rxjs/operators */ 2435);
 /* harmony import */ var _angular_core_primitives_event_dispatch__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/core/primitives/event-dispatch */ 56745);
 /**
- * @license Angular v18.2.4
+ * @license Angular v18.2.13
  * (c) 2010-2024 Google LLC. https://angular.io/
  * License: MIT
  */
+
 
 
 
@@ -62956,6 +63193,9 @@ function toTNodeTypeAsString(tNodeType) {
 function isTNodeShape(value) {
   return value != null && typeof value === 'object' && (value.insertBeforeIndex === null || typeof value.insertBeforeIndex === 'number' || Array.isArray(value.insertBeforeIndex));
 }
+function isLetDeclaration(tNode) {
+  return !!(tNode.type & 128 /* TNodeType.LetDeclaration */);
+}
 /**
  * Returns `true` if the `TNode` has a directive which has `@Input()` for `class` binding.
  *
@@ -64048,8 +64288,12 @@ function createInjectorWithoutInjectorInstances(defType, parent = null, addition
  * @publicApi
  */
 class Injector {
-  static #_ = this.THROW_IF_NOT_FOUND = THROW_IF_NOT_FOUND;
-  static #_2 = this.NULL = new NullInjector();
+  static {
+    this.THROW_IF_NOT_FOUND = THROW_IF_NOT_FOUND;
+  }
+  static {
+    this.NULL = new NullInjector();
+  }
   static create(options, parent) {
     if (Array.isArray(options)) {
       return createInjector({
@@ -64063,16 +64307,20 @@ class Injector {
     }
   }
   /** @nocollapse */
-  static #_3 = this.ɵprov = ɵɵdefineInjectable({
-    token: Injector,
-    providedIn: 'any',
-    factory: () => ɵɵinject(INJECTOR$1)
-  });
+  static {
+    this.ɵprov = ɵɵdefineInjectable({
+      token: Injector,
+      providedIn: 'any',
+      factory: () => ɵɵinject(INJECTOR$1)
+    });
+  }
   /**
    * @internal
    * @nocollapse
    */
-  static #_4 = this.__NG_ELEMENT_ID__ = -1 /* InjectorMarkers.Injector */;
+  static {
+    this.__NG_ELEMENT_ID__ = -1 /* InjectorMarkers.Injector */;
+  }
 }
 
 /*!
@@ -64080,7 +64328,7 @@ class Injector {
  * Copyright Google LLC All Rights Reserved.
  *
  * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
+ * found in the LICENSE file at https://angular.dev/license
  */
 /**
  * Creates a token that can be used to inject static attributes of the host node.
@@ -64212,12 +64460,16 @@ class DestroyRef {
    * @internal
    * @nocollapse
    */
-  static #_ = this.__NG_ELEMENT_ID__ = injectDestroyRef;
+  static {
+    this.__NG_ELEMENT_ID__ = injectDestroyRef;
+  }
   /**
    * @internal
    * @nocollapse
    */
-  static #_2 = this.__NG_ENV_ID__ = injector => injector;
+  static {
+    this.__NG_ENV_ID__ = injector => injector;
+  }
 }
 class NodeInjectorDestroyRef extends DestroyRef {
   constructor(_lView) {
@@ -64266,11 +64518,13 @@ class PendingTasks {
     }
   }
   /** @nocollapse */
-  static #_ = this.ɵprov = ɵɵdefineInjectable({
-    token: PendingTasks,
-    providedIn: 'root',
-    factory: () => new PendingTasks()
-  });
+  static {
+    this.ɵprov = ɵɵdefineInjectable({
+      token: PendingTasks,
+      providedIn: 'root',
+      factory: () => new PendingTasks()
+    });
+  }
 }
 /**
  * Experimental service that keeps track of pending tasks contributing to the stableness of Angular
@@ -64311,11 +64565,13 @@ class ExperimentalPendingTasks {
     return () => this.internalPendingTasks.remove(taskId);
   }
   /** @nocollapse */
-  static #_ = this.ɵprov = ɵɵdefineInjectable({
-    token: ExperimentalPendingTasks,
-    providedIn: 'root',
-    factory: () => new ExperimentalPendingTasks()
-  });
+  static {
+    this.ɵprov = ɵɵdefineInjectable({
+      token: ExperimentalPendingTasks,
+      providedIn: 'root',
+      factory: () => new ExperimentalPendingTasks()
+    });
+  }
 }
 class EventEmitter_ extends rxjs__WEBPACK_IMPORTED_MODULE_2__.Subject {
   constructor(isAsync = false) {
@@ -64326,6 +64582,9 @@ class EventEmitter_ extends rxjs__WEBPACK_IMPORTED_MODULE_2__.Subject {
     // Attempt to retrieve a `DestroyRef` and `PendingTasks` optionally.
     // For backwards compatibility reasons, this cannot be required.
     if (isInInjectionContext()) {
+      // `DestroyRef` is optional because it is not available in all contexts.
+      // But it is useful to properly complete the `EventEmitter` if used with `outputToObservable`
+      // when the component/directive is destroyed. (See `outputToObservable` for more details.)
       this.destroyRef = inject(DestroyRef, {
         optional: true
       }) ?? undefined;
@@ -65192,7 +65451,9 @@ class ElementRef {
    * @internal
    * @nocollapse
    */
-  static #_ = this.__NG_ELEMENT_ID__ = injectElementRef;
+  static {
+    this.__NG_ELEMENT_ID__ = injectElementRef;
+  }
 }
 /**
  * Unwraps `ElementRef` and return the `nativeElement`.
@@ -65234,7 +65495,9 @@ function symbolIterator() {
  * @publicApi
  */
 class QueryList {
-  static #_ = Symbol.iterator;
+  static {
+    Symbol.iterator;
+  }
   /**
    * Returns `Observable` of `QueryList` notifying the subscriber of changes.
    */
@@ -65863,7 +66126,6 @@ function getNearestLContainer(viewOrContainer) {
  *    is no component associated with it.
  *
  * @publicApi
- * @globalApi ng
  */
 function getComponent$1(element) {
   ngDevMode && assertDomElement(element);
@@ -65888,7 +66150,6 @@ function getComponent$1(element) {
  *    inside any component.
  *
  * @publicApi
- * @globalApi ng
  */
 function getContext(element) {
   assertDomElement(element);
@@ -65909,7 +66170,6 @@ function getContext(element) {
  *    part of a component view.
  *
  * @publicApi
- * @globalApi ng
  */
 function getOwningComponent(elementOrDir) {
   const context = getLContext(elementOrDir);
@@ -65930,7 +66190,6 @@ function getOwningComponent(elementOrDir) {
  * @returns Root components associated with the target object.
  *
  * @publicApi
- * @globalApi ng
  */
 function getRootComponents(elementOrDir) {
   const lView = readPatchedLView(elementOrDir);
@@ -65944,7 +66203,6 @@ function getRootComponents(elementOrDir) {
  * @returns Injector associated with the element, component or directive instance.
  *
  * @publicApi
- * @globalApi ng
  */
 function getInjector(elementOrDir) {
   const context = getLContext(elementOrDir);
@@ -66003,7 +66261,6 @@ function getInjectionTokens(element) {
  * @returns Array of directives associated with the node.
  *
  * @publicApi
- * @globalApi ng
  */
 function getDirectives(node) {
   // Skip text nodes because we can't have directives associated with them.
@@ -66036,7 +66293,6 @@ function getDirectives(node) {
  * @returns metadata of the passed directive or component
  *
  * @publicApi
- * @globalApi ng
  */
 function getDirectiveMetadata$1(directiveOrComponentInstance) {
   const {
@@ -66096,7 +66352,6 @@ function getLocalRefs(target) {
  * @returns Host element of the target.
  *
  * @publicApi
- * @globalApi ng
  */
 function getHostElement(componentOrDirective) {
   return getLContext(componentOrDirective).native;
@@ -66144,7 +66399,6 @@ function getRenderedText(component) {
  * @returns Array of event listeners on the DOM element.
  *
  * @publicApi
- * @globalApi ng
  */
 function getListeners(element) {
   ngDevMode && assertDomElement(element);
@@ -66458,11 +66712,13 @@ class TransferState {
     this.onSerializeCallbacks = {};
   }
   /** @nocollapse */
-  static #_ = this.ɵprov = ɵɵdefineInjectable({
-    token: TransferState,
-    providedIn: 'root',
-    factory: initTransferState
-  });
+  static {
+    this.ɵprov = ɵɵdefineInjectable({
+      token: TransferState,
+      providedIn: 'root',
+      factory: initTransferState
+    });
+  }
   /**
    * Get the value corresponding to a key. Return `defaultValue` if key is not found.
    */
@@ -66941,10 +67197,6 @@ const IS_I18N_HYDRATION_ENABLED = new InjectionToken(typeof ngDevMode === 'undef
  */
 const IS_EVENT_REPLAY_ENABLED = new InjectionToken(typeof ngDevMode === 'undefined' || !!ngDevMode ? 'IS_EVENT_REPLAY_ENABLED' : '');
 const EVENT_REPLAY_ENABLED_DEFAULT = false;
-/**
- * Internal token that indicates whether global event delegation support is enabled.
- */
-const IS_GLOBAL_EVENT_DELEGATION_ENABLED = new InjectionToken(typeof ngDevMode === 'undefined' || !!ngDevMode ? 'IS_GLOBAL_EVENT_DELEGATION_ENABLED' : '');
 
 /**
  * @fileoverview
@@ -71661,7 +71913,9 @@ class TemplateRef {
    * @internal
    * @nocollapse
    */
-  static #_ = this.__NG_ELEMENT_ID__ = injectTemplateRef;
+  static {
+    this.__NG_ELEMENT_ID__ = injectTemplateRef;
+  }
 }
 const ViewEngineTemplateRef = TemplateRef;
 // TODO(alxhub): combine interface and implementation. Currently this is challenging since something
@@ -73447,7 +73701,9 @@ class _NullComponentFactoryResolver {
  *     Component class can be used directly.
  */
 class ComponentFactoryResolver$1 {
-  static #_ = this.NULL = new _NullComponentFactoryResolver();
+  static {
+    this.NULL = new _NullComponentFactoryResolver();
+  }
 }
 
 /**
@@ -73483,7 +73739,9 @@ class Renderer2 {
    * @internal
    * @nocollapse
    */
-  static #_ = this.__NG_ELEMENT_ID__ = () => injectRenderer2();
+  static {
+    this.__NG_ELEMENT_ID__ = () => injectRenderer2();
+  }
 }
 /** Injects a Renderer2 for the current component. */
 function injectRenderer2() {
@@ -73502,11 +73760,13 @@ function injectRenderer2() {
  */
 class Sanitizer {
   /** @nocollapse */
-  static #_ = this.ɵprov = ɵɵdefineInjectable({
-    token: Sanitizer,
-    providedIn: 'root',
-    factory: () => null
-  });
+  static {
+    this.ɵprov = ɵɵdefineInjectable({
+      token: Sanitizer,
+      providedIn: 'root',
+      factory: () => null
+    });
+  }
 }
 function isModuleWithProviders(value) {
   return value.ngModule !== undefined;
@@ -74168,7 +74428,7 @@ function createRootComponent(componentView, rootComponentDef, rootDirectives, ho
 function setRootNodeAttributes(hostRenderer, componentDef, hostRNode, rootSelectorOrNode) {
   if (rootSelectorOrNode) {
     // The placeholder will be replaced with the actual version at build time.
-    setUpAttributes(hostRenderer, hostRNode, ['ng-version', '18.2.4']);
+    setUpAttributes(hostRenderer, hostRNode, ['ng-version', '18.2.13']);
   } else {
     // If host element is created as a part of this function call (i.e. `rootSelectorOrNode`
     // is not defined), also apply attributes and classes extracted from component selector.
@@ -74271,7 +74531,9 @@ class ViewContainerRef {
    * @internal
    * @nocollapse
    */
-  static #_ = this.__NG_ELEMENT_ID__ = injectViewContainerRef;
+  static {
+    this.__NG_ELEMENT_ID__ = injectViewContainerRef;
+  }
 }
 /**
  * Creates a ViewContainerRef and stores it on the injector. Or, if the ViewContainerRef
@@ -75914,22 +76176,14 @@ function ɵɵCopyDefinitionFeature(definition) {
  */
 function ɵɵHostDirectivesFeature(rawHostDirectives) {
   const feature = definition => {
-    const resolved = (Array.isArray(rawHostDirectives) ? rawHostDirectives : rawHostDirectives()).map(dir => {
-      return typeof dir === 'function' ? {
-        directive: resolveForwardRef(dir),
-        inputs: EMPTY_OBJ,
-        outputs: EMPTY_OBJ
-      } : {
-        directive: resolveForwardRef(dir.directive),
-        inputs: bindingArrayToMap(dir.inputs),
-        outputs: bindingArrayToMap(dir.outputs)
-      };
-    });
+    const isEager = Array.isArray(rawHostDirectives);
     if (definition.hostDirectives === null) {
       definition.findHostDirectiveDefs = findHostDirectiveDefs;
-      definition.hostDirectives = resolved;
+      definition.hostDirectives = isEager ? rawHostDirectives.map(createHostDirectiveDef) : [rawHostDirectives];
+    } else if (isEager) {
+      definition.hostDirectives.unshift(...rawHostDirectives.map(createHostDirectiveDef));
     } else {
-      definition.hostDirectives.unshift(...resolved);
+      definition.hostDirectives.unshift(rawHostDirectives);
     }
   };
   feature.ngInherit = true;
@@ -75937,20 +76191,43 @@ function ɵɵHostDirectivesFeature(rawHostDirectives) {
 }
 function findHostDirectiveDefs(currentDef, matchedDefs, hostDirectiveDefs) {
   if (currentDef.hostDirectives !== null) {
-    for (const hostDirectiveConfig of currentDef.hostDirectives) {
-      const hostDirectiveDef = getDirectiveDef(hostDirectiveConfig.directive);
-      if (typeof ngDevMode === 'undefined' || ngDevMode) {
-        validateHostDirective(hostDirectiveConfig, hostDirectiveDef);
+    for (const configOrFn of currentDef.hostDirectives) {
+      if (typeof configOrFn === 'function') {
+        const resolved = configOrFn();
+        for (const config of resolved) {
+          trackHostDirectiveDef(createHostDirectiveDef(config), matchedDefs, hostDirectiveDefs);
+        }
+      } else {
+        trackHostDirectiveDef(configOrFn, matchedDefs, hostDirectiveDefs);
       }
-      // We need to patch the `declaredInputs` so that
-      // `ngOnChanges` can map the properties correctly.
-      patchDeclaredInputs(hostDirectiveDef.declaredInputs, hostDirectiveConfig.inputs);
-      // Host directives execute before the host so that its host bindings can be overwritten.
-      findHostDirectiveDefs(hostDirectiveDef, matchedDefs, hostDirectiveDefs);
-      hostDirectiveDefs.set(hostDirectiveDef, hostDirectiveConfig);
-      matchedDefs.push(hostDirectiveDef);
     }
   }
+}
+/** Tracks a single host directive during directive matching. */
+function trackHostDirectiveDef(def, matchedDefs, hostDirectiveDefs) {
+  const hostDirectiveDef = getDirectiveDef(def.directive);
+  if (typeof ngDevMode === 'undefined' || ngDevMode) {
+    validateHostDirective(def, hostDirectiveDef);
+  }
+  // We need to patch the `declaredInputs` so that
+  // `ngOnChanges` can map the properties correctly.
+  patchDeclaredInputs(hostDirectiveDef.declaredInputs, def.inputs);
+  // Host directives execute before the host so that its host bindings can be overwritten.
+  findHostDirectiveDefs(hostDirectiveDef, matchedDefs, hostDirectiveDefs);
+  hostDirectiveDefs.set(hostDirectiveDef, def);
+  matchedDefs.push(hostDirectiveDef);
+}
+/** Creates a `HostDirectiveDef` from a used-defined host directive configuration. */
+function createHostDirectiveDef(config) {
+  return typeof config === 'function' ? {
+    directive: resolveForwardRef(config),
+    inputs: EMPTY_OBJ,
+    outputs: EMPTY_OBJ
+  } : {
+    directive: resolveForwardRef(config.directive),
+    inputs: bindingArrayToMap(config.inputs),
+    outputs: bindingArrayToMap(config.outputs)
+  };
 }
 /**
  * Converts an array in the form of `['publicName', 'alias', 'otherPublicName', 'otherAlias']` into
@@ -76242,11 +76519,13 @@ class CachedInjectorService {
     }
   }
   /** @nocollapse */
-  static #_ = this.ɵprov = ɵɵdefineInjectable({
-    token: CachedInjectorService,
-    providedIn: 'environment',
-    factory: () => new CachedInjectorService()
-  });
+  static {
+    this.ɵprov = ɵɵdefineInjectable({
+      token: CachedInjectorService,
+      providedIn: 'environment',
+      factory: () => new CachedInjectorService()
+    });
+  }
 }
 function isIterable(obj) {
   return obj !== null && typeof obj === 'object' && obj[Symbol.iterator] !== undefined;
@@ -76584,7 +76863,7 @@ var DeferBlockBehavior;
  * Copyright Google LLC All Rights Reserved.
  *
  * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
+ * found in the LICENSE file at https://angular.dev/license
  */
 /**
  * Registers a cleanup function associated with a prefetching trigger
@@ -76704,11 +76983,13 @@ class AfterRenderManager {
     this.impl?.execute();
   }
   /** @nocollapse */
-  static #_ = this.ɵprov = ɵɵdefineInjectable({
-    token: AfterRenderManager,
-    providedIn: 'root',
-    factory: () => new AfterRenderManager()
-  });
+  static {
+    this.ɵprov = ɵɵdefineInjectable({
+      token: AfterRenderManager,
+      providedIn: 'root',
+      factory: () => new AfterRenderManager()
+    });
+  }
 }
 class AfterRenderImpl {
   constructor() {
@@ -76724,7 +77005,9 @@ class AfterRenderImpl {
     /** Whether the `AfterRenderManager` is currently executing hooks. */
     this.executing = false;
   }
-  static #_ = this.PHASES = [AfterRenderPhase.EarlyRead, AfterRenderPhase.Write, AfterRenderPhase.MixedReadWrite, AfterRenderPhase.Read];
+  static {
+    this.PHASES = [AfterRenderPhase.EarlyRead, AfterRenderPhase.Write, AfterRenderPhase.MixedReadWrite, AfterRenderPhase.Read];
+  }
   /**
    * Run the sequence of phases of hooks, once through. As a result of executing some hooks, more
    * might be scheduled.
@@ -76750,6 +77033,9 @@ class AfterRenderImpl {
       sequence.afterRun();
       if (sequence.once) {
         this.sequences.delete(sequence);
+        // Destroy the sequence so its on destroy callbacks can be cleaned up
+        // immediately, instead of waiting until the injector is destroyed.
+        sequence.destroy();
       }
     }
     for (const sequence of this.deferredRegistrations) {
@@ -76785,11 +77071,13 @@ class AfterRenderImpl {
     }
   }
   /** @nocollapse */
-  static #_2 = this.ɵprov = ɵɵdefineInjectable({
-    token: AfterRenderImpl,
-    providedIn: 'root',
-    factory: () => new AfterRenderImpl()
-  });
+  static {
+    this.ɵprov = ɵɵdefineInjectable({
+      token: AfterRenderImpl,
+      providedIn: 'root',
+      factory: () => new AfterRenderImpl()
+    });
+  }
 }
 class AfterRenderSequence {
   constructor(impl, hooks, once, destroyRef) {
@@ -76806,7 +77094,7 @@ class AfterRenderSequence {
      * one.
      */
     this.pipelinedValue = undefined;
-    this.unregisterOnDestroy = destroyRef.onDestroy(() => this.destroy());
+    this.unregisterOnDestroy = destroyRef?.onDestroy(() => this.destroy());
   }
   afterRun() {
     this.erroredOrDestroyed = false;
@@ -76814,7 +77102,7 @@ class AfterRenderSequence {
   }
   destroy() {
     this.impl.unregister(this);
-    this.unregisterOnDestroy();
+    this.unregisterOnDestroy?.();
   }
 }
 function afterRender(callbackOrSpec, options) {
@@ -76854,7 +77142,8 @@ function afterRenderImpl(callbackOrSpec, injector, options, once) {
   // tree-shaken if `afterRender` and `afterNextRender` aren't used.
   manager.impl ??= injector.get(AfterRenderImpl);
   const hooks = options?.phase ?? AfterRenderPhase.MixedReadWrite;
-  const sequence = new AfterRenderSequence(manager.impl, getHooks(callbackOrSpec, hooks), once, injector.get(DestroyRef));
+  const destroyRef = options?.manualCleanup !== true ? injector.get(DestroyRef) : null;
+  const sequence = new AfterRenderSequence(manager.impl, getHooks(callbackOrSpec, hooks), once, destroyRef);
   manager.impl.register(sequence);
   return sequence;
 }
@@ -76976,7 +77265,7 @@ function isTDeferBlockDetails(value) {
  * Copyright Google LLC All Rights Reserved.
  *
  * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
+ * found in the LICENSE file at https://angular.dev/license
  */
 /** Configuration object used to register passive and capturing events. */
 const eventListenerOptions = {
@@ -77328,11 +77617,13 @@ class IdleScheduler {
     this.deferred.clear();
   }
   /** @nocollapse */
-  static #_ = this.ɵprov = ɵɵdefineInjectable({
-    token: IdleScheduler,
-    providedIn: 'root',
-    factory: () => new IdleScheduler()
-  });
+  static {
+    this.ɵprov = ɵɵdefineInjectable({
+      token: IdleScheduler,
+      providedIn: 'root',
+      factory: () => new IdleScheduler()
+    });
+  }
 }
 
 /**
@@ -77520,11 +77811,13 @@ class TimerScheduler {
     this.deferred.length = 0;
   }
   /** @nocollapse */
-  static #_ = this.ɵprov = ɵɵdefineInjectable({
-    token: TimerScheduler,
-    providedIn: 'root',
-    factory: () => new TimerScheduler()
-  });
+  static {
+    this.ɵprov = ɵɵdefineInjectable({
+      token: TimerScheduler,
+      providedIn: 'root',
+      factory: () => new TimerScheduler()
+    });
+  }
 }
 
 /**
@@ -80548,7 +80841,7 @@ function ɵɵclassMapInterpolateV(values) {
  * Copyright Google LLC All Rights Reserved.
  *
  * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
+ * found in the LICENSE file at https://angular.dev/license
  */
 /**
  * Instruction that returns the component instance in which the current instruction is executing.
@@ -80863,7 +81156,11 @@ class UniqueValueMultiKeyMap {
   set(key, value) {
     if (this.kvMap.has(key)) {
       let prevValue = this.kvMap.get(key);
-      ngDevMode && assertNotSame(prevValue, value, `Detected a duplicated value ${value} for the key ${key}`);
+      // Note: we don't use `assertNotSame`, because the value needs to be stringified even if
+      // there is no error which can freeze the browser for large values (see #58509).
+      if (ngDevMode && prevValue === value) {
+        throw new Error(`Detected a duplicated value ${value} for the key ${key}`);
+      }
       if (this._vMap === undefined) {
         this._vMap = new Map();
       }
@@ -85292,7 +85589,7 @@ function ɵɵtextInterpolateV(values) {
  * Copyright Google LLC All Rights Reserved.
  *
  * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
+ * found in the LICENSE file at https://angular.dev/license
  */
 /**
  * Update a two-way bound property on a selected element.
@@ -85356,7 +85653,7 @@ function ɵɵtwoWayListener(eventName, listenerFn) {
  * Copyright Google LLC All Rights Reserved.
  *
  * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
+ * found in the LICENSE file at https://angular.dev/license
  */
 /** Object that indicates the value of a `@let` declaration that hasn't been initialized yet. */
 const UNINITIALIZED_LET = {};
@@ -85734,11 +86031,13 @@ class StandaloneService {
     }
   }
   /** @nocollapse */
-  static #_ = this.ɵprov = ɵɵdefineInjectable({
-    token: StandaloneService,
-    providedIn: 'environment',
-    factory: () => new StandaloneService(ɵɵinject(EnvironmentInjector))
-  });
+  static {
+    this.ɵprov = ɵɵdefineInjectable({
+      token: StandaloneService,
+      providedIn: 'environment',
+      factory: () => new StandaloneService(ɵɵinject(EnvironmentInjector))
+    });
+  }
 }
 /**
  * A feature that acts as a setup code for the {@link StandaloneService}.
@@ -87762,7 +88061,7 @@ class Version {
 /**
  * @publicApi
  */
-const VERSION = new Version('18.2.4');
+const VERSION = new Version('18.2.13');
 
 /*
  * This file exists to support compilation of @angular/core in Ivy mode.
@@ -87793,14 +88092,18 @@ class Console {
     // tslint:disable-next-line:no-console
     console.warn(message);
   }
-  static #_ = this.ɵfac = function Console_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || Console)();
-  };
-  static #_2 = this.ɵprov = /*@__PURE__*/ɵɵdefineInjectable({
-    token: Console,
-    factory: Console.ɵfac,
-    providedIn: 'platform'
-  });
+  static {
+    this.ɵfac = function Console_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || Console)();
+    };
+  }
+  static {
+    this.ɵprov = /*@__PURE__*/ɵɵdefineInjectable({
+      token: Console,
+      factory: Console.ɵfac,
+      providedIn: 'platform'
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(Console, [{
@@ -88077,7 +88380,6 @@ function canBeHeldWeakly(value) {
  * @param component Component to {@link ChangeDetectorRef#markForCheck mark for check}.
  *
  * @publicApi
- * @globalApi ng
  */
 function applyChanges(component) {
   ngDevMode && assertDefined(component, 'component');
@@ -88907,13 +89209,17 @@ class Testability {
     // TODO(juliemr): implement.
     return [];
   }
-  static #_ = this.ɵfac = function Testability_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || Testability)(ɵɵinject(NgZone), ɵɵinject(TestabilityRegistry), ɵɵinject(TESTABILITY_GETTER));
-  };
-  static #_2 = this.ɵprov = /*@__PURE__*/ɵɵdefineInjectable({
-    token: Testability,
-    factory: Testability.ɵfac
-  });
+  static {
+    this.ɵfac = function Testability_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || Testability)(ɵɵinject(NgZone), ɵɵinject(TestabilityRegistry), ɵɵinject(TESTABILITY_GETTER));
+    };
+  }
+  static {
+    this.ɵprov = /*@__PURE__*/ɵɵdefineInjectable({
+      token: Testability,
+      factory: Testability.ɵfac
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(Testability, [{
@@ -88988,14 +89294,18 @@ class TestabilityRegistry {
   findTestabilityInTree(elem, findInAncestors = true) {
     return _testabilityGetter?.findTestabilityInTree(this, elem, findInAncestors) ?? null;
   }
-  static #_ = this.ɵfac = function TestabilityRegistry_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || TestabilityRegistry)();
-  };
-  static #_2 = this.ɵprov = /*@__PURE__*/ɵɵdefineInjectable({
-    token: TestabilityRegistry,
-    factory: TestabilityRegistry.ɵfac,
-    providedIn: 'platform'
-  });
+  static {
+    this.ɵfac = function TestabilityRegistry_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || TestabilityRegistry)();
+    };
+  }
+  static {
+    this.ɵprov = /*@__PURE__*/ɵɵdefineInjectable({
+      token: TestabilityRegistry,
+      factory: TestabilityRegistry.ɵfac,
+      providedIn: 'platform'
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(TestabilityRegistry, [{
@@ -89204,14 +89514,18 @@ class ApplicationInitStatus {
     }
     this.initialized = true;
   }
-  static #_ = this.ɵfac = function ApplicationInitStatus_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || ApplicationInitStatus)();
-  };
-  static #_2 = this.ɵprov = /*@__PURE__*/ɵɵdefineInjectable({
-    token: ApplicationInitStatus,
-    factory: ApplicationInitStatus.ɵfac,
-    providedIn: 'root'
-  });
+  static {
+    this.ɵfac = function ApplicationInitStatus_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || ApplicationInitStatus)();
+    };
+  }
+  static {
+    this.ɵprov = /*@__PURE__*/ɵɵdefineInjectable({
+      token: ApplicationInitStatus,
+      factory: ApplicationInitStatus.ɵfac,
+      providedIn: 'root'
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(ApplicationInitStatus, [{
@@ -89759,14 +90073,18 @@ class ApplicationRef {
       console.warn(formatRuntimeError(406 /* RuntimeErrorCode.APPLICATION_REF_ALREADY_DESTROYED */, 'This instance of the `ApplicationRef` has already been destroyed.'));
     }
   }
-  static #_ = this.ɵfac = function ApplicationRef_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || ApplicationRef)();
-  };
-  static #_2 = this.ɵprov = /*@__PURE__*/ɵɵdefineInjectable({
-    token: ApplicationRef,
-    factory: ApplicationRef.ɵfac,
-    providedIn: 'root'
-  });
+  static {
+    this.ɵfac = function ApplicationRef_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || ApplicationRef)();
+    };
+  }
+  static {
+    this.ɵprov = /*@__PURE__*/ɵɵdefineInjectable({
+      token: ApplicationRef,
+      factory: ApplicationRef.ɵfac,
+      providedIn: 'root'
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(ApplicationRef, [{
@@ -89887,14 +90205,18 @@ class Compiler {
   getModuleId(moduleType) {
     return undefined;
   }
-  static #_ = this.ɵfac = function Compiler_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || Compiler)();
-  };
-  static #_2 = this.ɵprov = /*@__PURE__*/ɵɵdefineInjectable({
-    token: Compiler,
-    factory: Compiler.ɵfac,
-    providedIn: 'root'
-  });
+  static {
+    this.ɵfac = function Compiler_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || Compiler)();
+    };
+  }
+  static {
+    this.ɵprov = /*@__PURE__*/ɵɵdefineInjectable({
+      token: Compiler,
+      factory: Compiler.ɵfac,
+      providedIn: 'root'
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(Compiler, [{
@@ -89993,14 +90315,18 @@ class NgZoneChangeDetectionScheduler {
   ngOnDestroy() {
     this._onMicrotaskEmptySubscription?.unsubscribe();
   }
-  static #_ = this.ɵfac = function NgZoneChangeDetectionScheduler_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || NgZoneChangeDetectionScheduler)();
-  };
-  static #_2 = this.ɵprov = /*@__PURE__*/ɵɵdefineInjectable({
-    token: NgZoneChangeDetectionScheduler,
-    factory: NgZoneChangeDetectionScheduler.ɵfac,
-    providedIn: 'root'
-  });
+  static {
+    this.ɵfac = function NgZoneChangeDetectionScheduler_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || NgZoneChangeDetectionScheduler)();
+    };
+  }
+  static {
+    this.ɵprov = /*@__PURE__*/ɵɵdefineInjectable({
+      token: NgZoneChangeDetectionScheduler,
+      factory: NgZoneChangeDetectionScheduler.ɵfac,
+      providedIn: 'root'
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(NgZoneChangeDetectionScheduler, [{
@@ -90151,14 +90477,18 @@ class ZoneStablePendingTask {
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
-  static #_ = this.ɵfac = function ZoneStablePendingTask_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || ZoneStablePendingTask)();
-  };
-  static #_2 = this.ɵprov = /*@__PURE__*/ɵɵdefineInjectable({
-    token: ZoneStablePendingTask,
-    factory: ZoneStablePendingTask.ɵfac,
-    providedIn: 'root'
-  });
+  static {
+    this.ɵfac = function ZoneStablePendingTask_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || ZoneStablePendingTask)();
+    };
+  }
+  static {
+    this.ɵprov = /*@__PURE__*/ɵɵdefineInjectable({
+      token: ZoneStablePendingTask,
+      factory: ZoneStablePendingTask.ɵfac,
+      providedIn: 'root'
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(ZoneStablePendingTask, [{
@@ -90387,14 +90717,18 @@ class ChangeDetectionSchedulerImpl {
       this.taskService.remove(taskId);
     }
   }
-  static #_ = this.ɵfac = function ChangeDetectionSchedulerImpl_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || ChangeDetectionSchedulerImpl)();
-  };
-  static #_2 = this.ɵprov = /*@__PURE__*/ɵɵdefineInjectable({
-    token: ChangeDetectionSchedulerImpl,
-    factory: ChangeDetectionSchedulerImpl.ɵfac,
-    providedIn: 'root'
-  });
+  static {
+    this.ɵfac = function ChangeDetectionSchedulerImpl_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || ChangeDetectionSchedulerImpl)();
+    };
+  }
+  static {
+    this.ɵprov = /*@__PURE__*/ɵɵdefineInjectable({
+      token: ChangeDetectionSchedulerImpl,
+      factory: ChangeDetectionSchedulerImpl.ɵfac,
+      providedIn: 'root'
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(ChangeDetectionSchedulerImpl, [{
@@ -90722,12 +91056,10 @@ class ImagePerformanceWarning {
       lcpElementLoadedCorrectly = false;
     images.forEach(image => {
       if (!this.options?.disableImageSizeWarning) {
-        for (const image of images) {
-          // Image elements using the NgOptimizedImage directive are excluded,
-          // as that directive has its own version of this check.
-          if (!image.getAttribute('ng-img') && this.isOversized(image)) {
-            logOversizedImageWarning(image.src);
-          }
+        // Image elements using the NgOptimizedImage directive are excluded,
+        // as that directive has its own version of this check.
+        if (!image.getAttribute('ng-img') && this.isOversized(image)) {
+          logOversizedImageWarning(image.src);
         }
       }
       if (!this.options?.disableImageLazyLoadWarning && this.lcpImageUrl) {
@@ -90751,6 +91083,23 @@ class ImagePerformanceWarning {
     if (!this.window) {
       return false;
     }
+    // The `isOversized` check may not be applicable or may require adjustments
+    // for several types of image formats or scenarios. Currently, we specify only
+    // `svg`, but this may also include `gif` since their quality isn’t tied to
+    // dimensions in the same way as raster images.
+    const nonOversizedImageExtentions = [
+    // SVG images are vector-based, which means they can scale
+    // to any size without losing quality.
+    '.svg'];
+    // Convert it to lowercase because this may have uppercase
+    // extensions, such as `IMAGE.SVG`.
+    // We fallback to an empty string because `src` may be `undefined`
+    // if it is explicitly set to `null` by some third-party code
+    // (e.g., `image.src = null`).
+    const imageSource = (image.src || '').toLowerCase();
+    if (nonOversizedImageExtentions.some(extension => imageSource.endsWith(extension))) {
+      return false;
+    }
     const computedStyle = this.window.getComputedStyle(image);
     let renderedWidth = parseFloat(computedStyle.getPropertyValue('width'));
     let renderedHeight = parseFloat(computedStyle.getPropertyValue('height'));
@@ -90762,6 +91111,8 @@ class ImagePerformanceWarning {
       return false;
     }
     if (boxSizing === 'border-box') {
+      // If the image `box-sizing` is set to `border-box`, we adjust the rendered
+      // dimensions by subtracting padding values.
       const paddingTop = computedStyle.getPropertyValue('padding-top');
       const paddingRight = computedStyle.getPropertyValue('padding-right');
       const paddingBottom = computedStyle.getPropertyValue('padding-bottom');
@@ -90777,14 +91128,18 @@ class ImagePerformanceWarning {
     const oversizedHeight = intrinsicHeight - recommendedHeight >= OVERSIZED_IMAGE_TOLERANCE;
     return oversizedWidth || oversizedHeight;
   }
-  static #_ = this.ɵfac = function ImagePerformanceWarning_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || ImagePerformanceWarning)();
-  };
-  static #_2 = this.ɵprov = /*@__PURE__*/ɵɵdefineInjectable({
-    token: ImagePerformanceWarning,
-    factory: ImagePerformanceWarning.ɵfac,
-    providedIn: 'root'
-  });
+  static {
+    this.ɵfac = function ImagePerformanceWarning_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || ImagePerformanceWarning)();
+    };
+  }
+  static {
+    this.ɵprov = /*@__PURE__*/ɵɵdefineInjectable({
+      token: ImagePerformanceWarning,
+      factory: ImagePerformanceWarning.ɵfac,
+      providedIn: 'root'
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(ImagePerformanceWarning, [{
@@ -90809,7 +91164,7 @@ function logOversizedImageWarning(src) {
  */
 const PLATFORM_DESTROY_LISTENERS = new InjectionToken(ngDevMode ? 'PlatformDestroyListeners' : '');
 function isApplicationBootstrapConfig(config) {
-  return !!config.platformInjector;
+  return !config.moduleRef;
 }
 function bootstrap(config) {
   const envInjector = isApplicationBootstrapConfig(config) ? config.r3Injector : config.moduleRef.injector;
@@ -90838,9 +91193,9 @@ function bootstrap(config) {
         }
       });
     });
+    // If the whole platform is destroyed, invoke the `destroy` method
+    // for all bootstrapped applications as well.
     if (isApplicationBootstrapConfig(config)) {
-      // If the whole platform is destroyed, invoke the `destroy` method
-      // for all bootstrapped applications as well.
       const destroyListener = () => envInjector.destroy();
       const onPlatformDestroyListeners = config.platformInjector.get(PLATFORM_DESTROY_LISTENERS);
       onPlatformDestroyListeners.add(destroyListener);
@@ -90849,9 +91204,13 @@ function bootstrap(config) {
         onPlatformDestroyListeners.delete(destroyListener);
       });
     } else {
+      const destroyListener = () => config.moduleRef.destroy();
+      const onPlatformDestroyListeners = config.platformInjector.get(PLATFORM_DESTROY_LISTENERS);
+      onPlatformDestroyListeners.add(destroyListener);
       config.moduleRef.onDestroy(() => {
         remove(config.allPlatformModules, config.moduleRef);
         onErrorSubscription.unsubscribe();
+        onPlatformDestroyListeners.delete(destroyListener);
       });
     }
     return _callAndReportToErrorHandler(exceptionHandler, ngZone, () => {
@@ -90934,7 +91293,8 @@ class PlatformRef {
     const moduleRef = createNgModuleRefWithProviders(moduleFactory.moduleType, this.injector, allAppProviders);
     return bootstrap({
       moduleRef,
-      allPlatformModules: this._modules
+      allPlatformModules: this._modules,
+      platformInjector: this.injector
     });
   }
   /**
@@ -90993,14 +91353,18 @@ class PlatformRef {
   get destroyed() {
     return this._destroyed;
   }
-  static #_ = this.ɵfac = function PlatformRef_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || PlatformRef)(ɵɵinject(Injector));
-  };
-  static #_2 = this.ɵprov = /*@__PURE__*/ɵɵdefineInjectable({
-    token: PlatformRef,
-    factory: PlatformRef.ɵfac,
-    providedIn: 'platform'
-  });
+  static {
+    this.ɵfac = function PlatformRef_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || PlatformRef)(ɵɵinject(Injector));
+    };
+  }
+  static {
+    this.ɵprov = /*@__PURE__*/ɵɵdefineInjectable({
+      token: PlatformRef,
+      factory: PlatformRef.ɵfac,
+      providedIn: 'platform'
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(PlatformRef, [{
@@ -91368,7 +91732,9 @@ class ChangeDetectorRef {
    * @internal
    * @nocollapse
    */
-  static #_ = this.__NG_ELEMENT_ID__ = injectChangeDetectorRef;
+  static {
+    this.__NG_ELEMENT_ID__ = injectChangeDetectorRef;
+  }
 }
 /** Returns a ChangeDetectorRef (a.k.a. a ViewRef) */
 function injectChangeDetectorRef(flags) {
@@ -92863,11 +93229,13 @@ function defaultIterableDiffersFactory() {
  */
 class IterableDiffers {
   /** @nocollapse */
-  static #_ = this.ɵprov = ɵɵdefineInjectable({
-    token: IterableDiffers,
-    providedIn: 'root',
-    factory: defaultIterableDiffersFactory
-  });
+  static {
+    this.ɵprov = ɵɵdefineInjectable({
+      token: IterableDiffers,
+      providedIn: 'root',
+      factory: defaultIterableDiffersFactory
+    });
+  }
   constructor(factories) {
     this.factories = factories;
   }
@@ -92933,11 +93301,13 @@ function defaultKeyValueDiffersFactory() {
  */
 class KeyValueDiffers {
   /** @nocollapse */
-  static #_ = this.ɵprov = ɵɵdefineInjectable({
-    token: KeyValueDiffers,
-    providedIn: 'root',
-    factory: defaultKeyValueDiffersFactory
-  });
+  static {
+    this.ɵprov = ɵɵdefineInjectable({
+      token: KeyValueDiffers,
+      providedIn: 'root',
+      factory: defaultKeyValueDiffersFactory
+    });
+  }
   constructor(factories) {
     this.factories = factories;
   }
@@ -93024,13 +93394,19 @@ const platformCore = createPlatformFactory(null, 'core', []);
 class ApplicationModule {
   // Inject ApplicationRef to make it eager...
   constructor(appRef) {}
-  static #_ = this.ɵfac = function ApplicationModule_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || ApplicationModule)(ɵɵinject(ApplicationRef));
-  };
-  static #_2 = this.ɵmod = /*@__PURE__*/ɵɵdefineNgModule({
-    type: ApplicationModule
-  });
-  static #_3 = this.ɵinj = /*@__PURE__*/ɵɵdefineInjector({});
+  static {
+    this.ɵfac = function ApplicationModule_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || ApplicationModule)(ɵɵinject(ApplicationRef));
+    };
+  }
+  static {
+    this.ɵmod = /*@__PURE__*/ɵɵdefineNgModule({
+      type: ApplicationModule
+    });
+  }
+  static {
+    this.ɵinj = /*@__PURE__*/ɵɵdefineInjector({});
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(ApplicationModule, [{
@@ -93661,8 +94037,6 @@ function getDeferBlocks(lView, deferBlocks) {
     }
   }
 }
-
-// tslint:disable:no-duplicate-imports
 function invokeRegisteredListeners(event) {
   const handlerFns = event.currentTarget?.__jsaction_fns?.get(event.type);
   if (!handlerFns) {
@@ -93696,75 +94070,16 @@ const JSACTION_EVENT_CONTRACT = new InjectionToken(ngDevMode ? 'EVENT_CONTRACT_D
   providedIn: 'root',
   factory: () => ({})
 });
-const GLOBAL_EVENT_DELEGATION = new InjectionToken(ngDevMode ? 'GLOBAL_EVENT_DELEGATION' : '');
-/**
- * This class is the delegate for `EventDelegationPlugin`. It represents the
- * noop version of this class, with the enabled version set when
- * `provideGlobalEventDelegation` is called.
- */
-class GlobalEventDelegation {
-  constructor() {
-    this.eventContractDetails = inject(JSACTION_EVENT_CONTRACT);
-  }
-  ngOnDestroy() {
-    this.eventContractDetails.instance?.cleanUp();
-  }
-  supports(eventType) {
-    return (0,_angular_core_primitives_event_dispatch__WEBPACK_IMPORTED_MODULE_6__.isEarlyEventType)(eventType);
-  }
-  addEventListener(element, eventType, handler) {
-    // Note: contrary to the type, Window and Document can be passed in
-    // as well.
-    if (element.nodeType === Node.ELEMENT_NODE) {
-      this.eventContractDetails.instance.addEvent(eventType);
-      (0,_angular_core_primitives_event_dispatch__WEBPACK_IMPORTED_MODULE_6__.getActionCache)(element)[eventType] = '';
-      sharedStashFunction(element, eventType, handler);
-    } else {
-      element.addEventListener(eventType, handler);
-    }
-    return () => this.removeEventListener(element, eventType, handler);
-  }
-  removeEventListener(element, eventType, callback) {
-    if (element.nodeType === Node.ELEMENT_NODE) {
-      (0,_angular_core_primitives_event_dispatch__WEBPACK_IMPORTED_MODULE_6__.getActionCache)(element)[eventType] = undefined;
-    } else {
-      element.removeEventListener(eventType, callback);
-    }
-  }
-  static #_ = this.ɵfac = function GlobalEventDelegation_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || GlobalEventDelegation)();
-  };
-  static #_2 = this.ɵprov = /*@__PURE__*/ɵɵdefineInjectable({
-    token: GlobalEventDelegation,
-    factory: GlobalEventDelegation.ɵfac
-  });
-}
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(GlobalEventDelegation, [{
-    type: Injectable
-  }], null, null);
-})();
-const initGlobalEventDelegation = (eventContractDetails, injector) => {
-  if (injector.get(IS_EVENT_REPLAY_ENABLED, EVENT_REPLAY_ENABLED_DEFAULT)) {
-    return;
-  }
-  const eventContract = eventContractDetails.instance = new _angular_core_primitives_event_dispatch__WEBPACK_IMPORTED_MODULE_6__.EventContract(new _angular_core_primitives_event_dispatch__WEBPACK_IMPORTED_MODULE_6__.EventContractContainer(document.body));
-  const dispatcher = new _angular_core_primitives_event_dispatch__WEBPACK_IMPORTED_MODULE_6__.EventDispatcher(invokeRegisteredListeners, /** clickModSupport */false);
-  (0,_angular_core_primitives_event_dispatch__WEBPACK_IMPORTED_MODULE_6__.registerDispatcher)(eventContract, dispatcher);
-};
 
 /**
  * A set of DOM elements with `jsaction` attributes.
  */
 const jsactionSet = new Set();
-function isGlobalEventDelegationEnabled(injector) {
-  return injector.get(IS_GLOBAL_EVENT_DELEGATION_ENABLED, false);
-}
 /**
  * Determines whether Event Replay feature should be activated on the client.
  */
 function shouldEnableEventReplay(injector) {
-  return injector.get(IS_EVENT_REPLAY_ENABLED, EVENT_REPLAY_ENABLED_DEFAULT) && !isGlobalEventDelegationEnabled(injector);
+  return injector.get(IS_EVENT_REPLAY_ENABLED, EVENT_REPLAY_ENABLED_DEFAULT);
 }
 /**
  * Returns a set of providers required to setup support for event replay.
@@ -94265,8 +94580,10 @@ function serializeLView(lView, context) {
       }
       ngh[CONTAINERS] ??= {};
       ngh[CONTAINERS][noOffsetIndex] = serializeLContainer(lView[i], context);
-    } else if (Array.isArray(lView[i])) {
+    } else if (Array.isArray(lView[i]) && !isLetDeclaration(tNode)) {
       // This is a component, annotate the host node with an `ngh` attribute.
+      // Note: Let declarations that return an array are also storing an array in the LView,
+      // we need to exclude them.
       const targetNode = unwrapRNode(lView[i][HOST]);
       if (!targetNode.hasAttribute(SKIP_HYDRATION_ATTR_NAME)) {
         annotateHostElementForHydration(targetNode, lView[i], context);
@@ -94621,34 +94938,6 @@ function verifySsrContentsIntegrity() {
 }
 
 /**
- * Returns a set of providers required to setup support for event delegation.
- * @param multiContract - Experimental support to provide one event contract
- * when there are multiple binaries on the page.
- */
-function provideGlobalEventDelegation(multiContract = false) {
-  return [{
-    provide: IS_GLOBAL_EVENT_DELEGATION_ENABLED,
-    useValue: true
-  }, {
-    provide: ENVIRONMENT_INITIALIZER,
-    useValue: () => {
-      const injector = inject(Injector);
-      const eventContractDetails = injector.get(JSACTION_EVENT_CONTRACT);
-      if (multiContract && window.__jsaction_contract) {
-        eventContractDetails.instance = window.__jsaction_contract;
-        return;
-      }
-      initGlobalEventDelegation(eventContractDetails, injector);
-      window.__jsaction_contract = eventContractDetails.instance;
-    },
-    multi: true
-  }, {
-    provide: GLOBAL_EVENT_DELEGATION,
-    useClass: GlobalEventDelegation
-  }];
-}
-
-/**
  * Transforms a value (typically a string) to a boolean.
  * Intended to be used as a transform function of an input.
  *
@@ -94854,11 +95143,13 @@ const APP_EFFECT_SCHEDULER = new InjectionToken('', {
  */
 class EffectScheduler {
   /** @nocollapse */
-  static #_ = this.ɵprov = ɵɵdefineInjectable({
-    token: EffectScheduler,
-    providedIn: 'root',
-    factory: () => new ZoneAwareEffectScheduler()
-  });
+  static {
+    this.ɵprov = ɵɵdefineInjectable({
+      token: EffectScheduler,
+      providedIn: 'root',
+      factory: () => new ZoneAwareEffectScheduler()
+    });
+  }
 }
 /**
  * A wrapper around `ZoneAwareQueueingScheduler` that schedules flushing via the microtask queue
@@ -95212,7 +95503,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   removeAllAppScopedEventListeners: () => (/* binding */ removeAllAppScopedEventListeners)
 /* harmony export */ });
 /**
- * @license Angular v18.2.4
+ * @license Angular v18.2.13
  * (c) 2010-2024 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -97059,7 +97350,9 @@ const MOUSE_SPECIAL_SUPPORT = false;
  * be delay loaded in a generic way.
  */
 class EventContract {
-  static #_ = this.MOUSE_SPECIAL_SUPPORT = MOUSE_SPECIAL_SUPPORT;
+  static {
+    this.MOUSE_SPECIAL_SUPPORT = MOUSE_SPECIAL_SUPPORT;
+  }
   constructor(containerManager) {
     /**
      * The DOM events which this contract covers. Used to prevent double
@@ -97310,7 +97603,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   signalUpdateFn: () => (/* binding */ signalUpdateFn)
 /* harmony export */ });
 /**
- * @license Angular v18.2.4
+ * @license Angular v18.2.13
  * (c) 2010-2024 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -97934,7 +98227,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! rxjs */ 10819);
 /* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! rxjs/operators */ 70271);
 /**
- * @license Angular v18.2.4
+ * @license Angular v18.2.13
  * (c) 2010-2024 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -97997,12 +98290,16 @@ class BaseControlValueAccessor {
   setDisabledState(isDisabled) {
     this.setProperty('disabled', isDisabled);
   }
-  static #_ = this.ɵfac = function BaseControlValueAccessor_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || BaseControlValueAccessor)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_0__.Renderer2), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_0__.ElementRef));
-  };
-  static #_2 = this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
-    type: BaseControlValueAccessor
-  });
+  static {
+    this.ɵfac = function BaseControlValueAccessor_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || BaseControlValueAccessor)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_0__.Renderer2), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_0__.ElementRef));
+    };
+  }
+  static {
+    this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
+      type: BaseControlValueAccessor
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](BaseControlValueAccessor, [{
@@ -98023,16 +98320,20 @@ class BaseControlValueAccessor {
  * applications code.
  */
 class BuiltInControlValueAccessor extends BaseControlValueAccessor {
-  static #_ = this.ɵfac = /* @__PURE__ */(() => {
-    let ɵBuiltInControlValueAccessor_BaseFactory;
-    return function BuiltInControlValueAccessor_Factory(__ngFactoryType__) {
-      return (ɵBuiltInControlValueAccessor_BaseFactory || (ɵBuiltInControlValueAccessor_BaseFactory = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetInheritedFactory"](BuiltInControlValueAccessor)))(__ngFactoryType__ || BuiltInControlValueAccessor);
-    };
-  })();
-  static #_2 = this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
-    type: BuiltInControlValueAccessor,
-    features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵInheritDefinitionFeature"]]
-  });
+  static {
+    this.ɵfac = /* @__PURE__ */(() => {
+      let ɵBuiltInControlValueAccessor_BaseFactory;
+      return function BuiltInControlValueAccessor_Factory(__ngFactoryType__) {
+        return (ɵBuiltInControlValueAccessor_BaseFactory || (ɵBuiltInControlValueAccessor_BaseFactory = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetInheritedFactory"](BuiltInControlValueAccessor)))(__ngFactoryType__ || BuiltInControlValueAccessor);
+      };
+    })();
+  }
+  static {
+    this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
+      type: BuiltInControlValueAccessor,
+      features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵInheritDefinitionFeature"]]
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](BuiltInControlValueAccessor, [{
@@ -98083,26 +98384,30 @@ class CheckboxControlValueAccessor extends BuiltInControlValueAccessor {
   writeValue(value) {
     this.setProperty('checked', value);
   }
-  static #_ = this.ɵfac = /* @__PURE__ */(() => {
-    let ɵCheckboxControlValueAccessor_BaseFactory;
-    return function CheckboxControlValueAccessor_Factory(__ngFactoryType__) {
-      return (ɵCheckboxControlValueAccessor_BaseFactory || (ɵCheckboxControlValueAccessor_BaseFactory = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetInheritedFactory"](CheckboxControlValueAccessor)))(__ngFactoryType__ || CheckboxControlValueAccessor);
-    };
-  })();
-  static #_2 = this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
-    type: CheckboxControlValueAccessor,
-    selectors: [["input", "type", "checkbox", "formControlName", ""], ["input", "type", "checkbox", "formControl", ""], ["input", "type", "checkbox", "ngModel", ""]],
-    hostBindings: function CheckboxControlValueAccessor_HostBindings(rf, ctx) {
-      if (rf & 1) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("change", function CheckboxControlValueAccessor_change_HostBindingHandler($event) {
-          return ctx.onChange($event.target.checked);
-        })("blur", function CheckboxControlValueAccessor_blur_HostBindingHandler() {
-          return ctx.onTouched();
-        });
-      }
-    },
-    features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵProvidersFeature"]([CHECKBOX_VALUE_ACCESSOR]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵInheritDefinitionFeature"]]
-  });
+  static {
+    this.ɵfac = /* @__PURE__ */(() => {
+      let ɵCheckboxControlValueAccessor_BaseFactory;
+      return function CheckboxControlValueAccessor_Factory(__ngFactoryType__) {
+        return (ɵCheckboxControlValueAccessor_BaseFactory || (ɵCheckboxControlValueAccessor_BaseFactory = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetInheritedFactory"](CheckboxControlValueAccessor)))(__ngFactoryType__ || CheckboxControlValueAccessor);
+      };
+    })();
+  }
+  static {
+    this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
+      type: CheckboxControlValueAccessor,
+      selectors: [["input", "type", "checkbox", "formControlName", ""], ["input", "type", "checkbox", "formControl", ""], ["input", "type", "checkbox", "ngModel", ""]],
+      hostBindings: function CheckboxControlValueAccessor_HostBindings(rf, ctx) {
+        if (rf & 1) {
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("change", function CheckboxControlValueAccessor_change_HostBindingHandler($event) {
+            return ctx.onChange($event.target.checked);
+          })("blur", function CheckboxControlValueAccessor_blur_HostBindingHandler() {
+            return ctx.onTouched();
+          });
+        }
+      },
+      features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵProvidersFeature"]([CHECKBOX_VALUE_ACCESSOR]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵInheritDefinitionFeature"]]
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](CheckboxControlValueAccessor, [{
@@ -98204,27 +98509,31 @@ class DefaultValueAccessor extends BaseControlValueAccessor {
     this._composing = false;
     this._compositionMode && this.onChange(value);
   }
-  static #_ = this.ɵfac = function DefaultValueAccessor_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || DefaultValueAccessor)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_0__.Renderer2), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_0__.ElementRef), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](COMPOSITION_BUFFER_MODE, 8));
-  };
-  static #_2 = this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
-    type: DefaultValueAccessor,
-    selectors: [["input", "formControlName", "", 3, "type", "checkbox"], ["textarea", "formControlName", ""], ["input", "formControl", "", 3, "type", "checkbox"], ["textarea", "formControl", ""], ["input", "ngModel", "", 3, "type", "checkbox"], ["textarea", "ngModel", ""], ["", "ngDefaultControl", ""]],
-    hostBindings: function DefaultValueAccessor_HostBindings(rf, ctx) {
-      if (rf & 1) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("input", function DefaultValueAccessor_input_HostBindingHandler($event) {
-          return ctx._handleInput($event.target.value);
-        })("blur", function DefaultValueAccessor_blur_HostBindingHandler() {
-          return ctx.onTouched();
-        })("compositionstart", function DefaultValueAccessor_compositionstart_HostBindingHandler() {
-          return ctx._compositionStart();
-        })("compositionend", function DefaultValueAccessor_compositionend_HostBindingHandler($event) {
-          return ctx._compositionEnd($event.target.value);
-        });
-      }
-    },
-    features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵProvidersFeature"]([DEFAULT_VALUE_ACCESSOR]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵInheritDefinitionFeature"]]
-  });
+  static {
+    this.ɵfac = function DefaultValueAccessor_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || DefaultValueAccessor)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_0__.Renderer2), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_0__.ElementRef), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](COMPOSITION_BUFFER_MODE, 8));
+    };
+  }
+  static {
+    this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
+      type: DefaultValueAccessor,
+      selectors: [["input", "formControlName", "", 3, "type", "checkbox"], ["textarea", "formControlName", ""], ["input", "formControl", "", 3, "type", "checkbox"], ["textarea", "formControl", ""], ["input", "ngModel", "", 3, "type", "checkbox"], ["textarea", "ngModel", ""], ["", "ngDefaultControl", ""]],
+      hostBindings: function DefaultValueAccessor_HostBindings(rf, ctx) {
+        if (rf & 1) {
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("input", function DefaultValueAccessor_input_HostBindingHandler($event) {
+            return ctx._handleInput($event.target.value);
+          })("blur", function DefaultValueAccessor_blur_HostBindingHandler() {
+            return ctx.onTouched();
+          })("compositionstart", function DefaultValueAccessor_compositionstart_HostBindingHandler() {
+            return ctx._compositionStart();
+          })("compositionend", function DefaultValueAccessor_compositionend_HostBindingHandler($event) {
+            return ctx._compositionEnd($event.target.value);
+          });
+        }
+      },
+      features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵProvidersFeature"]([DEFAULT_VALUE_ACCESSOR]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵInheritDefinitionFeature"]]
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](DefaultValueAccessor, [{
@@ -99347,20 +99656,24 @@ class NgControlStatus extends AbstractControlStatus {
   constructor(cd) {
     super(cd);
   }
-  static #_ = this.ɵfac = function NgControlStatus_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || NgControlStatus)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](NgControl, 2));
-  };
-  static #_2 = this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
-    type: NgControlStatus,
-    selectors: [["", "formControlName", ""], ["", "ngModel", ""], ["", "formControl", ""]],
-    hostVars: 14,
-    hostBindings: function NgControlStatus_HostBindings(rf, ctx) {
-      if (rf & 2) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵclassProp"]("ng-untouched", ctx.isUntouched)("ng-touched", ctx.isTouched)("ng-pristine", ctx.isPristine)("ng-dirty", ctx.isDirty)("ng-valid", ctx.isValid)("ng-invalid", ctx.isInvalid)("ng-pending", ctx.isPending);
-      }
-    },
-    features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵInheritDefinitionFeature"]]
-  });
+  static {
+    this.ɵfac = function NgControlStatus_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || NgControlStatus)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](NgControl, 2));
+    };
+  }
+  static {
+    this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
+      type: NgControlStatus,
+      selectors: [["", "formControlName", ""], ["", "ngModel", ""], ["", "formControl", ""]],
+      hostVars: 14,
+      hostBindings: function NgControlStatus_HostBindings(rf, ctx) {
+        if (rf & 2) {
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵclassProp"]("ng-untouched", ctx.isUntouched)("ng-touched", ctx.isTouched)("ng-pristine", ctx.isPristine)("ng-dirty", ctx.isDirty)("ng-valid", ctx.isValid)("ng-invalid", ctx.isInvalid)("ng-pending", ctx.isPending);
+        }
+      },
+      features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵInheritDefinitionFeature"]]
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](NgControlStatus, [{
@@ -99392,20 +99705,24 @@ class NgControlStatusGroup extends AbstractControlStatus {
   constructor(cd) {
     super(cd);
   }
-  static #_ = this.ɵfac = function NgControlStatusGroup_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || NgControlStatusGroup)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](ControlContainer, 10));
-  };
-  static #_2 = this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
-    type: NgControlStatusGroup,
-    selectors: [["", "formGroupName", ""], ["", "formArrayName", ""], ["", "ngModelGroup", ""], ["", "formGroup", ""], ["form", 3, "ngNoForm", ""], ["", "ngForm", ""]],
-    hostVars: 16,
-    hostBindings: function NgControlStatusGroup_HostBindings(rf, ctx) {
-      if (rf & 2) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵclassProp"]("ng-untouched", ctx.isUntouched)("ng-touched", ctx.isTouched)("ng-pristine", ctx.isPristine)("ng-dirty", ctx.isDirty)("ng-valid", ctx.isValid)("ng-invalid", ctx.isInvalid)("ng-pending", ctx.isPending)("ng-submitted", ctx.isSubmitted);
-      }
-    },
-    features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵInheritDefinitionFeature"]]
-  });
+  static {
+    this.ɵfac = function NgControlStatusGroup_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || NgControlStatusGroup)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](ControlContainer, 10));
+    };
+  }
+  static {
+    this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
+      type: NgControlStatusGroup,
+      selectors: [["", "formGroupName", ""], ["", "formArrayName", ""], ["", "ngModelGroup", ""], ["", "formGroup", ""], ["form", 3, "ngNoForm", ""], ["", "ngForm", ""]],
+      hostVars: 16,
+      hostBindings: function NgControlStatusGroup_HostBindings(rf, ctx) {
+        if (rf & 2) {
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵclassProp"]("ng-untouched", ctx.isUntouched)("ng-touched", ctx.isTouched)("ng-pristine", ctx.isPristine)("ng-dirty", ctx.isDirty)("ng-valid", ctx.isValid)("ng-invalid", ctx.isInvalid)("ng-pending", ctx.isPending)("ng-submitted", ctx.isSubmitted);
+        }
+      },
+      features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵInheritDefinitionFeature"]]
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](NgControlStatusGroup, [{
@@ -101661,30 +101978,34 @@ class NgForm extends ControlContainer {
     path.pop();
     return path.length ? this.form.get(path) : this.form;
   }
-  static #_ = this.ɵfac = function NgForm_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || NgForm)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](NG_VALIDATORS, 10), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](NG_ASYNC_VALIDATORS, 10), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](CALL_SET_DISABLED_STATE, 8));
-  };
-  static #_2 = this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
-    type: NgForm,
-    selectors: [["form", 3, "ngNoForm", "", 3, "formGroup", ""], ["ng-form"], ["", "ngForm", ""]],
-    hostBindings: function NgForm_HostBindings(rf, ctx) {
-      if (rf & 1) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("submit", function NgForm_submit_HostBindingHandler($event) {
-          return ctx.onSubmit($event);
-        })("reset", function NgForm_reset_HostBindingHandler() {
-          return ctx.onReset();
-        });
-      }
-    },
-    inputs: {
-      options: [0, "ngFormOptions", "options"]
-    },
-    outputs: {
-      ngSubmit: "ngSubmit"
-    },
-    exportAs: ["ngForm"],
-    features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵProvidersFeature"]([formDirectiveProvider$1]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵInheritDefinitionFeature"]]
-  });
+  static {
+    this.ɵfac = function NgForm_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || NgForm)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](NG_VALIDATORS, 10), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](NG_ASYNC_VALIDATORS, 10), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](CALL_SET_DISABLED_STATE, 8));
+    };
+  }
+  static {
+    this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
+      type: NgForm,
+      selectors: [["form", 3, "ngNoForm", "", 3, "formGroup", ""], ["ng-form"], ["", "ngForm", ""]],
+      hostBindings: function NgForm_HostBindings(rf, ctx) {
+        if (rf & 1) {
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("submit", function NgForm_submit_HostBindingHandler($event) {
+            return ctx.onSubmit($event);
+          })("reset", function NgForm_reset_HostBindingHandler() {
+            return ctx.onReset();
+          });
+        }
+      },
+      inputs: {
+        options: [0, "ngFormOptions", "options"]
+      },
+      outputs: {
+        ngSubmit: "ngSubmit"
+      },
+      exportAs: ["ngForm"],
+      features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵProvidersFeature"]([formDirectiveProvider$1]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵInheritDefinitionFeature"]]
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](NgForm, [{
@@ -101896,16 +102217,20 @@ class AbstractFormGroupDirective extends ControlContainer {
   }
   /** @internal */
   _checkParentType() {}
-  static #_ = this.ɵfac = /* @__PURE__ */(() => {
-    let ɵAbstractFormGroupDirective_BaseFactory;
-    return function AbstractFormGroupDirective_Factory(__ngFactoryType__) {
-      return (ɵAbstractFormGroupDirective_BaseFactory || (ɵAbstractFormGroupDirective_BaseFactory = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetInheritedFactory"](AbstractFormGroupDirective)))(__ngFactoryType__ || AbstractFormGroupDirective);
-    };
-  })();
-  static #_2 = this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
-    type: AbstractFormGroupDirective,
-    features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵInheritDefinitionFeature"]]
-  });
+  static {
+    this.ɵfac = /* @__PURE__ */(() => {
+      let ɵAbstractFormGroupDirective_BaseFactory;
+      return function AbstractFormGroupDirective_Factory(__ngFactoryType__) {
+        return (ɵAbstractFormGroupDirective_BaseFactory || (ɵAbstractFormGroupDirective_BaseFactory = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetInheritedFactory"](AbstractFormGroupDirective)))(__ngFactoryType__ || AbstractFormGroupDirective);
+      };
+    })();
+  }
+  static {
+    this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
+      type: AbstractFormGroupDirective,
+      features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵInheritDefinitionFeature"]]
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](AbstractFormGroupDirective, [{
@@ -102005,18 +102330,22 @@ class NgModelGroup extends AbstractFormGroupDirective {
       throw modelGroupParentException();
     }
   }
-  static #_ = this.ɵfac = function NgModelGroup_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || NgModelGroup)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](ControlContainer, 5), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](NG_VALIDATORS, 10), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](NG_ASYNC_VALIDATORS, 10));
-  };
-  static #_2 = this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
-    type: NgModelGroup,
-    selectors: [["", "ngModelGroup", ""]],
-    inputs: {
-      name: [0, "ngModelGroup", "name"]
-    },
-    exportAs: ["ngModelGroup"],
-    features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵProvidersFeature"]([modelGroupProvider]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵInheritDefinitionFeature"]]
-  });
+  static {
+    this.ɵfac = function NgModelGroup_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || NgModelGroup)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](ControlContainer, 5), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](NG_VALIDATORS, 10), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](NG_ASYNC_VALIDATORS, 10));
+    };
+  }
+  static {
+    this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
+      type: NgModelGroup,
+      selectors: [["", "ngModelGroup", ""]],
+      inputs: {
+        name: [0, "ngModelGroup", "name"]
+      },
+      exportAs: ["ngModelGroup"],
+      features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵProvidersFeature"]([modelGroupProvider]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵInheritDefinitionFeature"]]
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](NgModelGroup, [{
@@ -102313,24 +102642,28 @@ class NgModel extends NgControl {
   _getPath(controlName) {
     return this._parent ? controlPath(controlName, this._parent) : [controlName];
   }
-  static #_ = this.ɵfac = function NgModel_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || NgModel)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](ControlContainer, 9), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](NG_VALIDATORS, 10), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](NG_ASYNC_VALIDATORS, 10), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](NG_VALUE_ACCESSOR, 10), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_0__.ChangeDetectorRef, 8), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](CALL_SET_DISABLED_STATE, 8));
-  };
-  static #_2 = this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
-    type: NgModel,
-    selectors: [["", "ngModel", "", 3, "formControlName", "", 3, "formControl", ""]],
-    inputs: {
-      name: "name",
-      isDisabled: [0, "disabled", "isDisabled"],
-      model: [0, "ngModel", "model"],
-      options: [0, "ngModelOptions", "options"]
-    },
-    outputs: {
-      update: "ngModelChange"
-    },
-    exportAs: ["ngModel"],
-    features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵProvidersFeature"]([formControlBinding$1]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵInheritDefinitionFeature"], _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵNgOnChangesFeature"]]
-  });
+  static {
+    this.ɵfac = function NgModel_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || NgModel)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](ControlContainer, 9), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](NG_VALIDATORS, 10), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](NG_ASYNC_VALIDATORS, 10), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](NG_VALUE_ACCESSOR, 10), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_0__.ChangeDetectorRef, 8), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](CALL_SET_DISABLED_STATE, 8));
+    };
+  }
+  static {
+    this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
+      type: NgModel,
+      selectors: [["", "ngModel", "", 3, "formControlName", "", 3, "formControl", ""]],
+      inputs: {
+        name: "name",
+        isDisabled: [0, "disabled", "isDisabled"],
+        model: [0, "ngModel", "model"],
+        options: [0, "ngModelOptions", "options"]
+      },
+      outputs: {
+        update: "ngModelChange"
+      },
+      exportAs: ["ngModel"],
+      features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵProvidersFeature"]([formControlBinding$1]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵInheritDefinitionFeature"], _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵNgOnChangesFeature"]]
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](NgModel, [{
@@ -102434,14 +102767,18 @@ class NgModel extends NgControl {
  * @ngModule FormsModule
  */
 class ɵNgNoValidate {
-  static #_ = this.ɵfac = function ɵNgNoValidate_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || ɵNgNoValidate)();
-  };
-  static #_2 = this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
-    type: ɵNgNoValidate,
-    selectors: [["form", 3, "ngNoForm", "", 3, "ngNativeValidate", ""]],
-    hostAttrs: ["novalidate", ""]
-  });
+  static {
+    this.ɵfac = function ɵNgNoValidate_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || ɵNgNoValidate)();
+    };
+  }
+  static {
+    this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
+      type: ɵNgNoValidate,
+      selectors: [["form", 3, "ngNoForm", "", 3, "ngNativeValidate", ""]],
+      hostAttrs: ["novalidate", ""]
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](ɵNgNoValidate, [{
@@ -102502,26 +102839,30 @@ class NumberValueAccessor extends BuiltInControlValueAccessor {
       fn(value == '' ? null : parseFloat(value));
     };
   }
-  static #_ = this.ɵfac = /* @__PURE__ */(() => {
-    let ɵNumberValueAccessor_BaseFactory;
-    return function NumberValueAccessor_Factory(__ngFactoryType__) {
-      return (ɵNumberValueAccessor_BaseFactory || (ɵNumberValueAccessor_BaseFactory = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetInheritedFactory"](NumberValueAccessor)))(__ngFactoryType__ || NumberValueAccessor);
-    };
-  })();
-  static #_2 = this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
-    type: NumberValueAccessor,
-    selectors: [["input", "type", "number", "formControlName", ""], ["input", "type", "number", "formControl", ""], ["input", "type", "number", "ngModel", ""]],
-    hostBindings: function NumberValueAccessor_HostBindings(rf, ctx) {
-      if (rf & 1) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("input", function NumberValueAccessor_input_HostBindingHandler($event) {
-          return ctx.onChange($event.target.value);
-        })("blur", function NumberValueAccessor_blur_HostBindingHandler() {
-          return ctx.onTouched();
-        });
-      }
-    },
-    features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵProvidersFeature"]([NUMBER_VALUE_ACCESSOR]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵInheritDefinitionFeature"]]
-  });
+  static {
+    this.ɵfac = /* @__PURE__ */(() => {
+      let ɵNumberValueAccessor_BaseFactory;
+      return function NumberValueAccessor_Factory(__ngFactoryType__) {
+        return (ɵNumberValueAccessor_BaseFactory || (ɵNumberValueAccessor_BaseFactory = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetInheritedFactory"](NumberValueAccessor)))(__ngFactoryType__ || NumberValueAccessor);
+      };
+    })();
+  }
+  static {
+    this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
+      type: NumberValueAccessor,
+      selectors: [["input", "type", "number", "formControlName", ""], ["input", "type", "number", "formControl", ""], ["input", "type", "number", "ngModel", ""]],
+      hostBindings: function NumberValueAccessor_HostBindings(rf, ctx) {
+        if (rf & 1) {
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("input", function NumberValueAccessor_input_HostBindingHandler($event) {
+            return ctx.onChange($event.target.value);
+          })("blur", function NumberValueAccessor_blur_HostBindingHandler() {
+            return ctx.onTouched();
+          });
+        }
+      },
+      features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵProvidersFeature"]([NUMBER_VALUE_ACCESSOR]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵInheritDefinitionFeature"]]
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](NumberValueAccessor, [{
@@ -102589,14 +102930,18 @@ class RadioControlRegistry {
     if (!controlPair[0].control) return false;
     return controlPair[0]._parent === accessor._control._parent && controlPair[1].name === accessor.name;
   }
-  static #_ = this.ɵfac = function RadioControlRegistry_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || RadioControlRegistry)();
-  };
-  static #_2 = this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjectable"]({
-    token: RadioControlRegistry,
-    factory: RadioControlRegistry.ɵfac,
-    providedIn: 'root'
-  });
+  static {
+    this.ɵfac = function RadioControlRegistry_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || RadioControlRegistry)();
+    };
+  }
+  static {
+    this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjectable"]({
+      token: RadioControlRegistry,
+      factory: RadioControlRegistry.ɵfac,
+      providedIn: 'root'
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](RadioControlRegistry, [{
@@ -102712,28 +103057,32 @@ class RadioControlValueAccessor extends BuiltInControlValueAccessor {
     }
     if (!this.name && this.formControlName) this.name = this.formControlName;
   }
-  static #_ = this.ɵfac = function RadioControlValueAccessor_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || RadioControlValueAccessor)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_0__.Renderer2), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_0__.ElementRef), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](RadioControlRegistry), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_0__.Injector));
-  };
-  static #_2 = this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
-    type: RadioControlValueAccessor,
-    selectors: [["input", "type", "radio", "formControlName", ""], ["input", "type", "radio", "formControl", ""], ["input", "type", "radio", "ngModel", ""]],
-    hostBindings: function RadioControlValueAccessor_HostBindings(rf, ctx) {
-      if (rf & 1) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("change", function RadioControlValueAccessor_change_HostBindingHandler() {
-          return ctx.onChange();
-        })("blur", function RadioControlValueAccessor_blur_HostBindingHandler() {
-          return ctx.onTouched();
-        });
-      }
-    },
-    inputs: {
-      name: "name",
-      formControlName: "formControlName",
-      value: "value"
-    },
-    features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵProvidersFeature"]([RADIO_VALUE_ACCESSOR]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵInheritDefinitionFeature"]]
-  });
+  static {
+    this.ɵfac = function RadioControlValueAccessor_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || RadioControlValueAccessor)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_0__.Renderer2), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_0__.ElementRef), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](RadioControlRegistry), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_0__.Injector));
+    };
+  }
+  static {
+    this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
+      type: RadioControlValueAccessor,
+      selectors: [["input", "type", "radio", "formControlName", ""], ["input", "type", "radio", "formControl", ""], ["input", "type", "radio", "ngModel", ""]],
+      hostBindings: function RadioControlValueAccessor_HostBindings(rf, ctx) {
+        if (rf & 1) {
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("change", function RadioControlValueAccessor_change_HostBindingHandler() {
+            return ctx.onChange();
+          })("blur", function RadioControlValueAccessor_blur_HostBindingHandler() {
+            return ctx.onTouched();
+          });
+        }
+      },
+      inputs: {
+        name: "name",
+        formControlName: "formControlName",
+        value: "value"
+      },
+      features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵProvidersFeature"]([RADIO_VALUE_ACCESSOR]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵInheritDefinitionFeature"]]
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](RadioControlValueAccessor, [{
@@ -102812,28 +103161,32 @@ class RangeValueAccessor extends BuiltInControlValueAccessor {
       fn(value == '' ? null : parseFloat(value));
     };
   }
-  static #_ = this.ɵfac = /* @__PURE__ */(() => {
-    let ɵRangeValueAccessor_BaseFactory;
-    return function RangeValueAccessor_Factory(__ngFactoryType__) {
-      return (ɵRangeValueAccessor_BaseFactory || (ɵRangeValueAccessor_BaseFactory = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetInheritedFactory"](RangeValueAccessor)))(__ngFactoryType__ || RangeValueAccessor);
-    };
-  })();
-  static #_2 = this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
-    type: RangeValueAccessor,
-    selectors: [["input", "type", "range", "formControlName", ""], ["input", "type", "range", "formControl", ""], ["input", "type", "range", "ngModel", ""]],
-    hostBindings: function RangeValueAccessor_HostBindings(rf, ctx) {
-      if (rf & 1) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("change", function RangeValueAccessor_change_HostBindingHandler($event) {
-          return ctx.onChange($event.target.value);
-        })("input", function RangeValueAccessor_input_HostBindingHandler($event) {
-          return ctx.onChange($event.target.value);
-        })("blur", function RangeValueAccessor_blur_HostBindingHandler() {
-          return ctx.onTouched();
-        });
-      }
-    },
-    features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵProvidersFeature"]([RANGE_VALUE_ACCESSOR]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵInheritDefinitionFeature"]]
-  });
+  static {
+    this.ɵfac = /* @__PURE__ */(() => {
+      let ɵRangeValueAccessor_BaseFactory;
+      return function RangeValueAccessor_Factory(__ngFactoryType__) {
+        return (ɵRangeValueAccessor_BaseFactory || (ɵRangeValueAccessor_BaseFactory = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetInheritedFactory"](RangeValueAccessor)))(__ngFactoryType__ || RangeValueAccessor);
+      };
+    })();
+  }
+  static {
+    this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
+      type: RangeValueAccessor,
+      selectors: [["input", "type", "range", "formControlName", ""], ["input", "type", "range", "formControl", ""], ["input", "type", "range", "ngModel", ""]],
+      hostBindings: function RangeValueAccessor_HostBindings(rf, ctx) {
+        if (rf & 1) {
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("change", function RangeValueAccessor_change_HostBindingHandler($event) {
+            return ctx.onChange($event.target.value);
+          })("input", function RangeValueAccessor_input_HostBindingHandler($event) {
+            return ctx.onChange($event.target.value);
+          })("blur", function RangeValueAccessor_blur_HostBindingHandler() {
+            return ctx.onTouched();
+          });
+        }
+      },
+      features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵProvidersFeature"]([RANGE_VALUE_ACCESSOR]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵInheritDefinitionFeature"]]
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](RangeValueAccessor, [{
@@ -102896,7 +103249,9 @@ class FormControlDirective extends NgControl {
    *
    * @internal
    */
-  static #_ = this._ngModelWarningSentOnce = false;
+  static {
+    this._ngModelWarningSentOnce = false;
+  }
   constructor(validators, asyncValidators, valueAccessors, _ngModelWarningConfig, callSetDisabledState) {
     super();
     this._ngModelWarningConfig = _ngModelWarningConfig;
@@ -102969,23 +103324,27 @@ class FormControlDirective extends NgControl {
   _isControlChanged(changes) {
     return changes.hasOwnProperty('form');
   }
-  static #_2 = this.ɵfac = function FormControlDirective_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || FormControlDirective)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](NG_VALIDATORS, 10), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](NG_ASYNC_VALIDATORS, 10), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](NG_VALUE_ACCESSOR, 10), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](NG_MODEL_WITH_FORM_CONTROL_WARNING, 8), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](CALL_SET_DISABLED_STATE, 8));
-  };
-  static #_3 = this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
-    type: FormControlDirective,
-    selectors: [["", "formControl", ""]],
-    inputs: {
-      form: [0, "formControl", "form"],
-      isDisabled: [0, "disabled", "isDisabled"],
-      model: [0, "ngModel", "model"]
-    },
-    outputs: {
-      update: "ngModelChange"
-    },
-    exportAs: ["ngForm"],
-    features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵProvidersFeature"]([formControlBinding]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵInheritDefinitionFeature"], _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵNgOnChangesFeature"]]
-  });
+  static {
+    this.ɵfac = function FormControlDirective_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || FormControlDirective)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](NG_VALIDATORS, 10), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](NG_ASYNC_VALIDATORS, 10), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](NG_VALUE_ACCESSOR, 10), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](NG_MODEL_WITH_FORM_CONTROL_WARNING, 8), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](CALL_SET_DISABLED_STATE, 8));
+    };
+  }
+  static {
+    this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
+      type: FormControlDirective,
+      selectors: [["", "formControl", ""]],
+      inputs: {
+        form: [0, "formControl", "form"],
+        isDisabled: [0, "disabled", "isDisabled"],
+        model: [0, "ngModel", "model"]
+      },
+      outputs: {
+        update: "ngModelChange"
+      },
+      exportAs: ["ngForm"],
+      features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵProvidersFeature"]([formControlBinding]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵInheritDefinitionFeature"], _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵNgOnChangesFeature"]]
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](FormControlDirective, [{
@@ -103374,30 +103733,34 @@ class FormGroupDirective extends ControlContainer {
       throw missingFormException();
     }
   }
-  static #_ = this.ɵfac = function FormGroupDirective_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || FormGroupDirective)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](NG_VALIDATORS, 10), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](NG_ASYNC_VALIDATORS, 10), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](CALL_SET_DISABLED_STATE, 8));
-  };
-  static #_2 = this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
-    type: FormGroupDirective,
-    selectors: [["", "formGroup", ""]],
-    hostBindings: function FormGroupDirective_HostBindings(rf, ctx) {
-      if (rf & 1) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("submit", function FormGroupDirective_submit_HostBindingHandler($event) {
-          return ctx.onSubmit($event);
-        })("reset", function FormGroupDirective_reset_HostBindingHandler() {
-          return ctx.onReset();
-        });
-      }
-    },
-    inputs: {
-      form: [0, "formGroup", "form"]
-    },
-    outputs: {
-      ngSubmit: "ngSubmit"
-    },
-    exportAs: ["ngForm"],
-    features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵProvidersFeature"]([formDirectiveProvider]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵInheritDefinitionFeature"], _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵNgOnChangesFeature"]]
-  });
+  static {
+    this.ɵfac = function FormGroupDirective_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || FormGroupDirective)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](NG_VALIDATORS, 10), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](NG_ASYNC_VALIDATORS, 10), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](CALL_SET_DISABLED_STATE, 8));
+    };
+  }
+  static {
+    this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
+      type: FormGroupDirective,
+      selectors: [["", "formGroup", ""]],
+      hostBindings: function FormGroupDirective_HostBindings(rf, ctx) {
+        if (rf & 1) {
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("submit", function FormGroupDirective_submit_HostBindingHandler($event) {
+            return ctx.onSubmit($event);
+          })("reset", function FormGroupDirective_reset_HostBindingHandler() {
+            return ctx.onReset();
+          });
+        }
+      },
+      inputs: {
+        form: [0, "formGroup", "form"]
+      },
+      outputs: {
+        ngSubmit: "ngSubmit"
+      },
+      exportAs: ["ngForm"],
+      features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵProvidersFeature"]([formDirectiveProvider]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵInheritDefinitionFeature"], _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵNgOnChangesFeature"]]
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](FormGroupDirective, [{
@@ -103523,17 +103886,21 @@ class FormGroupName extends AbstractFormGroupDirective {
       throw groupParentException();
     }
   }
-  static #_ = this.ɵfac = function FormGroupName_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || FormGroupName)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](ControlContainer, 13), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](NG_VALIDATORS, 10), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](NG_ASYNC_VALIDATORS, 10));
-  };
-  static #_2 = this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
-    type: FormGroupName,
-    selectors: [["", "formGroupName", ""]],
-    inputs: {
-      name: [0, "formGroupName", "name"]
-    },
-    features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵProvidersFeature"]([formGroupNameProvider]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵInheritDefinitionFeature"]]
-  });
+  static {
+    this.ɵfac = function FormGroupName_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || FormGroupName)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](ControlContainer, 13), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](NG_VALIDATORS, 10), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](NG_ASYNC_VALIDATORS, 10));
+    };
+  }
+  static {
+    this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
+      type: FormGroupName,
+      selectors: [["", "formGroupName", ""]],
+      inputs: {
+        name: [0, "formGroupName", "name"]
+      },
+      features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵProvidersFeature"]([formGroupNameProvider]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵInheritDefinitionFeature"]]
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](FormGroupName, [{
@@ -103668,17 +104035,21 @@ class FormArrayName extends ControlContainer {
       throw arrayParentException();
     }
   }
-  static #_ = this.ɵfac = function FormArrayName_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || FormArrayName)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](ControlContainer, 13), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](NG_VALIDATORS, 10), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](NG_ASYNC_VALIDATORS, 10));
-  };
-  static #_2 = this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
-    type: FormArrayName,
-    selectors: [["", "formArrayName", ""]],
-    inputs: {
-      name: [0, "formArrayName", "name"]
-    },
-    features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵProvidersFeature"]([formArrayNameProvider]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵInheritDefinitionFeature"]]
-  });
+  static {
+    this.ɵfac = function FormArrayName_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || FormArrayName)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](ControlContainer, 13), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](NG_VALIDATORS, 10), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](NG_ASYNC_VALIDATORS, 10));
+    };
+  }
+  static {
+    this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
+      type: FormArrayName,
+      selectors: [["", "formArrayName", ""]],
+      inputs: {
+        name: [0, "formArrayName", "name"]
+      },
+      features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵProvidersFeature"]([formArrayNameProvider]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵInheritDefinitionFeature"]]
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](FormArrayName, [{
@@ -103779,7 +104150,9 @@ class FormControlName extends NgControl {
    *
    * @internal
    */
-  static #_ = this._ngModelWarningSentOnce = false;
+  static {
+    this._ngModelWarningSentOnce = false;
+  }
   constructor(parent, validators, asyncValidators, valueAccessors, _ngModelWarningConfig) {
     super();
     this._ngModelWarningConfig = _ngModelWarningConfig;
@@ -103865,22 +104238,26 @@ class FormControlName extends NgControl {
     this.control = this.formDirective.addControl(this);
     this._added = true;
   }
-  static #_2 = this.ɵfac = function FormControlName_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || FormControlName)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](ControlContainer, 13), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](NG_VALIDATORS, 10), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](NG_ASYNC_VALIDATORS, 10), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](NG_VALUE_ACCESSOR, 10), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](NG_MODEL_WITH_FORM_CONTROL_WARNING, 8));
-  };
-  static #_3 = this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
-    type: FormControlName,
-    selectors: [["", "formControlName", ""]],
-    inputs: {
-      name: [0, "formControlName", "name"],
-      isDisabled: [0, "disabled", "isDisabled"],
-      model: [0, "ngModel", "model"]
-    },
-    outputs: {
-      update: "ngModelChange"
-    },
-    features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵProvidersFeature"]([controlNameBinding]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵInheritDefinitionFeature"], _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵNgOnChangesFeature"]]
-  });
+  static {
+    this.ɵfac = function FormControlName_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || FormControlName)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](ControlContainer, 13), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](NG_VALIDATORS, 10), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](NG_ASYNC_VALIDATORS, 10), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](NG_VALUE_ACCESSOR, 10), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](NG_MODEL_WITH_FORM_CONTROL_WARNING, 8));
+    };
+  }
+  static {
+    this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
+      type: FormControlName,
+      selectors: [["", "formControlName", ""]],
+      inputs: {
+        name: [0, "formControlName", "name"],
+        isDisabled: [0, "disabled", "isDisabled"],
+        model: [0, "ngModel", "model"]
+      },
+      outputs: {
+        update: "ngModelChange"
+      },
+      features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵProvidersFeature"]([controlNameBinding]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵInheritDefinitionFeature"], _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵNgOnChangesFeature"]]
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](FormControlName, [{
@@ -104080,29 +104457,33 @@ class SelectControlValueAccessor extends BuiltInControlValueAccessor {
     const id = _extractId$1(valueString);
     return this._optionMap.has(id) ? this._optionMap.get(id) : valueString;
   }
-  static #_ = this.ɵfac = /* @__PURE__ */(() => {
-    let ɵSelectControlValueAccessor_BaseFactory;
-    return function SelectControlValueAccessor_Factory(__ngFactoryType__) {
-      return (ɵSelectControlValueAccessor_BaseFactory || (ɵSelectControlValueAccessor_BaseFactory = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetInheritedFactory"](SelectControlValueAccessor)))(__ngFactoryType__ || SelectControlValueAccessor);
-    };
-  })();
-  static #_2 = this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
-    type: SelectControlValueAccessor,
-    selectors: [["select", "formControlName", "", 3, "multiple", ""], ["select", "formControl", "", 3, "multiple", ""], ["select", "ngModel", "", 3, "multiple", ""]],
-    hostBindings: function SelectControlValueAccessor_HostBindings(rf, ctx) {
-      if (rf & 1) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("change", function SelectControlValueAccessor_change_HostBindingHandler($event) {
-          return ctx.onChange($event.target.value);
-        })("blur", function SelectControlValueAccessor_blur_HostBindingHandler() {
-          return ctx.onTouched();
-        });
-      }
-    },
-    inputs: {
-      compareWith: "compareWith"
-    },
-    features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵProvidersFeature"]([SELECT_VALUE_ACCESSOR]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵInheritDefinitionFeature"]]
-  });
+  static {
+    this.ɵfac = /* @__PURE__ */(() => {
+      let ɵSelectControlValueAccessor_BaseFactory;
+      return function SelectControlValueAccessor_Factory(__ngFactoryType__) {
+        return (ɵSelectControlValueAccessor_BaseFactory || (ɵSelectControlValueAccessor_BaseFactory = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetInheritedFactory"](SelectControlValueAccessor)))(__ngFactoryType__ || SelectControlValueAccessor);
+      };
+    })();
+  }
+  static {
+    this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
+      type: SelectControlValueAccessor,
+      selectors: [["select", "formControlName", "", 3, "multiple", ""], ["select", "formControl", "", 3, "multiple", ""], ["select", "ngModel", "", 3, "multiple", ""]],
+      hostBindings: function SelectControlValueAccessor_HostBindings(rf, ctx) {
+        if (rf & 1) {
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("change", function SelectControlValueAccessor_change_HostBindingHandler($event) {
+            return ctx.onChange($event.target.value);
+          })("blur", function SelectControlValueAccessor_blur_HostBindingHandler() {
+            return ctx.onTouched();
+          });
+        }
+      },
+      inputs: {
+        compareWith: "compareWith"
+      },
+      features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵProvidersFeature"]([SELECT_VALUE_ACCESSOR]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵInheritDefinitionFeature"]]
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](SelectControlValueAccessor, [{
@@ -104169,17 +104550,21 @@ class NgSelectOption {
       this._select.writeValue(this._select.value);
     }
   }
-  static #_ = this.ɵfac = function NgSelectOption_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || NgSelectOption)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_0__.ElementRef), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_0__.Renderer2), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](SelectControlValueAccessor, 9));
-  };
-  static #_2 = this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
-    type: NgSelectOption,
-    selectors: [["option"]],
-    inputs: {
-      ngValue: "ngValue",
-      value: "value"
-    }
-  });
+  static {
+    this.ɵfac = function NgSelectOption_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || NgSelectOption)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_0__.ElementRef), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_0__.Renderer2), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](SelectControlValueAccessor, 9));
+    };
+  }
+  static {
+    this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
+      type: NgSelectOption,
+      selectors: [["option"]],
+      inputs: {
+        ngValue: "ngValue",
+        value: "value"
+      }
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](NgSelectOption, [{
@@ -104352,29 +104737,33 @@ class SelectMultipleControlValueAccessor extends BuiltInControlValueAccessor {
     const id = _extractId(valueString);
     return this._optionMap.has(id) ? this._optionMap.get(id)._value : valueString;
   }
-  static #_ = this.ɵfac = /* @__PURE__ */(() => {
-    let ɵSelectMultipleControlValueAccessor_BaseFactory;
-    return function SelectMultipleControlValueAccessor_Factory(__ngFactoryType__) {
-      return (ɵSelectMultipleControlValueAccessor_BaseFactory || (ɵSelectMultipleControlValueAccessor_BaseFactory = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetInheritedFactory"](SelectMultipleControlValueAccessor)))(__ngFactoryType__ || SelectMultipleControlValueAccessor);
-    };
-  })();
-  static #_2 = this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
-    type: SelectMultipleControlValueAccessor,
-    selectors: [["select", "multiple", "", "formControlName", ""], ["select", "multiple", "", "formControl", ""], ["select", "multiple", "", "ngModel", ""]],
-    hostBindings: function SelectMultipleControlValueAccessor_HostBindings(rf, ctx) {
-      if (rf & 1) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("change", function SelectMultipleControlValueAccessor_change_HostBindingHandler($event) {
-          return ctx.onChange($event.target);
-        })("blur", function SelectMultipleControlValueAccessor_blur_HostBindingHandler() {
-          return ctx.onTouched();
-        });
-      }
-    },
-    inputs: {
-      compareWith: "compareWith"
-    },
-    features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵProvidersFeature"]([SELECT_MULTIPLE_VALUE_ACCESSOR]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵInheritDefinitionFeature"]]
-  });
+  static {
+    this.ɵfac = /* @__PURE__ */(() => {
+      let ɵSelectMultipleControlValueAccessor_BaseFactory;
+      return function SelectMultipleControlValueAccessor_Factory(__ngFactoryType__) {
+        return (ɵSelectMultipleControlValueAccessor_BaseFactory || (ɵSelectMultipleControlValueAccessor_BaseFactory = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetInheritedFactory"](SelectMultipleControlValueAccessor)))(__ngFactoryType__ || SelectMultipleControlValueAccessor);
+      };
+    })();
+  }
+  static {
+    this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
+      type: SelectMultipleControlValueAccessor,
+      selectors: [["select", "multiple", "", "formControlName", ""], ["select", "multiple", "", "formControl", ""], ["select", "multiple", "", "ngModel", ""]],
+      hostBindings: function SelectMultipleControlValueAccessor_HostBindings(rf, ctx) {
+        if (rf & 1) {
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("change", function SelectMultipleControlValueAccessor_change_HostBindingHandler($event) {
+            return ctx.onChange($event.target);
+          })("blur", function SelectMultipleControlValueAccessor_blur_HostBindingHandler() {
+            return ctx.onTouched();
+          });
+        }
+      },
+      inputs: {
+        compareWith: "compareWith"
+      },
+      features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵProvidersFeature"]([SELECT_MULTIPLE_VALUE_ACCESSOR]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵInheritDefinitionFeature"]]
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](SelectMultipleControlValueAccessor, [{
@@ -104452,17 +104841,21 @@ class ɵNgSelectMultipleOption {
       this._select.writeValue(this._select.value);
     }
   }
-  static #_ = this.ɵfac = function ɵNgSelectMultipleOption_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || ɵNgSelectMultipleOption)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_0__.ElementRef), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_0__.Renderer2), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](SelectMultipleControlValueAccessor, 9));
-  };
-  static #_2 = this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
-    type: ɵNgSelectMultipleOption,
-    selectors: [["option"]],
-    inputs: {
-      ngValue: "ngValue",
-      value: "value"
-    }
-  });
+  static {
+    this.ɵfac = function ɵNgSelectMultipleOption_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || ɵNgSelectMultipleOption)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_0__.ElementRef), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_0__.Renderer2), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](SelectMultipleControlValueAccessor, 9));
+    };
+  }
+  static {
+    this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
+      type: ɵNgSelectMultipleOption,
+      selectors: [["option"]],
+      inputs: {
+        ngValue: "ngValue",
+        value: "value"
+      }
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](ɵNgSelectMultipleOption, [{
@@ -104550,13 +104943,17 @@ class AbstractValidatorDirective {
   enabled(input) {
     return input != null /* both `null` and `undefined` */;
   }
-  static #_ = this.ɵfac = function AbstractValidatorDirective_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || AbstractValidatorDirective)();
-  };
-  static #_2 = this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
-    type: AbstractValidatorDirective,
-    features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵNgOnChangesFeature"]]
-  });
+  static {
+    this.ɵfac = function AbstractValidatorDirective_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || AbstractValidatorDirective)();
+    };
+  }
+  static {
+    this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
+      type: AbstractValidatorDirective,
+      features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵNgOnChangesFeature"]]
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](AbstractValidatorDirective, [{
@@ -104603,26 +105000,30 @@ class MaxValidator extends AbstractValidatorDirective {
     /** @internal */
     this.createValidator = max => maxValidator(max);
   }
-  static #_ = this.ɵfac = /* @__PURE__ */(() => {
-    let ɵMaxValidator_BaseFactory;
-    return function MaxValidator_Factory(__ngFactoryType__) {
-      return (ɵMaxValidator_BaseFactory || (ɵMaxValidator_BaseFactory = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetInheritedFactory"](MaxValidator)))(__ngFactoryType__ || MaxValidator);
-    };
-  })();
-  static #_2 = this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
-    type: MaxValidator,
-    selectors: [["input", "type", "number", "max", "", "formControlName", ""], ["input", "type", "number", "max", "", "formControl", ""], ["input", "type", "number", "max", "", "ngModel", ""]],
-    hostVars: 1,
-    hostBindings: function MaxValidator_HostBindings(rf, ctx) {
-      if (rf & 2) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵattribute"]("max", ctx._enabled ? ctx.max : null);
-      }
-    },
-    inputs: {
-      max: "max"
-    },
-    features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵProvidersFeature"]([MAX_VALIDATOR]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵInheritDefinitionFeature"]]
-  });
+  static {
+    this.ɵfac = /* @__PURE__ */(() => {
+      let ɵMaxValidator_BaseFactory;
+      return function MaxValidator_Factory(__ngFactoryType__) {
+        return (ɵMaxValidator_BaseFactory || (ɵMaxValidator_BaseFactory = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetInheritedFactory"](MaxValidator)))(__ngFactoryType__ || MaxValidator);
+      };
+    })();
+  }
+  static {
+    this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
+      type: MaxValidator,
+      selectors: [["input", "type", "number", "max", "", "formControlName", ""], ["input", "type", "number", "max", "", "formControl", ""], ["input", "type", "number", "max", "", "ngModel", ""]],
+      hostVars: 1,
+      hostBindings: function MaxValidator_HostBindings(rf, ctx) {
+        if (rf & 2) {
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵattribute"]("max", ctx._enabled ? ctx.max : null);
+        }
+      },
+      inputs: {
+        max: "max"
+      },
+      features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵProvidersFeature"]([MAX_VALIDATOR]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵInheritDefinitionFeature"]]
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](MaxValidator, [{
@@ -104680,26 +105081,30 @@ class MinValidator extends AbstractValidatorDirective {
     /** @internal */
     this.createValidator = min => minValidator(min);
   }
-  static #_ = this.ɵfac = /* @__PURE__ */(() => {
-    let ɵMinValidator_BaseFactory;
-    return function MinValidator_Factory(__ngFactoryType__) {
-      return (ɵMinValidator_BaseFactory || (ɵMinValidator_BaseFactory = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetInheritedFactory"](MinValidator)))(__ngFactoryType__ || MinValidator);
-    };
-  })();
-  static #_2 = this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
-    type: MinValidator,
-    selectors: [["input", "type", "number", "min", "", "formControlName", ""], ["input", "type", "number", "min", "", "formControl", ""], ["input", "type", "number", "min", "", "ngModel", ""]],
-    hostVars: 1,
-    hostBindings: function MinValidator_HostBindings(rf, ctx) {
-      if (rf & 2) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵattribute"]("min", ctx._enabled ? ctx.min : null);
-      }
-    },
-    inputs: {
-      min: "min"
-    },
-    features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵProvidersFeature"]([MIN_VALIDATOR]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵInheritDefinitionFeature"]]
-  });
+  static {
+    this.ɵfac = /* @__PURE__ */(() => {
+      let ɵMinValidator_BaseFactory;
+      return function MinValidator_Factory(__ngFactoryType__) {
+        return (ɵMinValidator_BaseFactory || (ɵMinValidator_BaseFactory = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetInheritedFactory"](MinValidator)))(__ngFactoryType__ || MinValidator);
+      };
+    })();
+  }
+  static {
+    this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
+      type: MinValidator,
+      selectors: [["input", "type", "number", "min", "", "formControlName", ""], ["input", "type", "number", "min", "", "formControl", ""], ["input", "type", "number", "min", "", "ngModel", ""]],
+      hostVars: 1,
+      hostBindings: function MinValidator_HostBindings(rf, ctx) {
+        if (rf & 2) {
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵattribute"]("min", ctx._enabled ? ctx.min : null);
+        }
+      },
+      inputs: {
+        min: "min"
+      },
+      features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵProvidersFeature"]([MIN_VALIDATOR]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵInheritDefinitionFeature"]]
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](MinValidator, [{
@@ -104768,26 +105173,30 @@ class RequiredValidator extends AbstractValidatorDirective {
   enabled(input) {
     return input;
   }
-  static #_ = this.ɵfac = /* @__PURE__ */(() => {
-    let ɵRequiredValidator_BaseFactory;
-    return function RequiredValidator_Factory(__ngFactoryType__) {
-      return (ɵRequiredValidator_BaseFactory || (ɵRequiredValidator_BaseFactory = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetInheritedFactory"](RequiredValidator)))(__ngFactoryType__ || RequiredValidator);
-    };
-  })();
-  static #_2 = this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
-    type: RequiredValidator,
-    selectors: [["", "required", "", "formControlName", "", 3, "type", "checkbox"], ["", "required", "", "formControl", "", 3, "type", "checkbox"], ["", "required", "", "ngModel", "", 3, "type", "checkbox"]],
-    hostVars: 1,
-    hostBindings: function RequiredValidator_HostBindings(rf, ctx) {
-      if (rf & 2) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵattribute"]("required", ctx._enabled ? "" : null);
-      }
-    },
-    inputs: {
-      required: "required"
-    },
-    features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵProvidersFeature"]([REQUIRED_VALIDATOR]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵInheritDefinitionFeature"]]
-  });
+  static {
+    this.ɵfac = /* @__PURE__ */(() => {
+      let ɵRequiredValidator_BaseFactory;
+      return function RequiredValidator_Factory(__ngFactoryType__) {
+        return (ɵRequiredValidator_BaseFactory || (ɵRequiredValidator_BaseFactory = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetInheritedFactory"](RequiredValidator)))(__ngFactoryType__ || RequiredValidator);
+      };
+    })();
+  }
+  static {
+    this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
+      type: RequiredValidator,
+      selectors: [["", "required", "", "formControlName", "", 3, "type", "checkbox"], ["", "required", "", "formControl", "", 3, "type", "checkbox"], ["", "required", "", "ngModel", "", 3, "type", "checkbox"]],
+      hostVars: 1,
+      hostBindings: function RequiredValidator_HostBindings(rf, ctx) {
+        if (rf & 2) {
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵattribute"]("required", ctx._enabled ? "" : null);
+        }
+      },
+      inputs: {
+        required: "required"
+      },
+      features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵProvidersFeature"]([REQUIRED_VALIDATOR]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵInheritDefinitionFeature"]]
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](RequiredValidator, [{
@@ -104832,23 +105241,27 @@ class CheckboxRequiredValidator extends RequiredValidator {
     /** @internal */
     this.createValidator = input => requiredTrueValidator;
   }
-  static #_ = this.ɵfac = /* @__PURE__ */(() => {
-    let ɵCheckboxRequiredValidator_BaseFactory;
-    return function CheckboxRequiredValidator_Factory(__ngFactoryType__) {
-      return (ɵCheckboxRequiredValidator_BaseFactory || (ɵCheckboxRequiredValidator_BaseFactory = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetInheritedFactory"](CheckboxRequiredValidator)))(__ngFactoryType__ || CheckboxRequiredValidator);
-    };
-  })();
-  static #_2 = this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
-    type: CheckboxRequiredValidator,
-    selectors: [["input", "type", "checkbox", "required", "", "formControlName", ""], ["input", "type", "checkbox", "required", "", "formControl", ""], ["input", "type", "checkbox", "required", "", "ngModel", ""]],
-    hostVars: 1,
-    hostBindings: function CheckboxRequiredValidator_HostBindings(rf, ctx) {
-      if (rf & 2) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵattribute"]("required", ctx._enabled ? "" : null);
-      }
-    },
-    features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵProvidersFeature"]([CHECKBOX_REQUIRED_VALIDATOR]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵInheritDefinitionFeature"]]
-  });
+  static {
+    this.ɵfac = /* @__PURE__ */(() => {
+      let ɵCheckboxRequiredValidator_BaseFactory;
+      return function CheckboxRequiredValidator_Factory(__ngFactoryType__) {
+        return (ɵCheckboxRequiredValidator_BaseFactory || (ɵCheckboxRequiredValidator_BaseFactory = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetInheritedFactory"](CheckboxRequiredValidator)))(__ngFactoryType__ || CheckboxRequiredValidator);
+      };
+    })();
+  }
+  static {
+    this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
+      type: CheckboxRequiredValidator,
+      selectors: [["input", "type", "checkbox", "required", "", "formControlName", ""], ["input", "type", "checkbox", "required", "", "formControl", ""], ["input", "type", "checkbox", "required", "", "ngModel", ""]],
+      hostVars: 1,
+      hostBindings: function CheckboxRequiredValidator_HostBindings(rf, ctx) {
+        if (rf & 2) {
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵattribute"]("required", ctx._enabled ? "" : null);
+        }
+      },
+      features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵProvidersFeature"]([CHECKBOX_REQUIRED_VALIDATOR]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵInheritDefinitionFeature"]]
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](CheckboxRequiredValidator, [{
@@ -104912,20 +105325,24 @@ class EmailValidator extends AbstractValidatorDirective {
   enabled(input) {
     return input;
   }
-  static #_ = this.ɵfac = /* @__PURE__ */(() => {
-    let ɵEmailValidator_BaseFactory;
-    return function EmailValidator_Factory(__ngFactoryType__) {
-      return (ɵEmailValidator_BaseFactory || (ɵEmailValidator_BaseFactory = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetInheritedFactory"](EmailValidator)))(__ngFactoryType__ || EmailValidator);
-    };
-  })();
-  static #_2 = this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
-    type: EmailValidator,
-    selectors: [["", "email", "", "formControlName", ""], ["", "email", "", "formControl", ""], ["", "email", "", "ngModel", ""]],
-    inputs: {
-      email: "email"
-    },
-    features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵProvidersFeature"]([EMAIL_VALIDATOR]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵInheritDefinitionFeature"]]
-  });
+  static {
+    this.ɵfac = /* @__PURE__ */(() => {
+      let ɵEmailValidator_BaseFactory;
+      return function EmailValidator_Factory(__ngFactoryType__) {
+        return (ɵEmailValidator_BaseFactory || (ɵEmailValidator_BaseFactory = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetInheritedFactory"](EmailValidator)))(__ngFactoryType__ || EmailValidator);
+      };
+    })();
+  }
+  static {
+    this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
+      type: EmailValidator,
+      selectors: [["", "email", "", "formControlName", ""], ["", "email", "", "formControl", ""], ["", "email", "", "ngModel", ""]],
+      inputs: {
+        email: "email"
+      },
+      features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵProvidersFeature"]([EMAIL_VALIDATOR]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵInheritDefinitionFeature"]]
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](EmailValidator, [{
@@ -104980,26 +105397,30 @@ class MinLengthValidator extends AbstractValidatorDirective {
     /** @internal */
     this.createValidator = minlength => minLengthValidator(minlength);
   }
-  static #_ = this.ɵfac = /* @__PURE__ */(() => {
-    let ɵMinLengthValidator_BaseFactory;
-    return function MinLengthValidator_Factory(__ngFactoryType__) {
-      return (ɵMinLengthValidator_BaseFactory || (ɵMinLengthValidator_BaseFactory = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetInheritedFactory"](MinLengthValidator)))(__ngFactoryType__ || MinLengthValidator);
-    };
-  })();
-  static #_2 = this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
-    type: MinLengthValidator,
-    selectors: [["", "minlength", "", "formControlName", ""], ["", "minlength", "", "formControl", ""], ["", "minlength", "", "ngModel", ""]],
-    hostVars: 1,
-    hostBindings: function MinLengthValidator_HostBindings(rf, ctx) {
-      if (rf & 2) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵattribute"]("minlength", ctx._enabled ? ctx.minlength : null);
-      }
-    },
-    inputs: {
-      minlength: "minlength"
-    },
-    features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵProvidersFeature"]([MIN_LENGTH_VALIDATOR]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵInheritDefinitionFeature"]]
-  });
+  static {
+    this.ɵfac = /* @__PURE__ */(() => {
+      let ɵMinLengthValidator_BaseFactory;
+      return function MinLengthValidator_Factory(__ngFactoryType__) {
+        return (ɵMinLengthValidator_BaseFactory || (ɵMinLengthValidator_BaseFactory = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetInheritedFactory"](MinLengthValidator)))(__ngFactoryType__ || MinLengthValidator);
+      };
+    })();
+  }
+  static {
+    this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
+      type: MinLengthValidator,
+      selectors: [["", "minlength", "", "formControlName", ""], ["", "minlength", "", "formControl", ""], ["", "minlength", "", "ngModel", ""]],
+      hostVars: 1,
+      hostBindings: function MinLengthValidator_HostBindings(rf, ctx) {
+        if (rf & 2) {
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵattribute"]("minlength", ctx._enabled ? ctx.minlength : null);
+        }
+      },
+      inputs: {
+        minlength: "minlength"
+      },
+      features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵProvidersFeature"]([MIN_LENGTH_VALIDATOR]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵInheritDefinitionFeature"]]
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](MinLengthValidator, [{
@@ -105057,26 +105478,30 @@ class MaxLengthValidator extends AbstractValidatorDirective {
     /** @internal */
     this.createValidator = maxlength => maxLengthValidator(maxlength);
   }
-  static #_ = this.ɵfac = /* @__PURE__ */(() => {
-    let ɵMaxLengthValidator_BaseFactory;
-    return function MaxLengthValidator_Factory(__ngFactoryType__) {
-      return (ɵMaxLengthValidator_BaseFactory || (ɵMaxLengthValidator_BaseFactory = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetInheritedFactory"](MaxLengthValidator)))(__ngFactoryType__ || MaxLengthValidator);
-    };
-  })();
-  static #_2 = this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
-    type: MaxLengthValidator,
-    selectors: [["", "maxlength", "", "formControlName", ""], ["", "maxlength", "", "formControl", ""], ["", "maxlength", "", "ngModel", ""]],
-    hostVars: 1,
-    hostBindings: function MaxLengthValidator_HostBindings(rf, ctx) {
-      if (rf & 2) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵattribute"]("maxlength", ctx._enabled ? ctx.maxlength : null);
-      }
-    },
-    inputs: {
-      maxlength: "maxlength"
-    },
-    features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵProvidersFeature"]([MAX_LENGTH_VALIDATOR]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵInheritDefinitionFeature"]]
-  });
+  static {
+    this.ɵfac = /* @__PURE__ */(() => {
+      let ɵMaxLengthValidator_BaseFactory;
+      return function MaxLengthValidator_Factory(__ngFactoryType__) {
+        return (ɵMaxLengthValidator_BaseFactory || (ɵMaxLengthValidator_BaseFactory = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetInheritedFactory"](MaxLengthValidator)))(__ngFactoryType__ || MaxLengthValidator);
+      };
+    })();
+  }
+  static {
+    this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
+      type: MaxLengthValidator,
+      selectors: [["", "maxlength", "", "formControlName", ""], ["", "maxlength", "", "formControl", ""], ["", "maxlength", "", "ngModel", ""]],
+      hostVars: 1,
+      hostBindings: function MaxLengthValidator_HostBindings(rf, ctx) {
+        if (rf & 2) {
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵattribute"]("maxlength", ctx._enabled ? ctx.maxlength : null);
+        }
+      },
+      inputs: {
+        maxlength: "maxlength"
+      },
+      features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵProvidersFeature"]([MAX_LENGTH_VALIDATOR]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵInheritDefinitionFeature"]]
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](MaxLengthValidator, [{
@@ -105136,26 +105561,30 @@ class PatternValidator extends AbstractValidatorDirective {
     /** @internal */
     this.createValidator = input => patternValidator(input);
   }
-  static #_ = this.ɵfac = /* @__PURE__ */(() => {
-    let ɵPatternValidator_BaseFactory;
-    return function PatternValidator_Factory(__ngFactoryType__) {
-      return (ɵPatternValidator_BaseFactory || (ɵPatternValidator_BaseFactory = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetInheritedFactory"](PatternValidator)))(__ngFactoryType__ || PatternValidator);
-    };
-  })();
-  static #_2 = this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
-    type: PatternValidator,
-    selectors: [["", "pattern", "", "formControlName", ""], ["", "pattern", "", "formControl", ""], ["", "pattern", "", "ngModel", ""]],
-    hostVars: 1,
-    hostBindings: function PatternValidator_HostBindings(rf, ctx) {
-      if (rf & 2) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵattribute"]("pattern", ctx._enabled ? ctx.pattern : null);
-      }
-    },
-    inputs: {
-      pattern: "pattern"
-    },
-    features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵProvidersFeature"]([PATTERN_VALIDATOR]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵInheritDefinitionFeature"]]
-  });
+  static {
+    this.ɵfac = /* @__PURE__ */(() => {
+      let ɵPatternValidator_BaseFactory;
+      return function PatternValidator_Factory(__ngFactoryType__) {
+        return (ɵPatternValidator_BaseFactory || (ɵPatternValidator_BaseFactory = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetInheritedFactory"](PatternValidator)))(__ngFactoryType__ || PatternValidator);
+      };
+    })();
+  }
+  static {
+    this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
+      type: PatternValidator,
+      selectors: [["", "pattern", "", "formControlName", ""], ["", "pattern", "", "formControl", ""], ["", "pattern", "", "ngModel", ""]],
+      hostVars: 1,
+      hostBindings: function PatternValidator_HostBindings(rf, ctx) {
+        if (rf & 2) {
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵattribute"]("pattern", ctx._enabled ? ctx.pattern : null);
+        }
+      },
+      inputs: {
+        pattern: "pattern"
+      },
+      features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵProvidersFeature"]([PATTERN_VALIDATOR]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵInheritDefinitionFeature"]]
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](PatternValidator, [{
@@ -105180,13 +105609,19 @@ const REACTIVE_DRIVEN_DIRECTIVES = [FormControlDirective, FormGroupDirective, Fo
  * Internal module used for sharing directives between FormsModule and ReactiveFormsModule
  */
 class ɵInternalFormsSharedModule {
-  static #_ = this.ɵfac = function ɵInternalFormsSharedModule_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || ɵInternalFormsSharedModule)();
-  };
-  static #_2 = this.ɵmod = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineNgModule"]({
-    type: ɵInternalFormsSharedModule
-  });
-  static #_3 = this.ɵinj = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjector"]({});
+  static {
+    this.ɵfac = function ɵInternalFormsSharedModule_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || ɵInternalFormsSharedModule)();
+    };
+  }
+  static {
+    this.ɵmod = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineNgModule"]({
+      type: ɵInternalFormsSharedModule
+    });
+  }
+  static {
+    this.ɵinj = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjector"]({});
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](ɵInternalFormsSharedModule, [{
@@ -105849,14 +106284,18 @@ class FormBuilder {
       return this.control(controls);
     }
   }
-  static #_ = this.ɵfac = function FormBuilder_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || FormBuilder)();
-  };
-  static #_2 = this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjectable"]({
-    token: FormBuilder,
-    factory: FormBuilder.ɵfac,
-    providedIn: 'root'
-  });
+  static {
+    this.ɵfac = function FormBuilder_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || FormBuilder)();
+    };
+  }
+  static {
+    this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjectable"]({
+      token: FormBuilder,
+      factory: FormBuilder.ɵfac,
+      providedIn: 'root'
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](FormBuilder, [{
@@ -105874,14 +106313,18 @@ class FormBuilder {
  * @publicApi
  */
 class NonNullableFormBuilder {
-  static #_ = this.ɵfac = function NonNullableFormBuilder_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || NonNullableFormBuilder)();
-  };
-  static #_2 = this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjectable"]({
-    token: NonNullableFormBuilder,
-    factory: () => (() => (0,_angular_core__WEBPACK_IMPORTED_MODULE_0__.inject)(FormBuilder).nonNullable)(),
-    providedIn: 'root'
-  });
+  static {
+    this.ɵfac = function NonNullableFormBuilder_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || NonNullableFormBuilder)();
+    };
+  }
+  static {
+    this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjectable"]({
+      token: NonNullableFormBuilder,
+      factory: () => (() => (0,_angular_core__WEBPACK_IMPORTED_MODULE_0__.inject)(FormBuilder).nonNullable)(),
+      providedIn: 'root'
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](NonNullableFormBuilder, [{
@@ -105911,17 +106354,21 @@ class UntypedFormBuilder extends FormBuilder {
   array(controlsConfig, validatorOrOpts, asyncValidator) {
     return super.array(controlsConfig, validatorOrOpts, asyncValidator);
   }
-  static #_ = this.ɵfac = /* @__PURE__ */(() => {
-    let ɵUntypedFormBuilder_BaseFactory;
-    return function UntypedFormBuilder_Factory(__ngFactoryType__) {
-      return (ɵUntypedFormBuilder_BaseFactory || (ɵUntypedFormBuilder_BaseFactory = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetInheritedFactory"](UntypedFormBuilder)))(__ngFactoryType__ || UntypedFormBuilder);
-    };
-  })();
-  static #_2 = this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjectable"]({
-    token: UntypedFormBuilder,
-    factory: UntypedFormBuilder.ɵfac,
-    providedIn: 'root'
-  });
+  static {
+    this.ɵfac = /* @__PURE__ */(() => {
+      let ɵUntypedFormBuilder_BaseFactory;
+      return function UntypedFormBuilder_Factory(__ngFactoryType__) {
+        return (ɵUntypedFormBuilder_BaseFactory || (ɵUntypedFormBuilder_BaseFactory = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetInheritedFactory"](UntypedFormBuilder)))(__ngFactoryType__ || UntypedFormBuilder);
+      };
+    })();
+  }
+  static {
+    this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjectable"]({
+      token: UntypedFormBuilder,
+      factory: UntypedFormBuilder.ɵfac,
+      providedIn: 'root'
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](UntypedFormBuilder, [{
@@ -105940,7 +106387,7 @@ class UntypedFormBuilder extends FormBuilder {
 /**
  * @publicApi
  */
-const VERSION = new _angular_core__WEBPACK_IMPORTED_MODULE_0__.Version('18.2.4');
+const VERSION = new _angular_core__WEBPACK_IMPORTED_MODULE_0__.Version('18.2.13');
 
 /**
  * Exports the required providers and directives for template-driven forms,
@@ -105969,15 +106416,21 @@ class FormsModule {
       }]
     };
   }
-  static #_ = this.ɵfac = function FormsModule_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || FormsModule)();
-  };
-  static #_2 = this.ɵmod = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineNgModule"]({
-    type: FormsModule
-  });
-  static #_3 = this.ɵinj = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjector"]({
-    imports: [ɵInternalFormsSharedModule]
-  });
+  static {
+    this.ɵfac = function FormsModule_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || FormsModule)();
+    };
+  }
+  static {
+    this.ɵmod = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineNgModule"]({
+      type: FormsModule
+    });
+  }
+  static {
+    this.ɵinj = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjector"]({
+      imports: [ɵInternalFormsSharedModule]
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](FormsModule, [{
@@ -106020,15 +106473,21 @@ class ReactiveFormsModule {
       }]
     };
   }
-  static #_ = this.ɵfac = function ReactiveFormsModule_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || ReactiveFormsModule)();
-  };
-  static #_2 = this.ɵmod = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineNgModule"]({
-    type: ReactiveFormsModule
-  });
-  static #_3 = this.ɵinj = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjector"]({
-    imports: [ɵInternalFormsSharedModule]
-  });
+  static {
+    this.ɵfac = function ReactiveFormsModule_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || ReactiveFormsModule)();
+    };
+  }
+  static {
+    this.ɵmod = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineNgModule"]({
+      type: ReactiveFormsModule
+    });
+  }
+  static {
+    this.ɵinj = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjector"]({
+      imports: [ɵInternalFormsSharedModule]
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](ReactiveFormsModule, [{
@@ -106093,7 +106552,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "ɵtranslate": () => (/* binding */ translate$1)
 /* harmony export */ });
 /**
- * @license Angular v18.2.4
+ * @license Angular v18.2.13
  * (c) 2010-2024 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -106943,7 +107402,6 @@ function translate(messageParts, substitutions) {
  * @param expressions a collection of the values of each placeholder in the template string.
  * @returns the translated string, with the `messageParts` and `expressions` interleaved together.
  *
- * @globalApi
  * @publicApi
  */
 const $localize$1 = function (messageParts, ...expressions) {
@@ -107008,7 +107466,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_animations_browser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/animations/browser */ 10655);
 /* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common */ 60316);
 /**
- * @license Angular v18.2.4
+ * @license Angular v18.2.13
  * (c) 2010-2024 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -107030,13 +107488,17 @@ class InjectableAnimationEngine extends _angular_animations_browser__WEBPACK_IMP
   ngOnDestroy() {
     this.flush();
   }
-  static #_ = this.ɵfac = function InjectableAnimationEngine_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || InjectableAnimationEngine)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_angular_common__WEBPACK_IMPORTED_MODULE_2__.DOCUMENT), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_angular_animations_browser__WEBPACK_IMPORTED_MODULE_1__.AnimationDriver), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_angular_animations_browser__WEBPACK_IMPORTED_MODULE_1__["ɵAnimationStyleNormalizer"]));
-  };
-  static #_2 = this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjectable"]({
-    token: InjectableAnimationEngine,
-    factory: InjectableAnimationEngine.ɵfac
-  });
+  static {
+    this.ɵfac = function InjectableAnimationEngine_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || InjectableAnimationEngine)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_angular_common__WEBPACK_IMPORTED_MODULE_2__.DOCUMENT), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_angular_animations_browser__WEBPACK_IMPORTED_MODULE_1__.AnimationDriver), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_angular_animations_browser__WEBPACK_IMPORTED_MODULE_1__["ɵAnimationStyleNormalizer"]));
+    };
+  }
+  static {
+    this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjectable"]({
+      token: InjectableAnimationEngine,
+      factory: InjectableAnimationEngine.ɵfac
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](InjectableAnimationEngine, [{
@@ -107121,16 +107583,22 @@ class BrowserAnimationsModule {
       providers: config.disableAnimations ? BROWSER_NOOP_ANIMATIONS_PROVIDERS : BROWSER_ANIMATIONS_PROVIDERS
     };
   }
-  static #_ = this.ɵfac = function BrowserAnimationsModule_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || BrowserAnimationsModule)();
-  };
-  static #_2 = this.ɵmod = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineNgModule"]({
-    type: BrowserAnimationsModule
-  });
-  static #_3 = this.ɵinj = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjector"]({
-    providers: BROWSER_ANIMATIONS_PROVIDERS,
-    imports: [_angular_platform_browser__WEBPACK_IMPORTED_MODULE_3__.BrowserModule]
-  });
+  static {
+    this.ɵfac = function BrowserAnimationsModule_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || BrowserAnimationsModule)();
+    };
+  }
+  static {
+    this.ɵmod = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineNgModule"]({
+      type: BrowserAnimationsModule
+    });
+  }
+  static {
+    this.ɵinj = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjector"]({
+      providers: BROWSER_ANIMATIONS_PROVIDERS,
+      imports: [_angular_platform_browser__WEBPACK_IMPORTED_MODULE_3__.BrowserModule]
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](BrowserAnimationsModule, [{
@@ -107174,16 +107642,22 @@ function provideAnimations() {
  * @publicApi
  */
 class NoopAnimationsModule {
-  static #_ = this.ɵfac = function NoopAnimationsModule_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || NoopAnimationsModule)();
-  };
-  static #_2 = this.ɵmod = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineNgModule"]({
-    type: NoopAnimationsModule
-  });
-  static #_3 = this.ɵinj = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjector"]({
-    providers: BROWSER_NOOP_ANIMATIONS_PROVIDERS,
-    imports: [_angular_platform_browser__WEBPACK_IMPORTED_MODULE_3__.BrowserModule]
-  });
+  static {
+    this.ɵfac = function NoopAnimationsModule_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || NoopAnimationsModule)();
+    };
+  }
+  static {
+    this.ɵmod = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineNgModule"]({
+      type: NoopAnimationsModule
+    });
+  }
+  static {
+    this.ɵinj = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjector"]({
+      providers: BROWSER_NOOP_ANIMATIONS_PROVIDERS,
+      imports: [_angular_platform_browser__WEBPACK_IMPORTED_MODULE_3__.BrowserModule]
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](NoopAnimationsModule, [{
@@ -107294,7 +107768,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ 37580);
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ 46443);
 /**
- * @license Angular v18.2.4
+ * @license Angular v18.2.13
  * (c) 2010-2024 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -107447,13 +107921,17 @@ class BrowserXhr {
   build() {
     return new XMLHttpRequest();
   }
-  static #_ = this.ɵfac = function BrowserXhr_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || BrowserXhr)();
-  };
-  static #_2 = this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
-    token: BrowserXhr,
-    factory: BrowserXhr.ɵfac
-  });
+  static {
+    this.ɵfac = function BrowserXhr_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || BrowserXhr)();
+    };
+  }
+  static {
+    this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
+      token: BrowserXhr,
+      factory: BrowserXhr.ɵfac
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](BrowserXhr, [{
@@ -107518,13 +107996,17 @@ class EventManager {
     this._eventNameToPlugin.set(eventName, plugin);
     return plugin;
   }
-  static #_ = this.ɵfac = function EventManager_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || EventManager)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](EVENT_MANAGER_PLUGINS), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.NgZone));
-  };
-  static #_2 = this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
-    token: EventManager,
-    factory: EventManager.ɵfac
-  });
+  static {
+    this.ɵfac = function EventManager_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || EventManager)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](EVENT_MANAGER_PLUGINS), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.NgZone));
+    };
+  }
+  static {
+    this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
+      token: EventManager,
+      factory: EventManager.ɵfac
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](EventManager, [{
@@ -107688,13 +108170,17 @@ class SharedStylesHost {
     // Re-add the head element back since this is the default host.
     hostNodes.add(this.doc.head);
   }
-  static #_ = this.ɵfac = function SharedStylesHost_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || SharedStylesHost)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_angular_common__WEBPACK_IMPORTED_MODULE_0__.DOCUMENT), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.APP_ID), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.CSP_NONCE, 8), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.PLATFORM_ID));
-  };
-  static #_2 = this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
-    token: SharedStylesHost,
-    factory: SharedStylesHost.ɵfac
-  });
+  static {
+    this.ɵfac = function SharedStylesHost_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || SharedStylesHost)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_angular_common__WEBPACK_IMPORTED_MODULE_0__.DOCUMENT), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.APP_ID), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.CSP_NONCE, 8), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.PLATFORM_ID));
+    };
+  }
+  static {
+    this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
+      token: SharedStylesHost,
+      factory: SharedStylesHost.ɵfac
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](SharedStylesHost, [{
@@ -107825,13 +108311,17 @@ class DomRendererFactory2 {
   ngOnDestroy() {
     this.rendererByCompId.clear();
   }
-  static #_ = this.ɵfac = function DomRendererFactory2_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || DomRendererFactory2)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](EventManager), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](SharedStylesHost), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.APP_ID), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](REMOVE_STYLES_ON_COMPONENT_DESTROY), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_angular_common__WEBPACK_IMPORTED_MODULE_0__.DOCUMENT), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.PLATFORM_ID), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.NgZone), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.CSP_NONCE));
-  };
-  static #_2 = this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
-    token: DomRendererFactory2,
-    factory: DomRendererFactory2.ɵfac
-  });
+  static {
+    this.ɵfac = function DomRendererFactory2_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || DomRendererFactory2)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](EventManager), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](SharedStylesHost), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.APP_ID), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](REMOVE_STYLES_ON_COMPONENT_DESTROY), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_angular_common__WEBPACK_IMPORTED_MODULE_0__.DOCUMENT), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.PLATFORM_ID), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.NgZone), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.CSP_NONCE));
+    };
+  }
+  static {
+    this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
+      token: DomRendererFactory2,
+      factory: DomRendererFactory2.ɵfac
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](DomRendererFactory2, [{
@@ -108128,53 +108618,20 @@ class DomEventsPlugin extends EventManagerPlugin {
   removeEventListener(target, eventName, callback) {
     return target.removeEventListener(eventName, callback);
   }
-  static #_ = this.ɵfac = function DomEventsPlugin_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || DomEventsPlugin)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_angular_common__WEBPACK_IMPORTED_MODULE_0__.DOCUMENT));
-  };
-  static #_2 = this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
-    token: DomEventsPlugin,
-    factory: DomEventsPlugin.ɵfac
-  });
+  static {
+    this.ɵfac = function DomEventsPlugin_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || DomEventsPlugin)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_angular_common__WEBPACK_IMPORTED_MODULE_0__.DOCUMENT));
+    };
+  }
+  static {
+    this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
+      token: DomEventsPlugin,
+      factory: DomEventsPlugin.ɵfac
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](DomEventsPlugin, [{
-    type: _angular_core__WEBPACK_IMPORTED_MODULE_1__.Injectable
-  }], () => [{
-    type: undefined,
-    decorators: [{
-      type: _angular_core__WEBPACK_IMPORTED_MODULE_1__.Inject,
-      args: [_angular_common__WEBPACK_IMPORTED_MODULE_0__.DOCUMENT]
-    }]
-  }], null);
-})();
-class EventDelegationPlugin extends EventManagerPlugin {
-  constructor(doc) {
-    super(doc);
-    this.delegate = (0,_angular_core__WEBPACK_IMPORTED_MODULE_1__.inject)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵGLOBAL_EVENT_DELEGATION"], {
-      optional: true
-    });
-  }
-  supports(eventName) {
-    // If `GlobalDelegationEventPlugin` implementation is not provided,
-    // this plugin is kept disabled.
-    return this.delegate ? this.delegate.supports(eventName) : false;
-  }
-  addEventListener(element, eventName, handler) {
-    return this.delegate.addEventListener(element, eventName, handler);
-  }
-  removeEventListener(element, eventName, callback) {
-    return this.delegate.removeEventListener(element, eventName, callback);
-  }
-  static #_ = this.ɵfac = function EventDelegationPlugin_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || EventDelegationPlugin)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_angular_common__WEBPACK_IMPORTED_MODULE_0__.DOCUMENT));
-  };
-  static #_2 = this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
-    token: EventDelegationPlugin,
-    factory: EventDelegationPlugin.ɵfac
-  });
-}
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](EventDelegationPlugin, [{
     type: _angular_core__WEBPACK_IMPORTED_MODULE_1__.Injectable
   }], () => [{
     type: undefined,
@@ -108345,13 +108802,17 @@ class KeyEventsPlugin extends EventManagerPlugin {
   static _normalizeKey(keyName) {
     return keyName === 'esc' ? 'escape' : keyName;
   }
-  static #_ = this.ɵfac = function KeyEventsPlugin_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || KeyEventsPlugin)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_angular_common__WEBPACK_IMPORTED_MODULE_0__.DOCUMENT));
-  };
-  static #_2 = this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
-    token: KeyEventsPlugin,
-    factory: KeyEventsPlugin.ɵfac
-  });
+  static {
+    this.ɵfac = function KeyEventsPlugin_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || KeyEventsPlugin)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_angular_common__WEBPACK_IMPORTED_MODULE_0__.DOCUMENT));
+    };
+  }
+  static {
+    this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
+      token: KeyEventsPlugin,
+      factory: KeyEventsPlugin.ɵfac
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](KeyEventsPlugin, [{
@@ -108536,10 +108997,6 @@ const BROWSER_MODULE_PROVIDERS = [{
   useClass: KeyEventsPlugin,
   multi: true,
   deps: [_angular_common__WEBPACK_IMPORTED_MODULE_0__.DOCUMENT]
-}, {
-  provide: EVENT_MANAGER_PLUGINS,
-  useClass: EventDelegationPlugin,
-  multi: true
 }, DomRendererFactory2, SharedStylesHost, EventManager, {
   provide: _angular_core__WEBPACK_IMPORTED_MODULE_1__.RendererFactory2,
   useExisting: DomRendererFactory2
@@ -108585,16 +109042,22 @@ class BrowserModule {
       }]
     };
   }
-  static #_ = this.ɵfac = function BrowserModule_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || BrowserModule)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](BROWSER_MODULE_PROVIDERS_MARKER, 12));
-  };
-  static #_2 = this.ɵmod = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineNgModule"]({
-    type: BrowserModule
-  });
-  static #_3 = this.ɵinj = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjector"]({
-    providers: [...BROWSER_MODULE_PROVIDERS, ...TESTABILITY_PROVIDERS],
-    imports: [_angular_common__WEBPACK_IMPORTED_MODULE_0__.CommonModule, _angular_core__WEBPACK_IMPORTED_MODULE_1__.ApplicationModule]
-  });
+  static {
+    this.ɵfac = function BrowserModule_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || BrowserModule)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](BROWSER_MODULE_PROVIDERS_MARKER, 12));
+    };
+  }
+  static {
+    this.ɵmod = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineNgModule"]({
+      type: BrowserModule
+    });
+  }
+  static {
+    this.ɵinj = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjector"]({
+      providers: [...BROWSER_MODULE_PROVIDERS, ...TESTABILITY_PROVIDERS],
+      imports: [_angular_common__WEBPACK_IMPORTED_MODULE_0__.CommonModule, _angular_core__WEBPACK_IMPORTED_MODULE_1__.ApplicationModule]
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](BrowserModule, [{
@@ -108759,14 +109222,18 @@ class Meta {
   _getMetaKeyMap(prop) {
     return META_KEYS_MAP[prop] || prop;
   }
-  static #_ = this.ɵfac = function Meta_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || Meta)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_angular_common__WEBPACK_IMPORTED_MODULE_0__.DOCUMENT));
-  };
-  static #_2 = this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
-    token: Meta,
-    factory: Meta.ɵfac,
-    providedIn: 'root'
-  });
+  static {
+    this.ɵfac = function Meta_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || Meta)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_angular_common__WEBPACK_IMPORTED_MODULE_0__.DOCUMENT));
+    };
+  }
+  static {
+    this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
+      token: Meta,
+      factory: Meta.ɵfac,
+      providedIn: 'root'
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](Meta, [{
@@ -108816,14 +109283,18 @@ class Title {
   setTitle(newTitle) {
     this._doc.title = newTitle || '';
   }
-  static #_ = this.ɵfac = function Title_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || Title)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_angular_common__WEBPACK_IMPORTED_MODULE_0__.DOCUMENT));
-  };
-  static #_2 = this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
-    token: Title,
-    factory: Title.ɵfac,
-    providedIn: 'root'
-  });
+  static {
+    this.ɵfac = function Title_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || Title)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_angular_common__WEBPACK_IMPORTED_MODULE_0__.DOCUMENT));
+    };
+  }
+  static {
+    this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
+      token: Title,
+      factory: Title.ɵfac,
+      providedIn: 'root'
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](Title, [{
@@ -109094,13 +109565,17 @@ class HammerGestureConfig {
     }
     return mc;
   }
-  static #_ = this.ɵfac = function HammerGestureConfig_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || HammerGestureConfig)();
-  };
-  static #_2 = this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
-    token: HammerGestureConfig,
-    factory: HammerGestureConfig.ɵfac
-  });
+  static {
+    this.ɵfac = function HammerGestureConfig_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || HammerGestureConfig)();
+    };
+  }
+  static {
+    this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
+      token: HammerGestureConfig,
+      factory: HammerGestureConfig.ɵfac
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](HammerGestureConfig, [{
@@ -109195,13 +109670,17 @@ class HammerGesturesPlugin extends EventManagerPlugin {
   isCustomEvent(eventName) {
     return this._config.events.indexOf(eventName) > -1;
   }
-  static #_ = this.ɵfac = function HammerGesturesPlugin_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || HammerGesturesPlugin)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_angular_common__WEBPACK_IMPORTED_MODULE_0__.DOCUMENT), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](HAMMER_GESTURE_CONFIG), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵConsole"]), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](HAMMER_LOADER, 8));
-  };
-  static #_2 = this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
-    token: HammerGesturesPlugin,
-    factory: HammerGesturesPlugin.ɵfac
-  });
+  static {
+    this.ɵfac = function HammerGesturesPlugin_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || HammerGesturesPlugin)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_angular_common__WEBPACK_IMPORTED_MODULE_0__.DOCUMENT), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](HAMMER_GESTURE_CONFIG), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵConsole"]), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](HAMMER_LOADER, 8));
+    };
+  }
+  static {
+    this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
+      token: HammerGesturesPlugin,
+      factory: HammerGesturesPlugin.ɵfac
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](HammerGesturesPlugin, [{
@@ -109242,24 +109721,30 @@ class HammerGesturesPlugin extends EventManagerPlugin {
  * @publicApi
  */
 class HammerModule {
-  static #_ = this.ɵfac = function HammerModule_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || HammerModule)();
-  };
-  static #_2 = this.ɵmod = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineNgModule"]({
-    type: HammerModule
-  });
-  static #_3 = this.ɵinj = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjector"]({
-    providers: [{
-      provide: EVENT_MANAGER_PLUGINS,
-      useClass: HammerGesturesPlugin,
-      multi: true,
-      deps: [_angular_common__WEBPACK_IMPORTED_MODULE_0__.DOCUMENT, HAMMER_GESTURE_CONFIG, _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵConsole"], [new _angular_core__WEBPACK_IMPORTED_MODULE_1__.Optional(), HAMMER_LOADER]]
-    }, {
-      provide: HAMMER_GESTURE_CONFIG,
-      useClass: HammerGestureConfig,
-      deps: []
-    }]
-  });
+  static {
+    this.ɵfac = function HammerModule_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || HammerModule)();
+    };
+  }
+  static {
+    this.ɵmod = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineNgModule"]({
+      type: HammerModule
+    });
+  }
+  static {
+    this.ɵinj = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjector"]({
+      providers: [{
+        provide: EVENT_MANAGER_PLUGINS,
+        useClass: HammerGesturesPlugin,
+        multi: true,
+        deps: [_angular_common__WEBPACK_IMPORTED_MODULE_0__.DOCUMENT, HAMMER_GESTURE_CONFIG, _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵConsole"], [new _angular_core__WEBPACK_IMPORTED_MODULE_1__.Optional(), HAMMER_LOADER]]
+      }, {
+        provide: HAMMER_GESTURE_CONFIG,
+        useClass: HammerGestureConfig,
+        deps: []
+      }]
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](HammerModule, [{
@@ -109311,22 +109796,26 @@ class HammerModule {
  * @publicApi
  */
 class DomSanitizer {
-  static #_ = this.ɵfac = function DomSanitizer_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || DomSanitizer)();
-  };
-  static #_2 = this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
-    token: DomSanitizer,
-    factory: function DomSanitizer_Factory(__ngFactoryType__) {
-      let __ngConditionalFactory__ = null;
-      if (__ngFactoryType__) {
-        __ngConditionalFactory__ = new (__ngFactoryType__ || DomSanitizer)();
-      } else {
-        __ngConditionalFactory__ = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](DomSanitizerImpl);
-      }
-      return __ngConditionalFactory__;
-    },
-    providedIn: 'root'
-  });
+  static {
+    this.ɵfac = function DomSanitizer_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || DomSanitizer)();
+    };
+  }
+  static {
+    this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
+      token: DomSanitizer,
+      factory: function DomSanitizer_Factory(__ngFactoryType__) {
+        let __ngConditionalFactory__ = null;
+        if (__ngFactoryType__) {
+          __ngConditionalFactory__ = new (__ngFactoryType__ || DomSanitizer)();
+        } else {
+          __ngConditionalFactory__ = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](DomSanitizerImpl);
+        }
+        return __ngConditionalFactory__;
+      },
+      providedIn: 'root'
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](DomSanitizer, [{
@@ -109391,14 +109880,18 @@ class DomSanitizerImpl extends DomSanitizer {
   bypassSecurityTrustResourceUrl(value) {
     return (0,_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵbypassSanitizationTrustResourceUrl"])(value);
   }
-  static #_ = this.ɵfac = function DomSanitizerImpl_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || DomSanitizerImpl)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_angular_common__WEBPACK_IMPORTED_MODULE_0__.DOCUMENT));
-  };
-  static #_2 = this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
-    token: DomSanitizerImpl,
-    factory: DomSanitizerImpl.ɵfac,
-    providedIn: 'root'
-  });
+  static {
+    this.ɵfac = function DomSanitizerImpl_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || DomSanitizerImpl)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_angular_common__WEBPACK_IMPORTED_MODULE_0__.DOCUMENT));
+    };
+  }
+  static {
+    this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
+      token: DomSanitizerImpl,
+      factory: DomSanitizerImpl.ɵfac,
+      providedIn: 'root'
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](DomSanitizerImpl, [{
@@ -109449,9 +109942,9 @@ function withNoHttpTransferCache() {
   return hydrationFeature(HydrationFeatureKind.NoHttpTransferCache);
 }
 /**
- * The function accepts a an object, which allows to configure cache parameters,
+ * The function accepts an object, which allows to configure cache parameters,
  * such as which headers should be included (no headers are included by default),
- * wether POST requests should be cached or a callback function to determine if a
+ * whether POST requests should be cached or a callback function to determine if a
  * particular request should be cached.
  *
  * @publicApi
@@ -109500,9 +109993,10 @@ function provideZoneJsCompatibilityDetector() {
     provide: _angular_core__WEBPACK_IMPORTED_MODULE_1__.ENVIRONMENT_INITIALIZER,
     useValue: () => {
       const ngZone = (0,_angular_core__WEBPACK_IMPORTED_MODULE_1__.inject)(_angular_core__WEBPACK_IMPORTED_MODULE_1__.NgZone);
+      const isZoneless = (0,_angular_core__WEBPACK_IMPORTED_MODULE_1__.inject)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵZONELESS_ENABLED"]);
       // Checking `ngZone instanceof NgZone` would be insufficient here,
       // because custom implementations might use NgZone as a base class.
-      if (ngZone.constructor !== _angular_core__WEBPACK_IMPORTED_MODULE_1__.NgZone) {
+      if (!isZoneless && ngZone.constructor !== _angular_core__WEBPACK_IMPORTED_MODULE_1__.NgZone) {
         const console = (0,_angular_core__WEBPACK_IMPORTED_MODULE_1__.inject)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵConsole"]);
         const message = (0,_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵformatRuntimeError"])(-5000 /* RuntimeErrorCode.UNSUPPORTED_ZONEJS_INSTANCE */, 'Angular detected that hydration was enabled for an application ' + 'that uses a custom or a noop Zone.js implementation. ' + 'This is not yet a fully supported configuration.');
         // tslint:disable-next-line:no-console
@@ -109589,7 +110083,7 @@ function provideClientHydration(...features) {
 /**
  * @publicApi
  */
-const VERSION = new _angular_core__WEBPACK_IMPORTED_MODULE_1__.Version('18.2.4');
+const VERSION = new _angular_core__WEBPACK_IMPORTED_MODULE_1__.Version('18.2.13');
 
 /**
  * @module
@@ -109732,7 +110226,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_35__ = __webpack_require__(/*! rxjs/operators */ 23222);
 /* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! @angular/platform-browser */ 80436);
 /**
- * @license Angular v18.2.4
+ * @license Angular v18.2.13
  * (c) 2010-2024 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -110122,14 +110616,18 @@ function mapChildrenIntoArray(segment, fn) {
  * @publicApi
  */
 class UrlSerializer {
-  static #_ = this.ɵfac = function UrlSerializer_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || UrlSerializer)();
-  };
-  static #_2 = this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
-    token: UrlSerializer,
-    factory: () => (() => new DefaultUrlSerializer())(),
-    providedIn: 'root'
-  });
+  static {
+    this.ɵfac = function UrlSerializer_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || UrlSerializer)();
+    };
+  }
+  static {
+    this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
+      token: UrlSerializer,
+      factory: () => (() => new DefaultUrlSerializer())(),
+      providedIn: 'root'
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](UrlSerializer, [{
@@ -111655,14 +112153,18 @@ class ChildrenOutletContexts {
   getContext(childName) {
     return this.contexts.get(childName) || null;
   }
-  static #_ = this.ɵfac = function ChildrenOutletContexts_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || ChildrenOutletContexts)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.EnvironmentInjector));
-  };
-  static #_2 = this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
-    token: ChildrenOutletContexts,
-    factory: ChildrenOutletContexts.ɵfac,
-    providedIn: 'root'
-  });
+  static {
+    this.ɵfac = function ChildrenOutletContexts_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || ChildrenOutletContexts)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.EnvironmentInjector));
+    };
+  }
+  static {
+    this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
+      token: ChildrenOutletContexts,
+      factory: ChildrenOutletContexts.ɵfac,
+      providedIn: 'root'
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](ChildrenOutletContexts, [{
@@ -112368,25 +112870,29 @@ class RouterOutlet {
     this.inputBinder?.bindActivatedRouteToOutletComponent(this);
     this.activateEvents.emit(this.activated.instance);
   }
-  static #_ = this.ɵfac = function RouterOutlet_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || RouterOutlet)();
-  };
-  static #_2 = this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineDirective"]({
-    type: RouterOutlet,
-    selectors: [["router-outlet"]],
-    inputs: {
-      name: "name"
-    },
-    outputs: {
-      activateEvents: "activate",
-      deactivateEvents: "deactivate",
-      attachEvents: "attach",
-      detachEvents: "detach"
-    },
-    exportAs: ["outlet"],
-    standalone: true,
-    features: [_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵNgOnChangesFeature"]]
-  });
+  static {
+    this.ɵfac = function RouterOutlet_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || RouterOutlet)();
+    };
+  }
+  static {
+    this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineDirective"]({
+      type: RouterOutlet,
+      selectors: [["router-outlet"]],
+      inputs: {
+        name: "name"
+      },
+      outputs: {
+        activateEvents: "activate",
+        deactivateEvents: "deactivate",
+        attachEvents: "attach",
+        detachEvents: "detach"
+      },
+      exportAs: ["outlet"],
+      standalone: true,
+      features: [_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵNgOnChangesFeature"]]
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](RouterOutlet, [{
@@ -112518,13 +113024,17 @@ class RoutedComponentInputBinder {
     });
     this.outletDataSubscriptions.set(outlet, dataSubscription);
   }
-  static #_ = this.ɵfac = function RoutedComponentInputBinder_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || RoutedComponentInputBinder)();
-  };
-  static #_2 = this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
-    token: RoutedComponentInputBinder,
-    factory: RoutedComponentInputBinder.ɵfac
-  });
+  static {
+    this.ɵfac = function RoutedComponentInputBinder_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || RoutedComponentInputBinder)();
+    };
+  }
+  static {
+    this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
+      token: RoutedComponentInputBinder,
+      factory: RoutedComponentInputBinder.ɵfac
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](RoutedComponentInputBinder, [{
@@ -113871,14 +114381,18 @@ class TitleStrategy {
   getResolvedTitleForRoute(snapshot) {
     return snapshot.data[RouteTitleKey];
   }
-  static #_ = this.ɵfac = function TitleStrategy_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || TitleStrategy)();
-  };
-  static #_2 = this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
-    token: TitleStrategy,
-    factory: () => (() => (0,_angular_core__WEBPACK_IMPORTED_MODULE_1__.inject)(DefaultTitleStrategy))(),
-    providedIn: 'root'
-  });
+  static {
+    this.ɵfac = function TitleStrategy_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || TitleStrategy)();
+    };
+  }
+  static {
+    this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
+      token: TitleStrategy,
+      factory: () => (() => (0,_angular_core__WEBPACK_IMPORTED_MODULE_1__.inject)(DefaultTitleStrategy))(),
+      providedIn: 'root'
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](TitleStrategy, [{
@@ -113908,14 +114422,18 @@ class DefaultTitleStrategy extends TitleStrategy {
       this.title.setTitle(title);
     }
   }
-  static #_ = this.ɵfac = function DefaultTitleStrategy_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || DefaultTitleStrategy)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_angular_platform_browser__WEBPACK_IMPORTED_MODULE_27__.Title));
-  };
-  static #_2 = this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
-    token: DefaultTitleStrategy,
-    factory: DefaultTitleStrategy.ɵfac,
-    providedIn: 'root'
-  });
+  static {
+    this.ɵfac = function DefaultTitleStrategy_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || DefaultTitleStrategy)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_angular_platform_browser__WEBPACK_IMPORTED_MODULE_27__.Title));
+    };
+  }
+  static {
+    this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
+      token: DefaultTitleStrategy,
+      factory: DefaultTitleStrategy.ɵfac,
+      providedIn: 'root'
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](DefaultTitleStrategy, [{
@@ -113948,24 +114466,28 @@ const ROUTER_CONFIGURATION = new _angular_core__WEBPACK_IMPORTED_MODULE_1__.Inje
  * to this `EmptyOutletComponent`.
  */
 class ɵEmptyOutletComponent {
-  static #_ = this.ɵfac = function ɵEmptyOutletComponent_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || ɵEmptyOutletComponent)();
-  };
-  static #_2 = this.ɵcmp = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineComponent"]({
-    type: ɵEmptyOutletComponent,
-    selectors: [["ng-component"]],
-    standalone: true,
-    features: [_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵStandaloneFeature"]],
-    decls: 1,
-    vars: 0,
-    template: function _EmptyOutletComponent_Template(rf, ctx) {
-      if (rf & 1) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](0, "router-outlet");
-      }
-    },
-    dependencies: [RouterOutlet],
-    encapsulation: 2
-  });
+  static {
+    this.ɵfac = function ɵEmptyOutletComponent_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || ɵEmptyOutletComponent)();
+    };
+  }
+  static {
+    this.ɵcmp = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineComponent"]({
+      type: ɵEmptyOutletComponent,
+      selectors: [["ng-component"]],
+      standalone: true,
+      features: [_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵStandaloneFeature"]],
+      decls: 1,
+      vars: 0,
+      template: function _EmptyOutletComponent_Template(rf, ctx) {
+        if (rf & 1) {
+          _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](0, "router-outlet");
+        }
+      },
+      dependencies: [RouterOutlet],
+      encapsulation: 2
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](ɵEmptyOutletComponent, [{
@@ -114055,14 +114577,18 @@ class RouterConfigLoader {
     this.childrenLoaders.set(route, loader);
     return loader;
   }
-  static #_ = this.ɵfac = function RouterConfigLoader_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || RouterConfigLoader)();
-  };
-  static #_2 = this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
-    token: RouterConfigLoader,
-    factory: RouterConfigLoader.ɵfac,
-    providedIn: 'root'
-  });
+  static {
+    this.ɵfac = function RouterConfigLoader_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || RouterConfigLoader)();
+    };
+  }
+  static {
+    this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
+      token: RouterConfigLoader,
+      factory: RouterConfigLoader.ɵfac,
+      providedIn: 'root'
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](RouterConfigLoader, [{
@@ -114138,14 +114664,18 @@ function maybeUnwrapDefaultExport(input) {
  * @publicApi
  */
 class UrlHandlingStrategy {
-  static #_ = this.ɵfac = function UrlHandlingStrategy_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || UrlHandlingStrategy)();
-  };
-  static #_2 = this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
-    token: UrlHandlingStrategy,
-    factory: () => (() => (0,_angular_core__WEBPACK_IMPORTED_MODULE_1__.inject)(DefaultUrlHandlingStrategy))(),
-    providedIn: 'root'
-  });
+  static {
+    this.ɵfac = function UrlHandlingStrategy_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || UrlHandlingStrategy)();
+    };
+  }
+  static {
+    this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
+      token: UrlHandlingStrategy,
+      factory: () => (() => (0,_angular_core__WEBPACK_IMPORTED_MODULE_1__.inject)(DefaultUrlHandlingStrategy))(),
+      providedIn: 'root'
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](UrlHandlingStrategy, [{
@@ -114169,14 +114699,18 @@ class DefaultUrlHandlingStrategy {
   merge(newUrlPart, wholeUrl) {
     return newUrlPart;
   }
-  static #_ = this.ɵfac = function DefaultUrlHandlingStrategy_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || DefaultUrlHandlingStrategy)();
-  };
-  static #_2 = this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
-    token: DefaultUrlHandlingStrategy,
-    factory: DefaultUrlHandlingStrategy.ɵfac,
-    providedIn: 'root'
-  });
+  static {
+    this.ɵfac = function DefaultUrlHandlingStrategy_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || DefaultUrlHandlingStrategy)();
+    };
+  }
+  static {
+    this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
+      token: DefaultUrlHandlingStrategy,
+      factory: DefaultUrlHandlingStrategy.ɵfac,
+      providedIn: 'root'
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](DefaultUrlHandlingStrategy, [{
@@ -114653,14 +115187,18 @@ class NavigationTransitions {
     const targetBrowserUrl = this.currentNavigation?.targetBrowserUrl ?? this.currentNavigation?.extractedUrl;
     return currentBrowserUrl.toString() !== targetBrowserUrl?.toString() && !this.currentNavigation?.extras.skipLocationChange;
   }
-  static #_ = this.ɵfac = function NavigationTransitions_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || NavigationTransitions)();
-  };
-  static #_2 = this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
-    token: NavigationTransitions,
-    factory: NavigationTransitions.ɵfac,
-    providedIn: 'root'
-  });
+  static {
+    this.ɵfac = function NavigationTransitions_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || NavigationTransitions)();
+    };
+  }
+  static {
+    this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
+      token: NavigationTransitions,
+      factory: NavigationTransitions.ɵfac,
+      providedIn: 'root'
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](NavigationTransitions, [{
@@ -114682,14 +115220,18 @@ function isBrowserTriggeredNavigation(source) {
  * @publicApi
  */
 class RouteReuseStrategy {
-  static #_ = this.ɵfac = function RouteReuseStrategy_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || RouteReuseStrategy)();
-  };
-  static #_2 = this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
-    token: RouteReuseStrategy,
-    factory: () => (() => (0,_angular_core__WEBPACK_IMPORTED_MODULE_1__.inject)(DefaultRouteReuseStrategy))(),
-    providedIn: 'root'
-  });
+  static {
+    this.ɵfac = function RouteReuseStrategy_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || RouteReuseStrategy)();
+    };
+  }
+  static {
+    this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
+      token: RouteReuseStrategy,
+      factory: () => (() => (0,_angular_core__WEBPACK_IMPORTED_MODULE_1__.inject)(DefaultRouteReuseStrategy))(),
+      providedIn: 'root'
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](RouteReuseStrategy, [{
@@ -114747,17 +115289,21 @@ class BaseRouteReuseStrategy {
   }
 }
 class DefaultRouteReuseStrategy extends BaseRouteReuseStrategy {
-  static #_ = this.ɵfac = /* @__PURE__ */(() => {
-    let ɵDefaultRouteReuseStrategy_BaseFactory;
-    return function DefaultRouteReuseStrategy_Factory(__ngFactoryType__) {
-      return (ɵDefaultRouteReuseStrategy_BaseFactory || (ɵDefaultRouteReuseStrategy_BaseFactory = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵgetInheritedFactory"](DefaultRouteReuseStrategy)))(__ngFactoryType__ || DefaultRouteReuseStrategy);
-    };
-  })();
-  static #_2 = this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
-    token: DefaultRouteReuseStrategy,
-    factory: DefaultRouteReuseStrategy.ɵfac,
-    providedIn: 'root'
-  });
+  static {
+    this.ɵfac = /* @__PURE__ */(() => {
+      let ɵDefaultRouteReuseStrategy_BaseFactory;
+      return function DefaultRouteReuseStrategy_Factory(__ngFactoryType__) {
+        return (ɵDefaultRouteReuseStrategy_BaseFactory || (ɵDefaultRouteReuseStrategy_BaseFactory = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵgetInheritedFactory"](DefaultRouteReuseStrategy)))(__ngFactoryType__ || DefaultRouteReuseStrategy);
+      };
+    })();
+  }
+  static {
+    this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
+      token: DefaultRouteReuseStrategy,
+      factory: DefaultRouteReuseStrategy.ɵfac,
+      providedIn: 'root'
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](DefaultRouteReuseStrategy, [{
@@ -114768,14 +115314,18 @@ class DefaultRouteReuseStrategy extends BaseRouteReuseStrategy {
   }], null, null);
 })();
 class StateManager {
-  static #_ = this.ɵfac = function StateManager_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || StateManager)();
-  };
-  static #_2 = this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
-    token: StateManager,
-    factory: () => (() => (0,_angular_core__WEBPACK_IMPORTED_MODULE_1__.inject)(HistoryStateManager))(),
-    providedIn: 'root'
-  });
+  static {
+    this.ɵfac = function StateManager_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || StateManager)();
+    };
+  }
+  static {
+    this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
+      token: StateManager,
+      factory: () => (() => (0,_angular_core__WEBPACK_IMPORTED_MODULE_1__.inject)(HistoryStateManager))(),
+      providedIn: 'root'
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](StateManager, [{
@@ -114950,17 +115500,21 @@ class HistoryStateManager extends StateManager {
       navigationId
     };
   }
-  static #_ = this.ɵfac = /* @__PURE__ */(() => {
-    let ɵHistoryStateManager_BaseFactory;
-    return function HistoryStateManager_Factory(__ngFactoryType__) {
-      return (ɵHistoryStateManager_BaseFactory || (ɵHistoryStateManager_BaseFactory = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵgetInheritedFactory"](HistoryStateManager)))(__ngFactoryType__ || HistoryStateManager);
-    };
-  })();
-  static #_2 = this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
-    token: HistoryStateManager,
-    factory: HistoryStateManager.ɵfac,
-    providedIn: 'root'
-  });
+  static {
+    this.ɵfac = /* @__PURE__ */(() => {
+      let ɵHistoryStateManager_BaseFactory;
+      return function HistoryStateManager_Factory(__ngFactoryType__) {
+        return (ɵHistoryStateManager_BaseFactory || (ɵHistoryStateManager_BaseFactory = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵgetInheritedFactory"](HistoryStateManager)))(__ngFactoryType__ || HistoryStateManager);
+      };
+    })();
+  }
+  static {
+    this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
+      token: HistoryStateManager,
+      factory: HistoryStateManager.ɵfac,
+      providedIn: 'root'
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](HistoryStateManager, [{
@@ -115541,14 +116095,18 @@ class Router {
       return Promise.reject(e);
     });
   }
-  static #_ = this.ɵfac = function Router_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || Router)();
-  };
-  static #_2 = this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
-    token: Router,
-    factory: Router.ɵfac,
-    providedIn: 'root'
-  });
+  static {
+    this.ɵfac = function Router_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || Router)();
+    };
+  }
+  static {
+    this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
+      token: Router,
+      factory: Router.ɵfac,
+      providedIn: 'root'
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](Router, [{
@@ -115836,39 +116394,43 @@ class RouterLink {
       preserveFragment: this.preserveFragment
     });
   }
-  static #_ = this.ɵfac = function RouterLink_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || RouterLink)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](Router), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](ActivatedRoute), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinjectAttribute"]('tabindex'), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.Renderer2), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.ElementRef), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_common__WEBPACK_IMPORTED_MODULE_32__.LocationStrategy));
-  };
-  static #_2 = this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineDirective"]({
-    type: RouterLink,
-    selectors: [["", "routerLink", ""]],
-    hostVars: 1,
-    hostBindings: function RouterLink_HostBindings(rf, ctx) {
-      if (rf & 1) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵlistener"]("click", function RouterLink_click_HostBindingHandler($event) {
-          return ctx.onClick($event.button, $event.ctrlKey, $event.shiftKey, $event.altKey, $event.metaKey);
-        });
-      }
-      if (rf & 2) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵattribute"]("target", ctx.target);
-      }
-    },
-    inputs: {
-      target: "target",
-      queryParams: "queryParams",
-      fragment: "fragment",
-      queryParamsHandling: "queryParamsHandling",
-      state: "state",
-      info: "info",
-      relativeTo: "relativeTo",
-      preserveFragment: [2, "preserveFragment", "preserveFragment", _angular_core__WEBPACK_IMPORTED_MODULE_1__.booleanAttribute],
-      skipLocationChange: [2, "skipLocationChange", "skipLocationChange", _angular_core__WEBPACK_IMPORTED_MODULE_1__.booleanAttribute],
-      replaceUrl: [2, "replaceUrl", "replaceUrl", _angular_core__WEBPACK_IMPORTED_MODULE_1__.booleanAttribute],
-      routerLink: "routerLink"
-    },
-    standalone: true,
-    features: [_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵInputTransformsFeature"], _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵNgOnChangesFeature"]]
-  });
+  static {
+    this.ɵfac = function RouterLink_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || RouterLink)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](Router), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](ActivatedRoute), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinjectAttribute"]('tabindex'), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.Renderer2), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.ElementRef), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_common__WEBPACK_IMPORTED_MODULE_32__.LocationStrategy));
+    };
+  }
+  static {
+    this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineDirective"]({
+      type: RouterLink,
+      selectors: [["", "routerLink", ""]],
+      hostVars: 1,
+      hostBindings: function RouterLink_HostBindings(rf, ctx) {
+        if (rf & 1) {
+          _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵlistener"]("click", function RouterLink_click_HostBindingHandler($event) {
+            return ctx.onClick($event.button, $event.ctrlKey, $event.shiftKey, $event.altKey, $event.metaKey);
+          });
+        }
+        if (rf & 2) {
+          _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵattribute"]("target", ctx.target);
+        }
+      },
+      inputs: {
+        target: "target",
+        queryParams: "queryParams",
+        fragment: "fragment",
+        queryParamsHandling: "queryParamsHandling",
+        state: "state",
+        info: "info",
+        relativeTo: "relativeTo",
+        preserveFragment: [2, "preserveFragment", "preserveFragment", _angular_core__WEBPACK_IMPORTED_MODULE_1__.booleanAttribute],
+        skipLocationChange: [2, "skipLocationChange", "skipLocationChange", _angular_core__WEBPACK_IMPORTED_MODULE_1__.booleanAttribute],
+        replaceUrl: [2, "replaceUrl", "replaceUrl", _angular_core__WEBPACK_IMPORTED_MODULE_1__.booleanAttribute],
+        routerLink: "routerLink"
+      },
+      standalone: true,
+      features: [_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵInputTransformsFeature"], _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵNgOnChangesFeature"]]
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](RouterLink, [{
@@ -116128,33 +116690,37 @@ class RouterLinkActive {
     const isActiveCheckFn = this.isLinkActive(this.router);
     return this.link && isActiveCheckFn(this.link) || this.links.some(isActiveCheckFn);
   }
-  static #_ = this.ɵfac = function RouterLinkActive_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || RouterLinkActive)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](Router), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.ElementRef), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.Renderer2), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.ChangeDetectorRef), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](RouterLink, 8));
-  };
-  static #_2 = this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineDirective"]({
-    type: RouterLinkActive,
-    selectors: [["", "routerLinkActive", ""]],
-    contentQueries: function RouterLinkActive_ContentQueries(rf, ctx, dirIndex) {
-      if (rf & 1) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵcontentQuery"](dirIndex, RouterLink, 5);
-      }
-      if (rf & 2) {
-        let _t;
-        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵqueryRefresh"](_t = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵloadQuery"]()) && (ctx.links = _t);
-      }
-    },
-    inputs: {
-      routerLinkActiveOptions: "routerLinkActiveOptions",
-      ariaCurrentWhenActive: "ariaCurrentWhenActive",
-      routerLinkActive: "routerLinkActive"
-    },
-    outputs: {
-      isActiveChange: "isActiveChange"
-    },
-    exportAs: ["routerLinkActive"],
-    standalone: true,
-    features: [_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵNgOnChangesFeature"]]
-  });
+  static {
+    this.ɵfac = function RouterLinkActive_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || RouterLinkActive)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](Router), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.ElementRef), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.Renderer2), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.ChangeDetectorRef), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](RouterLink, 8));
+    };
+  }
+  static {
+    this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineDirective"]({
+      type: RouterLinkActive,
+      selectors: [["", "routerLinkActive", ""]],
+      contentQueries: function RouterLinkActive_ContentQueries(rf, ctx, dirIndex) {
+        if (rf & 1) {
+          _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵcontentQuery"](dirIndex, RouterLink, 5);
+        }
+        if (rf & 2) {
+          let _t;
+          _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵqueryRefresh"](_t = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵloadQuery"]()) && (ctx.links = _t);
+        }
+      },
+      inputs: {
+        routerLinkActiveOptions: "routerLinkActiveOptions",
+        ariaCurrentWhenActive: "ariaCurrentWhenActive",
+        routerLinkActive: "routerLinkActive"
+      },
+      outputs: {
+        isActiveChange: "isActiveChange"
+      },
+      exportAs: ["routerLinkActive"],
+      standalone: true,
+      features: [_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵNgOnChangesFeature"]]
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](RouterLinkActive, [{
@@ -116228,14 +116794,18 @@ class PreloadAllModules {
   preload(route, fn) {
     return fn().pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_20__.catchError)(() => (0,rxjs__WEBPACK_IMPORTED_MODULE_3__.of)(null)));
   }
-  static #_ = this.ɵfac = function PreloadAllModules_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || PreloadAllModules)();
-  };
-  static #_2 = this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
-    token: PreloadAllModules,
-    factory: PreloadAllModules.ɵfac,
-    providedIn: 'root'
-  });
+  static {
+    this.ɵfac = function PreloadAllModules_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || PreloadAllModules)();
+    };
+  }
+  static {
+    this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
+      token: PreloadAllModules,
+      factory: PreloadAllModules.ɵfac,
+      providedIn: 'root'
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](PreloadAllModules, [{
@@ -116258,14 +116828,18 @@ class NoPreloading {
   preload(route, fn) {
     return (0,rxjs__WEBPACK_IMPORTED_MODULE_3__.of)(null);
   }
-  static #_ = this.ɵfac = function NoPreloading_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || NoPreloading)();
-  };
-  static #_2 = this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
-    token: NoPreloading,
-    factory: NoPreloading.ɵfac,
-    providedIn: 'root'
-  });
+  static {
+    this.ɵfac = function NoPreloading_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || NoPreloading)();
+    };
+  }
+  static {
+    this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
+      token: NoPreloading,
+      factory: NoPreloading.ɵfac,
+      providedIn: 'root'
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](NoPreloading, [{
@@ -116357,14 +116931,18 @@ class RouterPreloader {
       }
     });
   }
-  static #_ = this.ɵfac = function RouterPreloader_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || RouterPreloader)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](Router), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.Compiler), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.EnvironmentInjector), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](PreloadingStrategy), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](RouterConfigLoader));
-  };
-  static #_2 = this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
-    token: RouterPreloader,
-    factory: RouterPreloader.ɵfac,
-    providedIn: 'root'
-  });
+  static {
+    this.ɵfac = function RouterPreloader_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || RouterPreloader)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](Router), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.Compiler), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.EnvironmentInjector), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](PreloadingStrategy), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](RouterConfigLoader));
+    };
+  }
+  static {
+    this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
+      token: RouterPreloader,
+      factory: RouterPreloader.ɵfac,
+      providedIn: 'root'
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](RouterPreloader, [{
@@ -116465,13 +117043,17 @@ class RouterScroller {
     this.routerEventsSubscription?.unsubscribe();
     this.scrollEventsSubscription?.unsubscribe();
   }
-  static #_ = this.ɵfac = function RouterScroller_Factory(__ngFactoryType__) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinvalidFactory"]();
-  };
-  static #_2 = this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
-    token: RouterScroller,
-    factory: RouterScroller.ɵfac
-  });
+  static {
+    this.ɵfac = function RouterScroller_Factory(__ngFactoryType__) {
+      _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinvalidFactory"]();
+    };
+  }
+  static {
+    this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
+      token: RouterScroller,
+      factory: RouterScroller.ɵfac
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](RouterScroller, [{
@@ -116984,6 +117566,24 @@ function withNavigationErrorHandler(handler) {
  * );
  * ```
  *
+ * The router bindings information from any of the following sources:
+ *
+ *  - query parameters
+ *  - path and matrix parameters
+ *  - static route data
+ *  - data from resolvers
+ *
+ * Duplicate keys are resolved in the same order from above, from least to greatest,
+ * meaning that resolvers have the highest precedence and override any of the other information
+ * from the route.
+ *
+ * Importantly, when an input does not have an item in the route data with a matching key, this
+ * input is set to `undefined`. This prevents previous information from being
+ * retained if the data got removed from the route (i.e. if a query parameter is removed).
+ * Default values can be provided with a resolver on the route to ensure the value is always present
+ * or an input and use an input transform in the component.
+ *
+ * @see {@link guide/components/inputs#input-transforms input transforms}
  * @returns A set of providers for use with `provideRouter`.
  */
 function withComponentInputBinding() {
@@ -117018,7 +117618,7 @@ function withComponentInputBinding() {
  * @returns A set of providers for use with `provideRouter`.
  * @see https://developer.chrome.com/docs/web-platform/view-transitions/
  * @see https://developer.mozilla.org/en-US/docs/Web/API/View_Transitions_API
- * @experimental
+ * @developerPreview
  */
 function withViewTransitions(options) {
   const providers = [{
@@ -117144,13 +117744,19 @@ class RouterModule {
       }]
     };
   }
-  static #_ = this.ɵfac = function RouterModule_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || RouterModule)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](ROUTER_FORROOT_GUARD, 8));
-  };
-  static #_2 = this.ɵmod = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineNgModule"]({
-    type: RouterModule
-  });
-  static #_3 = this.ɵinj = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjector"]({});
+  static {
+    this.ɵfac = function RouterModule_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || RouterModule)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](ROUTER_FORROOT_GUARD, 8));
+    };
+  }
+  static {
+    this.ɵmod = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineNgModule"]({
+      type: RouterModule
+    });
+  }
+  static {
+    this.ɵinj = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjector"]({});
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](RouterModule, [{
@@ -117307,7 +117913,7 @@ function mapToResolve(provider) {
 /**
  * @publicApi
  */
-const VERSION = new _angular_core__WEBPACK_IMPORTED_MODULE_1__.Version('18.2.4');
+const VERSION = new _angular_core__WEBPACK_IMPORTED_MODULE_1__.Version('18.2.13');
 
 /**
  * @module
@@ -117418,8 +118024,8 @@ function isVersionServiceProvider(provider) {
   const component = provider.getComponent();
   return (component === null || component === void 0 ? void 0 : component.type) === "VERSION" /* ComponentType.VERSION */;
 }
-const name$p = "@firebase/app";
-const version$1 = "0.10.10";
+const name$q = "@firebase/app";
+const version$1 = "0.10.13";
 
 /**
  * @license
@@ -117438,14 +118044,15 @@ const version$1 = "0.10.10";
  * limitations under the License.
  */
 const logger = new _firebase_logger__WEBPACK_IMPORTED_MODULE_2__.Logger('@firebase/app');
-const name$o = "@firebase/app-compat";
-const name$n = "@firebase/analytics-compat";
-const name$m = "@firebase/analytics";
-const name$l = "@firebase/app-check-compat";
-const name$k = "@firebase/app-check";
-const name$j = "@firebase/auth";
-const name$i = "@firebase/auth-compat";
-const name$h = "@firebase/database";
+const name$p = "@firebase/app-compat";
+const name$o = "@firebase/analytics-compat";
+const name$n = "@firebase/analytics";
+const name$m = "@firebase/app-check-compat";
+const name$l = "@firebase/app-check";
+const name$k = "@firebase/auth";
+const name$j = "@firebase/auth-compat";
+const name$i = "@firebase/database";
+const name$h = "@firebase/data-connect";
 const name$g = "@firebase/database-compat";
 const name$f = "@firebase/functions";
 const name$e = "@firebase/functions-compat";
@@ -117463,7 +118070,7 @@ const name$3 = "@firebase/firestore";
 const name$2 = "@firebase/vertexai-preview";
 const name$1 = "@firebase/firestore-compat";
 const name = "firebase";
-const version = "10.13.1";
+const version = "10.14.1";
 
 /**
  * @license
@@ -117488,15 +118095,16 @@ const version = "10.13.1";
  */
 const DEFAULT_ENTRY_NAME = '[DEFAULT]';
 const PLATFORM_LOG_STRING = {
-  [name$p]: 'fire-core',
-  [name$o]: 'fire-core-compat',
-  [name$m]: 'fire-analytics',
-  [name$n]: 'fire-analytics-compat',
-  [name$k]: 'fire-app-check',
-  [name$l]: 'fire-app-check-compat',
-  [name$j]: 'fire-auth',
-  [name$i]: 'fire-auth-compat',
-  [name$h]: 'fire-rtdb',
+  [name$q]: 'fire-core',
+  [name$p]: 'fire-core-compat',
+  [name$n]: 'fire-analytics',
+  [name$o]: 'fire-analytics-compat',
+  [name$l]: 'fire-app-check',
+  [name$m]: 'fire-app-check-compat',
+  [name$k]: 'fire-auth',
+  [name$j]: 'fire-auth-compat',
+  [name$i]: 'fire-rtdb',
+  [name$h]: 'fire-data-connect',
   [name$g]: 'fire-rtdb-compat',
   [name$f]: 'fire-fn',
   [name$e]: 'fire-fn-compat',
@@ -117800,7 +118408,7 @@ class FirebaseServerAppImpl extends FirebaseAppImpl {
     // will never trigger.
     this._serverConfig.releaseOnDeref = undefined;
     serverConfig.releaseOnDeref = undefined;
-    registerVersion(name$p, version$1, 'serverapp');
+    registerVersion(name$q, version$1, 'serverapp');
   }
   toJSON() {
     return undefined;
@@ -118496,9 +119104,9 @@ function registerCoreComponents(variant) {
   _registerComponent(new _firebase_component__WEBPACK_IMPORTED_MODULE_1__.Component('platform-logger', container => new PlatformLoggerServiceImpl(container), "PRIVATE" /* ComponentType.PRIVATE */));
   _registerComponent(new _firebase_component__WEBPACK_IMPORTED_MODULE_1__.Component('heartbeat', container => new HeartbeatServiceImpl(container), "PRIVATE" /* ComponentType.PRIVATE */));
   // Register `app` package.
-  registerVersion(name$p, version$1, variant);
+  registerVersion(name$q, version$1, variant);
   // BUILD_TARGET will be replaced by values like esm5, esm2017, cjs5, etc during the compilation
-  registerVersion(name$p, version$1, 'esm2017');
+  registerVersion(name$q, version$1, 'esm2017');
   // Register platform SDK identifier (no version).
   registerVersion('fire-js', '');
 }
@@ -118621,7 +119229,7 @@ class Provider {
     this.onInitCallbacks = new Map();
   }
   /**
-   * @param identifier A provider can provide mulitple instances of a service
+   * @param identifier A provider can provide multiple instances of a service
    * if this.component.multipleInstances is true.
    */
   get(identifier) {
@@ -118665,7 +119273,7 @@ class Provider {
         }
       }
     } else {
-      // In case a component is not initialized and should/can not be auto-initialized at the moment, return null if the optional flag is set, or throw
+      // In case a component is not initialized and should/cannot be auto-initialized at the moment, return null if the optional flag is set, or throw
       if (optional) {
         return null;
       } else {
@@ -122017,14 +122625,18 @@ class FaConfig {
   get autoAddCss() {
     return this._autoAddCss;
   }
-  static #_ = this.ɵfac = function FaConfig_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || FaConfig)();
-  };
-  static #_2 = this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
-    token: FaConfig,
-    factory: FaConfig.ɵfac,
-    providedIn: 'root'
-  });
+  static {
+    this.ɵfac = function FaConfig_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || FaConfig)();
+    };
+  }
+  static {
+    this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
+      token: FaConfig,
+      factory: FaConfig.ɵfac,
+      providedIn: 'root'
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](FaConfig, [{
@@ -122063,14 +122675,18 @@ class FaIconLibrary {
     }
     return null;
   }
-  static #_ = this.ɵfac = function FaIconLibrary_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || FaIconLibrary)();
-  };
-  static #_2 = this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
-    token: FaIconLibrary,
-    factory: FaIconLibrary.ɵfac,
-    providedIn: 'root'
-  });
+  static {
+    this.ɵfac = function FaIconLibrary_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || FaIconLibrary)();
+    };
+  }
+  static {
+    this.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
+      token: FaIconLibrary,
+      factory: FaIconLibrary.ɵfac,
+      providedIn: 'root'
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](FaIconLibrary, [{
@@ -122093,19 +122709,23 @@ class FaStackItemSizeDirective {
       throw new Error('fa-icon is not allowed to customize size when used inside fa-stack. ' + 'Set size on the enclosing fa-stack instead: <fa-stack size="4x">...</fa-stack>.');
     }
   }
-  static #_ = this.ɵfac = function FaStackItemSizeDirective_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || FaStackItemSizeDirective)();
-  };
-  static #_2 = this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineDirective"]({
-    type: FaStackItemSizeDirective,
-    selectors: [["fa-icon", "stackItemSize", ""], ["fa-duotone-icon", "stackItemSize", ""]],
-    inputs: {
-      stackItemSize: "stackItemSize",
-      size: "size"
-    },
-    standalone: true,
-    features: [_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵNgOnChangesFeature"]]
-  });
+  static {
+    this.ɵfac = function FaStackItemSizeDirective_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || FaStackItemSizeDirective)();
+    };
+  }
+  static {
+    this.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineDirective"]({
+      type: FaStackItemSizeDirective,
+      selectors: [["fa-icon", "stackItemSize", ""], ["fa-duotone-icon", "stackItemSize", ""]],
+      inputs: {
+        stackItemSize: "stackItemSize",
+        size: "size"
+      },
+      standalone: true,
+      features: [_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵNgOnChangesFeature"]]
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](FaStackItemSizeDirective, [{
@@ -122142,28 +122762,32 @@ class FaStackComponent {
       }
     }
   }
-  static #_ = this.ɵfac = function FaStackComponent_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || FaStackComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.Renderer2), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.ElementRef));
-  };
-  static #_2 = this.ɵcmp = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineComponent"]({
-    type: FaStackComponent,
-    selectors: [["fa-stack"]],
-    inputs: {
-      size: "size"
-    },
-    standalone: true,
-    features: [_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵNgOnChangesFeature"], _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵStandaloneFeature"]],
-    ngContentSelectors: _c0,
-    decls: 1,
-    vars: 0,
-    template: function FaStackComponent_Template(rf, ctx) {
-      if (rf & 1) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵprojectionDef"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵprojection"](0);
-      }
-    },
-    encapsulation: 2
-  });
+  static {
+    this.ɵfac = function FaStackComponent_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || FaStackComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.Renderer2), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.ElementRef));
+    };
+  }
+  static {
+    this.ɵcmp = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineComponent"]({
+      type: FaStackComponent,
+      selectors: [["fa-stack"]],
+      inputs: {
+        size: "size"
+      },
+      standalone: true,
+      features: [_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵNgOnChangesFeature"], _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵStandaloneFeature"]],
+      ngContentSelectors: _c0,
+      decls: 1,
+      vars: 0,
+      template: function FaStackComponent_Template(rf, ctx) {
+        if (rf & 1) {
+          _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵprojectionDef"]();
+          _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵprojection"](0);
+        }
+      },
+      encapsulation: 2
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](FaStackComponent, [{
@@ -122255,43 +122879,47 @@ class FaIconComponent {
       }
     };
   }
-  static #_ = this.ɵfac = function FaIconComponent_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || FaIconComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_platform_browser__WEBPACK_IMPORTED_MODULE_3__.DomSanitizer), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](FaConfig), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](FaIconLibrary), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](FaStackItemSizeDirective, 8), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](FaStackComponent, 8));
-  };
-  static #_2 = this.ɵcmp = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineComponent"]({
-    type: FaIconComponent,
-    selectors: [["fa-icon"]],
-    hostAttrs: [1, "ng-fa-icon"],
-    hostVars: 2,
-    hostBindings: function FaIconComponent_HostBindings(rf, ctx) {
-      if (rf & 2) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵhostProperty"]("innerHTML", ctx.renderedIconHTML, _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵsanitizeHtml"]);
-        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵattribute"]("title", ctx.title);
-      }
-    },
-    inputs: {
-      icon: "icon",
-      title: "title",
-      animation: "animation",
-      mask: "mask",
-      flip: "flip",
-      size: "size",
-      pull: "pull",
-      border: "border",
-      inverse: "inverse",
-      symbol: "symbol",
-      rotate: "rotate",
-      fixedWidth: "fixedWidth",
-      transform: "transform",
-      a11yRole: "a11yRole"
-    },
-    standalone: true,
-    features: [_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵNgOnChangesFeature"], _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵStandaloneFeature"]],
-    decls: 0,
-    vars: 0,
-    template: function FaIconComponent_Template(rf, ctx) {},
-    encapsulation: 2
-  });
+  static {
+    this.ɵfac = function FaIconComponent_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || FaIconComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_platform_browser__WEBPACK_IMPORTED_MODULE_3__.DomSanitizer), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](FaConfig), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](FaIconLibrary), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](FaStackItemSizeDirective, 8), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](FaStackComponent, 8));
+    };
+  }
+  static {
+    this.ɵcmp = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineComponent"]({
+      type: FaIconComponent,
+      selectors: [["fa-icon"]],
+      hostAttrs: [1, "ng-fa-icon"],
+      hostVars: 2,
+      hostBindings: function FaIconComponent_HostBindings(rf, ctx) {
+        if (rf & 2) {
+          _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵhostProperty"]("innerHTML", ctx.renderedIconHTML, _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵsanitizeHtml"]);
+          _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵattribute"]("title", ctx.title);
+        }
+      },
+      inputs: {
+        icon: "icon",
+        title: "title",
+        animation: "animation",
+        mask: "mask",
+        flip: "flip",
+        size: "size",
+        pull: "pull",
+        border: "border",
+        inverse: "inverse",
+        symbol: "symbol",
+        rotate: "rotate",
+        fixedWidth: "fixedWidth",
+        transform: "transform",
+        a11yRole: "a11yRole"
+      },
+      standalone: true,
+      features: [_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵNgOnChangesFeature"], _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵStandaloneFeature"]],
+      decls: 0,
+      vars: 0,
+      template: function FaIconComponent_Template(rf, ctx) {},
+      encapsulation: 2
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](FaIconComponent, [{
@@ -122406,29 +123034,33 @@ class FaDuotoneIconComponent extends FaIconComponent {
     }
     return params;
   }
-  static #_ = this.ɵfac = /* @__PURE__ */(() => {
-    let ɵFaDuotoneIconComponent_BaseFactory;
-    return function FaDuotoneIconComponent_Factory(__ngFactoryType__) {
-      return (ɵFaDuotoneIconComponent_BaseFactory || (ɵFaDuotoneIconComponent_BaseFactory = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵgetInheritedFactory"](FaDuotoneIconComponent)))(__ngFactoryType__ || FaDuotoneIconComponent);
-    };
-  })();
-  static #_2 = this.ɵcmp = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineComponent"]({
-    type: FaDuotoneIconComponent,
-    selectors: [["fa-duotone-icon"]],
-    inputs: {
-      swapOpacity: "swapOpacity",
-      primaryOpacity: "primaryOpacity",
-      secondaryOpacity: "secondaryOpacity",
-      primaryColor: "primaryColor",
-      secondaryColor: "secondaryColor"
-    },
-    standalone: true,
-    features: [_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵInheritDefinitionFeature"], _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵStandaloneFeature"]],
-    decls: 0,
-    vars: 0,
-    template: function FaDuotoneIconComponent_Template(rf, ctx) {},
-    encapsulation: 2
-  });
+  static {
+    this.ɵfac = /* @__PURE__ */(() => {
+      let ɵFaDuotoneIconComponent_BaseFactory;
+      return function FaDuotoneIconComponent_Factory(__ngFactoryType__) {
+        return (ɵFaDuotoneIconComponent_BaseFactory || (ɵFaDuotoneIconComponent_BaseFactory = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵgetInheritedFactory"](FaDuotoneIconComponent)))(__ngFactoryType__ || FaDuotoneIconComponent);
+      };
+    })();
+  }
+  static {
+    this.ɵcmp = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineComponent"]({
+      type: FaDuotoneIconComponent,
+      selectors: [["fa-duotone-icon"]],
+      inputs: {
+        swapOpacity: "swapOpacity",
+        primaryOpacity: "primaryOpacity",
+        secondaryOpacity: "secondaryOpacity",
+        primaryColor: "primaryColor",
+        secondaryColor: "secondaryColor"
+      },
+      standalone: true,
+      features: [_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵInheritDefinitionFeature"], _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵStandaloneFeature"]],
+      decls: 0,
+      vars: 0,
+      template: function FaDuotoneIconComponent_Template(rf, ctx) {},
+      encapsulation: 2
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](FaDuotoneIconComponent, [{
@@ -122491,35 +123123,39 @@ class FaLayersComponent {
       }
     }
   }
-  static #_ = this.ɵfac = function FaLayersComponent_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || FaLayersComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.Renderer2), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.ElementRef), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](FaConfig));
-  };
-  static #_2 = this.ɵcmp = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineComponent"]({
-    type: FaLayersComponent,
-    selectors: [["fa-layers"]],
-    hostVars: 2,
-    hostBindings: function FaLayersComponent_HostBindings(rf, ctx) {
-      if (rf & 2) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵclassProp"]("fa-fw", ctx.fixedWidth);
-      }
-    },
-    inputs: {
-      size: "size",
-      fixedWidth: "fixedWidth"
-    },
-    standalone: true,
-    features: [_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵNgOnChangesFeature"], _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵStandaloneFeature"]],
-    ngContentSelectors: _c0,
-    decls: 1,
-    vars: 0,
-    template: function FaLayersComponent_Template(rf, ctx) {
-      if (rf & 1) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵprojectionDef"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵprojection"](0);
-      }
-    },
-    encapsulation: 2
-  });
+  static {
+    this.ɵfac = function FaLayersComponent_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || FaLayersComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.Renderer2), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__.ElementRef), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](FaConfig));
+    };
+  }
+  static {
+    this.ɵcmp = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineComponent"]({
+      type: FaLayersComponent,
+      selectors: [["fa-layers"]],
+      hostVars: 2,
+      hostBindings: function FaLayersComponent_HostBindings(rf, ctx) {
+        if (rf & 2) {
+          _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵclassProp"]("fa-fw", ctx.fixedWidth);
+        }
+      },
+      inputs: {
+        size: "size",
+        fixedWidth: "fixedWidth"
+      },
+      standalone: true,
+      features: [_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵNgOnChangesFeature"], _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵStandaloneFeature"]],
+      ngContentSelectors: _c0,
+      decls: 1,
+      vars: 0,
+      template: function FaLayersComponent_Template(rf, ctx) {
+        if (rf & 1) {
+          _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵprojectionDef"]();
+          _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵprojection"](0);
+        }
+      },
+      encapsulation: 2
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](FaLayersComponent, [{
@@ -122571,31 +123207,35 @@ class FaLayersCounterComponent {
     ensureCss(this.document, this.config);
     this.renderedHTML = this.sanitizer.bypassSecurityTrustHtml((0,_fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_0__.counter)(this.content || '', params).html.join(''));
   }
-  static #_ = this.ɵfac = function FaLayersCounterComponent_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || FaLayersCounterComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](FaLayersComponent, 8), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_platform_browser__WEBPACK_IMPORTED_MODULE_3__.DomSanitizer));
-  };
-  static #_2 = this.ɵcmp = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineComponent"]({
-    type: FaLayersCounterComponent,
-    selectors: [["fa-layers-counter"]],
-    hostAttrs: [1, "ng-fa-layers-counter"],
-    hostVars: 1,
-    hostBindings: function FaLayersCounterComponent_HostBindings(rf, ctx) {
-      if (rf & 2) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵhostProperty"]("innerHTML", ctx.renderedHTML, _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵsanitizeHtml"]);
-      }
-    },
-    inputs: {
-      content: "content",
-      title: "title",
-      position: "position"
-    },
-    standalone: true,
-    features: [_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵNgOnChangesFeature"], _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵStandaloneFeature"]],
-    decls: 0,
-    vars: 0,
-    template: function FaLayersCounterComponent_Template(rf, ctx) {},
-    encapsulation: 2
-  });
+  static {
+    this.ɵfac = function FaLayersCounterComponent_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || FaLayersCounterComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](FaLayersComponent, 8), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_platform_browser__WEBPACK_IMPORTED_MODULE_3__.DomSanitizer));
+    };
+  }
+  static {
+    this.ɵcmp = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineComponent"]({
+      type: FaLayersCounterComponent,
+      selectors: [["fa-layers-counter"]],
+      hostAttrs: [1, "ng-fa-layers-counter"],
+      hostVars: 1,
+      hostBindings: function FaLayersCounterComponent_HostBindings(rf, ctx) {
+        if (rf & 2) {
+          _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵhostProperty"]("innerHTML", ctx.renderedHTML, _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵsanitizeHtml"]);
+        }
+      },
+      inputs: {
+        content: "content",
+        title: "title",
+        position: "position"
+      },
+      standalone: true,
+      features: [_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵNgOnChangesFeature"], _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵStandaloneFeature"]],
+      decls: 0,
+      vars: 0,
+      template: function FaLayersCounterComponent_Template(rf, ctx) {},
+      encapsulation: 2
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](FaLayersCounterComponent, [{
@@ -122669,38 +123309,42 @@ class FaLayersTextComponent {
     ensureCss(this.document, this.config);
     this.renderedHTML = this.sanitizer.bypassSecurityTrustHtml((0,_fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_0__.text)(this.content || '', params).html.join('\n'));
   }
-  static #_ = this.ɵfac = function FaLayersTextComponent_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || FaLayersTextComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](FaLayersComponent, 8), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_platform_browser__WEBPACK_IMPORTED_MODULE_3__.DomSanitizer));
-  };
-  static #_2 = this.ɵcmp = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineComponent"]({
-    type: FaLayersTextComponent,
-    selectors: [["fa-layers-text"]],
-    hostAttrs: [1, "ng-fa-layers-text"],
-    hostVars: 1,
-    hostBindings: function FaLayersTextComponent_HostBindings(rf, ctx) {
-      if (rf & 2) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵhostProperty"]("innerHTML", ctx.renderedHTML, _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵsanitizeHtml"]);
-      }
-    },
-    inputs: {
-      content: "content",
-      title: "title",
-      flip: "flip",
-      size: "size",
-      pull: "pull",
-      border: "border",
-      inverse: "inverse",
-      rotate: "rotate",
-      fixedWidth: "fixedWidth",
-      transform: "transform"
-    },
-    standalone: true,
-    features: [_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵNgOnChangesFeature"], _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵStandaloneFeature"]],
-    decls: 0,
-    vars: 0,
-    template: function FaLayersTextComponent_Template(rf, ctx) {},
-    encapsulation: 2
-  });
+  static {
+    this.ɵfac = function FaLayersTextComponent_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || FaLayersTextComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](FaLayersComponent, 8), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_platform_browser__WEBPACK_IMPORTED_MODULE_3__.DomSanitizer));
+    };
+  }
+  static {
+    this.ɵcmp = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineComponent"]({
+      type: FaLayersTextComponent,
+      selectors: [["fa-layers-text"]],
+      hostAttrs: [1, "ng-fa-layers-text"],
+      hostVars: 1,
+      hostBindings: function FaLayersTextComponent_HostBindings(rf, ctx) {
+        if (rf & 2) {
+          _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵhostProperty"]("innerHTML", ctx.renderedHTML, _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵsanitizeHtml"]);
+        }
+      },
+      inputs: {
+        content: "content",
+        title: "title",
+        flip: "flip",
+        size: "size",
+        pull: "pull",
+        border: "border",
+        inverse: "inverse",
+        rotate: "rotate",
+        fixedWidth: "fixedWidth",
+        transform: "transform"
+      },
+      standalone: true,
+      features: [_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵNgOnChangesFeature"], _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵStandaloneFeature"]],
+      decls: 0,
+      vars: 0,
+      template: function FaLayersTextComponent_Template(rf, ctx) {},
+      encapsulation: 2
+    });
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](FaLayersTextComponent, [{
@@ -122758,13 +123402,19 @@ class FaLayersTextComponent {
   });
 })();
 class FontAwesomeModule {
-  static #_ = this.ɵfac = function FontAwesomeModule_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || FontAwesomeModule)();
-  };
-  static #_2 = this.ɵmod = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineNgModule"]({
-    type: FontAwesomeModule
-  });
-  static #_3 = this.ɵinj = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjector"]({});
+  static {
+    this.ɵfac = function FontAwesomeModule_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || FontAwesomeModule)();
+    };
+  }
+  static {
+    this.ɵmod = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineNgModule"]({
+      type: FontAwesomeModule
+    });
+  }
+  static {
+    this.ɵinj = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjector"]({});
+  }
 }
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](FontAwesomeModule, [{
@@ -122806,6 +123456,118 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   text: () => (/* binding */ text),
 /* harmony export */   toHtml: () => (/* binding */ toHtml$1)
 /* harmony export */ });
+/*!
+ * Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com
+ * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
+ * Copyright 2024 Fonticons, Inc.
+ */
+function _defineProperty(e, r, t) {
+  return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, {
+    value: t,
+    enumerable: !0,
+    configurable: !0,
+    writable: !0
+  }) : e[r] = t, e;
+}
+function _inherits(t, e) {
+  if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function");
+  t.prototype = Object.create(e && e.prototype, {
+    constructor: {
+      value: t,
+      writable: !0,
+      configurable: !0
+    }
+  }), Object.defineProperty(t, "prototype", {
+    writable: !1
+  }), e && _setPrototypeOf(t, e);
+}
+function ownKeys(e, r) {
+  var t = Object.keys(e);
+  if (Object.getOwnPropertySymbols) {
+    var o = Object.getOwnPropertySymbols(e);
+    r && (o = o.filter(function (r) {
+      return Object.getOwnPropertyDescriptor(e, r).enumerable;
+    })), t.push.apply(t, o);
+  }
+  return t;
+}
+function _objectSpread2(e) {
+  for (var r = 1; r < arguments.length; r++) {
+    var t = null != arguments[r] ? arguments[r] : {};
+    r % 2 ? ownKeys(Object(t), !0).forEach(function (r) {
+      _defineProperty(e, r, t[r]);
+    }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) {
+      Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r));
+    });
+  }
+  return e;
+}
+function _setPrototypeOf(t, e) {
+  return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) {
+    return t.__proto__ = e, t;
+  }, _setPrototypeOf(t, e);
+}
+function _toPrimitive(t, r) {
+  if ("object" != typeof t || !t) return t;
+  var e = t[Symbol.toPrimitive];
+  if (void 0 !== e) {
+    var i = e.call(t, r || "default");
+    if ("object" != typeof i) return i;
+    throw new TypeError("@@toPrimitive must return a primitive value.");
+  }
+  return ("string" === r ? String : Number)(t);
+}
+function _toPropertyKey(t) {
+  var i = _toPrimitive(t, "string");
+  return "symbol" == typeof i ? i : i + "";
+}
+function _wrapRegExp() {
+  _wrapRegExp = function (e, r) {
+    return new BabelRegExp(e, void 0, r);
+  };
+  var e = RegExp.prototype,
+    r = new WeakMap();
+  function BabelRegExp(e, t, p) {
+    var o = RegExp(e, t);
+    return r.set(o, p || r.get(e)), _setPrototypeOf(o, BabelRegExp.prototype);
+  }
+  function buildGroups(e, t) {
+    var p = r.get(t);
+    return Object.keys(p).reduce(function (r, t) {
+      var o = p[t];
+      if ("number" == typeof o) r[t] = e[o];else {
+        for (var i = 0; void 0 === e[o[i]] && i + 1 < o.length;) i++;
+        r[t] = e[o[i]];
+      }
+      return r;
+    }, Object.create(null));
+  }
+  return _inherits(BabelRegExp, RegExp), BabelRegExp.prototype.exec = function (r) {
+    var t = e.exec.call(this, r);
+    if (t) {
+      t.groups = buildGroups(t, this);
+      var p = t.indices;
+      p && (p.groups = buildGroups(p, this));
+    }
+    return t;
+  }, BabelRegExp.prototype[Symbol.replace] = function (t, p) {
+    if ("string" == typeof p) {
+      var o = r.get(this);
+      return e[Symbol.replace].call(this, t, p.replace(/\$<([^>]+)>/g, function (e, r) {
+        var t = o[r];
+        return "$" + (Array.isArray(t) ? t.join("$") : t);
+      }));
+    }
+    if ("function" == typeof p) {
+      var i = this;
+      return e[Symbol.replace].call(this, t, function () {
+        var e = arguments;
+        return "object" != typeof e[e.length - 1] && (e = [].slice.call(e)).push(buildGroups(e, i)), p.apply(this, e);
+      });
+    }
+    return e[Symbol.replace].call(this, t, p);
+  }, _wrapRegExp.apply(this, arguments);
+}
 const noop = () => {};
 let _WINDOW = {};
 let _DOCUMENT = {};
@@ -122830,18 +123592,82 @@ const PERFORMANCE = _PERFORMANCE;
 const IS_BROWSER = !!WINDOW.document;
 const IS_DOM = !!DOCUMENT.documentElement && !!DOCUMENT.head && typeof DOCUMENT.addEventListener === 'function' && typeof DOCUMENT.createElement === 'function';
 const IS_IE = ~userAgent.indexOf('MSIE') || ~userAgent.indexOf('Trident/');
-var a = "classic",
+var p = /fa(s|r|l|t|d|dr|dl|dt|b|k|kd|ss|sr|sl|st|sds|sdr|sdl|sdt)?[\-\ ]/,
+  g = /Font ?Awesome ?([56 ]*)(Solid|Regular|Light|Thin|Duotone|Brands|Free|Pro|Sharp Duotone|Sharp|Kit)?.*/i;
+var S = {
+    classic: {
+      fa: "solid",
+      fas: "solid",
+      "fa-solid": "solid",
+      far: "regular",
+      "fa-regular": "regular",
+      fal: "light",
+      "fa-light": "light",
+      fat: "thin",
+      "fa-thin": "thin",
+      fab: "brands",
+      "fa-brands": "brands"
+    },
+    duotone: {
+      fa: "solid",
+      fad: "solid",
+      "fa-solid": "solid",
+      "fa-duotone": "solid",
+      fadr: "regular",
+      "fa-regular": "regular",
+      fadl: "light",
+      "fa-light": "light",
+      fadt: "thin",
+      "fa-thin": "thin"
+    },
+    sharp: {
+      fa: "solid",
+      fass: "solid",
+      "fa-solid": "solid",
+      fasr: "regular",
+      "fa-regular": "regular",
+      fasl: "light",
+      "fa-light": "light",
+      fast: "thin",
+      "fa-thin": "thin"
+    },
+    "sharp-duotone": {
+      fa: "solid",
+      fasds: "solid",
+      "fa-solid": "solid",
+      fasdr: "regular",
+      "fa-regular": "regular",
+      fasdl: "light",
+      "fa-light": "light",
+      fasdt: "thin",
+      "fa-thin": "thin"
+    }
+  },
+  A = {
+    GROUP: "duotone-group",
+    SWAP_OPACITY: "swap-opacity",
+    PRIMARY: "primary",
+    SECONDARY: "secondary"
+  },
+  P = ["fa-classic", "fa-duotone", "fa-sharp", "fa-sharp-duotone"];
+var s = "classic",
   t = "duotone",
   r = "sharp",
   o = "sharp-duotone",
-  c = [a, t, r, o];
-var et$1 = {
+  L = [s, t, r, o];
+var G = {
   classic: {
     900: "fas",
     400: "far",
     normal: "far",
     300: "fal",
     100: "fat"
+  },
+  duotone: {
+    900: "fad",
+    400: "fadr",
+    300: "fadl",
+    100: "fadt"
   },
   sharp: {
     900: "fass",
@@ -122850,10 +123676,104 @@ var et$1 = {
     100: "fast"
   },
   "sharp-duotone": {
-    900: "fasds"
+    900: "fasds",
+    400: "fasdr",
+    300: "fasdl",
+    100: "fasdt"
   }
 };
-var bt = {
+var lt = {
+  "Font Awesome 6 Free": {
+    900: "fas",
+    400: "far"
+  },
+  "Font Awesome 6 Pro": {
+    900: "fas",
+    400: "far",
+    normal: "far",
+    300: "fal",
+    100: "fat"
+  },
+  "Font Awesome 6 Brands": {
+    400: "fab",
+    normal: "fab"
+  },
+  "Font Awesome 6 Duotone": {
+    900: "fad",
+    400: "fadr",
+    normal: "fadr",
+    300: "fadl",
+    100: "fadt"
+  },
+  "Font Awesome 6 Sharp": {
+    900: "fass",
+    400: "fasr",
+    normal: "fasr",
+    300: "fasl",
+    100: "fast"
+  },
+  "Font Awesome 6 Sharp Duotone": {
+    900: "fasds",
+    400: "fasdr",
+    normal: "fasdr",
+    300: "fasdl",
+    100: "fasdt"
+  }
+};
+var pt = new Map([["classic", {
+    defaultShortPrefixId: "fas",
+    defaultStyleId: "solid",
+    styleIds: ["solid", "regular", "light", "thin", "brands"],
+    futureStyleIds: [],
+    defaultFontWeight: 900
+  }], ["sharp", {
+    defaultShortPrefixId: "fass",
+    defaultStyleId: "solid",
+    styleIds: ["solid", "regular", "light", "thin"],
+    futureStyleIds: [],
+    defaultFontWeight: 900
+  }], ["duotone", {
+    defaultShortPrefixId: "fad",
+    defaultStyleId: "solid",
+    styleIds: ["solid", "regular", "light", "thin"],
+    futureStyleIds: [],
+    defaultFontWeight: 900
+  }], ["sharp-duotone", {
+    defaultShortPrefixId: "fasds",
+    defaultStyleId: "solid",
+    styleIds: ["solid", "regular", "light", "thin"],
+    futureStyleIds: [],
+    defaultFontWeight: 900
+  }]]),
+  xt = {
+    classic: {
+      solid: "fas",
+      regular: "far",
+      light: "fal",
+      thin: "fat",
+      brands: "fab"
+    },
+    duotone: {
+      solid: "fad",
+      regular: "fadr",
+      light: "fadl",
+      thin: "fadt"
+    },
+    sharp: {
+      solid: "fass",
+      regular: "fasr",
+      light: "fasl",
+      thin: "fast"
+    },
+    "sharp-duotone": {
+      solid: "fasds",
+      regular: "fasdr",
+      light: "fasdl",
+      thin: "fasdt"
+    }
+  };
+var Ft = ["fak", "fa-kit", "fakd", "fa-kit-duotone"],
+  St = {
     kit: {
       fak: "kit",
       "fa-kit": "kit"
@@ -122863,10 +123783,117 @@ var bt = {
       "fa-kit-duotone": "kit-duotone"
     }
   },
-  Ct = ["kit"];
-var Dt = /fa(s|r|l|t|d|b|k|kd|ss|sr|sl|st|sds)?[\-\ ]/,
-  Kt = /Font ?Awesome ?([56 ]*)(Solid|Regular|Light|Thin|Duotone|Brands|Free|Pro|Sharp Duotone|Sharp|Kit)?.*/i;
-var ao = {
+  At = ["kit"];
+var Ct = {
+  kit: {
+    "fa-kit": "fak"
+  },
+  "kit-duotone": {
+    "fa-kit-duotone": "fakd"
+  }
+};
+var Lt = ["fak", "fakd"],
+  Wt = {
+    kit: {
+      fak: "fa-kit"
+    },
+    "kit-duotone": {
+      fakd: "fa-kit-duotone"
+    }
+  };
+var Et = {
+  kit: {
+    kit: "fak"
+  },
+  "kit-duotone": {
+    "kit-duotone": "fakd"
+  }
+};
+var t$1 = {
+    GROUP: "duotone-group",
+    SWAP_OPACITY: "swap-opacity",
+    PRIMARY: "primary",
+    SECONDARY: "secondary"
+  },
+  r$1 = ["fa-classic", "fa-duotone", "fa-sharp", "fa-sharp-duotone"];
+var bt$1 = ["fak", "fa-kit", "fakd", "fa-kit-duotone"];
+var Yt = {
+  "Font Awesome Kit": {
+    400: "fak",
+    normal: "fak"
+  },
+  "Font Awesome Kit Duotone": {
+    400: "fakd",
+    normal: "fakd"
+  }
+};
+var po = {
+    classic: {
+      "fa-brands": "fab",
+      "fa-duotone": "fad",
+      "fa-light": "fal",
+      "fa-regular": "far",
+      "fa-solid": "fas",
+      "fa-thin": "fat"
+    },
+    duotone: {
+      "fa-regular": "fadr",
+      "fa-light": "fadl",
+      "fa-thin": "fadt"
+    },
+    sharp: {
+      "fa-solid": "fass",
+      "fa-regular": "fasr",
+      "fa-light": "fasl",
+      "fa-thin": "fast"
+    },
+    "sharp-duotone": {
+      "fa-solid": "fasds",
+      "fa-regular": "fasdr",
+      "fa-light": "fasdl",
+      "fa-thin": "fasdt"
+    }
+  },
+  I$1 = {
+    classic: ["fas", "far", "fal", "fat", "fad"],
+    duotone: ["fadr", "fadl", "fadt"],
+    sharp: ["fass", "fasr", "fasl", "fast"],
+    "sharp-duotone": ["fasds", "fasdr", "fasdl", "fasdt"]
+  },
+  co = {
+    classic: {
+      fab: "fa-brands",
+      fad: "fa-duotone",
+      fal: "fa-light",
+      far: "fa-regular",
+      fas: "fa-solid",
+      fat: "fa-thin"
+    },
+    duotone: {
+      fadr: "fa-regular",
+      fadl: "fa-light",
+      fadt: "fa-thin"
+    },
+    sharp: {
+      fass: "fa-solid",
+      fasr: "fa-regular",
+      fasl: "fa-light",
+      fast: "fa-thin"
+    },
+    "sharp-duotone": {
+      fasds: "fa-solid",
+      fasdr: "fa-regular",
+      fasdl: "fa-light",
+      fasdt: "fa-thin"
+    }
+  },
+  x = ["fa-solid", "fa-regular", "fa-light", "fa-thin", "fa-duotone", "fa-brands"],
+  xo = ["fa", "fas", "far", "fal", "fat", "fad", "fadr", "fadl", "fadt", "fab", "fass", "fasr", "fasl", "fast", "fasds", "fasdr", "fasdl", "fasdt", ...r$1, ...x],
+  m$1 = ["solid", "regular", "light", "thin", "duotone", "brands"],
+  c$1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+  F$1 = c$1.concat([11, 12, 13, 14, 15, 16, 17, 18, 19, 20]),
+  Fo = [...Object.keys(I$1), ...m$1, "2xs", "xs", "sm", "lg", "xl", "2xl", "beat", "border", "fade", "beat-fade", "bounce", "flip-both", "flip-horizontal", "flip-vertical", "flip", "fw", "inverse", "layers-counter", "layers-text", "layers", "li", "pull-left", "pull-right", "pulse", "rotate-180", "rotate-270", "rotate-90", "rotate-by", "shake", "spin-pulse", "spin-reverse", "spin", "stack-1x", "stack-2x", "stack", "ul", t$1.GROUP, t$1.SWAP_OPACITY, t$1.PRIMARY, t$1.SECONDARY].concat(c$1.map(o => "".concat(o, "x"))).concat(F$1.map(o => "w-".concat(o)));
+var ko = {
   "Font Awesome 5 Free": {
     900: "fas",
     400: "far"
@@ -122885,175 +123912,6 @@ var ao = {
     900: "fad"
   }
 };
-var eo = {
-    "Font Awesome 6 Free": {
-      900: "fas",
-      400: "far"
-    },
-    "Font Awesome 6 Pro": {
-      900: "fas",
-      400: "far",
-      normal: "far",
-      300: "fal",
-      100: "fat"
-    },
-    "Font Awesome 6 Brands": {
-      400: "fab",
-      normal: "fab"
-    },
-    "Font Awesome 6 Duotone": {
-      900: "fad"
-    },
-    "Font Awesome 6 Sharp": {
-      900: "fass",
-      400: "fasr",
-      normal: "fasr",
-      300: "fasl",
-      100: "fast"
-    },
-    "Font Awesome 6 Sharp Duotone": {
-      900: "fasds"
-    }
-  },
-  lo = {
-    classic: {
-      "fa-brands": "fab",
-      "fa-duotone": "fad",
-      "fa-light": "fal",
-      "fa-regular": "far",
-      "fa-solid": "fas",
-      "fa-thin": "fat"
-    },
-    sharp: {
-      "fa-solid": "fass",
-      "fa-regular": "fasr",
-      "fa-light": "fasl",
-      "fa-thin": "fast"
-    },
-    "sharp-duotone": {
-      "fa-solid": "fasds"
-    }
-  },
-  y = {
-    classic: ["fas", "far", "fal", "fat"],
-    sharp: ["fass", "fasr", "fasl", "fast"],
-    "sharp-duotone": ["fasds"]
-  },
-  no = {
-    classic: {
-      fab: "fa-brands",
-      fad: "fa-duotone",
-      fal: "fa-light",
-      far: "fa-regular",
-      fas: "fa-solid",
-      fat: "fa-thin"
-    },
-    sharp: {
-      fass: "fa-solid",
-      fasr: "fa-regular",
-      fasl: "fa-light",
-      fast: "fa-thin"
-    },
-    "sharp-duotone": {
-      fasds: "fa-solid"
-    }
-  },
-  fo = {
-    classic: {
-      solid: "fas",
-      regular: "far",
-      light: "fal",
-      thin: "fat",
-      duotone: "fad",
-      brands: "fab"
-    },
-    sharp: {
-      solid: "fass",
-      regular: "fasr",
-      light: "fasl",
-      thin: "fast"
-    },
-    "sharp-duotone": {
-      solid: "fasds"
-    }
-  },
-  ho = {
-    classic: {
-      fa: "solid",
-      fas: "solid",
-      "fa-solid": "solid",
-      far: "regular",
-      "fa-regular": "regular",
-      fal: "light",
-      "fa-light": "light",
-      fat: "thin",
-      "fa-thin": "thin",
-      fad: "duotone",
-      "fa-duotone": "duotone",
-      fab: "brands",
-      "fa-brands": "brands"
-    },
-    sharp: {
-      fa: "solid",
-      fass: "solid",
-      "fa-solid": "solid",
-      fasr: "regular",
-      "fa-regular": "regular",
-      fasl: "light",
-      "fa-light": "light",
-      fast: "thin",
-      "fa-thin": "thin"
-    },
-    "sharp-duotone": {
-      fa: "solid",
-      fasds: "solid",
-      "fa-solid": "solid"
-    }
-  },
-  x$1 = ["solid", "regular", "light", "thin", "duotone", "brands"],
-  u$1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-  m$1 = u$1.concat([11, 12, 13, 14, 15, 16, 17, 18, 19, 20]),
-  t$1 = {
-    GROUP: "duotone-group",
-    SWAP_OPACITY: "swap-opacity",
-    PRIMARY: "primary",
-    SECONDARY: "secondary"
-  },
-  yo = [...Object.keys(y), ...x$1, "2xs", "xs", "sm", "lg", "xl", "2xl", "beat", "border", "fade", "beat-fade", "bounce", "flip-both", "flip-horizontal", "flip-vertical", "flip", "fw", "inverse", "layers-counter", "layers-text", "layers", "li", "pull-left", "pull-right", "pulse", "rotate-180", "rotate-270", "rotate-90", "rotate-by", "shake", "spin-pulse", "spin-reverse", "spin", "stack-1x", "stack-2x", "stack", "ul", t$1.GROUP, t$1.SWAP_OPACITY, t$1.PRIMARY, t$1.SECONDARY].concat(u$1.map(o => "".concat(o, "x"))).concat(m$1.map(o => "w-".concat(o)));
-var mo = {
-    "Font Awesome Kit": {
-      400: "fak",
-      normal: "fak"
-    },
-    "Font Awesome Kit Duotone": {
-      400: "fakd",
-      normal: "fakd"
-    }
-  },
-  Io = {
-    kit: {
-      "fa-kit": "fak"
-    },
-    "kit-duotone": {
-      "fa-kit-duotone": "fakd"
-    }
-  },
-  Fo = {
-    kit: {
-      fak: "fa-kit"
-    },
-    "kit-duotone": {
-      fakd: "fa-kit-duotone"
-    }
-  },
-  So = {
-    kit: {
-      kit: "fak"
-    },
-    "kit-duotone": {
-      "kit-duotone": "fakd"
-    }
-  };
 const NAMESPACE_IDENTIFIER = '___FONT_AWESOME___';
 const UNITS_IN_GRID = 16;
 const DEFAULT_CSS_PREFIX = 'fa';
@@ -123073,64 +123931,46 @@ const PRODUCTION = (() => {
     return false;
   }
 })();
-const FAMILIES = [a, r, o];
 function familyProxy(obj) {
   // Defaults to the classic family if family is not available
   return new Proxy(obj, {
     get(target, prop) {
-      return prop in target ? target[prop] : target[a];
+      return prop in target ? target[prop] : target[s];
     }
   });
 }
-const _PREFIX_TO_STYLE = {
-  ...ho
-};
-_PREFIX_TO_STYLE[a] = {
-  ...ho[a],
-  ...bt['kit'],
-  ...bt['kit-duotone']
-};
+const _PREFIX_TO_STYLE = _objectSpread2({}, S);
+
+// We changed FACSSClassesToStyleId in the icons repo to be canonical and as such, "classic" family does not have any
+// duotone styles.  But we do still need duotone in _PREFIX_TO_STYLE below, so we are manually adding
+// {'fa-duotone': 'duotone'}
+_PREFIX_TO_STYLE[s] = _objectSpread2(_objectSpread2(_objectSpread2(_objectSpread2({}, {
+  'fa-duotone': 'duotone'
+}), S[s]), St['kit']), St['kit-duotone']);
 const PREFIX_TO_STYLE = familyProxy(_PREFIX_TO_STYLE);
-const _STYLE_TO_PREFIX = {
-  ...fo
-};
-_STYLE_TO_PREFIX[a] = {
-  ..._STYLE_TO_PREFIX[a],
-  ...So['kit'],
-  ...So['kit-duotone']
-};
+const _STYLE_TO_PREFIX = _objectSpread2({}, xt);
+
+// We changed FAStyleIdToShortPrefixId in the icons repo to be canonical and as such, "classic" family does not have any
+// duotone styles.  But we do still need duotone in _STYLE_TO_PREFIX below, so we are manually adding {duotone: 'fad'}
+_STYLE_TO_PREFIX[s] = _objectSpread2(_objectSpread2(_objectSpread2(_objectSpread2({}, {
+  duotone: 'fad'
+}), _STYLE_TO_PREFIX[s]), Et['kit']), Et['kit-duotone']);
 const STYLE_TO_PREFIX = familyProxy(_STYLE_TO_PREFIX);
-const _PREFIX_TO_LONG_STYLE = {
-  ...no
-};
-_PREFIX_TO_LONG_STYLE[a] = {
-  ..._PREFIX_TO_LONG_STYLE[a],
-  ...Fo['kit']
-};
+const _PREFIX_TO_LONG_STYLE = _objectSpread2({}, co);
+_PREFIX_TO_LONG_STYLE[s] = _objectSpread2(_objectSpread2({}, _PREFIX_TO_LONG_STYLE[s]), Wt['kit']);
 const PREFIX_TO_LONG_STYLE = familyProxy(_PREFIX_TO_LONG_STYLE);
-const _LONG_STYLE_TO_PREFIX = {
-  ...lo
-};
-_LONG_STYLE_TO_PREFIX[a] = {
-  ..._LONG_STYLE_TO_PREFIX[a],
-  ...Io['kit']
-};
+const _LONG_STYLE_TO_PREFIX = _objectSpread2({}, po);
+_LONG_STYLE_TO_PREFIX[s] = _objectSpread2(_objectSpread2({}, _LONG_STYLE_TO_PREFIX[s]), Ct['kit']);
 const LONG_STYLE_TO_PREFIX = familyProxy(_LONG_STYLE_TO_PREFIX);
-const ICON_SELECTION_SYNTAX_PATTERN = Dt; // eslint-disable-line no-useless-escape
+const ICON_SELECTION_SYNTAX_PATTERN = p; // eslint-disable-line no-useless-escape
 
 const LAYERS_TEXT_CLASSNAME = 'fa-layers-text';
-const FONT_FAMILY_PATTERN = Kt;
-const _FONT_WEIGHT_TO_PREFIX = {
-  ...et$1
-};
+const FONT_FAMILY_PATTERN = g;
+const _FONT_WEIGHT_TO_PREFIX = _objectSpread2({}, G);
 const FONT_WEIGHT_TO_PREFIX = familyProxy(_FONT_WEIGHT_TO_PREFIX);
 const ATTRIBUTES_WATCHED_FOR_MUTATION = ['class', 'data-prefix', 'data-icon', 'data-fa-transform', 'data-fa-mask'];
-const DUOTONE_CLASSES = t$1;
-const prefixes = new Set();
-Object.keys(STYLE_TO_PREFIX[a]).map(prefixes.add.bind(prefixes));
-Object.keys(STYLE_TO_PREFIX[r]).map(prefixes.add.bind(prefixes));
-Object.keys(STYLE_TO_PREFIX[o]).map(prefixes.add.bind(prefixes));
-const RESERVED_CLASSES = [...Ct, ...yo];
+const DUOTONE_CLASSES = A;
+const RESERVED_CLASSES = [...At, ...Fo];
 const initial = WINDOW.FontAwesomeConfig || {};
 function getAttrConfig(attr) {
   var element = DOCUMENT.querySelector('script[' + attr + ']');
@@ -123158,7 +123998,7 @@ if (DOCUMENT && typeof DOCUMENT.querySelector === 'function') {
 }
 const _default = {
   styleDefault: 'solid',
-  familyDefault: 'classic',
+  familyDefault: s,
   cssPrefix: DEFAULT_CSS_PREFIX,
   replacementClass: DEFAULT_REPLACEMENT_CLASS,
   autoReplaceSvg: true,
@@ -123170,15 +124010,13 @@ const _default = {
   keepOriginalSource: true,
   measurePerformance: false,
   showMissingIcons: true
-}; // familyPrefix is deprecated but we must still support it if present
+};
 
+// familyPrefix is deprecated but we must still support it if present
 if (initial.familyPrefix) {
   initial.cssPrefix = initial.familyPrefix;
 }
-const _config = {
-  ..._default,
-  ...initial
-};
+const _config = _objectSpread2(_objectSpread2({}, _default), initial);
 if (!_config.autoReplaceSvg) _config.observeMutations = false;
 const config = {};
 Object.keys(_default).forEach(key => {
@@ -123192,8 +124030,9 @@ Object.keys(_default).forEach(key => {
       return _config[key];
     }
   });
-}); // familyPrefix is deprecated as of 6.2.0 and should be removed in 7.0.0
+});
 
+// familyPrefix is deprecated as of 6.2.0 and should be removed in 7.0.0
 Object.defineProperty(config, 'familyPrefix', {
   enumerable: true,
   set: function (val) {
@@ -123322,7 +124161,7 @@ function transformForCss(_ref2) {
   val += "rotate(".concat(transform.rotate, "deg) ");
   return val;
 }
-var baseStyles = ":root, :host {\n  --fa-font-solid: normal 900 1em/1 \"Font Awesome 6 Free\";\n  --fa-font-regular: normal 400 1em/1 \"Font Awesome 6 Free\";\n  --fa-font-light: normal 300 1em/1 \"Font Awesome 6 Pro\";\n  --fa-font-thin: normal 100 1em/1 \"Font Awesome 6 Pro\";\n  --fa-font-duotone: normal 900 1em/1 \"Font Awesome 6 Duotone\";\n  --fa-font-brands: normal 400 1em/1 \"Font Awesome 6 Brands\";\n  --fa-font-sharp-solid: normal 900 1em/1 \"Font Awesome 6 Sharp\";\n  --fa-font-sharp-regular: normal 400 1em/1 \"Font Awesome 6 Sharp\";\n  --fa-font-sharp-light: normal 300 1em/1 \"Font Awesome 6 Sharp\";\n  --fa-font-sharp-thin: normal 100 1em/1 \"Font Awesome 6 Sharp\";\n  --fa-font-sharp-duotone-solid: normal 900 1em/1 \"Font Awesome 6 Sharp Duotone\";\n}\n\nsvg:not(:root).svg-inline--fa, svg:not(:host).svg-inline--fa {\n  overflow: visible;\n  box-sizing: content-box;\n}\n\n.svg-inline--fa {\n  display: var(--fa-display, inline-block);\n  height: 1em;\n  overflow: visible;\n  vertical-align: -0.125em;\n}\n.svg-inline--fa.fa-2xs {\n  vertical-align: 0.1em;\n}\n.svg-inline--fa.fa-xs {\n  vertical-align: 0em;\n}\n.svg-inline--fa.fa-sm {\n  vertical-align: -0.0714285705em;\n}\n.svg-inline--fa.fa-lg {\n  vertical-align: -0.2em;\n}\n.svg-inline--fa.fa-xl {\n  vertical-align: -0.25em;\n}\n.svg-inline--fa.fa-2xl {\n  vertical-align: -0.3125em;\n}\n.svg-inline--fa.fa-pull-left {\n  margin-right: var(--fa-pull-margin, 0.3em);\n  width: auto;\n}\n.svg-inline--fa.fa-pull-right {\n  margin-left: var(--fa-pull-margin, 0.3em);\n  width: auto;\n}\n.svg-inline--fa.fa-li {\n  width: var(--fa-li-width, 2em);\n  top: 0.25em;\n}\n.svg-inline--fa.fa-fw {\n  width: var(--fa-fw-width, 1.25em);\n}\n\n.fa-layers svg.svg-inline--fa {\n  bottom: 0;\n  left: 0;\n  margin: auto;\n  position: absolute;\n  right: 0;\n  top: 0;\n}\n\n.fa-layers-counter, .fa-layers-text {\n  display: inline-block;\n  position: absolute;\n  text-align: center;\n}\n\n.fa-layers {\n  display: inline-block;\n  height: 1em;\n  position: relative;\n  text-align: center;\n  vertical-align: -0.125em;\n  width: 1em;\n}\n.fa-layers svg.svg-inline--fa {\n  transform-origin: center center;\n}\n\n.fa-layers-text {\n  left: 50%;\n  top: 50%;\n  transform: translate(-50%, -50%);\n  transform-origin: center center;\n}\n\n.fa-layers-counter {\n  background-color: var(--fa-counter-background-color, #ff253a);\n  border-radius: var(--fa-counter-border-radius, 1em);\n  box-sizing: border-box;\n  color: var(--fa-inverse, #fff);\n  line-height: var(--fa-counter-line-height, 1);\n  max-width: var(--fa-counter-max-width, 5em);\n  min-width: var(--fa-counter-min-width, 1.5em);\n  overflow: hidden;\n  padding: var(--fa-counter-padding, 0.25em 0.5em);\n  right: var(--fa-right, 0);\n  text-overflow: ellipsis;\n  top: var(--fa-top, 0);\n  transform: scale(var(--fa-counter-scale, 0.25));\n  transform-origin: top right;\n}\n\n.fa-layers-bottom-right {\n  bottom: var(--fa-bottom, 0);\n  right: var(--fa-right, 0);\n  top: auto;\n  transform: scale(var(--fa-layers-scale, 0.25));\n  transform-origin: bottom right;\n}\n\n.fa-layers-bottom-left {\n  bottom: var(--fa-bottom, 0);\n  left: var(--fa-left, 0);\n  right: auto;\n  top: auto;\n  transform: scale(var(--fa-layers-scale, 0.25));\n  transform-origin: bottom left;\n}\n\n.fa-layers-top-right {\n  top: var(--fa-top, 0);\n  right: var(--fa-right, 0);\n  transform: scale(var(--fa-layers-scale, 0.25));\n  transform-origin: top right;\n}\n\n.fa-layers-top-left {\n  left: var(--fa-left, 0);\n  right: auto;\n  top: var(--fa-top, 0);\n  transform: scale(var(--fa-layers-scale, 0.25));\n  transform-origin: top left;\n}\n\n.fa-1x {\n  font-size: 1em;\n}\n\n.fa-2x {\n  font-size: 2em;\n}\n\n.fa-3x {\n  font-size: 3em;\n}\n\n.fa-4x {\n  font-size: 4em;\n}\n\n.fa-5x {\n  font-size: 5em;\n}\n\n.fa-6x {\n  font-size: 6em;\n}\n\n.fa-7x {\n  font-size: 7em;\n}\n\n.fa-8x {\n  font-size: 8em;\n}\n\n.fa-9x {\n  font-size: 9em;\n}\n\n.fa-10x {\n  font-size: 10em;\n}\n\n.fa-2xs {\n  font-size: 0.625em;\n  line-height: 0.1em;\n  vertical-align: 0.225em;\n}\n\n.fa-xs {\n  font-size: 0.75em;\n  line-height: 0.0833333337em;\n  vertical-align: 0.125em;\n}\n\n.fa-sm {\n  font-size: 0.875em;\n  line-height: 0.0714285718em;\n  vertical-align: 0.0535714295em;\n}\n\n.fa-lg {\n  font-size: 1.25em;\n  line-height: 0.05em;\n  vertical-align: -0.075em;\n}\n\n.fa-xl {\n  font-size: 1.5em;\n  line-height: 0.0416666682em;\n  vertical-align: -0.125em;\n}\n\n.fa-2xl {\n  font-size: 2em;\n  line-height: 0.03125em;\n  vertical-align: -0.1875em;\n}\n\n.fa-fw {\n  text-align: center;\n  width: 1.25em;\n}\n\n.fa-ul {\n  list-style-type: none;\n  margin-left: var(--fa-li-margin, 2.5em);\n  padding-left: 0;\n}\n.fa-ul > li {\n  position: relative;\n}\n\n.fa-li {\n  left: calc(-1 * var(--fa-li-width, 2em));\n  position: absolute;\n  text-align: center;\n  width: var(--fa-li-width, 2em);\n  line-height: inherit;\n}\n\n.fa-border {\n  border-color: var(--fa-border-color, #eee);\n  border-radius: var(--fa-border-radius, 0.1em);\n  border-style: var(--fa-border-style, solid);\n  border-width: var(--fa-border-width, 0.08em);\n  padding: var(--fa-border-padding, 0.2em 0.25em 0.15em);\n}\n\n.fa-pull-left {\n  float: left;\n  margin-right: var(--fa-pull-margin, 0.3em);\n}\n\n.fa-pull-right {\n  float: right;\n  margin-left: var(--fa-pull-margin, 0.3em);\n}\n\n.fa-beat {\n  animation-name: fa-beat;\n  animation-delay: var(--fa-animation-delay, 0s);\n  animation-direction: var(--fa-animation-direction, normal);\n  animation-duration: var(--fa-animation-duration, 1s);\n  animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n  animation-timing-function: var(--fa-animation-timing, ease-in-out);\n}\n\n.fa-bounce {\n  animation-name: fa-bounce;\n  animation-delay: var(--fa-animation-delay, 0s);\n  animation-direction: var(--fa-animation-direction, normal);\n  animation-duration: var(--fa-animation-duration, 1s);\n  animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n  animation-timing-function: var(--fa-animation-timing, cubic-bezier(0.28, 0.84, 0.42, 1));\n}\n\n.fa-fade {\n  animation-name: fa-fade;\n  animation-delay: var(--fa-animation-delay, 0s);\n  animation-direction: var(--fa-animation-direction, normal);\n  animation-duration: var(--fa-animation-duration, 1s);\n  animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n  animation-timing-function: var(--fa-animation-timing, cubic-bezier(0.4, 0, 0.6, 1));\n}\n\n.fa-beat-fade {\n  animation-name: fa-beat-fade;\n  animation-delay: var(--fa-animation-delay, 0s);\n  animation-direction: var(--fa-animation-direction, normal);\n  animation-duration: var(--fa-animation-duration, 1s);\n  animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n  animation-timing-function: var(--fa-animation-timing, cubic-bezier(0.4, 0, 0.6, 1));\n}\n\n.fa-flip {\n  animation-name: fa-flip;\n  animation-delay: var(--fa-animation-delay, 0s);\n  animation-direction: var(--fa-animation-direction, normal);\n  animation-duration: var(--fa-animation-duration, 1s);\n  animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n  animation-timing-function: var(--fa-animation-timing, ease-in-out);\n}\n\n.fa-shake {\n  animation-name: fa-shake;\n  animation-delay: var(--fa-animation-delay, 0s);\n  animation-direction: var(--fa-animation-direction, normal);\n  animation-duration: var(--fa-animation-duration, 1s);\n  animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n  animation-timing-function: var(--fa-animation-timing, linear);\n}\n\n.fa-spin {\n  animation-name: fa-spin;\n  animation-delay: var(--fa-animation-delay, 0s);\n  animation-direction: var(--fa-animation-direction, normal);\n  animation-duration: var(--fa-animation-duration, 2s);\n  animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n  animation-timing-function: var(--fa-animation-timing, linear);\n}\n\n.fa-spin-reverse {\n  --fa-animation-direction: reverse;\n}\n\n.fa-pulse,\n.fa-spin-pulse {\n  animation-name: fa-spin;\n  animation-direction: var(--fa-animation-direction, normal);\n  animation-duration: var(--fa-animation-duration, 1s);\n  animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n  animation-timing-function: var(--fa-animation-timing, steps(8));\n}\n\n@media (prefers-reduced-motion: reduce) {\n  .fa-beat,\n.fa-bounce,\n.fa-fade,\n.fa-beat-fade,\n.fa-flip,\n.fa-pulse,\n.fa-shake,\n.fa-spin,\n.fa-spin-pulse {\n    animation-delay: -1ms;\n    animation-duration: 1ms;\n    animation-iteration-count: 1;\n    transition-delay: 0s;\n    transition-duration: 0s;\n  }\n}\n@keyframes fa-beat {\n  0%, 90% {\n    transform: scale(1);\n  }\n  45% {\n    transform: scale(var(--fa-beat-scale, 1.25));\n  }\n}\n@keyframes fa-bounce {\n  0% {\n    transform: scale(1, 1) translateY(0);\n  }\n  10% {\n    transform: scale(var(--fa-bounce-start-scale-x, 1.1), var(--fa-bounce-start-scale-y, 0.9)) translateY(0);\n  }\n  30% {\n    transform: scale(var(--fa-bounce-jump-scale-x, 0.9), var(--fa-bounce-jump-scale-y, 1.1)) translateY(var(--fa-bounce-height, -0.5em));\n  }\n  50% {\n    transform: scale(var(--fa-bounce-land-scale-x, 1.05), var(--fa-bounce-land-scale-y, 0.95)) translateY(0);\n  }\n  57% {\n    transform: scale(1, 1) translateY(var(--fa-bounce-rebound, -0.125em));\n  }\n  64% {\n    transform: scale(1, 1) translateY(0);\n  }\n  100% {\n    transform: scale(1, 1) translateY(0);\n  }\n}\n@keyframes fa-fade {\n  50% {\n    opacity: var(--fa-fade-opacity, 0.4);\n  }\n}\n@keyframes fa-beat-fade {\n  0%, 100% {\n    opacity: var(--fa-beat-fade-opacity, 0.4);\n    transform: scale(1);\n  }\n  50% {\n    opacity: 1;\n    transform: scale(var(--fa-beat-fade-scale, 1.125));\n  }\n}\n@keyframes fa-flip {\n  50% {\n    transform: rotate3d(var(--fa-flip-x, 0), var(--fa-flip-y, 1), var(--fa-flip-z, 0), var(--fa-flip-angle, -180deg));\n  }\n}\n@keyframes fa-shake {\n  0% {\n    transform: rotate(-15deg);\n  }\n  4% {\n    transform: rotate(15deg);\n  }\n  8%, 24% {\n    transform: rotate(-18deg);\n  }\n  12%, 28% {\n    transform: rotate(18deg);\n  }\n  16% {\n    transform: rotate(-22deg);\n  }\n  20% {\n    transform: rotate(22deg);\n  }\n  32% {\n    transform: rotate(-12deg);\n  }\n  36% {\n    transform: rotate(12deg);\n  }\n  40%, 100% {\n    transform: rotate(0deg);\n  }\n}\n@keyframes fa-spin {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(360deg);\n  }\n}\n.fa-rotate-90 {\n  transform: rotate(90deg);\n}\n\n.fa-rotate-180 {\n  transform: rotate(180deg);\n}\n\n.fa-rotate-270 {\n  transform: rotate(270deg);\n}\n\n.fa-flip-horizontal {\n  transform: scale(-1, 1);\n}\n\n.fa-flip-vertical {\n  transform: scale(1, -1);\n}\n\n.fa-flip-both,\n.fa-flip-horizontal.fa-flip-vertical {\n  transform: scale(-1, -1);\n}\n\n.fa-rotate-by {\n  transform: rotate(var(--fa-rotate-angle, 0));\n}\n\n.fa-stack {\n  display: inline-block;\n  vertical-align: middle;\n  height: 2em;\n  position: relative;\n  width: 2.5em;\n}\n\n.fa-stack-1x,\n.fa-stack-2x {\n  bottom: 0;\n  left: 0;\n  margin: auto;\n  position: absolute;\n  right: 0;\n  top: 0;\n  z-index: var(--fa-stack-z-index, auto);\n}\n\n.svg-inline--fa.fa-stack-1x {\n  height: 1em;\n  width: 1.25em;\n}\n.svg-inline--fa.fa-stack-2x {\n  height: 2em;\n  width: 2.5em;\n}\n\n.fa-inverse {\n  color: var(--fa-inverse, #fff);\n}\n\n.sr-only,\n.fa-sr-only {\n  position: absolute;\n  width: 1px;\n  height: 1px;\n  padding: 0;\n  margin: -1px;\n  overflow: hidden;\n  clip: rect(0, 0, 0, 0);\n  white-space: nowrap;\n  border-width: 0;\n}\n\n.sr-only-focusable:not(:focus),\n.fa-sr-only-focusable:not(:focus) {\n  position: absolute;\n  width: 1px;\n  height: 1px;\n  padding: 0;\n  margin: -1px;\n  overflow: hidden;\n  clip: rect(0, 0, 0, 0);\n  white-space: nowrap;\n  border-width: 0;\n}\n\n.svg-inline--fa .fa-primary {\n  fill: var(--fa-primary-color, currentColor);\n  opacity: var(--fa-primary-opacity, 1);\n}\n\n.svg-inline--fa .fa-secondary {\n  fill: var(--fa-secondary-color, currentColor);\n  opacity: var(--fa-secondary-opacity, 0.4);\n}\n\n.svg-inline--fa.fa-swap-opacity .fa-primary {\n  opacity: var(--fa-secondary-opacity, 0.4);\n}\n\n.svg-inline--fa.fa-swap-opacity .fa-secondary {\n  opacity: var(--fa-primary-opacity, 1);\n}\n\n.svg-inline--fa mask .fa-primary,\n.svg-inline--fa mask .fa-secondary {\n  fill: black;\n}\n\n.fad.fa-inverse,\n.fa-duotone.fa-inverse {\n  color: var(--fa-inverse, #fff);\n}";
+var baseStyles = ":root, :host {\n  --fa-font-solid: normal 900 1em/1 \"Font Awesome 6 Free\";\n  --fa-font-regular: normal 400 1em/1 \"Font Awesome 6 Free\";\n  --fa-font-light: normal 300 1em/1 \"Font Awesome 6 Pro\";\n  --fa-font-thin: normal 100 1em/1 \"Font Awesome 6 Pro\";\n  --fa-font-duotone: normal 900 1em/1 \"Font Awesome 6 Duotone\";\n  --fa-font-duotone-regular: normal 400 1em/1 \"Font Awesome 6 Duotone\";\n  --fa-font-duotone-light: normal 300 1em/1 \"Font Awesome 6 Duotone\";\n  --fa-font-duotone-thin: normal 100 1em/1 \"Font Awesome 6 Duotone\";\n  --fa-font-brands: normal 400 1em/1 \"Font Awesome 6 Brands\";\n  --fa-font-sharp-solid: normal 900 1em/1 \"Font Awesome 6 Sharp\";\n  --fa-font-sharp-regular: normal 400 1em/1 \"Font Awesome 6 Sharp\";\n  --fa-font-sharp-light: normal 300 1em/1 \"Font Awesome 6 Sharp\";\n  --fa-font-sharp-thin: normal 100 1em/1 \"Font Awesome 6 Sharp\";\n  --fa-font-sharp-duotone-solid: normal 900 1em/1 \"Font Awesome 6 Sharp Duotone\";\n  --fa-font-sharp-duotone-regular: normal 400 1em/1 \"Font Awesome 6 Sharp Duotone\";\n  --fa-font-sharp-duotone-light: normal 300 1em/1 \"Font Awesome 6 Sharp Duotone\";\n  --fa-font-sharp-duotone-thin: normal 100 1em/1 \"Font Awesome 6 Sharp Duotone\";\n}\n\nsvg:not(:root).svg-inline--fa, svg:not(:host).svg-inline--fa {\n  overflow: visible;\n  box-sizing: content-box;\n}\n\n.svg-inline--fa {\n  display: var(--fa-display, inline-block);\n  height: 1em;\n  overflow: visible;\n  vertical-align: -0.125em;\n}\n.svg-inline--fa.fa-2xs {\n  vertical-align: 0.1em;\n}\n.svg-inline--fa.fa-xs {\n  vertical-align: 0em;\n}\n.svg-inline--fa.fa-sm {\n  vertical-align: -0.0714285705em;\n}\n.svg-inline--fa.fa-lg {\n  vertical-align: -0.2em;\n}\n.svg-inline--fa.fa-xl {\n  vertical-align: -0.25em;\n}\n.svg-inline--fa.fa-2xl {\n  vertical-align: -0.3125em;\n}\n.svg-inline--fa.fa-pull-left {\n  margin-right: var(--fa-pull-margin, 0.3em);\n  width: auto;\n}\n.svg-inline--fa.fa-pull-right {\n  margin-left: var(--fa-pull-margin, 0.3em);\n  width: auto;\n}\n.svg-inline--fa.fa-li {\n  width: var(--fa-li-width, 2em);\n  top: 0.25em;\n}\n.svg-inline--fa.fa-fw {\n  width: var(--fa-fw-width, 1.25em);\n}\n\n.fa-layers svg.svg-inline--fa {\n  bottom: 0;\n  left: 0;\n  margin: auto;\n  position: absolute;\n  right: 0;\n  top: 0;\n}\n\n.fa-layers-counter, .fa-layers-text {\n  display: inline-block;\n  position: absolute;\n  text-align: center;\n}\n\n.fa-layers {\n  display: inline-block;\n  height: 1em;\n  position: relative;\n  text-align: center;\n  vertical-align: -0.125em;\n  width: 1em;\n}\n.fa-layers svg.svg-inline--fa {\n  transform-origin: center center;\n}\n\n.fa-layers-text {\n  left: 50%;\n  top: 50%;\n  transform: translate(-50%, -50%);\n  transform-origin: center center;\n}\n\n.fa-layers-counter {\n  background-color: var(--fa-counter-background-color, #ff253a);\n  border-radius: var(--fa-counter-border-radius, 1em);\n  box-sizing: border-box;\n  color: var(--fa-inverse, #fff);\n  line-height: var(--fa-counter-line-height, 1);\n  max-width: var(--fa-counter-max-width, 5em);\n  min-width: var(--fa-counter-min-width, 1.5em);\n  overflow: hidden;\n  padding: var(--fa-counter-padding, 0.25em 0.5em);\n  right: var(--fa-right, 0);\n  text-overflow: ellipsis;\n  top: var(--fa-top, 0);\n  transform: scale(var(--fa-counter-scale, 0.25));\n  transform-origin: top right;\n}\n\n.fa-layers-bottom-right {\n  bottom: var(--fa-bottom, 0);\n  right: var(--fa-right, 0);\n  top: auto;\n  transform: scale(var(--fa-layers-scale, 0.25));\n  transform-origin: bottom right;\n}\n\n.fa-layers-bottom-left {\n  bottom: var(--fa-bottom, 0);\n  left: var(--fa-left, 0);\n  right: auto;\n  top: auto;\n  transform: scale(var(--fa-layers-scale, 0.25));\n  transform-origin: bottom left;\n}\n\n.fa-layers-top-right {\n  top: var(--fa-top, 0);\n  right: var(--fa-right, 0);\n  transform: scale(var(--fa-layers-scale, 0.25));\n  transform-origin: top right;\n}\n\n.fa-layers-top-left {\n  left: var(--fa-left, 0);\n  right: auto;\n  top: var(--fa-top, 0);\n  transform: scale(var(--fa-layers-scale, 0.25));\n  transform-origin: top left;\n}\n\n.fa-1x {\n  font-size: 1em;\n}\n\n.fa-2x {\n  font-size: 2em;\n}\n\n.fa-3x {\n  font-size: 3em;\n}\n\n.fa-4x {\n  font-size: 4em;\n}\n\n.fa-5x {\n  font-size: 5em;\n}\n\n.fa-6x {\n  font-size: 6em;\n}\n\n.fa-7x {\n  font-size: 7em;\n}\n\n.fa-8x {\n  font-size: 8em;\n}\n\n.fa-9x {\n  font-size: 9em;\n}\n\n.fa-10x {\n  font-size: 10em;\n}\n\n.fa-2xs {\n  font-size: 0.625em;\n  line-height: 0.1em;\n  vertical-align: 0.225em;\n}\n\n.fa-xs {\n  font-size: 0.75em;\n  line-height: 0.0833333337em;\n  vertical-align: 0.125em;\n}\n\n.fa-sm {\n  font-size: 0.875em;\n  line-height: 0.0714285718em;\n  vertical-align: 0.0535714295em;\n}\n\n.fa-lg {\n  font-size: 1.25em;\n  line-height: 0.05em;\n  vertical-align: -0.075em;\n}\n\n.fa-xl {\n  font-size: 1.5em;\n  line-height: 0.0416666682em;\n  vertical-align: -0.125em;\n}\n\n.fa-2xl {\n  font-size: 2em;\n  line-height: 0.03125em;\n  vertical-align: -0.1875em;\n}\n\n.fa-fw {\n  text-align: center;\n  width: 1.25em;\n}\n\n.fa-ul {\n  list-style-type: none;\n  margin-left: var(--fa-li-margin, 2.5em);\n  padding-left: 0;\n}\n.fa-ul > li {\n  position: relative;\n}\n\n.fa-li {\n  left: calc(-1 * var(--fa-li-width, 2em));\n  position: absolute;\n  text-align: center;\n  width: var(--fa-li-width, 2em);\n  line-height: inherit;\n}\n\n.fa-border {\n  border-color: var(--fa-border-color, #eee);\n  border-radius: var(--fa-border-radius, 0.1em);\n  border-style: var(--fa-border-style, solid);\n  border-width: var(--fa-border-width, 0.08em);\n  padding: var(--fa-border-padding, 0.2em 0.25em 0.15em);\n}\n\n.fa-pull-left {\n  float: left;\n  margin-right: var(--fa-pull-margin, 0.3em);\n}\n\n.fa-pull-right {\n  float: right;\n  margin-left: var(--fa-pull-margin, 0.3em);\n}\n\n.fa-beat {\n  animation-name: fa-beat;\n  animation-delay: var(--fa-animation-delay, 0s);\n  animation-direction: var(--fa-animation-direction, normal);\n  animation-duration: var(--fa-animation-duration, 1s);\n  animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n  animation-timing-function: var(--fa-animation-timing, ease-in-out);\n}\n\n.fa-bounce {\n  animation-name: fa-bounce;\n  animation-delay: var(--fa-animation-delay, 0s);\n  animation-direction: var(--fa-animation-direction, normal);\n  animation-duration: var(--fa-animation-duration, 1s);\n  animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n  animation-timing-function: var(--fa-animation-timing, cubic-bezier(0.28, 0.84, 0.42, 1));\n}\n\n.fa-fade {\n  animation-name: fa-fade;\n  animation-delay: var(--fa-animation-delay, 0s);\n  animation-direction: var(--fa-animation-direction, normal);\n  animation-duration: var(--fa-animation-duration, 1s);\n  animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n  animation-timing-function: var(--fa-animation-timing, cubic-bezier(0.4, 0, 0.6, 1));\n}\n\n.fa-beat-fade {\n  animation-name: fa-beat-fade;\n  animation-delay: var(--fa-animation-delay, 0s);\n  animation-direction: var(--fa-animation-direction, normal);\n  animation-duration: var(--fa-animation-duration, 1s);\n  animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n  animation-timing-function: var(--fa-animation-timing, cubic-bezier(0.4, 0, 0.6, 1));\n}\n\n.fa-flip {\n  animation-name: fa-flip;\n  animation-delay: var(--fa-animation-delay, 0s);\n  animation-direction: var(--fa-animation-direction, normal);\n  animation-duration: var(--fa-animation-duration, 1s);\n  animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n  animation-timing-function: var(--fa-animation-timing, ease-in-out);\n}\n\n.fa-shake {\n  animation-name: fa-shake;\n  animation-delay: var(--fa-animation-delay, 0s);\n  animation-direction: var(--fa-animation-direction, normal);\n  animation-duration: var(--fa-animation-duration, 1s);\n  animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n  animation-timing-function: var(--fa-animation-timing, linear);\n}\n\n.fa-spin {\n  animation-name: fa-spin;\n  animation-delay: var(--fa-animation-delay, 0s);\n  animation-direction: var(--fa-animation-direction, normal);\n  animation-duration: var(--fa-animation-duration, 2s);\n  animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n  animation-timing-function: var(--fa-animation-timing, linear);\n}\n\n.fa-spin-reverse {\n  --fa-animation-direction: reverse;\n}\n\n.fa-pulse,\n.fa-spin-pulse {\n  animation-name: fa-spin;\n  animation-direction: var(--fa-animation-direction, normal);\n  animation-duration: var(--fa-animation-duration, 1s);\n  animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n  animation-timing-function: var(--fa-animation-timing, steps(8));\n}\n\n@media (prefers-reduced-motion: reduce) {\n  .fa-beat,\n.fa-bounce,\n.fa-fade,\n.fa-beat-fade,\n.fa-flip,\n.fa-pulse,\n.fa-shake,\n.fa-spin,\n.fa-spin-pulse {\n    animation-delay: -1ms;\n    animation-duration: 1ms;\n    animation-iteration-count: 1;\n    transition-delay: 0s;\n    transition-duration: 0s;\n  }\n}\n@keyframes fa-beat {\n  0%, 90% {\n    transform: scale(1);\n  }\n  45% {\n    transform: scale(var(--fa-beat-scale, 1.25));\n  }\n}\n@keyframes fa-bounce {\n  0% {\n    transform: scale(1, 1) translateY(0);\n  }\n  10% {\n    transform: scale(var(--fa-bounce-start-scale-x, 1.1), var(--fa-bounce-start-scale-y, 0.9)) translateY(0);\n  }\n  30% {\n    transform: scale(var(--fa-bounce-jump-scale-x, 0.9), var(--fa-bounce-jump-scale-y, 1.1)) translateY(var(--fa-bounce-height, -0.5em));\n  }\n  50% {\n    transform: scale(var(--fa-bounce-land-scale-x, 1.05), var(--fa-bounce-land-scale-y, 0.95)) translateY(0);\n  }\n  57% {\n    transform: scale(1, 1) translateY(var(--fa-bounce-rebound, -0.125em));\n  }\n  64% {\n    transform: scale(1, 1) translateY(0);\n  }\n  100% {\n    transform: scale(1, 1) translateY(0);\n  }\n}\n@keyframes fa-fade {\n  50% {\n    opacity: var(--fa-fade-opacity, 0.4);\n  }\n}\n@keyframes fa-beat-fade {\n  0%, 100% {\n    opacity: var(--fa-beat-fade-opacity, 0.4);\n    transform: scale(1);\n  }\n  50% {\n    opacity: 1;\n    transform: scale(var(--fa-beat-fade-scale, 1.125));\n  }\n}\n@keyframes fa-flip {\n  50% {\n    transform: rotate3d(var(--fa-flip-x, 0), var(--fa-flip-y, 1), var(--fa-flip-z, 0), var(--fa-flip-angle, -180deg));\n  }\n}\n@keyframes fa-shake {\n  0% {\n    transform: rotate(-15deg);\n  }\n  4% {\n    transform: rotate(15deg);\n  }\n  8%, 24% {\n    transform: rotate(-18deg);\n  }\n  12%, 28% {\n    transform: rotate(18deg);\n  }\n  16% {\n    transform: rotate(-22deg);\n  }\n  20% {\n    transform: rotate(22deg);\n  }\n  32% {\n    transform: rotate(-12deg);\n  }\n  36% {\n    transform: rotate(12deg);\n  }\n  40%, 100% {\n    transform: rotate(0deg);\n  }\n}\n@keyframes fa-spin {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(360deg);\n  }\n}\n.fa-rotate-90 {\n  transform: rotate(90deg);\n}\n\n.fa-rotate-180 {\n  transform: rotate(180deg);\n}\n\n.fa-rotate-270 {\n  transform: rotate(270deg);\n}\n\n.fa-flip-horizontal {\n  transform: scale(-1, 1);\n}\n\n.fa-flip-vertical {\n  transform: scale(1, -1);\n}\n\n.fa-flip-both,\n.fa-flip-horizontal.fa-flip-vertical {\n  transform: scale(-1, -1);\n}\n\n.fa-rotate-by {\n  transform: rotate(var(--fa-rotate-angle, 0));\n}\n\n.fa-stack {\n  display: inline-block;\n  vertical-align: middle;\n  height: 2em;\n  position: relative;\n  width: 2.5em;\n}\n\n.fa-stack-1x,\n.fa-stack-2x {\n  bottom: 0;\n  left: 0;\n  margin: auto;\n  position: absolute;\n  right: 0;\n  top: 0;\n  z-index: var(--fa-stack-z-index, auto);\n}\n\n.svg-inline--fa.fa-stack-1x {\n  height: 1em;\n  width: 1.25em;\n}\n.svg-inline--fa.fa-stack-2x {\n  height: 2em;\n  width: 2.5em;\n}\n\n.fa-inverse {\n  color: var(--fa-inverse, #fff);\n}\n\n.sr-only,\n.fa-sr-only {\n  position: absolute;\n  width: 1px;\n  height: 1px;\n  padding: 0;\n  margin: -1px;\n  overflow: hidden;\n  clip: rect(0, 0, 0, 0);\n  white-space: nowrap;\n  border-width: 0;\n}\n\n.sr-only-focusable:not(:focus),\n.fa-sr-only-focusable:not(:focus) {\n  position: absolute;\n  width: 1px;\n  height: 1px;\n  padding: 0;\n  margin: -1px;\n  overflow: hidden;\n  clip: rect(0, 0, 0, 0);\n  white-space: nowrap;\n  border-width: 0;\n}\n\n.svg-inline--fa .fa-primary {\n  fill: var(--fa-primary-color, currentColor);\n  opacity: var(--fa-primary-opacity, 1);\n}\n\n.svg-inline--fa .fa-secondary {\n  fill: var(--fa-secondary-color, currentColor);\n  opacity: var(--fa-secondary-opacity, 0.4);\n}\n\n.svg-inline--fa.fa-swap-opacity .fa-primary {\n  opacity: var(--fa-secondary-opacity, 0.4);\n}\n\n.svg-inline--fa.fa-swap-opacity .fa-secondary {\n  opacity: var(--fa-primary-opacity, 1);\n}\n\n.svg-inline--fa mask .fa-primary,\n.svg-inline--fa mask .fa-secondary {\n  fill: black;\n}";
 function css() {
   const dcp = DEFAULT_CSS_PREFIX;
   const drc = DEFAULT_REPLACEMENT_CLASS;
@@ -123364,12 +124203,12 @@ var InjectCSS = {
     };
   }
 };
-const w$1 = WINDOW || {};
-if (!w$1[NAMESPACE_IDENTIFIER]) w$1[NAMESPACE_IDENTIFIER] = {};
-if (!w$1[NAMESPACE_IDENTIFIER].styles) w$1[NAMESPACE_IDENTIFIER].styles = {};
-if (!w$1[NAMESPACE_IDENTIFIER].hooks) w$1[NAMESPACE_IDENTIFIER].hooks = {};
-if (!w$1[NAMESPACE_IDENTIFIER].shims) w$1[NAMESPACE_IDENTIFIER].shims = [];
-var namespace = w$1[NAMESPACE_IDENTIFIER];
+const w = WINDOW || {};
+if (!w[NAMESPACE_IDENTIFIER]) w[NAMESPACE_IDENTIFIER] = {};
+if (!w[NAMESPACE_IDENTIFIER].styles) w[NAMESPACE_IDENTIFIER].styles = {};
+if (!w[NAMESPACE_IDENTIFIER].hooks) w[NAMESPACE_IDENTIFIER].hooks = {};
+if (!w[NAMESPACE_IDENTIFIER].shims) w[NAMESPACE_IDENTIFIER].shims = [];
+var namespace = w[NAMESPACE_IDENTIFIER];
 const functions = [];
 const listener = function () {
   DOCUMENT.removeEventListener('DOMContentLoaded', listener);
@@ -123411,7 +124250,6 @@ function iconFromMapping(mapping, prefix, iconName) {
  * Internal helper to bind a function known to have 4 arguments
  * to a given context.
  */
-
 var bindInternal4 = function bindInternal4(func, thisContext) {
   return function (a, b, c, d) {
     return func.call(thisContext, a, b, c, d);
@@ -123429,7 +124267,6 @@ var bindInternal4 = function bindInternal4(func, thisContext) {
  * @param  {Object}   thisContext  The context for the reducer.
  * @return {mixed}                 The final result.
  */
-
 var reduce = function fastReduceObject(subject, fn, initialValue, thisContext) {
   var keys = Object.keys(subject),
     length = keys.length,
@@ -123475,6 +124312,7 @@ var reduce = function fastReduceObject(subject, fn, initialValue, thisContext) {
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+
 function ucs2decode(string) {
   const output = [];
   let counter = 0;
@@ -123533,42 +124371,46 @@ function defineIcons(prefix, icons) {
   if (typeof namespace.hooks.addPack === 'function' && !skipHooks) {
     namespace.hooks.addPack(prefix, normalizeIcons(icons));
   } else {
-    namespace.styles[prefix] = {
-      ...(namespace.styles[prefix] || {}),
-      ...normalized
-    };
+    namespace.styles[prefix] = _objectSpread2(_objectSpread2({}, namespace.styles[prefix] || {}), normalized);
   }
+
   /**
    * Font Awesome 4 used the prefix of `fa` for all icons. With the introduction
    * of new styles we needed to differentiate between them. Prefix `fa` is now an alias
    * for `fas` so we'll ease the upgrade process for our users by automatically defining
    * this as well.
    */
-
   if (prefix === 'fas') {
     defineIcons('fa', icons);
   }
 }
+const duotonePathRe = [/*#__PURE__*/_wrapRegExp(/path d="([^"]+)".*path d="([^"]+)"/, {
+  d1: 1,
+  d2: 2
+}), /*#__PURE__*/_wrapRegExp(/path class="([^"]+)".*d="([^"]+)".*path class="([^"]+)".*d="([^"]+)"/, {
+  cls1: 1,
+  d1: 2,
+  cls2: 3,
+  d2: 4
+}), /*#__PURE__*/_wrapRegExp(/path class="([^"]+)".*d="([^"]+)"/, {
+  cls1: 1,
+  d1: 2
+})];
 const {
   styles,
   shims
 } = namespace;
-const LONG_STYLE = {
-  [a]: Object.values(PREFIX_TO_LONG_STYLE[a]),
-  [r]: Object.values(PREFIX_TO_LONG_STYLE[r]),
-  [o]: Object.values(PREFIX_TO_LONG_STYLE[o])
-};
+const FAMILY_NAMES = Object.keys(PREFIX_TO_LONG_STYLE);
+const PREFIXES_FOR_FAMILY = FAMILY_NAMES.reduce((acc, familyId) => {
+  acc[familyId] = Object.keys(PREFIX_TO_LONG_STYLE[familyId]);
+  return acc;
+}, {});
 let _defaultUsablePrefix = null;
 let _byUnicode = {};
 let _byLigature = {};
 let _byOldName = {};
 let _byOldUnicode = {};
 let _byAlias = {};
-const PREFIXES = {
-  [a]: Object.keys(PREFIX_TO_STYLE[a]),
-  [r]: Object.keys(PREFIX_TO_STYLE[r]),
-  [o]: Object.keys(PREFIX_TO_STYLE[o])
-};
 function isReserved(name) {
   return ~RESERVED_CLASSES.indexOf(name);
 }
@@ -123622,9 +124464,10 @@ const build = () => {
       acc[alias] = iconName;
     });
     return acc;
-  }); // If we have a Kit, we can't determine if regular is available since we
-  // could be auto-fetching it. We'll have to assume that it is available.
+  });
 
+  // If we have a Kit, we can't determine if regular is available since we
+  // could be auto-fetching it. We'll have to assume that it is available.
   const hasRegular = 'far' in styles || config.autoFetchSvg;
   const shimLookups = reduce(shims, (acc, shim) => {
     const maybeNameMaybeUnicode = shim[0];
@@ -123698,85 +124541,140 @@ const emptyCanonicalIcon = () => {
     rest: []
   };
 };
+function getFamilyId(values) {
+  let family = s;
+  const famProps = FAMILY_NAMES.reduce((acc, familyId) => {
+    acc[familyId] = "".concat(config.cssPrefix, "-").concat(familyId);
+    return acc;
+  }, {});
+  L.forEach(familyId => {
+    if (values.includes(famProps[familyId]) || values.some(v$$1 => PREFIXES_FOR_FAMILY[familyId].includes(v$$1))) {
+      family = familyId;
+    }
+  });
+  return family;
+}
 function getCanonicalPrefix(styleOrPrefix) {
   let params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   const {
-    family = a
+    family = s
   } = params;
   const style = PREFIX_TO_STYLE[family][styleOrPrefix];
+
+  // handles the exception of passing in only a family of 'duotone' with no style
+  if (family === t && !styleOrPrefix) {
+    return 'fad';
+  }
   const prefix = STYLE_TO_PREFIX[family][styleOrPrefix] || STYLE_TO_PREFIX[family][style];
   const defined = styleOrPrefix in namespace.styles ? styleOrPrefix : null;
   const result = prefix || defined || null;
   return result;
 }
-const PREFIXES_FOR_FAMILY = {
-  [a]: Object.keys(PREFIX_TO_LONG_STYLE[a]),
-  [r]: Object.keys(PREFIX_TO_LONG_STYLE[r]),
-  [o]: Object.keys(PREFIX_TO_LONG_STYLE[o])
-};
+function moveNonFaClassesToRest(classNames) {
+  let rest = [];
+  let iconName = null;
+  classNames.forEach(cls => {
+    const result = getIconName(config.cssPrefix, cls);
+    if (result) {
+      iconName = result;
+    } else if (cls) {
+      rest.push(cls);
+    }
+  });
+  return {
+    iconName,
+    rest
+  };
+}
+function sortedUniqueValues(arr) {
+  return arr.sort().filter((value, index, arr) => {
+    return arr.indexOf(value) === index;
+  });
+}
 function getCanonicalIcon(values) {
   let params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   const {
     skipLookups = false
   } = params;
-  const famProps = {
-    [a]: "".concat(config.cssPrefix, "-").concat(a),
-    [r]: "".concat(config.cssPrefix, "-").concat(r),
-    [o]: "".concat(config.cssPrefix, "-").concat(o)
-  };
   let givenPrefix = null;
-  let family = a;
-  const nonDuotoneFamilyIds = c.filter(familyId => familyId !== t);
-  nonDuotoneFamilyIds.forEach(familyId => {
-    if (values.includes(famProps[familyId]) || values.some(v$$1 => PREFIXES_FOR_FAMILY[familyId].includes(v$$1))) {
-      family = familyId;
-    }
+  const faCombinedClasses = xo.concat(bt$1);
+  const faStyleOrFamilyClasses = sortedUniqueValues(values.filter(cls => faCombinedClasses.includes(cls)));
+  const nonStyleOrFamilyClasses = sortedUniqueValues(values.filter(cls => !xo.includes(cls)));
+  const faStyles = faStyleOrFamilyClasses.filter(cls => {
+    givenPrefix = cls;
+    return !P.includes(cls);
   });
-  const canonical = values.reduce((acc, cls) => {
-    const iconName = getIconName(config.cssPrefix, cls);
-    if (styles[cls]) {
-      cls = LONG_STYLE[family].includes(cls) ? LONG_STYLE_TO_PREFIX[family][cls] : cls;
-      givenPrefix = cls;
-      acc.prefix = cls;
-    } else if (PREFIXES[family].indexOf(cls) > -1) {
-      givenPrefix = cls;
-      acc.prefix = getCanonicalPrefix(cls, {
-        family
-      });
-    } else if (iconName) {
-      acc.iconName = iconName;
-    } else if (cls !== config.replacementClass && !nonDuotoneFamilyIds.some(familyName => cls === famProps[familyName])) {
-      acc.rest.push(cls);
-    }
-    if (!skipLookups && acc.prefix && acc.iconName) {
-      const shim = givenPrefix === 'fa' ? byOldName(acc.iconName) : {};
-      const aliasIconName = byAlias(acc.prefix, acc.iconName);
-      if (shim.prefix) {
-        givenPrefix = null;
-      }
-      acc.iconName = shim.iconName || aliasIconName || acc.iconName;
-      acc.prefix = shim.prefix || acc.prefix;
-      if (acc.prefix === 'far' && !styles['far'] && styles['fas'] && !config.autoFetchSvg) {
-        // Allow a fallback from the regular style to solid if regular is not available
-        // but only if we aren't auto-fetching SVGs
-        acc.prefix = 'fas';
-      }
-    }
-    return acc;
-  }, emptyCanonicalIcon());
+  const [styleFromValues = null] = faStyles;
+  const family = getFamilyId(faStyleOrFamilyClasses);
+  const canonical = _objectSpread2(_objectSpread2({}, moveNonFaClassesToRest(nonStyleOrFamilyClasses)), {}, {
+    prefix: getCanonicalPrefix(styleFromValues, {
+      family
+    })
+  });
+  return _objectSpread2(_objectSpread2(_objectSpread2({}, canonical), getDefaultCanonicalPrefix({
+    values,
+    family,
+    styles,
+    config,
+    canonical,
+    givenPrefix
+  })), applyShimAndAlias(skipLookups, givenPrefix, canonical));
+}
+function applyShimAndAlias(skipLookups, givenPrefix, canonical) {
+  let {
+    prefix,
+    iconName
+  } = canonical;
+  if (skipLookups || !prefix || !iconName) {
+    return {
+      prefix,
+      iconName
+    };
+  }
+  const shim = givenPrefix === 'fa' ? byOldName(iconName) : {};
+  const aliasIconName = byAlias(prefix, iconName);
+  iconName = shim.iconName || aliasIconName || iconName;
+  prefix = shim.prefix || prefix;
+  if (prefix === 'far' && !styles['far'] && styles['fas'] && !config.autoFetchSvg) {
+    // Allow a fallback from the regular style to solid if regular is not available
+    // but only if we aren't auto-fetching SVGs
+    prefix = 'fas';
+  }
+  return {
+    prefix,
+    iconName
+  };
+}
+const newCanonicalFamilies = L.filter(familyId => {
+  return familyId !== s || familyId !== t;
+});
+const newCanonicalStyles = Object.keys(co).filter(key => key !== s).map(key => Object.keys(co[key])).flat();
+function getDefaultCanonicalPrefix(prefixOptions) {
+  const {
+    values,
+    family,
+    canonical,
+    givenPrefix = '',
+    styles = {},
+    config: config$$1 = {}
+  } = prefixOptions;
+  const isDuotoneFamily = family === t;
+  const valuesHasDuotone = values.includes('fa-duotone') || values.includes('fad');
+  const defaultFamilyIsDuotone = config$$1.familyDefault === 'duotone';
+  const canonicalPrefixIsDuotone = canonical.prefix === 'fad' || canonical.prefix === 'fa-duotone';
+  if (!isDuotoneFamily && (valuesHasDuotone || defaultFamilyIsDuotone || canonicalPrefixIsDuotone)) {
+    canonical.prefix = 'fad';
+  }
   if (values.includes('fa-brands') || values.includes('fab')) {
     canonical.prefix = 'fab';
   }
-  if (values.includes('fa-duotone') || values.includes('fad')) {
-    canonical.prefix = 'fad';
-  }
-  if (!canonical.prefix && family === r && (styles['fass'] || config.autoFetchSvg)) {
-    canonical.prefix = 'fass';
-    canonical.iconName = byAlias(canonical.prefix, canonical.iconName) || canonical.iconName;
-  }
-  if (!canonical.prefix && family === o && (styles['fasds'] || config.autoFetchSvg)) {
-    canonical.prefix = 'fasds';
-    canonical.iconName = byAlias(canonical.prefix, canonical.iconName) || canonical.iconName;
+  if (!canonical.prefix && newCanonicalFamilies.includes(family)) {
+    const validPrefix = Object.keys(styles).find(key => newCanonicalStyles.includes(key));
+    if (validPrefix || config$$1.autoFetchSvg) {
+      const defaultPrefix = pt.get(family).defaultShortPrefixId;
+      canonical.prefix = defaultPrefix;
+      canonical.iconName = byAlias(canonical.prefix, canonical.iconName) || canonical.iconName;
+    }
   }
   if (canonical.prefix === 'fa' || givenPrefix === 'fa') {
     // The fa prefix is not canonical. So if it has made it through until this point
@@ -123795,13 +124693,11 @@ class Library {
     }
     const additions = definitions.reduce(this._pullDefinitions, {});
     Object.keys(additions).forEach(key => {
-      this.definitions[key] = {
-        ...(this.definitions[key] || {}),
-        ...additions[key]
-      };
-      defineIcons(key, additions[key]); // TODO can we stop doing this? We can't get the icons by 'fa-solid' any longer so this probably needs to change
+      this.definitions[key] = _objectSpread2(_objectSpread2({}, this.definitions[key] || {}), additions[key]);
+      defineIcons(key, additions[key]);
 
-      const longPrefix = PREFIX_TO_LONG_STYLE[a][key];
+      // TODO can we stop doing this? We can't get the icons by 'fa-solid' any longer so this probably needs to change
+      const longPrefix = PREFIX_TO_LONG_STYLE[s][key];
       if (longPrefix) defineIcons(longPrefix, additions[key]);
       build();
     });
@@ -124041,10 +124937,9 @@ function asIcon(_ref) {
       x: width / height / 2,
       y: 0.5
     };
-    attributes['style'] = joinStyles({
-      ...styles,
+    attributes['style'] = joinStyles(_objectSpread2(_objectSpread2({}, styles), {}, {
       'transform-origin': "".concat(offset.x + transform.x / 16, "em ").concat(offset.y + transform.y / 16, "em")
-    });
+    }));
   }
   return [{
     tag: 'svg',
@@ -124068,10 +124963,9 @@ function asSymbol(_ref) {
     },
     children: [{
       tag: 'symbol',
-      attributes: {
-        ...attributes,
+      attributes: _objectSpread2(_objectSpread2({}, attributes), {}, {
         id
-      },
+      }),
       children
     }]
   }];
@@ -124096,19 +124990,18 @@ function makeInlineSvgAbstract(params) {
     width,
     height
   } = mask.found ? mask : main;
-  const isUploadedIcon = prefix === 'fak';
-  const attrClass = [config.replacementClass, iconName ? "".concat(config.cssPrefix, "-").concat(iconName) : ''].filter(c => extra.classes.indexOf(c) === -1).filter(c => c !== '' || !!c).concat(extra.classes).join(' ');
+  const isUploadedIcon = Lt.includes(prefix);
+  const attrClass = [config.replacementClass, iconName ? "".concat(config.cssPrefix, "-").concat(iconName) : ''].filter(c$$1 => extra.classes.indexOf(c$$1) === -1).filter(c$$1 => c$$1 !== '' || !!c$$1).concat(extra.classes).join(' ');
   let content = {
     children: [],
-    attributes: {
-      ...extra.attributes,
+    attributes: _objectSpread2(_objectSpread2({}, extra.attributes), {}, {
       'data-prefix': prefix,
       'data-icon': iconName,
       'class': attrClass,
       'role': extra.attributes.role || 'img',
       'xmlns': 'http://www.w3.org/2000/svg',
       'viewBox': "0 0 ".concat(width, " ").concat(height)
-    }
+    })
   };
   const uploadedIconWidthStyle = isUploadedIcon && !~extra.classes.indexOf('fa-fw') ? {
     width: "".concat(width / height * 16 * 0.0625, "em")
@@ -124126,8 +125019,7 @@ function makeInlineSvgAbstract(params) {
     });
     delete content.attributes.title;
   }
-  const args = {
-    ...content,
+  const args = _objectSpread2(_objectSpread2({}, content), {}, {
     prefix,
     iconName,
     main,
@@ -124135,11 +125027,8 @@ function makeInlineSvgAbstract(params) {
     maskId,
     transform,
     symbol,
-    styles: {
-      ...uploadedIconWidthStyle,
-      ...extra.styles
-    }
-  };
+    styles: _objectSpread2(_objectSpread2({}, uploadedIconWidthStyle), extra.styles)
+  });
   const {
     children,
     attributes
@@ -124168,19 +125057,15 @@ function makeLayersTextAbstract(params) {
     extra,
     watchable = false
   } = params;
-  const attributes = {
-    ...extra.attributes,
-    ...(title ? {
-      'title': title
-    } : {}),
+  const attributes = _objectSpread2(_objectSpread2(_objectSpread2({}, extra.attributes), title ? {
+    'title': title
+  } : {}), {}, {
     'class': extra.classes.join(' ')
-  };
+  });
   if (watchable) {
     attributes[DATA_FA_I2SVG] = '';
   }
-  const styles = {
-    ...extra.styles
-  };
+  const styles = _objectSpread2({}, extra.styles);
   if (transformIsMeaningful(transform)) {
     styles['transform'] = transformForCss({
       transform,
@@ -124217,13 +125102,11 @@ function makeLayersCounterAbstract(params) {
     title,
     extra
   } = params;
-  const attributes = {
-    ...extra.attributes,
-    ...(title ? {
-      'title': title
-    } : {}),
+  const attributes = _objectSpread2(_objectSpread2(_objectSpread2({}, extra.attributes), title ? {
+    'title': title
+  } : {}), {}, {
     'class': extra.classes.join(' ')
-  };
+  });
   const styleString = joinStyles(extra.styles);
   if (styleString.length > 0) {
     attributes['style'] = styleString;
@@ -124317,10 +125200,9 @@ function findIcon(iconName, prefix) {
       return resolve(asFoundIcon(icon));
     }
     maybeNotifyMissing(iconName, prefix);
-    resolve({
-      ...missingIconResolutionMixin,
+    resolve(_objectSpread2(_objectSpread2({}, missingIconResolutionMixin), {}, {
       icon: config.showMissingIcons && iconName ? callProvided('missingIconAbstract') || {} : {}
-    });
+    }));
   });
 }
 const noop$1 = () => {};
@@ -124328,7 +125210,7 @@ const p$2 = config.measurePerformance && PERFORMANCE && PERFORMANCE.mark && PERF
   mark: noop$1,
   measure: noop$1
 };
-const preamble = "FA \"6.6.0\"";
+const preamble = "FA \"6.7.1\"";
 const begin = name => {
   p$2.mark("".concat(preamble, " ").concat(name, " begins"));
   return () => end(name);
@@ -124390,10 +125272,8 @@ function convertSVG(abstractObj) {
 function nodeAsComment(node) {
   let comment = " ".concat(node.outerHTML, " ");
   /* BEGIN.ATTRIBUTION */
-
   comment = "".concat(comment, "Font Awesome fontawesome.com ");
   /* END.ATTRIBUTION */
-
   return comment;
 }
 const mutators = {
@@ -124413,9 +125293,10 @@ const mutators = {
   },
   nest: function (mutation) {
     const node = mutation[0];
-    const abstract = mutation[1]; // If we already have a replaced node we do not want to continue nesting within it.
-    // Short-circuit to the standard replacement
+    const abstract = mutation[1];
 
+    // If we already have a replaced node we do not want to continue nesting within it.
+    // Short-circuit to the standard replacement
     if (~classArray(node).indexOf(config.replacementClass)) {
       return mutators.replace(mutation);
     }
@@ -124617,7 +125498,7 @@ function parseMeta(node) {
   const extraAttributes = attributesParser(node);
   const pluginMeta = chainHooks('parseNodeAttributes', {}, node);
   let extraStyles = parser.styleParser ? styleParser(node) : [];
-  return {
+  return _objectSpread2({
     iconName,
     title: node.getAttribute('title'),
     titleId: node.getAttribute('data-fa-title-id'),
@@ -124634,9 +125515,8 @@ function parseMeta(node) {
       classes: extraClasses,
       styles: extraStyles,
       attributes: extraAttributes
-    },
-    ...pluginMeta
-  };
+    }
+  }, pluginMeta);
 }
 const {
   styles: styles$2
@@ -124651,21 +125531,16 @@ function generateMutation(node) {
     return callProvided('generateSvgReplacementMutation', node, nodeMeta);
   }
 }
-let knownPrefixes = new Set();
-FAMILIES.map(family => {
-  knownPrefixes.add("fa-".concat(family));
-});
-Object.keys(PREFIX_TO_STYLE[a]).map(knownPrefixes.add.bind(knownPrefixes));
-Object.keys(PREFIX_TO_STYLE[r]).map(knownPrefixes.add.bind(knownPrefixes));
-Object.keys(PREFIX_TO_STYLE[o]).map(knownPrefixes.add.bind(knownPrefixes));
-knownPrefixes = [...knownPrefixes];
+function getKnownPrefixes() {
+  return [...Ft, ...xo];
+}
 function onTree(root) {
   let callback = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
   if (!IS_DOM) return Promise.resolve();
   const htmlClassList = DOCUMENT.documentElement.classList;
   const hclAdd = suffix => htmlClassList.add("".concat(HTML_CLASS_I2SVG_BASE_CLASS, "-").concat(suffix));
   const hclRemove = suffix => htmlClassList.remove("".concat(HTML_CLASS_I2SVG_BASE_CLASS, "-").concat(suffix));
-  const prefixes = config.autoFetchSvg ? knownPrefixes : FAMILIES.map(f$$1 => "fa-".concat(f$$1)).concat(Object.keys(styles$2));
+  const prefixes = config.autoFetchSvg ? getKnownPrefixes() : P.concat(Object.keys(styles$2));
   if (!prefixes.includes('fa')) {
     prefixes.push('fa');
   }
@@ -124676,7 +125551,8 @@ function onTree(root) {
   let candidates = [];
   try {
     candidates = toArray(root.querySelectorAll(prefixesDomQuery));
-  } catch (e$$1) {// noop
+  } catch (e$$1) {
+    // noop
   }
   if (candidates.length > 0) {
     hclAdd('pending');
@@ -124734,10 +125610,9 @@ function resolveIcons(next) {
     if (mask) {
       mask = (mask || {}).icon ? mask : findIconDefinition(mask || {});
     }
-    return next(iconDefinition, {
-      ...params,
+    return next(iconDefinition, _objectSpread2(_objectSpread2({}, params), {}, {
       mask
-    });
+    }));
   };
 }
 const render = function (iconDefinition) {
@@ -124759,10 +125634,9 @@ const render = function (iconDefinition) {
     iconName,
     icon
   } = iconDefinition;
-  return domVariants({
-    type: 'icon',
-    ...iconDefinition
-  }, () => {
+  return domVariants(_objectSpread2({
+    type: 'icon'
+  }, iconDefinition), () => {
     callHooks('beforeDOMElementCreation', {
       iconDefinition,
       params
@@ -124787,10 +125661,7 @@ const render = function (iconDefinition) {
       },
       prefix,
       iconName,
-      transform: {
-        ...meaninglessTransform,
-        ...transform
-      },
+      transform: _objectSpread2(_objectSpread2({}, meaninglessTransform), transform),
       symbol,
       title,
       maskId,
@@ -124981,10 +125852,7 @@ var LayersText = {
           });
           return makeLayersTextAbstract({
             content,
-            transform: {
-              ...meaninglessTransform,
-              ...transform
-            },
+            transform: _objectSpread2(_objectSpread2({}, meaninglessTransform), transform),
             title,
             extra: {
               attributes,
@@ -125028,17 +125896,12 @@ var LayersText = {
 };
 const CLEAN_CONTENT_PATTERN = new RegExp('\u{22}', 'ug');
 const SECONDARY_UNICODE_RANGE = [1105920, 1112319];
-const _FONT_FAMILY_WEIGHT_TO_PREFIX = {
-  ...{
-    FontAwesome: {
-      normal: 'fas',
-      400: 'fas'
-    }
-  },
-  ...eo,
-  ...ao,
-  ...mo
-};
+const _FONT_FAMILY_WEIGHT_TO_PREFIX = _objectSpread2(_objectSpread2(_objectSpread2(_objectSpread2({}, {
+  FontAwesome: {
+    normal: 'fas',
+    400: 'fas'
+  }
+}), lt), ko), Yt);
 const FONT_FAMILY_WEIGHT_TO_PREFIX = Object.keys(_FONT_FAMILY_WEIGHT_TO_PREFIX).reduce((acc, key) => {
   acc[key.toLowerCase()] = _FONT_FAMILY_WEIGHT_TO_PREFIX[key];
   return acc;
@@ -125072,7 +125935,7 @@ function replaceForPosition(node, position) {
       return resolve();
     }
     const children = toArray(node.children);
-    const alreadyProcessedPseudoElement = children.filter(c => c.getAttribute(DATA_FA_PSEUDO_ELEMENT) === position)[0];
+    const alreadyProcessedPseudoElement = children.filter(c$$1 => c$$1.getAttribute(DATA_FA_PSEUDO_ELEMENT) === position)[0];
     const styles = WINDOW.getComputedStyle(node, position);
     const fontFamily = styles.getPropertyValue('font-family');
     const fontFamilyMatch = fontFamily.match(FONT_FAMILY_PATTERN);
@@ -125100,9 +125963,10 @@ function replaceForPosition(node, position) {
           iconName = iconName4.iconName;
           prefix = iconName4.prefix;
         }
-      } // Only convert the pseudo element in this ::before/::after position into an icon if we haven't
-      // already done so with the same prefix and iconName
+      }
 
+      // Only convert the pseudo element in this ::before/::after position into an icon if we haven't
+      // already done so with the same prefix and iconName
       if (iconName && !isSecondary && (!alreadyProcessedPseudoElement || alreadyProcessedPseudoElement.getAttribute(DATA_PREFIX) !== prefix || alreadyProcessedPseudoElement.getAttribute(DATA_ICON) !== iconIdentifier)) {
         node.setAttribute(pendingAttribute, iconIdentifier);
         if (alreadyProcessedPseudoElement) {
@@ -125115,8 +125979,7 @@ function replaceForPosition(node, position) {
         } = meta;
         extra.attributes[DATA_FA_PSEUDO_ELEMENT] = position;
         findIcon(iconName, prefix).then(main => {
-          const abstract = makeInlineSvgAbstract({
-            ...meta,
+          const abstract = makeInlineSvgAbstract(_objectSpread2(_objectSpread2({}, meta), {}, {
             icons: {
               main,
               mask: emptyCanonicalIcon()
@@ -125125,14 +125988,14 @@ function replaceForPosition(node, position) {
             iconName: iconIdentifier,
             extra,
             watchable: true
-          });
+          }));
           const element = DOCUMENT.createElementNS('http://www.w3.org/2000/svg', 'svg');
           if (position === '::before') {
             node.insertBefore(element, node.firstChild);
           } else {
             node.appendChild(element);
           }
-          element.outerHTML = abstract.map(a => toHtml(a)).join('\n');
+          element.outerHTML = abstract.map(a$$1 => toHtml(a$$1)).join('\n');
           node.removeAttribute(pendingAttribute);
           resolve();
         }).catch(reject);
@@ -125321,21 +126184,14 @@ var PowerTransforms = {
       };
       return {
         tag: 'g',
-        attributes: {
-          ...operations.outer
-        },
+        attributes: _objectSpread2({}, operations.outer),
         children: [{
           tag: 'g',
-          attributes: {
-            ...operations.inner
-          },
+          attributes: _objectSpread2({}, operations.inner),
           children: [{
             tag: main.icon.tag,
             children: main.icon.children,
-            attributes: {
-              ...main.icon.attributes,
-              ...operations.path
-            }
+            attributes: _objectSpread2(_objectSpread2({}, main.icon.attributes), operations.path)
           }]
         }]
       };
@@ -125402,45 +126258,35 @@ var Masks = {
       });
       const maskRect = {
         tag: 'rect',
-        attributes: {
-          ...ALL_SPACE,
+        attributes: _objectSpread2(_objectSpread2({}, ALL_SPACE), {}, {
           fill: 'white'
-        }
+        })
       };
       const maskInnerGroupChildrenMixin = mainPath.children ? {
         children: mainPath.children.map(fillBlack)
       } : {};
       const maskInnerGroup = {
         tag: 'g',
-        attributes: {
-          ...trans.inner
-        },
-        children: [fillBlack({
+        attributes: _objectSpread2({}, trans.inner),
+        children: [fillBlack(_objectSpread2({
           tag: mainPath.tag,
-          attributes: {
-            ...mainPath.attributes,
-            ...trans.path
-          },
-          ...maskInnerGroupChildrenMixin
-        })]
+          attributes: _objectSpread2(_objectSpread2({}, mainPath.attributes), trans.path)
+        }, maskInnerGroupChildrenMixin))]
       };
       const maskOuterGroup = {
         tag: 'g',
-        attributes: {
-          ...trans.outer
-        },
+        attributes: _objectSpread2({}, trans.outer),
         children: [maskInnerGroup]
       };
       const maskId = "mask-".concat(explicitMaskId || nextUniqueId());
       const clipId = "clip-".concat(explicitMaskId || nextUniqueId());
       const maskTag = {
         tag: 'mask',
-        attributes: {
-          ...ALL_SPACE,
+        attributes: _objectSpread2(_objectSpread2({}, ALL_SPACE), {}, {
           id: maskId,
           maskUnits: 'userSpaceOnUse',
           maskContentUnits: 'userSpaceOnUse'
-        },
+        }),
         children: [maskRect, maskOuterGroup]
       };
       const defs = {
@@ -125455,12 +126301,11 @@ var Masks = {
       };
       children.push(defs, {
         tag: 'rect',
-        attributes: {
+        attributes: _objectSpread2({
           fill: 'currentColor',
           'clip-path': "url(#".concat(clipId, ")"),
-          mask: "url(#".concat(maskId, ")"),
-          ...ALL_SPACE
-        }
+          mask: "url(#".concat(maskId, ")")
+        }, ALL_SPACE)
       });
       return {
         children,
@@ -125484,76 +126329,68 @@ var MissingIconIndicator = {
         attributeType: 'XML',
         repeatCount: 'indefinite',
         dur: '2s'
-      }; // Ring
+      };
 
+      // Ring
       gChildren.push({
         tag: 'path',
-        attributes: {
-          ...FILL,
+        attributes: _objectSpread2(_objectSpread2({}, FILL), {}, {
           d: 'M156.5,447.7l-12.6,29.5c-18.7-9.5-35.9-21.2-51.5-34.9l22.7-22.7C127.6,430.5,141.5,440,156.5,447.7z M40.6,272H8.5 c1.4,21.2,5.4,41.7,11.7,61.1L50,321.2C45.1,305.5,41.8,289,40.6,272z M40.6,240c1.4-18.8,5.2-37,11.1-54.1l-29.5-12.6 C14.7,194.3,10,216.7,8.5,240H40.6z M64.3,156.5c7.8-14.9,17.2-28.8,28.1-41.5L69.7,92.3c-13.7,15.6-25.5,32.8-34.9,51.5 L64.3,156.5z M397,419.6c-13.9,12-29.4,22.3-46.1,30.4l11.9,29.8c20.7-9.9,39.8-22.6,56.9-37.6L397,419.6z M115,92.4 c13.9-12,29.4-22.3,46.1-30.4l-11.9-29.8c-20.7,9.9-39.8,22.6-56.8,37.6L115,92.4z M447.7,355.5c-7.8,14.9-17.2,28.8-28.1,41.5 l22.7,22.7c13.7-15.6,25.5-32.9,34.9-51.5L447.7,355.5z M471.4,272c-1.4,18.8-5.2,37-11.1,54.1l29.5,12.6 c7.5-21.1,12.2-43.5,13.6-66.8H471.4z M321.2,462c-15.7,5-32.2,8.2-49.2,9.4v32.1c21.2-1.4,41.7-5.4,61.1-11.7L321.2,462z M240,471.4c-18.8-1.4-37-5.2-54.1-11.1l-12.6,29.5c21.1,7.5,43.5,12.2,66.8,13.6V471.4z M462,190.8c5,15.7,8.2,32.2,9.4,49.2h32.1 c-1.4-21.2-5.4-41.7-11.7-61.1L462,190.8z M92.4,397c-12-13.9-22.3-29.4-30.4-46.1l-29.8,11.9c9.9,20.7,22.6,39.8,37.6,56.9 L92.4,397z M272,40.6c18.8,1.4,36.9,5.2,54.1,11.1l12.6-29.5C317.7,14.7,295.3,10,272,8.5V40.6z M190.8,50 c15.7-5,32.2-8.2,49.2-9.4V8.5c-21.2,1.4-41.7,5.4-61.1,11.7L190.8,50z M442.3,92.3L419.6,115c12,13.9,22.3,29.4,30.5,46.1 l29.8-11.9C470,128.5,457.3,109.4,442.3,92.3z M397,92.4l22.7-22.7c-15.6-13.7-32.8-25.5-51.5-34.9l-12.6,29.5 C370.4,72.1,384.4,81.5,397,92.4z'
-        }
+        })
       });
-      const OPACITY_ANIMATE = {
-        ...ANIMATION_BASE,
+      const OPACITY_ANIMATE = _objectSpread2(_objectSpread2({}, ANIMATION_BASE), {}, {
         attributeName: 'opacity'
-      };
+      });
       const dot = {
         tag: 'circle',
-        attributes: {
-          ...FILL,
+        attributes: _objectSpread2(_objectSpread2({}, FILL), {}, {
           cx: '256',
           cy: '364',
           r: '28'
-        },
+        }),
         children: []
       };
       if (!reduceMotion) {
         dot.children.push({
           tag: 'animate',
-          attributes: {
-            ...ANIMATION_BASE,
+          attributes: _objectSpread2(_objectSpread2({}, ANIMATION_BASE), {}, {
             attributeName: 'r',
             values: '28;14;28;28;14;28;'
-          }
+          })
         }, {
           tag: 'animate',
-          attributes: {
-            ...OPACITY_ANIMATE,
+          attributes: _objectSpread2(_objectSpread2({}, OPACITY_ANIMATE), {}, {
             values: '1;0;1;1;0;1;'
-          }
+          })
         });
       }
       gChildren.push(dot);
       gChildren.push({
         tag: 'path',
-        attributes: {
-          ...FILL,
+        attributes: _objectSpread2(_objectSpread2({}, FILL), {}, {
           opacity: '1',
           d: 'M263.7,312h-16c-6.6,0-12-5.4-12-12c0-71,77.4-63.9,77.4-107.8c0-20-17.8-40.2-57.4-40.2c-29.1,0-44.3,9.6-59.2,28.7 c-3.9,5-11.1,6-16.2,2.4l-13.1-9.2c-5.6-3.9-6.9-11.8-2.6-17.2c21.2-27.2,46.4-44.7,91.2-44.7c52.3,0,97.4,29.8,97.4,80.2 c0,67.6-77.4,63.5-77.4,107.8C275.7,306.6,270.3,312,263.7,312z'
-        },
+        }),
         children: reduceMotion ? [] : [{
           tag: 'animate',
-          attributes: {
-            ...OPACITY_ANIMATE,
+          attributes: _objectSpread2(_objectSpread2({}, OPACITY_ANIMATE), {}, {
             values: '1;0;0;0;0;1;'
-          }
+          })
         }]
       });
       if (!reduceMotion) {
         // Exclamation
         gChildren.push({
           tag: 'path',
-          attributes: {
-            ...FILL,
+          attributes: _objectSpread2(_objectSpread2({}, FILL), {}, {
             opacity: '0',
             d: 'M232.5,134.5l7,168c0.3,6.4,5.6,11.5,12,11.5h9c6.4,0,11.7-5.1,12-11.5l7-168c0.3-6.8-5.2-12.5-12-12.5h-23 C237.7,122,232.2,127.7,232.5,134.5z'
-          },
+          }),
           children: [{
             tag: 'animate',
-            attributes: {
-              ...OPACITY_ANIMATE,
+            attributes: _objectSpread2(_objectSpread2({}, OPACITY_ANIMATE), {}, {
               values: '0;0;1;1;0;0;'
-            }
+            })
           }]
         });
       }
@@ -125704,6 +126541,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   faCreativeCommonsShare: () => (/* binding */ faCreativeCommonsShare),
 /* harmony export */   faCreativeCommonsZero: () => (/* binding */ faCreativeCommonsZero),
 /* harmony export */   faCriticalRole: () => (/* binding */ faCriticalRole),
+/* harmony export */   faCss: () => (/* binding */ faCss),
 /* harmony export */   faCss3: () => (/* binding */ faCss3),
 /* harmony export */   faCss3Alt: () => (/* binding */ faCss3Alt),
 /* harmony export */   faCuttlefish: () => (/* binding */ faCuttlefish),
@@ -125755,6 +126593,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   faFedex: () => (/* binding */ faFedex),
 /* harmony export */   faFedora: () => (/* binding */ faFedora),
 /* harmony export */   faFigma: () => (/* binding */ faFigma),
+/* harmony export */   faFilesPinwheel: () => (/* binding */ faFilesPinwheel),
 /* harmony export */   faFirefox: () => (/* binding */ faFirefox),
 /* harmony export */   faFirefoxBrowser: () => (/* binding */ faFirefoxBrowser),
 /* harmony export */   faFirstOrder: () => (/* binding */ faFirstOrder),
@@ -125998,6 +126837,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   faSpeakerDeck: () => (/* binding */ faSpeakerDeck),
 /* harmony export */   faSpotify: () => (/* binding */ faSpotify),
 /* harmony export */   faSquareBehance: () => (/* binding */ faSquareBehance),
+/* harmony export */   faSquareBluesky: () => (/* binding */ faSquareBluesky),
 /* harmony export */   faSquareDribbble: () => (/* binding */ faSquareDribbble),
 /* harmony export */   faSquareFacebook: () => (/* binding */ faSquareFacebook),
 /* harmony export */   faSquareFontAwesome: () => (/* binding */ faSquareFontAwesome),
@@ -126137,6 +126977,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   fab: () => (/* binding */ icons),
 /* harmony export */   prefix: () => (/* binding */ prefix)
 /* harmony export */ });
+/*!
+ * Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com
+ * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
+ * Copyright 2024 Fonticons, Inc.
+ */
 const prefix = "fab";
 const faMonero = {
   prefix: 'fab',
@@ -126706,6 +127551,11 @@ const faInstalod = {
   iconName: 'instalod',
   icon: [512, 512, [], "e081", "M153.384,480H387.113L502.554,275.765,204.229,333.211ZM504.726,240.078,387.113,32H155.669L360.23,267.9ZM124.386,48.809,7.274,256,123.236,461.154,225.627,165.561Z"]
 };
+const faFilesPinwheel = {
+  prefix: 'fab',
+  iconName: 'files-pinwheel',
+  icon: [512, 512, [], "e69f", "M253.2 246.4L136.9 130.2c-.6-.6-1-1.3-1.4-2s-.5-1.6-.5-2.4s.2-1.6 .5-2.4s.8-1.4 1.4-2L253.3 5.1c.9-.9 2-1.5 3.2-1.7s2.5-.1 3.6 .3s2.1 1.3 2.8 2.3s1.1 2.2 1.1 3.5L264 242c0 1.3-.3 2.5-1 3.6s-1.7 1.9-2.9 2.4s-2.5 .6-3.7 .3s-2.4-.9-3.2-1.9zm40.3-4.4l0-134.4c0-.8 .1-1.6 .5-2.4s.8-1.5 1.3-2.1s1.3-1.1 2-1.4s1.6-.5 2.4-.5l134.4 0c1.2 0 2.5 .4 3.5 1.1s1.8 1.7 2.3 2.8s.6 2.4 .3 3.6s-.9 2.3-1.7 3.2L304 246.4c-.9 .8-2 1.4-3.2 1.6s-2.4 .1-3.5-.4s-2.1-1.3-2.8-2.3s-1.1-2.2-1.1-3.4zm30.6 35c-1.2 0-2.5-.3-3.5-1s-1.9-1.6-2.4-2.8s-.6-2.4-.4-3.6s.8-2.3 1.7-3.2l84.2-84.2c.6-.6 1.3-1 2-1.4s1.6-.5 2.4-.5s1.6 .2 2.4 .5s1.4 .8 2 1.4l84.4 84.2c.9 .9 1.5 2 1.7 3.2s.1 2.5-.3 3.6s-1.3 2.1-2.3 2.8s-2.2 1.1-3.5 1.1l-168.5 0zM414.8 408l-95.3-95.2c-.9-.9-1.5-2-1.7-3.2s-.1-2.5 .4-3.7s1.3-2.1 2.4-2.8s2.3-1 3.5-1l95.2 0c1.7 0 3.2 .7 4.4 1.8s1.8 2.8 1.8 4.4l0 95.3c0 1.2-.4 2.5-1.1 3.5s-1.7 1.8-2.8 2.3s-2.4 .6-3.6 .3s-2.3-.9-3.2-1.7zM16.5 302.1l216.9 0c1.2 0 2.5 .4 3.5 1.1s1.8 1.7 2.3 2.8s.6 2.4 .3 3.6s-.8 2.3-1.7 3.2L129.4 421.2c-.6 .6-1.3 1-2 1.4s-1.6 .5-2.4 .5s-1.6-.2-2.4-.5s-1.4-.8-2-1.4L12 312.8c-.9-.9-1.5-2-1.7-3.2s-.1-2.5 .4-3.6s1.3-2.1 2.3-2.8s2.3-1 3.5-1zM264 465.3c0 .8-.2 1.6-.5 2.4s-.8 1.5-1.4 2s-1.3 1-2 1.4s-1.6 .5-2.4 .5l-128 0c-1.2 0-2.5-.4-3.5-1.1s-1.8-1.7-2.3-2.8s-.6-2.4-.3-3.6s.8-2.3 1.7-3.2l128-128c.9-.9 2-1.5 3.2-1.7s2.5-.1 3.6 .3s2.1 1.3 2.8 2.3s1.1 2.2 1.1 3.5l0 128zm40-132.5l82.8 82.7c.6 .6 1 1.3 1.4 2s.5 1.6 .5 2.4s-.2 1.6-.5 2.4s-.8 1.4-1.4 2L304 507c-.9 .9-2 1.5-3.2 1.7s-2.5 .1-3.6-.3s-2.1-1.3-2.8-2.3s-1.1-2.2-1.1-3.5l0-165.4c0-1.2 .4-2.5 1.1-3.5s1.7-1.8 2.8-2.3s2.4-.6 3.6-.3s2.3 .8 3.2 1.7zM78.7 122.4c0-1.2 .3-2.5 1-3.5s1.7-1.8 2.8-2.3s2.4-.6 3.6-.4s2.3 .8 3.2 1.7L237.8 266.4c.9 .9 1.5 2 1.7 3.2s.1 2.5-.3 3.6s-1.3 2.1-2.3 2.8s-2.2 1.1-3.5 1.1L85 277.1c-1.7 0-3.2-.7-4.4-1.8s-1.8-2.8-1.8-4.4l0-148.4z"]
+};
 const faExpeditedssl = {
   prefix: 'fab',
   iconName: 'expeditedssl',
@@ -126863,7 +127713,7 @@ const faMeta = {
 const faLaravel = {
   prefix: 'fab',
   iconName: 'laravel',
-  icon: [512, 512, [], "f3bd", "M504.4,115.83a5.72,5.72,0,0,0-.28-.68,8.52,8.52,0,0,0-.53-1.25,6,6,0,0,0-.54-.71,9.36,9.36,0,0,0-.72-.94c-.23-.22-.52-.4-.77-.6a8.84,8.84,0,0,0-.9-.68L404.4,55.55a8,8,0,0,0-8,0L300.12,111h0a8.07,8.07,0,0,0-.88.69,7.68,7.68,0,0,0-.78.6,8.23,8.23,0,0,0-.72.93c-.17.24-.39.45-.54.71a9.7,9.7,0,0,0-.52,1.25c-.08.23-.21.44-.28.68a8.08,8.08,0,0,0-.28,2.08V223.18l-80.22,46.19V63.44a7.8,7.8,0,0,0-.28-2.09c-.06-.24-.2-.45-.28-.68a8.35,8.35,0,0,0-.52-1.24c-.14-.26-.37-.47-.54-.72a9.36,9.36,0,0,0-.72-.94,9.46,9.46,0,0,0-.78-.6,9.8,9.8,0,0,0-.88-.68h0L115.61,1.07a8,8,0,0,0-8,0L11.34,56.49h0a6.52,6.52,0,0,0-.88.69,7.81,7.81,0,0,0-.79.6,8.15,8.15,0,0,0-.71.93c-.18.25-.4.46-.55.72a7.88,7.88,0,0,0-.51,1.24,6.46,6.46,0,0,0-.29.67,8.18,8.18,0,0,0-.28,2.1v329.7a8,8,0,0,0,4,6.95l192.5,110.84a8.83,8.83,0,0,0,1.33.54c.21.08.41.2.63.26a7.92,7.92,0,0,0,4.1,0c.2-.05.37-.16.55-.22a8.6,8.6,0,0,0,1.4-.58L404.4,400.09a8,8,0,0,0,4-6.95V287.88l92.24-53.11a8,8,0,0,0,4-7V117.92A8.63,8.63,0,0,0,504.4,115.83ZM111.6,17.28h0l80.19,46.15-80.2,46.18L31.41,63.44Zm88.25,60V278.6l-46.53,26.79-33.69,19.4V123.5l46.53-26.79Zm0,412.78L23.37,388.5V77.32L57.06,96.7l46.52,26.8V338.68a6.94,6.94,0,0,0,.12.9,8,8,0,0,0,.16,1.18h0a5.92,5.92,0,0,0,.38.9,6.38,6.38,0,0,0,.42,1v0a8.54,8.54,0,0,0,.6.78,7.62,7.62,0,0,0,.66.84l0,0c.23.22.52.38.77.58a8.93,8.93,0,0,0,.86.66l0,0,0,0,92.19,52.18Zm8-106.17-80.06-45.32,84.09-48.41,92.26-53.11,80.13,46.13-58.8,33.56Zm184.52,4.57L215.88,490.11V397.8L346.6,323.2l45.77-26.15Zm0-119.13L358.68,250l-46.53-26.79V131.79l33.69,19.4L392.37,178Zm8-105.28-80.2-46.17,80.2-46.16,80.18,46.15Zm8,105.28V178L455,151.19l33.68-19.4v91.39h0Z"]
+  icon: [512, 512, [], "f3bd", "M107.2 0c2.5 0 4.7 .8 6.7 2l94.3 54.1c2.7 1.5 4.5 3.5 5.4 5.9c.9 2.2 .9 4.3 .9 5.6l0 193.4 69.2-39.7 0-100.3c0-2.6 .6-5 2.2-7.2c1.5-2.1 3.5-3.6 5.7-4.8c0 0 0 0 0 0l94-54c1.6-.9 3.4-1.6 5.5-1.6s4 .7 5.6 1.6l95.8 55.1c2.3 1.3 3.9 3 4.9 5.3c.9 2.1 .9 4.2 .9 5.8l0 107.2c0 2-.2 4.3-1.4 6.4c-1.2 2.2-3 3.7-5.1 4.9l-.1 .1-88 50.5 0 100c0 2.3-.3 4.8-1.6 7c-1.3 2.2-3.3 3.7-5.3 4.9c0 0 0 0-.1 0L208.7 510c-2.2 1.2-4.5 2-7.1 2s-4.9-.9-7.1-2l-.1-.1L7.1 402l-.5-.3c-1.1-.7-2.6-1.7-3.8-2.9C.9 396.9 0 394.6 0 391.6L0 65.9c0-4.8 3-7.9 5.5-9.3L100.5 2c2-1.2 4.3-2 6.8-2zM38.1 67.1l69 39.9 69.2-39.9L107.1 27.4l-69 39.7zm353 93.2l69-39.7-69-39.7-69.1 39.7 69.1 39.7zM189.2 89L120 128.8l0 186.4 69.2-39.9 0-186.4zM94.5 128.9L25.2 89.1l0 294.2 164 94.2 0-79.4-87.3-49.3-.2-.1c-1.3-.8-3.2-1.9-4.6-3.7c-1.7-2.1-2.5-4.7-2.5-7.7l0-208.5zm214.7 92.4l69.3 39.6 0-78.5-69.3-39.9 0 78.8zm94.5 39.6L473 221.2l0-78.8-69.3 39.9 0 78.5zM201.6 376.1l163.8-93.2-69-39.9L133 337.1l68.6 38.9zm12.9 101.5l164-94.2 0-78.8-164 93.6 0 79.4z"]
 };
 const faHotjar = {
   prefix: 'fab',
@@ -126894,6 +127744,11 @@ const faHips = {
   prefix: 'fab',
   iconName: 'hips',
   icon: [640, 512, [], "f452", "M251.6 157.6c0-1.9-.9-2.8-2.8-2.8h-40.9c-1.6 0-2.7 1.4-2.7 2.8v201.8c0 1.4 1.1 2.8 2.7 2.8h40.9c1.9 0 2.8-.9 2.8-2.8zM156.5 168c-16.1-11.8-36.3-17.9-60.3-18-18.1-.1-34.6 3.7-49.8 11.4V80.2c0-1.8-.9-2.7-2.8-2.7H2.7c-1.8 0-2.7.9-2.7 2.7v279.2c0 1.9.9 2.8 2.7 2.8h41c1.9 0 2.8-.9 2.8-2.8V223.3c0-.8-2.8-27 45.8-27 48.5 0 45.8 26.1 45.8 27v122.6c0 9 7.3 16.3 16.4 16.3h27.3c1.8 0 2.7-.9 2.7-2.8V223.3c0-23.4-9.3-41.8-28-55.3zm478.4 110.1c-6.8-15.7-18.4-27-34.9-34.1l-57.6-25.3c-8.6-3.6-9.2-11.2-2.6-16.1 7.4-5.5 44.3-13.9 84 6.8 1.7 1 4-.3 4-2.4v-44.7c0-1.3-.6-2.1-1.9-2.6-17.7-6.6-36.1-9.9-55.1-9.9-26.5 0-45.3 5.8-58.5 15.4-.5.4-28.4 20-22.7 53.7 3.4 19.6 15.8 34.2 37.2 43.6l53.6 23.5c11.6 5.1 15.2 13.3 12.2 21.2-3.7 9.1-13.2 13.6-36.5 13.6-24.3 0-44.7-8.9-58.4-19.1-2.1-1.4-4.4.2-4.4 2.3v34.4c0 10.4 4.9 17.3 14.6 20.7 15.6 5.5 31.6 8.2 48.2 8.2 12.7 0 25.8-1.2 36.3-4.3.7-.3 36-8.9 45.6-45.8 3.5-13.5 2.4-26.5-3.1-39.1zM376.2 149.8c-31.7 0-104.2 20.1-104.2 103.5v183.5c0 .8.6 2.7 2.7 2.7h40.9c1.9 0 2.8-.9 2.8-2.7V348c16.5 12.7 35.8 19.1 57.7 19.1 60.5 0 108.7-48.5 108.7-108.7.1-60.3-48.2-108.6-108.6-108.6zm0 170.9c-17.2 0-31.9-6.1-44-18.2-12.2-12.2-18.2-26.8-18.2-44 0-34.5 27.6-62.2 62.2-62.2 34.5 0 62.2 27.6 62.2 62.2.1 34.3-27.3 62.2-62.2 62.2zM228.3 72.5c-15.9 0-28.8 12.9-28.9 28.9 0 15.6 12.7 28.9 28.9 28.9s28.9-13.1 28.9-28.9c0-16.2-13-28.9-28.9-28.9z"]
+};
+const faCss = {
+  prefix: 'fab',
+  iconName: 'css',
+  icon: [448, 512, [], "e6a2", "M376.3 32L0 32 0 408.3c0 19 7.6 37.2 21 50.7s31.7 21 50.7 21l304.6 0c19 0 37.2-7.6 50.7-21s21-31.7 21-50.7l0-304.6c0-19-7.6-37.2-21-50.7s-31.7-21-50.7-21zM332.4 431.4c-7.7-8.5-11.7-20.7-12-36.6l31.3 0c.2 14.1 5.1 21.1 14.8 21.1c4.9 0 8.4-1.6 10.5-4.7c2-3.1 3-8 3-14.8c0-5.4-1.3-9.9-4-13.4c-3.5-4.2-8.1-7.5-13.2-9.5L351.2 368c-10.3-4.9-17.8-10.8-22.5-17.6c-4.5-6.8-6.7-16.3-6.7-28.4c0-13.6 4-24.6 11.8-33.1c8.1-8.5 19.1-12.7 33.2-12.7c13.6 0 24.1 4.2 31.5 12.5c7.5 8.4 11.5 20.3 11.8 35.9l-30.1 0c.2-5.1-.9-10.2-3-14.8c-1.7-3.4-5-5.1-10-5.1c-8.8 0-13.2 5.2-13.2 15.7c0 5.3 1.1 9.4 3.2 12.6c3.1 3.5 7 6.2 11.4 7.8l11.1 4.9c11.5 5.3 19.7 11.7 24.8 19.4c5.1 7.7 7.6 18 7.6 31c0 15.5-4 27.4-12.3 35.7c-8.2 8.3-19.5 12.5-34.1 12.5s-25.6-4.2-33.4-12.7zm-101 0c-7.7-8.5-11.7-20.7-12-36.6l31.3 0c.2 14.1 5.1 21.1 14.8 21.1c4.9 0 8.4-1.6 10.4-4.7c2-3.1 3-8 3-14.8c0-5.4-1.3-9.9-3.9-13.4c-3.5-4.2-8.1-7.5-13.2-9.5L250.2 368c-10.3-4.9-17.8-10.8-22.5-17.6c-4.5-6.8-6.7-16.3-6.7-28.4c0-13.6 4-24.6 11.8-33.1c8.1-8.5 19.1-12.7 33.2-12.7c13.6 0 24.1 4.2 31.4 12.5c7.6 8.4 11.5 20.3 11.9 35.9l-30.1 0c.2-5.1-.9-10.2-3-14.8c-1.7-3.4-5-5.1-10-5.1c-8.8 0-13.2 5.2-13.2 15.7c0 5.3 1.1 9.4 3.2 12.6c3.1 3.5 7 6.2 11.4 7.8l11.1 4.9c11.5 5.3 19.7 11.7 24.8 19.4c5.1 7.7 7.6 18 7.6 31c0 15.5-4.1 27.4-12.3 35.7s-19.5 12.5-34.1 12.5s-25.6-4.2-33.4-12.7zm-105.6 1.1c-8.4-7.7-12.5-19.2-12.5-34.5l0-75.4c0-15.2 4.4-26.7 13.2-34.6c8.9-7.8 20.7-11.8 35.2-11.8c14.1 0 25.2 4 33.4 12c8.3 8 12.5 20 12.5 35.9l0 6-33.1 0 0-5.8c0-6.1-1.3-10.7-4-13.6c-1.1-1.5-2.6-2.7-4.3-3.5s-3.5-1.2-5.4-1.1c-5.4 0-9.2 1.8-11.4 5.6c-2.3 5.2-3.3 10.8-3 16.4l0 65.5c0 13.7 4.8 20.6 14.4 20.8c4.5 0 7.9-1.6 10.2-4.8c2.5-4.1 3.7-8.8 3.5-13.6l0-4.9 33.1 0 0 5.1c0 10.6-2.1 19.5-6.2 26.6c-4 6.9-9.9 12.5-17.1 16c-7.7 3.7-16.1 5.5-24.6 5.3c-14.2 0-25.5-3.9-33.8-11.6z"]
 };
 const faBehance = {
   prefix: 'fab',
@@ -127570,6 +128425,11 @@ const faFly = {
   iconName: 'fly',
   icon: [384, 512, [], "f417", "M197.8 427.8c12.9 11.7 33.7 33.3 33.2 50.7 0 .8-.1 1.6-.1 2.5-1.8 19.8-18.8 31.1-39.1 31-25-.1-39.9-16.8-38.7-35.8 1-16.2 20.5-36.7 32.4-47.6 2.3-2.1 2.7-2.7 5.6-3.6 3.4 0 3.9.3 6.7 2.8zM331.9 67.3c-16.3-25.7-38.6-40.6-63.3-52.1C243.1 4.5 214-.2 192 0c-44.1 0-71.2 13.2-81.1 17.3C57.3 45.2 26.5 87.2 28 158.6c7.1 82.2 97 176 155.8 233.8 1.7 1.6 4.5 4.5 6.2 5.1l3.3.1c2.1-.7 1.8-.5 3.5-2.1 52.3-49.2 140.7-145.8 155.9-215.7 7-39.2 3.1-72.5-20.8-112.5zM186.8 351.9c-28-51.1-65.2-130.7-69.3-189-3.4-47.5 11.4-131.2 69.3-136.7v325.7zM328.7 180c-16.4 56.8-77.3 128-118.9 170.3C237.6 298.4 275 217 277 158.4c1.6-45.9-9.8-105.8-48-131.4 88.8 18.3 115.5 98.1 99.7 153z"]
 };
+const faSquareBluesky = {
+  prefix: 'fab',
+  iconName: 'square-bluesky',
+  icon: [448, 512, [], "e6a3", "M64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l320 0c35.3 0 64-28.7 64-64l0-320c0-35.3-28.7-64-64-64L64 32zM224 247.4c14.5-30 54-85.8 90.7-113.3c26.5-19.9 69.3-35.2 69.3 13.7c0 9.8-5.6 82.1-8.9 93.8c-11.4 40.8-53 51.2-90 44.9c64.7 11 81.2 47.5 45.6 84c-67.5 69.3-97-17.4-104.6-39.6c0 0 0 0 0 0l-.3-.9c-.9-2.6-1.4-4.1-1.8-4.1s-.9 1.5-1.8 4.1c-.1 .3-.2 .6-.3 .9c0 0 0 0 0 0c-7.6 22.2-37.1 108.8-104.6 39.6c-35.5-36.5-19.1-73 45.6-84c-37 6.3-78.6-4.1-90-44.9c-3.3-11.7-8.9-84-8.9-93.8c0-48.9 42.9-33.5 69.3-13.7c36.7 27.5 76.2 83.4 90.7 113.3z"]
+};
 const faAviato = {
   prefix: 'fab',
   iconName: 'aviato',
@@ -128103,7 +128963,7 @@ const faWaze = {
 const faBluesky = {
   prefix: 'fab',
   iconName: 'bluesky',
-  icon: [576, 512, [], "e671", "M407.8 294.7c-3.3-.4-6.7-.8-10-1.3c3.4 .4 6.7 .9 10 1.3zM288 227.1C261.9 176.4 190.9 81.9 124.9 35.3C61.6-9.4 37.5-1.7 21.6 5.5C3.3 13.8 0 41.9 0 58.4S9.1 194 15 213.9c19.5 65.7 89.1 87.9 153.2 80.7c3.3-.5 6.6-.9 10-1.4c-3.3 .5-6.6 1-10 1.4C74.3 308.6-9.1 342.8 100.3 464.5C220.6 589.1 265.1 437.8 288 361.1c22.9 76.7 49.2 222.5 185.6 103.4c102.4-103.4 28.1-156-65.8-169.9c-3.3-.4-6.7-.8-10-1.3c3.4 .4 6.7 .9 10 1.3c64.1 7.1 133.6-15.1 153.2-80.7C566.9 194 576 75 576 58.4s-3.3-44.7-21.6-52.9c-15.8-7.1-40-14.9-103.2 29.8C385.1 81.9 314.1 176.4 288 227.1z"]
+  icon: [512, 512, [], "e671", "M111.8 62.2C170.2 105.9 233 194.7 256 242.4c23-47.6 85.8-136.4 144.2-180.2c42.1-31.6 110.3-56 110.3 21.8c0 15.5-8.9 130.5-14.1 149.2C478.2 298 412 314.6 353.1 304.5c102.9 17.5 129.1 75.5 72.5 133.5c-107.4 110.2-154.3-27.6-166.3-62.9l0 0c-1.7-4.9-2.6-7.8-3.3-7.8s-1.6 3-3.3 7.8l0 0c-12 35.3-59 173.1-166.3 62.9c-56.5-58-30.4-116 72.5-133.5C100 314.6 33.8 298 15.7 233.1C10.4 214.4 1.5 99.4 1.5 83.9c0-77.8 68.2-53.4 110.3-21.8z"]
 };
 const faCcJcb = {
   prefix: 'fab',
@@ -128754,6 +129614,7 @@ var icons = {
   faDebian,
   faOpenid,
   faInstalod,
+  faFilesPinwheel,
   faExpeditedssl,
   faSellcast,
   faSquareTwitter,
@@ -128795,6 +129656,7 @@ var icons = {
   faStickerMule,
   faCreativeCommonsZero,
   faHips,
+  faCss,
   faBehance,
   faReddit,
   faDiscord,
@@ -128938,6 +129800,7 @@ var icons = {
   faSpotify,
   faOptinMonster,
   faFly,
+  faSquareBluesky,
   faAviato,
   faItunes,
   faCuttlefish,
@@ -129522,6 +130385,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   faChartArea: () => (/* binding */ faChartArea),
 /* harmony export */   faChartBar: () => (/* binding */ faChartBar),
 /* harmony export */   faChartColumn: () => (/* binding */ faChartColumn),
+/* harmony export */   faChartDiagram: () => (/* binding */ faChartDiagram),
 /* harmony export */   faChartGantt: () => (/* binding */ faChartGantt),
 /* harmony export */   faChartLine: () => (/* binding */ faChartLine),
 /* harmony export */   faChartPie: () => (/* binding */ faChartPie),
@@ -129637,6 +130501,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   faCommentDollar: () => (/* binding */ faCommentDollar),
 /* harmony export */   faCommentDots: () => (/* binding */ faCommentDots),
 /* harmony export */   faCommentMedical: () => (/* binding */ faCommentMedical),
+/* harmony export */   faCommentNodes: () => (/* binding */ faCommentNodes),
 /* harmony export */   faCommentSlash: () => (/* binding */ faCommentSlash),
 /* harmony export */   faCommentSms: () => (/* binding */ faCommentSms),
 /* harmony export */   faCommenting: () => (/* binding */ faCommenting),
@@ -129857,6 +130722,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   faFileEdit: () => (/* binding */ faFileEdit),
 /* harmony export */   faFileExcel: () => (/* binding */ faFileExcel),
 /* harmony export */   faFileExport: () => (/* binding */ faFileExport),
+/* harmony export */   faFileFragment: () => (/* binding */ faFileFragment),
+/* harmony export */   faFileHalfDashed: () => (/* binding */ faFileHalfDashed),
 /* harmony export */   faFileImage: () => (/* binding */ faFileImage),
 /* harmony export */   faFileImport: () => (/* binding */ faFileImport),
 /* harmony export */   faFileInvoice: () => (/* binding */ faFileInvoice),
@@ -130071,6 +130938,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   faHelicopterSymbol: () => (/* binding */ faHelicopterSymbol),
 /* harmony export */   faHelmetSafety: () => (/* binding */ faHelmetSafety),
 /* harmony export */   faHelmetUn: () => (/* binding */ faHelmetUn),
+/* harmony export */   faHexagonNodes: () => (/* binding */ faHexagonNodes),
+/* harmony export */   faHexagonNodesBolt: () => (/* binding */ faHexagonNodesBolt),
 /* harmony export */   faHighlighter: () => (/* binding */ faHighlighter),
 /* harmony export */   faHiking: () => (/* binding */ faHiking),
 /* harmony export */   faHillAvalanche: () => (/* binding */ faHillAvalanche),
@@ -130750,6 +131619,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   faSprout: () => (/* binding */ faSprout),
 /* harmony export */   faSquare: () => (/* binding */ faSquare),
 /* harmony export */   faSquareArrowUpRight: () => (/* binding */ faSquareArrowUpRight),
+/* harmony export */   faSquareBinary: () => (/* binding */ faSquareBinary),
 /* harmony export */   faSquareCaretDown: () => (/* binding */ faSquareCaretDown),
 /* harmony export */   faSquareCaretLeft: () => (/* binding */ faSquareCaretLeft),
 /* harmony export */   faSquareCaretRight: () => (/* binding */ faSquareCaretRight),
@@ -131137,6 +132007,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   fas: () => (/* binding */ icons),
 /* harmony export */   prefix: () => (/* binding */ prefix)
 /* harmony export */ });
+/*!
+ * Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com
+ * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
+ * Copyright 2024 Fonticons, Inc.
+ */
 const prefix = "fas";
 const fa0 = {
   prefix: 'fas',
@@ -133458,6 +134333,11 @@ const faMartiniGlass = {
   icon: [512, 512, [127864, "glass-martini-alt"], "f57b", "M32 0C19.1 0 7.4 7.8 2.4 19.8s-2.2 25.7 6.9 34.9L224 269.3 224 448l-64 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l96 0 96 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-64 0 0-178.7L502.6 54.6c9.2-9.2 11.9-22.9 6.9-34.9S492.9 0 480 0L32 0zM173.3 128l-64-64 293.5 0-64 64-165.5 0z"]
 };
 const faGlassMartiniAlt = faMartiniGlass;
+const faSquareBinary = {
+  prefix: 'fas',
+  iconName: 'square-binary',
+  icon: [448, 512, [], "e69b", "M0 96C0 60.7 28.7 32 64 32l320 0c35.3 0 64 28.7 64 64l0 320c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 96zm144 4c-24.3 0-44 19.7-44 44l0 48c0 24.3 19.7 44 44 44l32 0c24.3 0 44-19.7 44-44l0-48c0-24.3-19.7-44-44-44l-32 0zm-4 44c0-2.2 1.8-4 4-4l32 0c2.2 0 4 1.8 4 4l0 48c0 2.2-1.8 4-4 4l-32 0c-2.2 0-4-1.8-4-4l0-48zm140-44c-11 0-20 9-20 20c0 9.7 6.9 17.7 16 19.6l0 76.4c0 11 9 20 20 20s20-9 20-20l0-96c0-11-9-20-20-20l-16 0zM132 296c0 9.7 6.9 17.7 16 19.6l0 76.4c0 11 9 20 20 20s20-9 20-20l0-96c0-11-9-20-20-20l-16 0c-11 0-20 9-20 20zm96 24l0 48c0 24.3 19.7 44 44 44l32 0c24.3 0 44-19.7 44-44l0-48c0-24.3-19.7-44-44-44l-32 0c-24.3 0-44 19.7-44 44zm44-4l32 0c2.2 0 4 1.8 4 4l0 48c0 2.2-1.8 4-4 4l-32 0c-2.2 0-4-1.8-4-4l0-48c0-2.2 1.8-4 4-4z"]
+};
 const faRotateLeft = {
   prefix: 'fas',
   iconName: 'rotate-left',
@@ -135076,6 +135956,11 @@ const faHandHoldingDollar = {
   icon: [576, 512, ["hand-holding-usd"], "f4c0", "M312 24l0 10.5c6.4 1.2 12.6 2.7 18.2 4.2c12.8 3.4 20.4 16.6 17 29.4s-16.6 20.4-29.4 17c-10.9-2.9-21.1-4.9-30.2-5c-7.3-.1-14.7 1.7-19.4 4.4c-2.1 1.3-3.1 2.4-3.5 3c-.3 .5-.7 1.2-.7 2.8c0 .3 0 .5 0 .6c.2 .2 .9 1.2 3.3 2.6c5.8 3.5 14.4 6.2 27.4 10.1l.9 .3s0 0 0 0c11.1 3.3 25.9 7.8 37.9 15.3c13.7 8.6 26.1 22.9 26.4 44.9c.3 22.5-11.4 38.9-26.7 48.5c-6.7 4.1-13.9 7-21.3 8.8l0 10.6c0 13.3-10.7 24-24 24s-24-10.7-24-24l0-11.4c-9.5-2.3-18.2-5.3-25.6-7.8c-2.1-.7-4.1-1.4-6-2c-12.6-4.2-19.4-17.8-15.2-30.4s17.8-19.4 30.4-15.2c2.6 .9 5 1.7 7.3 2.5c13.6 4.6 23.4 7.9 33.9 8.3c8 .3 15.1-1.6 19.2-4.1c1.9-1.2 2.8-2.2 3.2-2.9c.4-.6 .9-1.8 .8-4.1l0-.2c0-1 0-2.1-4-4.6c-5.7-3.6-14.3-6.4-27.1-10.3l-1.9-.6c-10.8-3.2-25-7.5-36.4-14.4c-13.5-8.1-26.5-22-26.6-44.1c-.1-22.9 12.9-38.6 27.7-47.4c6.4-3.8 13.3-6.4 20.2-8.2L264 24c0-13.3 10.7-24 24-24s24 10.7 24 24zM568.2 336.3c13.1 17.8 9.3 42.8-8.5 55.9L433.1 485.5c-23.4 17.2-51.6 26.5-80.7 26.5L192 512 32 512c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l36.8 0 44.9-36c22.7-18.2 50.9-28 80-28l78.3 0 16 0 64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0-16 0c-8.8 0-16 7.2-16 16s7.2 16 16 16l120.6 0 119.7-88.2c17.8-13.1 42.8-9.3 55.9 8.5zM193.6 384c0 0 0 0 0 0l-.9 0c.3 0 .6 0 .9 0z"]
 };
 const faHandHoldingUsd = faHandHoldingDollar;
+const faChartDiagram = {
+  prefix: 'fas',
+  iconName: 'chart-diagram',
+  icon: [512, 512, [], "e695", "M80 32C53.5 32 32 53.5 32 80s21.5 48 48 48l152 0 0 40-48 48-56 0c-48.6 0-88 39.4-88 88l0 48-8 0c-17.7 0-32 14.3-32 32l0 64c0 17.7 14.3 32 32 32l64 0c17.7 0 32-14.3 32-32l0-64c0-17.7-14.3-32-32-32l-8 0 0-48c0-22.1 17.9-40 40-40l56 0 48 48 0 40-8 0c-17.7 0-32 14.3-32 32l0 64c0 17.7 14.3 32 32 32l64 0c17.7 0 32-14.3 32-32l0-64c0-17.7-14.3-32-32-32l-8 0 0-40 48-48 56 0c22.1 0 40 17.9 40 40l0 48-8 0c-17.7 0-32 14.3-32 32l0 64c0 17.7 14.3 32 32 32l64 0c17.7 0 32-14.3 32-32l0-64c0-17.7-14.3-32-32-32l-8 0 0-48c0-48.6-39.4-88-88-88l-56 0-48-48 0-40 152 0c26.5 0 48-21.5 48-48s-21.5-48-48-48L80 32z"]
+};
 const faBacterium = {
   prefix: 'fas',
   iconName: 'bacterium',
@@ -135204,6 +136089,11 @@ const faMosquitoNet = {
   prefix: 'fas',
   iconName: 'mosquito-net',
   icon: [640, 512, [], "e52c", "M168.8 462.3c-7.9-4-11.1-13.6-7.2-21.5L192 380.2l0-44.2c0-4.2 1.7-8.3 4.7-11.3L256 265.4l0-23.1L139.2 344C87.8 395.3 0 358.9 0 286.3c0-41.1 30.6-75.8 71.4-80.9l159.9-23.9-49.6-41.3c-5.1-4.2-7-11.1-4.9-17.4l13.9-41.7-29-58.1c-4-7.9-.7-17.5 7.2-21.5s17.5-.7 21.5 7.2l32 64c1.9 3.8 2.2 8.2 .9 12.2l-12.5 37.6L256 160.5l0-22.6c0-14.9 10.1-27.3 23.8-31l0-43.3c0-4.5 3.7-8.2 8.2-8.2s8.2 3.7 8.2 8.2l0 43.3c13.7 3.6 23.8 16.1 23.8 31l0 22.6 45.4-37.8L352.8 85.1c-1.3-4-1-8.4 .9-12.2l32-64c4-7.9 13.6-11.1 21.5-7.2s11.1 13.6 7.2 21.5l-29 58.1 13.9 41.7c2.1 6.2 .1 13.1-4.9 17.4l-49.6 41.3 159.9 23.9c22.5 2.8 41.8 14.6 54.7 31.4c-2.7 2.6-5.2 5.4-7.3 8.6c-8.6-12.9-23.3-21.5-40-21.5s-31.4 8.5-40 21.5c-8.6-12.9-23.3-21.5-40-21.5c-21.7 0-40 14.3-45.9 34.1c-10.7 3.2-19.8 10.1-25.9 19.2l-40.2-35 0 23.1 32.4 32.4c-.3 2-.4 4.1-.4 6.2c0 16.7 8.5 31.4 21.5 40c-4 2.6-7.5 5.9-10.6 9.5L320 310.6l0 50c0 17.7-14.3 32-32 32s-32-14.3-32-32l0-50-32 32 0 41.4c0 2.5-.6 4.9-1.7 7.2l-32 64c-4 7.9-13.6 11.1-21.5 7.2zM512 256c8.8 0 16 7.2 16 16l0 16 48 0 0-16c0-8.8 7.2-16 16-16s16 7.2 16 16l0 16 16 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-16 0 0 48 16 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-16 0 0 48 16 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-16 0 0 16c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-16-48 0 0 16c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-16-48 0 0 16c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-16-16 0c-8.8 0-16-7.2-16-16s7.2-16 16-16l16 0 0-48-16 0c-8.8 0-16-7.2-16-16s7.2-16 16-16l16 0 0-48-16 0c-8.8 0-16-7.2-16-16s7.2-16 16-16l16 0 0-16c0-8.8 7.2-16 16-16s16 7.2 16 16l0 16 48 0 0-16c0-8.8 7.2-16 16-16zm16 112l48 0 0-48-48 0 0 48zm0 80l48 0 0-48-48 0 0 48zM448 320l0 48 48 0 0-48-48 0zm0 80l0 48 48 0 0-48-48 0z"]
+};
+const faFileFragment = {
+  prefix: 'fas',
+  iconName: 'file-fragment',
+  icon: [384, 512, [], "e697", "M0 64C0 28.7 28.7 0 64 0L224 0l0 128c0 17.7 14.3 32 32 32l128 0 0 288c0 35.3-28.7 64-64 64l-128 0 0-128c0-35.3-28.7-64-64-64L0 320 0 64zm384 64l-128 0L256 0 384 128zM32 352l96 0c17.7 0 32 14.3 32 32l0 96c0 17.7-14.3 32-32 32l-96 0c-17.7 0-32-14.3-32-32l0-96c0-17.7 14.3-32 32-32z"]
 };
 const faBridgeWater = {
   prefix: 'fas',
@@ -135897,6 +136787,11 @@ const faGripVertical = {
   prefix: 'fas',
   iconName: 'grip-vertical',
   icon: [320, 512, [], "f58e", "M40 352l48 0c22.1 0 40 17.9 40 40l0 48c0 22.1-17.9 40-40 40l-48 0c-22.1 0-40-17.9-40-40l0-48c0-22.1 17.9-40 40-40zm192 0l48 0c22.1 0 40 17.9 40 40l0 48c0 22.1-17.9 40-40 40l-48 0c-22.1 0-40-17.9-40-40l0-48c0-22.1 17.9-40 40-40zM40 320c-22.1 0-40-17.9-40-40l0-48c0-22.1 17.9-40 40-40l48 0c22.1 0 40 17.9 40 40l0 48c0 22.1-17.9 40-40 40l-48 0zM232 192l48 0c22.1 0 40 17.9 40 40l0 48c0 22.1-17.9 40-40 40l-48 0c-22.1 0-40-17.9-40-40l0-48c0-22.1 17.9-40 40-40zM40 160c-22.1 0-40-17.9-40-40L0 72C0 49.9 17.9 32 40 32l48 0c22.1 0 40 17.9 40 40l0 48c0 22.1-17.9 40-40 40l-48 0zM232 32l48 0c22.1 0 40 17.9 40 40l0 48c0 22.1-17.9 40-40 40l-48 0c-22.1 0-40-17.9-40-40l0-48c0-22.1 17.9-40 40-40z"]
+};
+const faHexagonNodes = {
+  prefix: 'fas',
+  iconName: 'hexagon-nodes',
+  icon: [448, 512, [], "e699", "M248 106.6c18.9-9 32-28.3 32-50.6c0-30.9-25.1-56-56-56s-56 25.1-56 56c0 22.3 13.1 41.6 32 50.6l0 98.8c-2.8 1.3-5.5 2.9-8 4.7l-80.1-45.8c1.6-20.8-8.6-41.6-27.9-52.8C57.2 96 23 105.2 7.5 132S1.2 193 28 208.5c1.3 .8 2.6 1.5 4 2.1l0 90.8c-1.3 .6-2.7 1.3-4 2.1C1.2 319-8 353.2 7.5 380S57.2 416 84 400.5c19.3-11.1 29.4-32 27.8-52.8l50.5-28.9c-11.5-11.2-19.9-25.6-23.8-41.7L88 306.1c-2.6-1.8-5.2-3.3-8-4.7l0-90.8c2.8-1.3 5.5-2.9 8-4.7l80.1 45.8c-.1 1.4-.2 2.8-.2 4.3c0 22.3 13.1 41.6 32 50.6l0 98.8c-18.9 9-32 28.3-32 50.6c0 30.9 25.1 56 56 56s56-25.1 56-56c0-22.3-13.1-41.6-32-50.6l0-98.8c2.8-1.3 5.5-2.9 8-4.7l80.1 45.8c-1.6 20.8 8.6 41.6 27.8 52.8c26.8 15.5 61 6.3 76.5-20.5s6.3-61-20.5-76.5c-1.3-.8-2.7-1.5-4-2.1l0-90.8c1.4-.6 2.7-1.3 4-2.1c26.8-15.5 36-49.7 20.5-76.5S390.8 96 364 111.5c-19.3 11.1-29.4 32-27.8 52.8l-50.6 28.9c11.5 11.2 19.9 25.6 23.8 41.7L360 205.9c2.6 1.8 5.2 3.3 8 4.7l0 90.8c-2.8 1.3-5.5 2.9-8 4.6l-80.1-45.8c.1-1.4 .2-2.8 .2-4.3c0-22.3-13.1-41.6-32-50.6l0-98.8z"]
 };
 const faArrowTurnUp = {
   prefix: 'fas',
@@ -137347,6 +138242,11 @@ const faFolderMinus = {
   iconName: 'folder-minus',
   icon: [512, 512, [], "f65d", "M448 480L64 480c-35.3 0-64-28.7-64-64L0 96C0 60.7 28.7 32 64 32l128 0c20.1 0 39.1 9.5 51.2 25.6l19.2 25.6c6 8.1 15.5 12.8 25.6 12.8l160 0c35.3 0 64 28.7 64 64l0 256c0 35.3-28.7 64-64 64zM184 272c-13.3 0-24 10.7-24 24s10.7 24 24 24l144 0c13.3 0 24-10.7 24-24s-10.7-24-24-24l-144 0z"]
 };
+const faHexagonNodesBolt = {
+  prefix: 'fas',
+  iconName: 'hexagon-nodes-bolt',
+  icon: [576, 512, [], "e69a", "M248 106.6c18.9-9 32-28.3 32-50.6c0-30.9-25.1-56-56-56s-56 25.1-56 56c0 22.3 13.1 41.6 32 50.6l0 98.8c-2.8 1.3-5.5 2.9-8 4.7l-80.1-45.8c1.6-20.8-8.6-41.6-27.9-52.8C57.2 96 23 105.2 7.5 132S1.2 193 28 208.5c1.3 .8 2.6 1.5 4 2.1l0 90.8c-1.3 .6-2.7 1.3-4 2.1C1.2 319-8 353.2 7.5 380S57.2 416 84 400.5c19.3-11.1 29.4-32 27.8-52.8l50.5-28.9c-11.5-11.2-19.9-25.6-23.8-41.7L88 306.1c-2.6-1.8-5.2-3.3-8-4.7l0-90.8c2.8-1.3 5.5-2.9 8-4.7l80.1 45.8c-.1 1.4-.2 2.8-.2 4.3c0 22.3 13.1 41.6 32 50.6l0 98.8c-18.9 9-32 28.3-32 50.6c0 30.9 25.1 56 56 56c30.7 0 55.6-24.7 56-55.2c-7.5-12.9-13.5-26.8-17.6-41.5c-4.2-4-9.1-7.3-14.4-9.9l0-98.8c2.8-1.3 5.5-2.9 8-4.7l10.5 6c5.5-15.3 13.1-29.5 22.4-42.5l-9.1-5.2c.1-1.4 .2-2.8 .2-4.3c0-22.3-13.1-41.6-32-50.6l0-98.8zM440.5 132C425 105.2 390.8 96 364 111.5c-19.3 11.1-29.4 32-27.8 52.8l-50.6 28.9c11.5 11.2 19.9 25.6 23.8 41.7L360 205.9c.4 .3 .8 .6 1.3 .9c21.7-9.5 45.6-14.8 70.8-14.8c2 0 4 0 5.9 .1c12.1-17.3 13.8-40.6 2.6-60.1zM432 512a144 144 0 1 0 0-288 144 144 0 1 0 0 288zm47.9-225c4.3 3.7 5.4 9.9 2.6 14.9L452.4 356l35.6 0c5.2 0 9.8 3.3 11.4 8.2s-.1 10.3-4.2 13.4l-96 72c-4.5 3.4-10.8 3.2-15.1-.6s-5.4-9.9-2.6-14.9L411.6 380 376 380c-5.2 0-9.8-3.3-11.4-8.2s.1-10.3 4.2-13.4l96-72c4.5-3.4 10.8-3.2 15.1 .6z"]
+};
 const faStore = {
   prefix: 'fas',
   iconName: 'store',
@@ -137698,6 +138598,11 @@ const faArrowUpShortWide = {
   icon: [576, 512, ["sort-amount-up-alt"], "f885", "M151.6 42.4C145.5 35.8 137 32 128 32s-17.5 3.8-23.6 10.4l-88 96c-11.9 13-11.1 33.3 2 45.2s33.3 11.1 45.2-2L96 146.3 96 448c0 17.7 14.3 32 32 32s32-14.3 32-32l0-301.7 32.4 35.4c11.9 13 32.2 13.9 45.2 2s13.9-32.2 2-45.2l-88-96zM320 32c-17.7 0-32 14.3-32 32s14.3 32 32 32l32 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-32 0zm0 128c-17.7 0-32 14.3-32 32s14.3 32 32 32l96 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-96 0zm0 128c-17.7 0-32 14.3-32 32s14.3 32 32 32l160 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-160 0zm0 128c-17.7 0-32 14.3-32 32s14.3 32 32 32l224 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-224 0z"]
 };
 const faSortAmountUpAlt = faArrowUpShortWide;
+const faCommentNodes = {
+  prefix: 'fas',
+  iconName: 'comment-nodes',
+  icon: [640, 512, [], "e696", "M256 448c10.8 0 21.5-.5 32-1.6c.3-15.8 4.4-31.7 12.9-46.4c16-27.7 43.7-44.4 73.2-47.5l16.7-29.2c-4.3-11-6.7-22.9-6.7-35.4c0-53 43-96 96-96c9.1 0 17.8 1.3 26.2 3.6C481.1 102.1 378.6 32 256 32C114.6 32 0 125.1 0 240c0 45.1 17.7 86.8 47.7 120.9c-1.9 24.5-11.4 46.3-21.4 62.9c-5.5 9.2-11.1 16.6-15.2 21.6c-2.1 2.5-3.7 4.4-4.9 5.7c-.2 .3-.4 .5-.6 .7c-.3 .3-.5 .5-.6 .7l-.3 .3c0 0 0 0 0 0c0 0 0 0 0 0s0 0 0 0s0 0 0 0c-4.6 4.6-5.9 11.4-3.4 17.4c2.5 6 8.3 9.9 14.8 9.9c28.7 0 57.6-8.9 81.6-19.3c22.9-10 42.4-21.9 54.3-30.6c31.8 11.5 67 17.9 104.1 17.9zm72.6-32c-17.7 30.6-7.2 69.7 23.4 87.4s69.7 7.2 87.4-23.4c1.5-2.6 2.8-5.3 3.9-8l73.3 0c1.1 2.7 2.4 5.4 3.9 8c17.7 30.6 56.8 41.1 87.4 23.4s41.1-56.8 23.4-87.4c-13.4-23.2-39.1-34.8-64-31.4l-17.6-30.7c-11 11.7-25 20.6-40.6 25.6l16.5 28.9c-3.8 4.8-6.8 10-9 15.6l-73.4 0c-2.2-5.6-5.3-10.8-9-15.6l33-57.7c4.1 .8 8.4 1.3 12.8 1.3c35.3 0 64-28.7 64-64s-28.7-64-64-64s-64 28.7-64 64c0 13.4 4.1 25.8 11.2 36.1l-34.6 60.5c-25-3.4-50.6 8.3-64 31.4z"]
+};
 const faHouseMedical = {
   prefix: 'fas',
   iconName: 'house-medical',
@@ -138415,6 +139320,11 @@ const faBrush = {
   prefix: 'fas',
   iconName: 'brush',
   icon: [384, 512, [], "f55d", "M162.4 6c-1.5-3.6-5-6-8.9-6l-19 0c-3.9 0-7.5 2.4-8.9 6L104.9 57.7c-3.2 8-14.6 8-17.8 0L66.4 6c-1.5-3.6-5-6-8.9-6L48 0C21.5 0 0 21.5 0 48L0 224l0 22.4L0 256l9.6 0 364.8 0 9.6 0 0-9.6 0-22.4 0-176c0-26.5-21.5-48-48-48L230.5 0c-3.9 0-7.5 2.4-8.9 6L200.9 57.7c-3.2 8-14.6 8-17.8 0L162.4 6zM0 288l0 32c0 35.3 28.7 64 64 64l64 0 0 64c0 35.3 28.7 64 64 64s64-28.7 64-64l0-64 64 0c35.3 0 64-28.7 64-64l0-32L0 288zM192 432a16 16 0 1 1 0 32 16 16 0 1 1 0-32z"]
+};
+const faFileHalfDashed = {
+  prefix: 'fas',
+  iconName: 'file-half-dashed',
+  icon: [384, 512, [], "e698", "M64 0C28.7 0 0 28.7 0 64L0 320l384 0 0-160-128 0c-17.7 0-32-14.3-32-32L224 0 64 0zM256 0l0 128 128 0L256 0zM0 416l64 0 0-64L0 352l0 64zm288 32l-80 0 0 64 80 0 0-64zm-112 0l-80 0 0 64 80 0 0-64zM64 448L0 448c0 35.3 28.7 64 64 64l0-64zm256 0l0 64c35.3 0 64-28.7 64-64l-64 0zm64-32l0-64-64 0 0 64 64 0z"]
 };
 const faMask = {
   prefix: 'fas',
@@ -139266,6 +140176,7 @@ var icons = {
   faArrowUpFromGroundWater,
   faMartiniGlass,
   faGlassMartiniAlt,
+  faSquareBinary,
   faRotateLeft,
   faRotateBack,
   faRotateBackward,
@@ -139688,6 +140599,7 @@ var icons = {
   faGrinSquint,
   faHandHoldingDollar,
   faHandHoldingUsd,
+  faChartDiagram,
   faBacterium,
   faHandPointer,
   faDrumSteelpan,
@@ -139721,6 +140633,7 @@ var icons = {
   faShieldVirus,
   faDiceSix,
   faMosquitoNet,
+  faFileFragment,
   faBridgeWater,
   faPersonBooth,
   faTextWidth,
@@ -139902,6 +140815,7 @@ var icons = {
   faPlugCirclePlus,
   faPlaceOfWorship,
   faGripVertical,
+  faHexagonNodes,
   faArrowTurnUp,
   faLevelUp,
   faU,
@@ -140291,6 +141205,7 @@ var icons = {
   faPhotoFilm,
   faPhotoVideo,
   faFolderMinus,
+  faHexagonNodesBolt,
   faStore,
   faArrowTrendUp,
   faPlugCircleMinus,
@@ -140378,6 +141293,7 @@ var icons = {
   faShieldBlank,
   faArrowUpShortWide,
   faSortAmountUpAlt,
+  faCommentNodes,
   faHouseMedical,
   faGolfBallTee,
   faGolfBall,
@@ -140568,6 +141484,7 @@ var icons = {
   faMugSaucer,
   faCoffee,
   faBrush,
+  faFileHalfDashed,
   faMask,
   faMagnifyingGlassMinus,
   faSearchMinus,
