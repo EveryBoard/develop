@@ -864,6 +864,9 @@ let GameComponent = class GameComponent extends BaseGameComponent {
   rotation = '';
   tutorial;
   isPlayerTurn;
+  /**
+   * Called by the game component when the user creates a move
+   */
   chooseMove;
   canUserPlay;
   cancelMoveOnWrapper;
@@ -25958,9 +25961,11 @@ function EpaminondasComponent__svg_g_3_Template(rf, ctx) {
 }
 class EpaminondasComponent extends _components_game_components_rectangular_game_component_RectangularGameComponent__WEBPACK_IMPORTED_MODULE_6__.RectangularGameComponent {
   NONE = src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_5__.PlayerOrNone.NONE;
+  // Data linked to the move attempt
   firstPiece = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
-  possibleMoves = [];
   lastPiece = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+  possibleMoves = [];
+  // Data linked to the last move
   moveds = [];
   capturedCoords = [];
   constructor(messageDisplayer, cdr) {
@@ -25988,6 +25993,7 @@ class EpaminondasComponent extends _components_game_components_rectangular_game_
   showLastMove(move) {
     var _this2 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+      _this2.capturedCoords = [];
       let moved = move.coord;
       _this2.moveds = [moved];
       for (let i = 1; i < move.stepSize + move.phalanxSize; i++) {
