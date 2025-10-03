@@ -14596,11 +14596,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   ApagosComponent: () => (/* binding */ ApagosComponent)
 /* harmony export */ });
 /* harmony import */ var _home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 89204);
-/* harmony import */ var src_app_components_game_components_game_component_GameComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/components/game-components/game-component/GameComponent */ 58047);
-/* harmony import */ var src_app_jscaip_AI_MCTS__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/jscaip/AI/MCTS */ 37123);
-/* harmony import */ var src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/jscaip/Player */ 22092);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @everyboard/lib */ 65042);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @everyboard/lib */ 65042);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var src_app_components_game_components_game_component_GameComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/components/game-components/game-component/GameComponent */ 58047);
+/* harmony import */ var src_app_jscaip_AI_MCTS__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/jscaip/AI/MCTS */ 37123);
+/* harmony import */ var src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/jscaip/Player */ 22092);
 /* harmony import */ var _ApagosFailure__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./ApagosFailure */ 89087);
 /* harmony import */ var _ApagosMove__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./ApagosMove */ 68688);
 /* harmony import */ var _ApagosMoveGenerator__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./ApagosMoveGenerator */ 14663);
@@ -14748,7 +14748,7 @@ function ApagosComponent__svg_g_5_Template(rf, ctx) {
     _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵproperty"]("ngForOf", ctx_r1.ArrayUtils.range(square_r11.count(ctx_r1.PlayerOrNone.NONE)));
   }
 }
-class ApagosComponent extends src_app_components_game_components_game_component_GameComponent__WEBPACK_IMPORTED_MODULE_1__.GameComponent {
+class ApagosComponent extends src_app_components_game_components_game_component_GameComponent__WEBPACK_IMPORTED_MODULE_2__.GameComponent {
   board;
   remainingZero;
   remainingOne;
@@ -14758,9 +14758,9 @@ class ApagosComponent extends src_app_components_game_components_game_component_
   BOARD_WIDTH;
   BOARD_HEIGHT;
   lastMoveSquares;
-  lastMoveDrop = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.empty();
-  selectedPiece = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.empty();
-  leftPiece = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.empty();
+  lastMoveDrop = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+  selectedPiece = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+  leftPiece = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
   displayableArrow = [];
   static getArrowCoord() {
     // Coordinates calculated to match with a SPACE_SIZE = 100
@@ -14776,7 +14776,7 @@ class ApagosComponent extends src_app_components_game_components_game_component_
   constructor(messageDisplayer, cdr) {
     super(messageDisplayer, cdr);
     this.setRulesAndNode('Apagos');
-    this.availableAIs = [new _ApagosRightmostMinimax__WEBPACK_IMPORTED_MODULE_9__.ApagosRightmostMinimax(), new _ApagosFullBoardMinimax__WEBPACK_IMPORTED_MODULE_8__.ApagosFullBoardMinimax(), new src_app_jscaip_AI_MCTS__WEBPACK_IMPORTED_MODULE_2__.MCTS($localize`MCTS`, new _ApagosMoveGenerator__WEBPACK_IMPORTED_MODULE_7__.ApagosMoveGenerator(), this.rules)];
+    this.availableAIs = [new _ApagosRightmostMinimax__WEBPACK_IMPORTED_MODULE_9__.ApagosRightmostMinimax(), new _ApagosFullBoardMinimax__WEBPACK_IMPORTED_MODULE_8__.ApagosFullBoardMinimax(), new src_app_jscaip_AI_MCTS__WEBPACK_IMPORTED_MODULE_3__.MCTS($localize`MCTS`, new _ApagosMoveGenerator__WEBPACK_IMPORTED_MODULE_7__.ApagosMoveGenerator(), this.rules)];
     this.encoder = _ApagosMove__WEBPACK_IMPORTED_MODULE_6__.ApagosMove.encoder;
     this.hasAsymmetricBoard = true;
   }
@@ -14784,7 +14784,7 @@ class ApagosComponent extends src_app_components_game_components_game_component_
     return new src_app_components_game_components_GameComponentUtils__WEBPACK_IMPORTED_MODULE_10__.ViewBox(0, 0, this.BOARD_WIDTH, this.BOARD_HEIGHT).expandAll(this.STROKE_WIDTH / 2);
   }
   cancelMoveAttempt() {
-    this.selectedPiece = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.empty();
+    this.selectedPiece = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
     this.showPossibleDrops();
   }
   updateBoard(_triggerAnimation) {
@@ -14798,15 +14798,15 @@ class ApagosComponent extends src_app_components_game_components_game_component_
       const nPieces = state.getMaxPiecesPerPlayer();
       _this.PIECE_RADIUS = (width - 1) * _this.SPACE_SIZE / (nPieces + 1);
       _this.PIECE_DELTA = _this.PIECE_RADIUS;
-      _this.remainingZero = state.remaining.get(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ZERO);
-      _this.remainingOne = state.remaining.get(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ONE);
+      _this.remainingZero = state.remaining.get(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_4__.Player.ZERO);
+      _this.remainingOne = state.remaining.get(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_4__.Player.ONE);
       _this.showPossibleDrops();
     })();
   }
   hideLastMove() {
     this.lastMoveSquares = [];
-    this.lastMoveDrop = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.empty();
-    this.leftPiece = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.empty();
+    this.lastMoveDrop = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+    this.leftPiece = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
   }
   showLastMove(move) {
     var _this2 = this;
@@ -14829,17 +14829,17 @@ class ApagosComponent extends src_app_components_game_components_game_component_
     }
     const climbingSquare = this.board[higherIndex];
     const landingIndex = this.getLowestPlayerPiece(climbingSquare, piece);
-    this.lastMoveDrop = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.of({
+    this.lastMoveDrop = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of({
       square: higherIndex,
       piece: landingIndex
     });
   }
   getLowestPlayerPiece(square, player) {
     const nbPiecePlayer = square.count(player);
-    if (player === src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ZERO) {
+    if (player === src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_4__.Player.ZERO) {
       return nbPiecePlayer - 1;
     } else {
-      const totalPieces = square.count(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.PlayerOrNone.NONE);
+      const totalPieces = square.count(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_4__.PlayerOrNone.NONE);
       return totalPieces - nbPiecePlayer;
     }
   }
@@ -14849,14 +14849,14 @@ class ApagosComponent extends src_app_components_game_components_game_component_
     const leftSquare = lastMove.starting.get();
     const previousSquare = previousState.board[leftSquare];
     const leftPieceIndex = this.getLowestPlayerPiece(previousSquare, previousPlayer);
-    this.leftPiece = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.of({
+    this.leftPiece = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of({
       square: leftSquare,
       piece: leftPieceIndex
     });
     const landingCoord = lastMove.landing;
     const landedSquare = this.board[landingCoord];
     const landedPieceIndex = this.getLowestPlayerPiece(landedSquare, previousPlayer);
-    this.lastMoveDrop = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.of({
+    this.lastMoveDrop = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of({
       square: landingCoord,
       piece: landedPieceIndex
     });
@@ -14866,16 +14866,16 @@ class ApagosComponent extends src_app_components_game_components_game_component_
     const state = this.getState();
     for (let x = 0; x < state.board.length; x++) {
       if (state.board[x].isFull() === false) {
-        if (state.remaining.get(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ZERO) > 0) {
+        if (state.remaining.get(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_4__.Player.ZERO) > 0) {
           this.displayableArrow.push({
             x,
-            player: src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ZERO
+            player: src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_4__.Player.ZERO
           });
         }
-        if (state.remaining.get(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ONE) > 0) {
+        if (state.remaining.get(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_4__.Player.ONE) > 0) {
           this.displayableArrow.push({
             x,
-            player: src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ONE
+            player: src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_4__.Player.ONE
           });
         }
       }
@@ -14884,10 +14884,10 @@ class ApagosComponent extends src_app_components_game_components_game_component_
   getCircleTransform(i, square) {
     const x = this.SPACE_SIZE / 2;
     const y = this.SPACE_SIZE / 2;
-    if (square.count(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.PlayerOrNone.NONE) === 1) {
+    if (square.count(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_4__.PlayerOrNone.NONE) === 1) {
       return this.getSVGTranslation(x, y);
     }
-    const nbCircle = square.count(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.PlayerOrNone.NONE);
+    const nbCircle = square.count(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_4__.PlayerOrNone.NONE);
     const angle = i * 2 * Math.PI / nbCircle - Math.PI / 2;
     const radius = this.SPACE_SIZE * 0.30;
     const deltaX = radius * Math.cos(angle);
@@ -14918,7 +14918,7 @@ class ApagosComponent extends src_app_components_game_components_game_component_
   onArrowClick(x, player) {
     var _this3 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      const playerString = player === src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ZERO ? 'zero' : 'one';
+      const playerString = player === src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_4__.Player.ZERO ? 'zero' : 'one';
       const clickValidity = yield _this3.canUserPlay('#dropArrow_' + playerString + '_' + x);
       if (clickValidity.isFailure()) {
         return _this3.cancelMove(clickValidity.getReason());
@@ -14939,8 +14939,8 @@ class ApagosComponent extends src_app_components_game_components_game_component_
       piece: i
     };
     const classes = [];
-    let zero = square.count(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ZERO);
-    let one = square.count(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ONE);
+    let zero = square.count(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_4__.Player.ZERO);
+    let one = square.count(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_4__.Player.ONE);
     if (this.selectedPiece.equalsValue(pieceLocation)) {
       classes.push('selected-stroke');
     } else if (this.lastMoveDrop.equalsValue(pieceLocation)) {
@@ -14951,10 +14951,10 @@ class ApagosComponent extends src_app_components_game_components_game_component_
         return classes;
       } else {
         const opponent = this.getState().getCurrentOpponent();
-        if (opponent === src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ZERO) zero++;else one++;
+        if (opponent === src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_4__.Player.ZERO) zero++;else one++;
       }
     }
-    const neutral = square.count(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.PlayerOrNone.NONE) - (one + zero);
+    const neutral = square.count(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_4__.PlayerOrNone.NONE) - (one + zero);
     const pieceColor = this.getPieceColor(i, zero, neutral);
     if (pieceColor !== '') {
       classes.push(pieceColor);
@@ -14986,14 +14986,14 @@ class ApagosComponent extends src_app_components_game_components_game_component_
       if (nbPiecePresent <= 0) {
         return _this4.cancelMove(_ApagosFailure__WEBPACK_IMPORTED_MODULE_5__.ApagosFailure.NO_PIECE_OF_YOU_IN_CHOSEN_SQUARE());
       }
-      _this4.selectedPiece = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.of({
+      _this4.selectedPiece = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of({
         square: x,
         piece: _this4.getLowestPlayerPiece(square, currentPlayer)
       });
       if (_this4.showAndGetPossibleTranfers().length === 0) {
         return _this4.cancelMove(_ApagosFailure__WEBPACK_IMPORTED_MODULE_5__.ApagosFailure.NO_POSSIBLE_TRANSFER_REMAINS());
       }
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPValidation.SUCCESS;
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.SUCCESS;
     })();
   }
   showAndGetPossibleTranfers() {
@@ -18130,10 +18130,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   CoerceoComponent: () => (/* binding */ CoerceoComponent)
 /* harmony export */ });
 /* harmony import */ var _home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 89204);
-/* harmony import */ var src_app_components_game_components_game_component_TriangularGameComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/components/game-components/game-component/TriangularGameComponent */ 52520);
-/* harmony import */ var src_app_games_coerceo_CoerceoMove__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/games/coerceo/CoerceoMove */ 72124);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @everyboard/lib */ 65042);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @everyboard/lib */ 65042);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var src_app_components_game_components_game_component_TriangularGameComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/components/game-components/game-component/TriangularGameComponent */ 52520);
+/* harmony import */ var src_app_games_coerceo_CoerceoMove__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/games/coerceo/CoerceoMove */ 72124);
 /* harmony import */ var src_app_games_coerceo_CoerceoFailure__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/games/coerceo/CoerceoFailure */ 71635);
 /* harmony import */ var src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/jscaip/Player */ 22092);
 /* harmony import */ var src_app_jscaip_FourStatePiece__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/app/jscaip/FourStatePiece */ 10003);
@@ -18348,20 +18348,20 @@ function CoerceoComponent__svg_g_6_Template(rf, ctx) {
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵproperty"]("ngIf", ctx_r2.mustShowTilesOf(player_r9));
   }
 }
-class CoerceoComponent extends src_app_components_game_components_game_component_TriangularGameComponent__WEBPACK_IMPORTED_MODULE_1__.TriangularGameComponent {
+class CoerceoComponent extends src_app_components_game_components_game_component_TriangularGameComponent__WEBPACK_IMPORTED_MODULE_2__.TriangularGameComponent {
   tiles = src_app_jscaip_PlayerMap__WEBPACK_IMPORTED_MODULE_10__.PlayerNumberMap.of(0, 0);
   NONE = src_app_jscaip_FourStatePiece__WEBPACK_IMPORTED_MODULE_6__.FourStatePiece.UNREACHABLE;
   INDICATOR_SIZE = 10;
-  chosenCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.MGPOptional.empty();
-  lastStart = _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.MGPOptional.empty();
-  lastEnd = _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.MGPOptional.empty();
+  chosenCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+  lastStart = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+  lastEnd = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
   possibleLandings = [];
   constructor(messageDisplayer, cdr) {
     super(messageDisplayer, cdr);
     this.setRulesAndNode('Coerceo');
     this.availableAIs = [new _CoerceoPiecesThreatsTilesMinimax__WEBPACK_IMPORTED_MODULE_11__.CoerceoPiecesThreatsTilesMinimax(), new _CoerceoCapturesAndFreedomMinimax__WEBPACK_IMPORTED_MODULE_12__.CoerceoCapturesAndFreedomMinimax(), new _CoerceoPiecesTilesFreedomMinimax__WEBPACK_IMPORTED_MODULE_13__.CoerceoPiecesTilesFreedomMinimax(), new src_app_jscaip_AI_MCTS__WEBPACK_IMPORTED_MODULE_7__.MCTS($localize`MCTS`, new _CoerceoMoveGenerator__WEBPACK_IMPORTED_MODULE_8__.CoerceoMoveGenerator(), this.rules)];
-    this.encoder = src_app_games_coerceo_CoerceoMove__WEBPACK_IMPORTED_MODULE_2__.CoerceoMove.encoder;
-    this.scores = _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.MGPOptional.of(src_app_jscaip_PlayerMap__WEBPACK_IMPORTED_MODULE_10__.PlayerNumberMap.of(0, 0));
+    this.encoder = src_app_games_coerceo_CoerceoMove__WEBPACK_IMPORTED_MODULE_3__.CoerceoMove.encoder;
+    this.scores = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(src_app_jscaip_PlayerMap__WEBPACK_IMPORTED_MODULE_10__.PlayerNumberMap.of(0, 0));
   }
   getScoreName() {
     return src_app_components_game_components_game_component_GameComponent__WEBPACK_IMPORTED_MODULE_14__.ScoreName.CAPTURES;
@@ -18370,7 +18370,7 @@ class CoerceoComponent extends src_app_components_game_components_game_component
     var _this = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       _this.state = _this.getState();
-      _this.scores = _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.MGPOptional.of(_this.state.captures);
+      _this.scores = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(_this.state.captures);
       _this.tiles = _this.state.tiles;
       _this.board = _this.getState().board;
     })();
@@ -18379,21 +18379,21 @@ class CoerceoComponent extends src_app_components_game_components_game_component
     this.possibleLandings = this.state.getLegalLandings(this.chosenCoord.get());
   }
   cancelMoveAttempt() {
-    this.chosenCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.MGPOptional.empty();
+    this.chosenCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
     this.possibleLandings = [];
   }
   showLastMove(move) {
     var _this2 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      if (move instanceof src_app_games_coerceo_CoerceoMove__WEBPACK_IMPORTED_MODULE_2__.CoerceoRegularMove) {
-        _this2.lastStart = _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.MGPOptional.of(move.getStart());
-        _this2.lastEnd = _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.MGPOptional.of(move.getEnd());
+      if (move instanceof src_app_games_coerceo_CoerceoMove__WEBPACK_IMPORTED_MODULE_3__.CoerceoRegularMove) {
+        _this2.lastStart = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(move.getStart());
+        _this2.lastEnd = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(move.getEnd());
       }
     })();
   }
   hideLastMove() {
-    this.lastStart = _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.MGPOptional.empty();
-    this.lastEnd = _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.MGPOptional.empty();
+    this.lastStart = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+    this.lastEnd = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
   }
   onPyramidClick(coord) {
     var _this3 = this;
@@ -18434,12 +18434,12 @@ class CoerceoComponent extends src_app_components_game_components_game_component
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       const clickedPiece = _this6.state.getPieceAt(coord);
       if (clickedPiece.is(_this6.state.getCurrentOpponent())) {
-        const move = src_app_games_coerceo_CoerceoMove__WEBPACK_IMPORTED_MODULE_2__.CoerceoTileExchangeMove.of(coord);
+        const move = src_app_games_coerceo_CoerceoMove__WEBPACK_IMPORTED_MODULE_3__.CoerceoTileExchangeMove.of(coord);
         return _this6.chooseMove(move);
       } else if (clickedPiece.is(_this6.state.getCurrentPlayer())) {
-        _this6.chosenCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.MGPOptional.of(coord);
+        _this6.chosenCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(coord);
         _this6.showHighlight();
-        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.MGPValidation.SUCCESS;
+        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.SUCCESS;
       } else {
         return _this6.cancelMove(src_app_games_coerceo_CoerceoFailure__WEBPACK_IMPORTED_MODULE_4__.CoerceoFailure.FIRST_CLICK_SHOULD_NOT_BE_NULL());
       }
@@ -18449,7 +18449,7 @@ class CoerceoComponent extends src_app_components_game_components_game_component
     var _this7 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       if (_this7.possibleLandings.some(c => c.equals(coord))) {
-        const move = src_app_games_coerceo_CoerceoMove__WEBPACK_IMPORTED_MODULE_2__.CoerceoRegularMove.of(_this7.chosenCoord.get(), coord);
+        const move = src_app_games_coerceo_CoerceoMove__WEBPACK_IMPORTED_MODULE_3__.CoerceoRegularMove.of(_this7.chosenCoord.get(), coord);
         return _this7.chooseMove(move);
       } else {
         return _this7.cancelMove(src_app_games_coerceo_CoerceoFailure__WEBPACK_IMPORTED_MODULE_4__.CoerceoFailure.INVALID_DISTANCE());
@@ -19042,10 +19042,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   ConnectSixComponent: () => (/* binding */ ConnectSixComponent)
 /* harmony export */ });
 /* harmony import */ var _home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 89204);
-/* harmony import */ var _ConnectSixRules__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ConnectSixRules */ 90647);
-/* harmony import */ var _ConnectSixMove__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ConnectSixMove */ 6871);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @everyboard/lib */ 65042);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @everyboard/lib */ 65042);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _ConnectSixRules__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ConnectSixRules */ 90647);
+/* harmony import */ var _ConnectSixMove__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ConnectSixMove */ 6871);
 /* harmony import */ var src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/jscaip/Coord */ 16904);
 /* harmony import */ var src_app_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/jscaip/RulesFailure */ 68566);
 /* harmony import */ var src_app_components_game_components_goban_game_component_GobanGameComponent__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/app/components/game-components/goban-game-component/GobanGameComponent */ 41750);
@@ -19125,28 +19125,28 @@ function ConnectSixComponent__svg_circle_4_Template(rf, ctx) {
   }
 }
 class ConnectSixComponent extends src_app_components_game_components_goban_game_component_GobanGameComponent__WEBPACK_IMPORTED_MODULE_6__.GobanGameComponent {
-  droppedCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.MGPOptional.empty();
+  droppedCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
   lastMoved = [];
   victoryCoords = [];
   constructor(messageDisplayer, cdr) {
     super(messageDisplayer, cdr);
     this.setRulesAndNode('ConnectSix');
     this.availableAIs = [new _ConnectSixAlignmentMinimax__WEBPACK_IMPORTED_MODULE_9__.ConnectSixAlignmentMinimax(), new src_app_jscaip_AI_MCTS__WEBPACK_IMPORTED_MODULE_7__.MCTS($localize`MCTS`, new _ConnectSixMoveGenerator__WEBPACK_IMPORTED_MODULE_8__.ConnectSixMoveGenerator(), this.rules)];
-    this.encoder = _ConnectSixMove__WEBPACK_IMPORTED_MODULE_2__.ConnectSixMove.encoder;
+    this.encoder = _ConnectSixMove__WEBPACK_IMPORTED_MODULE_3__.ConnectSixMove.encoder;
   }
   updateBoard(_triggerAnimation) {
     var _this = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       const state = _this.getState();
       _this.board = state.getCopiedBoard();
-      _this.victoryCoords = _ConnectSixRules__WEBPACK_IMPORTED_MODULE_1__.ConnectSixRules.getVictoriousCoords(state);
+      _this.victoryCoords = _ConnectSixRules__WEBPACK_IMPORTED_MODULE_2__.ConnectSixRules.getVictoriousCoords(state);
       _this.createHoshis();
     })();
   }
   showLastMove(move) {
     var _this2 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      if (move instanceof _ConnectSixMove__WEBPACK_IMPORTED_MODULE_2__.ConnectSixFirstMove) {
+      if (move instanceof _ConnectSixMove__WEBPACK_IMPORTED_MODULE_3__.ConnectSixFirstMove) {
         _this2.lastMoved = [move.coord];
       } else {
         _this2.lastMoved = [move.getFirst(), move.getSecond()];
@@ -19167,7 +19167,7 @@ class ConnectSixComponent extends src_app_components_game_components_goban_game_
       }
       const clickedCoord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_4__.Coord(x, y);
       if (_this3.getState().turn === 0) {
-        const move = _ConnectSixMove__WEBPACK_IMPORTED_MODULE_2__.ConnectSixFirstMove.of(clickedCoord);
+        const move = _ConnectSixMove__WEBPACK_IMPORTED_MODULE_3__.ConnectSixFirstMove.of(clickedCoord);
         return _this3.chooseMove(move);
       } else {
         if (_this3.getState().getPieceAt(clickedCoord).isPlayer()) {
@@ -19176,12 +19176,12 @@ class ConnectSixComponent extends src_app_components_game_components_goban_game_
           if (_this3.droppedCoord.equalsValue(clickedCoord)) {
             return _this3.cancelMove();
           } else {
-            const move = _ConnectSixMove__WEBPACK_IMPORTED_MODULE_2__.ConnectSixDrops.of(_this3.droppedCoord.get(), clickedCoord);
+            const move = _ConnectSixMove__WEBPACK_IMPORTED_MODULE_3__.ConnectSixDrops.of(_this3.droppedCoord.get(), clickedCoord);
             return _this3.chooseMove(move);
           }
         } else {
-          _this3.droppedCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.MGPOptional.of(clickedCoord);
-          return _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.MGPValidation.SUCCESS;
+          _this3.droppedCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(clickedCoord);
+          return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.SUCCESS;
         }
       }
     })();
@@ -19205,7 +19205,7 @@ class ConnectSixComponent extends src_app_components_game_components_goban_game_
     return classes;
   }
   cancelMoveAttempt() {
-    this.droppedCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.MGPOptional.empty();
+    this.droppedCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
   }
   static ɵfac = function ConnectSixComponent_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || ConnectSixComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵdirectiveInject"](src_app_services_MessageDisplayer__WEBPACK_IMPORTED_MODULE_10__.MessageDisplayer), _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_11__.ChangeDetectorRef));
@@ -19912,12 +19912,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   ConspirateursComponent: () => (/* binding */ ConspirateursComponent)
 /* harmony export */ });
 /* harmony import */ var _home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 89204);
-/* harmony import */ var src_app_components_game_components_game_component_GameComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/components/game-components/game-component/GameComponent */ 58047);
-/* harmony import */ var src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/jscaip/Coord */ 16904);
-/* harmony import */ var src_app_jscaip_Vector__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/jscaip/Vector */ 33366);
-/* harmony import */ var src_app_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/jscaip/RulesFailure */ 68566);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @everyboard/lib */ 65042);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @everyboard/lib */ 65042);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var src_app_components_game_components_game_component_GameComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/components/game-components/game-component/GameComponent */ 58047);
+/* harmony import */ var src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/jscaip/Coord */ 16904);
+/* harmony import */ var src_app_jscaip_Vector__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/jscaip/Vector */ 33366);
+/* harmony import */ var src_app_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/jscaip/RulesFailure */ 68566);
 /* harmony import */ var _ConspirateursMove__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./ConspirateursMove */ 44360);
 /* harmony import */ var _ConspirateursRules__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./ConspirateursRules */ 95922);
 /* harmony import */ var _ConspirateursState__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./ConspirateursState */ 62176);
@@ -20076,11 +20076,11 @@ function ConspirateursComponent__svg_polyline_6_Template(rf, ctx) {
     _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵattribute"]("points", ctx_r2.lastMoveArrow.get());
   }
 }
-class ConspirateursComponent extends src_app_components_game_components_game_component_GameComponent__WEBPACK_IMPORTED_MODULE_1__.GameComponent {
+class ConspirateursComponent extends src_app_components_game_components_game_component_GameComponent__WEBPACK_IMPORTED_MODULE_2__.GameComponent {
   PIECE_RADIUS;
   ALL_SHELTERS = _ConspirateursState__WEBPACK_IMPORTED_MODULE_8__.ConspirateursState.ALL_SHELTERS;
   CENTRAL_ZONE_START = _ConspirateursState__WEBPACK_IMPORTED_MODULE_8__.ConspirateursState.CENTRAL_ZONE_TOP_LEFT;
-  CENTRAL_ZONE_SIZE = new src_app_jscaip_Vector__WEBPACK_IMPORTED_MODULE_3__.Vector(_ConspirateursState__WEBPACK_IMPORTED_MODULE_8__.ConspirateursState.CENTRAL_ZONE_BOTTOM_RIGHT.x - _ConspirateursState__WEBPACK_IMPORTED_MODULE_8__.ConspirateursState.CENTRAL_ZONE_TOP_LEFT.x + 1, _ConspirateursState__WEBPACK_IMPORTED_MODULE_8__.ConspirateursState.CENTRAL_ZONE_BOTTOM_RIGHT.y - _ConspirateursState__WEBPACK_IMPORTED_MODULE_8__.ConspirateursState.CENTRAL_ZONE_TOP_LEFT.y + 1);
+  CENTRAL_ZONE_SIZE = new src_app_jscaip_Vector__WEBPACK_IMPORTED_MODULE_4__.Vector(_ConspirateursState__WEBPACK_IMPORTED_MODULE_8__.ConspirateursState.CENTRAL_ZONE_BOTTOM_RIGHT.x - _ConspirateursState__WEBPACK_IMPORTED_MODULE_8__.ConspirateursState.CENTRAL_ZONE_TOP_LEFT.x + 1, _ConspirateursState__WEBPACK_IMPORTED_MODULE_8__.ConspirateursState.CENTRAL_ZONE_BOTTOM_RIGHT.y - _ConspirateursState__WEBPACK_IMPORTED_MODULE_8__.ConspirateursState.CENTRAL_ZONE_TOP_LEFT.y + 1);
   viewInfo = {
     dropPhase: true,
     boardInfo: [],
@@ -20088,12 +20088,12 @@ class ConspirateursComponent extends src_app_components_game_components_game_com
     lastMoveArrow: '',
     sidePieces: src_app_jscaip_PlayerMap__WEBPACK_IMPORTED_MODULE_12__.PlayerNumberMap.of(20, 20)
   };
-  selected = _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.empty();
-  jumpInConstruction = _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.empty();
-  lastMoveArrow = _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.empty();
-  lastDrop = _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.empty();
-  lastJump = _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.empty();
-  lastStep = _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.empty();
+  selected = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+  jumpInConstruction = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+  lastMoveArrow = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+  lastDrop = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+  lastJump = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+  lastStep = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
   victoriousCoords = [];
   constructor(messageDisplayer, cdr) {
     super(messageDisplayer, cdr);
@@ -20110,10 +20110,10 @@ class ConspirateursComponent extends src_app_components_game_components_game_com
     })();
   }
   updateScores() {
-    this.scores = _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.of(this.rules.getProtectedPieces(this.getState()));
+    this.scores = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(this.rules.getProtectedPieces(this.getState()));
   }
   getScoreName() {
-    return src_app_components_game_components_game_component_GameComponent__WEBPACK_IMPORTED_MODULE_1__.ScoreName.PROTECTED_PIECES;
+    return src_app_components_game_components_game_component_GameComponent__WEBPACK_IMPORTED_MODULE_2__.ScoreName.PROTECTED_PIECES;
   }
   updateViewInfo() {
     const state = this.getState();
@@ -20122,7 +20122,7 @@ class ConspirateursComponent extends src_app_components_game_components_game_com
     for (let y = 0; y < state.getHeight(); y++) {
       this.viewInfo.boardInfo.push([]);
       for (let x = 0; x < state.getWidth(); x++) {
-        const coord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(x, y);
+        const coord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(x, y);
         const content = state.getPieceAt(coord);
         const squareInfo = {
           coord,
@@ -20171,7 +20171,7 @@ class ConspirateursComponent extends src_app_components_game_components_game_com
     }
   }
   hasPieceToDraw(x, y) {
-    const coord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(x, y);
+    const coord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(x, y);
     if (this.isStartingCoordOfMovingPiece(coord)) {
       return false;
     }
@@ -20184,7 +20184,7 @@ class ConspirateursComponent extends src_app_components_game_components_game_com
     return this.jumpInConstruction.isPresent() && this.jumpInConstruction.get().getEndingCoord().equals(coord);
   }
   getPieceClasses(x, y) {
-    const coord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(x, y);
+    const coord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(x, y);
     const piece = this.getState().getPieceAt(coord);
     const classes = [this.getPlayerClass(piece)];
     if (this.selected.equalsValue(coord)) {
@@ -20200,7 +20200,7 @@ class ConspirateursComponent extends src_app_components_game_components_game_com
     return classes;
   }
   getSpaceClasses(x, y) {
-    const coord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(x, y);
+    const coord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(x, y);
     if (this.isPartOfJumpInProgress(coord) || this.isPartOfLastMove(coord)) {
       return ['moved-fill'];
     } else if (this.victoriousCoords.some(c => c.equals(coord))) {
@@ -20225,9 +20225,9 @@ class ConspirateursComponent extends src_app_components_game_components_game_com
     var _this2 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       if (_ConspirateursMove__WEBPACK_IMPORTED_MODULE_6__.ConspirateursMove.isDrop(move)) {
-        _this2.lastDrop = _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.of(move.coord);
+        _this2.lastDrop = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(move.coord);
       } else if (_ConspirateursMove__WEBPACK_IMPORTED_MODULE_6__.ConspirateursMove.isSimple(move)) {
-        _this2.lastStep = _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.of(move);
+        _this2.lastStep = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(move);
       } else {
         let lastMoveArrow = '';
         for (const coord of move.coords) {
@@ -20237,22 +20237,22 @@ class ConspirateursComponent extends src_app_components_game_components_game_com
           lastMoveArrow += coord.y * _this2.SPACE_SIZE + _this2.SPACE_SIZE / 2 + _this2.STROKE_WIDTH;
           lastMoveArrow += ' ';
         }
-        _this2.lastMoveArrow = _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.of(lastMoveArrow);
-        _this2.lastJump = _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.of(move);
+        _this2.lastMoveArrow = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(lastMoveArrow);
+        _this2.lastJump = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(move);
       }
     })();
   }
   hideLastMove() {
-    this.lastMoveArrow = _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.empty();
-    this.lastDrop = _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.empty();
-    this.lastJump = _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.empty();
-    this.lastStep = _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.empty();
+    this.lastMoveArrow = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+    this.lastDrop = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+    this.lastJump = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+    this.lastStep = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
   }
   cancelMoveAttempt() {
     var _this3 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      _this3.jumpInConstruction = _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.empty();
-      _this3.selected = _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.empty();
+      _this3.jumpInConstruction = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+      _this3.selected = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
     })();
   }
   onClick(coord) {
@@ -20268,11 +20268,11 @@ class ConspirateursComponent extends src_app_components_game_components_game_com
         if (_this4.selected.equalsValue(coord)) {
           return _this4.cancelMove();
         } else {
-          _this4.selected = _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.of(coord);
-          _this4.jumpInConstruction = _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.empty();
+          _this4.selected = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(coord);
+          _this4.jumpInConstruction = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
         }
         _this4.updateViewInfo();
-        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPValidation.SUCCESS;
+        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.SUCCESS;
       } else if (_this4.jumpInConstruction.isPresent()) {
         return _this4.constructJump(coord);
       } else if (_this4.selected.isPresent()) {
@@ -20281,9 +20281,9 @@ class ConspirateursComponent extends src_app_components_game_components_game_com
         const move = _ConspirateursMove__WEBPACK_IMPORTED_MODULE_6__.ConspirateursMoveDrop.of(coord);
         return _this4.chooseMove(move);
       } else if (piece.isNone()) {
-        return _this4.cancelMove(src_app_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_4__.RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_EMPTY());
+        return _this4.cancelMove(src_app_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_5__.RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_EMPTY());
       } else {
-        return _this4.cancelMove(src_app_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_4__.RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
+        return _this4.cancelMove(src_app_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_5__.RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
       }
     })();
   }
@@ -20313,9 +20313,9 @@ class ConspirateursComponent extends src_app_components_game_components_game_com
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       const state = _this6.getState();
       if (_this6.rules.jumpHasPossibleNextTargets(jump, state)) {
-        _this6.jumpInConstruction = _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.of(jump);
+        _this6.jumpInConstruction = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(jump);
         _this6.updateViewInfo();
-        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPValidation.SUCCESS;
+        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.SUCCESS;
       } else {
         return _this6.chooseMove(jump);
       }
@@ -21341,10 +21341,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   DiaballikComponent: () => (/* binding */ DiaballikComponent)
 /* harmony export */ });
 /* harmony import */ var _home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 89204);
-/* harmony import */ var _DiaballikRules__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DiaballikRules */ 65202);
-/* harmony import */ var _DiaballikMove__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./DiaballikMove */ 53960);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @everyboard/lib */ 65042);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @everyboard/lib */ 65042);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _DiaballikRules__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./DiaballikRules */ 65202);
+/* harmony import */ var _DiaballikMove__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./DiaballikMove */ 53960);
 /* harmony import */ var src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/jscaip/Coord */ 16904);
 /* harmony import */ var src_app_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/jscaip/RulesFailure */ 68566);
 /* harmony import */ var _DiaballikDistanceMinimax__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./DiaballikDistanceMinimax */ 81767);
@@ -21560,11 +21560,11 @@ class DiaballikComponent extends src_app_components_game_components_rectangular_
   WIDTH;
   HEIGHT;
   INDICATOR_SIZE = 20;
-  victoryCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.MGPOptional.empty();
+  victoryCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
   loserCoords = [];
   blockedLines = [];
   indicators = [];
-  currentSelection = _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.MGPOptional.empty();
+  currentSelection = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
   hasMadePass = false;
   translationsMade = 0;
   subMoves = [];
@@ -21579,7 +21579,7 @@ class DiaballikComponent extends src_app_components_game_components_rectangular_
     this.hasAsymmetricBoard = true;
     this.WIDTH = this.getState().getWidth();
     this.HEIGHT = this.getState().getHeight();
-    this.encoder = _DiaballikMove__WEBPACK_IMPORTED_MODULE_2__.DiaballikMove.encoder;
+    this.encoder = _DiaballikMove__WEBPACK_IMPORTED_MODULE_3__.DiaballikMove.encoder;
     this.availableAIs = [new _DiaballikDistanceMinimax__WEBPACK_IMPORTED_MODULE_6__.DiaballikDistanceMinimax($localize`AllMoves`, new _DiaballikMoveGenerator__WEBPACK_IMPORTED_MODULE_7__.DiaballikMoveGenerator(true)), new src_app_jscaip_AI_MCTS__WEBPACK_IMPORTED_MODULE_8__.MCTS($localize`MCTS`, this.moveGenerator, this.rules), new src_app_jscaip_AI_MCTS__WEBPACK_IMPORTED_MODULE_8__.MCTS($localize`MCTS (3 only)`, new _DiaballikFilteredMoveGenerator__WEBPACK_IMPORTED_MODULE_13__.DiaballikFilteredMoveGenerator(3, false), this.rules), new src_app_jscaip_AI_MCTS__WEBPACK_IMPORTED_MODULE_8__.MCTS($localize`MCTS (without dups)`, new _DiaballikMoveGenerator__WEBPACK_IMPORTED_MODULE_7__.DiaballikMoveGenerator(true), this.rules), new src_app_jscaip_AI_MCTS__WEBPACK_IMPORTED_MODULE_8__.MCTS($localize`MCTS (3, no dups)`, new _DiaballikFilteredMoveGenerator__WEBPACK_IMPORTED_MODULE_13__.DiaballikFilteredMoveGenerator(3, false), this.rules)];
     for (let i = 1; i <= 3; i++) {
       this.availableAIs.push(new _DiaballikDistanceMinimax__WEBPACK_IMPORTED_MODULE_6__.DiaballikDistanceMinimax($localize`Distance (${i})`, new _DiaballikFilteredMoveGenerator__WEBPACK_IMPORTED_MODULE_13__.DiaballikFilteredMoveGenerator(i)));
@@ -21592,14 +21592,14 @@ class DiaballikComponent extends src_app_components_game_components_rectangular_
       _this.board = state.board; // Needed by RectangularGameComponent
       _this.stateInConstruction = state;
       const possibleVictory = _this.rules.getVictoryOrDefeatCoords(state);
-      _this.victoryCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.MGPOptional.empty();
+      _this.victoryCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
       _this.loserCoords = [];
       _this.blockedLines = [];
       if (possibleVictory.isPresent()) {
         const victory = possibleVictory.get();
-        if (victory instanceof _DiaballikRules__WEBPACK_IMPORTED_MODULE_1__.VictoryCoord) {
-          _this.victoryCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.MGPOptional.of(victory.coord);
-        } else if (victory instanceof _DiaballikRules__WEBPACK_IMPORTED_MODULE_1__.DefeatCoords) {
+        if (victory instanceof _DiaballikRules__WEBPACK_IMPORTED_MODULE_2__.VictoryCoord) {
+          _this.victoryCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(victory.coord);
+        } else if (victory instanceof _DiaballikRules__WEBPACK_IMPORTED_MODULE_2__.DefeatCoords) {
           _this.loserCoords = victory.allLoserPieces;
           // If Player.ZERO won, the line will be placed in front of their piece directly.
           // If Player.ONE won, we need to shift them by one space size so that they appear in front of the piece
@@ -21618,20 +21618,20 @@ class DiaballikComponent extends src_app_components_game_components_rectangular_
     var _this2 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       for (const subMove of move.getSubMoves()) {
-        if (subMove instanceof _DiaballikMove__WEBPACK_IMPORTED_MODULE_2__.DiaballikTranslation) {
+        if (subMove instanceof _DiaballikMove__WEBPACK_IMPORTED_MODULE_3__.DiaballikTranslation) {
           _this2.lastMovedPieces.push(subMove.getStart(), subMove.getEnd());
         } else {
-          _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.Utils.assert(subMove instanceof _DiaballikMove__WEBPACK_IMPORTED_MODULE_2__.DiaballikBallPass, 'DiaballikMove can only be a translation or a pass');
+          _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.Utils.assert(subMove instanceof _DiaballikMove__WEBPACK_IMPORTED_MODULE_3__.DiaballikBallPass, 'DiaballikMove can only be a translation or a pass');
           _this2.lastMovedBalls.push(subMove.getStart(), subMove.getEnd());
         }
       }
     })();
   }
   showSubMove(subMove) {
-    if (subMove instanceof _DiaballikMove__WEBPACK_IMPORTED_MODULE_2__.DiaballikTranslation) {
+    if (subMove instanceof _DiaballikMove__WEBPACK_IMPORTED_MODULE_3__.DiaballikTranslation) {
       this.currentlyMovedPieces.push(subMove.getStart(), subMove.getEnd());
     } else {
-      _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.Utils.assert(subMove instanceof _DiaballikMove__WEBPACK_IMPORTED_MODULE_2__.DiaballikBallPass, 'DiaballikMove can only be a translation or a pass');
+      _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.Utils.assert(subMove instanceof _DiaballikMove__WEBPACK_IMPORTED_MODULE_3__.DiaballikBallPass, 'DiaballikMove can only be a translation or a pass');
       this.currentlyMovedBalls.push(subMove.getStart(), subMove.getEnd());
     }
   }
@@ -21641,7 +21641,7 @@ class DiaballikComponent extends src_app_components_game_components_rectangular_
   }
   cancelMoveAttempt() {
     this.stateInConstruction = this.getState();
-    this.currentSelection = _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.MGPOptional.empty();
+    this.currentSelection = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
     this.hasMadePass = false;
     this.translationsMade = 0;
     this.subMoves = [];
@@ -21695,16 +21695,16 @@ class DiaballikComponent extends src_app_components_game_components_rectangular_
   addSubMove(subMove, stateAfterSubMove) {
     var _this3 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      _this3.currentSelection = _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.MGPOptional.empty();
+      _this3.currentSelection = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
       _this3.indicators = [];
       _this3.subMoves.push(subMove);
       _this3.stateInConstruction = stateAfterSubMove;
       if (_this3.subMoves.length === 3) {
-        const move = new _DiaballikMove__WEBPACK_IMPORTED_MODULE_2__.DiaballikMove(_this3.subMoves[0], _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.MGPOptional.of(_this3.subMoves[1]), _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.MGPOptional.of(_this3.subMoves[2]));
+        const move = new _DiaballikMove__WEBPACK_IMPORTED_MODULE_3__.DiaballikMove(_this3.subMoves[0], _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(_this3.subMoves[1]), _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(_this3.subMoves[2]));
         return _this3.chooseMove(move);
       } else {
         _this3.showSubMove(subMove);
-        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.MGPValidation.SUCCESS;
+        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.SUCCESS;
       }
     })();
   }
@@ -21727,13 +21727,13 @@ class DiaballikComponent extends src_app_components_game_components_rectangular_
         const selection = _this5.currentSelection.get();
         if (selection.equals(clickedCoord)) {
           // Just deselects
-          _this5.currentSelection = _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.MGPOptional.empty();
+          _this5.currentSelection = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
           _this5.indicators = [];
           if (_this5.subMoves.length === 0) {
             // No sub moves constructed at all, cancel the move to show the last one
             return _this5.cancelMove();
           }
-          return _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.MGPValidation.SUCCESS;
+          return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.SUCCESS;
         }
         if (_this5.stateInConstruction.getPieceAt(selection).holdsBall) {
           return _this5.performPass(selection, clickedCoord);
@@ -21750,13 +21750,13 @@ class DiaballikComponent extends src_app_components_game_components_rectangular_
             // At most two translations are allowed
             return _this5.cancelMove(_DiaballikFailure__WEBPACK_IMPORTED_MODULE_10__.DiaballikFailure.CAN_ONLY_TRANSLATE_TWICE());
           } else {
-            _this5.currentSelection = _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.MGPOptional.of(clickedCoord);
+            _this5.currentSelection = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(clickedCoord);
             if (clickedPiece.holdsBall) {
               _this5.indicators = _this5.moveGenerator.getPassEnds(_this5.stateInConstruction, clickedCoord);
             } else {
               _this5.indicators = _this5.moveGenerator.getTranslationEnds(_this5.stateInConstruction, clickedCoord);
             }
-            return _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.MGPValidation.SUCCESS;
+            return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.SUCCESS;
           }
         } else if (clickedPiece.owner.isNone()) {
           return _this5.cancelMove(src_app_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_5__.RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_EMPTY());
@@ -21767,7 +21767,7 @@ class DiaballikComponent extends src_app_components_game_components_rectangular_
     })();
   }
   performPass(start, end) {
-    const pass = _DiaballikMove__WEBPACK_IMPORTED_MODULE_2__.DiaballikBallPass.from(start, end);
+    const pass = _DiaballikMove__WEBPACK_IMPORTED_MODULE_3__.DiaballikBallPass.from(start, end);
     if (pass.isSuccess()) {
       const passLegality = this.rules.isLegalPass(this.stateInConstruction, pass.get());
       if (passLegality.isSuccess()) {
@@ -21781,7 +21781,7 @@ class DiaballikComponent extends src_app_components_game_components_rectangular_
     }
   }
   performTranslation(start, end) {
-    const translation = _DiaballikMove__WEBPACK_IMPORTED_MODULE_2__.DiaballikTranslation.from(start, end);
+    const translation = _DiaballikMove__WEBPACK_IMPORTED_MODULE_3__.DiaballikTranslation.from(start, end);
     if (translation.isSuccess()) {
       const translationLegality = this.rules.isLegalTranslation(this.stateInConstruction, translation.get());
       if (translationLegality.isSuccess()) {
@@ -21804,13 +21804,13 @@ class DiaballikComponent extends src_app_components_game_components_rectangular_
       if (clickValidity.isFailure()) {
         return _this6.cancelMove(clickValidity.getReason());
       }
-      let second = _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.MGPOptional.empty();
+      let second = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
       if (_this6.subMoves.length >= 2) {
-        second = _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.MGPOptional.of(_this6.subMoves[1]);
+        second = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(_this6.subMoves[1]);
       }
       // Note: user can't click on done if there are either no sub move (button doesn't appear)
       // or if there are three submoves (as the move would have been performed directly)
-      const move = new _DiaballikMove__WEBPACK_IMPORTED_MODULE_2__.DiaballikMove(_this6.subMoves[0], second, _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.MGPOptional.empty());
+      const move = new _DiaballikMove__WEBPACK_IMPORTED_MODULE_3__.DiaballikMove(_this6.subMoves[0], second, _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty());
       return _this6.chooseMove(move);
     })();
   }
@@ -22409,13 +22409,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   DiamComponent: () => (/* binding */ DiamComponent)
 /* harmony export */ });
 /* harmony import */ var _home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 89204);
-/* harmony import */ var src_app_components_game_components_game_component_GameComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/components/game-components/game-component/GameComponent */ 58047);
-/* harmony import */ var src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/jscaip/Coord */ 16904);
-/* harmony import */ var src_app_jscaip_Vector__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/jscaip/Vector */ 33366);
-/* harmony import */ var src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/jscaip/Player */ 22092);
-/* harmony import */ var src_app_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/jscaip/RulesFailure */ 68566);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @everyboard/lib */ 65042);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @everyboard/lib */ 65042);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var src_app_components_game_components_game_component_GameComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/components/game-components/game-component/GameComponent */ 58047);
+/* harmony import */ var src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/jscaip/Coord */ 16904);
+/* harmony import */ var src_app_jscaip_Vector__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/jscaip/Vector */ 33366);
+/* harmony import */ var src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/jscaip/Player */ 22092);
+/* harmony import */ var src_app_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/app/jscaip/RulesFailure */ 68566);
 /* harmony import */ var _DiamFailure__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./DiamFailure */ 70639);
 /* harmony import */ var _DiamMove__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./DiamMove */ 54272);
 /* harmony import */ var _DiamPiece__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./DiamPiece */ 77607);
@@ -22467,9 +22467,9 @@ function DiamComponent__svg_g_5_Template(rf, ctx) {
   if (rf & 2) {
     const x_r2 = ctx.$implicit;
     const ctx_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵnextContext"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵpropertyInterpolate1"]("id", "board_space_", x_r2, "");
+    _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵpropertyInterpolate1"]("id", "board-space-", x_r2, "");
     _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵpropertyInterpolate1"]("id", "click_", x_r2, "");
+    _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵpropertyInterpolate1"]("id", "click-", x_r2, "");
     _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵproperty"]("ngClass", ctx_r2.viewInfo.boardInfo[x_r2].spaceClasses);
     _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵattribute"]("d", ctx_r2.BOARD_PATHS[x_r2]);
     _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵadvance"]();
@@ -22494,7 +22494,7 @@ function DiamComponent__svg_g_6__svg_g_1_Template(rf, ctx) {
   if (rf & 2) {
     const piece_r5 = ctx.$implicit;
     const x_r6 = _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵnextContext"]().$implicit;
-    _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵpropertyInterpolate2"]("id", "click_", x_r6, "_", piece_r5.y, "");
+    _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵpropertyInterpolate2"]("id", "click-", x_r6, "-", piece_r5.y, "");
     _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵproperty"]("ngClass", piece_r5.foregroundClasses);
     _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵadvance"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵproperty"]("ngClass", piece_r5.backgroundClasses);
@@ -22535,7 +22535,7 @@ function DiamComponent__svg_g_7__svg_g_1_Template(rf, ctx) {
   if (rf & 2) {
     const piece_r9 = ctx.$implicit;
     const z_r10 = ctx.index;
-    _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵpropertyInterpolate3"]("id", "piece_", piece_r9.actualPiece.owner.toString(), "_", piece_r9.actualPiece.otherPieceType ? 1 : 0, "_", z_r10, "");
+    _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵpropertyInterpolate3"]("id", "piece-", piece_r9.actualPiece.owner.toString(), "-", piece_r9.actualPiece.otherPieceType ? 1 : 0, "-", z_r10, "");
     _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵproperty"]("ngClass", piece_r9.foregroundClasses);
     _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵadvance"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵproperty"]("ngClass", piece_r9.backgroundClasses);
@@ -22558,19 +22558,19 @@ function DiamComponent__svg_g_7_Template(rf, ctx) {
     _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵproperty"]("ngForOf", ctx_r2.viewInfo.remainingPieces.get(player_r11).get());
   }
 }
-class DiamComponent extends src_app_components_game_components_game_component_GameComponent__WEBPACK_IMPORTED_MODULE_1__.GameComponent {
-  static CENTER = [new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(40, 160), new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(100, 50), new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(255, 2), new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(400, 50), new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(460, 160), new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(400, 270), new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(255, 320), new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(100, 270)];
+class DiamComponent extends src_app_components_game_components_game_component_GameComponent__WEBPACK_IMPORTED_MODULE_2__.GameComponent {
+  static CENTER = [new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(40, 160), new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(100, 50), new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(255, 2), new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(400, 50), new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(460, 160), new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(400, 270), new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(255, 320), new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(100, 270)];
   static PIECE_HEIGHT = 36;
   BOARD_PATHS = ['M 2.8324855,277.57643 164.46619,228.81694 170.57257,148.42756 32.571357,104.19835 Z', 'M 170.57257,148.42237 246.4213,96.276913 195.13813,2.0233391 32.571357,104.19315 Z', 'm 195.14159,2.0268021 205.0898,0.010821 -52.1686,94.2453509 -101.64149,-0.0057 z', 'M 348.06279,96.281239 400.23529,2.0330788 564.39307,104.19207 424.66384,148.41891 Z', 'm 424.66384,148.42237 7.27882,80.37683 164.9712,48.72701 -32.52079,-173.33068 z', 'm 431.94266,228.80481 -75.73854,62.15055 79.06197,135.86929 161.64688,-149.29953 z', 'm 356.20412,290.9506 79.06197,135.86929 -268.2864,0.0433 74.14082,-135.90175 z', 'M 241.12051,290.96379 166.97969,426.86556 2.8324855,277.57708 164.46619,228.81759 Z'];
   DECORATION_PATHS = ['m 170.57257,148.42302 v 40.08918 l -6.11049,80.38634 v -40.09025 z', 'm 170.57646,188.51696 v -40.08918 l 75.8509,-52.140047 v 40.086147 z', 'm 246.42323,96.285785 v 40.086155 l 101.63847,-0.003 0.001,-40.082256 z', 'm 424.66037,148.42345 v 40.08377 l -76.60213,-52.14178 10e-4,-40.082033 z', 'm 424.66037,148.42193 v 40.08377 l 7.27884,80.37445 v -40.08377 z', 'm 435.26609,466.90582 v -40.08615 l 161.64688,-149.2995 8.9e-4,40.08701 z', 'm 166.97969,426.86815 v 40.08638 l 268.28379,-0.0433 v -40.08031 z', 'm 2.8324855,277.57297 v 40.08636 L 166.97969,466.94782 v -40.08636 z'];
-  selected = _everyboard_lib__WEBPACK_IMPORTED_MODULE_6__.MGPOptional.empty();
+  selected = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
   viewInfo = {
     boardInfo: [],
-    remainingPieces: new _everyboard_lib__WEBPACK_IMPORTED_MODULE_6__.MGPMap([{
-      key: src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_4__.Player.ZERO,
+    remainingPieces: new _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPMap([{
+      key: src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_5__.Player.ZERO,
       value: []
     }, {
-      key: src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_4__.Player.ONE,
+      key: src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_5__.Player.ONE,
       value: []
     }])
   };
@@ -22583,7 +22583,7 @@ class DiamComponent extends src_app_components_game_components_game_component_Ga
   onSpaceClick(x) {
     var _this = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      const clickValidity = yield _this.canUserPlay('#click_' + x);
+      const clickValidity = yield _this.canUserPlay('#click-' + x);
       if (clickValidity.isFailure()) {
         return _this.cancelMove(clickValidity.getReason());
       }
@@ -22616,28 +22616,28 @@ class DiamComponent extends src_app_components_game_components_game_component_Ga
   onPieceInGameClick(x, y) {
     var _this3 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      const clickValidity = yield _this3.canUserPlay('#click_' + x + '_' + y);
+      const clickValidity = yield _this3.canUserPlay('#click-' + x + '-' + y);
       if (clickValidity.isFailure()) {
         return _this3.cancelMove(clickValidity.getReason());
       }
-      const clicked = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(x, y);
+      const clicked = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(x, y);
       const clickedPiece = _this3.getState().getPieceAt(clicked);
       if (clickedPiece.owner === _this3.getCurrentPlayer()) {
         if (_this3.isSelected(null, clicked)) {
           return _this3.cancelMove();
         } else {
-          _this3.selected = _everyboard_lib__WEBPACK_IMPORTED_MODULE_6__.MGPOptional.of({
+          _this3.selected = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of({
             type: 'pieceFromBoard',
             position: clicked
           });
         }
         _this3.updateViewInfo();
-        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_6__.MGPValidation.SUCCESS;
+        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.SUCCESS;
       } else if (_this3.selected.isPresent()) {
         // This becomes a click on the space
         return _this3.onSpaceClickAfterCheck(x);
       } else {
-        return _this3.cancelMove(src_app_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_5__.RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
+        return _this3.cancelMove(src_app_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_6__.RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
       }
     })();
   }
@@ -22649,23 +22649,23 @@ class DiamComponent extends src_app_components_game_components_game_component_Ga
         return _this4.cancelMove(clickValidity.getReason());
       }
       if (piece.owner === _this4.getCurrentOpponent()) {
-        return _this4.cancelMove(src_app_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_5__.RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
+        return _this4.cancelMove(src_app_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_6__.RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
       }
       if (_this4.isSelected(piece)) {
-        _this4.selected = _everyboard_lib__WEBPACK_IMPORTED_MODULE_6__.MGPOptional.empty();
+        return _this4.cancelMove();
       } else {
-        _this4.selected = _everyboard_lib__WEBPACK_IMPORTED_MODULE_6__.MGPOptional.of({
+        _this4.selected = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of({
           type: 'pieceFromReserve',
           piece
         });
       }
       _this4.updateViewInfo();
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_6__.MGPValidation.SUCCESS;
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.SUCCESS;
     })();
   }
   getPieceId(piece, z) {
     const owner = piece.owner;
-    return '#piece_' + owner.toString() + '_' + (piece.otherPieceType ? 1 : 0) + '_' + z;
+    return '#piece-' + owner.toString() + '-' + (piece.otherPieceType ? 1 : 0) + '-' + z;
   }
   isSelected(piece, position) {
     if (this.selected.isAbsent()) {
@@ -22690,9 +22690,9 @@ class DiamComponent extends src_app_components_game_components_game_component_Ga
     const x = drop.getTarget();
     const y = stateBefore.getStackHeight(drop.getTarget());
     const endDrawPosition = this.getDrawPositionOnBoard(x, y);
-    const end = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(x, y);
+    const end = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(x, y);
     return [{
-      start: _everyboard_lib__WEBPACK_IMPORTED_MODULE_6__.MGPOptional.empty(),
+      start: _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty(),
       end,
       startDrawPosition,
       endDrawPosition
@@ -22705,8 +22705,8 @@ class DiamComponent extends src_app_components_game_components_game_component_Ga
     const lastMoved = [];
     for (let sourceY = shift.start.y; sourceY < _DiamState__WEBPACK_IMPORTED_MODULE_10__.DiamState.HEIGHT && stateBefore.getPieceAtXY(sourceX, sourceY) !== _DiamPiece__WEBPACK_IMPORTED_MODULE_9__.DiamPiece.EMPTY; sourceY++, destinationY++) {
       lastMoved.push({
-        start: _everyboard_lib__WEBPACK_IMPORTED_MODULE_6__.MGPOptional.of(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(sourceX, sourceY)),
-        end: new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(destinationX, destinationY),
+        start: _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(sourceX, sourceY)),
+        end: new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(destinationX, destinationY),
         startDrawPosition: this.getDrawPositionOnBoard(sourceX, sourceY),
         endDrawPosition: this.getDrawPositionOnBoard(destinationX, destinationY)
       });
@@ -22769,11 +22769,11 @@ class DiamComponent extends src_app_components_game_components_game_component_Ga
   }
   updateRemainingPiecesInfo() {
     const currentPlayer = this.getCurrentPlayer();
-    this.viewInfo.remainingPieces = new _everyboard_lib__WEBPACK_IMPORTED_MODULE_6__.MGPMap([{
-      key: src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_4__.Player.ZERO,
+    this.viewInfo.remainingPieces = new _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPMap([{
+      key: src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_5__.Player.ZERO,
       value: []
     }, {
-      key: src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_4__.Player.ONE,
+      key: src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_5__.Player.ONE,
       value: []
     }]);
     const isPlayerTurn = this.isPlayerTurn();
@@ -22816,7 +22816,7 @@ class DiamComponent extends src_app_components_game_components_game_component_Ga
   }
   getDrawPositionRemainingPiece(piece, y) {
     let x;
-    if (piece.owner === src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_4__.Player.ZERO) {
+    if (piece.owner === src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_5__.Player.ZERO) {
       x = -100;
     } else {
       x = 600;
@@ -22827,7 +22827,7 @@ class DiamComponent extends src_app_components_game_components_game_component_Ga
     } else {
       initialY = 450;
     }
-    return new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(x, initialY).getNext(new src_app_jscaip_Vector__WEBPACK_IMPORTED_MODULE_3__.Vector(0, -y * DiamComponent.PIECE_HEIGHT));
+    return new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(x, initialY).getNext(new src_app_jscaip_Vector__WEBPACK_IMPORTED_MODULE_4__.Vector(0, -y * DiamComponent.PIECE_HEIGHT));
   }
   getPieces(x) {
     const highestAlignment = this.rules.findHighestAlignment(this.getState());
@@ -22835,7 +22835,7 @@ class DiamComponent extends src_app_components_game_components_game_component_Ga
     const infos = [];
     for (let y = 0; y < _DiamState__WEBPACK_IMPORTED_MODULE_10__.DiamState.HEIGHT; y++) {
       const piece = this.getState().getPieceAtXY(x, y);
-      const coord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(x, y);
+      const coord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(x, y);
       if (piece !== _DiamPiece__WEBPACK_IMPORTED_MODULE_9__.DiamPiece.EMPTY) {
         const foregroundClasses = [];
         if (this.pieceFromBoardIsSelected(x, y)) {
@@ -22874,12 +22874,12 @@ class DiamComponent extends src_app_components_game_components_game_component_Ga
     return false;
   }
   getDrawPositionOnBoard(x, y) {
-    return DiamComponent.CENTER[x].getNext(new src_app_jscaip_Vector__WEBPACK_IMPORTED_MODULE_3__.Vector(0, -y * DiamComponent.PIECE_HEIGHT));
+    return DiamComponent.CENTER[x].getNext(new src_app_jscaip_Vector__WEBPACK_IMPORTED_MODULE_4__.Vector(0, -y * DiamComponent.PIECE_HEIGHT));
   }
   cancelMoveAttempt() {
     var _this7 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      _this7.selected = _everyboard_lib__WEBPACK_IMPORTED_MODULE_6__.MGPOptional.empty();
+      _this7.selected = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
       yield _this7.updateBoard(false);
     })();
   }
@@ -27367,6 +27367,7 @@ class GipfComponent extends _components_game_components_game_component_Hexagonal
   }
   hideLastMove() {
     this.arrows = [];
+    this.moved = [];
     this.inserted = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
   }
   getSpaceClass(coord) {
@@ -31411,17 +31412,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   HiveComponent: () => (/* binding */ HiveComponent)
 /* harmony export */ });
 /* harmony import */ var _home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 89204);
-/* harmony import */ var src_app_components_game_components_game_component_HexagonalGameComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/components/game-components/game-component/HexagonalGameComponent */ 84086);
-/* harmony import */ var src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/jscaip/Coord */ 16904);
-/* harmony import */ var src_app_jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/jscaip/GameStatus */ 19613);
-/* harmony import */ var src_app_jscaip_HexaLayout__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/jscaip/HexaLayout */ 80579);
-/* harmony import */ var src_app_jscaip_HexaOrientation__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/jscaip/HexaOrientation */ 26135);
-/* harmony import */ var src_app_jscaip_AI_MCTS__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/app/jscaip/AI/MCTS */ 37123);
-/* harmony import */ var src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! src/app/jscaip/Player */ 22092);
-/* harmony import */ var src_app_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! src/app/jscaip/RulesFailure */ 68566);
-/* harmony import */ var src_app_jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! src/app/jscaip/TableUtils */ 37640);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @everyboard/lib */ 65042);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @everyboard/lib */ 65042);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var src_app_components_game_components_game_component_HexagonalGameComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/components/game-components/game-component/HexagonalGameComponent */ 84086);
+/* harmony import */ var src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/jscaip/Coord */ 16904);
+/* harmony import */ var src_app_jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/jscaip/GameStatus */ 19613);
+/* harmony import */ var src_app_jscaip_HexaLayout__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/jscaip/HexaLayout */ 80579);
+/* harmony import */ var src_app_jscaip_HexaOrientation__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/app/jscaip/HexaOrientation */ 26135);
+/* harmony import */ var src_app_jscaip_AI_MCTS__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! src/app/jscaip/AI/MCTS */ 37123);
+/* harmony import */ var src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! src/app/jscaip/Player */ 22092);
+/* harmony import */ var src_app_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! src/app/jscaip/RulesFailure */ 68566);
+/* harmony import */ var src_app_jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! src/app/jscaip/TableUtils */ 37640);
 /* harmony import */ var _HiveFailure__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./HiveFailure */ 65485);
 /* harmony import */ var _HiveMove__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./HiveMove */ 18826);
 /* harmony import */ var _HiveMoveGenerator__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./HiveMoveGenerator */ 80921);
@@ -31694,7 +31695,7 @@ function HiveComponent__svg_g_8_Template(rf, ctx) {
     _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵproperty"]("ngForOf", ctx_r2.inspectedStack.get().pieces.slice().reverse());
   }
 }
-class Ground extends src_app_jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_9__.TableWithPossibleNegativeIndices {
+class Ground extends src_app_jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_10__.TableWithPossibleNegativeIndices {
   highlighted = [];
   initialize(coord) {
     this.set(coord, {
@@ -31726,7 +31727,7 @@ class Ground extends src_app_jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_9__.Tabl
     this.highlighted = [];
   }
 }
-class Layer extends src_app_jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_9__.TableWithPossibleNegativeIndices {
+class Layer extends src_app_jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_10__.TableWithPossibleNegativeIndices {
   highlighted = [];
   initialize(coord, piece) {
     this.set(coord, {
@@ -31747,15 +31748,15 @@ class Layer extends src_app_jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_9__.Table
     this.highlighted = [];
   }
 }
-class HiveComponent extends src_app_components_game_components_game_component_HexagonalGameComponent__WEBPACK_IMPORTED_MODULE_1__.HexagonalGameComponent {
-  ORIGIN = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(0, 0);
+class HiveComponent extends src_app_components_game_components_game_component_HexagonalGameComponent__WEBPACK_IMPORTED_MODULE_2__.HexagonalGameComponent {
+  ORIGIN = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(0, 0);
   remainingStacks = [];
   layers = [];
   ground = new Ground();
-  inspectedStack = _everyboard_lib__WEBPACK_IMPORTED_MODULE_10__.MGPOptional.empty();
-  inspectedStackCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_10__.MGPOptional.empty();
-  selectedRemaining = _everyboard_lib__WEBPACK_IMPORTED_MODULE_10__.MGPOptional.empty();
-  selectedStart = _everyboard_lib__WEBPACK_IMPORTED_MODULE_10__.MGPOptional.empty();
+  inspectedStack = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+  inspectedStackCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+  selectedRemaining = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+  selectedStart = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
   selectedSpiderCoords = [];
   PIECE_HEIGHT;
   boardViewBox;
@@ -31764,11 +31765,11 @@ class HiveComponent extends src_app_components_game_components_game_component_He
   constructor(messageDisplayer, cdr) {
     super(messageDisplayer, cdr);
     this.setRulesAndNode('Hive');
-    this.availableAIs = [new _HiveMinimax__WEBPACK_IMPORTED_MODULE_19__.HiveMinimax(), new src_app_jscaip_AI_MCTS__WEBPACK_IMPORTED_MODULE_6__.MCTS($localize`MCTS`, new _HiveMoveGenerator__WEBPACK_IMPORTED_MODULE_13__.HiveMoveGenerator(), this.rules)];
+    this.availableAIs = [new _HiveMinimax__WEBPACK_IMPORTED_MODULE_19__.HiveMinimax(), new src_app_jscaip_AI_MCTS__WEBPACK_IMPORTED_MODULE_7__.MCTS($localize`MCTS`, new _HiveMoveGenerator__WEBPACK_IMPORTED_MODULE_13__.HiveMoveGenerator(), this.rules)];
     this.encoder = _HiveMove__WEBPACK_IMPORTED_MODULE_12__.HiveMove.encoder;
     this.SPACE_SIZE = 30;
     this.PIECE_HEIGHT = this.SPACE_SIZE / 3;
-    this.hexaLayout = new src_app_jscaip_HexaLayout__WEBPACK_IMPORTED_MODULE_4__.HexaLayout(this.SPACE_SIZE * 1.5, new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(this.SPACE_SIZE * 2, 0), src_app_jscaip_HexaOrientation__WEBPACK_IMPORTED_MODULE_5__.FlatHexaOrientation.INSTANCE);
+    this.hexaLayout = new src_app_jscaip_HexaLayout__WEBPACK_IMPORTED_MODULE_5__.HexaLayout(this.SPACE_SIZE * 1.5, new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(this.SPACE_SIZE * 2, 0), src_app_jscaip_HexaOrientation__WEBPACK_IMPORTED_MODULE_6__.FlatHexaOrientation.INSTANCE);
   }
   updateBoard(_triggerAnimation) {
     var _this = this;
@@ -31781,7 +31782,7 @@ class HiveComponent extends src_app_components_game_components_game_component_He
         for (let z = 0; z < stack.size(); z++) {
           if (z in _this.layers === false) _this.layers[z] = new Layer();
           const piece = stack.pieces[stack.size() - 1 - z];
-          _this.layers[z].initialize(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(x, y), piece);
+          _this.layers[z].initialize(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(x, y), piece);
         }
       }
       _this.ground = _this.getGround();
@@ -31790,11 +31791,11 @@ class HiveComponent extends src_app_components_game_components_game_component_He
       _this.canPass = _HiveRules__WEBPACK_IMPORTED_MODULE_16__.HiveRules.get().shouldPass(_this.getState());
       const gameStatus = _HiveRules__WEBPACK_IMPORTED_MODULE_16__.HiveRules.get().getGameStatus(_this.node);
       switch (gameStatus) {
-        case src_app_jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_3__.GameStatus.ONGOING:
+        case src_app_jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_4__.GameStatus.ONGOING:
           break;
-        case src_app_jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_3__.GameStatus.DRAW:
-          _this.highlight(_this.getState().queenBeeLocation(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_7__.Player.ZERO).get(), 'victory-stroke');
-          _this.highlight(_this.getState().queenBeeLocation(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_7__.Player.ONE).get(), 'victory-stroke');
+        case src_app_jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_4__.GameStatus.DRAW:
+          _this.highlight(_this.getState().queenBeeLocation(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_8__.Player.ZERO).get(), 'victory-stroke');
+          _this.highlight(_this.getState().queenBeeLocation(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_8__.Player.ONE).get(), 'victory-stroke');
           break;
         default:
           // Zero or one won
@@ -31813,27 +31814,27 @@ class HiveComponent extends src_app_components_game_components_game_component_He
   pass() {
     var _this2 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      _everyboard_lib__WEBPACK_IMPORTED_MODULE_10__.Utils.assert(_this2.canPass, 'HiveComponent: pass() can only be called if canPass is true');
+      _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.Utils.assert(_this2.canPass, 'HiveComponent: pass() can only be called if canPass is true');
       return yield _this2.chooseMove(_HiveMove__WEBPACK_IMPORTED_MODULE_12__.HiveMove.PASS);
     })();
   }
   computeViewBox() {
     const coords = this.getPieceCoords().union(this.getAllNeighbors()).toList();
-    coords.push(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(0, 0)); // Need at least one coord for the first space
+    coords.push(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(0, 0)); // Need at least one coord for the first space
     this.boardViewBox = src_app_components_game_components_GameComponentUtils__WEBPACK_IMPORTED_MODULE_17__.ViewBox.fromHexa(coords, this.hexaLayout, this.STROKE_WIDTH);
-    const minimalViewBox = new src_app_components_game_components_GameComponentUtils__WEBPACK_IMPORTED_MODULE_17__.ViewBox(this.getRemainingPieceTransformAsCoord(new _HivePiece__WEBPACK_IMPORTED_MODULE_14__.HivePiece(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_7__.Player.ZERO, 'QueenBee')).x, 0, this.SPACE_SIZE * 4 * 5, 0);
+    const minimalViewBox = new src_app_components_game_components_GameComponentUtils__WEBPACK_IMPORTED_MODULE_17__.ViewBox(this.getRemainingPieceTransformAsCoord(new _HivePiece__WEBPACK_IMPORTED_MODULE_14__.HivePiece(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_8__.Player.ZERO, 'QueenBee')).x, 0, this.SPACE_SIZE * 4 * 5, 0);
     const spaceForRemainingPieces = this.SPACE_SIZE * 5.5;
     let spaceForZero = 0;
-    if (this.getState().remainingPieces.getAny(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_7__.Player.ZERO).isPresent()) {
+    if (this.getState().remainingPieces.getAny(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_8__.Player.ZERO).isPresent()) {
       spaceForZero = spaceForRemainingPieces;
     }
     let spaceForOne = 0;
-    if (this.getState().remainingPieces.getAny(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_7__.Player.ONE).isPresent()) {
+    if (this.getState().remainingPieces.getAny(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_8__.Player.ONE).isPresent()) {
       spaceForOne = spaceForRemainingPieces;
     }
     const boardAndRemainingViewBox = this.boardViewBox.containingAtLeast(minimalViewBox).expandAbove(spaceForZero).expandBelow(spaceForOne);
     if (this.inspectedStack.isPresent()) {
-      const inspectedStackPosition = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(boardAndRemainingViewBox.right() + this.SPACE_SIZE, boardAndRemainingViewBox.center().y);
+      const inspectedStackPosition = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(boardAndRemainingViewBox.right() + this.SPACE_SIZE, boardAndRemainingViewBox.center().y);
       const stackSize = this.inspectedStack.get().size();
       // y to get it centered vertically
       const y = inspectedStackPosition.y + (stackSize - 1) * 3 * this.PIECE_HEIGHT;
@@ -31863,7 +31864,7 @@ class HiveComponent extends src_app_components_game_components_game_component_He
     }
     if (neighbors.isEmpty()) {
       // We need at least one clickable coord to be playable at first turn
-      neighbors = neighbors.addElement(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(0, 0));
+      neighbors = neighbors.addElement(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(0, 0));
     }
     return neighbors;
   }
@@ -31875,10 +31876,10 @@ class HiveComponent extends src_app_components_game_components_game_component_He
   }
   cancelMoveAttempt() {
     this.clearHighlights();
-    this.selectedStart = _everyboard_lib__WEBPACK_IMPORTED_MODULE_10__.MGPOptional.empty();
-    this.selectedRemaining = _everyboard_lib__WEBPACK_IMPORTED_MODULE_10__.MGPOptional.empty();
+    this.selectedStart = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+    this.selectedRemaining = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
     this.selectedSpiderCoords = [];
-    this.inspectedStack = _everyboard_lib__WEBPACK_IMPORTED_MODULE_10__.MGPOptional.empty();
+    this.inspectedStack = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
     this.computeViewBox();
   }
   showLastMove(move) {
@@ -31913,7 +31914,7 @@ class HiveComponent extends src_app_components_game_components_game_component_He
     } else {
       y = this.boardViewBox.up - this.SPACE_SIZE * 3;
     }
-    return new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(x, y);
+    return new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(x, y);
   }
   getRemainingPieceTransform(piece) {
     const transform = this.getRemainingPieceTransformAsCoord(piece);
@@ -31935,7 +31936,7 @@ class HiveComponent extends src_app_components_game_components_game_component_He
       case 'Spider':
         return 0.5;
       default:
-        _everyboard_lib__WEBPACK_IMPORTED_MODULE_10__.Utils.expectToBe(piece.kind, 'SoldierAnt');
+        _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.Utils.expectToBe(piece.kind, 'SoldierAnt');
         return 1.5;
     }
   }
@@ -31947,7 +31948,7 @@ class HiveComponent extends src_app_components_game_components_game_component_He
         return _this4.cancelMove(clickValidity.getReason());
       }
       if (piece.owner === _this4.getCurrentOpponent()) {
-        return _this4.cancelMove(src_app_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_8__.RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
+        return _this4.cancelMove(src_app_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_9__.RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
       }
       if (piece.kind !== 'QueenBee' && _HiveRules__WEBPACK_IMPORTED_MODULE_16__.HiveRules.get().mustPlaceQueenBee(_this4.getState())) {
         return _this4.cancelMove(_HiveFailure__WEBPACK_IMPORTED_MODULE_11__.HiveFailure.MUST_PLACE_QUEEN_BEE_LATEST_AT_FOURTH_TURN());
@@ -31956,13 +31957,13 @@ class HiveComponent extends src_app_components_game_components_game_component_He
         return _this4.cancelMove();
       } else {
         _this4.cancelMoveAttempt();
-        _this4.selectedRemaining = _everyboard_lib__WEBPACK_IMPORTED_MODULE_10__.MGPOptional.of(piece);
+        _this4.selectedRemaining = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(piece);
         _this4.clearHighlights();
         const possibleDropLocations = _HiveRules__WEBPACK_IMPORTED_MODULE_16__.HiveRules.get().getPossibleDropLocations(_this4.getState()).toList();
         for (const coord of possibleDropLocations) {
           _this4.ground.highlightStroke(coord, 'clickable-stroke');
         }
-        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_10__.MGPValidation.SUCCESS;
+        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.SUCCESS;
       }
     })();
   }
@@ -31973,7 +31974,7 @@ class HiveComponent extends src_app_components_game_components_game_component_He
       if (clickValidity.isFailure()) {
         return _this5.cancelMove(clickValidity.getReason());
       }
-      const selectionValidity = yield _this5.select(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(x, y));
+      const selectionValidity = yield _this5.select(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(x, y));
       return selectionValidity;
     })();
   }
@@ -31984,7 +31985,7 @@ class HiveComponent extends src_app_components_game_components_game_component_He
       if (clickValidity.isFailure()) {
         return _this6.cancelMove(clickValidity.getReason());
       }
-      const selectionValidity = yield _this6.select(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(x, y));
+      const selectionValidity = yield _this6.select(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(x, y));
       return selectionValidity;
     })();
   }
@@ -32021,7 +32022,7 @@ class HiveComponent extends src_app_components_game_components_game_component_He
       } else {
         const move = _HiveMove__WEBPACK_IMPORTED_MODULE_12__.HiveMove.move(_this8.selectedStart.get(), coord);
         // static moves are prevented in selectSpace
-        _everyboard_lib__WEBPACK_IMPORTED_MODULE_10__.Utils.assert(move.isSuccess(), 'Hive: the only forbidden moves are static moves');
+        _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.Utils.assert(move.isSuccess(), 'Hive: the only forbidden moves are static moves');
         return _this8.chooseMove(move.get());
       }
     })();
@@ -32035,16 +32036,16 @@ class HiveComponent extends src_app_components_game_components_game_component_He
         // If the stack clicked is not owned by the player,
         // the player can still select it in order to inspect it
         if (stack.size() === 1) {
-          return _this9.cancelMove(src_app_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_8__.RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
+          return _this9.cancelMove(src_app_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_9__.RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
         } else if (_this9.inspectedStack.isPresent()) {
           return _this9.cancelMove();
         } else {
           // We will only inspect the opponent stack, not do a move
           _this9.highlight(coord, 'selected-stroke');
-          _this9.inspectedStack = _everyboard_lib__WEBPACK_IMPORTED_MODULE_10__.MGPOptional.of(stack);
-          _this9.inspectedStackCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_10__.MGPOptional.of(coord);
+          _this9.inspectedStack = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(stack);
+          _this9.inspectedStackCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(coord);
           _this9.computeViewBox();
-          return _everyboard_lib__WEBPACK_IMPORTED_MODULE_10__.MGPValidation.SUCCESS;
+          return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.SUCCESS;
         }
       }
       _this9.cancelMoveAttempt(); // To clear inspected stack if needed
@@ -32052,18 +32053,18 @@ class HiveComponent extends src_app_components_game_components_game_component_He
       if (piece.kind !== 'QueenBee' && _HiveRules__WEBPACK_IMPORTED_MODULE_16__.HiveRules.get().mustPlaceQueenBee(state)) {
         return _this9.cancelMove(_HiveFailure__WEBPACK_IMPORTED_MODULE_11__.HiveFailure.MUST_PLACE_QUEEN_BEE_LATEST_AT_FOURTH_TURN());
       }
-      _this9.selectedStart = _everyboard_lib__WEBPACK_IMPORTED_MODULE_10__.MGPOptional.of(coord);
+      _this9.selectedStart = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(coord);
       _this9.highlight(coord, 'selected-stroke');
       if (piece.kind === 'Spider') {
         _this9.selectedSpiderCoords.push(_this9.selectedStart.get());
       }
       if (stack.size() > 1) {
-        _this9.inspectedStack = _everyboard_lib__WEBPACK_IMPORTED_MODULE_10__.MGPOptional.of(stack);
-        _this9.inspectedStackCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_10__.MGPOptional.of(coord);
+        _this9.inspectedStack = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(stack);
+        _this9.inspectedStackCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(coord);
         _this9.computeViewBox();
       }
       _this9.highlightNextPossibleCoords(coord);
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_10__.MGPValidation.SUCCESS;
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.SUCCESS;
     })();
   }
   highlightNextPossibleCoords(coord) {
@@ -32078,7 +32079,7 @@ class HiveComponent extends src_app_components_game_components_game_component_He
     const moves = _HiveRules__WEBPACK_IMPORTED_MODULE_16__.HiveRules.get().getPossibleMovesFrom(state, coord);
     if (topPiece.kind === 'Spider') {
       const spiderMoves = moves;
-      return spiderMoves.filter(move => _everyboard_lib__WEBPACK_IMPORTED_MODULE_10__.ArrayUtils.isPrefix(this.selectedSpiderCoords, move.coords)).map(move => move.coords[this.selectedSpiderCoords.length]).toList();
+      return spiderMoves.filter(move => _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.ArrayUtils.isPrefix(this.selectedSpiderCoords, move.coords)).map(move => move.coords[this.selectedSpiderCoords.length]).toList();
     } else {
       return moves.map(move => move.getEnd()).toList();
     }
@@ -32101,7 +32102,7 @@ class HiveComponent extends src_app_components_game_components_game_component_He
         _this10.ground.select(spiderCoord);
       }
       _this10.highlightNextPossibleCoords(_this10.selectedStart.get());
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_10__.MGPValidation.SUCCESS;
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.SUCCESS;
     })();
   }
   static ɵfac = function HiveComponent_Factory(__ngFactoryType__) {
@@ -32867,16 +32868,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   KamisadoComponent: () => (/* binding */ KamisadoComponent)
 /* harmony export */ });
 /* harmony import */ var _home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 89204);
-/* harmony import */ var _components_game_components_rectangular_game_component_RectangularGameComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../components/game-components/rectangular-game-component/RectangularGameComponent */ 96740);
-/* harmony import */ var src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/jscaip/Coord */ 16904);
-/* harmony import */ var src_app_games_kamisado_KamisadoBoard__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/games/kamisado/KamisadoBoard */ 1053);
-/* harmony import */ var src_app_games_kamisado_KamisadoMove__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/games/kamisado/KamisadoMove */ 93432);
-/* harmony import */ var src_app_games_kamisado_KamisadoPiece__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/games/kamisado/KamisadoPiece */ 76031);
-/* harmony import */ var src_app_games_kamisado_KamisadoRules__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/app/games/kamisado/KamisadoRules */ 37890);
-/* harmony import */ var src_app_games_kamisado_KamisadoFailure__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! src/app/games/kamisado/KamisadoFailure */ 28215);
-/* harmony import */ var src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! src/app/jscaip/Player */ 22092);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @everyboard/lib */ 65042);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @everyboard/lib */ 65042);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _components_game_components_rectangular_game_component_RectangularGameComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../components/game-components/rectangular-game-component/RectangularGameComponent */ 96740);
+/* harmony import */ var src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/jscaip/Coord */ 16904);
+/* harmony import */ var src_app_games_kamisado_KamisadoBoard__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/games/kamisado/KamisadoBoard */ 1053);
+/* harmony import */ var src_app_games_kamisado_KamisadoMove__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/games/kamisado/KamisadoMove */ 93432);
+/* harmony import */ var src_app_games_kamisado_KamisadoPiece__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/app/games/kamisado/KamisadoPiece */ 76031);
+/* harmony import */ var src_app_games_kamisado_KamisadoRules__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! src/app/games/kamisado/KamisadoRules */ 37890);
+/* harmony import */ var src_app_games_kamisado_KamisadoFailure__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! src/app/games/kamisado/KamisadoFailure */ 28215);
+/* harmony import */ var src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! src/app/jscaip/Player */ 22092);
 /* harmony import */ var src_app_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! src/app/jscaip/RulesFailure */ 68566);
 /* harmony import */ var src_app_jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! src/app/jscaip/GameStatus */ 19613);
 /* harmony import */ var src_app_jscaip_AI_MCTS__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! src/app/jscaip/AI/MCTS */ 37123);
@@ -33002,24 +33003,24 @@ function KamisadoComponent__svg_circle_3_Template(rf, ctx) {
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵattribute"]("cx", ctx_r3.SPACE_SIZE / 2 + ctx_r3.chosen.get().x * ctx_r3.SPACE_SIZE)("cy", ctx_r3.SPACE_SIZE / 2 + ctx_r3.chosen.get().y * ctx_r3.SPACE_SIZE)("r", ctx_r3.SPACE_SIZE / 2 - ctx_r3.STROKE_WIDTH);
   }
 }
-class KamisadoComponent extends _components_game_components_rectangular_game_component_RectangularGameComponent__WEBPACK_IMPORTED_MODULE_1__.RectangularGameComponent {
-  UNOCCUPIED = src_app_games_kamisado_KamisadoPiece__WEBPACK_IMPORTED_MODULE_5__.KamisadoPiece.EMPTY;
-  lastMove = _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__.MGPOptional.empty();
-  lastPieceMove = _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__.MGPOptional.empty();
-  chosen = _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__.MGPOptional.empty();
+class KamisadoComponent extends _components_game_components_rectangular_game_component_RectangularGameComponent__WEBPACK_IMPORTED_MODULE_2__.RectangularGameComponent {
+  UNOCCUPIED = src_app_games_kamisado_KamisadoPiece__WEBPACK_IMPORTED_MODULE_6__.KamisadoPiece.EMPTY;
+  lastMove = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+  lastPieceMove = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+  chosen = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
   chosenAutomatically = false;
   constructor(messageDisplayer, cdr) {
     super(messageDisplayer, cdr);
     this.setRulesAndNode('Kamisado');
     this.availableAIs = [new _KamisadoMinimax__WEBPACK_IMPORTED_MODULE_14__.KamisadoMinimax(), new src_app_jscaip_AI_MCTS__WEBPACK_IMPORTED_MODULE_12__.MCTS($localize`MCTS`, new _KamisadoMoveGenerator__WEBPACK_IMPORTED_MODULE_13__.KamisadoMoveGenerator(), this.rules)];
-    this.encoder = src_app_games_kamisado_KamisadoMove__WEBPACK_IMPORTED_MODULE_4__.KamisadoMove.encoder;
+    this.encoder = src_app_games_kamisado_KamisadoMove__WEBPACK_IMPORTED_MODULE_5__.KamisadoMove.encoder;
     this.hasAsymmetricBoard = true;
   }
   backgroundColor(x, y) {
-    return src_app_games_kamisado_KamisadoBoard__WEBPACK_IMPORTED_MODULE_3__.KamisadoBoard.getColorAt(x, y).rgb;
+    return src_app_games_kamisado_KamisadoBoard__WEBPACK_IMPORTED_MODULE_4__.KamisadoBoard.getColorAt(x, y).rgb;
   }
   isPlayerZero(piece) {
-    return piece.player === src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_8__.Player.ZERO;
+    return piece.player === src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_9__.Player.ZERO;
   }
   pieceColor(piece) {
     return piece.color.rgb;
@@ -33032,11 +33033,11 @@ class KamisadoComponent extends _components_game_components_rectangular_game_com
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       const state = _this.getState();
       _this.board = state.getCopiedBoard();
-      _this.canPass = src_app_games_kamisado_KamisadoRules__WEBPACK_IMPORTED_MODULE_6__.KamisadoRules.mustPass(state);
+      _this.canPass = src_app_games_kamisado_KamisadoRules__WEBPACK_IMPORTED_MODULE_7__.KamisadoRules.mustPass(state);
       const isFinished = _this.rules.getGameStatus(_this.node) !== src_app_jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_11__.GameStatus.ONGOING;
       if (_this.canPass || state.coordToPlay.isAbsent() || isFinished) {
         _this.chosenAutomatically = false;
-        _this.chosen = _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__.MGPOptional.empty();
+        _this.chosen = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
       } else {
         _this.chosenAutomatically = true;
         _this.chosen = state.coordToPlay;
@@ -33046,19 +33047,19 @@ class KamisadoComponent extends _components_game_components_rectangular_game_com
   showLastMove(move) {
     var _this2 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      if (src_app_games_kamisado_KamisadoMove__WEBPACK_IMPORTED_MODULE_4__.KamisadoMove.isPiece(move)) {
-        _this2.lastPieceMove = _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__.MGPOptional.of(move);
+      if (src_app_games_kamisado_KamisadoMove__WEBPACK_IMPORTED_MODULE_5__.KamisadoMove.isPiece(move)) {
+        _this2.lastPieceMove = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(move);
       }
     })();
   }
   hideLastMove() {
-    this.lastPieceMove = _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__.MGPOptional.empty();
+    this.lastPieceMove = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
   }
   pass() {
     var _this3 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__.Utils.assert(_this3.canPass, 'KamisadoComponent: pass() must be called only if canPass is true');
-      return _this3.chooseMove(src_app_games_kamisado_KamisadoMove__WEBPACK_IMPORTED_MODULE_4__.KamisadoMove.PASS);
+      _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.Utils.assert(_this3.canPass, 'KamisadoComponent: pass() must be called only if canPass is true');
+      return _this3.chooseMove(src_app_games_kamisado_KamisadoMove__WEBPACK_IMPORTED_MODULE_5__.KamisadoMove.PASS);
     })();
   }
   onClick(x, y) {
@@ -33068,7 +33069,7 @@ class KamisadoComponent extends _components_game_components_rectangular_game_com
       if (clickValidity.isFailure()) {
         return _this4.cancelMove(clickValidity.getReason());
       }
-      const clickedCoord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(x, y);
+      const clickedCoord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(x, y);
       if (_this4.canPass) {
         return _this4.cancelMove(src_app_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_10__.RulesFailure.MUST_PASS());
       }
@@ -33083,10 +33084,10 @@ class KamisadoComponent extends _components_game_components_rectangular_game_com
         if (piece.belongsTo(player)) {
           // Player clicked on another of its pieces, select it if he can
           if (_this4.chosenAutomatically) {
-            return _this4.cancelMove(src_app_games_kamisado_KamisadoFailure__WEBPACK_IMPORTED_MODULE_7__.KamisadoFailure.PLAY_WITH_SELECTED_PIECE());
+            return _this4.cancelMove(src_app_games_kamisado_KamisadoFailure__WEBPACK_IMPORTED_MODULE_8__.KamisadoFailure.PLAY_WITH_SELECTED_PIECE());
           } else {
-            _this4.chosen = _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__.MGPOptional.of(clickedCoord);
-            return _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__.MGPValidation.SUCCESS;
+            _this4.chosen = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(clickedCoord);
+            return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.SUCCESS;
           }
         } else {
           return yield _this4.chooseDestination(x, y);
@@ -33102,22 +33103,22 @@ class KamisadoComponent extends _components_game_components_rectangular_game_com
       if (piece.belongsTo(opponent)) {
         return _this5.cancelMove(src_app_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_10__.RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
       }
-      _this5.chosen = _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__.MGPOptional.of(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(x, y));
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__.MGPValidation.SUCCESS;
+      _this5.chosen = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(x, y));
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.SUCCESS;
     })();
   }
   chooseDestination(x, y) {
     var _this6 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       const chosenPiece = _this6.chosen.get();
-      const chosenDestination = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(x, y);
-      const move = src_app_games_kamisado_KamisadoMove__WEBPACK_IMPORTED_MODULE_4__.KamisadoMove.of(chosenPiece, chosenDestination);
+      const chosenDestination = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(x, y);
+      const move = src_app_games_kamisado_KamisadoMove__WEBPACK_IMPORTED_MODULE_5__.KamisadoMove.of(chosenPiece, chosenDestination);
       return _this6.chooseMove(move);
     })();
   }
   cancelMoveAttempt() {
     if (this.chosenAutomatically === false) {
-      this.chosen = _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__.MGPOptional.empty();
+      this.chosen = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
     }
   }
   static ɵfac = function KamisadoComponent_Factory(__ngFactoryType__) {
@@ -33622,11 +33623,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   LinesOfActionComponent: () => (/* binding */ LinesOfActionComponent)
 /* harmony export */ });
 /* harmony import */ var _home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 89204);
-/* harmony import */ var src_app_components_game_components_rectangular_game_component_RectangularGameComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/components/game-components/rectangular-game-component/RectangularGameComponent */ 96740);
-/* harmony import */ var src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/jscaip/Coord */ 16904);
-/* harmony import */ var src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/jscaip/Player */ 22092);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @everyboard/lib */ 65042);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @everyboard/lib */ 65042);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var src_app_components_game_components_rectangular_game_component_RectangularGameComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/components/game-components/rectangular-game-component/RectangularGameComponent */ 96740);
+/* harmony import */ var src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/jscaip/Coord */ 16904);
+/* harmony import */ var src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/jscaip/Player */ 22092);
 /* harmony import */ var _LinesOfActionMove__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./LinesOfActionMove */ 3368);
 /* harmony import */ var _LinesOfActionRules__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./LinesOfActionRules */ 25970);
 /* harmony import */ var _LinesOfActionFailure__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./LinesOfActionFailure */ 12935);
@@ -33727,13 +33728,13 @@ function LinesOfActionComponent__svg_rect_2_Template(rf, ctx) {
     _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵattribute"]("x", coord_r8.x * ctx_r3.SPACE_SIZE + (ctx_r3.SPACE_SIZE / 2 - ctx_r3.INDICATOR_SIZE / 2))("y", coord_r8.y * ctx_r3.SPACE_SIZE + (ctx_r3.SPACE_SIZE / 2 - ctx_r3.INDICATOR_SIZE / 2))("width", ctx_r3.INDICATOR_SIZE)("height", ctx_r3.INDICATOR_SIZE);
   }
 }
-class LinesOfActionComponent extends src_app_components_game_components_rectangular_game_component_RectangularGameComponent__WEBPACK_IMPORTED_MODULE_1__.RectangularGameComponent {
+class LinesOfActionComponent extends src_app_components_game_components_rectangular_game_component_RectangularGameComponent__WEBPACK_IMPORTED_MODULE_2__.RectangularGameComponent {
   INDICATOR_SIZE = 20;
-  EMPTY = src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.PlayerOrNone.NONE;
+  EMPTY = src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_4__.PlayerOrNone.NONE;
   targets = [];
-  selected = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.empty();
+  selected = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
   lastMoved = [];
-  captured = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.empty();
+  captured = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
   constructor(messageDisplayer, cdr) {
     super(messageDisplayer, cdr);
     this.setRulesAndNode('LinesOfAction');
@@ -33747,7 +33748,7 @@ class LinesOfActionComponent extends src_app_components_game_components_rectangu
       if (clickValidity.isFailure()) {
         return _this.cancelMove(clickValidity.getReason());
       }
-      const coord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(x, y);
+      const coord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(x, y);
       if (_this.selected.equalsValue(coord)) {
         return _this.cancelMove();
       }
@@ -33779,12 +33780,12 @@ class LinesOfActionComponent extends src_app_components_game_components_rectangu
       } else if (piece === _this3.getState().getCurrentOpponent()) {
         return _this3.cancelMove(src_app_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_8__.RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
       }
-      _this3.selected = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.of(coord);
+      _this3.selected = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(coord);
       _this3.targets = _LinesOfActionRules__WEBPACK_IMPORTED_MODULE_6__.LinesOfActionRules.possibleTargets(_this3.getState(), _this3.selected.get()).toList();
       if (_this3.targets.length === 0) {
         return _this3.cancelMove(_LinesOfActionFailure__WEBPACK_IMPORTED_MODULE_7__.LinesOfActionFailure.PIECE_CANNOT_MOVE());
       }
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPValidation.SUCCESS;
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.SUCCESS;
     })();
   }
   updateBoard(_triggerAnimation) {
@@ -33797,7 +33798,7 @@ class LinesOfActionComponent extends src_app_components_game_components_rectangu
     var _this5 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       if (_this5.getPreviousState().getPieceAt(move.getEnd()).isPlayer()) {
-        _this5.captured = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.of(move.getEnd());
+        _this5.captured = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(move.getEnd());
       }
       const lastMoveStart = move.getStart();
       const lastMoveEnd = move.getEnd();
@@ -33805,15 +33806,15 @@ class LinesOfActionComponent extends src_app_components_game_components_rectangu
     })();
   }
   hideLastMove() {
-    this.captured = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.empty();
+    this.captured = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
     this.lastMoved = [];
   }
   cancelMoveAttempt() {
-    this.selected = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.empty();
+    this.selected = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
     this.targets = [];
   }
   getSquareClasses(x, y) {
-    const coord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(x, y);
+    const coord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(x, y);
     if (this.captured.equalsValue(coord)) {
       return ['captured-fill'];
     }
@@ -33824,7 +33825,7 @@ class LinesOfActionComponent extends src_app_components_game_components_rectangu
   }
   getPieceClasses(x, y) {
     const content = this.board[y][x];
-    const coord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(x, y);
+    const coord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(x, y);
     const classes = [this.getPlayerClass(content)];
     if (this.selected.equalsValue(coord)) {
       classes.push('selected-stroke');
@@ -34977,12 +34978,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   LodestoneComponent: () => (/* binding */ LodestoneComponent)
 /* harmony export */ });
 /* harmony import */ var _home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 89204);
-/* harmony import */ var src_app_components_game_components_game_component_GameComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/components/game-components/game-component/GameComponent */ 58047);
-/* harmony import */ var src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/jscaip/Coord */ 16904);
-/* harmony import */ var src_app_jscaip_Ordinal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/jscaip/Ordinal */ 63196);
-/* harmony import */ var src_app_jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/jscaip/TableUtils */ 37640);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @everyboard/lib */ 65042);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @everyboard/lib */ 65042);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var src_app_components_game_components_game_component_GameComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/components/game-components/game-component/GameComponent */ 58047);
+/* harmony import */ var src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/jscaip/Coord */ 16904);
+/* harmony import */ var src_app_jscaip_Ordinal__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/jscaip/Ordinal */ 63196);
+/* harmony import */ var src_app_jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/jscaip/TableUtils */ 37640);
 /* harmony import */ var _LodestoneFailure__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./LodestoneFailure */ 55903);
 /* harmony import */ var _LodestoneMove__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./LodestoneMove */ 77584);
 /* harmony import */ var _LodestonePiece__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./LodestonePiece */ 54519);
@@ -35271,24 +35272,24 @@ function LodestoneComponent__svg_rect_5_Template(rf, ctx) {
     _angular_core__WEBPACK_IMPORTED_MODULE_17__["ɵɵattribute"]("x", ctx_r3.SPACE_SIZE * ctx_r3.selectedCoord.get().x)("y", ctx_r3.SPACE_SIZE * ctx_r3.selectedCoord.get().y)("width", ctx_r3.SPACE_SIZE)("height", ctx_r3.SPACE_SIZE);
   }
 }
-class LodestoneComponent extends src_app_components_game_components_game_component_GameComponent__WEBPACK_IMPORTED_MODULE_1__.GameComponent {
+class LodestoneComponent extends src_app_components_game_components_game_component_GameComponent__WEBPACK_IMPORTED_MODULE_2__.GameComponent {
   static PRESSURE_PLATE_EXTRA_SHIFT = 0.2;
-  static PRESSURE_PLATES_POSITIONS = _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPMap.from({
+  static PRESSURE_PLATES_POSITIONS = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPMap.from({
     top: {
-      start: (plateIndex, plateWidth) => new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord((8 - plateWidth) / 2, -(plateIndex + 1) * (1 + LodestoneComponent.PRESSURE_PLATE_EXTRA_SHIFT)),
-      direction: src_app_jscaip_Ordinal__WEBPACK_IMPORTED_MODULE_3__.Ordinal.RIGHT
+      start: (plateIndex, plateWidth) => new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord((8 - plateWidth) / 2, -(plateIndex + 1) * (1 + LodestoneComponent.PRESSURE_PLATE_EXTRA_SHIFT)),
+      direction: src_app_jscaip_Ordinal__WEBPACK_IMPORTED_MODULE_4__.Ordinal.RIGHT
     },
     bottom: {
-      start: (plateIndex, plateWidth) => new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord((8 - plateWidth) / 2, 8 + LodestoneComponent.PRESSURE_PLATE_EXTRA_SHIFT + plateIndex * (1 + LodestoneComponent.PRESSURE_PLATE_EXTRA_SHIFT)),
-      direction: src_app_jscaip_Ordinal__WEBPACK_IMPORTED_MODULE_3__.Ordinal.RIGHT
+      start: (plateIndex, plateWidth) => new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord((8 - plateWidth) / 2, 8 + LodestoneComponent.PRESSURE_PLATE_EXTRA_SHIFT + plateIndex * (1 + LodestoneComponent.PRESSURE_PLATE_EXTRA_SHIFT)),
+      direction: src_app_jscaip_Ordinal__WEBPACK_IMPORTED_MODULE_4__.Ordinal.RIGHT
     },
     left: {
-      start: (plateIndex, plateWidth) => new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(-(1 + LodestoneComponent.PRESSURE_PLATE_EXTRA_SHIFT) * (1 + plateIndex), (8 - plateWidth) / 2),
-      direction: src_app_jscaip_Ordinal__WEBPACK_IMPORTED_MODULE_3__.Ordinal.DOWN
+      start: (plateIndex, plateWidth) => new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(-(1 + LodestoneComponent.PRESSURE_PLATE_EXTRA_SHIFT) * (1 + plateIndex), (8 - plateWidth) / 2),
+      direction: src_app_jscaip_Ordinal__WEBPACK_IMPORTED_MODULE_4__.Ordinal.DOWN
     },
     right: {
-      start: (plateIndex, plateWidth) => new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(8 + LodestoneComponent.PRESSURE_PLATE_EXTRA_SHIFT + plateIndex * (1 + LodestoneComponent.PRESSURE_PLATE_EXTRA_SHIFT), (8 - plateWidth) / 2),
-      direction: src_app_jscaip_Ordinal__WEBPACK_IMPORTED_MODULE_3__.Ordinal.DOWN
+      start: (plateIndex, plateWidth) => new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(8 + LodestoneComponent.PRESSURE_PLATE_EXTRA_SHIFT + plateIndex * (1 + LodestoneComponent.PRESSURE_PLATE_EXTRA_SHIFT), (8 - plateWidth) / 2),
+      direction: src_app_jscaip_Ordinal__WEBPACK_IMPORTED_MODULE_4__.Ordinal.DOWN
     }
   });
   PIECE_RADIUS;
@@ -35301,10 +35302,10 @@ class LodestoneComponent extends src_app_components_game_components_game_compone
   platesGroupSize;
   boardSize;
   displayedState;
-  stateAfterPlacingLodestone = _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.empty();
+  stateAfterPlacingLodestone = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
   // Variables used to display ongoing move
-  selectedCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.empty();
-  selectedLodestone = _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.empty();
+  selectedCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+  selectedLodestone = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
   ongoingMoves = [];
   ongoingCaptures = [];
   capturesToPlace = 0;
@@ -35324,10 +35325,10 @@ class LodestoneComponent extends src_app_components_game_components_game_compone
     this.encoder = _LodestoneMove__WEBPACK_IMPORTED_MODULE_7__.LodestoneMove.encoder;
     this.PIECE_RADIUS = (this.SPACE_SIZE - 2 * this.STROKE_WIDTH) * 0.5;
     this.displayedState = this.getState();
-    this.scores = _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.of(src_app_jscaip_PlayerMap__WEBPACK_IMPORTED_MODULE_13__.PlayerNumberMap.of(0, 0));
+    this.scores = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(src_app_jscaip_PlayerMap__WEBPACK_IMPORTED_MODULE_13__.PlayerNumberMap.of(0, 0));
   }
   getScoreName() {
-    return src_app_components_game_components_game_component_GameComponent__WEBPACK_IMPORTED_MODULE_1__.ScoreName.CAPTURES;
+    return src_app_components_game_components_game_component_GameComponent__WEBPACK_IMPORTED_MODULE_2__.ScoreName.CAPTURES;
   }
   getViewBox() {
     const left = -this.platesGroupSize;
@@ -35339,7 +35340,7 @@ class LodestoneComponent extends src_app_components_game_components_game_compone
   selectCoord(x, y) {
     var _this = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      const coord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(x, y);
+      const coord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(x, y);
       const clickValidity = yield _this.canUserPlay('#square-' + coord.x + '-' + coord.y);
       if (clickValidity.isFailure()) {
         return _this.cancelMove(clickValidity.getReason());
@@ -35354,12 +35355,12 @@ class LodestoneComponent extends src_app_components_game_components_game_compone
       if (_this.selectedCoord.equalsValue(coord)) {
         return _this.cancelMove();
       }
-      _this.selectedCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.of(coord);
+      _this.selectedCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(coord);
       if (_this.selectedLodestone.isPresent()) {
         return _this.putLodestone();
       } else {
         _this.updateViewInfo();
-        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPValidation.SUCCESS;
+        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.SUCCESS;
       }
     })();
   }
@@ -35372,18 +35373,18 @@ class LodestoneComponent extends src_app_components_game_components_game_compone
       if (clickValidity.isFailure()) {
         return _this2.cancelMove(clickValidity.getReason());
       }
-      _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.Utils.assert(_this2.capturesToPlace === 0, 'should not be able to click on a lodestone when captures need to be placed');
+      _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.Utils.assert(_this2.capturesToPlace === 0, 'should not be able to click on a lodestone when captures need to be placed');
       const player = _this2.getCurrentPlayer();
       const playerLodestone = _LodestonePiece__WEBPACK_IMPORTED_MODULE_8__.LodestonePieceLodestone.of(player, lodestone);
       if (_this2.selectedLodestone.equalsValue(playerLodestone)) {
         return _this2.cancelMove();
       }
-      _this2.selectedLodestone = _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.of(playerLodestone);
+      _this2.selectedLodestone = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(playerLodestone);
       if (_this2.selectedCoord.isPresent()) {
         return _this2.putLodestone();
       } else {
         _this2.updateViewInfo();
-        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPValidation.SUCCESS;
+        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.SUCCESS;
       }
     })();
   }
@@ -35395,13 +35396,13 @@ class LodestoneComponent extends src_app_components_game_components_game_compone
   putLodestone() {
     var _this3 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.Utils.assert(_this3.selectedCoord.isPresent(), 'coord should have been selected');
-      _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.Utils.assert(_this3.selectedLodestone.isPresent(), 'lodestone should have been selected');
+      _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.Utils.assert(_this3.selectedCoord.isPresent(), 'coord should have been selected');
+      _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.Utils.assert(_this3.selectedLodestone.isPresent(), 'lodestone should have been selected');
       const coord = _this3.selectedCoord.get();
       const lodestone = _this3.selectedLodestone.get();
       const state = _this3.getState();
       const validity = _LodestoneRules__WEBPACK_IMPORTED_MODULE_9__.LodestoneRules.get().isLegalWithoutCaptures(state, coord, lodestone.direction);
-      _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.Utils.assert(validity.isSuccess(), 'Lodestone component should only allow creation of legal moves');
+      _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.Utils.assert(validity.isSuccess(), 'Lodestone component should only allow creation of legal moves');
       const infos = _LodestoneRules__WEBPACK_IMPORTED_MODULE_9__.LodestoneRules.get().applyMoveWithoutPlacingCaptures(state, coord, lodestone);
       _this3.ongoingCaptures = infos.captures;
       _this3.ongoingMoves = infos.moved;
@@ -35410,17 +35411,17 @@ class LodestoneComponent extends src_app_components_game_components_game_compone
         return _this3.applyMove();
       } else {
         _this3.displayedState = _this3.displayedState.withBoard(infos.board);
-        _this3.stateAfterPlacingLodestone = _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.of(_this3.displayedState);
+        _this3.stateAfterPlacingLodestone = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(_this3.displayedState);
         _this3.updateViewInfo();
-        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPValidation.SUCCESS;
+        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.SUCCESS;
       }
     })();
   }
   applyMove() {
     var _this4 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.Utils.assert(_this4.selectedCoord.isPresent(), 'coord should have been selected');
-      _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.Utils.assert(_this4.selectedLodestone.isPresent(), 'lodestone should have been selected');
+      _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.Utils.assert(_this4.selectedCoord.isPresent(), 'coord should have been selected');
+      _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.Utils.assert(_this4.selectedLodestone.isPresent(), 'lodestone should have been selected');
       const coord = _this4.selectedCoord.get();
       const lodestone = _this4.selectedLodestone.get();
       const move = new _LodestoneMove__WEBPACK_IMPORTED_MODULE_7__.LodestoneMove(coord, lodestone.direction, lodestone.orientation, _this4.captures);
@@ -35459,7 +35460,7 @@ class LodestoneComponent extends src_app_components_game_components_game_compone
       _this7.captures[position]++;
       const state = _this7.stateAfterPlacingLodestone.get();
       const opponent = _this7.getCurrentOpponent();
-      const board = src_app_jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_4__.TableUtils.copy(state.board);
+      const board = src_app_jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_5__.TableUtils.copy(state.board);
       const pressurePlates = {
         ...state.pressurePlates
       };
@@ -35472,7 +35473,7 @@ class LodestoneComponent extends src_app_components_game_components_game_compone
         _this7.updateViewInfo();
         _this7.showPressurePlateDifferences(_this7.getState(), _this7.displayedState, true);
       }
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPValidation.SUCCESS;
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.SUCCESS;
     })();
   }
   deselectPressurePlate(position) {
@@ -35482,7 +35483,7 @@ class LodestoneComponent extends src_app_components_game_components_game_compone
       _this8.captures[position]--;
       const state = _this8.stateAfterPlacingLodestone.get();
       const opponent = _this8.getCurrentOpponent();
-      const board = src_app_jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_4__.TableUtils.copy(state.board);
+      const board = src_app_jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_5__.TableUtils.copy(state.board);
       const pressurePlates = {
         ...state.pressurePlates
       };
@@ -35491,7 +35492,7 @@ class LodestoneComponent extends src_app_components_game_components_game_compone
       _this8.displayedState = new _LodestoneState__WEBPACK_IMPORTED_MODULE_10__.LodestoneState(board, state.turn, lodestones, pressurePlates);
       _this8.updateViewInfo();
       _this8.showPressurePlateDifferences(_this8.getState(), _this8.displayedState, true);
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPValidation.SUCCESS;
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.SUCCESS;
     })();
   }
   updateBoard(_triggerAnimation) {
@@ -35499,7 +35500,7 @@ class LodestoneComponent extends src_app_components_game_components_game_compone
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       _this9.displayedState = _this9.getState();
       _this9.removePlayerLodestoneFromDisplayedState();
-      _this9.scores = _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.of(_this9.getState().getScores());
+      _this9.scores = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(_this9.getState().getScores());
       _this9.boardSize = _this9.getState().board.length * _this9.SPACE_SIZE;
       const abstractPlateWidth = _this9.getState().pressurePlates.top.plates.length;
       _this9.platesGroupSize = abstractPlateWidth * _this9.SPACE_SIZE * 1.2;
@@ -35508,12 +35509,12 @@ class LodestoneComponent extends src_app_components_game_components_game_compone
   }
   cancelMoveAttempt() {
     this.displayedState = this.getState();
-    this.stateAfterPlacingLodestone = _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.empty();
+    this.stateAfterPlacingLodestone = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
     this.ongoingCaptures = [];
     this.ongoingMoves = [];
     this.removePlayerLodestoneFromDisplayedState();
-    this.selectedCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.empty();
-    this.selectedLodestone = _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.empty();
+    this.selectedCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+    this.selectedLodestone = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
     this.capturesToPlace = 0;
     this.captures = {
       top: 0,
@@ -35527,7 +35528,7 @@ class LodestoneComponent extends src_app_components_game_components_game_compone
     const playerLodestone = this.displayedState.lodestones.get(this.getCurrentPlayer());
     if (playerLodestone.isPresent()) {
       // Hide the lodestone so that it is clearer that the player can make its next move here
-      const board = src_app_jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_4__.TableUtils.copy(this.displayedState.board);
+      const board = src_app_jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_5__.TableUtils.copy(this.displayedState.board);
       board[playerLodestone.get().y][playerLodestone.get().x] = _LodestonePiece__WEBPACK_IMPORTED_MODULE_8__.LodestonePieceNone.EMPTY;
       this.displayedState = this.displayedState.withBoard(board);
     }
@@ -35538,7 +35539,7 @@ class LodestoneComponent extends src_app_components_game_components_game_compone
     this.showPressurePlates();
   }
   getPieceClasses(x, y) {
-    const coord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(x, y);
+    const coord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(x, y);
     const piece = this.displayedState.getPieceAt(coord);
     let classes = [];
     if (piece.isPlayerPiece()) {
@@ -35557,7 +35558,7 @@ class LodestoneComponent extends src_app_components_game_components_game_compone
     return classes;
   }
   getSquareClasses(x, y) {
-    const coord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(x, y);
+    const coord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(x, y);
     if (this.ongoingCaptures.concat(this.lastCaptures).some(c => c.equals(coord))) {
       return ['captured-fill'];
     } else if (this.ongoingMoves.concat(this.lastMoves).some(c => c.equals(coord))) {
@@ -35571,38 +35572,38 @@ class LodestoneComponent extends src_app_components_game_components_game_compone
   }
   getPreCaptureInfo() {
     if (this.selectedCoord.isPresent() && this.selectedLodestone.isPresent()) {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.of({
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of({
         preCaptureMove: new _LodestoneMove__WEBPACK_IMPORTED_MODULE_7__.LodestoneMove(this.selectedCoord.get(), this.selectedLodestone.get().direction, this.selectedLodestone.get().orientation),
         preCaptureState: this.getState()
       });
     } else if (this.node.previousMove.isPresent()) {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.of({
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of({
         preCaptureMove: this.node.previousMove.get(),
         preCaptureState: this.getPreviousState()
       });
     } else {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.empty();
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
     }
   }
   getLodestoneInfo(x, y) {
-    const coord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(x, y);
+    const coord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(x, y);
     const piece = this.displayedState.getPieceAt(coord);
     if (piece.isLodestone()) {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.of(this.getLodestoneInfoAt(this.displayedState, coord));
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(this.getLodestoneInfoAt(this.displayedState, coord));
     } else if (piece.isUnreachable()) {
       const preCaptureInfo = this.getPreCaptureInfo();
       if (preCaptureInfo.isPresent()) {
         if (this.selectedCoord.equalsValue(coord)) {
           const lodestone = this.selectedLodestone.get();
-          return _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.of(this.getLodestoneInfoFromLodestone(lodestone));
+          return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(this.getLodestoneInfoFromLodestone(lodestone));
         } else if (this.wasLastMoveLodestone(coord)) {
-          return _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.of(this.getDroppedThenCrumbedLodestoneInfo(this.node.previousMove.get()));
+          return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(this.getDroppedThenCrumbedLodestoneInfo(this.node.previousMove.get()));
         } else if (this.isCrumbledLodestone(coord)) {
-          return _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.of(this.getCrumbledLodestoneInfo(coord));
+          return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(this.getCrumbledLodestoneInfo(coord));
         }
       }
     }
-    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.empty();
+    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
   }
   getDroppedThenCrumbedLodestoneInfo(lastMove) {
     const lodestoneDescription = {
@@ -35614,7 +35615,7 @@ class LodestoneComponent extends src_app_components_game_components_game_compone
   }
   getCrumbledLodestoneInfo(coord) {
     const lodestone = this.getPreviousState().getPieceAt(coord);
-    _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.Utils.assert(lodestone.isLodestone(), 'getCrumbledLodestoneInfo should only be called with coord that contain crumbled lodestone!');
+    _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.Utils.assert(lodestone.isLodestone(), 'getCrumbledLodestoneInfo should only be called with coord that contain crumbled lodestone!');
     return this.getLodestoneInfoFromLodestone(lodestone);
   }
   getLodestoneInfoFromLodestone(lodestone) {
@@ -35654,7 +35655,7 @@ class LodestoneComponent extends src_app_components_game_components_game_compone
   }
   getLodestoneInfoAt(state, coord) {
     const lodestone = state.getPieceAt(coord);
-    _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.Utils.assert(lodestone.isLodestone(), 'piece should be lodestone');
+    _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.Utils.assert(lodestone.isLodestone(), 'piece should be lodestone');
     return this.getLodestoneInfoFromLodestone(lodestone);
   }
   getPieceThatCrumbledLastEndOfTurn(coord, previousState, moveToDisplay) {
@@ -35668,9 +35669,9 @@ class LodestoneComponent extends src_app_components_game_components_game_compone
     const coordHadAPiece = previousPiece.isEmpty() === false;
     const pieceWasReachable = previousPiece.isUnreachable() === false;
     if (coordHadAPiece && pieceWasReachable) {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.of(previousPiece);
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(previousPiece);
     } else {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.empty();
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
     }
   }
   showAvailableLodestones() {
@@ -36465,9 +36466,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   MancalaComponent: () => (/* binding */ MancalaComponent)
 /* harmony export */ });
 /* harmony import */ var _home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 89204);
-/* harmony import */ var src_app_components_game_components_rectangular_game_component_RectangularGameComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/components/game-components/rectangular-game-component/RectangularGameComponent */ 96740);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @everyboard/lib */ 65042);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @everyboard/lib */ 65042);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var src_app_components_game_components_rectangular_game_component_RectangularGameComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/components/game-components/rectangular-game-component/RectangularGameComponent */ 96740);
 /* harmony import */ var src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/jscaip/Coord */ 16904);
 /* harmony import */ var src_app_jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/jscaip/TableUtils */ 37640);
 /* harmony import */ var _MancalaMove__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./MancalaMove */ 59124);
@@ -36491,12 +36492,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class MancalaComponent extends src_app_components_game_components_rectangular_game_component_RectangularGameComponent__WEBPACK_IMPORTED_MODULE_1__.RectangularGameComponent {
+class MancalaComponent extends src_app_components_game_components_rectangular_game_component_RectangularGameComponent__WEBPACK_IMPORTED_MODULE_2__.RectangularGameComponent {
   static TIMEOUT_BETWEEN_SEEDS = 100;
   // The awaited time between two laps or distributions
   static TIMEOUT_BETWEEN_LAPS = 1000;
   lastDistributedHouses = [];
-  currentMove = _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPOptional.empty();
+  currentMove = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
   captured = src_app_jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_4__.TableUtils.create(6, 2, 0);
   droppedInStore = src_app_jscaip_PlayerMap__WEBPACK_IMPORTED_MODULE_10__.PlayerNumberMap.of(0, 0);
   filledCoords = [];
@@ -36505,7 +36506,7 @@ class MancalaComponent extends src_app_components_game_components_rectangular_ga
   constructor(messageDisplayer, cdr) {
     super(messageDisplayer, cdr);
     this.hasAsymmetricBoard = true;
-    this.scores = _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPOptional.of(src_app_jscaip_PlayerMap__WEBPACK_IMPORTED_MODULE_10__.PlayerNumberMap.of(0, 0));
+    this.scores = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(src_app_jscaip_PlayerMap__WEBPACK_IMPORTED_MODULE_10__.PlayerNumberMap.of(0, 0));
   }
   getScoreName() {
     return src_app_components_game_components_game_component_GameComponent__WEBPACK_IMPORTED_MODULE_12__.ScoreName.CAPTURES;
@@ -36547,7 +36548,7 @@ class MancalaComponent extends src_app_components_game_components_rectangular_ga
       if (triggerAnimation) {
         _this2.opponentMoveIsBeingAnimated = true;
         _this2.animationOngoing = true;
-        _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.Utils.assert(_this2.node.parent.isPresent(), 'triggerAnimation in store should be false at first turn');
+        _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.Utils.assert(_this2.node.parent.isPresent(), 'triggerAnimation in store should be false at first turn');
         _this2.changeVisibleState(_this2.node.parent.get().gameState);
         let indexDistribution = 0;
         const move = _this2.node.previousMove.get();
@@ -36555,14 +36556,14 @@ class MancalaComponent extends src_app_components_game_components_rectangular_ga
           yield _this2.showSeedBySeedDistribution(distributions);
           if (indexDistribution + 1 < move.distributions.length) {
             // This prevent to wait 1sec at the end of the animation for nothing
-            yield _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.TimeUtils.sleep(MancalaComponent.TIMEOUT_BETWEEN_LAPS);
+            yield _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.TimeUtils.sleep(MancalaComponent.TIMEOUT_BETWEEN_LAPS);
           }
           indexDistribution++;
         }
         _this2.opponentMoveIsBeingAnimated = false;
         _this2.animationOngoing = false;
       }
-      _this2.scores = _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPOptional.of(state.getScoresCopy());
+      _this2.scores = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(state.getScoresCopy());
       _this2.changeVisibleState(state);
     })();
   }
@@ -36574,7 +36575,7 @@ class MancalaComponent extends src_app_components_game_components_rectangular_ga
         return _this3.cancelMove(clickValidity.getReason());
       }
       if (_this3.animationOngoing) {
-        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPValidation.SUCCESS;
+        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.SUCCESS;
       } else {
         _this3.animationOngoing = true;
         const result = yield _this3.onLegalClick(x, y);
@@ -36612,7 +36613,7 @@ class MancalaComponent extends src_app_components_game_components_rectangular_ga
           return _this5.chooseMove(_this5.currentMove.get());
         } else {
           // Player can still distribute
-          return _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPValidation.SUCCESS;
+          return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.SUCCESS;
         }
       } else {
         return _this5.chooseMove(_this5.currentMove.get());
@@ -36631,7 +36632,7 @@ class MancalaComponent extends src_app_components_game_components_rectangular_ga
           return _this6.rules.isLegal(_this6.currentMove.get(), _this6.getState(), config);
         } else {
           // Player can still distribute
-          return _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPValidation.SUCCESS;
+          return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.SUCCESS;
         }
       } else {
         return _this6.rules.isLegal(_this6.currentMove.get(), _this6.getState(), config);
@@ -36683,7 +36684,7 @@ class MancalaComponent extends src_app_components_game_components_rectangular_ga
         seedDropResult.resultingState = seedDropResult.resultingState.setPieceAt(seedDropResult.houseToDistribute, 0);
         // Changing immediately the chosen house
         _this10.changeVisibleState(seedDropResult.resultingState);
-        yield _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.TimeUtils.sleep(MancalaComponent.TIMEOUT_BETWEEN_SEEDS);
+        yield _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.TimeUtils.sleep(MancalaComponent.TIMEOUT_BETWEEN_SEEDS);
         while (seedDropResult.seedsInHand > 0) {
           seedDropResult = yield _this10.showSeedDrop(seedDropResult, config, initial);
         }
@@ -36693,7 +36694,7 @@ class MancalaComponent extends src_app_components_game_components_rectangular_ga
           const lastHouseContent = seedDropResult.resultingState.getPieceAt(seedDropResult.houseToDistribute);
           mustDoOneMoreLap = lastHouseContent !== 1 && lastHouseContent !== 4;
           if (mustDoOneMoreLap) {
-            yield _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.TimeUtils.sleep(MancalaComponent.TIMEOUT_BETWEEN_LAPS);
+            yield _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.TimeUtils.sleep(MancalaComponent.TIMEOUT_BETWEEN_LAPS);
           }
         }
       }
@@ -36726,7 +36727,7 @@ class MancalaComponent extends src_app_components_game_components_rectangular_ga
       }
       _this11.changeVisibleState(resultingState);
       if (seedsInHand > 0) {
-        yield _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.TimeUtils.sleep(MancalaComponent.TIMEOUT_BETWEEN_SEEDS);
+        yield _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.TimeUtils.sleep(MancalaComponent.TIMEOUT_BETWEEN_SEEDS);
       }
       return {
         houseToDistribute,
@@ -36744,7 +36745,7 @@ class MancalaComponent extends src_app_components_game_components_rectangular_ga
     this.changeVisibleState(this.getState());
   }
   cancelMoveAttempt() {
-    this.currentMove = _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPOptional.empty();
+    this.currentMove = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
     this.droppedInStore = src_app_jscaip_PlayerMap__WEBPACK_IMPORTED_MODULE_10__.PlayerNumberMap.of(0, 0);
     this.filledCoords = [];
     this.lastDistributedHouses = [];
@@ -36794,13 +36795,13 @@ class MancalaComponent extends src_app_components_game_components_rectangular_ga
     const currentContent = this.constructedState.getPieceAtXY(x, y);
     const difference = currentContent - previousContent;
     if (this.captured[y][x] > 0) {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPOptional.of('-' + this.captured[y][x]);
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of('-' + this.captured[y][x]);
     } else if (difference > 0) {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPOptional.of('+' + difference);
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of('+' + difference);
     } else if (difference < 0) {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPOptional.of('' + difference);
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of('' + difference);
     } else {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPOptional.empty();
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
     }
   }
   getStoreContent(owner) {
@@ -36811,14 +36812,14 @@ class MancalaComponent extends src_app_components_game_components_rectangular_ga
     const currentScore = this.constructedState.scores.get(owner);
     const difference = currentScore - previousScore;
     if (difference > 0) {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPOptional.of('+' + difference);
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of('+' + difference);
     } else {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPOptional.empty();
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
     }
   }
   getPreviousStableState() {
     if (this.opponentMoveIsBeingAnimated) {
-      _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.Utils.assert(this.getTurn() > 0, 'Kalah: Should not animate move at turn 0');
+      _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.Utils.assert(this.getTurn() > 0, 'Kalah: Should not animate move at turn 0');
       return this.node.parent.get().gameState;
     } else {
       if (this.constructedState.equals(this.getState())) {
@@ -36859,9 +36860,9 @@ class MancalaComponent extends src_app_components_game_components_rectangular_ga
   updateOrCreateCurrentMove(x) {
     if (this.currentMove.isPresent()) {
       const newMove = this.addToMove(x);
-      this.currentMove = _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPOptional.of(newMove);
+      this.currentMove = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(newMove);
     } else {
-      this.currentMove = _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPOptional.of(this.generateMove(x));
+      this.currentMove = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(this.generateMove(x));
     }
   }
   generateMove(x) {
@@ -39089,11 +39090,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   MartianChessComponent: () => (/* binding */ MartianChessComponent)
 /* harmony export */ });
 /* harmony import */ var _home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 89204);
-/* harmony import */ var src_app_components_game_components_rectangular_game_component_RectangularGameComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/components/game-components/rectangular-game-component/RectangularGameComponent */ 96740);
-/* harmony import */ var src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/jscaip/Coord */ 16904);
-/* harmony import */ var src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/jscaip/Player */ 22092);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @everyboard/lib */ 65042);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @everyboard/lib */ 65042);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var src_app_components_game_components_rectangular_game_component_RectangularGameComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/components/game-components/rectangular-game-component/RectangularGameComponent */ 96740);
+/* harmony import */ var src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/jscaip/Coord */ 16904);
+/* harmony import */ var src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/jscaip/Player */ 22092);
 /* harmony import */ var _MartianChessMove__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./MartianChessMove */ 29287);
 /* harmony import */ var _MartianChessState__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./MartianChessState */ 34105);
 /* harmony import */ var _MartianChessPiece__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./MartianChessPiece */ 58662);
@@ -39429,7 +39430,7 @@ function MartianChessComponent__svg_g_15_Template(rf, ctx) {
  * so you must remove one two halves of a stroke-width, one for circle stroke-outside-half,
  * and one for square stroke-inside-half
  */
-class MartianChessComponent extends src_app_components_game_components_rectangular_game_component_RectangularGameComponent__WEBPACK_IMPORTED_MODULE_1__.RectangularGameComponent {
+class MartianChessComponent extends src_app_components_game_components_rectangular_game_component_RectangularGameComponent__WEBPACK_IMPORTED_MODULE_2__.RectangularGameComponent {
   static SPACE_SIZE = 100;
   static STROKE_WIDTH = 8;
   INDICATOR_SIZE = 20;
@@ -39449,11 +39450,11 @@ class MartianChessComponent extends src_app_components_game_components_rectangul
   pieces = _MartianChessPiece__WEBPACK_IMPORTED_MODULE_7__.MartianChessPiece;
   configViewTranslation;
   configCogTransformation;
-  selectedPieceInfo = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.empty();
+  selectedPieceInfo = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
   lastMoved = [];
-  captured = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.empty();
-  promoted = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.empty();
-  countDown = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.empty();
+  captured = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+  promoted = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+  countDown = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
   callTheClock = false;
   displayModePanel = false;
   listOfStyles = [{
@@ -39501,7 +39502,7 @@ class MartianChessComponent extends src_app_components_game_components_rectangul
       const radius = indexDot % 2 === 0 ? MartianChessComponent.SPACE_SIZE / 2 : MartianChessComponent.SPACE_SIZE / 6;
       const px = cx + 0.8 * radius * Math.cos(radian);
       const py = cy + 0.8 * radius * Math.sin(radian);
-      points.push(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(px, py));
+      points.push(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(px, py));
     }
     return points;
   }
@@ -39519,7 +39520,7 @@ class MartianChessComponent extends src_app_components_game_components_rectangul
       const radius = 0.5 * MartianChessComponent.SPACE_SIZE;
       const px = cx + 0.8 * radius * Math.cos(radian);
       const py = cy + 0.8 * radius * Math.sin(radian) + yOffset;
-      points.push(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(px, py));
+      points.push(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(px, py));
     }
     return points;
   }
@@ -39539,7 +39540,7 @@ class MartianChessComponent extends src_app_components_game_components_rectangul
     this.availableAIs = [new _MartianChessScoreMinimax__WEBPACK_IMPORTED_MODULE_12__.MartianChessScoreMinimax(), new src_app_jscaip_AI_MCTS__WEBPACK_IMPORTED_MODULE_9__.MCTS($localize`MCTS`, new _MartianChessMoveGenerator__WEBPACK_IMPORTED_MODULE_10__.MartianChessMoveGenerator(), this.rules)];
     this.encoder = _MartianChessMove__WEBPACK_IMPORTED_MODULE_5__.MartianChessMove.encoder;
     this.hasAsymmetricBoard = true;
-    this.scores = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.of(src_app_jscaip_PlayerMap__WEBPACK_IMPORTED_MODULE_11__.PlayerNumberMap.of(0, 0));
+    this.scores = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(src_app_jscaip_PlayerMap__WEBPACK_IMPORTED_MODULE_11__.PlayerNumberMap.of(0, 0));
     this.SPACE_SIZE = MartianChessComponent.SPACE_SIZE;
     this.configCogTransformation = this.getConfigCogTransformation();
     this.configViewTranslation = this.getConfigViewTranslation();
@@ -39571,10 +39572,10 @@ class MartianChessComponent extends src_app_components_game_components_rectangul
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       _this.state = _this.getState();
       _this.board = _this.state.board;
-      const scoreZero = _this.state.getScoreOf(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ZERO);
-      const scoreOne = _this.state.getScoreOf(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ONE);
+      const scoreZero = _this.state.getScoreOf(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_4__.Player.ZERO);
+      const scoreOne = _this.state.getScoreOf(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_4__.Player.ONE);
       _this.countDown = _this.state.countDown;
-      _this.scores = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.of(src_app_jscaip_PlayerMap__WEBPACK_IMPORTED_MODULE_11__.PlayerNumberMap.of(scoreZero, scoreOne));
+      _this.scores = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(src_app_jscaip_PlayerMap__WEBPACK_IMPORTED_MODULE_11__.PlayerNumberMap.of(scoreZero, scoreOne));
     })();
   }
   showLastMove(move) {
@@ -39588,17 +39589,17 @@ class MartianChessComponent extends src_app_components_game_components_rectangul
       const landingInOpponentTerritory = _this2.node.gameState.isInPlayerTerritory(landing);
       if (wasFilled) {
         if (landingInOpponentTerritory) {
-          _this2.captured = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.of(landing);
+          _this2.captured = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(landing);
         } else {
-          _this2.promoted = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.of(landing);
+          _this2.promoted = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(landing);
         }
       }
     })();
   }
   hideLastMove() {
     this.lastMoved = [];
-    this.captured = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.empty();
-    this.promoted = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.empty();
+    this.captured = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+    this.promoted = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
   }
   getPieceClasses(coord) {
     const classes = [];
@@ -39640,11 +39641,11 @@ class MartianChessComponent extends src_app_components_game_components_rectangul
     var _this5 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       const legalLandings = _this5.getLegalLandings(coord);
-      _this5.selectedPieceInfo = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.of({
+      _this5.selectedPieceInfo = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of({
         selectedPiece: coord,
         legalLandings
       });
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPValidation.SUCCESS;
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.SUCCESS;
     })();
   }
   getLegalLandings(coord) {
@@ -39691,7 +39692,7 @@ class MartianChessComponent extends src_app_components_game_components_rectangul
         return _this6.cancelMove();
       } else if (info.legalLandings.some(c => c.equals(endCoord))) {
         const move = _MartianChessMove__WEBPACK_IMPORTED_MODULE_5__.MartianChessMove.from(info.selectedPiece, endCoord, _this6.callTheClock);
-        _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.Utils.assert(move.isSuccess(), 'MartianChessComponent or Rules did a mistake thinking this would have been a legal move!');
+        _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.Utils.assert(move.isSuccess(), 'MartianChessComponent or Rules did a mistake thinking this would have been a legal move!');
         return _this6.chooseMove(move.get());
       } else if (_this6.isOneOfUsersPieces(endCoord)) {
         return _this6.selectAsFirstPiece(endCoord);
@@ -39709,7 +39710,7 @@ class MartianChessComponent extends src_app_components_game_components_rectangul
     return this.state.getPieceAt(coord) !== _MartianChessPiece__WEBPACK_IMPORTED_MODULE_7__.MartianChessPiece.EMPTY && this.state.isInPlayerTerritory(coord);
   }
   cancelMoveAttempt() {
-    this.selectedPieceInfo = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.empty();
+    this.selectedPieceInfo = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
     this.callTheClock = false;
   }
   onClockClick() {
@@ -39723,7 +39724,7 @@ class MartianChessComponent extends src_app_components_game_components_rectangul
       if (canCallTheClock) {
         _this7.callTheClock = _this7.callTheClock === false;
       }
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPValidation.SUCCESS;
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.SUCCESS;
     })();
   }
   getClockCircleClasses() {
@@ -39731,7 +39732,7 @@ class MartianChessComponent extends src_app_components_game_components_rectangul
     if (this.callTheClock) {
       classes.push('selected-stroke');
     }
-    if (this.getCurrentPlayer() === src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ZERO) {
+    if (this.getCurrentPlayer() === src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_4__.Player.ZERO) {
       classes.push('player0-stroke');
     } else {
       classes.push('player1-stroke');
@@ -40222,10 +40223,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   P4Component: () => (/* binding */ P4Component)
 /* harmony export */ });
 /* harmony import */ var _home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 89204);
-/* harmony import */ var _P4Rules__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./P4Rules */ 92780);
-/* harmony import */ var _components_game_components_rectangular_game_component_RectangularGameComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../components/game-components/rectangular-game-component/RectangularGameComponent */ 96740);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @everyboard/lib */ 65042);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @everyboard/lib */ 65042);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _P4Rules__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./P4Rules */ 92780);
+/* harmony import */ var _components_game_components_rectangular_game_component_RectangularGameComponent__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../components/game-components/rectangular-game-component/RectangularGameComponent */ 96740);
 /* harmony import */ var src_app_games_p4_P4Move__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/games/p4/P4Move */ 710);
 /* harmony import */ var src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/jscaip/Player */ 22092);
 /* harmony import */ var src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/app/jscaip/Coord */ 16904);
@@ -40323,9 +40324,9 @@ function P4Component__svg_rect_3_Template(rf, ctx) {
     _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵattribute"]("x", ctx_r3.SPACE_SIZE * coord_r7.x)("y", ctx_r3.SPACE_SIZE * coord_r7.y)("width", ctx_r3.SPACE_SIZE)("height", ctx_r3.SPACE_SIZE);
   }
 }
-class P4Component extends _components_game_components_rectangular_game_component_RectangularGameComponent__WEBPACK_IMPORTED_MODULE_2__.RectangularGameComponent {
+class P4Component extends _components_game_components_rectangular_game_component_RectangularGameComponent__WEBPACK_IMPORTED_MODULE_3__.RectangularGameComponent {
   EMPTY = src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_5__.PlayerOrNone.NONE;
-  last = _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.MGPOptional.empty();
+  last = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
   victoryCoords = [];
   constructor(messageDisplayer, cdr) {
     super(messageDisplayer, cdr);
@@ -40348,7 +40349,7 @@ class P4Component extends _components_game_components_rectangular_game_component
     var _this2 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       const state = _this2.getState();
-      _this2.victoryCoords = _P4Rules__WEBPACK_IMPORTED_MODULE_1__.P4Rules.get().getVictoriousCoords(state);
+      _this2.victoryCoords = _P4Rules__WEBPACK_IMPORTED_MODULE_2__.P4Rules.get().getVictoriousCoords(state);
       _this2.board = state.board;
     })();
   }
@@ -40356,12 +40357,12 @@ class P4Component extends _components_game_components_rectangular_game_component
     var _this3 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       const state = _this3.getState();
-      const y = _P4Rules__WEBPACK_IMPORTED_MODULE_1__.P4Rules.get().getLowestUnoccupiedSpace(state.board, move.x) + 1;
-      _this3.last = _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.MGPOptional.of(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_6__.Coord(move.x, y));
+      const y = _P4Rules__WEBPACK_IMPORTED_MODULE_2__.P4Rules.get().getLowestUnoccupiedSpace(state.board, move.x) + 1;
+      _this3.last = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_6__.Coord(move.x, y));
     })();
   }
   hideLastMove() {
-    this.last = _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.MGPOptional.empty();
+    this.last = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
   }
   getSquareFillClass(x, y) {
     const content = this.board[y][x];
@@ -40863,10 +40864,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   PentagoComponent: () => (/* binding */ PentagoComponent)
 /* harmony export */ });
 /* harmony import */ var _home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 89204);
-/* harmony import */ var src_app_components_game_components_rectangular_game_component_RectangularGameComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/components/game-components/rectangular-game-component/RectangularGameComponent */ 96740);
-/* harmony import */ var src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/jscaip/Coord */ 16904);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @everyboard/lib */ 65042);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @everyboard/lib */ 65042);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var src_app_components_game_components_rectangular_game_component_RectangularGameComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/components/game-components/rectangular-game-component/RectangularGameComponent */ 96740);
+/* harmony import */ var src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/jscaip/Coord */ 16904);
 /* harmony import */ var _PentagoMove__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./PentagoMove */ 79904);
 /* harmony import */ var _PentagoState__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./PentagoState */ 83432);
 /* harmony import */ var src_app_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/app/jscaip/RulesFailure */ 68566);
@@ -40944,8 +40945,15 @@ function PentagoComponent__svg_circle_8_Template(rf, ctx) {
 }
 function PentagoComponent__svg_circle_9_Template(rf, ctx) {
   if (rf & 1) {
+    const _r9 = _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵgetCurrentView"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵnamespaceSVG"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵelement"](0, "circle", 13);
+    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵelementStart"](0, "circle", 12);
+    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵlistener"]("click", function PentagoComponent__svg_circle_9_Template_circle_click_0_listener() {
+      _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵrestoreView"](_r9);
+      const ctx_r5 = _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵnextContext"]();
+      return _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵresetView"](ctx_r5.onClick(ctx_r5.currentDrop.get()));
+    });
+    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵelementEnd"]();
   }
   if (rf & 2) {
     const ctx_r5 = _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵnextContext"]();
@@ -40956,30 +40964,30 @@ function PentagoComponent__svg_circle_9_Template(rf, ctx) {
 }
 function PentagoComponent__svg_ng_container_10_Template(rf, ctx) {
   if (rf & 1) {
-    const _r9 = _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵgetCurrentView"]();
+    const _r10 = _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵgetCurrentView"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵnamespaceSVG"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵelementContainerStart"](0);
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵelementStart"](1, "path", 14);
+    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵelementStart"](1, "path", 13);
     _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵlistener"]("click", function PentagoComponent__svg_ng_container_10_Template_path_click_1_listener() {
-      const arrow_r10 = _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵrestoreView"](_r9).$implicit;
+      const arrow_r11 = _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵrestoreView"](_r10).$implicit;
       const ctx_r5 = _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵnextContext"]();
-      return _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵresetView"](ctx_r5.rotate(arrow_r10));
+      return _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵresetView"](ctx_r5.rotate(arrow_r11));
     });
     _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵelementContainerEnd"]();
   }
   if (rf & 2) {
-    const arrow_r10 = ctx.$implicit;
+    const arrow_r11 = ctx.$implicit;
     const ctx_r5 = _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵnextContext"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵpropertyInterpolate2"]("id", "rotate-", arrow_r10.blockIndex, "-", arrow_r10.clockwise ? "clockwise" : "counterclockwise", "");
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵattribute"]("d", arrow_r10.path)("stroke-width", 2 * ctx_r5.STROKE_WIDTH);
+    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵpropertyInterpolate2"]("id", "rotate-", arrow_r11.blockIndex, "-", arrow_r11.clockwise ? "clockwise" : "counterclockwise", "");
+    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵattribute"]("d", arrow_r11.path)("stroke-width", 2 * ctx_r5.STROKE_WIDTH);
   }
 }
 function PentagoComponent__svg_path_11_Template(rf, ctx) {
   if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵnamespaceSVG"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵelement"](0, "path", 15);
+    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵelement"](0, "path", 14);
   }
   if (rf & 2) {
     const ctx_r5 = _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵnextContext"]();
@@ -40990,27 +40998,27 @@ function PentagoComponent__svg_path_11_Template(rf, ctx) {
 function PentagoComponent__svg_circle_12_Template(rf, ctx) {
   if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵnamespaceSVG"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵelement"](0, "circle", 16);
+    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵelement"](0, "circle", 15);
   }
   if (rf & 2) {
-    const victoryCoord_r11 = ctx.$implicit;
+    const victoryCoord_r12 = ctx.$implicit;
     const ctx_r5 = _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵnextContext"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵpropertyInterpolate2"]("id", "victory-coord-", victoryCoord_r11.x, "-", victoryCoord_r11.y, "");
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵproperty"]("ngClass", ctx_r5.getSquareClasses(victoryCoord_r11));
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵattribute"]("transform", ctx_r5.getPieceTranslate(victoryCoord_r11))("cx", 0.5 * ctx_r5.SPACE_SIZE)("cy", 0.5 * ctx_r5.SPACE_SIZE)("r", (ctx_r5.SPACE_SIZE - ctx_r5.STROKE_WIDTH) / 2)("stroke-width", ctx_r5.STROKE_WIDTH);
+    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵpropertyInterpolate2"]("id", "victory-coord-", victoryCoord_r12.x, "-", victoryCoord_r12.y, "");
+    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵproperty"]("ngClass", ctx_r5.getSquareClasses(victoryCoord_r12));
+    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵattribute"]("transform", ctx_r5.getPieceTranslate(victoryCoord_r12))("cx", 0.5 * ctx_r5.SPACE_SIZE)("cy", 0.5 * ctx_r5.SPACE_SIZE)("r", (ctx_r5.SPACE_SIZE - ctx_r5.STROKE_WIDTH) / 2)("stroke-width", ctx_r5.STROKE_WIDTH);
   }
 }
 function PentagoComponent__svg_g_13_Template(rf, ctx) {
   if (rf & 1) {
-    const _r12 = _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵgetCurrentView"]();
+    const _r13 = _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵgetCurrentView"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵnamespaceSVG"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵelementStart"](0, "g", 17);
+    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵelementStart"](0, "g", 16);
     _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵlistener"]("click", function PentagoComponent__svg_g_13_Template_g_click_0_listener() {
-      _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵrestoreView"](_r12);
+      _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵrestoreView"](_r13);
       const ctx_r5 = _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵnextContext"]();
       return _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵresetView"](ctx_r5.skipRotation());
     });
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵelement"](1, "circle", 18)(2, "line", 19);
+    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵelement"](1, "circle", 17)(2, "line", 18);
     _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵelementEnd"]();
   }
   if (rf & 2) {
@@ -41022,7 +41030,7 @@ function PentagoComponent__svg_g_13_Template(rf, ctx) {
     _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵattribute"]("x1", -ctx_r5.DIAGONAL_BAR_OFFSET)("y1", +ctx_r5.DIAGONAL_BAR_OFFSET)("x2", +ctx_r5.DIAGONAL_BAR_OFFSET)("y2", -ctx_r5.DIAGONAL_BAR_OFFSET)("stroke-width", 2 * ctx_r5.STROKE_WIDTH);
   }
 }
-class PentagoComponent extends src_app_components_game_components_rectangular_game_component_RectangularGameComponent__WEBPACK_IMPORTED_MODULE_1__.RectangularGameComponent {
+class PentagoComponent extends src_app_components_game_components_rectangular_game_component_RectangularGameComponent__WEBPACK_IMPORTED_MODULE_2__.RectangularGameComponent {
   BLOCK_WIDTH;
   BLOCK_SEPARATION;
   PIECE_SEPARATION;
@@ -41031,10 +41039,10 @@ class PentagoComponent extends src_app_components_game_components_rectangular_ga
   arrows = [];
   victoryCoords = [];
   canSkipRotation;
-  currentDrop = _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.MGPOptional.empty();
-  movedBlock = _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.MGPOptional.empty();
-  lastDrop = _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.MGPOptional.empty();
-  lastRotation = _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.MGPOptional.empty();
+  currentDrop = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+  movedBlock = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+  lastDrop = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+  lastRotation = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
   ARROWS;
   constructor(messageDisplayer, cdr) {
     super(messageDisplayer, cdr);
@@ -41071,14 +41079,14 @@ class PentagoComponent extends src_app_components_game_components_rectangular_ga
     var _this2 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       _this2.movedBlock = move.blockTurned;
-      const localCoord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(move.coord.x % 3 - 1, move.coord.y % 3 - 1);
+      const localCoord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(move.coord.x % 3 - 1, move.coord.y % 3 - 1);
       if (move.blockTurned.isPresent()) {
         _this2.showLastRotation(move);
-        if (localCoord.equals(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(0, 0)) === false && _this2.coordBelongToBlock(move)) {
+        if (localCoord.equals(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(0, 0)) === false && _this2.coordBelongToBlock(move)) {
           return _this2.showLastDrop(move, localCoord);
         }
       }
-      _this2.lastDrop = _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.MGPOptional.of(move.coord);
+      _this2.lastDrop = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(move.coord);
     })();
   }
   showLastRotation(lastMove) {
@@ -41087,7 +41095,7 @@ class PentagoComponent extends src_app_components_game_components_rectangular_ga
       const lastArrow = this.ARROWS.filter(arrow => {
         return arrow.blockIndex === blockIndex && arrow.clockwise === lastMove.turnedClockwise;
       })[0];
-      this.lastRotation = _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.MGPOptional.of(lastArrow);
+      this.lastRotation = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(lastArrow);
     }
   }
   showLastDrop(lastMove, localCoord) {
@@ -41096,11 +41104,11 @@ class PentagoComponent extends src_app_components_game_components_rectangular_ga
     // Note, this is a local coord for each 3x3 block, so a coord between (0, 0) and (2, 2)
     let postRotation;
     if (lastMove.turnedClockwise) {
-      postRotation = _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.Utils.getNonNullable(_PentagoState__WEBPACK_IMPORTED_MODULE_5__.PentagoState.ROTATION_MAP.find(value => {
+      postRotation = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.Utils.getNonNullable(_PentagoState__WEBPACK_IMPORTED_MODULE_5__.PentagoState.ROTATION_MAP.find(value => {
         return value[0].equals(localCoord);
       }))[1];
     } else {
-      postRotation = _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.Utils.getNonNullable(_PentagoState__WEBPACK_IMPORTED_MODULE_5__.PentagoState.ROTATION_MAP.find(value => {
+      postRotation = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.Utils.getNonNullable(_PentagoState__WEBPACK_IMPORTED_MODULE_5__.PentagoState.ROTATION_MAP.find(value => {
         return value[1].equals(localCoord);
       }))[0];
     }
@@ -41109,9 +41117,9 @@ class PentagoComponent extends src_app_components_game_components_rectangular_ga
     const turnedBlockIndex = lastMove.blockTurned.get();
     const cx = turnedBlockIndex % 2 === 0 ? 1 : 4;
     const cy = turnedBlockIndex < 2 ? 1 : 4;
-    const turnedBlockCenterCoord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(cx, cy);
+    const turnedBlockCenterCoord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(cx, cy);
     postRotation = postRotation.getNext(turnedBlockCenterCoord, 1);
-    this.lastDrop = _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.MGPOptional.of(postRotation);
+    this.lastDrop = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(postRotation);
   }
   coordBelongToBlock(lastMove) {
     const lastMoveBlockY = lastMove.coord.y < 3 ? 0 : 1;
@@ -41120,9 +41128,9 @@ class PentagoComponent extends src_app_components_game_components_rectangular_ga
     return lastMove.blockTurned.equalsValue(lastMoveBlockIndex);
   }
   hideLastMove() {
-    this.lastDrop = _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.MGPOptional.empty();
-    this.movedBlock = _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.MGPOptional.empty();
-    this.lastRotation = _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.MGPOptional.empty();
+    this.lastDrop = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+    this.movedBlock = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+    this.lastRotation = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
     this.victoryCoords = [];
   }
   generateArrowsCoord() {
@@ -41142,49 +41150,49 @@ class PentagoComponent extends src_app_components_game_components_rectangular_ga
     const path7 = 'M  ' + B2 + '  ' + D1 + ' q  ' + C2 + ' -' + C2 + '  ' + z0 + ' -' + C4;
     return [{
       path: path0,
-      coord: new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(+C1, +z0),
+      coord: new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(+C1, +z0),
       blockIndex: 0,
       clockwise: true
     }, {
       path: path1,
-      coord: new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(-z0, +C1),
+      coord: new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(-z0, +C1),
       blockIndex: 0,
       clockwise: false
     }, {
       path: path2,
-      coord: new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(+B2, +C1),
+      coord: new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(+B2, +C1),
       blockIndex: 1,
       clockwise: true
     }, {
       path: path3,
-      coord: new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(+D1, -z0),
+      coord: new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(+D1, -z0),
       blockIndex: 1,
       clockwise: false
     }, {
       path: path4,
-      coord: new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(-z0, +D1),
+      coord: new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(-z0, +D1),
       blockIndex: 2,
       clockwise: true
     }, {
       path: path5,
-      coord: new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(+C1, +B2),
+      coord: new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(+C1, +B2),
       blockIndex: 2,
       clockwise: false
     }, {
       path: path6,
-      coord: new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(+D1, +B2),
+      coord: new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(+D1, +B2),
       blockIndex: 3,
       clockwise: true
     }, {
       path: path7,
-      coord: new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(+B2, +D1),
+      coord: new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(+B2, +D1),
       blockIndex: 3,
       clockwise: false
     }];
   }
   cancelMoveAttempt() {
     this.arrows = [];
-    this.currentDrop = _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.MGPOptional.empty();
+    this.currentDrop = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
     this.canSkipRotation = false;
   }
   onClick(coord) {
@@ -41199,6 +41207,9 @@ class PentagoComponent extends src_app_components_game_components_rectangular_ga
       if (_this3.state.board[y][x].isPlayer()) {
         return _this3.cancelMove(src_app_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_6__.RulesFailure.MUST_LAND_ON_EMPTY_SPACE());
       }
+      if (_this3.currentDrop.equalsValue(coord)) {
+        return _this3.cancelMove();
+      }
       const drop = _PentagoMove__WEBPACK_IMPORTED_MODULE_4__.PentagoMove.rotationless(x, y);
       const state = _this3.getState();
       const postDropState = state.applyLegalDrop(drop);
@@ -41207,9 +41218,9 @@ class PentagoComponent extends src_app_components_game_components_rectangular_ga
       }
       const gameStatus = _this3.rules.getGameStatus(_this3.node);
       _this3.canSkipRotation = postDropState.neutralBlocks.length > 0 && gameStatus.isEndGame === false;
-      _this3.currentDrop = _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.MGPOptional.of(coord);
+      _this3.currentDrop = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(coord);
       _this3.displayArrows(postDropState.neutralBlocks);
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.MGPValidation.SUCCESS;
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.SUCCESS;
     })();
   }
   displayArrows(neutralBlocks) {
@@ -41279,7 +41290,7 @@ class PentagoComponent extends src_app_components_game_components_rectangular_ga
     features: [_angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵInheritDefinitionFeature"]],
     decls: 14,
     vars: 10,
-    consts: [["xmlns", "http://www.w3.org/2000/svg", 1, "board"], ["id", "blue-arrow-head", "markerWidth", "5", "markerHeight", "3.5", "refX", "2.5", "refY", "1.75", "orient", "auto", "fill", "blue"], ["points", "0 0, 5 1.75, 0 3.5"], ["id", "moved-arrow-head", "markerWidth", "5", "markerHeight", "3.5", "refX", "2.5", "refY", "1.75", "orient", "auto", 1, "last-move-fill"], [4, "ngFor", "ngForOf"], ["class", "base", "pointer-events", "fill", 3, "id", "ngClass", "click", 4, "ngFor", "ngForOf"], ["class", "base", "pointer-events", "fill", 3, "id", "ngClass", 4, "ngIf"], ["class", "no-fill last-move-stroke", "marker-end", "url(#moved-arrow-head)", 3, "id", 4, "ngIf"], ["class", "base victory-stroke", 3, "id", "ngClass", 4, "ngFor", "ngForOf"], ["id", "skip-rotation", 3, "click", 4, "ngIf"], ["x", "0", "y", "0", "class", "base no-fill", 3, "id", "ngClass", 4, "ngFor", "ngForOf"], ["x", "0", "y", "0", 1, "base", "no-fill", 3, "id", "ngClass"], ["pointer-events", "fill", 1, "base", 3, "click", "id", "ngClass"], ["pointer-events", "fill", 1, "base", 3, "id", "ngClass"], ["stroke", "blue", "marker-end", "url(#blue-arrow-head)", 1, "no-fill", 3, "click", "id"], ["marker-end", "url(#moved-arrow-head)", 1, "no-fill", "last-move-stroke", 3, "id"], [1, "base", "victory-stroke", 3, "id", "ngClass"], ["id", "skip-rotation", 3, "click"], ["stroke", "red", 1, "background"], ["stroke", "red"]],
+    consts: [["xmlns", "http://www.w3.org/2000/svg", 1, "board"], ["id", "blue-arrow-head", "markerWidth", "5", "markerHeight", "3.5", "refX", "2.5", "refY", "1.75", "orient", "auto", "fill", "blue"], ["points", "0 0, 5 1.75, 0 3.5"], ["id", "moved-arrow-head", "markerWidth", "5", "markerHeight", "3.5", "refX", "2.5", "refY", "1.75", "orient", "auto", 1, "last-move-fill"], [4, "ngFor", "ngForOf"], ["class", "base", "pointer-events", "fill", 3, "id", "ngClass", "click", 4, "ngFor", "ngForOf"], ["class", "base", "pointer-events", "fill", 3, "id", "ngClass", "click", 4, "ngIf"], ["class", "no-fill last-move-stroke", "marker-end", "url(#moved-arrow-head)", 3, "id", 4, "ngIf"], ["class", "base victory-stroke", 3, "id", "ngClass", 4, "ngFor", "ngForOf"], ["id", "skip-rotation", 3, "click", 4, "ngIf"], ["x", "0", "y", "0", "class", "base no-fill", 3, "id", "ngClass", 4, "ngFor", "ngForOf"], ["x", "0", "y", "0", 1, "base", "no-fill", 3, "id", "ngClass"], ["pointer-events", "fill", 1, "base", 3, "click", "id", "ngClass"], ["stroke", "blue", "marker-end", "url(#blue-arrow-head)", 1, "no-fill", 3, "click", "id"], ["marker-end", "url(#moved-arrow-head)", 1, "no-fill", "last-move-stroke", 3, "id"], [1, "base", "victory-stroke", 3, "id", "ngClass"], ["id", "skip-rotation", 3, "click"], ["stroke", "red", 1, "background"], ["stroke", "red"]],
     template: function PentagoComponent_Template(rf, ctx) {
       if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵnamespaceSVG"]();
@@ -41637,10 +41648,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   PenteComponent: () => (/* binding */ PenteComponent)
 /* harmony export */ });
 /* harmony import */ var _home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 89204);
-/* harmony import */ var _PenteRules__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PenteRules */ 20678);
-/* harmony import */ var _PenteMove__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./PenteMove */ 34028);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @everyboard/lib */ 65042);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @everyboard/lib */ 65042);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _PenteRules__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./PenteRules */ 20678);
+/* harmony import */ var _PenteMove__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./PenteMove */ 34028);
 /* harmony import */ var src_app_components_game_components_goban_game_component_GobanGameComponent__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/components/game-components/goban-game-component/GobanGameComponent */ 41750);
 /* harmony import */ var src_app_jscaip_AI_MCTS__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/jscaip/AI/MCTS */ 37123);
 /* harmony import */ var _PenteMoveGenerator__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./PenteMoveGenerator */ 39643);
@@ -41701,15 +41712,15 @@ function PenteComponent__svg_circle_3_Template(rf, ctx) {
   }
 }
 class PenteComponent extends src_app_components_game_components_goban_game_component_GobanGameComponent__WEBPACK_IMPORTED_MODULE_4__.GobanGameComponent {
-  lastMoved = _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.MGPOptional.empty();
+  lastMoved = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
   victoryCoords = [];
   captured = [];
   constructor(messageDisplayer, cdr) {
     super(messageDisplayer, cdr);
     this.setRulesAndNode('Pente');
     this.availableAIs = [new _PenteAlignmentMinimax__WEBPACK_IMPORTED_MODULE_8__.PenteAlignmentMinimax(), new src_app_jscaip_AI_MCTS__WEBPACK_IMPORTED_MODULE_5__.MCTS($localize`MCTS`, new _PenteMoveGenerator__WEBPACK_IMPORTED_MODULE_6__.PenteMoveGenerator(), this.rules)];
-    this.encoder = _PenteMove__WEBPACK_IMPORTED_MODULE_2__.PenteMove.encoder;
-    this.scores = _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.MGPOptional.of(src_app_jscaip_PlayerMap__WEBPACK_IMPORTED_MODULE_7__.PlayerNumberMap.of(0, 0));
+    this.encoder = _PenteMove__WEBPACK_IMPORTED_MODULE_3__.PenteMove.encoder;
+    this.scores = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(src_app_jscaip_PlayerMap__WEBPACK_IMPORTED_MODULE_7__.PlayerNumberMap.of(0, 0));
   }
   getScoreName() {
     return src_app_components_game_components_game_component_GameComponent__WEBPACK_IMPORTED_MODULE_9__.ScoreName.CAPTURES;
@@ -41719,7 +41730,7 @@ class PenteComponent extends src_app_components_game_components_goban_game_compo
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       const state = _this.getState();
       _this.board = state.board;
-      _this.scores = _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.MGPOptional.of(_this.getState().captures);
+      _this.scores = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(_this.getState().captures);
       const config = _this.getConfig();
       _this.victoryCoords = _this.rules.getHelper(config.get()).getVictoriousCoord(state);
       _this.createHoshis();
@@ -41728,14 +41739,14 @@ class PenteComponent extends src_app_components_game_components_goban_game_compo
   showLastMove(move) {
     var _this2 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      _this2.lastMoved = _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.MGPOptional.of(move.coord);
+      _this2.lastMoved = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(move.coord);
       const opponent = _this2.getCurrentOpponent();
-      _this2.captured = _PenteRules__WEBPACK_IMPORTED_MODULE_1__.PenteRules.get().getCaptures(move.coord, _this2.getPreviousState(), _this2.getConfig().get(), opponent);
+      _this2.captured = _PenteRules__WEBPACK_IMPORTED_MODULE_2__.PenteRules.get().getCaptures(move.coord, _this2.getPreviousState(), _this2.getConfig().get(), opponent);
     })();
   }
   hideLastMove() {
     this.captured = [];
-    this.lastMoved = _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.MGPOptional.empty();
+    this.lastMoved = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
   }
   onClick(coord) {
     var _this3 = this;
@@ -41744,7 +41755,7 @@ class PenteComponent extends src_app_components_game_components_goban_game_compo
       if (clickValidity.isFailure()) {
         return _this3.cancelMove(clickValidity.getReason());
       }
-      return _this3.chooseMove(_PenteMove__WEBPACK_IMPORTED_MODULE_2__.PenteMove.of(coord));
+      return _this3.chooseMove(_PenteMove__WEBPACK_IMPORTED_MODULE_3__.PenteMove.of(coord));
     })();
   }
   getSpaceClass(coord) {
@@ -42588,14 +42599,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   PylosComponent: () => (/* binding */ PylosComponent)
 /* harmony export */ });
 /* harmony import */ var _home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 89204);
-/* harmony import */ var _components_game_components_game_component_GameComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../components/game-components/game-component/GameComponent */ 58047);
-/* harmony import */ var src_app_games_pylos_PylosMove__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/games/pylos/PylosMove */ 82784);
-/* harmony import */ var src_app_games_pylos_PylosState__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/games/pylos/PylosState */ 89352);
-/* harmony import */ var src_app_games_pylos_PylosRules__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/games/pylos/PylosRules */ 64490);
-/* harmony import */ var src_app_games_pylos_PylosCoord__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/games/pylos/PylosCoord */ 32532);
-/* harmony import */ var src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/app/jscaip/Player */ 22092);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @everyboard/lib */ 65042);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @everyboard/lib */ 65042);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _components_game_components_game_component_GameComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../components/game-components/game-component/GameComponent */ 58047);
+/* harmony import */ var src_app_games_pylos_PylosMove__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/games/pylos/PylosMove */ 82784);
+/* harmony import */ var src_app_games_pylos_PylosState__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/games/pylos/PylosState */ 89352);
+/* harmony import */ var src_app_games_pylos_PylosRules__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/games/pylos/PylosRules */ 64490);
+/* harmony import */ var src_app_games_pylos_PylosCoord__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/app/games/pylos/PylosCoord */ 32532);
+/* harmony import */ var src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! src/app/jscaip/Player */ 22092);
 /* harmony import */ var src_app_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! src/app/jscaip/RulesFailure */ 68566);
 /* harmony import */ var _PylosFailure__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./PylosFailure */ 60271);
 /* harmony import */ var src_app_jscaip_AI_MCTS__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! src/app/jscaip/AI/MCTS */ 37123);
@@ -42830,22 +42841,22 @@ function PylosComponent__svg_g_9_Template(rf, ctx) {
     _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵattribute"]("x1", +0.25 * ctx_r2.getPieceRadius(capturable_r12.z))("y1", -0.25 * ctx_r2.getPieceRadius(capturable_r12.z))("x2", -0.25 * ctx_r2.getPieceRadius(capturable_r12.z))("y2", +0.25 * ctx_r2.getPieceRadius(capturable_r12.z));
   }
 }
-class PylosComponent extends _components_game_components_game_component_GameComponent__WEBPACK_IMPORTED_MODULE_1__.GameComponent {
+class PylosComponent extends _components_game_components_game_component_GameComponent__WEBPACK_IMPORTED_MODULE_2__.GameComponent {
   // 4*100 for each pieces at z=0 level + 2*4 for each direction there is stroke
   boardWidth = 4 * this.SPACE_SIZE + this.STROKE_WIDTH;
   pieceRowHeight = this.SPACE_SIZE / 2;
   boardHeight = this.boardWidth + 2 * this.pieceRowHeight;
   constructedState;
-  lastLandingCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPOptional.empty();
-  lastStartingCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPOptional.empty();
-  lastFirstCapture = _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPOptional.empty();
-  lastSecondCapture = _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPOptional.empty();
-  highCapture = _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPOptional.empty();
-  capturables = new _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.Set();
-  chosenStartingCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPOptional.empty();
-  chosenLandingCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPOptional.empty();
-  chosenFirstCapture = _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPOptional.empty();
-  chosenSecondCapture = _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPOptional.empty();
+  lastLandingCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+  lastStartingCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+  lastFirstCapture = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+  lastSecondCapture = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+  highCapture = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+  capturables = new _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.Set();
+  chosenStartingCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+  chosenLandingCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+  chosenFirstCapture = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+  chosenSecondCapture = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
   captured = [];
   lastMoved = [];
   remainingPieces = src_app_jscaip_PlayerMap__WEBPACK_IMPORTED_MODULE_12__.PlayerNumberMap.of(15, 15);
@@ -42853,21 +42864,21 @@ class PylosComponent extends _components_game_components_game_component_GameComp
     super(messageDisplayer, cdr);
     this.setRulesAndNode('Pylos');
     this.availableAIs = [new _PylosMinimax__WEBPACK_IMPORTED_MODULE_13__.PylosMinimax(), new src_app_jscaip_AI_MCTS__WEBPACK_IMPORTED_MODULE_10__.MCTS($localize`MCTS`, new _PylosMoveGenerator__WEBPACK_IMPORTED_MODULE_11__.PylosMoveGenerator(), this.rules)];
-    this.encoder = src_app_games_pylos_PylosMove__WEBPACK_IMPORTED_MODULE_2__.PylosMove.encoder;
+    this.encoder = src_app_games_pylos_PylosMove__WEBPACK_IMPORTED_MODULE_3__.PylosMove.encoder;
     this.hasAsymmetricBoard = true;
   }
   getPiecesCyForPlayer(player) {
-    if (player === src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_6__.Player.ONE) {
+    if (player === src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_7__.Player.ONE) {
       return this.pieceRowHeight / 2;
     } else {
       return this.boardWidth + 1.5 * this.pieceRowHeight;
     }
   }
   getLevelRange(z) {
-    return src_app_games_pylos_PylosState__WEBPACK_IMPORTED_MODULE_3__.PylosState.getLevelRange(z);
+    return src_app_games_pylos_PylosState__WEBPACK_IMPORTED_MODULE_4__.PylosState.getLevelRange(z);
   }
   mustDraw(x, y, z) {
-    const coord = new src_app_games_pylos_PylosCoord__WEBPACK_IMPORTED_MODULE_5__.PylosCoord(x, y, z);
+    const coord = new src_app_games_pylos_PylosCoord__WEBPACK_IMPORTED_MODULE_6__.PylosCoord(x, y, z);
     if (this.constructedState.getPieceAt(coord).isPlayer()) {
       return true;
     }
@@ -42889,7 +42900,7 @@ class PylosComponent extends _components_game_components_game_component_GameComp
       if (clickValidity.isFailure()) {
         return _this.cancelMove(clickValidity.getReason());
       }
-      const clickedCoord = new src_app_games_pylos_PylosCoord__WEBPACK_IMPORTED_MODULE_5__.PylosCoord(x, y, z);
+      const clickedCoord = new src_app_games_pylos_PylosCoord__WEBPACK_IMPORTED_MODULE_6__.PylosCoord(x, y, z);
       const clickedPiece = _this.state.getPieceAt(clickedCoord);
       const pieceBelongToOpponent = clickedPiece === _this.state.getCurrentOpponent();
       if (pieceBelongToOpponent) {
@@ -42919,41 +42930,41 @@ class PylosComponent extends _components_game_components_game_component_GameComp
     var _this2 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       // Starting do describe a climbing move
-      _this2.chosenStartingCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPOptional.of(clickedCoord);
+      _this2.chosenStartingCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(clickedCoord);
       _this2.constructedState = _this2.constructedState.removePieceAt(clickedCoord);
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPValidation.SUCCESS;
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.SUCCESS;
     })();
   }
   onCaptureClick(clickedCoord) {
     var _this3 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       if (_this3.chosenFirstCapture.equalsValue(clickedCoord)) {
-        _this3.chosenFirstCapture = _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPOptional.empty();
+        _this3.chosenFirstCapture = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
         _this3.constructedState = _this3.constructedState.dropCurrentPlayersPieceAt(clickedCoord);
         _this3.updateCapturableList();
-        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPValidation.SUCCESS;
+        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.SUCCESS;
       }
       if (_this3.chosenSecondCapture.equalsValue(clickedCoord)) {
-        _this3.chosenSecondCapture = _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPOptional.empty();
+        _this3.chosenSecondCapture = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
         _this3.constructedState = _this3.constructedState.dropCurrentPlayersPieceAt(clickedCoord);
         _this3.updateCapturableList();
-        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPValidation.SUCCESS;
+        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.SUCCESS;
       }
       if (_this3.chosenFirstCapture.isAbsent()) {
         // First capture
-        _this3.chosenFirstCapture = _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPOptional.of(clickedCoord);
+        _this3.chosenFirstCapture = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(clickedCoord);
         _this3.constructedState = _this3.constructedState.removePieceAt(clickedCoord);
         _this3.updateCapturableList();
-        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPValidation.SUCCESS;
+        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.SUCCESS;
       }
       if (_this3.chosenSecondCapture.isAbsent()) {
         // Last capture
-        _this3.chosenSecondCapture = _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPOptional.of(clickedCoord);
+        _this3.chosenSecondCapture = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(clickedCoord);
         _this3.constructedState = _this3.constructedState.removePieceAt(clickedCoord);
         _this3.updateCapturableList();
-        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPValidation.SUCCESS;
+        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.SUCCESS;
       }
-      return _this3.cancelMove(src_app_games_pylos_PylosMove__WEBPACK_IMPORTED_MODULE_2__.PylosMoveFailure.MUST_CAPTURE_MAXIMUM_TWO_PIECES());
+      return _this3.cancelMove(src_app_games_pylos_PylosMove__WEBPACK_IMPORTED_MODULE_3__.PylosMoveFailure.MUST_CAPTURE_MAXIMUM_TWO_PIECES());
     })();
   }
   updateCapturableList() {
@@ -42974,7 +42985,7 @@ class PylosComponent extends _components_game_components_game_component_GameComp
         return _this4.cancelMove(clickValidity.getReason());
       }
       if (_this4.chosenFirstCapture.isAbsent() && _this4.chosenSecondCapture.isAbsent()) {
-        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPValidation.SUCCESS;
+        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.SUCCESS;
       }
       if (_this4.chosenFirstCapture.isPresent() && _this4.chosenSecondCapture.isAbsent()) {
         return _this4.concludeMoveWithCapture([_this4.chosenFirstCapture.get()]);
@@ -42989,21 +43000,21 @@ class PylosComponent extends _components_game_components_game_component_GameComp
     var _this5 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       if (_this5.chosenStartingCoord.isAbsent()) {
-        const move = src_app_games_pylos_PylosMove__WEBPACK_IMPORTED_MODULE_2__.PylosMove.ofDrop(_this5.chosenLandingCoord.get(), captures);
+        const move = src_app_games_pylos_PylosMove__WEBPACK_IMPORTED_MODULE_3__.PylosMove.ofDrop(_this5.chosenLandingCoord.get(), captures);
         return _this5.chooseMove(move);
       } else {
-        const move = src_app_games_pylos_PylosMove__WEBPACK_IMPORTED_MODULE_2__.PylosMove.ofClimb(_this5.chosenStartingCoord.get(), _this5.chosenLandingCoord.get(), captures);
+        const move = src_app_games_pylos_PylosMove__WEBPACK_IMPORTED_MODULE_3__.PylosMove.ofClimb(_this5.chosenStartingCoord.get(), _this5.chosenLandingCoord.get(), captures);
         return _this5.chooseMove(move);
       }
     })();
   }
   cancelMoveAttempt() {
     this.constructedState = this.state;
-    this.chosenStartingCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPOptional.empty();
-    this.chosenLandingCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPOptional.empty();
-    this.chosenFirstCapture = _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPOptional.empty();
-    this.chosenSecondCapture = _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPOptional.empty();
-    this.capturables = new _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.Set();
+    this.chosenStartingCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+    this.chosenLandingCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+    this.chosenFirstCapture = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+    this.chosenSecondCapture = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+    this.capturables = new _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.Set();
   }
   onDrop(x, y, z) {
     var _this6 = this;
@@ -43012,20 +43023,20 @@ class PylosComponent extends _components_game_components_game_component_GameComp
       if (clickValidity.isFailure()) {
         return _this6.cancelMove(clickValidity.getReason());
       }
-      const clickedCoord = new src_app_games_pylos_PylosCoord__WEBPACK_IMPORTED_MODULE_5__.PylosCoord(x, y, z);
-      if (src_app_games_pylos_PylosRules__WEBPACK_IMPORTED_MODULE_4__.PylosRules.canCapture(_this6.constructedState, clickedCoord)) {
-        _this6.chosenLandingCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPOptional.of(clickedCoord);
+      const clickedCoord = new src_app_games_pylos_PylosCoord__WEBPACK_IMPORTED_MODULE_6__.PylosCoord(x, y, z);
+      if (src_app_games_pylos_PylosRules__WEBPACK_IMPORTED_MODULE_5__.PylosRules.canCapture(_this6.constructedState, clickedCoord)) {
+        _this6.chosenLandingCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(clickedCoord);
         _this6.constructedState = _this6.constructedState.dropCurrentPlayersPieceAt(clickedCoord);
         _this6.updateCapturableList();
-        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPValidation.SUCCESS; // now player can click on their captures
+        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.SUCCESS; // now player can click on their captures
       } else {
-        _this6.chosenLandingCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPOptional.of(clickedCoord);
+        _this6.chosenLandingCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(clickedCoord);
         return _this6.concludeMoveWithCapture([]);
       }
     })();
   }
   getSquareClasses(x, y, z) {
-    const coord = new src_app_games_pylos_PylosCoord__WEBPACK_IMPORTED_MODULE_5__.PylosCoord(x, y, z);
+    const coord = new src_app_games_pylos_PylosCoord__WEBPACK_IMPORTED_MODULE_6__.PylosCoord(x, y, z);
     if (this.captured.some(c => c.equalsValue(coord))) {
       return ['captured-fill'];
     }
@@ -43064,7 +43075,7 @@ class PylosComponent extends _components_game_components_game_component_GameComp
     return this.getPieceCy(coord.x, coord.y, coord.z);
   }
   isOccupied(x, y, z) {
-    const coord = new src_app_games_pylos_PylosCoord__WEBPACK_IMPORTED_MODULE_5__.PylosCoord(x, y, z);
+    const coord = new src_app_games_pylos_PylosCoord__WEBPACK_IMPORTED_MODULE_6__.PylosCoord(x, y, z);
     if (this.justClimbed(coord)) {
       return false;
     }
@@ -43073,7 +43084,7 @@ class PylosComponent extends _components_game_components_game_component_GameComp
     return reallyOccupied || landingCoord;
   }
   getPieceClasses(x, y, z) {
-    const c = new src_app_games_pylos_PylosCoord__WEBPACK_IMPORTED_MODULE_5__.PylosCoord(x, y, z);
+    const c = new src_app_games_pylos_PylosCoord__WEBPACK_IMPORTED_MODULE_6__.PylosCoord(x, y, z);
     const classes = [this.getPieceFillClass(c)];
     if (this.lastLandingCoord.equalsValue(c) || this.lastStartingCoord.equalsValue(c)) {
       classes.push('last-move-stroke');
@@ -43106,21 +43117,21 @@ class PylosComponent extends _components_game_components_game_component_GameComp
       _this7.state = _this7.getState();
       _this7.constructedState = _this7.state;
       const repartition = _this7.state.getPiecesRepartition();
-      _this7.remainingPieces = src_app_jscaip_PlayerMap__WEBPACK_IMPORTED_MODULE_12__.PlayerNumberMap.of(15 - repartition.get(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_6__.Player.ZERO), 15 - repartition.get(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_6__.Player.ONE));
+      _this7.remainingPieces = src_app_jscaip_PlayerMap__WEBPACK_IMPORTED_MODULE_12__.PlayerNumberMap.of(15 - repartition.get(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_7__.Player.ZERO), 15 - repartition.get(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_7__.Player.ONE));
       _this7.updateScores();
     })();
   }
   updateScores() {
-    this.scores = _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPOptional.of(this.remainingPieces);
+    this.scores = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(this.remainingPieces);
   }
   getScoreName() {
-    return _components_game_components_game_component_GameComponent__WEBPACK_IMPORTED_MODULE_1__.ScoreName.REMAINING_PIECES;
+    return _components_game_components_game_component_GameComponent__WEBPACK_IMPORTED_MODULE_2__.ScoreName.REMAINING_PIECES;
   }
   showLastMove(move) {
     var _this8 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       _this8.lastStartingCoord = move.startingCoord;
-      _this8.lastLandingCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPOptional.of(move.landingCoord);
+      _this8.lastLandingCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(move.landingCoord);
       _this8.lastFirstCapture = move.firstCapture;
       _this8.lastSecondCapture = move.secondCapture;
       if (_this8.lastFirstCapture.isPresent() && _this8.mustDrawCoord(_this8.lastFirstCapture.get()) === false) {
@@ -43134,11 +43145,11 @@ class PylosComponent extends _components_game_components_game_component_GameComp
     })();
   }
   hideLastMove() {
-    this.lastStartingCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPOptional.empty();
-    this.lastLandingCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPOptional.empty();
-    this.lastFirstCapture = _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPOptional.empty();
-    this.lastSecondCapture = _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPOptional.empty();
-    this.highCapture = _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPOptional.empty();
+    this.lastStartingCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+    this.lastLandingCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+    this.lastFirstCapture = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+    this.lastSecondCapture = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+    this.highCapture = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
     this.lastMoved = [];
     this.captured = [];
   }
@@ -43150,7 +43161,7 @@ class PylosComponent extends _components_game_components_game_component_GameComp
   }
   mustDisplayLandingCoord(x, y, z) {
     if (this.chosenStartingCoord.isPresent()) {
-      if (this.chosenStartingCoord.equalsValue(new src_app_games_pylos_PylosCoord__WEBPACK_IMPORTED_MODULE_5__.PylosCoord(x, y, z))) {
+      if (this.chosenStartingCoord.equalsValue(new src_app_games_pylos_PylosCoord__WEBPACK_IMPORTED_MODULE_6__.PylosCoord(x, y, z))) {
         return true;
       }
       const startingZ = this.chosenStartingCoord.get().z;
@@ -43991,11 +44002,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   QuartoComponent: () => (/* binding */ QuartoComponent)
 /* harmony export */ });
 /* harmony import */ var _home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 89204);
-/* harmony import */ var _QuartoMove__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./QuartoMove */ 28054);
-/* harmony import */ var _QuartoState__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./QuartoState */ 31470);
-/* harmony import */ var _QuartoPiece__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./QuartoPiece */ 17677);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @everyboard/lib */ 65042);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @everyboard/lib */ 65042);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _QuartoMove__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./QuartoMove */ 28054);
+/* harmony import */ var _QuartoState__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./QuartoState */ 31470);
+/* harmony import */ var _QuartoPiece__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./QuartoPiece */ 17677);
 /* harmony import */ var src_app_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/jscaip/RulesFailure */ 68566);
 /* harmony import */ var src_app_components_game_components_rectangular_game_component_RectangularGameComponent__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/app/components/game-components/rectangular-game-component/RectangularGameComponent */ 96740);
 /* harmony import */ var _QuartoMoveGenerator__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./QuartoMoveGenerator */ 83501);
@@ -44336,20 +44347,20 @@ function QuartoComponent__svg_g_11_Template(rf, ctx) {
   }
 }
 class QuartoComponent extends src_app_components_game_components_rectangular_game_component_RectangularGameComponent__WEBPACK_IMPORTED_MODULE_6__.RectangularGameComponent {
-  EMPTY = _QuartoPiece__WEBPACK_IMPORTED_MODULE_3__.QuartoPiece.EMPTY;
-  QuartoPiece = _QuartoPiece__WEBPACK_IMPORTED_MODULE_3__.QuartoPiece;
-  chosen = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.empty();
-  lastMove = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.empty();
+  EMPTY = _QuartoPiece__WEBPACK_IMPORTED_MODULE_4__.QuartoPiece.EMPTY;
+  QuartoPiece = _QuartoPiece__WEBPACK_IMPORTED_MODULE_4__.QuartoPiece;
+  chosen = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+  lastMove = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
   // the piece that the current user must place on the board
-  pieceInHand = _QuartoPiece__WEBPACK_IMPORTED_MODULE_3__.QuartoPiece.EMPTY;
+  pieceInHand = _QuartoPiece__WEBPACK_IMPORTED_MODULE_4__.QuartoPiece.EMPTY;
   // the piece that the user wants to give to the opponent
-  pieceToGive = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.empty();
-  victoriousCoords = new _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.Set();
+  pieceToGive = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+  victoriousCoords = new _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.Set();
   constructor(messageDisplayer, cdr) {
     super(messageDisplayer, cdr);
     this.setRulesAndNode('Quarto');
     this.availableAIs = [new _QuartoMinimax__WEBPACK_IMPORTED_MODULE_9__.QuartoMinimax(), new src_app_jscaip_AI_MCTS__WEBPACK_IMPORTED_MODULE_8__.MCTS($localize`MCTS`, new _QuartoMoveGenerator__WEBPACK_IMPORTED_MODULE_7__.QuartoMoveGenerator(), this.rules)];
-    this.encoder = _QuartoMove__WEBPACK_IMPORTED_MODULE_1__.QuartoMove.encoder;
+    this.encoder = _QuartoMove__WEBPACK_IMPORTED_MODULE_2__.QuartoMove.encoder;
     this.pieceInHand = this.getState().pieceInHand;
   }
   updateBoard(_triggerAnimation) {
@@ -44373,19 +44384,19 @@ class QuartoComponent extends src_app_components_game_components_rectangular_gam
       if (_this2.chosen.equalsValue(clicked)) {
         return _this2.cancelMove();
       }
-      if (_this2.board[clicked.y][clicked.x] === _QuartoPiece__WEBPACK_IMPORTED_MODULE_3__.QuartoPiece.EMPTY) {
+      if (_this2.board[clicked.y][clicked.x] === _QuartoPiece__WEBPACK_IMPORTED_MODULE_4__.QuartoPiece.EMPTY) {
         // if it's a legal place to put the piece
         _this2.showPieceInHandOnBoard(clicked); // let's show the user his decision
         if (_this2.getState().turn === 15) {
           // on last turn user won't be able to click on a piece to give
           // thereby we must put his piece in hand right
-          const chosenMove = new _QuartoMove__WEBPACK_IMPORTED_MODULE_1__.QuartoMove(clicked.x, clicked.y, _QuartoPiece__WEBPACK_IMPORTED_MODULE_3__.QuartoPiece.EMPTY);
+          const chosenMove = new _QuartoMove__WEBPACK_IMPORTED_MODULE_2__.QuartoMove(clicked.x, clicked.y, _QuartoPiece__WEBPACK_IMPORTED_MODULE_4__.QuartoPiece.EMPTY);
           return _this2.chooseMove(chosenMove);
         } else if (_this2.pieceToGive.isAbsent()) {
-          return _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPValidation.SUCCESS; // the user has just chosen their coord
+          return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.SUCCESS; // the user has just chosen their coord
         } else {
           // the user has already chosen his piece before his coord
-          const chosenMove = new _QuartoMove__WEBPACK_IMPORTED_MODULE_1__.QuartoMove(clicked.x, clicked.y, _this2.pieceToGive.get());
+          const chosenMove = new _QuartoMove__WEBPACK_IMPORTED_MODULE_2__.QuartoMove(clicked.x, clicked.y, _this2.pieceToGive.get());
           return _this2.chooseMove(chosenMove);
         }
       } else {
@@ -44401,16 +44412,16 @@ class QuartoComponent extends src_app_components_game_components_rectangular_gam
       if (clickValidity.isFailure()) {
         return _this3.cancelMove(clickValidity.getReason());
       }
-      if (_this3.pieceToGive.equalsValue(_QuartoPiece__WEBPACK_IMPORTED_MODULE_3__.QuartoPiece.ofInt(givenPiece))) {
+      if (_this3.pieceToGive.equalsValue(_QuartoPiece__WEBPACK_IMPORTED_MODULE_4__.QuartoPiece.ofInt(givenPiece))) {
         return _this3.cancelMove();
       }
-      _this3.pieceToGive = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.of(_QuartoPiece__WEBPACK_IMPORTED_MODULE_3__.QuartoPiece.ofInt(givenPiece));
+      _this3.pieceToGive = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(_QuartoPiece__WEBPACK_IMPORTED_MODULE_4__.QuartoPiece.ofInt(givenPiece));
       if (_this3.chosen.isAbsent()) {
-        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPValidation.SUCCESS; // the user has just chosen their piece
+        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.SUCCESS; // the user has just chosen their piece
       } else {
         // the user has chosen the coord before the piece
         const chosen = _this3.chosen.get();
-        const chosenMove = new _QuartoMove__WEBPACK_IMPORTED_MODULE_1__.QuartoMove(chosen.x, chosen.y, _this3.pieceToGive.get());
+        const chosenMove = new _QuartoMove__WEBPACK_IMPORTED_MODULE_2__.QuartoMove(chosen.x, chosen.y, _this3.pieceToGive.get());
         return _this3.chooseMove(chosenMove);
       }
     })();
@@ -44418,21 +44429,21 @@ class QuartoComponent extends src_app_components_game_components_rectangular_gam
   showLastMove(move) {
     var _this4 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      _this4.lastMove = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.of(move.coord);
+      _this4.lastMove = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(move.coord);
     })();
   }
   hideLastMove() {
-    this.lastMove = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.empty();
+    this.lastMove = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
   }
   cancelMoveAttempt() {
-    this.pieceToGive = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.empty();
-    this.chosen = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.empty();
+    this.pieceToGive = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+    this.chosen = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
   }
   showPieceInHandOnBoard(coord) {
-    this.chosen = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.of(coord);
+    this.chosen = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(coord);
   }
   isRemaining(piece) {
-    return _QuartoState__WEBPACK_IMPORTED_MODULE_2__.QuartoState.isGivable(_QuartoPiece__WEBPACK_IMPORTED_MODULE_3__.QuartoPiece.ofInt(piece), this.board, this.pieceInHand);
+    return _QuartoState__WEBPACK_IMPORTED_MODULE_3__.QuartoState.isGivable(_QuartoPiece__WEBPACK_IMPORTED_MODULE_4__.QuartoPiece.ofInt(piece), this.board, this.pieceInHand);
   }
   getSquareClasses(coord) {
     if (this.lastMove.equalsValue(coord)) {
@@ -44458,7 +44469,7 @@ class QuartoComponent extends src_app_components_game_components_rectangular_gam
     }
   }
   pieceHasDot(piece) {
-    return piece !== _QuartoPiece__WEBPACK_IMPORTED_MODULE_3__.QuartoPiece.EMPTY.value && piece % 8 < 4;
+    return piece !== _QuartoPiece__WEBPACK_IMPORTED_MODULE_4__.QuartoPiece.EMPTY.value && piece % 8 < 4;
   }
   static ɵfac = function QuartoComponent_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || QuartoComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵdirectiveInject"](src_app_services_MessageDisplayer__WEBPACK_IMPORTED_MODULE_10__.MessageDisplayer), _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_11__.ChangeDetectorRef));
@@ -44970,14 +44981,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   QuixoComponent: () => (/* binding */ QuixoComponent)
 /* harmony export */ });
 /* harmony import */ var _home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 89204);
-/* harmony import */ var _components_game_components_rectangular_game_component_RectangularGameComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../components/game-components/rectangular-game-component/RectangularGameComponent */ 96740);
-/* harmony import */ var src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/jscaip/Coord */ 16904);
-/* harmony import */ var src_app_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/jscaip/Orthogonal */ 99342);
-/* harmony import */ var src_app_games_quixo_QuixoMove__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/games/quixo/QuixoMove */ 13268);
-/* harmony import */ var src_app_games_quixo_QuixoState__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/games/quixo/QuixoState */ 41740);
-/* harmony import */ var src_app_games_quixo_QuixoRules__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/app/games/quixo/QuixoRules */ 88142);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @everyboard/lib */ 65042);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @everyboard/lib */ 65042);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _components_game_components_rectangular_game_component_RectangularGameComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../components/game-components/rectangular-game-component/RectangularGameComponent */ 96740);
+/* harmony import */ var src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/jscaip/Coord */ 16904);
+/* harmony import */ var src_app_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/jscaip/Orthogonal */ 99342);
+/* harmony import */ var src_app_games_quixo_QuixoMove__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/games/quixo/QuixoMove */ 13268);
+/* harmony import */ var src_app_games_quixo_QuixoState__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/app/games/quixo/QuixoState */ 41740);
+/* harmony import */ var src_app_games_quixo_QuixoRules__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! src/app/games/quixo/QuixoRules */ 88142);
 /* harmony import */ var src_app_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! src/app/jscaip/RulesFailure */ 68566);
 /* harmony import */ var src_app_jscaip_AI_MCTS__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! src/app/jscaip/AI/MCTS */ 37123);
 /* harmony import */ var _QuixoMoveGenerator__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./QuixoMoveGenerator */ 12307);
@@ -45068,45 +45079,55 @@ function QuixoComponent__svg_g_4_Template(rf, ctx) {
     _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵproperty"]("ngForOf", ctx_r3.getPossiblesDirections());
   }
 }
-class QuixoComponent extends _components_game_components_rectangular_game_component_RectangularGameComponent__WEBPACK_IMPORTED_MODULE_1__.RectangularGameComponent {
-  QuixoState = src_app_games_quixo_QuixoState__WEBPACK_IMPORTED_MODULE_5__.QuixoState;
-  lastMoveCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPOptional.empty();
-  chosenCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPOptional.empty();
+class QuixoComponent extends _components_game_components_rectangular_game_component_RectangularGameComponent__WEBPACK_IMPORTED_MODULE_2__.RectangularGameComponent {
+  QuixoState = src_app_games_quixo_QuixoState__WEBPACK_IMPORTED_MODULE_6__.QuixoState;
+  lastMoveCoords = [];
+  chosenCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
   chosenDirection;
   victoriousCoords = [];
   constructor(messageDisplayer, cdr) {
     super(messageDisplayer, cdr);
     this.setRulesAndNode('Quixo');
     this.availableAIs = [new _QuixoMinimax__WEBPACK_IMPORTED_MODULE_11__.QuixoMinimax(), new src_app_jscaip_AI_MCTS__WEBPACK_IMPORTED_MODULE_9__.MCTS($localize`MCTS`, new _QuixoMoveGenerator__WEBPACK_IMPORTED_MODULE_10__.QuixoMoveGenerator(), this.rules)];
-    this.encoder = src_app_games_quixo_QuixoMove__WEBPACK_IMPORTED_MODULE_4__.QuixoMove.encoder;
+    this.encoder = src_app_games_quixo_QuixoMove__WEBPACK_IMPORTED_MODULE_5__.QuixoMove.encoder;
   }
   showLastMove(move) {
     var _this = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      _this.lastMoveCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPOptional.of(move.coord);
+      let coord = move.coord;
+      while (_this.state.isOnBoard(coord)) {
+        _this.lastMoveCoords.push(coord);
+        coord = coord.getNext(move.direction);
+      }
     })();
   }
   hideLastMove() {
-    this.lastMoveCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPOptional.empty();
+    this.lastMoveCoords = [];
   }
   updateBoard(_triggerAnimation) {
     var _this2 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       _this2.state = _this2.getState();
       _this2.board = _this2.state.board;
-      _this2.victoriousCoords = src_app_games_quixo_QuixoRules__WEBPACK_IMPORTED_MODULE_6__.QuixoRules.getVictoriousCoords(_this2.state);
+      _this2.victoriousCoords = src_app_games_quixo_QuixoRules__WEBPACK_IMPORTED_MODULE_7__.QuixoRules.getVictoriousCoords(_this2.state);
     })();
   }
   cancelMoveAttempt() {
-    this.chosenCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPOptional.empty();
+    this.chosenCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
   }
   getPieceClasses(x, y) {
-    const coord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(x, y);
+    const coord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(x, y);
     const player = this.board[y][x];
     const classes = [];
     classes.push(this.getPlayerClass(player));
-    if (this.chosenCoord.equalsValue(coord)) classes.push('selected-stroke');else if (this.lastMoveCoord.equalsValue(coord)) classes.push('last-move-stroke');
-    if (this.victoriousCoords.some(c => c.equals(coord))) classes.push('victory-stroke');
+    if (this.chosenCoord.equalsValue(coord)) {
+      classes.push('selected-stroke');
+    } else if (this.lastMoveCoords.some(c => c.equals(coord))) {
+      classes.push('last-move-stroke');
+    }
+    if (this.victoriousCoords.some(c => c.equals(coord))) {
+      classes.push('victory-stroke');
+    }
     return classes;
   }
   onBoardClick(x, y) {
@@ -45116,7 +45137,7 @@ class QuixoComponent extends _components_game_components_rectangular_game_compon
       if (clickValidity.isFailure()) {
         return _this3.cancelMove(clickValidity.getReason());
       }
-      const clickedCoord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(x, y);
+      const clickedCoord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(x, y);
       const state = _this3.getState();
       const coordLegality = _this3.rules.isValidCoord(state, clickedCoord);
       if (coordLegality.isFailure()) {
@@ -45128,8 +45149,8 @@ class QuixoComponent extends _components_game_components_rectangular_game_compon
         if (_this3.chosenCoord.equalsValue(clickedCoord)) {
           return _this3.cancelMove();
         } else {
-          _this3.chosenCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPOptional.of(clickedCoord);
-          return _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPValidation.SUCCESS;
+          _this3.chosenCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(clickedCoord);
+          return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.SUCCESS;
         }
       }
     })();
@@ -45138,10 +45159,10 @@ class QuixoComponent extends _components_game_components_rectangular_game_compon
     const directions = [];
     const chosenCoord = this.chosenCoord.get();
     const state = this.getState();
-    if (chosenCoord.x < state.getWidth() - 1) directions.push(src_app_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_3__.Orthogonal.RIGHT);
-    if (0 < chosenCoord.x) directions.push(src_app_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_3__.Orthogonal.LEFT);
-    if (chosenCoord.y < state.getHeight() - 1) directions.push(src_app_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_3__.Orthogonal.DOWN);
-    if (0 < chosenCoord.y) directions.push(src_app_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_3__.Orthogonal.UP);
+    if (chosenCoord.x < state.getWidth() - 1) directions.push(src_app_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_4__.Orthogonal.RIGHT);
+    if (0 < chosenCoord.x) directions.push(src_app_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_4__.Orthogonal.LEFT);
+    if (chosenCoord.y < state.getHeight() - 1) directions.push(src_app_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_4__.Orthogonal.DOWN);
+    if (0 < chosenCoord.y) directions.push(src_app_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_4__.Orthogonal.UP);
     return directions;
   }
   chooseDirection(direction) {
@@ -45159,7 +45180,7 @@ class QuixoComponent extends _components_game_components_rectangular_game_compon
     var _this5 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       const chosenCoord = _this5.chosenCoord.get();
-      const move = new src_app_games_quixo_QuixoMove__WEBPACK_IMPORTED_MODULE_4__.QuixoMove(chosenCoord.x, chosenCoord.y, _this5.chosenDirection);
+      const move = new src_app_games_quixo_QuixoMove__WEBPACK_IMPORTED_MODULE_5__.QuixoMove(chosenCoord.x, chosenCoord.y, _this5.chosenDirection);
       return _this5.chooseMove(move);
     })();
   }
@@ -45659,13 +45680,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   ReversiComponent: () => (/* binding */ ReversiComponent)
 /* harmony export */ });
 /* harmony import */ var _home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 89204);
-/* harmony import */ var src_app_games_reversi_ReversiMove__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/games/reversi/ReversiMove */ 15192);
-/* harmony import */ var src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/jscaip/Coord */ 16904);
-/* harmony import */ var src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/jscaip/Player */ 22092);
-/* harmony import */ var src_app_jscaip_Ordinal__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/jscaip/Ordinal */ 63196);
-/* harmony import */ var src_app_components_game_components_rectangular_game_component_RectangularGameComponent__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/components/game-components/rectangular-game-component/RectangularGameComponent */ 96740);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @everyboard/lib */ 65042);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @everyboard/lib */ 65042);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var src_app_games_reversi_ReversiMove__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/games/reversi/ReversiMove */ 15192);
+/* harmony import */ var src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/jscaip/Coord */ 16904);
+/* harmony import */ var src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/jscaip/Player */ 22092);
+/* harmony import */ var src_app_jscaip_Ordinal__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/jscaip/Ordinal */ 63196);
+/* harmony import */ var src_app_components_game_components_rectangular_game_component_RectangularGameComponent__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/app/components/game-components/rectangular-game-component/RectangularGameComponent */ 96740);
 /* harmony import */ var src_app_jscaip_AI_MCTS__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! src/app/jscaip/AI/MCTS */ 37123);
 /* harmony import */ var _ReversiMoveGenerator__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./ReversiMoveGenerator */ 26975);
 /* harmony import */ var _ReversiMinimax__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./ReversiMinimax */ 62370);
@@ -45740,16 +45761,16 @@ function ReversiComponent__svg_g_1_Template(rf, ctx) {
     _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵproperty"]("ngForOf", line_r5);
   }
 }
-class ReversiComponent extends src_app_components_game_components_rectangular_game_component_RectangularGameComponent__WEBPACK_IMPORTED_MODULE_5__.RectangularGameComponent {
-  EMPTY = src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.PlayerOrNone.NONE;
-  lastMove = _everyboard_lib__WEBPACK_IMPORTED_MODULE_6__.MGPOptional.empty();
+class ReversiComponent extends src_app_components_game_components_rectangular_game_component_RectangularGameComponent__WEBPACK_IMPORTED_MODULE_6__.RectangularGameComponent {
+  EMPTY = src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_4__.PlayerOrNone.NONE;
+  lastMove = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
   capturedCoords = [];
   constructor(messageDisplayer, cdr) {
     super(messageDisplayer, cdr);
     this.setRulesAndNode('Reversi');
     this.availableAIs = [new _ReversiMinimax__WEBPACK_IMPORTED_MODULE_9__.ReversiMinimax(), new src_app_jscaip_AI_MCTS__WEBPACK_IMPORTED_MODULE_7__.MCTS($localize`MCTS`, new _ReversiMoveGenerator__WEBPACK_IMPORTED_MODULE_8__.ReversiMoveGenerator(), this.rules)];
-    this.encoder = src_app_games_reversi_ReversiMove__WEBPACK_IMPORTED_MODULE_1__.ReversiMove.encoder;
-    this.scores = _everyboard_lib__WEBPACK_IMPORTED_MODULE_6__.MGPOptional.of(src_app_jscaip_PlayerMap__WEBPACK_IMPORTED_MODULE_10__.PlayerNumberMap.of(2, 2));
+    this.encoder = src_app_games_reversi_ReversiMove__WEBPACK_IMPORTED_MODULE_2__.ReversiMove.encoder;
+    this.scores = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(src_app_jscaip_PlayerMap__WEBPACK_IMPORTED_MODULE_10__.PlayerNumberMap.of(2, 2));
   }
   onClick(x, y) {
     var _this = this;
@@ -45758,7 +45779,7 @@ class ReversiComponent extends src_app_components_game_components_rectangular_ga
       if (clickValidity.isFailure()) {
         return _this.cancelMove(clickValidity.getReason());
       }
-      const chosenMove = new src_app_games_reversi_ReversiMove__WEBPACK_IMPORTED_MODULE_1__.ReversiMove(x, y);
+      const chosenMove = new src_app_games_reversi_ReversiMove__WEBPACK_IMPORTED_MODULE_2__.ReversiMove(x, y);
       return yield _this.chooseMove(chosenMove);
     })();
   }
@@ -45767,17 +45788,17 @@ class ReversiComponent extends src_app_components_game_components_rectangular_ga
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       const state = _this2.getState();
       _this2.board = state.getCopiedBoard();
-      _this2.scores = _everyboard_lib__WEBPACK_IMPORTED_MODULE_6__.MGPOptional.of(state.countScore());
+      _this2.scores = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(state.countScore());
       _this2.canPass = _this2.rules.playerCanOnlyPass(state, _this2.config);
     })();
   }
   showLastMove(move) {
     var _this3 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      _this3.lastMove = _everyboard_lib__WEBPACK_IMPORTED_MODULE_6__.MGPOptional.of(move.coord);
+      _this3.lastMove = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(move.coord);
       const player = _this3.getState().getCurrentPlayer();
       const opponent = _this3.getState().getCurrentOpponent();
-      for (const dir of src_app_jscaip_Ordinal__WEBPACK_IMPORTED_MODULE_4__.Ordinal.ORDINALS) {
+      for (const dir of src_app_jscaip_Ordinal__WEBPACK_IMPORTED_MODULE_5__.Ordinal.ORDINALS) {
         let captured = move.coord.getNext(dir, 1);
         while (_this3.getState().hasPieceAt(captured, opponent) && _this3.getPreviousState().getPieceAt(captured) === player) {
           _this3.capturedCoords.push(captured);
@@ -45788,10 +45809,10 @@ class ReversiComponent extends src_app_components_game_components_rectangular_ga
   }
   hideLastMove() {
     this.capturedCoords = [];
-    this.lastMove = _everyboard_lib__WEBPACK_IMPORTED_MODULE_6__.MGPOptional.empty();
+    this.lastMove = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
   }
   getRectClasses(x, y) {
-    const coord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(x, y);
+    const coord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(x, y);
     if (this.capturedCoords.some(c => c.equals(coord))) {
       return ['captured-fill'];
     } else if (this.lastMove.equalsValue(coord)) {
@@ -45806,8 +45827,8 @@ class ReversiComponent extends src_app_components_game_components_rectangular_ga
   pass() {
     var _this4 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      _everyboard_lib__WEBPACK_IMPORTED_MODULE_6__.Utils.assert(_this4.canPass, 'ReversiComponent: pass() can only be called if canPass is true');
-      return _this4.onClick(src_app_games_reversi_ReversiMove__WEBPACK_IMPORTED_MODULE_1__.ReversiMove.PASS.coord.x, src_app_games_reversi_ReversiMove__WEBPACK_IMPORTED_MODULE_1__.ReversiMove.PASS.coord.y);
+      _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.Utils.assert(_this4.canPass, 'ReversiComponent: pass() can only be called if canPass is true');
+      return _this4.onClick(src_app_games_reversi_ReversiMove__WEBPACK_IMPORTED_MODULE_2__.ReversiMove.PASS.coord.x, src_app_games_reversi_ReversiMove__WEBPACK_IMPORTED_MODULE_2__.ReversiMove.PASS.coord.y);
     })();
   }
   static ɵfac = function ReversiComponent_Factory(__ngFactoryType__) {
@@ -46321,11 +46342,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   SaharaComponent: () => (/* binding */ SaharaComponent)
 /* harmony export */ });
 /* harmony import */ var _home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 89204);
-/* harmony import */ var src_app_components_game_components_game_component_TriangularGameComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/components/game-components/game-component/TriangularGameComponent */ 52520);
-/* harmony import */ var src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/jscaip/Coord */ 16904);
-/* harmony import */ var src_app_games_sahara_SaharaMove__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/games/sahara/SaharaMove */ 39446);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @everyboard/lib */ 65042);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @everyboard/lib */ 65042);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var src_app_components_game_components_game_component_TriangularGameComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/components/game-components/game-component/TriangularGameComponent */ 52520);
+/* harmony import */ var src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/jscaip/Coord */ 16904);
+/* harmony import */ var src_app_games_sahara_SaharaMove__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/games/sahara/SaharaMove */ 39446);
 /* harmony import */ var src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/jscaip/Player */ 22092);
 /* harmony import */ var _SaharaFailure__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./SaharaFailure */ 66577);
 /* harmony import */ var src_app_jscaip_FourStatePiece__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! src/app/jscaip/FourStatePiece */ 10003);
@@ -46523,31 +46544,31 @@ function SaharaComponent__svg_ng_template_3_Template(rf, ctx) {
     _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵproperty"]("ngIf", ctx_r3.lastMoved.isPresent());
   }
 }
-class SaharaComponent extends src_app_components_game_components_game_component_TriangularGameComponent__WEBPACK_IMPORTED_MODULE_1__.TriangularGameComponent {
-  lastCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.empty();
-  lastMoved = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.empty();
-  chosenCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.empty();
+class SaharaComponent extends src_app_components_game_components_game_component_TriangularGameComponent__WEBPACK_IMPORTED_MODULE_2__.TriangularGameComponent {
+  lastCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+  lastMoved = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+  chosenCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
   possibleLandings = [];
   constructor(messageDisplayer, cdr) {
     super(messageDisplayer, cdr);
     this.setRulesAndNode('Sahara');
     this.availableAIs = [new _SaharaMinimax__WEBPACK_IMPORTED_MODULE_10__.SaharaMinimax(), new src_app_jscaip_AI_MCTS__WEBPACK_IMPORTED_MODULE_8__.MCTS($localize`MCTS`, new _SaharaMoveGenerator__WEBPACK_IMPORTED_MODULE_9__.SaharaMoveGenerator(), this.rules)];
-    this.encoder = src_app_games_sahara_SaharaMove__WEBPACK_IMPORTED_MODULE_3__.SaharaMove.encoder;
+    this.encoder = src_app_games_sahara_SaharaMove__WEBPACK_IMPORTED_MODULE_4__.SaharaMove.encoder;
   }
   showLastMove(move) {
     var _this = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      _this.lastCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.of(move.getStart());
-      _this.lastMoved = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.of(move.getEnd());
+      _this.lastCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(move.getStart());
+      _this.lastMoved = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(move.getEnd());
     })();
   }
   hideLastMove() {
-    this.lastCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.empty();
-    this.lastMoved = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.empty();
+    this.lastCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+    this.lastMoved = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
   }
   cancelMoveAttempt() {
     this.possibleLandings = [];
-    this.chosenCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.empty();
+    this.chosenCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
   }
   onClick(x, y) {
     var _this2 = this;
@@ -46558,7 +46579,7 @@ class SaharaComponent extends src_app_components_game_components_game_component_
       }
       const currentPlayer = _this2.getState().getCurrentPlayer();
       const player = src_app_jscaip_FourStatePiece__WEBPACK_IMPORTED_MODULE_7__.FourStatePiece.ofPlayer(currentPlayer);
-      if (_this2.chosenCoord.equalsValue(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(x, y))) {
+      if (_this2.chosenCoord.equalsValue(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(x, y))) {
         return _this2.cancelMove();
       } else if (_this2.chosenCoord.isAbsent() || _this2.board[y][x] === player) {
         // Must select pyramid
@@ -46577,9 +46598,9 @@ class SaharaComponent extends src_app_components_game_components_game_component_
         return _this3.cancelMove(_SaharaFailure__WEBPACK_IMPORTED_MODULE_6__.SaharaFailure.MUST_CHOOSE_PYRAMID_FIRST());
       } else if (_this3.board[y][x].is(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_5__.Player.ofTurn(_this3.getTurn()))) {
         // selected player's pyramid
-        const coord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(x, y);
+        const coord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(x, y);
         _this3.selectPiece(coord);
-        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPValidation.SUCCESS;
+        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.SUCCESS;
       } else {
         // Selected opponent pyramid
         return _this3.cancelMove(_SaharaFailure__WEBPACK_IMPORTED_MODULE_6__.SaharaFailure.MUST_CHOOSE_OWN_PYRAMID());
@@ -46587,14 +46608,14 @@ class SaharaComponent extends src_app_components_game_components_game_component_
     })();
   }
   selectPiece(coord) {
-    this.chosenCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.of(coord);
+    this.chosenCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(coord);
     this.possibleLandings = this.rules.getLandingCoords(this.getState(), coord);
   }
   chooseLandingCoord(x, y) {
     var _this4 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      const clickedCoord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(x, y);
-      const newMove = src_app_games_sahara_SaharaMove__WEBPACK_IMPORTED_MODULE_3__.SaharaMove.from(_this4.chosenCoord.get(), clickedCoord);
+      const clickedCoord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(x, y);
+      const newMove = src_app_games_sahara_SaharaMove__WEBPACK_IMPORTED_MODULE_4__.SaharaMove.from(_this4.chosenCoord.get(), clickedCoord);
       if (newMove.isFailure()) {
         return _this4.cancelMove(newMove.getReason());
       }
@@ -47721,15 +47742,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   SiamComponent: () => (/* binding */ SiamComponent)
 /* harmony export */ });
 /* harmony import */ var _home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 89204);
-/* harmony import */ var _components_game_components_rectangular_game_component_RectangularGameComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../components/game-components/rectangular-game-component/RectangularGameComponent */ 96740);
-/* harmony import */ var src_app_games_siam_SiamMove__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/games/siam/SiamMove */ 5050);
-/* harmony import */ var src_app_games_siam_SiamState__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/games/siam/SiamState */ 63922);
-/* harmony import */ var src_app_games_siam_SiamRules__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/games/siam/SiamRules */ 58784);
-/* harmony import */ var src_app_games_siam_SiamPiece__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/games/siam/SiamPiece */ 29289);
-/* harmony import */ var src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/app/jscaip/Coord */ 16904);
-/* harmony import */ var src_app_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! src/app/jscaip/Orthogonal */ 99342);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @everyboard/lib */ 65042);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @everyboard/lib */ 65042);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _components_game_components_rectangular_game_component_RectangularGameComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../components/game-components/rectangular-game-component/RectangularGameComponent */ 96740);
+/* harmony import */ var src_app_games_siam_SiamMove__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/games/siam/SiamMove */ 5050);
+/* harmony import */ var src_app_games_siam_SiamState__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/games/siam/SiamState */ 63922);
+/* harmony import */ var src_app_games_siam_SiamRules__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/games/siam/SiamRules */ 58784);
+/* harmony import */ var src_app_games_siam_SiamPiece__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/app/games/siam/SiamPiece */ 29289);
+/* harmony import */ var src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! src/app/jscaip/Coord */ 16904);
+/* harmony import */ var src_app_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! src/app/jscaip/Orthogonal */ 99342);
 /* harmony import */ var src_app_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! src/app/jscaip/RulesFailure */ 68566);
 /* harmony import */ var _SiamFailure__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./SiamFailure */ 96989);
 /* harmony import */ var src_app_jscaip_AI_MCTS__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! src/app/jscaip/AI/MCTS */ 37123);
@@ -48005,12 +48026,12 @@ function SiamComponent__svg_g_10_Template(rf, ctx) {
     _angular_core__WEBPACK_IMPORTED_MODULE_17__["ɵɵproperty"]("ngIf", arrow_r19.source.isPresent());
   }
 }
-let SiamComponent = class SiamComponent extends _components_game_components_rectangular_game_component_RectangularGameComponent__WEBPACK_IMPORTED_MODULE_1__.RectangularGameComponent {
-  SiamState = src_app_games_siam_SiamState__WEBPACK_IMPORTED_MODULE_3__.SiamState;
-  lastMove = _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.MGPOptional.empty();
+let SiamComponent = class SiamComponent extends _components_game_components_rectangular_game_component_RectangularGameComponent__WEBPACK_IMPORTED_MODULE_2__.RectangularGameComponent {
+  SiamState = src_app_games_siam_SiamState__WEBPACK_IMPORTED_MODULE_4__.SiamState;
+  lastMove = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
   movedPieces = [];
-  selectedPiece = _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.MGPOptional.empty();
-  selectedLanding = _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.MGPOptional.empty();
+  selectedPiece = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+  selectedLanding = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
   orientations = [];
   clickableCoords = new src_app_jscaip_CoordSet__WEBPACK_IMPORTED_MODULE_15__.CoordSet();
   indicatorArrows = [];
@@ -48019,7 +48040,7 @@ let SiamComponent = class SiamComponent extends _components_game_components_rect
     super(messageDisplayer, cdr);
     this.setRulesAndNode('Siam');
     this.availableAIs = [new _SiamMinimax__WEBPACK_IMPORTED_MODULE_13__.SiamMinimax(), new src_app_jscaip_AI_MCTS__WEBPACK_IMPORTED_MODULE_11__.MCTS($localize`MCTS`, new _SiamMoveGenerator__WEBPACK_IMPORTED_MODULE_12__.SiamMoveGenerator(), this.rules)];
-    this.encoder = src_app_games_siam_SiamMove__WEBPACK_IMPORTED_MODULE_2__.SiamMove.encoder;
+    this.encoder = src_app_games_siam_SiamMove__WEBPACK_IMPORTED_MODULE_3__.SiamMove.encoder;
   }
   getViewBox() {
     return super.getViewBox().expand(0, 0, this.SPACE_SIZE, this.SPACE_SIZE);
@@ -48034,20 +48055,20 @@ let SiamComponent = class SiamComponent extends _components_game_components_rect
   showLastMove(move) {
     var _this2 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      _this2.lastMove = _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.MGPOptional.of(move);
+      _this2.lastMove = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(move);
       const previousGameState = _this2.getPreviousState();
       const config = _this2.getConfig();
       _this2.movedPieces = _this2.rules.isLegal(_this2.lastMove.get(), previousGameState, config).get().moved;
     })();
   }
   hideLastMove() {
-    this.lastMove = _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.MGPOptional.empty();
+    this.lastMove = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
     this.movedPieces = [];
   }
   cancelMoveAttempt() {
     this.insertingPiece = false;
-    this.selectedPiece = _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.MGPOptional.empty();
-    this.selectedLanding = _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.MGPOptional.empty();
+    this.selectedPiece = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+    this.selectedLanding = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
     this.orientations = [];
     this.clickableCoords = new src_app_jscaip_CoordSet__WEBPACK_IMPORTED_MODULE_15__.CoordSet();
     this.indicatorArrows = [];
@@ -48068,12 +48089,12 @@ let SiamComponent = class SiamComponent extends _components_game_components_rect
       }
       _this3.cancelMoveAttempt();
       const config = _this3.getConfig().get();
-      for (const move of src_app_games_siam_SiamRules__WEBPACK_IMPORTED_MODULE_4__.SiamRules.get().getInsertions(_this3.getState(), config)) {
+      for (const move of src_app_games_siam_SiamRules__WEBPACK_IMPORTED_MODULE_5__.SiamRules.get().getInsertions(_this3.getState(), config)) {
         const target = move.coord.getNext(move.direction.get());
         // For every pushing insertion, we draw an arrow in case it will push a piece
-        if (_this3.board[target.y][target.x] !== src_app_games_siam_SiamPiece__WEBPACK_IMPORTED_MODULE_5__.SiamPiece.EMPTY) {
+        if (_this3.board[target.y][target.x] !== src_app_games_siam_SiamPiece__WEBPACK_IMPORTED_MODULE_6__.SiamPiece.EMPTY) {
           const arrow = {
-            source: _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.MGPOptional.empty(),
+            source: _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty(),
             target,
             direction: move.direction.get(),
             move
@@ -48083,7 +48104,7 @@ let SiamComponent = class SiamComponent extends _components_game_components_rect
         _this3.clickableCoords = _this3.clickableCoords.addElement(target);
       }
       _this3.insertingPiece = true;
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.MGPValidation.SUCCESS;
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.SUCCESS;
     })();
   }
   selectOrientation(move) {
@@ -48106,7 +48127,7 @@ let SiamComponent = class SiamComponent extends _components_game_components_rect
           return _this5.cancelMove(clickValidity.getReason());
         }
       }
-      const clickedCoord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_6__.Coord(x, y);
+      const clickedCoord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_7__.Coord(x, y);
       if (_this5.insertingPiece) {
         return _this5.insertPiece(clickedCoord);
       } else {
@@ -48116,14 +48137,14 @@ let SiamComponent = class SiamComponent extends _components_game_components_rect
           return _this5.cancelMove();
         } else if (_this5.selectedPiece.isPresent()) {
           // Select the landing
-          _this5.selectedLanding = _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.MGPOptional.of(clickedCoord);
-          const moves = src_app_games_siam_SiamRules__WEBPACK_IMPORTED_MODULE_4__.SiamRules.get().getMovesBetween(_this5.getState(), _this5.getState().getPieceAt(_this5.selectedPiece.get()), _this5.selectedPiece.get(), clickedCoord);
+          _this5.selectedLanding = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(clickedCoord);
+          const moves = src_app_games_siam_SiamRules__WEBPACK_IMPORTED_MODULE_5__.SiamRules.get().getMovesBetween(_this5.getState(), _this5.getState().getPieceAt(_this5.selectedPiece.get()), _this5.selectedPiece.get(), clickedCoord);
           if (moves.length === 0) {
             return _this5.changeMoveDestinationClick(clickedCoord);
           }
           return _this5.performMoveOrShowOrientationArrows(moves);
         } else {
-          _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.Utils.assert(_this5.getState().isOnBoard(clickedCoord), 'SiamComponent: user clicked outside of board when it should not be possible');
+          _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.Utils.assert(_this5.getState().isOnBoard(clickedCoord), 'SiamComponent: user clicked outside of board when it should not be possible');
           const clickedPiece = _this5.board[y][x];
           if (clickedPiece.getOwner().isNone()) {
             return _this5.cancelMove(src_app_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_9__.RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_EMPTY());
@@ -48143,12 +48164,12 @@ let SiamComponent = class SiamComponent extends _components_game_components_rect
       if (_this6.selectedLanding.isPresent()) {
         // The landing is already selected, we cancel the move to avoid any confusion
         yield _this6.cancelMove(_SiamFailure__WEBPACK_IMPORTED_MODULE_10__.SiamFailure.MUST_SELECT_ORIENTATION());
-        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.MGPValidation.SUCCESS;
+        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.SUCCESS;
       }
       // Inserting a new piece, the player just clicked on the landing
-      _this6.selectedLanding = _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.MGPOptional.of(clickedCoord);
+      _this6.selectedLanding = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(clickedCoord);
       const config = _this6.getConfig().get();
-      const insertions = src_app_games_siam_SiamRules__WEBPACK_IMPORTED_MODULE_4__.SiamRules.get().getInsertionsAt(_this6.getState(), clickedCoord.x, clickedCoord.y, config);
+      const insertions = src_app_games_siam_SiamRules__WEBPACK_IMPORTED_MODULE_5__.SiamRules.get().getInsertionsAt(_this6.getState(), clickedCoord.x, clickedCoord.y, config);
       if (insertions.length === 0) {
         return _this6.changeMoveDestinationClick(clickedCoord);
       }
@@ -48173,7 +48194,7 @@ let SiamComponent = class SiamComponent extends _components_game_components_rect
   performMoveOrShowOrientationArrows(availableMoves) {
     var _this8 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.Utils.assert(availableMoves.length > 0, 'SiamComponent.performMoveOrShowOrientationArrows expects at least one move');
+      _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.Utils.assert(availableMoves.length > 0, 'SiamComponent.performMoveOrShowOrientationArrows expects at least one move');
       if (availableMoves.length === 1) {
         // There's only one possible move, so perform it
         return _this8.chooseMove(availableMoves[0]);
@@ -48182,22 +48203,22 @@ let SiamComponent = class SiamComponent extends _components_game_components_rect
         _this8.clickableCoords = new src_app_jscaip_CoordSet__WEBPACK_IMPORTED_MODULE_15__.CoordSet();
         _this8.indicatorArrows = [];
         _this8.orientations = availableMoves;
-        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.MGPValidation.SUCCESS;
+        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.SUCCESS;
       }
     })();
   }
   selectPiece(clickedCoord, clickedPiece) {
     this.cancelMoveAttempt();
     const state = this.getState();
-    this.selectedPiece = _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.MGPOptional.of(clickedCoord);
-    const moves = src_app_games_siam_SiamRules__WEBPACK_IMPORTED_MODULE_4__.SiamRules.get().getMovesFrom(state, clickedPiece, clickedCoord.x, clickedCoord.y);
+    this.selectedPiece = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(clickedCoord);
+    const moves = src_app_games_siam_SiamRules__WEBPACK_IMPORTED_MODULE_5__.SiamRules.get().getMovesFrom(state, clickedPiece, clickedCoord.x, clickedCoord.y);
     for (const move of moves) {
       if (move.direction.isPresent()) {
         const target = move.coord.getNext(move.direction.get());
         this.clickableCoords = this.clickableCoords.addElement(target);
-        if (state.hasInequalPieceAt(target, src_app_games_siam_SiamPiece__WEBPACK_IMPORTED_MODULE_5__.SiamPiece.EMPTY)) {
+        if (state.hasInequalPieceAt(target, src_app_games_siam_SiamPiece__WEBPACK_IMPORTED_MODULE_6__.SiamPiece.EMPTY)) {
           const arrow = {
-            source: _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.MGPOptional.of({
+            source: _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of({
               coord: clickedCoord,
               piece: clickedPiece
             }),
@@ -48211,7 +48232,7 @@ let SiamComponent = class SiamComponent extends _components_game_components_rect
         this.clickableCoords = this.clickableCoords.addElement(move.coord);
       }
     }
-    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.MGPValidation.SUCCESS;
+    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.SUCCESS;
   }
   clickArrow(arrow) {
     var _this9 = this;
@@ -48226,7 +48247,7 @@ let SiamComponent = class SiamComponent extends _components_game_components_rect
     })();
   }
   isMountain(piece) {
-    return piece === src_app_games_siam_SiamPiece__WEBPACK_IMPORTED_MODULE_5__.SiamPiece.MOUNTAIN;
+    return piece === src_app_games_siam_SiamPiece__WEBPACK_IMPORTED_MODULE_6__.SiamPiece.MOUNTAIN;
   }
   getSiamArrowTransform(x, y, direction) {
     const orientation = direction.toInt() - 2;
@@ -48263,17 +48284,17 @@ let SiamComponent = class SiamComponent extends _components_game_components_rect
     if (player === this.getPointOfView()) {
       x = cx - width / 2 + piece * offset;
       y = config.height;
-      orientation = src_app_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_7__.Orthogonal.LEFT;
+      orientation = src_app_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_8__.Orthogonal.LEFT;
     } else {
       // Top pieces are stacked right-to-left for better visuals
       x = cx + width / 2 - 1 - piece * offset;
       y = -1;
-      orientation = src_app_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_7__.Orthogonal.RIGHT;
+      orientation = src_app_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_8__.Orthogonal.RIGHT;
     }
     return this.getSiamArrowTransform(x, y, orientation);
   }
   getPieceClasses(x, y, c) {
-    const coord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_6__.Coord(x, y);
+    const coord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_7__.Coord(x, y);
     const classes = [this.getPlayerClass(c.getOwner())];
     if (this.selectedPiece.equalsValue(coord)) {
       classes.push('selected-stroke');
@@ -48281,7 +48302,7 @@ let SiamComponent = class SiamComponent extends _components_game_components_rect
     return classes;
   }
   getSquareClasses(x, y) {
-    const coord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_6__.Coord(x, y);
+    const coord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_7__.Coord(x, y);
     if (this.movedPieces.some(c => c.equals(coord))) {
       return ['moved-fill'];
     }
@@ -49616,15 +49637,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   SixComponent: () => (/* binding */ SixComponent)
 /* harmony export */ });
 /* harmony import */ var _home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 89204);
-/* harmony import */ var src_app_games_six_SixMove__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/games/six/SixMove */ 81044);
-/* harmony import */ var src_app_games_six_SixFailure__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/games/six/SixFailure */ 82427);
-/* harmony import */ var src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/jscaip/Coord */ 16904);
-/* harmony import */ var src_app_jscaip_HexaLayout__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/jscaip/HexaLayout */ 80579);
-/* harmony import */ var src_app_jscaip_HexaOrientation__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/jscaip/HexaOrientation */ 26135);
-/* harmony import */ var _components_game_components_game_component_HexagonalGameComponent__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../components/game-components/game-component/HexagonalGameComponent */ 84086);
-/* harmony import */ var src_app_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! src/app/jscaip/RulesFailure */ 68566);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @everyboard/lib */ 65042);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @everyboard/lib */ 65042);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var src_app_games_six_SixMove__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/games/six/SixMove */ 81044);
+/* harmony import */ var src_app_games_six_SixFailure__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/games/six/SixFailure */ 82427);
+/* harmony import */ var src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/jscaip/Coord */ 16904);
+/* harmony import */ var src_app_jscaip_HexaLayout__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/jscaip/HexaLayout */ 80579);
+/* harmony import */ var src_app_jscaip_HexaOrientation__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/app/jscaip/HexaOrientation */ 26135);
+/* harmony import */ var _components_game_components_game_component_HexagonalGameComponent__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../components/game-components/game-component/HexagonalGameComponent */ 84086);
+/* harmony import */ var src_app_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! src/app/jscaip/RulesFailure */ 68566);
 /* harmony import */ var src_app_components_game_components_GameComponentUtils__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! src/app/components/game-components/GameComponentUtils */ 88207);
 /* harmony import */ var src_app_jscaip_AI_MCTS__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! src/app/jscaip/AI/MCTS */ 37123);
 /* harmony import */ var _SixMoveGenerator__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./SixMoveGenerator */ 59443);
@@ -49820,24 +49841,24 @@ function SixComponent__svg_g_9_Template(rf, ctx) {
     _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵproperty"]("ngForOf", cuttableGroup_r14);
   }
 }
-class SixComponent extends _components_game_components_game_component_HexagonalGameComponent__WEBPACK_IMPORTED_MODULE_6__.HexagonalGameComponent {
+class SixComponent extends _components_game_components_game_component_HexagonalGameComponent__WEBPACK_IMPORTED_MODULE_7__.HexagonalGameComponent {
   pieces;
   disconnectedCoords = [];
   cuttableGroups = [];
   victoryCoords;
   neighbors;
-  leftCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.MGPOptional.empty();
-  lastDrop = _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.MGPOptional.empty();
-  selectedPiece = _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.MGPOptional.empty();
-  chosenLanding = _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.MGPOptional.empty();
+  leftCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+  lastDrop = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+  selectedPiece = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+  chosenLanding = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
   nextClickShouldSelectGroup = false;
   constructor(messageDisplayer, cdr) {
     super(messageDisplayer, cdr);
     this.setRulesAndNode('Six');
     this.availableAIs = [new _SixMinimax__WEBPACK_IMPORTED_MODULE_12__.SixMinimax(), new src_app_jscaip_AI_MCTS__WEBPACK_IMPORTED_MODULE_10__.MCTS($localize`MCTS`, new _SixMoveGenerator__WEBPACK_IMPORTED_MODULE_11__.SixMoveGenerator(this.rules), this.rules)];
-    this.encoder = src_app_games_six_SixMove__WEBPACK_IMPORTED_MODULE_1__.SixMove.encoder;
+    this.encoder = src_app_games_six_SixMove__WEBPACK_IMPORTED_MODULE_2__.SixMove.encoder;
     this.SPACE_SIZE = 30;
-    this.hexaLayout = new src_app_jscaip_HexaLayout__WEBPACK_IMPORTED_MODULE_4__.HexaLayout(this.SPACE_SIZE * 1.50, new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(this.SPACE_SIZE * 2, 0), src_app_jscaip_HexaOrientation__WEBPACK_IMPORTED_MODULE_5__.FlatHexaOrientation.INSTANCE);
+    this.hexaLayout = new src_app_jscaip_HexaLayout__WEBPACK_IMPORTED_MODULE_5__.HexaLayout(this.SPACE_SIZE * 1.50, new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_4__.Coord(this.SPACE_SIZE * 2, 0), src_app_jscaip_HexaOrientation__WEBPACK_IMPORTED_MODULE_6__.FlatHexaOrientation.INSTANCE);
   }
   getScoreName() {
     if (this.rules.isInDropPhase(this.getState(), this.getConfig())) {
@@ -49849,8 +49870,8 @@ class SixComponent extends _components_game_components_game_component_HexagonalG
   cancelMoveAttempt() {
     var _this = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      _this.selectedPiece = _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.MGPOptional.empty();
-      _this.chosenLanding = _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.MGPOptional.empty();
+      _this.selectedPiece = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+      _this.chosenLanding = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
       _this.cuttableGroups = [];
       _this.nextClickShouldSelectGroup = false;
       _this.resetPiecesAndNeighbors();
@@ -49866,9 +49887,9 @@ class SixComponent extends _components_game_components_game_component_HexagonalG
   getScores() {
     const state = this.getState();
     if (this.rules.isInDropPhase(state, this.getConfig())) {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.MGPOptional.of(state.countPiecesToDrop(this.getConfig().get()));
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(state.countPiecesToDrop(this.getConfig().get()));
     } else {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.MGPOptional.of(state.countPiecesOnBoard());
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(state.countPiecesOnBoard());
     }
   }
   resetPiecesAndNeighbors() {
@@ -49877,8 +49898,8 @@ class SixComponent extends _components_game_components_game_component_HexagonalG
     this.neighbors = this.getEmptyNeighbors();
   }
   hideLastMove() {
-    this.leftCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.MGPOptional.empty();
-    this.lastDrop = _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.MGPOptional.empty();
+    this.leftCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+    this.lastDrop = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
     this.victoryCoords = [];
     this.disconnectedCoords = [];
   }
@@ -49890,11 +49911,11 @@ class SixComponent extends _components_game_components_game_component_HexagonalG
   showLastMove(move) {
     var _this3 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      _this3.lastDrop = _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.MGPOptional.of(move.landing);
+      _this3.lastDrop = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(move.landing);
       if (move.isDrop() === false) {
-        _this3.leftCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.MGPOptional.of(move.start.get());
+        _this3.leftCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(move.start.get());
       } else {
-        _this3.leftCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.MGPOptional.empty();
+        _this3.leftCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
       }
       const state = _this3.getState();
       if (_this3.rules.getGameStatus(_this3.node, _this3.getConfig()).isEndGame) {
@@ -49948,18 +49969,18 @@ class SixComponent extends _components_game_components_game_component_HexagonalG
       const config = _this4.getConfig().get();
       const maxPiece = 2 * config.piecesPerPlayer;
       if (_this4.state.turn < maxPiece) {
-        return _this4.cancelMove(src_app_games_six_SixFailure__WEBPACK_IMPORTED_MODULE_2__.SixFailure.CANNOT_MOVE_YET());
+        return _this4.cancelMove(src_app_games_six_SixFailure__WEBPACK_IMPORTED_MODULE_3__.SixFailure.CANNOT_MOVE_YET());
       } else if (_this4.chosenLanding.isAbsent()) {
         if (_this4.state.getPieceAt(piece) === _this4.state.getCurrentOpponent()) {
-          return _this4.cancelMove(src_app_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_7__.RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
+          return _this4.cancelMove(src_app_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_8__.RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
         } else if (_this4.selectedPiece.equalsValue(piece)) {
           return _this4.cancelMove();
         } else {
-          _this4.selectedPiece = _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.MGPOptional.of(piece);
-          return _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.MGPValidation.SUCCESS;
+          _this4.selectedPiece = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(piece);
+          return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.SUCCESS;
         }
       } else {
-        const cuttingMove = src_app_games_six_SixMove__WEBPACK_IMPORTED_MODULE_1__.SixMove.ofCut(_this4.selectedPiece.get(), _this4.chosenLanding.get(), piece);
+        const cuttingMove = src_app_games_six_SixMove__WEBPACK_IMPORTED_MODULE_2__.SixMove.ofCut(_this4.selectedPiece.get(), _this4.chosenLanding.get(), piece);
         return _this4.chooseMove(cuttingMove);
       }
     })();
@@ -49972,24 +49993,24 @@ class SixComponent extends _components_game_components_game_component_HexagonalG
         return _this5.cancelMove(clickValidity.getReason());
       }
       if (_this5.nextClickShouldSelectGroup) {
-        return _this5.cancelMove(src_app_games_six_SixFailure__WEBPACK_IMPORTED_MODULE_2__.SixFailure.MUST_CUT());
+        return _this5.cancelMove(src_app_games_six_SixFailure__WEBPACK_IMPORTED_MODULE_3__.SixFailure.MUST_CUT());
       }
       const config = _this5.getConfig().get();
       const maxPiece = 2 * config.piecesPerPlayer;
       if (_this5.state.turn < maxPiece) {
-        return _this5.chooseMove(src_app_games_six_SixMove__WEBPACK_IMPORTED_MODULE_1__.SixMove.ofDrop(neighbor));
+        return _this5.chooseMove(src_app_games_six_SixMove__WEBPACK_IMPORTED_MODULE_2__.SixMove.ofDrop(neighbor));
       } else {
         if (_this5.selectedPiece.isAbsent()) {
-          return _this5.cancelMove(src_app_games_six_SixFailure__WEBPACK_IMPORTED_MODULE_2__.SixFailure.CAN_NO_LONGER_DROP());
+          return _this5.cancelMove(src_app_games_six_SixFailure__WEBPACK_IMPORTED_MODULE_3__.SixFailure.CAN_NO_LONGER_DROP());
         } else {
-          const movement = src_app_games_six_SixMove__WEBPACK_IMPORTED_MODULE_1__.SixMove.ofTranslation(_this5.selectedPiece.get(), neighbor);
+          const movement = src_app_games_six_SixMove__WEBPACK_IMPORTED_MODULE_2__.SixMove.ofTranslation(_this5.selectedPiece.get(), neighbor);
           const legality = _this5.rules.isLegalPhaseTwoMove(movement, _this5.state);
           if (_this5.neededCutting(legality)) {
-            _this5.chosenLanding = _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.MGPOptional.of(neighbor);
+            _this5.chosenLanding = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(neighbor);
             _this5.moveVirtuallyPiece();
             _this5.showCuttable();
             _this5.nextClickShouldSelectGroup = true;
-            return _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.MGPValidation.SUCCESS;
+            return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.SUCCESS;
           } else {
             return _this5.chooseMove(movement);
           }
@@ -49998,7 +50019,7 @@ class SixComponent extends _components_game_components_game_component_HexagonalG
     })();
   }
   neededCutting(legality) {
-    return legality.isFailure() && legality.getReason() === src_app_games_six_SixFailure__WEBPACK_IMPORTED_MODULE_2__.SixFailure.MUST_CUT();
+    return legality.isFailure() && legality.getReason() === src_app_games_six_SixFailure__WEBPACK_IMPORTED_MODULE_3__.SixFailure.MUST_CUT();
   }
   moveVirtuallyPiece() {
     const selectedPiece = this.selectedPiece.get();
@@ -50006,7 +50027,7 @@ class SixComponent extends _components_game_components_game_component_HexagonalG
     this.neighbors = this.getEmptyNeighbors();
   }
   showCuttable() {
-    const movement = src_app_games_six_SixMove__WEBPACK_IMPORTED_MODULE_1__.SixMove.ofTranslation(this.selectedPiece.get(), this.chosenLanding.get());
+    const movement = src_app_games_six_SixMove__WEBPACK_IMPORTED_MODULE_2__.SixMove.ofTranslation(this.selectedPiece.get(), this.chosenLanding.get());
     const stateAfterMove = this.state.movePiece(movement);
     const groupsAfterMove = stateAfterMove.getGroups();
     const biggerGroups = this.rules.getLargestGroups(groupsAfterMove);
@@ -52039,7 +52060,7 @@ function BrandhubComponent__svg_g_1__svg_g_1__svg_g_3__svg_g_2_Template(rf, ctx)
     const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵnextContext"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵadvance"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵproperty"]("ngClass", ctx_r3.viewInfo.pieceClasses[y_r3][x_r2]);
-    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵattribute"]("x1", ctx_r3.SPACE_SIZE * 0.5)("y1", 0.04 * ctx_r3.SPACE_SIZE)("x2", ctx_r3.SPACE_SIZE * 0.5)("y2", ctx_r3.SPACE_SIZE * 0.96);
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵattribute"]("x1", ctx_r3.SPACE_SIZE * 0.5)("y1", ctx_r3.SPACE_SIZE * 0.04)("x2", ctx_r3.SPACE_SIZE * 0.5)("y2", ctx_r3.SPACE_SIZE * 0.96);
     _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵadvance"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵproperty"]("ngClass", ctx_r3.viewInfo.pieceClasses[y_r3][x_r2]);
     _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵattribute"]("x1", ctx_r3.SPACE_SIZE * 0.5)("y1", ctx_r3.SPACE_SIZE * 0.2)("x2", ctx_r3.SPACE_SIZE * 0.1)("y2", ctx_r3.SPACE_SIZE * 0.6);
@@ -52420,7 +52441,7 @@ function HnefataflComponent__svg_g_1__svg_g_1__svg_g_3__svg_g_2_Template(rf, ctx
     const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵnextContext"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵadvance"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵproperty"]("ngClass", ctx_r3.viewInfo.pieceClasses[y_r3][x_r2]);
-    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵattribute"]("x1", ctx_r3.SPACE_SIZE * 0.5)("y1", 0.04 * ctx_r3.SPACE_SIZE)("x2", ctx_r3.SPACE_SIZE * 0.5)("y2", ctx_r3.SPACE_SIZE * 0.96);
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵattribute"]("x1", ctx_r3.SPACE_SIZE * 0.5)("y1", ctx_r3.SPACE_SIZE * 0.04)("x2", ctx_r3.SPACE_SIZE * 0.5)("y2", ctx_r3.SPACE_SIZE * 0.96);
     _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵadvance"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵproperty"]("ngClass", ctx_r3.viewInfo.pieceClasses[y_r3][x_r2]);
     _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵattribute"]("x1", ctx_r3.SPACE_SIZE * 0.5)("y1", ctx_r3.SPACE_SIZE * 0.2)("x2", ctx_r3.SPACE_SIZE * 0.1)("y2", ctx_r3.SPACE_SIZE * 0.6);
@@ -52801,7 +52822,7 @@ function TablutComponent__svg_g_1__svg_g_1__svg_g_3__svg_g_2_Template(rf, ctx) {
     const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵnextContext"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵadvance"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵproperty"]("ngClass", ctx_r3.viewInfo.pieceClasses[y_r3][x_r2]);
-    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵattribute"]("x1", ctx_r3.SPACE_SIZE * 0.5)("y1", 0.04 * ctx_r3.SPACE_SIZE)("x2", ctx_r3.SPACE_SIZE * 0.5)("y2", ctx_r3.SPACE_SIZE * 0.96);
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵattribute"]("x1", ctx_r3.SPACE_SIZE * 0.5)("y1", ctx_r3.SPACE_SIZE * 0.04)("x2", ctx_r3.SPACE_SIZE * 0.5)("y2", ctx_r3.SPACE_SIZE * 0.96);
     _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵadvance"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵproperty"]("ngClass", ctx_r3.viewInfo.pieceClasses[y_r3][x_r2]);
     _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵattribute"]("x1", ctx_r3.SPACE_SIZE * 0.5)("y1", ctx_r3.SPACE_SIZE * 0.2)("x2", ctx_r3.SPACE_SIZE * 0.1)("y2", ctx_r3.SPACE_SIZE * 0.6);
@@ -52997,14 +53018,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   TaflComponent: () => (/* binding */ TaflComponent)
 /* harmony export */ });
 /* harmony import */ var _home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 89204);
-/* harmony import */ var src_app_components_game_components_rectangular_game_component_RectangularGameComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/components/game-components/rectangular-game-component/RectangularGameComponent */ 96740);
-/* harmony import */ var src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/jscaip/Coord */ 16904);
-/* harmony import */ var src_app_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/jscaip/Orthogonal */ 99342);
-/* harmony import */ var src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/jscaip/Player */ 22092);
-/* harmony import */ var src_app_jscaip_RelativePlayer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/jscaip/RelativePlayer */ 72100);
-/* harmony import */ var src_app_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/app/jscaip/RulesFailure */ 68566);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @everyboard/lib */ 65042);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @everyboard/lib */ 65042);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var src_app_components_game_components_rectangular_game_component_RectangularGameComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/components/game-components/rectangular-game-component/RectangularGameComponent */ 96740);
+/* harmony import */ var src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/jscaip/Coord */ 16904);
+/* harmony import */ var src_app_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/jscaip/Orthogonal */ 99342);
+/* harmony import */ var src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/jscaip/Player */ 22092);
+/* harmony import */ var src_app_jscaip_RelativePlayer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/app/jscaip/RelativePlayer */ 72100);
+/* harmony import */ var src_app_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! src/app/jscaip/RulesFailure */ 68566);
 /* harmony import */ var _TaflPawn__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./TaflPawn */ 86363);
 /* harmony import */ var _TaflMoveGenerator__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./TaflMoveGenerator */ 45895);
 /* harmony import */ var src_app_jscaip_AI_MCTS__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! src/app/jscaip/AI/MCTS */ 37123);
@@ -53031,7 +53052,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class TaflComponent extends src_app_components_game_components_rectangular_game_component_RectangularGameComponent__WEBPACK_IMPORTED_MODULE_1__.RectangularGameComponent {
+class TaflComponent extends src_app_components_game_components_rectangular_game_component_RectangularGameComponent__WEBPACK_IMPORTED_MODULE_2__.RectangularGameComponent {
   generateMove;
   viewInfo = {
     pieceClasses: []
@@ -53039,7 +53060,7 @@ class TaflComponent extends src_app_components_game_components_rectangular_game_
   EMPTY = _TaflPawn__WEBPACK_IMPORTED_MODULE_8__.TaflPawn.UNOCCUPIED;
   capturedCoords = [];
   passedByCoords = [];
-  chosen = _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPOptional.empty();
+  chosen = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
   constructor(messageDisplayer, cdr, generateMove) {
     super(messageDisplayer, cdr);
     this.generateMove = generateMove;
@@ -53054,9 +53075,9 @@ class TaflComponent extends src_app_components_game_components_rectangular_game_
   }
   updateScores() {
     const state = this.getState();
-    const scoreZero = this.rules.getPlayerListPawns(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_4__.Player.ZERO, state).length;
-    const scoreOne = this.rules.getPlayerListPawns(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_4__.Player.ONE, state).length;
-    this.scores = _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPOptional.of(src_app_jscaip_PlayerMap__WEBPACK_IMPORTED_MODULE_15__.PlayerNumberMap.of(scoreZero, scoreOne));
+    const scoreZero = this.rules.getPlayerListPawns(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_5__.Player.ZERO, state).length;
+    const scoreOne = this.rules.getPlayerListPawns(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_5__.Player.ONE, state).length;
+    this.scores = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(src_app_jscaip_PlayerMap__WEBPACK_IMPORTED_MODULE_15__.PlayerNumberMap.of(scoreZero, scoreOne));
   }
   getScoreName() {
     return src_app_components_game_components_game_component_GameComponent__WEBPACK_IMPORTED_MODULE_16__.ScoreName.REMAINING_PIECES;
@@ -53066,11 +53087,11 @@ class TaflComponent extends src_app_components_game_components_rectangular_game_
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       const previousState = _this2.getPreviousState();
       const opponent = _this2.getState().getCurrentOpponent();
-      for (const orthogonal of src_app_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_3__.Orthogonal.ORTHOGONALS) {
+      for (const orthogonal of src_app_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_4__.Orthogonal.ORTHOGONALS) {
         const captured = move.getEnd().getNext(orthogonal, 1);
         if (previousState.isOnBoard(captured)) {
           const previousOwner = previousState.getRelativeOwner(opponent, captured);
-          const wasOpponent = previousOwner === src_app_jscaip_RelativePlayer__WEBPACK_IMPORTED_MODULE_5__.RelativePlayer.OPPONENT;
+          const wasOpponent = previousOwner === src_app_jscaip_RelativePlayer__WEBPACK_IMPORTED_MODULE_6__.RelativePlayer.OPPONENT;
           const currentPiece = _this2.getState().getPieceAt(captured);
           const isEmpty = currentPiece === _TaflPawn__WEBPACK_IMPORTED_MODULE_8__.TaflPawn.UNOCCUPIED;
           if (wasOpponent && isEmpty) {
@@ -53112,7 +53133,7 @@ class TaflComponent extends src_app_components_game_components_rectangular_game_
       if (clickValidity.isFailure()) {
         return _this3.cancelMove(clickValidity.getReason());
       }
-      const clicked = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(x, y);
+      const clicked = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(x, y);
       if (_this3.chosen.equalsValue(clicked)) {
         return _this3.cancelMove();
       }
@@ -53127,7 +53148,7 @@ class TaflComponent extends src_app_components_game_components_rectangular_game_
     var _this4 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       const chosenPiece = _this4.chosen.get();
-      const chosenDestination = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(x, y);
+      const chosenDestination = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(x, y);
       const move = _this4.generateMove(chosenPiece, chosenDestination);
       if (move.isSuccess()) {
         return yield _this4.chooseMove(move.get());
@@ -53140,35 +53161,35 @@ class TaflComponent extends src_app_components_game_components_rectangular_game_
     var _this5 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       if (_this5.board[coord.y][coord.x] === _TaflPawn__WEBPACK_IMPORTED_MODULE_8__.TaflPawn.UNOCCUPIED) {
-        return _this5.cancelMove(src_app_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_6__.RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_EMPTY());
+        return _this5.cancelMove(src_app_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_7__.RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_EMPTY());
       }
       if (_this5.pieceBelongsToCurrentPlayer(coord) === false) {
-        return _this5.cancelMove(src_app_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_6__.RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
+        return _this5.cancelMove(src_app_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_7__.RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
       }
-      _this5.chosen = _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPOptional.of(coord);
+      _this5.chosen = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(coord);
       _this5.updateViewInfo();
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPValidation.SUCCESS;
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.SUCCESS;
     })();
   }
   pieceBelongsToCurrentPlayer(coord) {
     const state = this.getState();
     const player = state.getCurrentPlayer();
-    return state.getRelativeOwner(player, coord) === src_app_jscaip_RelativePlayer__WEBPACK_IMPORTED_MODULE_5__.RelativePlayer.PLAYER;
+    return state.getRelativeOwner(player, coord) === src_app_jscaip_RelativePlayer__WEBPACK_IMPORTED_MODULE_6__.RelativePlayer.PLAYER;
   }
   cancelMoveAttempt() {
-    this.chosen = _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPOptional.empty();
+    this.chosen = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
     this.updateViewInfo();
   }
   isThrone(x, y) {
     const state = this.getState();
-    return this.rules.isThrone(state, new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(x, y));
+    return this.rules.isThrone(state, new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(x, y));
   }
   isCentralThrone(x, y) {
-    return this.getState().isCentralThrone(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(x, y));
+    return this.getState().isCentralThrone(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(x, y));
   }
   getPieceClasses(x, y) {
     const classes = [];
-    const coord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(x, y);
+    const coord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(x, y);
     const owner = this.getState().getAbsoluteOwner(coord);
     classes.push(this.getPlayerClass(owner));
     if (this.chosen.equalsValue(coord)) {
@@ -53178,7 +53199,7 @@ class TaflComponent extends src_app_components_game_components_rectangular_game_
   }
   getRectClasses(x, y) {
     const classes = [];
-    const coord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(x, y);
+    const coord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(x, y);
     if (this.capturedCoords.some(c => c.equals(coord))) {
       classes.push('captured-fill');
     } else if (this.passedByCoords.some(c => c.equals(coord))) {
@@ -53187,20 +53208,29 @@ class TaflComponent extends src_app_components_game_components_rectangular_game_
     return classes;
   }
   getClickables() {
+    if (this.chosen.isPresent()) {
+      const coord = this.chosen.get();
+      const state = this.getState();
+      const config = this.config.get();
+      return this.rules.getPossibleDestinations(coord, state, config);
+    } else {
+      return this.getInteractivePlayerPieces();
+    }
+  }
+  getInteractivePlayerPieces() {
+    if (this.interactive === false) {
+      return [];
+    }
     const coords = [];
     for (let y = 0; y < this.getHeight(); y++) {
       for (let x = 0; x < this.board[y].length; x++) {
-        const coord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(x, y);
-        if (this.isClickable(coord)) {
+        const coord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(x, y);
+        if (this.pieceBelongsToCurrentPlayer(coord)) {
           coords.push(coord);
         }
       }
     }
     return coords;
-  }
-  isClickable(coord) {
-    // Show if the piece can be clicked
-    return this.interactive && this.pieceBelongsToCurrentPlayer(coord);
   }
   isInvader(x, y) {
     return this.board[y][x] === _TaflPawn__WEBPACK_IMPORTED_MODULE_8__.TaflPawn.PLAYER_ZERO_PAWN;
@@ -53658,10 +53688,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   TeekoComponent: () => (/* binding */ TeekoComponent)
 /* harmony export */ });
 /* harmony import */ var _home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 89204);
-/* harmony import */ var _TeekoMove__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TeekoMove */ 53020);
-/* harmony import */ var src_app_components_game_components_rectangular_game_component_RectangularGameComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/components/game-components/rectangular-game-component/RectangularGameComponent */ 96740);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @everyboard/lib */ 65042);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @everyboard/lib */ 65042);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _TeekoMove__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TeekoMove */ 53020);
+/* harmony import */ var src_app_components_game_components_rectangular_game_component_RectangularGameComponent__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/components/game-components/rectangular-game-component/RectangularGameComponent */ 96740);
 /* harmony import */ var src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/jscaip/Coord */ 16904);
 /* harmony import */ var src_app_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/jscaip/RulesFailure */ 68566);
 /* harmony import */ var src_app_jscaip_AI_MCTS__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/app/jscaip/AI/MCTS */ 37123);
@@ -53738,16 +53768,16 @@ function TeekoComponent__svg_g_1_Template(rf, ctx) {
     _angular_core__WEBPACK_IMPORTED_MODULE_10__["ɵɵproperty"]("ngForOf", line_r6);
   }
 }
-class TeekoComponent extends src_app_components_game_components_rectangular_game_component_RectangularGameComponent__WEBPACK_IMPORTED_MODULE_2__.RectangularGameComponent {
-  selected = _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.MGPOptional.empty();
-  last = _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.MGPOptional.empty();
+class TeekoComponent extends src_app_components_game_components_rectangular_game_component_RectangularGameComponent__WEBPACK_IMPORTED_MODULE_3__.RectangularGameComponent {
+  selected = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+  last = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
   moved = [];
   victory = [];
   constructor(messageDisplayer, cdr) {
     super(messageDisplayer, cdr);
     this.setRulesAndNode('Teeko');
     this.availableAIs = [new _TeekoMinimax__WEBPACK_IMPORTED_MODULE_8__.TeekoMinimax(), new src_app_jscaip_AI_MCTS__WEBPACK_IMPORTED_MODULE_6__.MCTS($localize`MCTS`, new _TeekoMoveGenerator__WEBPACK_IMPORTED_MODULE_7__.TeekoMoveGenerator(), this.rules)];
-    this.encoder = _TeekoMove__WEBPACK_IMPORTED_MODULE_1__.TeekoMove.encoder;
+    this.encoder = _TeekoMove__WEBPACK_IMPORTED_MODULE_2__.TeekoMove.encoder;
   }
   updateBoard(_triggerAnimation) {
     var _this = this;
@@ -53758,8 +53788,8 @@ class TeekoComponent extends src_app_components_game_components_rectangular_game
   showLastMove(move) {
     var _this2 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      _this2.last = _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.MGPOptional.of(_this2.rules.getLastCoord(move));
-      if (move instanceof _TeekoMove__WEBPACK_IMPORTED_MODULE_1__.TeekoTranslationMove) {
+      _this2.last = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(_this2.rules.getLastCoord(move));
+      if (move instanceof _TeekoMove__WEBPACK_IMPORTED_MODULE_2__.TeekoTranslationMove) {
         _this2.moved = [move.getStart(), move.getEnd()];
       } else {
         _this2.moved = [];
@@ -53770,13 +53800,13 @@ class TeekoComponent extends src_app_components_game_components_rectangular_game
   hideLastMove() {
     var _this3 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      _this3.last = _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.MGPOptional.empty();
+      _this3.last = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
       _this3.moved = [];
       _this3.victory = [];
     })();
   }
   cancelMoveAttempt() {
-    this.selected = _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.MGPOptional.empty();
+    this.selected = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
   }
   onClick(x, y) {
     var _this4 = this;
@@ -53787,23 +53817,22 @@ class TeekoComponent extends src_app_components_game_components_rectangular_game
       }
       const clickedCoord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_4__.Coord(x, y);
       if (_this4.getState().isInDropPhase()) {
-        const move = _TeekoMove__WEBPACK_IMPORTED_MODULE_1__.TeekoDropMove.from(clickedCoord);
+        const move = _TeekoMove__WEBPACK_IMPORTED_MODULE_2__.TeekoDropMove.from(clickedCoord);
         return _this4.chooseMove(move);
       } else {
         if (_this4.selected.isPresent()) {
           if (_this4.selected.equalsValue(clickedCoord)) {
-            _this4.selected = _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.MGPOptional.empty();
-            return _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.MGPValidation.SUCCESS;
+            return _this4.cancelMove();
           } else {
-            const move = _TeekoMove__WEBPACK_IMPORTED_MODULE_1__.TeekoTranslationMove.from(_this4.selected.get(), clickedCoord).get();
+            const move = _TeekoMove__WEBPACK_IMPORTED_MODULE_2__.TeekoTranslationMove.from(_this4.selected.get(), clickedCoord).get();
             return _this4.chooseMove(move);
           }
         } else {
           const currentPlayer = _this4.getState().getCurrentPlayer();
           const clickedPiece = _this4.getState().getPieceAt(clickedCoord);
           if (clickedPiece === currentPlayer) {
-            _this4.selected = _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.MGPOptional.of(clickedCoord);
-            return _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.MGPValidation.SUCCESS;
+            _this4.selected = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(clickedCoord);
+            return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.SUCCESS;
           } else if (clickedPiece.isNone()) {
             return _this4.cancelMove(src_app_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_5__.RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_EMPTY());
           } else {
@@ -54759,13 +54788,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   TrexoComponent: () => (/* binding */ TrexoComponent)
 /* harmony export */ });
 /* harmony import */ var _home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 89204);
-/* harmony import */ var _TrexoState__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TrexoState */ 2612);
-/* harmony import */ var _TrexoRules__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TrexoRules */ 83750);
-/* harmony import */ var src_app_components_game_components_parallelogram_game_component_ParallelogramGameComponent__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/components/game-components/parallelogram-game-component/ParallelogramGameComponent */ 52926);
-/* harmony import */ var src_app_games_trexo_TrexoMove__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/games/trexo/TrexoMove */ 86988);
-/* harmony import */ var src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/jscaip/Coord */ 16904);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @everyboard/lib */ 65042);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @everyboard/lib */ 65042);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _TrexoState__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TrexoState */ 2612);
+/* harmony import */ var _TrexoRules__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./TrexoRules */ 83750);
+/* harmony import */ var src_app_components_game_components_parallelogram_game_component_ParallelogramGameComponent__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/components/game-components/parallelogram-game-component/ParallelogramGameComponent */ 52926);
+/* harmony import */ var src_app_games_trexo_TrexoMove__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/games/trexo/TrexoMove */ 86988);
+/* harmony import */ var src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/app/jscaip/Coord */ 16904);
 /* harmony import */ var src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! src/app/jscaip/Player */ 22092);
 /* harmony import */ var src_app_jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! src/app/jscaip/TableUtils */ 37640);
 /* harmony import */ var _TrexoFailure__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./TrexoFailure */ 94403);
@@ -54956,12 +54985,12 @@ function TrexoComponent__svg_ng_template_6_Template(rf, ctx) {
     _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵattribute"]("transform", ctx_r3.getTranslationAtXYZ(12, 9, 0));
   }
 }
-class TrexoComponent extends src_app_components_game_components_parallelogram_game_component_ParallelogramGameComponent__WEBPACK_IMPORTED_MODULE_3__.ParallelogramGameComponent {
+class TrexoComponent extends src_app_components_game_components_parallelogram_game_component_ParallelogramGameComponent__WEBPACK_IMPORTED_MODULE_4__.ParallelogramGameComponent {
   static STROKE_WIDTH;
   static INITIAL_PIECE_ON_BOARD = {
     isDroppedPiece: false,
     isPossibleClick: false,
-    move: _everyboard_lib__WEBPACK_IMPORTED_MODULE_6__.MGPOptional.empty()
+    move: _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty()
   };
   static modeMap = {
     '2D': {
@@ -54986,7 +55015,7 @@ class TrexoComponent extends src_app_components_game_components_parallelogram_ga
   chosenMode = '3D';
   victoryCoords = [];
   lastMoved = [];
-  droppedPiece = _everyboard_lib__WEBPACK_IMPORTED_MODULE_6__.MGPOptional.empty();
+  droppedPiece = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
   possibleNextClicks = [];
   possibleMoves = [];
   pieceOnBoard = [];
@@ -54996,7 +55025,7 @@ class TrexoComponent extends src_app_components_game_components_parallelogram_ga
     super(messageDisplayer, cdr);
     this.setRulesAndNode('Trexo');
     this.availableAIs = [new _TrexoAlignmentMinimax__WEBPACK_IMPORTED_MODULE_13__.TrexoAlignmentMinimax(), new src_app_jscaip_AI_MCTS__WEBPACK_IMPORTED_MODULE_11__.MCTS($localize`MCTS`, new _TrexoMoveGenerator__WEBPACK_IMPORTED_MODULE_12__.TrexoMoveGenerator(), this.rules)];
-    this.encoder = src_app_games_trexo_TrexoMove__WEBPACK_IMPORTED_MODULE_4__.TrexoMove.encoder;
+    this.encoder = src_app_games_trexo_TrexoMove__WEBPACK_IMPORTED_MODULE_5__.TrexoMove.encoder;
     TrexoComponent.STROKE_WIDTH = this.STROKE_WIDTH;
     this.switchToMode('3D');
   }
@@ -55009,7 +55038,7 @@ class TrexoComponent extends src_app_components_game_components_parallelogram_ga
   }
   getViewBoxWidth() {
     const mode3D = TrexoComponent.modeMap['3D'];
-    const boardWidth = _TrexoState__WEBPACK_IMPORTED_MODULE_1__.TrexoState.SIZE;
+    const boardWidth = _TrexoState__WEBPACK_IMPORTED_MODULE_2__.TrexoState.SIZE;
     const widification = mode3D.horizontalWidthRatio + mode3D.offsetRatio;
     const spaceWidth3D = this.SPACE_SIZE * widification;
     if (this.chosenMode === '2D') {
@@ -55020,7 +55049,7 @@ class TrexoComponent extends src_app_components_game_components_parallelogram_ga
   }
   getViewBoxHeight() {
     const stroke = this.STROKE_WIDTH;
-    const boardHeight = _TrexoState__WEBPACK_IMPORTED_MODULE_1__.TrexoState.SIZE * this.SPACE_SIZE;
+    const boardHeight = _TrexoState__WEBPACK_IMPORTED_MODULE_2__.TrexoState.SIZE * this.SPACE_SIZE;
     if (this.chosenMode === '2D') {
       return boardHeight;
     } else {
@@ -55051,7 +55080,7 @@ class TrexoComponent extends src_app_components_game_components_parallelogram_ga
       _this.currentOpponentClass = _this.getPlayerClass(state.getCurrentOpponent());
       _this.currentPlayerClass = _this.getPlayerClass(state.getCurrentPlayer());
       _this.possibleMoves = _this.rules.getLegalMoves(state);
-      _this.victoryCoords = _TrexoRules__WEBPACK_IMPORTED_MODULE_2__.TrexoRules.getVictoriousCoords(state);
+      _this.victoryCoords = _TrexoRules__WEBPACK_IMPORTED_MODULE_3__.TrexoRules.getVictoriousCoords(state);
       _this.pieceOnBoard = _this.get3DBoard();
       _this.height = _this.getViewBoxHeight();
       _this.up = _this.getViewBoxUp();
@@ -55067,7 +55096,7 @@ class TrexoComponent extends src_app_components_game_components_parallelogram_ga
     this.lastMoved = [];
   }
   get3DBoard() {
-    const moveByCoord = src_app_jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_8__.Table3DUtils.create(1, _TrexoState__WEBPACK_IMPORTED_MODULE_1__.TrexoState.SIZE, _TrexoState__WEBPACK_IMPORTED_MODULE_1__.TrexoState.SIZE, TrexoComponent.INITIAL_PIECE_ON_BOARD);
+    const moveByCoord = src_app_jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_8__.Table3DUtils.create(1, _TrexoState__WEBPACK_IMPORTED_MODULE_2__.TrexoState.SIZE, _TrexoState__WEBPACK_IMPORTED_MODULE_2__.TrexoState.SIZE, TrexoComponent.INITIAL_PIECE_ON_BOARD);
     let maxZ = 1;
     for (let z = 0; z <= maxZ; z++) {
       for (const coordAndContent of this.getState().getCoordsAndContents()) {
@@ -55084,11 +55113,11 @@ class TrexoComponent extends src_app_components_game_components_parallelogram_ga
   }
   extractMoveFromState(x, y, z) {
     const piece = this.getState().getPieceAtXYZ(x, y, z);
-    const pieceCoord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_5__.Coord(x, y);
-    let otherCoord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_5__.Coord(-2, -2); // Will get erased
+    const pieceCoord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_6__.Coord(x, y);
+    let otherCoord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_6__.Coord(-2, -2); // Will get erased
     for (const dir of src_app_jscaip_Ordinal__WEBPACK_IMPORTED_MODULE_10__.Ordinal.ORTHOGONALS) {
       const neighborCoord = pieceCoord.getNext(dir);
-      if (_TrexoState__WEBPACK_IMPORTED_MODULE_1__.TrexoState.isOnBoard(neighborCoord)) {
+      if (_TrexoState__WEBPACK_IMPORTED_MODULE_2__.TrexoState.isOnBoard(neighborCoord)) {
         const neighborStack = this.getState().getPieceAt(neighborCoord);
         if (neighborStack.getHeight() > z) {
           const neighborPiece = neighborStack.getPieceAt(z);
@@ -55099,24 +55128,24 @@ class TrexoComponent extends src_app_components_game_components_parallelogram_ga
       }
     }
     if (piece.owner === src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_7__.Player.ZERO) {
-      return src_app_games_trexo_TrexoMove__WEBPACK_IMPORTED_MODULE_4__.TrexoMove.from(pieceCoord, otherCoord).get();
+      return src_app_games_trexo_TrexoMove__WEBPACK_IMPORTED_MODULE_5__.TrexoMove.from(pieceCoord, otherCoord).get();
     } else {
-      return src_app_games_trexo_TrexoMove__WEBPACK_IMPORTED_MODULE_4__.TrexoMove.from(otherCoord, pieceCoord).get();
+      return src_app_games_trexo_TrexoMove__WEBPACK_IMPORTED_MODULE_5__.TrexoMove.from(otherCoord, pieceCoord).get();
     }
   }
   addMoveToArray(height, move, moveByCoord) {
     while (moveByCoord.length <= height) {
-      moveByCoord.push(src_app_jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_8__.TableUtils.create(_TrexoState__WEBPACK_IMPORTED_MODULE_1__.TrexoState.SIZE, _TrexoState__WEBPACK_IMPORTED_MODULE_1__.TrexoState.SIZE, TrexoComponent.INITIAL_PIECE_ON_BOARD));
+      moveByCoord.push(src_app_jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_8__.TableUtils.create(_TrexoState__WEBPACK_IMPORTED_MODULE_2__.TrexoState.SIZE, _TrexoState__WEBPACK_IMPORTED_MODULE_2__.TrexoState.SIZE, TrexoComponent.INITIAL_PIECE_ON_BOARD));
     }
     moveByCoord[height][move.getZero().y][move.getZero().x] = {
       isDroppedPiece: false,
       isPossibleClick: false,
-      move: _everyboard_lib__WEBPACK_IMPORTED_MODULE_6__.MGPOptional.of(move)
+      move: _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(move)
     };
     moveByCoord[height][move.getOne().y][move.getOne().x] = {
       isDroppedPiece: false,
       isPossibleClick: false,
-      move: _everyboard_lib__WEBPACK_IMPORTED_MODULE_6__.MGPOptional.of(move)
+      move: _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(move)
     };
   }
   onClick(x, y) {
@@ -55126,7 +55155,7 @@ class TrexoComponent extends src_app_components_game_components_parallelogram_ga
       if (clickValidity.isFailure()) {
         return _this3.cancelMove(clickValidity.getReason());
       }
-      const clicked = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_5__.Coord(x, y);
+      const clicked = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_6__.Coord(x, y);
       if (_this3.droppedPiece.isPresent()) {
         const dropped = _this3.droppedPiece.get();
         if (_this3.droppedPiece.equalsValue(clicked)) {
@@ -55136,7 +55165,7 @@ class TrexoComponent extends src_app_components_game_components_parallelogram_ga
           const isPlayerZero = _this3.getState().getCurrentPlayer() === src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_7__.Player.ZERO;
           const first = isPlayerZero ? clicked : dropped;
           const second = isPlayerZero ? dropped : clicked;
-          const move = src_app_games_trexo_TrexoMove__WEBPACK_IMPORTED_MODULE_4__.TrexoMove.from(first, second).get();
+          const move = src_app_games_trexo_TrexoMove__WEBPACK_IMPORTED_MODULE_5__.TrexoMove.from(first, second).get();
           return _this3.chooseMove(move);
         } else {
           _this3.deselectPiece();
@@ -55160,29 +55189,29 @@ class TrexoComponent extends src_app_components_game_components_parallelogram_ga
       if (_this4.possibleMoves.some(move => move.getZero().equals(clicked))) {
         const pieceHeight = _this4.getState().getPieceAt(clicked).getHeight();
         if (_this4.pieceOnBoard.length <= pieceHeight) {
-          _this4.pieceOnBoard.push(src_app_jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_8__.TableUtils.create(_TrexoState__WEBPACK_IMPORTED_MODULE_1__.TrexoState.SIZE, _TrexoState__WEBPACK_IMPORTED_MODULE_1__.TrexoState.SIZE, TrexoComponent.INITIAL_PIECE_ON_BOARD));
+          _this4.pieceOnBoard.push(src_app_jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_8__.TableUtils.create(_TrexoState__WEBPACK_IMPORTED_MODULE_2__.TrexoState.SIZE, _TrexoState__WEBPACK_IMPORTED_MODULE_2__.TrexoState.SIZE, TrexoComponent.INITIAL_PIECE_ON_BOARD));
         }
         _this4.showDroppedPieceAndIndicators(clicked, pieceHeight);
-        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_6__.MGPValidation.SUCCESS;
+        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.SUCCESS;
       } else {
         return _this4.cancelMove(_TrexoFailure__WEBPACK_IMPORTED_MODULE_9__.TrexoFailure.NO_WAY_TO_DROP_IT_HERE());
       }
     })();
   }
   showDroppedPieceAndIndicators(dropped, pieceHeight) {
-    this.droppedPiece = _everyboard_lib__WEBPACK_IMPORTED_MODULE_6__.MGPOptional.of(dropped);
+    this.droppedPiece = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(dropped);
     this.possibleNextClicks = this.getPossibleNextClicks(dropped);
     for (const possibleNextClick of this.possibleNextClicks) {
       this.pieceOnBoard[pieceHeight][possibleNextClick.y][possibleNextClick.x] = {
         isDroppedPiece: false,
         isPossibleClick: true,
-        move: _everyboard_lib__WEBPACK_IMPORTED_MODULE_6__.MGPOptional.empty()
+        move: _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty()
       };
     }
     this.pieceOnBoard[pieceHeight][dropped.y][dropped.x] = {
       isDroppedPiece: true,
       isPossibleClick: false,
-      move: _everyboard_lib__WEBPACK_IMPORTED_MODULE_6__.MGPOptional.empty()
+      move: _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty()
     };
   }
   getPossibleNextClicks(coord) {
@@ -55194,13 +55223,13 @@ class TrexoComponent extends src_app_components_game_components_parallelogram_ga
   cancelMoveAttempt() {
     var _this5 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      _this5.droppedPiece = _everyboard_lib__WEBPACK_IMPORTED_MODULE_6__.MGPOptional.empty();
+      _this5.droppedPiece = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
       _this5.possibleNextClicks = [];
       yield _this5.updateBoard(false);
     })();
   }
   getPieceClasses(x, y, z) {
-    const piece = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_5__.Coord(x, y);
+    const piece = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_6__.Coord(x, y);
     const pieceOwner = this.getState().getPieceAtXYZ(x, y, z).owner;
     let classes = [this.getPlayerClass(pieceOwner)];
     classes = classes.concat(this.getSpaceClasses(x, y));
@@ -56091,16 +56120,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   YinshComponent: () => (/* binding */ YinshComponent)
 /* harmony export */ });
 /* harmony import */ var _home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 89204);
-/* harmony import */ var src_app_components_game_components_game_component_HexagonalGameComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/components/game-components/game-component/HexagonalGameComponent */ 84086);
-/* harmony import */ var src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/jscaip/Coord */ 16904);
-/* harmony import */ var src_app_jscaip_HexaLayout__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/jscaip/HexaLayout */ 80579);
-/* harmony import */ var src_app_jscaip_HexaOrientation__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/jscaip/HexaOrientation */ 26135);
-/* harmony import */ var _YinshFailure__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./YinshFailure */ 88159);
-/* harmony import */ var _YinshState__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./YinshState */ 37368);
-/* harmony import */ var _YinshMove__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./YinshMove */ 18064);
-/* harmony import */ var _YinshPiece__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./YinshPiece */ 72631);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @everyboard/lib */ 65042);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @everyboard/lib */ 65042);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var src_app_components_game_components_game_component_HexagonalGameComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/components/game-components/game-component/HexagonalGameComponent */ 84086);
+/* harmony import */ var src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/jscaip/Coord */ 16904);
+/* harmony import */ var src_app_jscaip_HexaLayout__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/jscaip/HexaLayout */ 80579);
+/* harmony import */ var src_app_jscaip_HexaOrientation__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/jscaip/HexaOrientation */ 26135);
+/* harmony import */ var _YinshFailure__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./YinshFailure */ 88159);
+/* harmony import */ var _YinshState__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./YinshState */ 37368);
+/* harmony import */ var _YinshMove__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./YinshMove */ 18064);
+/* harmony import */ var _YinshPiece__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./YinshPiece */ 72631);
 /* harmony import */ var src_app_jscaip_AI_MCTS__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! src/app/jscaip/AI/MCTS */ 37123);
 /* harmony import */ var _YinshMoveGenerator__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./YinshMoveGenerator */ 65351);
 /* harmony import */ var src_app_jscaip_PlayerMap__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! src/app/jscaip/PlayerMap */ 95208);
@@ -56331,7 +56360,7 @@ function YinshComponent__svg_g_5_Template(rf, ctx) {
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵproperty"]("ngForOf", _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵpureFunction0"](2, _c0).constructor(ctx_r3.viewInfo.sideRings.get(player_r14)));
   }
 }
-class YinshComponent extends src_app_components_game_components_game_component_HexagonalGameComponent__WEBPACK_IMPORTED_MODULE_1__.HexagonalGameComponent {
+class YinshComponent extends src_app_components_game_components_game_component_HexagonalGameComponent__WEBPACK_IMPORTED_MODULE_2__.HexagonalGameComponent {
   static RING_OUTER_SIZE = 40;
   static RING_MID_SIZE = 34;
   static RING_INNER_SIZE = 28;
@@ -56345,11 +56374,11 @@ class YinshComponent extends src_app_components_game_components_game_component_H
   possibleCaptures = [];
   initialCaptures = [];
   finalCaptures = [];
-  currentCapture = _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__.MGPOptional.empty();
+  currentCapture = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
   selectedCoords = new src_app_jscaip_CoordSet__WEBPACK_IMPORTED_MODULE_14__.CoordSet();
   selectedRings = new src_app_jscaip_CoordSet__WEBPACK_IMPORTED_MODULE_14__.CoordSet();
-  moveStart = _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__.MGPOptional.empty();
-  moveEnd = _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__.MGPOptional.empty();
+  moveStart = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+  moveEnd = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
   currentlyMoved = [];
   // Last move variables
   lastMoved = [];
@@ -56368,9 +56397,9 @@ class YinshComponent extends src_app_components_game_components_game_component_H
     super(messageDisplayer, cdr);
     this.setRulesAndNode('Yinsh');
     this.availableAIs = [new _YinshScoreMinimax__WEBPACK_IMPORTED_MODULE_13__.YinshScoreMinimax(), new src_app_jscaip_AI_MCTS__WEBPACK_IMPORTED_MODULE_10__.MCTS($localize`MCTS`, new _YinshMoveGenerator__WEBPACK_IMPORTED_MODULE_11__.YinshMoveGenerator(), this.rules)];
-    this.encoder = _YinshMove__WEBPACK_IMPORTED_MODULE_7__.YinshMove.encoder;
-    this.scores = _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__.MGPOptional.of(src_app_jscaip_PlayerMap__WEBPACK_IMPORTED_MODULE_12__.PlayerNumberMap.of(0, 0));
-    this.hexaLayout = new src_app_jscaip_HexaLayout__WEBPACK_IMPORTED_MODULE_3__.HexaLayout(YinshComponent.RING_OUTER_SIZE * 1.50, new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(YinshComponent.RING_OUTER_SIZE * 2, 0), src_app_jscaip_HexaOrientation__WEBPACK_IMPORTED_MODULE_4__.FlatHexaOrientation.INSTANCE);
+    this.encoder = _YinshMove__WEBPACK_IMPORTED_MODULE_8__.YinshMove.encoder;
+    this.scores = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(src_app_jscaip_PlayerMap__WEBPACK_IMPORTED_MODULE_12__.PlayerNumberMap.of(0, 0));
+    this.hexaLayout = new src_app_jscaip_HexaLayout__WEBPACK_IMPORTED_MODULE_4__.HexaLayout(YinshComponent.RING_OUTER_SIZE * 1.50, new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(YinshComponent.RING_OUTER_SIZE * 2, 0), src_app_jscaip_HexaOrientation__WEBPACK_IMPORTED_MODULE_5__.FlatHexaOrientation.INSTANCE);
     this.constructedState = this.getState();
   }
   updateBoard(_triggerAnimation) {
@@ -56379,7 +56408,7 @@ class YinshComponent extends src_app_components_game_components_game_component_H
       const state = _this.getState();
       _this.constructedState = state;
       _this.hexaBoard = _this.constructedState.board;
-      _this.scores = _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__.MGPOptional.of(state.countScores());
+      _this.scores = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(state.countScores());
       _this.moveToInitialCaptureOrMovePhase();
     })();
   }
@@ -56425,7 +56454,7 @@ class YinshComponent extends src_app_components_game_components_game_component_H
     }
   }
   getSpaceClasses(x, y) {
-    const coord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(x, y);
+    const coord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(x, y);
     if (this.isInLastCapture(coord)) {
       return ['captured-fill'];
     } else if (this.currentlyMoved.concat(this.lastMoved).some(c => c.equals(coord))) {
@@ -56444,7 +56473,7 @@ class YinshComponent extends src_app_components_game_components_game_component_H
     return captures.some(capture => capture.ringTaken.equalsValue(coord));
   }
   getPieceGroupClasses(x, y) {
-    const coord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(x, y);
+    const coord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(x, y);
     const classes = [];
     const allSelected = this.selectedCoords.union(this.selectedRings);
     if (allSelected.contains(coord) || this.isInLastCapture(coord)) {
@@ -56454,11 +56483,11 @@ class YinshComponent extends src_app_components_game_components_game_component_H
     }
   }
   isMarker(x, y) {
-    const coord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(x, y);
+    const coord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(x, y);
     return this.constructedState.getPieceAt(coord).isMarker() || this.moveStart.equalsValue(coord) || this.isCapturedMarker(coord, this.lastCaptures) || this.selectedCoords.contains(coord);
   }
   getMarkerClasses(x, y) {
-    const coord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(x, y);
+    const coord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(x, y);
     const piece = this.constructedState.getPieceAt(coord);
     const classes = [];
     const currentPlayerClass = this.getPlayerClass(this.getCurrentPlayer());
@@ -56478,14 +56507,14 @@ class YinshComponent extends src_app_components_game_components_game_component_H
     return classes;
   }
   isRing(x, y) {
-    const coord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(x, y);
+    const coord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(x, y);
     return this.constructedState.getPieceAt(coord).isRing || this.moveEnd.equalsValue(coord) || this.isInitialCaptureRing(coord) || this.isCapturedRing(coord, this.lastCaptures);
   }
   isInitialCaptureRing(coord) {
     return this.initialCaptures.some(capture => capture.ringTaken.equalsValue(coord));
   }
   getRingClasses(x, y) {
-    const coord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(x, y);
+    const coord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(x, y);
     const piece = this.constructedState.getPieceAt(coord);
     let owner = piece.player;
     const classes = [];
@@ -56507,9 +56536,9 @@ class YinshComponent extends src_app_components_game_components_game_component_H
     this.finalCaptures = [];
     this.selectedCoords = new src_app_jscaip_CoordSet__WEBPACK_IMPORTED_MODULE_14__.CoordSet();
     this.selectedRings = new src_app_jscaip_CoordSet__WEBPACK_IMPORTED_MODULE_14__.CoordSet();
-    this.currentCapture = _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__.MGPOptional.empty();
-    this.moveStart = _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__.MGPOptional.empty();
-    this.moveEnd = _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__.MGPOptional.empty();
+    this.currentCapture = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+    this.moveStart = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+    this.moveEnd = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
     this.currentlyMoved = [];
     this.removed = [];
     this.moveToInitialCaptureOrMovePhase();
@@ -56541,12 +56570,12 @@ class YinshComponent extends src_app_components_game_components_game_component_H
       this.movePhase = 'INITIAL_CAPTURE_SELECT_FIRST';
     }
     this.updateViewInfo();
-    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__.MGPValidation.SUCCESS;
+    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.SUCCESS;
   }
   onClick(x, y) {
     var _this3 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      const coord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(x, y);
+      const coord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(x, y);
       const clickValidity = yield _this3.canUserPlay('#click_' + coord.x + '_' + coord.y);
       if (clickValidity.isFailure()) {
         return _this3.cancelMove(clickValidity.getReason());
@@ -56580,11 +56609,11 @@ class YinshComponent extends src_app_components_game_components_game_component_H
       if (captures.length > 1) {
         _this4.moveToCaptureSelectLast(captures);
       } else if (captures.length === 0) {
-        return _this4.cancelMove(_YinshFailure__WEBPACK_IMPORTED_MODULE_5__.YinshFailure.MISSING_CAPTURES());
+        return _this4.cancelMove(_YinshFailure__WEBPACK_IMPORTED_MODULE_6__.YinshFailure.MISSING_CAPTURES());
       } else {
         _this4.selectCapture(captures[0]);
       }
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__.MGPValidation.SUCCESS;
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.SUCCESS;
     })();
   }
   moveToCaptureSelectLast(possibleCaptures) {
@@ -56596,7 +56625,7 @@ class YinshComponent extends src_app_components_game_components_game_component_H
     if (this.movePhase === 'INITIAL_CAPTURE_SELECT_FIRST') {
       this.movePhase = 'INITIAL_CAPTURE_SELECT_LAST';
     } else {
-      _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__.Utils.expectToBe(this.movePhase, 'FINAL_CAPTURE_SELECT_FIRST', 'moveToCaptureSelectLast did not expect to be called in movePhase' + this.movePhase);
+      _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.Utils.expectToBe(this.movePhase, 'FINAL_CAPTURE_SELECT_FIRST', 'moveToCaptureSelectLast did not expect to be called in movePhase' + this.movePhase);
       this.movePhase = 'FINAL_CAPTURE_SELECT_LAST';
     }
   }
@@ -56610,26 +56639,26 @@ class YinshComponent extends src_app_components_game_components_game_component_H
         }
       });
       if (captures.length > 1) {
-        return _this5.cancelMove(_YinshFailure__WEBPACK_IMPORTED_MODULE_5__.YinshFailure.AMBIGUOUS_CAPTURE_COORD());
+        return _this5.cancelMove(_YinshFailure__WEBPACK_IMPORTED_MODULE_6__.YinshFailure.AMBIGUOUS_CAPTURE_COORD());
       } else if (captures.length === 0) {
-        return _this5.cancelMove(_YinshFailure__WEBPACK_IMPORTED_MODULE_5__.YinshFailure.MISSING_CAPTURES());
+        return _this5.cancelMove(_YinshFailure__WEBPACK_IMPORTED_MODULE_6__.YinshFailure.MISSING_CAPTURES());
       } else {
         return _this5.selectCapture(captures[0]);
       }
     })();
   }
   selectCapture(capture) {
-    this.currentCapture = _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__.MGPOptional.of(capture);
-    this.constructedState = new _YinshState__WEBPACK_IMPORTED_MODULE_6__.YinshState(this.rules.applyCaptureWithoutTakingRing(this.constructedState, capture), this.constructedState.sideRings, this.constructedState.turn);
+    this.currentCapture = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(capture);
+    this.constructedState = new _YinshState__WEBPACK_IMPORTED_MODULE_7__.YinshState(this.rules.applyCaptureWithoutTakingRing(this.constructedState, capture), this.constructedState.sideRings, this.constructedState.turn);
     if (this.movePhase === 'INITIAL_CAPTURE_SELECT_FIRST' || this.movePhase === 'INITIAL_CAPTURE_SELECT_LAST') {
       this.movePhase = 'INITIAL_CAPTURE_SELECT_RING';
     } else {
       const message = 'selectCapture did not expect to be called in movePhase ' + this.movePhase;
-      _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__.Utils.assert(this.movePhase === 'FINAL_CAPTURE_SELECT_FIRST' || this.movePhase === 'FINAL_CAPTURE_SELECT_LAST', message);
+      _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.Utils.assert(this.movePhase === 'FINAL_CAPTURE_SELECT_FIRST' || this.movePhase === 'FINAL_CAPTURE_SELECT_LAST', message);
       this.movePhase = 'FINAL_CAPTURE_SELECT_RING';
     }
     this.updateViewInfo();
-    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__.MGPValidation.SUCCESS;
+    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.SUCCESS;
   }
   markCapture(capture) {
     this.selectedCoords = this.selectedCoords.unionList(capture.capturedSpaces);
@@ -56646,7 +56675,7 @@ class YinshComponent extends src_app_components_game_components_game_component_H
       }
       _this6.constructedState = _this6.rules.takeRing(_this6.constructedState, coord);
       const capture = _this6.currentCapture.get().setRingTaken(coord);
-      _this6.currentCapture = _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__.MGPOptional.empty();
+      _this6.currentCapture = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
       _this6.possibleCaptures = _this6.rules.getPossibleCaptures(_this6.constructedState);
       switch (_this6.movePhase) {
         case 'INITIAL_CAPTURE_SELECT_RING':
@@ -56656,17 +56685,17 @@ class YinshComponent extends src_app_components_game_components_game_component_H
           } else {
             _this6.movePhase = 'INITIAL_CAPTURE_SELECT_FIRST';
             _this6.updateViewInfo();
-            return _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__.MGPValidation.SUCCESS;
+            return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.SUCCESS;
           }
         default:
-          _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__.Utils.expectToBe(_this6.movePhase, 'FINAL_CAPTURE_SELECT_RING');
+          _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.Utils.expectToBe(_this6.movePhase, 'FINAL_CAPTURE_SELECT_RING');
           _this6.finalCaptures.push(capture);
           if (_this6.possibleCaptures.length === 0) {
             return _this6.tryMove();
           } else {
             _this6.movePhase = 'FINAL_CAPTURE_SELECT_FIRST';
             _this6.updateViewInfo();
-            return _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__.MGPValidation.SUCCESS;
+            return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.SUCCESS;
           }
       }
     })();
@@ -56674,12 +56703,12 @@ class YinshComponent extends src_app_components_game_components_game_component_H
   moveToMovePhase() {
     this.movePhase = 'MOVE_START';
     this.updateViewInfo();
-    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__.MGPValidation.SUCCESS;
+    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.SUCCESS;
   }
   tryMove() {
     var _this7 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      const move = new _YinshMove__WEBPACK_IMPORTED_MODULE_7__.YinshMove(_this7.initialCaptures, _this7.moveStart.get(), _this7.moveEnd, _this7.finalCaptures);
+      const move = new _YinshMove__WEBPACK_IMPORTED_MODULE_8__.YinshMove(_this7.initialCaptures, _this7.moveStart.get(), _this7.moveEnd, _this7.finalCaptures);
       const validity = yield _this7.chooseMove(move);
       return validity;
     })();
@@ -56692,18 +56721,18 @@ class YinshComponent extends src_app_components_game_components_game_component_H
         if (validity.isFailure()) {
           return _this8.cancelMove(validity.getReason());
         }
-        _this8.moveStart = _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__.MGPOptional.of(coord);
+        _this8.moveStart = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(coord);
         return _this8.tryMove();
       } else {
         const validity = _this8.rules.moveStartValidity(_this8.constructedState, coord);
         if (validity.isFailure()) {
           return _this8.cancelMove(validity.getReason());
         }
-        _this8.moveStart = _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__.MGPOptional.of(coord);
+        _this8.moveStart = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(coord);
         _this8.movePhase = 'MOVE_END';
         _this8.updateViewInfo();
       }
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__.MGPValidation.SUCCESS;
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.SUCCESS;
     })();
   }
   selectMoveEnd(coord) {
@@ -56712,7 +56741,7 @@ class YinshComponent extends src_app_components_game_components_game_component_H
       if (_this9.moveStart.equalsValue(coord)) {
         return _this9.cancelMove();
       }
-      const currentPlayerRing = _YinshPiece__WEBPACK_IMPORTED_MODULE_8__.YinshPiece.RINGS.get(_this9.getState().getCurrentPlayer());
+      const currentPlayerRing = _YinshPiece__WEBPACK_IMPORTED_MODULE_9__.YinshPiece.RINGS.get(_this9.getState().getCurrentPlayer());
       if (_this9.constructedState.getPieceAt(coord) === currentPlayerRing) {
         _this9.cancelMoveAttempt();
         return _this9.selectMoveStart(coord);
@@ -56721,7 +56750,7 @@ class YinshComponent extends src_app_components_game_components_game_component_H
       if (validity.isFailure()) {
         return _this9.cancelMove(validity.getReason());
       }
-      _this9.moveEnd = _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__.MGPOptional.of(coord);
+      _this9.moveEnd = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(coord);
       _this9.currentlyMoved = _this9.coordsBetween(_this9.moveStart.get(), coord);
       _this9.constructedState = _this9.rules.applyRingMoveAndFlip(_this9.moveStart.get(), coord, _this9.constructedState);
       _this9.updateViewInfo();
@@ -56737,7 +56766,7 @@ class YinshComponent extends src_app_components_game_components_game_component_H
       } else {
         _this10.movePhase = 'FINAL_CAPTURE_SELECT_FIRST';
         _this10.updateViewInfo();
-        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__.MGPValidation.SUCCESS;
+        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.SUCCESS;
       }
     })();
   }
