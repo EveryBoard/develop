@@ -6200,11 +6200,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @everyboard/lib */ 65042);
 /* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _normal_component_pick_game_pick_game_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../normal-component/pick-game/pick-game.component */ 59903);
-/* harmony import */ var src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/jscaip/Player */ 22092);
-/* harmony import */ var src_app_jscaip_RulesConfigUtil__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/jscaip/RulesConfigUtil */ 22000);
+/* harmony import */ var _jscaip_Player__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../jscaip/Player */ 22092);
+/* harmony import */ var _jscaip_RulesConfigUtil__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../jscaip/RulesConfigUtil */ 22000);
 /* harmony import */ var _BaseWrapperComponent__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./BaseWrapperComponent */ 48091);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/router */ 95072);
-/* harmony import */ var src_app_services_MessageDisplayer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/app/services/MessageDisplayer */ 78055);
+/* harmony import */ var _services_MessageDisplayer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../services/MessageDisplayer */ 78055);
 
 
 
@@ -6234,10 +6234,10 @@ class GameWrapper extends _BaseWrapperComponent__WEBPACK_IMPORTED_MODULE_5__.Bas
    * The role of the player, i.e., ZERO if we are the first player, ONE if we are the second player,
    * and NONE if we are observing
    */
-  role = src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.PlayerOrNone.NONE;
+  role = _jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.PlayerOrNone.NONE;
   endGame = false;
   isMoveAttemptOngoing = false;
-  Player = src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player;
+  Player = _jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player;
   constructor(activatedRoute, router, messageDisplayer) {
     super(activatedRoute);
     this.router = router;
@@ -6319,7 +6319,7 @@ class GameWrapper extends _BaseWrapperComponent__WEBPACK_IMPORTED_MODULE_5__.Bas
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       _this5.role = role;
       if (role.isNone()) {
-        _this5.gameComponent.setPointOfView(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ZERO);
+        _this5.gameComponent.setPointOfView(_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ZERO);
       } else {
         _this5.gameComponent.setPointOfView(role);
       }
@@ -6361,7 +6361,7 @@ class GameWrapper extends _BaseWrapperComponent__WEBPACK_IMPORTED_MODULE_5__.Bas
   }
   getConfig() {
     const urlName = this.getGameUrlName();
-    return src_app_jscaip_RulesConfigUtil__WEBPACK_IMPORTED_MODULE_4__.RulesConfigUtils.getGameDefaultConfig(urlName);
+    return _jscaip_RulesConfigUtil__WEBPACK_IMPORTED_MODULE_4__.RulesConfigUtils.getGameDefaultConfig(urlName);
   }
   canUserPlay(_clickedElementName) {
     var _this9 = this;
@@ -6402,7 +6402,7 @@ class GameWrapper extends _BaseWrapperComponent__WEBPACK_IMPORTED_MODULE_5__.Bas
       return ['endgame-bg'];
     } else if (this.isPlayerTurn()) {
       const turn = this.gameComponent.getTurn();
-      const player = src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ofTurn(turn % 2);
+      const player = _jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ofTurn(turn % 2);
       return [player.getHTMLClass('-bg')];
     } else {
       return [];
@@ -6443,7 +6443,7 @@ class GameWrapper extends _BaseWrapperComponent__WEBPACK_IMPORTED_MODULE_5__.Bas
     })();
   }
   static ɵfac = function GameWrapper_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || GameWrapper)(_angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_8__.ActivatedRoute), _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_8__.Router), _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵdirectiveInject"](src_app_services_MessageDisplayer__WEBPACK_IMPORTED_MODULE_6__.MessageDisplayer));
+    return new (__ngFactoryType__ || GameWrapper)(_angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_8__.ActivatedRoute), _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_8__.Router), _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵdirectiveInject"](_services_MessageDisplayer__WEBPACK_IMPORTED_MODULE_6__.MessageDisplayer));
   };
   static ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵdefineComponent"]({
     type: GameWrapper,
@@ -13597,26 +13597,26 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 89204);
 /* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @everyboard/lib */ 65042);
 /* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var src_app_components_game_components_game_component_HexagonalGameComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/components/game-components/game-component/HexagonalGameComponent */ 84086);
-/* harmony import */ var src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/jscaip/Coord */ 16904);
-/* harmony import */ var src_app_jscaip_Ordinal__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/jscaip/Ordinal */ 63196);
-/* harmony import */ var src_app_jscaip_FourStatePiece__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/jscaip/FourStatePiece */ 10003);
-/* harmony import */ var src_app_jscaip_HexaDirection__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/app/jscaip/HexaDirection */ 30748);
-/* harmony import */ var src_app_jscaip_HexaLayout__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! src/app/jscaip/HexaLayout */ 80579);
-/* harmony import */ var src_app_jscaip_HexaOrientation__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! src/app/jscaip/HexaOrientation */ 26135);
-/* harmony import */ var src_app_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! src/app/jscaip/RulesFailure */ 68566);
+/* harmony import */ var _components_game_components_game_component_HexagonalGameComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../components/game-components/game-component/HexagonalGameComponent */ 84086);
+/* harmony import */ var _jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../jscaip/Coord */ 16904);
+/* harmony import */ var _jscaip_Ordinal__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../jscaip/Ordinal */ 63196);
+/* harmony import */ var _jscaip_FourStatePiece__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../jscaip/FourStatePiece */ 10003);
+/* harmony import */ var _jscaip_HexaDirection__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../jscaip/HexaDirection */ 30748);
+/* harmony import */ var _jscaip_HexaLayout__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../jscaip/HexaLayout */ 80579);
+/* harmony import */ var _jscaip_HexaOrientation__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../jscaip/HexaOrientation */ 26135);
+/* harmony import */ var _jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../jscaip/RulesFailure */ 68566);
 /* harmony import */ var _AbaloneFailure__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./AbaloneFailure */ 42923);
 /* harmony import */ var _AbaloneMove__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./AbaloneMove */ 7716);
 /* harmony import */ var _AbaloneRules__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./AbaloneRules */ 65886);
 /* harmony import */ var _AbaloneMoveGenerator__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./AbaloneMoveGenerator */ 96195);
-/* harmony import */ var src_app_jscaip_PlayerMap__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! src/app/jscaip/PlayerMap */ 95208);
-/* harmony import */ var src_app_components_game_components_arrow_component_Arrow__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! src/app/components/game-components/arrow-component/Arrow */ 26904);
-/* harmony import */ var src_app_jscaip_AI_MCTS__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! src/app/jscaip/AI/MCTS */ 37123);
+/* harmony import */ var _jscaip_PlayerMap__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../jscaip/PlayerMap */ 95208);
+/* harmony import */ var _components_game_components_arrow_component_Arrow__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../components/game-components/arrow-component/Arrow */ 26904);
+/* harmony import */ var _jscaip_AI_MCTS__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../../jscaip/AI/MCTS */ 37123);
 /* harmony import */ var _AbaloneScoreMinimax__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./AbaloneScoreMinimax */ 79512);
-/* harmony import */ var src_app_components_game_components_GameComponentUtils__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! src/app/components/game-components/GameComponentUtils */ 88207);
-/* harmony import */ var src_app_components_game_components_game_component_GameComponent__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! src/app/components/game-components/game-component/GameComponent */ 58047);
+/* harmony import */ var _components_game_components_GameComponentUtils__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../../components/game-components/GameComponentUtils */ 88207);
+/* harmony import */ var _components_game_components_game_component_GameComponent__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ../../components/game-components/game-component/GameComponent */ 58047);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! @angular/core */ 37580);
-/* harmony import */ var src_app_services_MessageDisplayer__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! src/app/services/MessageDisplayer */ 78055);
+/* harmony import */ var _services_MessageDisplayer__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ../../services/MessageDisplayer */ 78055);
 
 
 
@@ -13759,7 +13759,7 @@ function AbaloneComponent__svg_g_4_Template(rf, ctx) {
     _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵproperty"]("arrow", arrow_r9);
   }
 }
-class AbaloneComponent extends src_app_components_game_components_game_component_HexagonalGameComponent__WEBPACK_IMPORTED_MODULE_2__.HexagonalGameComponent {
+class AbaloneComponent extends _components_game_components_game_component_HexagonalGameComponent__WEBPACK_IMPORTED_MODULE_2__.HexagonalGameComponent {
   moveds = [];
   captureds = [];
   directions = [];
@@ -13768,9 +13768,9 @@ class AbaloneComponent extends src_app_components_game_components_game_component
   constructor(messageDisplayer, cdr) {
     super(messageDisplayer, cdr);
     this.setRulesAndNode('Abalone');
-    this.availableAIs = [new _AbaloneScoreMinimax__WEBPACK_IMPORTED_MODULE_17__.AbaloneScoreMinimax(), new src_app_jscaip_AI_MCTS__WEBPACK_IMPORTED_MODULE_16__.MCTS($localize`MCTS`, new _AbaloneMoveGenerator__WEBPACK_IMPORTED_MODULE_13__.AbaloneMoveGenerator(), this.rules)];
+    this.availableAIs = [new _AbaloneScoreMinimax__WEBPACK_IMPORTED_MODULE_17__.AbaloneScoreMinimax(), new _jscaip_AI_MCTS__WEBPACK_IMPORTED_MODULE_16__.MCTS($localize`MCTS`, new _AbaloneMoveGenerator__WEBPACK_IMPORTED_MODULE_13__.AbaloneMoveGenerator(), this.rules)];
     this.encoder = _AbaloneMove__WEBPACK_IMPORTED_MODULE_11__.AbaloneMove.encoder;
-    this.scores = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(src_app_jscaip_PlayerMap__WEBPACK_IMPORTED_MODULE_14__.PlayerNumberMap.of(0, 0));
+    this.scores = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(_jscaip_PlayerMap__WEBPACK_IMPORTED_MODULE_14__.PlayerNumberMap.of(0, 0));
     this.SPACE_SIZE = 30;
     this.setHexaLayout();
   }
@@ -13779,11 +13779,11 @@ class AbaloneComponent extends src_app_components_game_components_game_component
     const configSize = Math.floor(this.getState().getWidth() / 2);
     const hexaLayoutStartX = -halfStroke * (configSize + 1) + Math.sqrt(2) * this.SPACE_SIZE;
     const hexaLayoutStartY = this.SPACE_SIZE + halfStroke;
-    const hexaLayoutStartingCoord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(hexaLayoutStartX, hexaLayoutStartY);
-    this.hexaLayout = new src_app_jscaip_HexaLayout__WEBPACK_IMPORTED_MODULE_7__.HexaLayout(this.SPACE_SIZE, hexaLayoutStartingCoord, src_app_jscaip_HexaOrientation__WEBPACK_IMPORTED_MODULE_8__.PointyHexaOrientation.INSTANCE);
+    const hexaLayoutStartingCoord = new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(hexaLayoutStartX, hexaLayoutStartY);
+    this.hexaLayout = new _jscaip_HexaLayout__WEBPACK_IMPORTED_MODULE_7__.HexaLayout(this.SPACE_SIZE, hexaLayoutStartingCoord, _jscaip_HexaOrientation__WEBPACK_IMPORTED_MODULE_8__.PointyHexaOrientation.INSTANCE);
   }
   getScoreName() {
-    return src_app_components_game_components_game_component_GameComponent__WEBPACK_IMPORTED_MODULE_19__.ScoreName.CAPTURES;
+    return _components_game_components_game_component_GameComponent__WEBPACK_IMPORTED_MODULE_19__.ScoreName.CAPTURES;
   }
   getViewBox() {
     const abstractSize = this.getState().getWidth() + 2;
@@ -13795,7 +13795,7 @@ class AbaloneComponent extends src_app_components_game_components_game_component
     const up = -1 * (this.SPACE_SIZE - halfStroke) - 2 * 1.25 * this.STROKE_WIDTH;
     const width = size + 1.75 * configSize * this.STROKE_WIDTH;
     const height = size + this.STROKE_WIDTH;
-    return new src_app_components_game_components_GameComponentUtils__WEBPACK_IMPORTED_MODULE_18__.ViewBox(left, up, width, height);
+    return new _components_game_components_GameComponentUtils__WEBPACK_IMPORTED_MODULE_18__.ViewBox(left, up, width, height);
   }
   updateBoard(_triggerAnimation) {
     var _this = this;
@@ -13915,7 +13915,7 @@ class AbaloneComponent extends src_app_components_game_components_game_component
   showDirection() {
     const state = this.getState();
     const config = this.getConfig();
-    for (const dir of src_app_jscaip_HexaDirection__WEBPACK_IMPORTED_MODULE_6__.HexaDirection.factory.all) {
+    for (const dir of _jscaip_HexaDirection__WEBPACK_IMPORTED_MODULE_6__.HexaDirection.factory.all) {
       const startToEnd = this.getArrowPath(dir);
       let theoretical;
       if (this.selecteds.length === 1) {
@@ -13925,7 +13925,7 @@ class AbaloneComponent extends src_app_components_game_components_game_component
       }
       const isLegal = this.rules.isLegal(theoretical, state, config);
       if (isLegal.isSuccess()) {
-        const arrow = new src_app_components_game_components_arrow_component_Arrow__WEBPACK_IMPORTED_MODULE_15__.Arrow(startToEnd.start, startToEnd.pointed, dir, c => this.hexaLayout.getCenterAt(c));
+        const arrow = new _components_game_components_arrow_component_Arrow__WEBPACK_IMPORTED_MODULE_15__.Arrow(startToEnd.start, startToEnd.pointed, dir, c => this.hexaLayout.getCenterAt(c));
         this.directions.push(arrow);
       }
     }
@@ -13961,7 +13961,7 @@ class AbaloneComponent extends src_app_components_game_components_game_component
     }
   }
   isReachable(c) {
-    return c !== src_app_jscaip_FourStatePiece__WEBPACK_IMPORTED_MODULE_5__.FourStatePiece.UNREACHABLE;
+    return c !== _jscaip_FourStatePiece__WEBPACK_IMPORTED_MODULE_5__.FourStatePiece.UNREACHABLE;
   }
   secondClick(coord) {
     var _this7 = this;
@@ -14017,9 +14017,9 @@ class AbaloneComponent extends src_app_components_game_components_game_component
   tryExtension(clicked, firstPiece, lastPiece) {
     var _this9 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      const alignment = src_app_jscaip_Ordinal__WEBPACK_IMPORTED_MODULE_4__.Ordinal.factory.fromMove(firstPiece, clicked);
+      const alignment = _jscaip_Ordinal__WEBPACK_IMPORTED_MODULE_4__.Ordinal.factory.fromMove(firstPiece, clicked);
       if (alignment.isSuccess()) {
-        const secondAlignment = src_app_jscaip_Ordinal__WEBPACK_IMPORTED_MODULE_4__.Ordinal.factory.fromMove(lastPiece, clicked);
+        const secondAlignment = _jscaip_Ordinal__WEBPACK_IMPORTED_MODULE_4__.Ordinal.factory.fromMove(lastPiece, clicked);
         if (alignment.equals(secondAlignment)) {
           // Then it's an extension of the line
           const firstDistance = firstPiece.getLinearDistanceToward(clicked);
@@ -14096,7 +14096,7 @@ class AbaloneComponent extends src_app_components_game_components_game_component
         return _this14.onLegalPieceClick(coord);
       }
       if (_this14.selecteds.length === 0) {
-        return _this14.cancelMove(src_app_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_9__.RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_EMPTY());
+        return _this14.cancelMove(_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_9__.RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_EMPTY());
       } else {
         return _this14.tryChoosingDirection(coord);
       }
@@ -14129,7 +14129,7 @@ class AbaloneComponent extends src_app_components_game_components_game_component
     return classes;
   }
   static ɵfac = function AbaloneComponent_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || AbaloneComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵdirectiveInject"](src_app_services_MessageDisplayer__WEBPACK_IMPORTED_MODULE_20__.MessageDisplayer), _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_21__.ChangeDetectorRef));
+    return new (__ngFactoryType__ || AbaloneComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵdirectiveInject"](_services_MessageDisplayer__WEBPACK_IMPORTED_MODULE_20__.MessageDisplayer), _angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_21__.ChangeDetectorRef));
   };
   static ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_21__["ɵɵdefineComponent"]({
     type: AbaloneComponent,
