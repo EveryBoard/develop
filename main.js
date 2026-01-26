@@ -211,7 +211,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _games_trexo_trexo_half_piece_component__WEBPACK_IMPORTED_MODULE_84__ = __webpack_require__(/*! ./games/trexo/trexo-half-piece.component */ 15525);
 /* harmony import */ var _games_gos_trigo_trigo_component__WEBPACK_IMPORTED_MODULE_85__ = __webpack_require__(/*! ./games/gos/trigo/trigo.component */ 4636);
 /* harmony import */ var _games_yinsh_yinsh_component__WEBPACK_IMPORTED_MODULE_86__ = __webpack_require__(/*! ./games/yinsh/yinsh.component */ 89228);
-/* harmony import */ var src_environments_environment__WEBPACK_IMPORTED_MODULE_87__ = __webpack_require__(/*! src/environments/environment */ 45312);
+/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_87__ = __webpack_require__(/*! ../environments/environment */ 45312);
 /* harmony import */ var _guard_verified_account_guard__WEBPACK_IMPORTED_MODULE_88__ = __webpack_require__(/*! ./guard/verified-account.guard */ 14295);
 /* harmony import */ var _guard_exclusive_online_game_guard__WEBPACK_IMPORTED_MODULE_89__ = __webpack_require__(/*! ./guard/exclusive-online-game-guard */ 42593);
 /* harmony import */ var _guard_connected_but_not_verified_guard__WEBPACK_IMPORTED_MODULE_90__ = __webpack_require__(/*! ./guard/connected-but-not-verified.guard */ 14933);
@@ -410,14 +410,14 @@ const routes = [{
 }];
 class AppModule {
   constructor() {
-    _firebase_app__WEBPACK_IMPORTED_MODULE_0__.initializeApp(src_environments_environment__WEBPACK_IMPORTED_MODULE_87__.environment.firebaseConfig);
+    _firebase_app__WEBPACK_IMPORTED_MODULE_0__.initializeApp(_environments_environment__WEBPACK_IMPORTED_MODULE_87__.environment.firebaseConfig);
     const firestore = _firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.getFirestore();
     const host = firestore.toJSON()['settings'].host;
-    if (src_environments_environment__WEBPACK_IMPORTED_MODULE_87__.environment.useEmulators && host !== 'localhost:8080') {
+    if (_environments_environment__WEBPACK_IMPORTED_MODULE_87__.environment.useEmulators && host !== 'localhost:8080') {
       _firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.connectFirestoreEmulator(firestore, 'localhost', 8080);
     }
     const fireauth = _firebase_auth__WEBPACK_IMPORTED_MODULE_2__.getAuth();
-    if (src_environments_environment__WEBPACK_IMPORTED_MODULE_87__.environment.useEmulators && fireauth.config['emulator'] == null) {
+    if (_environments_environment__WEBPACK_IMPORTED_MODULE_87__.environment.useEmulators && fireauth.config['emulator'] == null) {
       _firebase_auth__WEBPACK_IMPORTED_MODULE_2__.connectAuthEmulator(fireauth, 'http://localhost:9099', {
         disableWarnings: true
       });
@@ -1296,9 +1296,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   BlankGobanComponent: () => (/* binding */ BlankGobanComponent)
 /* harmony export */ });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/core */ 37580);
-/* harmony import */ var src_app_components_game_components_game_component_GameComponent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! src/app/components/game-components/game-component/GameComponent */ 58047);
-/* harmony import */ var src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/jscaip/Coord */ 16904);
-/* harmony import */ var src_app_jscaip_GobanUtils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/jscaip/GobanUtils */ 317);
+/* harmony import */ var _components_game_components_game_component_GameComponent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../components/game-components/game-component/GameComponent */ 58047);
+/* harmony import */ var _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../jscaip/Coord */ 16904);
+/* harmony import */ var _jscaip_GobanUtils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../jscaip/GobanUtils */ 317);
 /* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/common */ 60316);
 
 
@@ -1377,7 +1377,7 @@ function BlankGobanComponent__svg_circle_5_Template(rf, ctx) {
     _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵattribute"]("cx", ctx_r1.SPACE_SIZE * 0.5 + ctx_r1.SPACE_SIZE * hoshi_r7.x)("cy", ctx_r1.SPACE_SIZE * 0.5 + ctx_r1.SPACE_SIZE * hoshi_r7.y)("r", ctx_r1.SPACE_SIZE * 0.2);
   }
 }
-class BlankGobanComponent extends src_app_components_game_components_game_component_GameComponent__WEBPACK_IMPORTED_MODULE_0__.BaseGameComponent {
+class BlankGobanComponent extends _components_game_components_game_component_GameComponent__WEBPACK_IMPORTED_MODULE_0__.BaseGameComponent {
   width;
   height;
   clickCallBack = new _angular_core__WEBPACK_IMPORTED_MODULE_3__.EventEmitter();
@@ -1386,14 +1386,14 @@ class BlankGobanComponent extends src_app_components_game_components_game_compon
     return this.createHoshis();
   }
   onClick(x, y) {
-    return this.clickCallBack.emit(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord(x, y));
+    return this.clickCallBack.emit(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord(x, y));
   }
   /**
    * Creates the hoshis, filling in the `hoshis` field with the hoshis based on the board size.
    * Must be called after `this.board` has been set, usually in `updateBoard`.
    */
   createHoshis() {
-    this.hoshis = src_app_jscaip_GobanUtils__WEBPACK_IMPORTED_MODULE_2__.GobanUtils.getHoshis(this.width, this.height);
+    this.hoshis = _jscaip_GobanUtils__WEBPACK_IMPORTED_MODULE_2__.GobanUtils.getHoshis(this.width, this.height);
   }
   static ɵfac = /*@__PURE__*/(() => {
     let ɵBlankGobanComponent_BaseFactory;
@@ -52402,8 +52402,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   TaflEscapeThenPieceThenControlHeuristic: () => (/* binding */ TaflEscapeThenPieceThenControlHeuristic)
 /* harmony export */ });
-/* harmony import */ var src_app_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! src/app/jscaip/Orthogonal */ 99342);
-/* harmony import */ var src_app_jscaip_AI_BoardValue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/jscaip/AI/BoardValue */ 36175);
+/* harmony import */ var _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../jscaip/Orthogonal */ 99342);
+/* harmony import */ var _jscaip_AI_BoardValue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../jscaip/AI/BoardValue */ 36175);
 /* harmony import */ var _TaflPawn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TaflPawn */ 86363);
 /* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @everyboard/lib */ 65042);
 /* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_3__);
@@ -52417,7 +52417,7 @@ class TaflEscapeThenPieceThenControlHeuristic extends _TaflPieceAndControlHeuris
   getBoardValue(node, config) {
     const metrics = this.getControlScoreAndPieceScores(node, config);
     const stepForEscape = this.getStepForEscapeMetric(node.gameState);
-    return src_app_jscaip_AI_BoardValue__WEBPACK_IMPORTED_MODULE_1__.BoardValue.multiMetric([stepForEscape, metrics.safeScore, metrics.threatenedScore, metrics.controlScore]);
+    return _jscaip_AI_BoardValue__WEBPACK_IMPORTED_MODULE_1__.BoardValue.multiMetric([stepForEscape, metrics.safeScore, metrics.threatenedScore, metrics.controlScore]);
   }
   getStepForEscapeMetric(state) {
     const defender = state.getPieceAt(this.rules.getKingCoord(state).get()).getOwner();
@@ -52449,7 +52449,7 @@ class TaflEscapeThenPieceThenControlHeuristic extends _TaflPieceAndControlHeuris
   getNextGen(state, previousGen, handledCoords) {
     const newGen = [];
     for (const piece of previousGen) {
-      for (const dir of src_app_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_0__.Orthogonal.ORTHOGONALS) {
+      for (const dir of _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_0__.Orthogonal.ORTHOGONALS) {
         let landing = piece.getNext(dir, 1);
         while (state.hasPieceAt(landing, _TaflPawn__WEBPACK_IMPORTED_MODULE_2__.TaflPawn.UNOCCUPIED)) {
           if (handledCoords.every(coord => coord.equals(landing) === false)) {
@@ -52476,13 +52476,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   TaflEscapeThenPieceThenControlMinimax: () => (/* binding */ TaflEscapeThenPieceThenControlMinimax)
 /* harmony export */ });
-/* harmony import */ var src_app_jscaip_AI_Minimax__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! src/app/jscaip/AI/Minimax */ 95291);
+/* harmony import */ var _jscaip_AI_Minimax__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../jscaip/AI/Minimax */ 95291);
 /* harmony import */ var _TaflMoveGenerator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TaflMoveGenerator */ 45895);
 /* harmony import */ var _TaflEscapeThenPieceThenControlHeuristic__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TaflEscapeThenPieceThenControlHeuristic */ 33747);
 
 
 
-class TaflEscapeThenPieceThenControlMinimax extends src_app_jscaip_AI_Minimax__WEBPACK_IMPORTED_MODULE_0__.Minimax {
+class TaflEscapeThenPieceThenControlMinimax extends _jscaip_AI_Minimax__WEBPACK_IMPORTED_MODULE_0__.Minimax {
   constructor(rules) {
     super($localize`Escape > Pieces > Control`, rules, new _TaflEscapeThenPieceThenControlHeuristic__WEBPACK_IMPORTED_MODULE_2__.TaflEscapeThenPieceThenControlHeuristic(rules), new _TaflMoveGenerator__WEBPACK_IMPORTED_MODULE_1__.TaflMoveGenerator(rules));
   }
@@ -52519,14 +52519,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   TaflMove: () => (/* binding */ TaflMove)
 /* harmony export */ });
-/* harmony import */ var src_app_jscaip_MoveCoordToCoord__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! src/app/jscaip/MoveCoordToCoord */ 10529);
+/* harmony import */ var _jscaip_MoveCoordToCoord__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../jscaip/MoveCoordToCoord */ 10529);
 /* harmony import */ var _TaflFailure__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TaflFailure */ 58495);
 /* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @everyboard/lib */ 65042);
 /* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_2__);
 
 
 
-class TaflMove extends src_app_jscaip_MoveCoordToCoord__WEBPACK_IMPORTED_MODULE_0__.MoveCoordToCoord {
+class TaflMove extends _jscaip_MoveCoordToCoord__WEBPACK_IMPORTED_MODULE_0__.MoveCoordToCoord {
   static isValidDirection(start, end) {
     const dir = start.getDirectionToward(end);
     if (dir.isFailure() || dir.get().isDiagonal()) {
@@ -52559,8 +52559,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @everyboard/lib */ 65042);
 /* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var src_app_utils_Debug__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/utils/Debug */ 36355);
-/* harmony import */ var src_app_jscaip_AI_AI__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/jscaip/AI/AI */ 57204);
+/* harmony import */ var _utils_Debug__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utils/Debug */ 36355);
+/* harmony import */ var _jscaip_AI_AI__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../jscaip/AI/AI */ 57204);
 var __decorate = undefined && undefined.__decorate || function (decorators, target, key, desc) {
   var c = arguments.length,
     r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
@@ -52571,7 +52571,7 @@ var __decorate = undefined && undefined.__decorate || function (decorators, targ
 
 
 
-let TaflMoveGenerator = class TaflMoveGenerator extends src_app_jscaip_AI_AI__WEBPACK_IMPORTED_MODULE_2__.MoveGenerator {
+let TaflMoveGenerator = class TaflMoveGenerator extends _jscaip_AI_AI__WEBPACK_IMPORTED_MODULE_2__.MoveGenerator {
   rules;
   constructor(rules) {
     super();
@@ -52607,7 +52607,7 @@ let TaflMoveGenerator = class TaflMoveGenerator extends src_app_jscaip_AI_AI__WE
     return listMoves;
   }
 };
-TaflMoveGenerator = __decorate([src_app_utils_Debug__WEBPACK_IMPORTED_MODULE_1__.Debug.log], TaflMoveGenerator);
+TaflMoveGenerator = __decorate([_utils_Debug__WEBPACK_IMPORTED_MODULE_1__.Debug.log], TaflMoveGenerator);
 
 
 /***/ }),
@@ -52622,16 +52622,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   TaflPawn: () => (/* binding */ TaflPawn)
 /* harmony export */ });
-/* harmony import */ var src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! src/app/jscaip/Player */ 22092);
+/* harmony import */ var _jscaip_Player__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../jscaip/Player */ 22092);
 
 class TaflPawn {
   owner;
   king;
-  static UNOCCUPIED = new TaflPawn(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_0__.PlayerOrNone.NONE, false);
-  static PLAYER_ONE_KING = new TaflPawn(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_0__.PlayerOrNone.ONE, true);
-  static PLAYER_ONE_PAWN = new TaflPawn(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_0__.PlayerOrNone.ONE, false);
-  static PLAYER_ZERO_KING = new TaflPawn(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_0__.PlayerOrNone.ZERO, true);
-  static PLAYER_ZERO_PAWN = new TaflPawn(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_0__.PlayerOrNone.ZERO, false);
+  static UNOCCUPIED = new TaflPawn(_jscaip_Player__WEBPACK_IMPORTED_MODULE_0__.PlayerOrNone.NONE, false);
+  static PLAYER_ONE_KING = new TaflPawn(_jscaip_Player__WEBPACK_IMPORTED_MODULE_0__.PlayerOrNone.ONE, true);
+  static PLAYER_ONE_PAWN = new TaflPawn(_jscaip_Player__WEBPACK_IMPORTED_MODULE_0__.PlayerOrNone.ONE, false);
+  static PLAYER_ZERO_KING = new TaflPawn(_jscaip_Player__WEBPACK_IMPORTED_MODULE_0__.PlayerOrNone.ZERO, true);
+  static PLAYER_ZERO_PAWN = new TaflPawn(_jscaip_Player__WEBPACK_IMPORTED_MODULE_0__.PlayerOrNone.ZERO, false);
   constructor(owner, king) {
     this.owner = owner;
     this.king = king;
@@ -52659,11 +52659,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   TaflPieceAndControlHeuristic: () => (/* binding */ TaflPieceAndControlHeuristic)
 /* harmony export */ });
-/* harmony import */ var src_app_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! src/app/jscaip/Orthogonal */ 99342);
-/* harmony import */ var src_app_jscaip_AI_BoardValue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/jscaip/AI/BoardValue */ 36175);
-/* harmony import */ var src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/jscaip/Player */ 22092);
+/* harmony import */ var _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../jscaip/Orthogonal */ 99342);
+/* harmony import */ var _jscaip_AI_BoardValue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../jscaip/AI/BoardValue */ 36175);
+/* harmony import */ var _jscaip_Player__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../jscaip/Player */ 22092);
 /* harmony import */ var _TaflPawn__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./TaflPawn */ 86363);
-/* harmony import */ var src_app_jscaip_CoordSet__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/jscaip/CoordSet */ 37406);
+/* harmony import */ var _jscaip_CoordSet__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../jscaip/CoordSet */ 37406);
 /* harmony import */ var _TaflPieceAndInfluenceHeuristic__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./TaflPieceAndInfluenceHeuristic */ 41695);
 
 
@@ -52674,7 +52674,7 @@ __webpack_require__.r(__webpack_exports__);
 class TaflPieceAndControlHeuristic extends _TaflPieceAndInfluenceHeuristic__WEBPACK_IMPORTED_MODULE_5__.TaflPieceAndInfluenceHeuristic {
   getBoardValue(node, config) {
     const metrics = this.getControlScoreAndPieceScores(node, config);
-    return src_app_jscaip_AI_BoardValue__WEBPACK_IMPORTED_MODULE_1__.BoardValue.multiMetric([metrics.safeScore, metrics.threatenedScore, metrics.controlScore]);
+    return _jscaip_AI_BoardValue__WEBPACK_IMPORTED_MODULE_1__.BoardValue.multiMetric([metrics.safeScore, metrics.threatenedScore, metrics.controlScore]);
   }
   getControlScoreAndPieceScores(node, config) {
     const state = node.gameState;
@@ -52686,14 +52686,14 @@ class TaflPieceAndControlHeuristic extends _TaflPieceAndInfluenceHeuristic__WEBP
       threatenedScore: 0,
       controlScore: 0
     };
-    for (const owner of src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_2__.Player.PLAYERS) {
-      let controlledSquares = new src_app_jscaip_CoordSet__WEBPACK_IMPORTED_MODULE_4__.CoordSet();
+    for (const owner of _jscaip_Player__WEBPACK_IMPORTED_MODULE_2__.Player.PLAYERS) {
+      let controlledSquares = new _jscaip_CoordSet__WEBPACK_IMPORTED_MODULE_4__.CoordSet();
       for (const coord of pieceMap.get(owner).get()) {
         if (filteredThreatMap.get(coord).isPresent()) {
           metrics.threatenedScore += owner.getScoreModifier();
         } else {
           metrics.safeScore += owner.getScoreModifier();
-          for (const dir of src_app_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_0__.Orthogonal.ORTHOGONALS) {
+          for (const dir of _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_0__.Orthogonal.ORTHOGONALS) {
             let testedCoord = coord.getNext(dir, 1);
             while (state.hasPieceAt(testedCoord, _TaflPawn__WEBPACK_IMPORTED_MODULE_3__.TaflPawn.UNOCCUPIED)) {
               controlledSquares = controlledSquares.addElement(testedCoord);
@@ -52737,13 +52737,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   TaflPieceAndControlMinimax: () => (/* binding */ TaflPieceAndControlMinimax)
 /* harmony export */ });
-/* harmony import */ var src_app_jscaip_AI_Minimax__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! src/app/jscaip/AI/Minimax */ 95291);
+/* harmony import */ var _jscaip_AI_Minimax__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../jscaip/AI/Minimax */ 95291);
 /* harmony import */ var _TaflMoveGenerator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TaflMoveGenerator */ 45895);
 /* harmony import */ var _TaflPieceAndControlHeuristic__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TaflPieceAndControlHeuristic */ 56033);
 
 
 
-class TaflPieceAndControlMinimax extends src_app_jscaip_AI_Minimax__WEBPACK_IMPORTED_MODULE_0__.Minimax {
+class TaflPieceAndControlMinimax extends _jscaip_AI_Minimax__WEBPACK_IMPORTED_MODULE_0__.Minimax {
   constructor(rules) {
     super($localize`Pieces > Control`, rules, new _TaflPieceAndControlHeuristic__WEBPACK_IMPORTED_MODULE_2__.TaflPieceAndControlHeuristic(rules), new _TaflMoveGenerator__WEBPACK_IMPORTED_MODULE_1__.TaflMoveGenerator(rules));
   }
@@ -52761,16 +52761,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   TaflPieceAndInfluenceHeuristic: () => (/* binding */ TaflPieceAndInfluenceHeuristic)
 /* harmony export */ });
-/* harmony import */ var src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! src/app/jscaip/Coord */ 16904);
-/* harmony import */ var src_app_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/jscaip/Orthogonal */ 99342);
-/* harmony import */ var src_app_jscaip_AI_BoardValue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/jscaip/AI/BoardValue */ 36175);
-/* harmony import */ var src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/jscaip/Player */ 22092);
+/* harmony import */ var _jscaip_Coord__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../jscaip/Coord */ 16904);
+/* harmony import */ var _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../jscaip/Orthogonal */ 99342);
+/* harmony import */ var _jscaip_AI_BoardValue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../jscaip/AI/BoardValue */ 36175);
+/* harmony import */ var _jscaip_Player__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../jscaip/Player */ 22092);
 /* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @everyboard/lib */ 65042);
 /* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _jscaip_PieceThreat__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../jscaip/PieceThreat */ 18743);
 /* harmony import */ var _TaflPawn__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./TaflPawn */ 86363);
 /* harmony import */ var _TaflPieceHeuristic__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./TaflPieceHeuristic */ 76311);
-/* harmony import */ var src_app_jscaip_CoordSet__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! src/app/jscaip/CoordSet */ 37406);
+/* harmony import */ var _jscaip_CoordSet__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../jscaip/CoordSet */ 37406);
 
 
 
@@ -52794,14 +52794,14 @@ class TaflPieceAndInfluenceHeuristic extends _TaflPieceHeuristic__WEBPACK_IMPORT
     let threatenedPiece = 0;
     let safePiece = 0;
     let totalInfluence = 0;
-    for (const owner of src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.PLAYERS) {
+    for (const owner of _jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.PLAYERS) {
       for (const coord of pieceMap.get(owner).get()) {
         if (filteredThreatMap.get(coord).isPresent()) {
           threatenedPiece += owner.getScoreModifier();
         } else {
           safePiece += owner.getScoreModifier();
           let influence = 0;
-          for (const dir of src_app_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_1__.Orthogonal.ORTHOGONALS) {
+          for (const dir of _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_1__.Orthogonal.ORTHOGONALS) {
             let testedCoord = coord.getNext(dir, 1);
             while (state.hasPieceAt(testedCoord, empty)) {
               influence++;
@@ -52812,7 +52812,7 @@ class TaflPieceAndInfluenceHeuristic extends _TaflPieceHeuristic__WEBPACK_IMPORT
         }
       }
     }
-    return src_app_jscaip_AI_BoardValue__WEBPACK_IMPORTED_MODULE_2__.BoardValue.multiMetric([safePiece, threatenedPiece, totalInfluence]);
+    return _jscaip_AI_BoardValue__WEBPACK_IMPORTED_MODULE_2__.BoardValue.multiMetric([safePiece, threatenedPiece, totalInfluence]);
   }
   getPiecesMap(state) {
     const empty = _TaflPawn__WEBPACK_IMPORTED_MODULE_6__.TaflPawn.UNOCCUPIED;
@@ -52820,11 +52820,11 @@ class TaflPieceAndInfluenceHeuristic extends _TaflPieceHeuristic__WEBPACK_IMPORT
     const onePieces = [];
     for (let y = 0; y < state.getHeight(); y++) {
       for (let x = 0; x < state.getWidth(); x++) {
-        const coord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_0__.Coord(x, y);
+        const coord = new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_0__.Coord(x, y);
         const piece = state.getPieceAt(coord);
         if (piece !== empty) {
           const owner = state.getAbsoluteOwner(coord);
-          if (owner === src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ZERO) {
+          if (owner === _jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ZERO) {
             zeroPieces.push(coord);
           } else {
             onePieces.push(coord);
@@ -52833,17 +52833,17 @@ class TaflPieceAndInfluenceHeuristic extends _TaflPieceHeuristic__WEBPACK_IMPORT
       }
     }
     const map = new _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPMap([{
-      key: src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ZERO,
-      value: new src_app_jscaip_CoordSet__WEBPACK_IMPORTED_MODULE_8__.CoordSet(zeroPieces)
+      key: _jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ZERO,
+      value: new _jscaip_CoordSet__WEBPACK_IMPORTED_MODULE_8__.CoordSet(zeroPieces)
     }, {
-      key: src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ONE,
-      value: new src_app_jscaip_CoordSet__WEBPACK_IMPORTED_MODULE_8__.CoordSet(onePieces)
+      key: _jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ONE,
+      value: new _jscaip_CoordSet__WEBPACK_IMPORTED_MODULE_8__.CoordSet(onePieces)
     }]);
     return map;
   }
   getThreatMap(node, pieces) {
     const threatMap = new _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPMap();
-    for (const player of src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.PLAYERS) {
+    for (const player of _jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.PLAYERS) {
       for (const piece of pieces.get(player).get()) {
         const threats = this.getThreats(piece, node.gameState);
         if (this.isThreatReal(piece, node.gameState, threats)) {
@@ -52858,11 +52858,11 @@ class TaflPieceAndInfluenceHeuristic extends _TaflPieceHeuristic__WEBPACK_IMPORT
     _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.Utils.assert(owner.isPlayer(), 'TaflPieceAndInfluenceMinimax.getThreats should be called with an occupied coordinate');
     const threatenerPlayer = owner.getOpponent();
     const threats = [];
-    for (const dir of src_app_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_1__.Orthogonal.ORTHOGONALS) {
+    for (const dir of _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_1__.Orthogonal.ORTHOGONALS) {
       const directThreat = coord.getPrevious(dir, 1);
       if (this.isAThreat(directThreat, state, threatenerPlayer)) {
         const movingThreats = [];
-        for (const captureDirection of src_app_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_1__.Orthogonal.ORTHOGONALS) {
+        for (const captureDirection of _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_1__.Orthogonal.ORTHOGONALS) {
           if (captureDirection === dir.getOpposite()) {
             continue;
           }
@@ -52874,7 +52874,7 @@ class TaflPieceAndInfluenceHeuristic extends _TaflPieceHeuristic__WEBPACK_IMPORT
             movingThreats.push(futureCapturer);
           }
         }
-        threats.push(new _jscaip_PieceThreat__WEBPACK_IMPORTED_MODULE_5__.SandwichThreat(directThreat, new src_app_jscaip_CoordSet__WEBPACK_IMPORTED_MODULE_8__.CoordSet(movingThreats)));
+        threats.push(new _jscaip_PieceThreat__WEBPACK_IMPORTED_MODULE_5__.SandwichThreat(directThreat, new _jscaip_CoordSet__WEBPACK_IMPORTED_MODULE_8__.CoordSet(movingThreats)));
       }
     }
     return threats;
@@ -52887,7 +52887,7 @@ class TaflPieceAndInfluenceHeuristic extends _TaflPieceHeuristic__WEBPACK_IMPORT
       return true;
     }
     if (this.rules.isThrone(state, coord)) {
-      if (opponent === src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ONE) {
+      if (opponent === _jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ONE) {
         // Defender
         return true;
       } else {
@@ -52917,7 +52917,7 @@ class TaflPieceAndInfluenceHeuristic extends _TaflPieceHeuristic__WEBPACK_IMPORT
     const threatenedPlayerPieces = threateneds.filter(coord => {
       return state.getAbsoluteOwner(coord) === state.getCurrentPlayer();
     });
-    const threatenedOpponentPieces = new src_app_jscaip_CoordSet__WEBPACK_IMPORTED_MODULE_8__.CoordSet(threateneds.filter(coord => {
+    const threatenedOpponentPieces = new _jscaip_CoordSet__WEBPACK_IMPORTED_MODULE_8__.CoordSet(threateneds.filter(coord => {
       return state.getAbsoluteOwner(coord) === state.getCurrentOpponent();
     }));
     for (const threatenedPiece of threatenedPlayerPieces) {
@@ -52934,7 +52934,7 @@ class TaflPieceAndInfluenceHeuristic extends _TaflPieceHeuristic__WEBPACK_IMPORT
             }
           }
           if (newMover.length > 0) {
-            newThreatSet.push(new _jscaip_PieceThreat__WEBPACK_IMPORTED_MODULE_5__.SandwichThreat(threat.directThreat, new src_app_jscaip_CoordSet__WEBPACK_IMPORTED_MODULE_8__.CoordSet(newMover)));
+            newThreatSet.push(new _jscaip_PieceThreat__WEBPACK_IMPORTED_MODULE_5__.SandwichThreat(threat.directThreat, new _jscaip_CoordSet__WEBPACK_IMPORTED_MODULE_8__.CoordSet(newMover)));
           }
         }
       }
@@ -52962,13 +52962,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   TaflPieceAndInfluenceMinimax: () => (/* binding */ TaflPieceAndInfluenceMinimax)
 /* harmony export */ });
-/* harmony import */ var src_app_jscaip_AI_Minimax__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! src/app/jscaip/AI/Minimax */ 95291);
+/* harmony import */ var _jscaip_AI_Minimax__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../jscaip/AI/Minimax */ 95291);
 /* harmony import */ var _TaflMoveGenerator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TaflMoveGenerator */ 45895);
 /* harmony import */ var _TaflPieceAndInfluenceHeuristic__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TaflPieceAndInfluenceHeuristic */ 41695);
 
 
 
-class TaflPieceAndInfluenceMinimax extends src_app_jscaip_AI_Minimax__WEBPACK_IMPORTED_MODULE_0__.Minimax {
+class TaflPieceAndInfluenceMinimax extends _jscaip_AI_Minimax__WEBPACK_IMPORTED_MODULE_0__.Minimax {
   constructor(rules) {
     super($localize`Pieces > Influence`, rules, new _TaflPieceAndInfluenceHeuristic__WEBPACK_IMPORTED_MODULE_2__.TaflPieceAndInfluenceHeuristic(rules), new _TaflMoveGenerator__WEBPACK_IMPORTED_MODULE_1__.TaflMoveGenerator(rules));
   }
@@ -52986,13 +52986,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   TaflPieceHeuristic: () => (/* binding */ TaflPieceHeuristic)
 /* harmony export */ });
-/* harmony import */ var src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! src/app/jscaip/Player */ 22092);
-/* harmony import */ var src_app_jscaip_AI_Minimax__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/jscaip/AI/Minimax */ 95291);
-/* harmony import */ var src_app_jscaip_PlayerNumberTable__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/jscaip/PlayerNumberTable */ 97813);
+/* harmony import */ var _jscaip_Player__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../jscaip/Player */ 22092);
+/* harmony import */ var _jscaip_AI_Minimax__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../jscaip/AI/Minimax */ 95291);
+/* harmony import */ var _jscaip_PlayerNumberTable__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../jscaip/PlayerNumberTable */ 97813);
 
 
 
-class TaflPieceHeuristic extends src_app_jscaip_AI_Minimax__WEBPACK_IMPORTED_MODULE_1__.PlayerMetricHeuristic {
+class TaflPieceHeuristic extends _jscaip_AI_Minimax__WEBPACK_IMPORTED_MODULE_1__.PlayerMetricHeuristic {
   rules;
   constructor(rules) {
     super();
@@ -53002,14 +53002,14 @@ class TaflPieceHeuristic extends src_app_jscaip_AI_Minimax__WEBPACK_IMPORTED_MOD
     const state = node.gameState;
     const config = optConfig.get();
     // We just count the pawns
-    const nbPlayerZeroPawns = this.rules.getPlayerListPawns(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_0__.Player.ZERO, state).length;
-    const nbPlayerOnePawns = this.rules.getPlayerListPawns(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_0__.Player.ONE, state).length;
+    const nbPlayerZeroPawns = this.rules.getPlayerListPawns(_jscaip_Player__WEBPACK_IMPORTED_MODULE_0__.Player.ZERO, state).length;
+    const nbPlayerOnePawns = this.rules.getPlayerListPawns(_jscaip_Player__WEBPACK_IMPORTED_MODULE_0__.Player.ONE, state).length;
     const invader = this.rules.getInvader(config);
     const zeroMult = [1, 2][invader.getValue()]; // invaders piece are twice as numerous
     const oneMult = [2, 1][invader.getValue()]; // so they're twice less valuable
     const scoreZero = nbPlayerZeroPawns * zeroMult;
     const scoreOne = nbPlayerOnePawns * oneMult;
-    return src_app_jscaip_PlayerNumberTable__WEBPACK_IMPORTED_MODULE_2__.PlayerNumberTable.ofSingle(scoreZero, scoreOne);
+    return _jscaip_PlayerNumberTable__WEBPACK_IMPORTED_MODULE_2__.PlayerNumberTable.ofSingle(scoreZero, scoreOne);
   }
 }
 
@@ -53025,13 +53025,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   TaflPieceMinimax: () => (/* binding */ TaflPieceMinimax)
 /* harmony export */ });
-/* harmony import */ var src_app_jscaip_AI_Minimax__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! src/app/jscaip/AI/Minimax */ 95291);
+/* harmony import */ var _jscaip_AI_Minimax__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../jscaip/AI/Minimax */ 95291);
 /* harmony import */ var _TaflMoveGenerator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TaflMoveGenerator */ 45895);
 /* harmony import */ var _TaflPieceHeuristic__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TaflPieceHeuristic */ 76311);
 
 
 
-class TaflPieceMinimax extends src_app_jscaip_AI_Minimax__WEBPACK_IMPORTED_MODULE_0__.Minimax {
+class TaflPieceMinimax extends _jscaip_AI_Minimax__WEBPACK_IMPORTED_MODULE_0__.Minimax {
   constructor(rules) {
     super($localize`Pieces`, rules, new _TaflPieceHeuristic__WEBPACK_IMPORTED_MODULE_2__.TaflPieceHeuristic(rules), new _TaflMoveGenerator__WEBPACK_IMPORTED_MODULE_1__.TaflMoveGenerator(rules));
   }
@@ -53050,20 +53050,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   TaflNode: () => (/* binding */ TaflNode),
 /* harmony export */   TaflRules: () => (/* binding */ TaflRules)
 /* harmony export */ });
-/* harmony import */ var src_app_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! src/app/jscaip/Orthogonal */ 99342);
+/* harmony import */ var _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../jscaip/Orthogonal */ 99342);
 /* harmony import */ var _jscaip_Rules__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../jscaip/Rules */ 99150);
 /* harmony import */ var _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../jscaip/Coord */ 16904);
-/* harmony import */ var src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/jscaip/Player */ 22092);
+/* harmony import */ var _jscaip_Player__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../jscaip/Player */ 22092);
 /* harmony import */ var _TaflPawn__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./TaflPawn */ 86363);
 /* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @everyboard/lib */ 65042);
 /* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var src_app_jscaip_RelativePlayer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/app/jscaip/RelativePlayer */ 72100);
-/* harmony import */ var src_app_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! src/app/jscaip/RulesFailure */ 68566);
+/* harmony import */ var _jscaip_RelativePlayer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../jscaip/RelativePlayer */ 72100);
+/* harmony import */ var _jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../jscaip/RulesFailure */ 68566);
 /* harmony import */ var _TaflFailure__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./TaflFailure */ 58495);
-/* harmony import */ var src_app_jscaip_AI_GameNode__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! src/app/jscaip/AI/GameNode */ 49120);
+/* harmony import */ var _jscaip_AI_GameNode__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../jscaip/AI/GameNode */ 49120);
 /* harmony import */ var _TaflState__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./TaflState */ 30808);
-/* harmony import */ var src_app_jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! src/app/jscaip/GameStatus */ 19613);
-/* harmony import */ var src_app_utils_Debug__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! src/app/utils/Debug */ 36355);
+/* harmony import */ var _jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../jscaip/GameStatus */ 19613);
+/* harmony import */ var _utils_Debug__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../utils/Debug */ 36355);
 
 
 
@@ -53077,7 +53077,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class TaflNode extends src_app_jscaip_AI_GameNode__WEBPACK_IMPORTED_MODULE_9__.GameNode {}
+class TaflNode extends _jscaip_AI_GameNode__WEBPACK_IMPORTED_MODULE_9__.GameNode {}
 class TaflRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_1__.ConfigurableRules {
   generateMove;
   static CAN_RETURN_TO_CASTLE = () => $localize`Central throne is left for good`;
@@ -53100,14 +53100,14 @@ class TaflRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_1__.ConfigurableR
   }
   getMoveValidity(player, move, state, config) {
     const owner = state.getRelativeOwner(player, move.getStart());
-    if (owner === src_app_jscaip_RelativePlayer__WEBPACK_IMPORTED_MODULE_6__.RelativePlayer.NONE) {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPValidation.failure(src_app_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_7__.RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_EMPTY());
+    if (owner === _jscaip_RelativePlayer__WEBPACK_IMPORTED_MODULE_6__.RelativePlayer.NONE) {
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPValidation.failure(_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_7__.RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_EMPTY());
     }
-    if (owner === src_app_jscaip_RelativePlayer__WEBPACK_IMPORTED_MODULE_6__.RelativePlayer.OPPONENT) {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPValidation.failure(src_app_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_7__.RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
+    if (owner === _jscaip_RelativePlayer__WEBPACK_IMPORTED_MODULE_6__.RelativePlayer.OPPONENT) {
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPValidation.failure(_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_7__.RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
     }
     const landingCoordOwner = state.getRelativeOwner(player, move.getEnd());
-    if (landingCoordOwner !== src_app_jscaip_RelativePlayer__WEBPACK_IMPORTED_MODULE_6__.RelativePlayer.NONE) {
+    if (landingCoordOwner !== _jscaip_RelativePlayer__WEBPACK_IMPORTED_MODULE_6__.RelativePlayer.NONE) {
       return _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPValidation.failure(_TaflFailure__WEBPACK_IMPORTED_MODULE_8__.TaflFailure.LANDING_ON_OCCUPIED_SQUARE());
     }
     if (this.isThrone(state, move.getEnd())) {
@@ -53124,7 +53124,7 @@ class TaflRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_1__.ConfigurableR
     let inspectedCoord = move.getStart().getNext(dir);
     for (let i = 1; i < dist; i++) {
       if (state.getPieceAt(inspectedCoord) !== _TaflPawn__WEBPACK_IMPORTED_MODULE_4__.TaflPawn.UNOCCUPIED) {
-        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPValidation.failure(src_app_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_7__.RulesFailure.SOMETHING_IN_THE_WAY());
+        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPValidation.failure(_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_7__.RulesFailure.SOMETHING_IN_THE_WAY());
       }
       inspectedCoord = inspectedCoord.getNext(dir);
     }
@@ -53151,7 +53151,7 @@ class TaflRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_1__.ConfigurableR
       return _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.empty(); // 1: the threatened square dont exist, no capture
     }
     const threatenedPawnOwner = state.getRelativeOwner(player, threatened);
-    if (threatenedPawnOwner !== src_app_jscaip_RelativePlayer__WEBPACK_IMPORTED_MODULE_6__.RelativePlayer.OPPONENT) {
+    if (threatenedPawnOwner !== _jscaip_RelativePlayer__WEBPACK_IMPORTED_MODULE_6__.RelativePlayer.OPPONENT) {
       return _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.empty(); // 2: the threatened square is not an opponent
     }
     if (state.getPieceAt(threatened).isKing()) {
@@ -53173,10 +53173,10 @@ class TaflRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_1__.ConfigurableR
     if (backInRange === false) {
       return this.captureKingAgainstTheWall(left, right, kingCoord, config);
     }
-    if (back === src_app_jscaip_RelativePlayer__WEBPACK_IMPORTED_MODULE_6__.RelativePlayer.NONE && this.isThrone(state, backCoord)) {
+    if (back === _jscaip_RelativePlayer__WEBPACK_IMPORTED_MODULE_6__.RelativePlayer.NONE && this.isThrone(state, backCoord)) {
       return this.captureKingAgainstThrone(state, backCoord, kingCoord, left, right, config);
     }
-    if (back === src_app_jscaip_RelativePlayer__WEBPACK_IMPORTED_MODULE_6__.RelativePlayer.PLAYER) {
+    if (back === _jscaip_RelativePlayer__WEBPACK_IMPORTED_MODULE_6__.RelativePlayer.PLAYER) {
       return this.captureKingWithAtLeastASandwich(state, kingCoord, left, leftCoord, right, rightCoord, config);
     }
     return _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.empty();
@@ -53185,13 +53185,13 @@ class TaflRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_1__.ConfigurableR
     // the piece that just moved came from the front direction (by definition)
     const backCoord = c.getNext(d);
     const backInRange = state.isOnBoard(backCoord);
-    const back = backInRange ? state.getRelativeOwner(player, backCoord) : src_app_jscaip_RelativePlayer__WEBPACK_IMPORTED_MODULE_6__.RelativePlayer.NONE;
+    const back = backInRange ? state.getRelativeOwner(player, backCoord) : _jscaip_RelativePlayer__WEBPACK_IMPORTED_MODULE_6__.RelativePlayer.NONE;
     const leftCoord = c.getLeft(d);
     const leftInRange = state.isOnBoard(leftCoord);
-    const left = leftInRange ? state.getRelativeOwner(player, leftCoord) : src_app_jscaip_RelativePlayer__WEBPACK_IMPORTED_MODULE_6__.RelativePlayer.NONE;
+    const left = leftInRange ? state.getRelativeOwner(player, leftCoord) : _jscaip_RelativePlayer__WEBPACK_IMPORTED_MODULE_6__.RelativePlayer.NONE;
     const rightCoord = c.getRight(d);
     const rightInRange = state.isOnBoard(rightCoord);
-    const right = rightInRange ? state.getRelativeOwner(player, rightCoord) : src_app_jscaip_RelativePlayer__WEBPACK_IMPORTED_MODULE_6__.RelativePlayer.NONE;
+    const right = rightInRange ? state.getRelativeOwner(player, rightCoord) : _jscaip_RelativePlayer__WEBPACK_IMPORTED_MODULE_6__.RelativePlayer.NONE;
     return {
       backCoord,
       back,
@@ -53203,8 +53203,8 @@ class TaflRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_1__.ConfigurableR
     };
   }
   captureKingAgainstTheWall(left, right, kingCoord, config) {
-    let nbInvaders = left === src_app_jscaip_RelativePlayer__WEBPACK_IMPORTED_MODULE_6__.RelativePlayer.PLAYER ? 1 : 0;
-    nbInvaders += right === src_app_jscaip_RelativePlayer__WEBPACK_IMPORTED_MODULE_6__.RelativePlayer.PLAYER ? 1 : 0;
+    let nbInvaders = left === _jscaip_RelativePlayer__WEBPACK_IMPORTED_MODULE_6__.RelativePlayer.PLAYER ? 1 : 0;
+    nbInvaders += right === _jscaip_RelativePlayer__WEBPACK_IMPORTED_MODULE_6__.RelativePlayer.PLAYER ? 1 : 0;
     if (nbInvaders === 2 && config.edgesAreKingsEnnemy) {
       // 2
       // king captured by 3 invaders against 1 border
@@ -53220,8 +53220,8 @@ class TaflRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_1__.ConfigurableR
       }
     } else {
       // Central throne
-      const kingHasOpponentOnItsLeft = left === src_app_jscaip_RelativePlayer__WEBPACK_IMPORTED_MODULE_6__.RelativePlayer.PLAYER;
-      const kingHasOpponentOnItsRight = right === src_app_jscaip_RelativePlayer__WEBPACK_IMPORTED_MODULE_6__.RelativePlayer.PLAYER;
+      const kingHasOpponentOnItsLeft = left === _jscaip_RelativePlayer__WEBPACK_IMPORTED_MODULE_6__.RelativePlayer.PLAYER;
+      const kingHasOpponentOnItsRight = right === _jscaip_RelativePlayer__WEBPACK_IMPORTED_MODULE_6__.RelativePlayer.PLAYER;
       const kingHasThreeOpponentAround = kingHasOpponentOnItsLeft || kingHasOpponentOnItsRight;
       if (config.centralThroneCanSurroundKing && kingHasThreeOpponentAround) {
         return _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.of(kingCoord);
@@ -53241,23 +53241,23 @@ class TaflRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_1__.ConfigurableR
     const threatenedPieceCoord = coord.getNext(direction);
     const backCoord = threatenedPieceCoord.getNext(direction);
     // the piece that just move is always considered in front
-    let back = src_app_jscaip_RelativePlayer__WEBPACK_IMPORTED_MODULE_6__.RelativePlayer.NONE;
+    let back = _jscaip_RelativePlayer__WEBPACK_IMPORTED_MODULE_6__.RelativePlayer.NONE;
     if (state.isOnBoard(backCoord)) {
       back = state.getRelativeOwner(player, backCoord);
     }
-    if (back === src_app_jscaip_RelativePlayer__WEBPACK_IMPORTED_MODULE_6__.RelativePlayer.NONE) {
+    if (back === _jscaip_RelativePlayer__WEBPACK_IMPORTED_MODULE_6__.RelativePlayer.NONE) {
       if (this.isThrone(state, backCoord) === false) {
-        src_app_utils_Debug__WEBPACK_IMPORTED_MODULE_12__.Debug.display('TaflRules', 'capturePawn', 'cannot capture a piece without an ally; ' + threatenedPieceCoord + 'threatened by ' + player + `'s piece in ` + coord + ' coming from this direction (' + direction.x + ', ' + direction.y + ')' + 'cannot capture a piece without an ally behind');
+        _utils_Debug__WEBPACK_IMPORTED_MODULE_12__.Debug.display('TaflRules', 'capturePawn', 'cannot capture a piece without an ally; ' + threatenedPieceCoord + 'threatened by ' + player + `'s piece in ` + coord + ' coming from this direction (' + direction.x + ', ' + direction.y + ')' + 'cannot capture a piece without an ally behind');
         return _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.empty();
       } // here, back is an empty throne
-      src_app_utils_Debug__WEBPACK_IMPORTED_MODULE_12__.Debug.display('TaflRules', 'capturePawn', 'piece captured by 1 opponent and 1 throne; ' + threatenedPieceCoord + 'threatened by ' + player + `'s piece in ` + coord + ' coming from this direction (' + direction.x + ', ' + direction.y + ')');
+      _utils_Debug__WEBPACK_IMPORTED_MODULE_12__.Debug.display('TaflRules', 'capturePawn', 'piece captured by 1 opponent and 1 throne; ' + threatenedPieceCoord + 'threatened by ' + player + `'s piece in ` + coord + ' coming from this direction (' + direction.x + ', ' + direction.y + ')');
       return _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.of(threatenedPieceCoord); // piece captured by 1 opponent and 1 throne
     }
-    if (back === src_app_jscaip_RelativePlayer__WEBPACK_IMPORTED_MODULE_6__.RelativePlayer.PLAYER) {
-      src_app_utils_Debug__WEBPACK_IMPORTED_MODULE_12__.Debug.display('TaflRules', 'capturePawn', 'piece captured by 2 opponents; ' + threatenedPieceCoord + 'threatened by ' + player + `'s piece in ` + coord + ' coming from this direction (' + direction.x + ', ' + direction.y + ')');
+    if (back === _jscaip_RelativePlayer__WEBPACK_IMPORTED_MODULE_6__.RelativePlayer.PLAYER) {
+      _utils_Debug__WEBPACK_IMPORTED_MODULE_12__.Debug.display('TaflRules', 'capturePawn', 'piece captured by 2 opponents; ' + threatenedPieceCoord + 'threatened by ' + player + `'s piece in ` + coord + ' coming from this direction (' + direction.x + ', ' + direction.y + ')');
       return _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.of(threatenedPieceCoord); // piece captured by two opponents
     }
-    src_app_utils_Debug__WEBPACK_IMPORTED_MODULE_12__.Debug.display('TaflRules', 'capturePawn', 'no captures; ' + threatenedPieceCoord + 'threatened by ' + player + `'s piece in ` + coord + ' coming from this direction (' + direction.x + ', ' + direction.y + ')');
+    _utils_Debug__WEBPACK_IMPORTED_MODULE_12__.Debug.display('TaflRules', 'capturePawn', 'no captures; ' + threatenedPieceCoord + 'threatened by ' + player + `'s piece in ` + coord + ' coming from this direction (' + direction.x + ', ' + direction.y + ')');
     return _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.empty();
   }
   captureKingWithAtLeastASandwich(state, kingCoord, left, leftCoord, right, rightCoord, config) {
@@ -53266,9 +53266,9 @@ class TaflRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_1__.ConfigurableR
     }
     const throneCanSurrond = config.centralThroneCanSurroundKing;
     const leftIsThrone = this.isThrone(state, leftCoord);
-    const leftCanSurround = left === src_app_jscaip_RelativePlayer__WEBPACK_IMPORTED_MODULE_6__.RelativePlayer.PLAYER || leftIsThrone && throneCanSurrond;
+    const leftCanSurround = left === _jscaip_RelativePlayer__WEBPACK_IMPORTED_MODULE_6__.RelativePlayer.PLAYER || leftIsThrone && throneCanSurrond;
     const rightIsThrone = this.isThrone(state, rightCoord);
-    const rightCanSurround = right === src_app_jscaip_RelativePlayer__WEBPACK_IMPORTED_MODULE_6__.RelativePlayer.PLAYER || rightIsThrone && throneCanSurrond;
+    const rightCanSurround = right === _jscaip_RelativePlayer__WEBPACK_IMPORTED_MODULE_6__.RelativePlayer.PLAYER || rightIsThrone && throneCanSurrond;
     if (leftCanSurround && rightCanSurround) {
       return _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.of(kingCoord); // king captured by 4 invaders
     }
@@ -53286,7 +53286,7 @@ class TaflRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_1__.ConfigurableR
     const end = move.getEnd();
     board[end.y][end.x] = board[start.y][start.x]; // move the piece to the new position
     board[start.y][start.x] = _TaflPawn__WEBPACK_IMPORTED_MODULE_4__.TaflPawn.UNOCCUPIED; // remove it from the previous position
-    for (const d of src_app_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_0__.Orthogonal.ORTHOGONALS) {
+    for (const d of _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_0__.Orthogonal.ORTHOGONALS) {
       const captured = this.tryCapture(player, move.getEnd(), d, state, config.get());
       if (captured.isPresent()) {
         board[captured.get().y][captured.get().x] = _TaflPawn__WEBPACK_IMPORTED_MODULE_4__.TaflPawn.UNOCCUPIED;
@@ -53299,32 +53299,32 @@ class TaflRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_1__.ConfigurableR
     const config = optionalConfig.get();
     const winner = this.getWinner(state, config);
     if (winner.isPresent()) {
-      return src_app_jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_11__.GameStatus.getVictory(winner.get());
+      return _jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_11__.GameStatus.getVictory(winner.get());
     }
-    return src_app_jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_11__.GameStatus.ONGOING;
+    return _jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_11__.GameStatus.ONGOING;
   }
   getWinner(state, config) {
     const optionalKingCoord = this.getKingCoord(state);
     if (optionalKingCoord.isAbsent()) {
-      src_app_utils_Debug__WEBPACK_IMPORTED_MODULE_12__.Debug.display('TaflRules', 'getWinner', 'The king is dead, victory to invader');
+      _utils_Debug__WEBPACK_IMPORTED_MODULE_12__.Debug.display('TaflRules', 'getWinner', 'The king is dead, victory to invader');
       // the king is dead, long live the king
       return _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.of(this.getInvader(config));
     }
     const kingCoord = optionalKingCoord.get();
     if (state.isExternalThrone(kingCoord) === true) {
-      src_app_utils_Debug__WEBPACK_IMPORTED_MODULE_12__.Debug.display('TaflRules', 'getWinner', 'The king escape, victory to defender');
+      _utils_Debug__WEBPACK_IMPORTED_MODULE_12__.Debug.display('TaflRules', 'getWinner', 'The king escape, victory to defender');
       // king reached one corner!
       return _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.of(this.getDefender(config));
     }
-    if (this.isPlayerImmobilized(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ZERO, state, config)) {
-      src_app_utils_Debug__WEBPACK_IMPORTED_MODULE_12__.Debug.display('TaflRules', 'getWinner', 'Zero has no move, victory to one');
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.of(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ONE);
+    if (this.isPlayerImmobilized(_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ZERO, state, config)) {
+      _utils_Debug__WEBPACK_IMPORTED_MODULE_12__.Debug.display('TaflRules', 'getWinner', 'Zero has no move, victory to one');
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.of(_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ONE);
     }
-    if (this.isPlayerImmobilized(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ONE, state, config)) {
-      src_app_utils_Debug__WEBPACK_IMPORTED_MODULE_12__.Debug.display('TaflRules', 'getWinner', 'One has no move, victory to zero');
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.of(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ZERO);
+    if (this.isPlayerImmobilized(_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ONE, state, config)) {
+      _utils_Debug__WEBPACK_IMPORTED_MODULE_12__.Debug.display('TaflRules', 'getWinner', 'One has no move, victory to zero');
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.of(_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ZERO);
     }
-    src_app_utils_Debug__WEBPACK_IMPORTED_MODULE_12__.Debug.display('TaflRules', 'getWinner', 'no victory');
+    _utils_Debug__WEBPACK_IMPORTED_MODULE_12__.Debug.display('TaflRules', 'getWinner', 'no victory');
     return _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.empty();
   }
   getKingCoord(state) {
@@ -53339,7 +53339,7 @@ class TaflRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_1__.ConfigurableR
     return _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.empty();
   }
   getInvader(config) {
-    return config.invaderStarts ? src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ZERO : src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ONE;
+    return config.invaderStarts ? _jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ZERO : _jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ONE;
   }
   getDefender(config) {
     return this.getInvader(config).getOpponent();
@@ -53379,7 +53379,7 @@ class TaflRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_1__.ConfigurableR
     const destinations = [];
     let foundDestination;
     const pieceIsKing = state.getPieceAt(start).isKing();
-    for (const dir of src_app_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_0__.Orthogonal.ORTHOGONALS) {
+    for (const dir of _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_0__.Orthogonal.ORTHOGONALS) {
       // we look for empty existing destinations in each direction as far as we can
       foundDestination = start.getNext(dir, 1);
       while (state.hasPieceAt(foundDestination, _TaflPawn__WEBPACK_IMPORTED_MODULE_4__.TaflPawn.UNOCCUPIED)) {
@@ -53414,12 +53414,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   TaflState: () => (/* binding */ TaflState)
 /* harmony export */ });
 /* harmony import */ var _jscaip_Coord__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../jscaip/Coord */ 16904);
-/* harmony import */ var src_app_jscaip_RelativePlayer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/jscaip/RelativePlayer */ 72100);
-/* harmony import */ var src_app_jscaip_state_GameStateWithTable__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/jscaip/state/GameStateWithTable */ 19102);
+/* harmony import */ var _jscaip_RelativePlayer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../jscaip/RelativePlayer */ 72100);
+/* harmony import */ var _jscaip_state_GameStateWithTable__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../jscaip/state/GameStateWithTable */ 19102);
 
 
 
-class TaflState extends src_app_jscaip_state_GameStateWithTable__WEBPACK_IMPORTED_MODULE_2__.GameStateWithTable {
+class TaflState extends _jscaip_state_GameStateWithTable__WEBPACK_IMPORTED_MODULE_2__.GameStateWithTable {
   isCentralThrone(coord) {
     return coord.equals(this.getCentralThrone());
   }
@@ -53431,11 +53431,11 @@ class TaflState extends src_app_jscaip_state_GameStateWithTable__WEBPACK_IMPORTE
     const owner = this.getAbsoluteOwner(coord);
     let relativeOwner;
     if (owner.isNone()) {
-      relativeOwner = src_app_jscaip_RelativePlayer__WEBPACK_IMPORTED_MODULE_1__.RelativePlayer.NONE;
+      relativeOwner = _jscaip_RelativePlayer__WEBPACK_IMPORTED_MODULE_1__.RelativePlayer.NONE;
     } else if (player === owner) {
-      relativeOwner = src_app_jscaip_RelativePlayer__WEBPACK_IMPORTED_MODULE_1__.RelativePlayer.PLAYER;
+      relativeOwner = _jscaip_RelativePlayer__WEBPACK_IMPORTED_MODULE_1__.RelativePlayer.PLAYER;
     } else {
-      relativeOwner = src_app_jscaip_RelativePlayer__WEBPACK_IMPORTED_MODULE_1__.RelativePlayer.OPPONENT;
+      relativeOwner = _jscaip_RelativePlayer__WEBPACK_IMPORTED_MODULE_1__.RelativePlayer.OPPONENT;
     }
     return relativeOwner;
   }
@@ -53471,7 +53471,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   BrandhubMove: () => (/* binding */ BrandhubMove)
 /* harmony export */ });
-/* harmony import */ var src_app_jscaip_MoveWithTwoCoords__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! src/app/jscaip/MoveWithTwoCoords */ 71758);
+/* harmony import */ var _jscaip_MoveWithTwoCoords__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../jscaip/MoveWithTwoCoords */ 71758);
 /* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @everyboard/lib */ 65042);
 /* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _TaflMove__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../TaflMove */ 93296);
@@ -53479,7 +53479,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 class BrandhubMove extends _TaflMove__WEBPACK_IMPORTED_MODULE_2__.TaflMove {
-  static encoder = src_app_jscaip_MoveWithTwoCoords__WEBPACK_IMPORTED_MODULE_0__.MoveWithTwoCoords.getFallibleEncoder(BrandhubMove.from);
+  static encoder = _jscaip_MoveWithTwoCoords__WEBPACK_IMPORTED_MODULE_0__.MoveWithTwoCoords.getFallibleEncoder(BrandhubMove.from);
   static from(start, end) {
     const validity = _TaflMove__WEBPACK_IMPORTED_MODULE_2__.TaflMove.isValidDirection(start, end);
     if (validity.isFailure()) {
@@ -53511,7 +53511,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _BrandhubMove__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./BrandhubMove */ 73774);
 /* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @everyboard/lib */ 65042);
 /* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var src_app_components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/components/wrapper-components/rules-configuration/RulesConfigDescription */ 62692);
+/* harmony import */ var _components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../components/wrapper-components/rules-configuration/RulesConfigDescription */ 62692);
 /* harmony import */ var _TaflPawn__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../TaflPawn */ 86363);
 
 
@@ -53522,14 +53522,14 @@ __webpack_require__.r(__webpack_exports__);
 class BrandhubNode extends _TaflRules__WEBPACK_IMPORTED_MODULE_1__.TaflNode {}
 class BrandhubRules extends _TaflRules__WEBPACK_IMPORTED_MODULE_1__.TaflRules {
   static singleton = _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.MGPOptional.empty();
-  static RULES_CONFIG_DESCRIPTION = new src_app_components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_4__.RulesConfigDescription({
+  static RULES_CONFIG_DESCRIPTION = new _components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_4__.RulesConfigDescription({
     name: () => $localize`Brandhub`,
     config: {
-      canReturnToCastle: new src_app_components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_4__.BooleanConfig(false, _TaflRules__WEBPACK_IMPORTED_MODULE_1__.TaflRules.CAN_RETURN_TO_CASTLE),
-      edgesAreKingsEnnemy: new src_app_components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_4__.BooleanConfig(false, _TaflRules__WEBPACK_IMPORTED_MODULE_1__.TaflRules.EDGE_ARE_KING_S_ENNEMY),
-      centralThroneCanSurroundKing: new src_app_components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_4__.BooleanConfig(true, _TaflRules__WEBPACK_IMPORTED_MODULE_1__.TaflRules.CENTRAL_THRONE_CAN_SURROUND_KING),
-      kingFarFromHomeCanBeSandwiched: new src_app_components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_4__.BooleanConfig(true, _TaflRules__WEBPACK_IMPORTED_MODULE_1__.TaflRules.KING_FAR_FROM_HOME_CAN_BE_SANDWICHED),
-      invaderStarts: new src_app_components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_4__.BooleanConfig(true, _TaflRules__WEBPACK_IMPORTED_MODULE_1__.TaflRules.INVADER_STARTS)
+      canReturnToCastle: new _components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_4__.BooleanConfig(false, _TaflRules__WEBPACK_IMPORTED_MODULE_1__.TaflRules.CAN_RETURN_TO_CASTLE),
+      edgesAreKingsEnnemy: new _components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_4__.BooleanConfig(false, _TaflRules__WEBPACK_IMPORTED_MODULE_1__.TaflRules.EDGE_ARE_KING_S_ENNEMY),
+      centralThroneCanSurroundKing: new _components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_4__.BooleanConfig(true, _TaflRules__WEBPACK_IMPORTED_MODULE_1__.TaflRules.CENTRAL_THRONE_CAN_SURROUND_KING),
+      kingFarFromHomeCanBeSandwiched: new _components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_4__.BooleanConfig(true, _TaflRules__WEBPACK_IMPORTED_MODULE_1__.TaflRules.KING_FAR_FROM_HOME_CAN_BE_SANDWICHED),
+      invaderStarts: new _components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_4__.BooleanConfig(true, _TaflRules__WEBPACK_IMPORTED_MODULE_1__.TaflRules.INVADER_STARTS)
     }
   });
   static get() {
@@ -53571,13 +53571,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   BrandhubTutorial: () => (/* binding */ BrandhubTutorial)
 /* harmony export */ });
-/* harmony import */ var src_app_games_tafl_brandhub_BrandhubMove__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! src/app/games/tafl/brandhub/BrandhubMove */ 73774);
-/* harmony import */ var src_app_games_tafl_TaflPawn__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/games/tafl/TaflPawn */ 86363);
-/* harmony import */ var src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/jscaip/Coord */ 16904);
+/* harmony import */ var _BrandhubMove__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BrandhubMove */ 73774);
+/* harmony import */ var _games_tafl_TaflPawn__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../games/tafl/TaflPawn */ 86363);
+/* harmony import */ var _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../jscaip/Coord */ 16904);
 /* harmony import */ var _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../components/wrapper-components/tutorial-game-wrapper/TutorialStep */ 62518);
 /* harmony import */ var _BrandhubRules__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./BrandhubRules */ 73140);
 /* harmony import */ var _TaflState__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../TaflState */ 30808);
-/* harmony import */ var src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/app/components/wrapper-components/tutorial-game-wrapper/TutorialStepMessage */ 36695);
+/* harmony import */ var _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../components/wrapper-components/tutorial-game-wrapper/TutorialStepMessage */ 36695);
 
 
 
@@ -53585,13 +53585,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const _ = src_app_games_tafl_TaflPawn__WEBPACK_IMPORTED_MODULE_1__.TaflPawn.UNOCCUPIED;
-const O = src_app_games_tafl_TaflPawn__WEBPACK_IMPORTED_MODULE_1__.TaflPawn.PLAYER_ZERO_PAWN;
-const X = src_app_games_tafl_TaflPawn__WEBPACK_IMPORTED_MODULE_1__.TaflPawn.PLAYER_ONE_PAWN;
-const A = src_app_games_tafl_TaflPawn__WEBPACK_IMPORTED_MODULE_1__.TaflPawn.PLAYER_ONE_KING;
+const _ = _games_tafl_TaflPawn__WEBPACK_IMPORTED_MODULE_1__.TaflPawn.UNOCCUPIED;
+const O = _games_tafl_TaflPawn__WEBPACK_IMPORTED_MODULE_1__.TaflPawn.PLAYER_ZERO_PAWN;
+const X = _games_tafl_TaflPawn__WEBPACK_IMPORTED_MODULE_1__.TaflPawn.PLAYER_ONE_PAWN;
+const A = _games_tafl_TaflPawn__WEBPACK_IMPORTED_MODULE_1__.TaflPawn.PLAYER_ONE_KING;
 const defaultConfig = _BrandhubRules__WEBPACK_IMPORTED_MODULE_4__.BrandhubRules.get().getDefaultRulesConfig();
 class BrandhubTutorial extends _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_3__.Tutorial {
-  tutorial = [_components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_3__.TutorialStep.informational(src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`Brandhub is the Irish version of the Tafl, Tafl being a family of viking strategy game. The object of the game is different for each player. The attacker plays first. Their pieces (dark) are close to the edges. Their goal is to capture the king, which is in the center of the board. The defender plays second. Their pieces (light) are in the middle. Their goal is to move the king on one of the 4 thrones in the corners. Note that the square in which the king starts, in the center of the board, is also a throne.`, _BrandhubRules__WEBPACK_IMPORTED_MODULE_4__.BrandhubRules.get().getInitialState(defaultConfig)), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_3__.TutorialStep.anyMove($localize`Moving`, $localize`All pieces move the same way. Similarly to a rook in chess, a piece can move: <ol><li>By as many squares as you want.</li><li>Without going over another piece or stopping on another piece.</li><li>Horizontally or vertically.</li><li>Only the king can land on a corner throne.</li><li>Once the king left his central throne, no piece can land on it, but all can pass over it.</li></ol>To move a piece, click on it and then on its landing square.<br/><br/>You're playing Dark, do the first move.`, _BrandhubRules__WEBPACK_IMPORTED_MODULE_4__.BrandhubRules.get().getInitialState(defaultConfig), src_app_games_tafl_brandhub_BrandhubMove__WEBPACK_IMPORTED_MODULE_0__.BrandhubMove.from(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(3, 1), new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(1, 1)).get(), src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.CONGRATULATIONS()), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_3__.TutorialStep.fromMove($localize`Capturing a soldier` + ' (1/2)', $localize`All pieces, attackers and defenders, except the king, are soldiers. To capture them, they have to be sandwiched between two of your pieces. By getting too close, an attacker's soldier is in danger.<br/><br/>You're playing Light. Capture the soldier.`, new _TaflState__WEBPACK_IMPORTED_MODULE_5__.TaflState([[_, _, _, O, _, _, _], [_, _, _, O, _, _, _], [O, _, _, X, _, _, _], [_, _, X, A, X, O, O], [_, _, O, _, _, _, _], [_, _, _, X, _, O, _], [_, _, _, O, _, _, _]], 1), [src_app_games_tafl_brandhub_BrandhubMove__WEBPACK_IMPORTED_MODULE_0__.BrandhubMove.from(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(3, 5), new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(2, 5)).get()], $localize`Congratulations, that will teach him a lesson!`, $localize`Failed, you missed an opportunity to capture a piece of the opponent.`), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_3__.TutorialStep.fromMove($localize`Capturing a soldier` + ' (2/2)', $localize`A second way to capture a soldier is to sandwich it against an empty throne. The king has moved and endangered one of its soldiers.<br/><br/>You're playing Dark. Capture the soldier.`, new _TaflState__WEBPACK_IMPORTED_MODULE_5__.TaflState([[_, _, _, O, _, _, _], [_, _, O, _, _, _, _], [_, _, _, X, _, _, _], [O, X, _, _, X, O, O], [_, X, _, _, _, _, _], [_, O, _, A, _, O, _], [_, _, _, O, _, _, _]], 12), [src_app_games_tafl_brandhub_BrandhubMove__WEBPACK_IMPORTED_MODULE_0__.BrandhubMove.from(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(2, 1), new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(3, 1)).get(), src_app_games_tafl_brandhub_BrandhubMove__WEBPACK_IMPORTED_MODULE_0__.BrandhubMove.from(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(3, 0), new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(3, 1)).get()], $localize`Congratulations, one less defender. But keep an eye on the king, it is the most important.`, $localize`Failed, you did not do the expected move.`), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_3__.TutorialStep.fromMove($localize`Capturing the king on his throne`, $localize`To capture the king when he sits on his throne, the four squares neighbor to the king (horizontally and vertically) must be occupied by your soldiers.<br/><br/>You're playing Dark. Capture the king.`, new _TaflState__WEBPACK_IMPORTED_MODULE_5__.TaflState([[_, _, _, _, _, _, _], [_, _, _, X, _, _, _], [_, _, _, O, _, _, _], [_, O, _, A, O, _, _], [_, _, _, O, _, _, _], [_, X, _, _, _, _, _], [_, _, _, _, _, _, _]], 72), [src_app_games_tafl_brandhub_BrandhubMove__WEBPACK_IMPORTED_MODULE_0__.BrandhubMove.from(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(1, 3), new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(2, 3)).get()], src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.CONGRATULATIONS_YOU_WON(), $localize`Failed, you let the king run away.`), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_3__.TutorialStep.fromMove($localize`Capturing the king next to his throne`, $localize`Another way to capture the king is to use three soldier plus the central throne to surround the king on four sides.<br/><br/>You're playing Dark. Capture the king.`, new _TaflState__WEBPACK_IMPORTED_MODULE_5__.TaflState([[_, _, O, _, _, _, _], [_, _, _, O, _, _, _], [_, _, _, A, O, _, _], [_, O, X, _, X, _, _], [_, _, _, O, _, _, _], [_, _, _, _, _, _, _], [_, _, _, _, _, _, _]], 72), [src_app_games_tafl_brandhub_BrandhubMove__WEBPACK_IMPORTED_MODULE_0__.BrandhubMove.from(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(2, 0), new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(2, 2)).get()], $localize`The king is dead, long live the king. Congratulations, you won.`, src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.FAILED_TRY_AGAIN()), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_3__.TutorialStep.fromMove($localize`Capturing the king far from his throne`, $localize`When the king is not on his central throne nor next to it, he can be captured like a soldier.<br/><br/>You're playing Dark. Capture the king.`, new _TaflState__WEBPACK_IMPORTED_MODULE_5__.TaflState([[_, _, _, _, _, _, _], [_, _, _, _, _, _, _], [_, O, _, O, _, _, _], [O, _, _, _, X, _, _], [_, _, _, X, _, _, _], [_, _, _, _, _, _, _], [_, A, _, O, _, _, _]], 72), [src_app_games_tafl_brandhub_BrandhubMove__WEBPACK_IMPORTED_MODULE_0__.BrandhubMove.from(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(3, 6), new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(2, 6)).get()], $localize`The king is dead, long live the king. Congratulations, you won.`, src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.FAILED_TRY_AGAIN())];
+  tutorial = [_components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_3__.TutorialStep.informational(_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`Brandhub is the Irish version of the Tafl, Tafl being a family of viking strategy game. The object of the game is different for each player. The attacker plays first. Their pieces (dark) are close to the edges. Their goal is to capture the king, which is in the center of the board. The defender plays second. Their pieces (light) are in the middle. Their goal is to move the king on one of the 4 thrones in the corners. Note that the square in which the king starts, in the center of the board, is also a throne.`, _BrandhubRules__WEBPACK_IMPORTED_MODULE_4__.BrandhubRules.get().getInitialState(defaultConfig)), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_3__.TutorialStep.anyMove($localize`Moving`, $localize`All pieces move the same way. Similarly to a rook in chess, a piece can move: <ol><li>By as many squares as you want.</li><li>Without going over another piece or stopping on another piece.</li><li>Horizontally or vertically.</li><li>Only the king can land on a corner throne.</li><li>Once the king left his central throne, no piece can land on it, but all can pass over it.</li></ol>To move a piece, click on it and then on its landing square.<br/><br/>You're playing Dark, do the first move.`, _BrandhubRules__WEBPACK_IMPORTED_MODULE_4__.BrandhubRules.get().getInitialState(defaultConfig), _BrandhubMove__WEBPACK_IMPORTED_MODULE_0__.BrandhubMove.from(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(3, 1), new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(1, 1)).get(), _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.CONGRATULATIONS()), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_3__.TutorialStep.fromMove($localize`Capturing a soldier` + ' (1/2)', $localize`All pieces, attackers and defenders, except the king, are soldiers. To capture them, they have to be sandwiched between two of your pieces. By getting too close, an attacker's soldier is in danger.<br/><br/>You're playing Light. Capture the soldier.`, new _TaflState__WEBPACK_IMPORTED_MODULE_5__.TaflState([[_, _, _, O, _, _, _], [_, _, _, O, _, _, _], [O, _, _, X, _, _, _], [_, _, X, A, X, O, O], [_, _, O, _, _, _, _], [_, _, _, X, _, O, _], [_, _, _, O, _, _, _]], 1), [_BrandhubMove__WEBPACK_IMPORTED_MODULE_0__.BrandhubMove.from(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(3, 5), new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(2, 5)).get()], $localize`Congratulations, that will teach him a lesson!`, $localize`Failed, you missed an opportunity to capture a piece of the opponent.`), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_3__.TutorialStep.fromMove($localize`Capturing a soldier` + ' (2/2)', $localize`A second way to capture a soldier is to sandwich it against an empty throne. The king has moved and endangered one of its soldiers.<br/><br/>You're playing Dark. Capture the soldier.`, new _TaflState__WEBPACK_IMPORTED_MODULE_5__.TaflState([[_, _, _, O, _, _, _], [_, _, O, _, _, _, _], [_, _, _, X, _, _, _], [O, X, _, _, X, O, O], [_, X, _, _, _, _, _], [_, O, _, A, _, O, _], [_, _, _, O, _, _, _]], 12), [_BrandhubMove__WEBPACK_IMPORTED_MODULE_0__.BrandhubMove.from(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(2, 1), new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(3, 1)).get(), _BrandhubMove__WEBPACK_IMPORTED_MODULE_0__.BrandhubMove.from(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(3, 0), new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(3, 1)).get()], $localize`Congratulations, one less defender. But keep an eye on the king, it is the most important.`, $localize`Failed, you did not do the expected move.`), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_3__.TutorialStep.fromMove($localize`Capturing the king on his throne`, $localize`To capture the king when he sits on his throne, the four squares neighbor to the king (horizontally and vertically) must be occupied by your soldiers.<br/><br/>You're playing Dark. Capture the king.`, new _TaflState__WEBPACK_IMPORTED_MODULE_5__.TaflState([[_, _, _, _, _, _, _], [_, _, _, X, _, _, _], [_, _, _, O, _, _, _], [_, O, _, A, O, _, _], [_, _, _, O, _, _, _], [_, X, _, _, _, _, _], [_, _, _, _, _, _, _]], 72), [_BrandhubMove__WEBPACK_IMPORTED_MODULE_0__.BrandhubMove.from(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(1, 3), new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(2, 3)).get()], _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.CONGRATULATIONS_YOU_WON(), $localize`Failed, you let the king run away.`), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_3__.TutorialStep.fromMove($localize`Capturing the king next to his throne`, $localize`Another way to capture the king is to use three soldier plus the central throne to surround the king on four sides.<br/><br/>You're playing Dark. Capture the king.`, new _TaflState__WEBPACK_IMPORTED_MODULE_5__.TaflState([[_, _, O, _, _, _, _], [_, _, _, O, _, _, _], [_, _, _, A, O, _, _], [_, O, X, _, X, _, _], [_, _, _, O, _, _, _], [_, _, _, _, _, _, _], [_, _, _, _, _, _, _]], 72), [_BrandhubMove__WEBPACK_IMPORTED_MODULE_0__.BrandhubMove.from(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(2, 0), new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(2, 2)).get()], $localize`The king is dead, long live the king. Congratulations, you won.`, _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.FAILED_TRY_AGAIN()), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_3__.TutorialStep.fromMove($localize`Capturing the king far from his throne`, $localize`When the king is not on his central throne nor next to it, he can be captured like a soldier.<br/><br/>You're playing Dark. Capture the king.`, new _TaflState__WEBPACK_IMPORTED_MODULE_5__.TaflState([[_, _, _, _, _, _, _], [_, _, _, _, _, _, _], [_, O, _, O, _, _, _], [O, _, _, _, X, _, _], [_, _, _, X, _, _, _], [_, _, _, _, _, _, _], [_, A, _, O, _, _, _]], 72), [_BrandhubMove__WEBPACK_IMPORTED_MODULE_0__.BrandhubMove.from(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(3, 6), new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(2, 6)).get()], $localize`The king is dead, long live the king. Congratulations, you won.`, _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.FAILED_TRY_AGAIN())];
 }
 
 /***/ }),
@@ -53606,10 +53606,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   BrandhubComponent: () => (/* binding */ BrandhubComponent)
 /* harmony export */ });
-/* harmony import */ var src_app_games_tafl_brandhub_BrandhubMove__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! src/app/games/tafl/brandhub/BrandhubMove */ 73774);
+/* harmony import */ var _BrandhubMove__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BrandhubMove */ 73774);
 /* harmony import */ var _tafl_component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../tafl.component */ 42700);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/core */ 37580);
-/* harmony import */ var src_app_services_MessageDisplayer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/services/MessageDisplayer */ 78055);
+/* harmony import */ var _services_MessageDisplayer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../services/MessageDisplayer */ 78055);
 /* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/common */ 60316);
 
 
@@ -53805,13 +53805,13 @@ function BrandhubComponent__svg_g_2_Template(rf, ctx) {
 }
 class BrandhubComponent extends _tafl_component__WEBPACK_IMPORTED_MODULE_1__.TaflComponent {
   constructor(messageDisplayer, cdr) {
-    super(messageDisplayer, cdr, src_app_games_tafl_brandhub_BrandhubMove__WEBPACK_IMPORTED_MODULE_0__.BrandhubMove.from);
+    super(messageDisplayer, cdr, _BrandhubMove__WEBPACK_IMPORTED_MODULE_0__.BrandhubMove.from);
     this.setRulesAndNode('Brandhub');
     this.availableAIs = this.createAIs();
-    this.encoder = src_app_games_tafl_brandhub_BrandhubMove__WEBPACK_IMPORTED_MODULE_0__.BrandhubMove.encoder;
+    this.encoder = _BrandhubMove__WEBPACK_IMPORTED_MODULE_0__.BrandhubMove.encoder;
   }
   static ɵfac = function BrandhubComponent_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || BrandhubComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵdirectiveInject"](src_app_services_MessageDisplayer__WEBPACK_IMPORTED_MODULE_2__.MessageDisplayer), _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_3__.ChangeDetectorRef));
+    return new (__ngFactoryType__ || BrandhubComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵdirectiveInject"](_services_MessageDisplayer__WEBPACK_IMPORTED_MODULE_2__.MessageDisplayer), _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_3__.ChangeDetectorRef));
   };
   static ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵdefineComponent"]({
     type: BrandhubComponent,
@@ -53852,7 +53852,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   HnefataflMove: () => (/* binding */ HnefataflMove)
 /* harmony export */ });
-/* harmony import */ var src_app_jscaip_MoveWithTwoCoords__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! src/app/jscaip/MoveWithTwoCoords */ 71758);
+/* harmony import */ var _jscaip_MoveWithTwoCoords__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../jscaip/MoveWithTwoCoords */ 71758);
 /* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @everyboard/lib */ 65042);
 /* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _TaflMove__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../TaflMove */ 93296);
@@ -53860,7 +53860,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 class HnefataflMove extends _TaflMove__WEBPACK_IMPORTED_MODULE_2__.TaflMove {
-  static encoder = src_app_jscaip_MoveWithTwoCoords__WEBPACK_IMPORTED_MODULE_0__.MoveWithTwoCoords.getFallibleEncoder(HnefataflMove.from);
+  static encoder = _jscaip_MoveWithTwoCoords__WEBPACK_IMPORTED_MODULE_0__.MoveWithTwoCoords.getFallibleEncoder(HnefataflMove.from);
   static from(start, end) {
     const validity = _TaflMove__WEBPACK_IMPORTED_MODULE_2__.TaflMove.isValidDirection(start, end);
     if (validity.isFailure()) {
@@ -53892,7 +53892,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _HnefataflMove__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./HnefataflMove */ 30712);
 /* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @everyboard/lib */ 65042);
 /* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var src_app_components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/components/wrapper-components/rules-configuration/RulesConfigDescription */ 62692);
+/* harmony import */ var _components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../components/wrapper-components/rules-configuration/RulesConfigDescription */ 62692);
 /* harmony import */ var _TaflPawn__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../TaflPawn */ 86363);
 
 
@@ -53903,14 +53903,14 @@ __webpack_require__.r(__webpack_exports__);
 class HnefataflNode extends _TaflRules__WEBPACK_IMPORTED_MODULE_1__.TaflNode {}
 class HnefataflRules extends _TaflRules__WEBPACK_IMPORTED_MODULE_1__.TaflRules {
   static singleton = _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.MGPOptional.empty();
-  static RULES_CONFIG_DESCRIPTION = new src_app_components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_4__.RulesConfigDescription({
+  static RULES_CONFIG_DESCRIPTION = new _components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_4__.RulesConfigDescription({
     name: () => $localize`Hnefatafl`,
     config: {
-      canReturnToCastle: new src_app_components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_4__.BooleanConfig(true, _TaflRules__WEBPACK_IMPORTED_MODULE_1__.TaflRules.CAN_RETURN_TO_CASTLE),
-      edgesAreKingsEnnemy: new src_app_components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_4__.BooleanConfig(true, _TaflRules__WEBPACK_IMPORTED_MODULE_1__.TaflRules.EDGE_ARE_KING_S_ENNEMY),
-      centralThroneCanSurroundKing: new src_app_components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_4__.BooleanConfig(false, _TaflRules__WEBPACK_IMPORTED_MODULE_1__.TaflRules.CENTRAL_THRONE_CAN_SURROUND_KING),
-      kingFarFromHomeCanBeSandwiched: new src_app_components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_4__.BooleanConfig(false, _TaflRules__WEBPACK_IMPORTED_MODULE_1__.TaflRules.KING_FAR_FROM_HOME_CAN_BE_SANDWICHED),
-      invaderStarts: new src_app_components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_4__.BooleanConfig(true, _TaflRules__WEBPACK_IMPORTED_MODULE_1__.TaflRules.INVADER_STARTS)
+      canReturnToCastle: new _components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_4__.BooleanConfig(true, _TaflRules__WEBPACK_IMPORTED_MODULE_1__.TaflRules.CAN_RETURN_TO_CASTLE),
+      edgesAreKingsEnnemy: new _components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_4__.BooleanConfig(true, _TaflRules__WEBPACK_IMPORTED_MODULE_1__.TaflRules.EDGE_ARE_KING_S_ENNEMY),
+      centralThroneCanSurroundKing: new _components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_4__.BooleanConfig(false, _TaflRules__WEBPACK_IMPORTED_MODULE_1__.TaflRules.CENTRAL_THRONE_CAN_SURROUND_KING),
+      kingFarFromHomeCanBeSandwiched: new _components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_4__.BooleanConfig(false, _TaflRules__WEBPACK_IMPORTED_MODULE_1__.TaflRules.KING_FAR_FROM_HOME_CAN_BE_SANDWICHED),
+      invaderStarts: new _components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_4__.BooleanConfig(true, _TaflRules__WEBPACK_IMPORTED_MODULE_1__.TaflRules.INVADER_STARTS)
     }
   });
   static get() {
@@ -53952,13 +53952,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   HnefataflTutorial: () => (/* binding */ HnefataflTutorial)
 /* harmony export */ });
-/* harmony import */ var src_app_games_tafl_hnefatafl_HnefataflMove__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! src/app/games/tafl/hnefatafl/HnefataflMove */ 30712);
-/* harmony import */ var src_app_games_tafl_TaflPawn__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/games/tafl/TaflPawn */ 86363);
-/* harmony import */ var src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/jscaip/Coord */ 16904);
+/* harmony import */ var _HnefataflMove__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./HnefataflMove */ 30712);
+/* harmony import */ var _TaflPawn__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../TaflPawn */ 86363);
+/* harmony import */ var _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../jscaip/Coord */ 16904);
 /* harmony import */ var _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../components/wrapper-components/tutorial-game-wrapper/TutorialStep */ 62518);
 /* harmony import */ var _HnefataflRules__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./HnefataflRules */ 4770);
 /* harmony import */ var _TaflState__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../TaflState */ 30808);
-/* harmony import */ var src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/app/components/wrapper-components/tutorial-game-wrapper/TutorialStepMessage */ 36695);
+/* harmony import */ var _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../components/wrapper-components/tutorial-game-wrapper/TutorialStepMessage */ 36695);
 
 
 
@@ -53966,13 +53966,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const _ = src_app_games_tafl_TaflPawn__WEBPACK_IMPORTED_MODULE_1__.TaflPawn.UNOCCUPIED;
-const O = src_app_games_tafl_TaflPawn__WEBPACK_IMPORTED_MODULE_1__.TaflPawn.PLAYER_ZERO_PAWN;
-const X = src_app_games_tafl_TaflPawn__WEBPACK_IMPORTED_MODULE_1__.TaflPawn.PLAYER_ONE_PAWN;
-const A = src_app_games_tafl_TaflPawn__WEBPACK_IMPORTED_MODULE_1__.TaflPawn.PLAYER_ONE_KING;
+const _ = _TaflPawn__WEBPACK_IMPORTED_MODULE_1__.TaflPawn.UNOCCUPIED;
+const O = _TaflPawn__WEBPACK_IMPORTED_MODULE_1__.TaflPawn.PLAYER_ZERO_PAWN;
+const X = _TaflPawn__WEBPACK_IMPORTED_MODULE_1__.TaflPawn.PLAYER_ONE_PAWN;
+const A = _TaflPawn__WEBPACK_IMPORTED_MODULE_1__.TaflPawn.PLAYER_ONE_KING;
 const defaultConfig = _HnefataflRules__WEBPACK_IMPORTED_MODULE_4__.HnefataflRules.get().getDefaultRulesConfig();
 class HnefataflTutorial extends _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_3__.Tutorial {
-  tutorial = [_components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_3__.TutorialStep.informational(src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`Hnefatafl is a strategy game that was played by the vikings, it's part of a larger family of games called Tafl. The object of the game is different for each player. The attacker plays first. Their pieces (dark) are close to the edges. Their goal is to capture the king, which is in the center of the board. The defender plays second. Their pieces (light) are in the middle. Their goal is to move the king on one of the 4 thrones in the corners. Note that the square in which the king starts, in the center of the board, is also a throne.`, _HnefataflRules__WEBPACK_IMPORTED_MODULE_4__.HnefataflRules.get().getInitialState(defaultConfig)), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_3__.TutorialStep.anyMove($localize`Moving`, $localize`All pieces move the same way. Similarly to a rook in chess, a piece can move:<ol><li>By as many squares as you want.</li><li>Without going over another piece or stopping on another piece.</li><li>Horizontally or vertically.</li><li>Only the king can land on a throne.</li></ol>To move a piece, click on it and then on its landing square.<br/><br/>You're playing Dark, do the first move.`, _HnefataflRules__WEBPACK_IMPORTED_MODULE_4__.HnefataflRules.get().getInitialState(defaultConfig), src_app_games_tafl_hnefatafl_HnefataflMove__WEBPACK_IMPORTED_MODULE_0__.HnefataflMove.from(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(5, 1), new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(1, 1)).get(), src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.CONGRATULATIONS()), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_3__.TutorialStep.fromMove($localize`Capturing a soldier` + ' (1/2)', $localize`All pieces, attackers and defenders, except the king, are soldiers. To capture them, they have to be sandwiched between two of your pieces. By getting too close, an attacker's soldier is in danger.<br/><br/>You're playing Light. Capture the soldier.`, new _TaflState__WEBPACK_IMPORTED_MODULE_5__.TaflState([[_, _, _, _, O, O, O, O, _, _, _], [_, _, _, _, _, O, _, _, _, _, _], [_, _, _, _, _, _, _, _, _, _, _], [O, _, _, _, _, X, _, _, _, _, O], [O, _, _, O, X, X, X, _, _, _, O], [O, O, _, X, X, A, X, X, _, O, O], [O, _, _, _, X, X, X, _, _, _, O], [O, _, _, _, _, X, _, _, _, _, O], [_, _, _, _, _, _, _, _, _, _, _], [_, _, _, _, _, O, _, _, _, _, _], [_, _, _, O, O, O, O, O, _, _, _]], 1), [src_app_games_tafl_hnefatafl_HnefataflMove__WEBPACK_IMPORTED_MODULE_0__.HnefataflMove.from(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(5, 3), new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(3, 3)).get()], $localize`Congratulations, that will teach him a lesson!`, $localize`Failed, you missed an opportunity to capture a piece of the opponent.`).withPreviousMove(src_app_games_tafl_hnefatafl_HnefataflMove__WEBPACK_IMPORTED_MODULE_0__.HnefataflMove.from(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(3, 0), new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(3, 4)).get(), _HnefataflRules__WEBPACK_IMPORTED_MODULE_4__.HnefataflRules.get().getInitialState(defaultConfig)), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_3__.TutorialStep.fromMove($localize`Capturing a soldier` + ' (2/2)', $localize`A second way to capture a soldier is to sandwich it against an empty throne. The king has moved and endangered one of its soldiers.<br/><br/>You're playing Dark. Capture the soldier.`, new _TaflState__WEBPACK_IMPORTED_MODULE_5__.TaflState([[_, _, _, O, O, O, O, O, _, _, _], [_, X, _, _, _, O, _, _, _, _, _], [_, _, _, _, _, _, _, _, _, _, _], [_, _, _, _, _, X, _, _, _, _, O], [O, _, _, _, _, X, X, _, _, _, O], [O, O, A, _, X, _, X, X, _, _, O], [_, _, O, _, _, X, X, _, _, _, O], [O, _, _, _, _, X, _, _, _, _, _], [_, _, _, _, _, _, _, _, _, _, _], [_, O, _, _, _, _, _, _, _, _, _], [_, _, _, O, O, O, O, _, O, _, _]], 12), [src_app_games_tafl_hnefatafl_HnefataflMove__WEBPACK_IMPORTED_MODULE_0__.HnefataflMove.from(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(3, 0), new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(3, 5)).get(), src_app_games_tafl_hnefatafl_HnefataflMove__WEBPACK_IMPORTED_MODULE_0__.HnefataflMove.from(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(3, 10), new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(3, 5)).get()], $localize`Congratulations, one less defender. But keep an eye on the king, it is the most important.`, $localize`Failed, you did not do the expected move.`), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_3__.TutorialStep.fromMove($localize`Capturing the king` + ' (1/2)', $localize`To capture the king, two soldiers are not enough. For the first solution, the four squares neighbor to the king (horizontally and vertically) must be occupied by your soldiers. This also works if the king is on the throne.<br/><br/>You're playing Dark, capture the king.`, new _TaflState__WEBPACK_IMPORTED_MODULE_5__.TaflState([[_, _, _, _, _, _, _, _, _, _, _], [_, _, _, _, _, _, _, _, _, _, _], [_, _, _, _, _, _, _, _, _, _, _], [_, O, _, _, _, _, _, _, _, _, _], [O, A, _, O, _, _, _, _, _, _, _], [_, O, _, _, _, _, _, _, _, _, _], [_, _, _, _, _, _, _, _, _, _, _], [_, _, _, _, _, _, _, _, _, _, _], [_, _, _, _, _, _, _, _, _, _, _], [_, _, _, _, _, _, _, _, _, _, _], [_, _, _, _, _, _, _, _, _, _, _]], 72), [src_app_games_tafl_hnefatafl_HnefataflMove__WEBPACK_IMPORTED_MODULE_0__.HnefataflMove.from(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(3, 4), new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(2, 4)).get()], src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.CONGRATULATIONS_YOU_WON(), $localize`Failed, you let the king run away.`), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_3__.TutorialStep.fromMove($localize`Capturing the king` + ' (2/2)', $localize`Another way to capture the king is to immobilize it against an edge of the board. Note that the king cannot be captured next to a throne.<br/><br/>You're playing Dark, capture the king.`, new _TaflState__WEBPACK_IMPORTED_MODULE_5__.TaflState([[_, _, O, A, O, _, _, _, _, _, _], [_, _, _, _, _, _, X, _, _, _, _], [_, _, _, _, _, _, _, _, _, _, _], [_, _, _, O, _, _, _, _, _, _, _], [_, _, _, _, _, _, _, _, _, _, _], [_, _, _, _, _, _, _, _, _, _, _], [_, _, _, _, _, _, _, _, _, _, _], [_, _, _, _, _, _, _, _, _, _, _], [_, _, _, _, _, _, _, _, _, _, _], [_, _, _, _, _, _, _, _, _, _, _], [_, _, _, _, _, _, _, _, _, _, _]], 72), [src_app_games_tafl_hnefatafl_HnefataflMove__WEBPACK_IMPORTED_MODULE_0__.HnefataflMove.from(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(3, 3), new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(3, 1)).get()], $localize`The king is dead, long live the king. Congratulations, you won.`, src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.FAILED_TRY_AGAIN())];
+  tutorial = [_components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_3__.TutorialStep.informational(_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`Hnefatafl is a strategy game that was played by the vikings, it's part of a larger family of games called Tafl. The object of the game is different for each player. The attacker plays first. Their pieces (dark) are close to the edges. Their goal is to capture the king, which is in the center of the board. The defender plays second. Their pieces (light) are in the middle. Their goal is to move the king on one of the 4 thrones in the corners. Note that the square in which the king starts, in the center of the board, is also a throne.`, _HnefataflRules__WEBPACK_IMPORTED_MODULE_4__.HnefataflRules.get().getInitialState(defaultConfig)), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_3__.TutorialStep.anyMove($localize`Moving`, $localize`All pieces move the same way. Similarly to a rook in chess, a piece can move:<ol><li>By as many squares as you want.</li><li>Without going over another piece or stopping on another piece.</li><li>Horizontally or vertically.</li><li>Only the king can land on a throne.</li></ol>To move a piece, click on it and then on its landing square.<br/><br/>You're playing Dark, do the first move.`, _HnefataflRules__WEBPACK_IMPORTED_MODULE_4__.HnefataflRules.get().getInitialState(defaultConfig), _HnefataflMove__WEBPACK_IMPORTED_MODULE_0__.HnefataflMove.from(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(5, 1), new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(1, 1)).get(), _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.CONGRATULATIONS()), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_3__.TutorialStep.fromMove($localize`Capturing a soldier` + ' (1/2)', $localize`All pieces, attackers and defenders, except the king, are soldiers. To capture them, they have to be sandwiched between two of your pieces. By getting too close, an attacker's soldier is in danger.<br/><br/>You're playing Light. Capture the soldier.`, new _TaflState__WEBPACK_IMPORTED_MODULE_5__.TaflState([[_, _, _, _, O, O, O, O, _, _, _], [_, _, _, _, _, O, _, _, _, _, _], [_, _, _, _, _, _, _, _, _, _, _], [O, _, _, _, _, X, _, _, _, _, O], [O, _, _, O, X, X, X, _, _, _, O], [O, O, _, X, X, A, X, X, _, O, O], [O, _, _, _, X, X, X, _, _, _, O], [O, _, _, _, _, X, _, _, _, _, O], [_, _, _, _, _, _, _, _, _, _, _], [_, _, _, _, _, O, _, _, _, _, _], [_, _, _, O, O, O, O, O, _, _, _]], 1), [_HnefataflMove__WEBPACK_IMPORTED_MODULE_0__.HnefataflMove.from(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(5, 3), new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(3, 3)).get()], $localize`Congratulations, that will teach him a lesson!`, $localize`Failed, you missed an opportunity to capture a piece of the opponent.`).withPreviousMove(_HnefataflMove__WEBPACK_IMPORTED_MODULE_0__.HnefataflMove.from(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(3, 0), new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(3, 4)).get(), _HnefataflRules__WEBPACK_IMPORTED_MODULE_4__.HnefataflRules.get().getInitialState(defaultConfig)), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_3__.TutorialStep.fromMove($localize`Capturing a soldier` + ' (2/2)', $localize`A second way to capture a soldier is to sandwich it against an empty throne. The king has moved and endangered one of its soldiers.<br/><br/>You're playing Dark. Capture the soldier.`, new _TaflState__WEBPACK_IMPORTED_MODULE_5__.TaflState([[_, _, _, O, O, O, O, O, _, _, _], [_, X, _, _, _, O, _, _, _, _, _], [_, _, _, _, _, _, _, _, _, _, _], [_, _, _, _, _, X, _, _, _, _, O], [O, _, _, _, _, X, X, _, _, _, O], [O, O, A, _, X, _, X, X, _, _, O], [_, _, O, _, _, X, X, _, _, _, O], [O, _, _, _, _, X, _, _, _, _, _], [_, _, _, _, _, _, _, _, _, _, _], [_, O, _, _, _, _, _, _, _, _, _], [_, _, _, O, O, O, O, _, O, _, _]], 12), [_HnefataflMove__WEBPACK_IMPORTED_MODULE_0__.HnefataflMove.from(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(3, 0), new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(3, 5)).get(), _HnefataflMove__WEBPACK_IMPORTED_MODULE_0__.HnefataflMove.from(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(3, 10), new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(3, 5)).get()], $localize`Congratulations, one less defender. But keep an eye on the king, it is the most important.`, $localize`Failed, you did not do the expected move.`), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_3__.TutorialStep.fromMove($localize`Capturing the king` + ' (1/2)', $localize`To capture the king, two soldiers are not enough. For the first solution, the four squares neighbor to the king (horizontally and vertically) must be occupied by your soldiers. This also works if the king is on the throne.<br/><br/>You're playing Dark, capture the king.`, new _TaflState__WEBPACK_IMPORTED_MODULE_5__.TaflState([[_, _, _, _, _, _, _, _, _, _, _], [_, _, _, _, _, _, _, _, _, _, _], [_, _, _, _, _, _, _, _, _, _, _], [_, O, _, _, _, _, _, _, _, _, _], [O, A, _, O, _, _, _, _, _, _, _], [_, O, _, _, _, _, _, _, _, _, _], [_, _, _, _, _, _, _, _, _, _, _], [_, _, _, _, _, _, _, _, _, _, _], [_, _, _, _, _, _, _, _, _, _, _], [_, _, _, _, _, _, _, _, _, _, _], [_, _, _, _, _, _, _, _, _, _, _]], 72), [_HnefataflMove__WEBPACK_IMPORTED_MODULE_0__.HnefataflMove.from(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(3, 4), new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(2, 4)).get()], _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.CONGRATULATIONS_YOU_WON(), $localize`Failed, you let the king run away.`), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_3__.TutorialStep.fromMove($localize`Capturing the king` + ' (2/2)', $localize`Another way to capture the king is to immobilize it against an edge of the board. Note that the king cannot be captured next to a throne.<br/><br/>You're playing Dark, capture the king.`, new _TaflState__WEBPACK_IMPORTED_MODULE_5__.TaflState([[_, _, O, A, O, _, _, _, _, _, _], [_, _, _, _, _, _, X, _, _, _, _], [_, _, _, _, _, _, _, _, _, _, _], [_, _, _, O, _, _, _, _, _, _, _], [_, _, _, _, _, _, _, _, _, _, _], [_, _, _, _, _, _, _, _, _, _, _], [_, _, _, _, _, _, _, _, _, _, _], [_, _, _, _, _, _, _, _, _, _, _], [_, _, _, _, _, _, _, _, _, _, _], [_, _, _, _, _, _, _, _, _, _, _], [_, _, _, _, _, _, _, _, _, _, _]], 72), [_HnefataflMove__WEBPACK_IMPORTED_MODULE_0__.HnefataflMove.from(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(3, 3), new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(3, 1)).get()], $localize`The king is dead, long live the king. Congratulations, you won.`, _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.FAILED_TRY_AGAIN())];
 }
 
 /***/ }),
@@ -53987,10 +53987,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   HnefataflComponent: () => (/* binding */ HnefataflComponent)
 /* harmony export */ });
-/* harmony import */ var src_app_games_tafl_hnefatafl_HnefataflMove__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! src/app/games/tafl/hnefatafl/HnefataflMove */ 30712);
+/* harmony import */ var _HnefataflMove__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./HnefataflMove */ 30712);
 /* harmony import */ var _tafl_component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../tafl.component */ 42700);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/core */ 37580);
-/* harmony import */ var src_app_services_MessageDisplayer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/services/MessageDisplayer */ 78055);
+/* harmony import */ var _services_MessageDisplayer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../services/MessageDisplayer */ 78055);
 /* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/common */ 60316);
 
 
@@ -54186,13 +54186,13 @@ function HnefataflComponent__svg_g_2_Template(rf, ctx) {
 }
 class HnefataflComponent extends _tafl_component__WEBPACK_IMPORTED_MODULE_1__.TaflComponent {
   constructor(messageDisplayer, cdr) {
-    super(messageDisplayer, cdr, src_app_games_tafl_hnefatafl_HnefataflMove__WEBPACK_IMPORTED_MODULE_0__.HnefataflMove.from);
+    super(messageDisplayer, cdr, _HnefataflMove__WEBPACK_IMPORTED_MODULE_0__.HnefataflMove.from);
     this.setRulesAndNode('Hnefatafl');
     this.availableAIs = this.createAIs();
-    this.encoder = src_app_games_tafl_hnefatafl_HnefataflMove__WEBPACK_IMPORTED_MODULE_0__.HnefataflMove.encoder;
+    this.encoder = _HnefataflMove__WEBPACK_IMPORTED_MODULE_0__.HnefataflMove.encoder;
   }
   static ɵfac = function HnefataflComponent_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || HnefataflComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵdirectiveInject"](src_app_services_MessageDisplayer__WEBPACK_IMPORTED_MODULE_2__.MessageDisplayer), _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_3__.ChangeDetectorRef));
+    return new (__ngFactoryType__ || HnefataflComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵdirectiveInject"](_services_MessageDisplayer__WEBPACK_IMPORTED_MODULE_2__.MessageDisplayer), _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_3__.ChangeDetectorRef));
   };
   static ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵdefineComponent"]({
     type: HnefataflComponent,
@@ -54233,7 +54233,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   TablutMove: () => (/* binding */ TablutMove)
 /* harmony export */ });
-/* harmony import */ var src_app_jscaip_MoveWithTwoCoords__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! src/app/jscaip/MoveWithTwoCoords */ 71758);
+/* harmony import */ var _jscaip_MoveWithTwoCoords__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../jscaip/MoveWithTwoCoords */ 71758);
 /* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @everyboard/lib */ 65042);
 /* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _TaflMove__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../TaflMove */ 93296);
@@ -54241,7 +54241,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 class TablutMove extends _TaflMove__WEBPACK_IMPORTED_MODULE_2__.TaflMove {
-  static encoder = src_app_jscaip_MoveWithTwoCoords__WEBPACK_IMPORTED_MODULE_0__.MoveWithTwoCoords.getFallibleEncoder(TablutMove.from);
+  static encoder = _jscaip_MoveWithTwoCoords__WEBPACK_IMPORTED_MODULE_0__.MoveWithTwoCoords.getFallibleEncoder(TablutMove.from);
   static from(start, end) {
     const validity = _TaflMove__WEBPACK_IMPORTED_MODULE_2__.TaflMove.isValidDirection(start, end);
     if (validity.isFailure()) {
@@ -54272,7 +54272,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @everyboard/lib */ 65042);
 /* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _TaflRules__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../TaflRules */ 30394);
-/* harmony import */ var src_app_components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/components/wrapper-components/rules-configuration/RulesConfigDescription */ 62692);
+/* harmony import */ var _components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../components/wrapper-components/rules-configuration/RulesConfigDescription */ 62692);
 /* harmony import */ var _TaflPawn__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../TaflPawn */ 86363);
 /* harmony import */ var _TaflState__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../TaflState */ 30808);
 
@@ -54284,14 +54284,14 @@ __webpack_require__.r(__webpack_exports__);
 class TablutNode extends _TaflRules__WEBPACK_IMPORTED_MODULE_2__.TaflNode {}
 class TablutRules extends _TaflRules__WEBPACK_IMPORTED_MODULE_2__.TaflRules {
   static singleton = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
-  static RULES_CONFIG_DESCRIPTION = new src_app_components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_3__.RulesConfigDescription({
+  static RULES_CONFIG_DESCRIPTION = new _components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_3__.RulesConfigDescription({
     name: () => $localize`Tablut`,
     config: {
-      canReturnToCastle: new src_app_components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_3__.BooleanConfig(true, _TaflRules__WEBPACK_IMPORTED_MODULE_2__.TaflRules.CAN_RETURN_TO_CASTLE),
-      edgesAreKingsEnnemy: new src_app_components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_3__.BooleanConfig(true, _TaflRules__WEBPACK_IMPORTED_MODULE_2__.TaflRules.EDGE_ARE_KING_S_ENNEMY),
-      centralThroneCanSurroundKing: new src_app_components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_3__.BooleanConfig(false, _TaflRules__WEBPACK_IMPORTED_MODULE_2__.TaflRules.CENTRAL_THRONE_CAN_SURROUND_KING),
-      kingFarFromHomeCanBeSandwiched: new src_app_components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_3__.BooleanConfig(false, _TaflRules__WEBPACK_IMPORTED_MODULE_2__.TaflRules.KING_FAR_FROM_HOME_CAN_BE_SANDWICHED),
-      invaderStarts: new src_app_components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_3__.BooleanConfig(true, _TaflRules__WEBPACK_IMPORTED_MODULE_2__.TaflRules.INVADER_STARTS)
+      canReturnToCastle: new _components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_3__.BooleanConfig(true, _TaflRules__WEBPACK_IMPORTED_MODULE_2__.TaflRules.CAN_RETURN_TO_CASTLE),
+      edgesAreKingsEnnemy: new _components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_3__.BooleanConfig(true, _TaflRules__WEBPACK_IMPORTED_MODULE_2__.TaflRules.EDGE_ARE_KING_S_ENNEMY),
+      centralThroneCanSurroundKing: new _components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_3__.BooleanConfig(false, _TaflRules__WEBPACK_IMPORTED_MODULE_2__.TaflRules.CENTRAL_THRONE_CAN_SURROUND_KING),
+      kingFarFromHomeCanBeSandwiched: new _components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_3__.BooleanConfig(false, _TaflRules__WEBPACK_IMPORTED_MODULE_2__.TaflRules.KING_FAR_FROM_HOME_CAN_BE_SANDWICHED),
+      invaderStarts: new _components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_3__.BooleanConfig(true, _TaflRules__WEBPACK_IMPORTED_MODULE_2__.TaflRules.INVADER_STARTS)
     }
   });
   static get() {
@@ -54333,13 +54333,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   TablutTutorial: () => (/* binding */ TablutTutorial)
 /* harmony export */ });
-/* harmony import */ var src_app_games_tafl_tablut_TablutMove__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! src/app/games/tafl/tablut/TablutMove */ 42330);
-/* harmony import */ var src_app_games_tafl_TaflPawn__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/games/tafl/TaflPawn */ 86363);
-/* harmony import */ var src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/jscaip/Coord */ 16904);
+/* harmony import */ var _TablutMove__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TablutMove */ 42330);
+/* harmony import */ var _TaflPawn__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../TaflPawn */ 86363);
+/* harmony import */ var _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../jscaip/Coord */ 16904);
 /* harmony import */ var _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../components/wrapper-components/tutorial-game-wrapper/TutorialStep */ 62518);
 /* harmony import */ var _TablutRules__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./TablutRules */ 11552);
 /* harmony import */ var _TaflState__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../TaflState */ 30808);
-/* harmony import */ var src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/app/components/wrapper-components/tutorial-game-wrapper/TutorialStepMessage */ 36695);
+/* harmony import */ var _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../components/wrapper-components/tutorial-game-wrapper/TutorialStepMessage */ 36695);
 
 
 
@@ -54347,13 +54347,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const _ = src_app_games_tafl_TaflPawn__WEBPACK_IMPORTED_MODULE_1__.TaflPawn.UNOCCUPIED;
-const x = src_app_games_tafl_TaflPawn__WEBPACK_IMPORTED_MODULE_1__.TaflPawn.PLAYER_ZERO_PAWN;
-const i = src_app_games_tafl_TaflPawn__WEBPACK_IMPORTED_MODULE_1__.TaflPawn.PLAYER_ONE_PAWN;
-const A = src_app_games_tafl_TaflPawn__WEBPACK_IMPORTED_MODULE_1__.TaflPawn.PLAYER_ONE_KING;
+const _ = _TaflPawn__WEBPACK_IMPORTED_MODULE_1__.TaflPawn.UNOCCUPIED;
+const x = _TaflPawn__WEBPACK_IMPORTED_MODULE_1__.TaflPawn.PLAYER_ZERO_PAWN;
+const i = _TaflPawn__WEBPACK_IMPORTED_MODULE_1__.TaflPawn.PLAYER_ONE_PAWN;
+const A = _TaflPawn__WEBPACK_IMPORTED_MODULE_1__.TaflPawn.PLAYER_ONE_KING;
 const defaultConfig = _TablutRules__WEBPACK_IMPORTED_MODULE_4__.TablutRules.get().getDefaultRulesConfig();
 class TablutTutorial extends _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_3__.Tutorial {
-  tutorial = [_components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_3__.TutorialStep.informational(src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`Tablut is the lapland version of the Tafl, Tafl being a family of viking strategy game. The object of the game is different for each player. The attacker plays first. Its pieces (dark) are close to the edges. Its goal is to capture the king, which is in the center of the board. The defender plays second. Its pieces (light) are in the middle. Its goal is to move the king on one of the 4 thrones in the corners. Note that the square in which the king starts, in the center of the board, is also a throne.`, _TablutRules__WEBPACK_IMPORTED_MODULE_4__.TablutRules.get().getInitialState(defaultConfig)), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_3__.TutorialStep.anyMove($localize`Moving`, $localize`All pieces move the same way. Similarly to a rook in chess, a piece can move:<ol><li>By as many squares as you want.</li><li>Without going over another piece or stopping on another piece.</li><li>Horizontally or vertically.</li><li>Only the king can land on a throne.</li></ol>To move a piece, click on it and then on its landing square.<br/><br/>You're playing Dark, do the first move.`, _TablutRules__WEBPACK_IMPORTED_MODULE_4__.TablutRules.get().getInitialState(defaultConfig), src_app_games_tafl_tablut_TablutMove__WEBPACK_IMPORTED_MODULE_0__.TablutMove.from(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(4, 1), new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(1, 1)).get(), src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.CONGRATULATIONS()), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_3__.TutorialStep.fromMove($localize`Capturing a soldier` + ' (1/2)', $localize`All pieces, attackers and defenders, except the king, are soldiers. To capture them, they have to be sandwiched between two of your pieces. By getting too close, an attacker's soldier is in danger.<br/><br/>You're playing Light. Capture the soldier.`, new _TaflState__WEBPACK_IMPORTED_MODULE_5__.TaflState([[_, _, _, x, x, x, _, _, _], [_, _, _, _, x, _, _, _, _], [_, _, _, _, i, _, _, _, _], [_, _, _, x, i, _, _, _, x], [x, x, i, i, A, i, i, x, x], [_, _, _, _, i, _, _, _, x], [_, _, _, _, i, _, _, _, _], [_, _, _, _, x, _, _, _, _], [_, _, _, x, x, x, _, _, _]], 1), [src_app_games_tafl_tablut_TablutMove__WEBPACK_IMPORTED_MODULE_0__.TablutMove.from(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(2, 4), new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(2, 3)).get(), src_app_games_tafl_tablut_TablutMove__WEBPACK_IMPORTED_MODULE_0__.TablutMove.from(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(4, 2), new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(3, 2)).get()], $localize`Congratulations, that will teach him a lesson!`, $localize`Failed, you missed an opportunity to capture a piece of the opponent.`), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_3__.TutorialStep.fromMove($localize`Capturing a soldier` + ' (2/2)', $localize`A second way to capture a soldier is to sandwich it against an empty throne. The king has moved and endangered one of its soldiers.<br/><br/>You're playing Dark. Capture the soldier.`, new _TaflState__WEBPACK_IMPORTED_MODULE_5__.TaflState([[_, _, _, x, x, x, _, _, _], [_, _, _, _, x, _, _, _, _], [_, _, _, _, i, _, _, _, _], [_, _, i, _, A, _, i, _, x], [x, x, _, i, _, i, i, x, x], [_, _, _, _, i, _, _, _, x], [_, _, _, _, i, _, _, _, _], [_, _, _, _, x, _, _, _, _], [_, _, _, x, x, x, _, _, _]], 12), [src_app_games_tafl_tablut_TablutMove__WEBPACK_IMPORTED_MODULE_0__.TablutMove.from(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(1, 4), new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(2, 4)).get()], $localize`Congratulations, one less defender. But keep an eye on the king, it is the most important.`, $localize`Failed, you did not do the expected move.`), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_3__.TutorialStep.fromMove($localize`Capturing the king` + ' (1/2)', $localize`To capture the king, two soldiers are not enough. For the first solution, the four squares neighbor to the king (horizontally and vertically) must be occupied by your soldiers. This also works if the king is on the throne.<br/><br/>You're playing Dark, capture the king.`, new _TaflState__WEBPACK_IMPORTED_MODULE_5__.TaflState([[_, _, _, _, _, _, _, _, _], [_, _, _, _, _, _, _, _, _], [_, _, _, _, _, _, _, _, _], [_, x, _, _, _, _, _, _, _], [x, A, _, x, _, _, _, _, _], [_, x, _, _, _, _, _, _, _], [_, _, _, _, _, _, _, _, _], [_, _, _, _, _, _, _, _, _], [_, _, _, _, _, _, _, _, _]], 72), [src_app_games_tafl_tablut_TablutMove__WEBPACK_IMPORTED_MODULE_0__.TablutMove.from(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(3, 4), new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(2, 4)).get()], src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.CONGRATULATIONS_YOU_WON(), $localize`Failed, you let the king run away.`), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_3__.TutorialStep.fromMove($localize`Capturing the king` + ' (2/2)', $localize`Another way to capture the king is to immobilize it against an edge of the board. Note that the king cannot be captured next to a throne.<br/><br/>You're playing Dark, capture the king.`, new _TaflState__WEBPACK_IMPORTED_MODULE_5__.TaflState([[_, _, x, A, x, _, _, _, _], [_, _, _, _, _, _, _, _, _], [_, _, _, _, _, _, _, _, _], [_, _, _, x, _, _, _, _, _], [_, _, _, _, _, _, _, _, _], [_, _, _, _, _, _, _, _, _], [_, _, _, _, _, _, _, _, _], [_, _, _, _, _, _, _, _, _], [_, _, _, _, _, _, _, _, _]], 72), [src_app_games_tafl_tablut_TablutMove__WEBPACK_IMPORTED_MODULE_0__.TablutMove.from(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(3, 3), new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(3, 1)).get()], $localize`The king is dead, long live the king. Congratulations, you won.`, src_app_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.FAILED_TRY_AGAIN())];
+  tutorial = [_components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_3__.TutorialStep.informational(_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`Tablut is the lapland version of the Tafl, Tafl being a family of viking strategy game. The object of the game is different for each player. The attacker plays first. Its pieces (dark) are close to the edges. Its goal is to capture the king, which is in the center of the board. The defender plays second. Its pieces (light) are in the middle. Its goal is to move the king on one of the 4 thrones in the corners. Note that the square in which the king starts, in the center of the board, is also a throne.`, _TablutRules__WEBPACK_IMPORTED_MODULE_4__.TablutRules.get().getInitialState(defaultConfig)), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_3__.TutorialStep.anyMove($localize`Moving`, $localize`All pieces move the same way. Similarly to a rook in chess, a piece can move:<ol><li>By as many squares as you want.</li><li>Without going over another piece or stopping on another piece.</li><li>Horizontally or vertically.</li><li>Only the king can land on a throne.</li></ol>To move a piece, click on it and then on its landing square.<br/><br/>You're playing Dark, do the first move.`, _TablutRules__WEBPACK_IMPORTED_MODULE_4__.TablutRules.get().getInitialState(defaultConfig), _TablutMove__WEBPACK_IMPORTED_MODULE_0__.TablutMove.from(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(4, 1), new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(1, 1)).get(), _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.CONGRATULATIONS()), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_3__.TutorialStep.fromMove($localize`Capturing a soldier` + ' (1/2)', $localize`All pieces, attackers and defenders, except the king, are soldiers. To capture them, they have to be sandwiched between two of your pieces. By getting too close, an attacker's soldier is in danger.<br/><br/>You're playing Light. Capture the soldier.`, new _TaflState__WEBPACK_IMPORTED_MODULE_5__.TaflState([[_, _, _, x, x, x, _, _, _], [_, _, _, _, x, _, _, _, _], [_, _, _, _, i, _, _, _, _], [_, _, _, x, i, _, _, _, x], [x, x, i, i, A, i, i, x, x], [_, _, _, _, i, _, _, _, x], [_, _, _, _, i, _, _, _, _], [_, _, _, _, x, _, _, _, _], [_, _, _, x, x, x, _, _, _]], 1), [_TablutMove__WEBPACK_IMPORTED_MODULE_0__.TablutMove.from(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(2, 4), new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(2, 3)).get(), _TablutMove__WEBPACK_IMPORTED_MODULE_0__.TablutMove.from(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(4, 2), new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(3, 2)).get()], $localize`Congratulations, that will teach him a lesson!`, $localize`Failed, you missed an opportunity to capture a piece of the opponent.`), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_3__.TutorialStep.fromMove($localize`Capturing a soldier` + ' (2/2)', $localize`A second way to capture a soldier is to sandwich it against an empty throne. The king has moved and endangered one of its soldiers.<br/><br/>You're playing Dark. Capture the soldier.`, new _TaflState__WEBPACK_IMPORTED_MODULE_5__.TaflState([[_, _, _, x, x, x, _, _, _], [_, _, _, _, x, _, _, _, _], [_, _, _, _, i, _, _, _, _], [_, _, i, _, A, _, i, _, x], [x, x, _, i, _, i, i, x, x], [_, _, _, _, i, _, _, _, x], [_, _, _, _, i, _, _, _, _], [_, _, _, _, x, _, _, _, _], [_, _, _, x, x, x, _, _, _]], 12), [_TablutMove__WEBPACK_IMPORTED_MODULE_0__.TablutMove.from(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(1, 4), new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(2, 4)).get()], $localize`Congratulations, one less defender. But keep an eye on the king, it is the most important.`, $localize`Failed, you did not do the expected move.`), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_3__.TutorialStep.fromMove($localize`Capturing the king` + ' (1/2)', $localize`To capture the king, two soldiers are not enough. For the first solution, the four squares neighbor to the king (horizontally and vertically) must be occupied by your soldiers. This also works if the king is on the throne.<br/><br/>You're playing Dark, capture the king.`, new _TaflState__WEBPACK_IMPORTED_MODULE_5__.TaflState([[_, _, _, _, _, _, _, _, _], [_, _, _, _, _, _, _, _, _], [_, _, _, _, _, _, _, _, _], [_, x, _, _, _, _, _, _, _], [x, A, _, x, _, _, _, _, _], [_, x, _, _, _, _, _, _, _], [_, _, _, _, _, _, _, _, _], [_, _, _, _, _, _, _, _, _], [_, _, _, _, _, _, _, _, _]], 72), [_TablutMove__WEBPACK_IMPORTED_MODULE_0__.TablutMove.from(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(3, 4), new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(2, 4)).get()], _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.CONGRATULATIONS_YOU_WON(), $localize`Failed, you let the king run away.`), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_3__.TutorialStep.fromMove($localize`Capturing the king` + ' (2/2)', $localize`Another way to capture the king is to immobilize it against an edge of the board. Note that the king cannot be captured next to a throne.<br/><br/>You're playing Dark, capture the king.`, new _TaflState__WEBPACK_IMPORTED_MODULE_5__.TaflState([[_, _, x, A, x, _, _, _, _], [_, _, _, _, _, _, _, _, _], [_, _, _, _, _, _, _, _, _], [_, _, _, x, _, _, _, _, _], [_, _, _, _, _, _, _, _, _], [_, _, _, _, _, _, _, _, _], [_, _, _, _, _, _, _, _, _], [_, _, _, _, _, _, _, _, _], [_, _, _, _, _, _, _, _, _]], 72), [_TablutMove__WEBPACK_IMPORTED_MODULE_0__.TablutMove.from(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(3, 3), new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(3, 1)).get()], $localize`The king is dead, long live the king. Congratulations, you won.`, _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.FAILED_TRY_AGAIN())];
 }
 
 /***/ }),
@@ -54368,10 +54368,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   TablutComponent: () => (/* binding */ TablutComponent)
 /* harmony export */ });
-/* harmony import */ var src_app_games_tafl_tablut_TablutMove__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! src/app/games/tafl/tablut/TablutMove */ 42330);
+/* harmony import */ var _TablutMove__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TablutMove */ 42330);
 /* harmony import */ var _tafl_component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../tafl.component */ 42700);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/core */ 37580);
-/* harmony import */ var src_app_services_MessageDisplayer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/services/MessageDisplayer */ 78055);
+/* harmony import */ var _services_MessageDisplayer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../services/MessageDisplayer */ 78055);
 /* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/common */ 60316);
 
 
@@ -54567,13 +54567,13 @@ function TablutComponent__svg_g_2_Template(rf, ctx) {
 }
 class TablutComponent extends _tafl_component__WEBPACK_IMPORTED_MODULE_1__.TaflComponent {
   constructor(messageDisplayer, cdr) {
-    super(messageDisplayer, cdr, src_app_games_tafl_tablut_TablutMove__WEBPACK_IMPORTED_MODULE_0__.TablutMove.from);
+    super(messageDisplayer, cdr, _TablutMove__WEBPACK_IMPORTED_MODULE_0__.TablutMove.from);
     this.setRulesAndNode('Tablut');
     this.availableAIs = this.createAIs();
-    this.encoder = src_app_games_tafl_tablut_TablutMove__WEBPACK_IMPORTED_MODULE_0__.TablutMove.encoder;
+    this.encoder = _TablutMove__WEBPACK_IMPORTED_MODULE_0__.TablutMove.encoder;
   }
   static ɵfac = function TablutComponent_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || TablutComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵdirectiveInject"](src_app_services_MessageDisplayer__WEBPACK_IMPORTED_MODULE_2__.MessageDisplayer), _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_3__.ChangeDetectorRef));
+    return new (__ngFactoryType__ || TablutComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵdirectiveInject"](_services_MessageDisplayer__WEBPACK_IMPORTED_MODULE_2__.MessageDisplayer), _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_3__.ChangeDetectorRef));
   };
   static ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵdefineComponent"]({
     type: TablutComponent,
@@ -54617,21 +54617,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 89204);
 /* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @everyboard/lib */ 65042);
 /* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var src_app_components_game_components_rectangular_game_component_RectangularGameComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/components/game-components/rectangular-game-component/RectangularGameComponent */ 96740);
-/* harmony import */ var src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/jscaip/Coord */ 16904);
-/* harmony import */ var src_app_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/jscaip/Orthogonal */ 99342);
-/* harmony import */ var src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/jscaip/Player */ 22092);
-/* harmony import */ var src_app_jscaip_RelativePlayer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/app/jscaip/RelativePlayer */ 72100);
-/* harmony import */ var src_app_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! src/app/jscaip/RulesFailure */ 68566);
+/* harmony import */ var _components_game_components_rectangular_game_component_RectangularGameComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../components/game-components/rectangular-game-component/RectangularGameComponent */ 96740);
+/* harmony import */ var _jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../jscaip/Coord */ 16904);
+/* harmony import */ var _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../jscaip/Orthogonal */ 99342);
+/* harmony import */ var _jscaip_Player__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../jscaip/Player */ 22092);
+/* harmony import */ var _jscaip_RelativePlayer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../jscaip/RelativePlayer */ 72100);
+/* harmony import */ var _jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../jscaip/RulesFailure */ 68566);
 /* harmony import */ var _TaflPawn__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./TaflPawn */ 86363);
 /* harmony import */ var _TaflMoveGenerator__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./TaflMoveGenerator */ 45895);
-/* harmony import */ var src_app_jscaip_AI_MCTS__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! src/app/jscaip/AI/MCTS */ 37123);
+/* harmony import */ var _jscaip_AI_MCTS__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../jscaip/AI/MCTS */ 37123);
 /* harmony import */ var _TaflPieceAndInfluenceMinimax__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./TaflPieceAndInfluenceMinimax */ 49116);
 /* harmony import */ var _TaflPieceMinimax__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./TaflPieceMinimax */ 87012);
 /* harmony import */ var _TaflPieceAndControlMinimax__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./TaflPieceAndControlMinimax */ 66742);
 /* harmony import */ var _TaflEscapeThenPieceThenControlMinimax__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./TaflEscapeThenPieceThenControlMinimax */ 71312);
-/* harmony import */ var src_app_jscaip_PlayerMap__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! src/app/jscaip/PlayerMap */ 95208);
-/* harmony import */ var src_app_components_game_components_game_component_GameComponent__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! src/app/components/game-components/game-component/GameComponent */ 58047);
+/* harmony import */ var _jscaip_PlayerMap__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../jscaip/PlayerMap */ 95208);
+/* harmony import */ var _components_game_components_game_component_GameComponent__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../../components/game-components/game-component/GameComponent */ 58047);
 
 
 
@@ -54649,7 +54649,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class TaflComponent extends src_app_components_game_components_rectangular_game_component_RectangularGameComponent__WEBPACK_IMPORTED_MODULE_2__.RectangularGameComponent {
+class TaflComponent extends _components_game_components_rectangular_game_component_RectangularGameComponent__WEBPACK_IMPORTED_MODULE_2__.RectangularGameComponent {
   generateMove;
   viewInfo = {
     pieceClasses: []
@@ -54672,23 +54672,23 @@ class TaflComponent extends src_app_components_game_components_rectangular_game_
   }
   updateScores() {
     const state = this.getState();
-    const scoreZero = this.rules.getPlayerListPawns(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_5__.Player.ZERO, state).length;
-    const scoreOne = this.rules.getPlayerListPawns(src_app_jscaip_Player__WEBPACK_IMPORTED_MODULE_5__.Player.ONE, state).length;
-    this.scores = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(src_app_jscaip_PlayerMap__WEBPACK_IMPORTED_MODULE_15__.PlayerNumberMap.of(scoreZero, scoreOne));
+    const scoreZero = this.rules.getPlayerListPawns(_jscaip_Player__WEBPACK_IMPORTED_MODULE_5__.Player.ZERO, state).length;
+    const scoreOne = this.rules.getPlayerListPawns(_jscaip_Player__WEBPACK_IMPORTED_MODULE_5__.Player.ONE, state).length;
+    this.scores = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(_jscaip_PlayerMap__WEBPACK_IMPORTED_MODULE_15__.PlayerNumberMap.of(scoreZero, scoreOne));
   }
   getScoreName() {
-    return src_app_components_game_components_game_component_GameComponent__WEBPACK_IMPORTED_MODULE_16__.ScoreName.REMAINING_PIECES;
+    return _components_game_components_game_component_GameComponent__WEBPACK_IMPORTED_MODULE_16__.ScoreName.REMAINING_PIECES;
   }
   showLastMove(move) {
     var _this2 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       const previousState = _this2.getPreviousState();
       const opponent = _this2.getState().getCurrentOpponent();
-      for (const orthogonal of src_app_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_4__.Orthogonal.ORTHOGONALS) {
+      for (const orthogonal of _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_4__.Orthogonal.ORTHOGONALS) {
         const captured = move.getEnd().getNext(orthogonal, 1);
         if (previousState.isOnBoard(captured)) {
           const previousOwner = previousState.getRelativeOwner(opponent, captured);
-          const wasOpponent = previousOwner === src_app_jscaip_RelativePlayer__WEBPACK_IMPORTED_MODULE_6__.RelativePlayer.OPPONENT;
+          const wasOpponent = previousOwner === _jscaip_RelativePlayer__WEBPACK_IMPORTED_MODULE_6__.RelativePlayer.OPPONENT;
           const currentPiece = _this2.getState().getPieceAt(captured);
           const isEmpty = currentPiece === _TaflPawn__WEBPACK_IMPORTED_MODULE_8__.TaflPawn.UNOCCUPIED;
           if (wasOpponent && isEmpty) {
@@ -54730,7 +54730,7 @@ class TaflComponent extends src_app_components_game_components_rectangular_game_
       if (clickValidity.isFailure()) {
         return _this3.cancelMove(clickValidity.getReason());
       }
-      const clicked = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(x, y);
+      const clicked = new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(x, y);
       if (_this3.chosen.equalsValue(clicked)) {
         return _this3.cancelMove();
       }
@@ -54745,7 +54745,7 @@ class TaflComponent extends src_app_components_game_components_rectangular_game_
     var _this4 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       const chosenPiece = _this4.chosen.get();
-      const chosenDestination = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(x, y);
+      const chosenDestination = new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(x, y);
       const move = _this4.generateMove(chosenPiece, chosenDestination);
       if (move.isSuccess()) {
         return yield _this4.chooseMove(move.get());
@@ -54758,10 +54758,10 @@ class TaflComponent extends src_app_components_game_components_rectangular_game_
     var _this5 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       if (_this5.board[coord.y][coord.x] === _TaflPawn__WEBPACK_IMPORTED_MODULE_8__.TaflPawn.UNOCCUPIED) {
-        return _this5.cancelMove(src_app_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_7__.RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_EMPTY());
+        return _this5.cancelMove(_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_7__.RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_EMPTY());
       }
       if (_this5.pieceBelongsToCurrentPlayer(coord) === false) {
-        return _this5.cancelMove(src_app_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_7__.RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
+        return _this5.cancelMove(_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_7__.RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
       }
       _this5.chosen = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(coord);
       _this5.updateViewInfo();
@@ -54771,7 +54771,7 @@ class TaflComponent extends src_app_components_game_components_rectangular_game_
   pieceBelongsToCurrentPlayer(coord) {
     const state = this.getState();
     const player = state.getCurrentPlayer();
-    return state.getRelativeOwner(player, coord) === src_app_jscaip_RelativePlayer__WEBPACK_IMPORTED_MODULE_6__.RelativePlayer.PLAYER;
+    return state.getRelativeOwner(player, coord) === _jscaip_RelativePlayer__WEBPACK_IMPORTED_MODULE_6__.RelativePlayer.PLAYER;
   }
   cancelMoveAttempt() {
     this.chosen = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
@@ -54779,14 +54779,14 @@ class TaflComponent extends src_app_components_game_components_rectangular_game_
   }
   isThrone(x, y) {
     const state = this.getState();
-    return this.rules.isThrone(state, new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(x, y));
+    return this.rules.isThrone(state, new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(x, y));
   }
   isCentralThrone(x, y) {
-    return this.getState().isCentralThrone(new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(x, y));
+    return this.getState().isCentralThrone(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(x, y));
   }
   getPieceClasses(x, y) {
     const classes = [];
-    const coord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(x, y);
+    const coord = new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(x, y);
     const owner = this.getState().getAbsoluteOwner(coord);
     classes.push(this.getPlayerClass(owner));
     if (this.chosen.equalsValue(coord)) {
@@ -54796,7 +54796,7 @@ class TaflComponent extends src_app_components_game_components_rectangular_game_
   }
   getRectClasses(x, y) {
     const classes = [];
-    const coord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(x, y);
+    const coord = new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(x, y);
     if (this.capturedCoords.some(c => c.equals(coord))) {
       classes.push('captured-fill');
     } else if (this.passedByCoords.some(c => c.equals(coord))) {
@@ -54821,7 +54821,7 @@ class TaflComponent extends src_app_components_game_components_rectangular_game_
     const coords = [];
     for (let y = 0; y < this.getHeight(); y++) {
       for (let x = 0; x < this.board[y].length; x++) {
-        const coord = new src_app_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(x, y);
+        const coord = new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(x, y);
         if (this.pieceBelongsToCurrentPlayer(coord)) {
           coords.push(coord);
         }
@@ -54837,7 +54837,7 @@ class TaflComponent extends src_app_components_game_components_rectangular_game_
   }
   createAIs() {
     const moveGenerator = new _TaflMoveGenerator__WEBPACK_IMPORTED_MODULE_9__.TaflMoveGenerator(this.rules);
-    return [new _TaflPieceMinimax__WEBPACK_IMPORTED_MODULE_12__.TaflPieceMinimax(this.rules), new _TaflPieceAndInfluenceMinimax__WEBPACK_IMPORTED_MODULE_11__.TaflPieceAndInfluenceMinimax(this.rules), new _TaflPieceAndControlMinimax__WEBPACK_IMPORTED_MODULE_13__.TaflPieceAndControlMinimax(this.rules), new _TaflEscapeThenPieceThenControlMinimax__WEBPACK_IMPORTED_MODULE_14__.TaflEscapeThenPieceThenControlMinimax(this.rules), new src_app_jscaip_AI_MCTS__WEBPACK_IMPORTED_MODULE_10__.MCTS($localize`MCTS`, moveGenerator, this.rules)];
+    return [new _TaflPieceMinimax__WEBPACK_IMPORTED_MODULE_12__.TaflPieceMinimax(this.rules), new _TaflPieceAndInfluenceMinimax__WEBPACK_IMPORTED_MODULE_11__.TaflPieceAndInfluenceMinimax(this.rules), new _TaflPieceAndControlMinimax__WEBPACK_IMPORTED_MODULE_13__.TaflPieceAndControlMinimax(this.rules), new _TaflEscapeThenPieceThenControlMinimax__WEBPACK_IMPORTED_MODULE_14__.TaflEscapeThenPieceThenControlMinimax(this.rules), new _jscaip_AI_MCTS__WEBPACK_IMPORTED_MODULE_10__.MCTS($localize`MCTS`, moveGenerator, this.rules)];
   }
 }
 
@@ -62721,7 +62721,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   BackendService: () => (/* binding */ BackendService)
 /* harmony export */ });
 /* harmony import */ var _home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 89204);
-/* harmony import */ var src_environments_environment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/environments/environment */ 45312);
+/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../environments/environment */ 45312);
 /* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @everyboard/lib */ 65042);
 /* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_2__);
 
@@ -62736,7 +62736,7 @@ class BackendService {
     var _this = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       const token = yield _this.connectedUserService.getIdToken();
-      const response = yield fetch(src_environments_environment__WEBPACK_IMPORTED_MODULE_1__.environment.backendURL + '/' + endpoint, {
+      const response = yield fetch(_environments_environment__WEBPACK_IMPORTED_MODULE_1__.environment.backendURL + '/' + endpoint, {
         method,
         headers: {
           'Authorization': 'Bearer ' + token
