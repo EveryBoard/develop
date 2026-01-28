@@ -36052,10 +36052,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   AwaleRules: () => (/* binding */ AwaleRules)
 /* harmony export */ });
-/* harmony import */ var _jscaip_Coord__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../jscaip/Coord */ 16904);
-/* harmony import */ var _jscaip_Player__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../jscaip/Player */ 22092);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @everyboard/lib */ 65042);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @everyboard/lib */ 65042);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../jscaip/Coord */ 16904);
+/* harmony import */ var _jscaip_Player__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../jscaip/Player */ 22092);
 /* harmony import */ var _common_MancalaRules__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../common/MancalaRules */ 60558);
 /* harmony import */ var _utils_MGPValidator__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../utils/MGPValidator */ 52248);
 /* harmony import */ var _components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../components/wrapper-components/rules-configuration/RulesConfigDescription */ 62692);
@@ -36068,7 +36068,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 class AwaleRules extends _common_MancalaRules__WEBPACK_IMPORTED_MODULE_3__.MancalaRules {
-  static singleton = _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPOptional.empty();
+  static singleton = _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.empty();
   static RULES_CONFIG_DESCRIPTION = new _components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_5__.RulesConfigDescription({
     name: () => $localize`Awalé`,
     config: {
@@ -36083,12 +36083,12 @@ class AwaleRules extends _common_MancalaRules__WEBPACK_IMPORTED_MODULE_3__.Manca
   });
   static get() {
     if (AwaleRules.singleton.isAbsent()) {
-      AwaleRules.singleton = _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPOptional.of(new AwaleRules([2, 3]));
+      AwaleRules.singleton = _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.of(new AwaleRules([2, 3]));
     }
     return AwaleRules.singleton.get();
   }
   getRulesConfigDescription() {
-    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPOptional.of(AwaleRules.RULES_CONFIG_DESCRIPTION);
+    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.of(AwaleRules.RULES_CONFIG_DESCRIPTION);
   }
   applyCapture(distributionResult, config) {
     const filledCoords = distributionResult.filledCoords;
@@ -36104,7 +36104,7 @@ class AwaleRules extends _common_MancalaRules__WEBPACK_IMPORTED_MODULE_3__.Manca
    */
   capture(x, y, state, config) {
     const playerY = state.getCurrentPlayerY();
-    _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.Utils.assert(y !== playerY, 'AwaleRules.capture cannot capture the players house');
+    _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.Utils.assert(y !== playerY, 'AwaleRules.capture cannot capture the players house');
     let resultingState = state;
     let target = resultingState.getOptionalPieceAtXY(x, y);
     let capturedSum = 0;
@@ -36120,7 +36120,7 @@ class AwaleRules extends _common_MancalaRules__WEBPACK_IMPORTED_MODULE_3__.Manca
     let direction = -1; // by defaut, capture from right to left
     let limit = -1;
     const player = state.getCurrentPlayer();
-    if (player === _jscaip_Player__WEBPACK_IMPORTED_MODULE_1__.Player.ONE) {
+    if (player === _jscaip_Player__WEBPACK_IMPORTED_MODULE_2__.Player.ONE) {
       /** if Player.ONE capture, it is on the bottom line
        * means capture goes from left to right ( + 1)
        * so one ending condition of the loop is reaching index MancalaState.WIDTH
@@ -36131,7 +36131,7 @@ class AwaleRules extends _common_MancalaRules__WEBPACK_IMPORTED_MODULE_3__.Manca
     do {
       captureMap[y][x] = target.get(); // we addPart to the player score the captured seeds
       capturedSum += target.get();
-      resultingState = resultingState.capture(player, new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_0__.Coord(x, y));
+      resultingState = resultingState.capture(player, new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord(x, y));
       x += direction;
       target = resultingState.getOptionalPieceAtXY(x, y);
     } while (x !== limit && (target.equalsValue(2) || target.equalsValue(3)));
@@ -36352,9 +36352,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   BaAwaRules: () => (/* binding */ BaAwaRules)
 /* harmony export */ });
-/* harmony import */ var _components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../components/wrapper-components/rules-configuration/RulesConfigDescription */ 62692);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @everyboard/lib */ 65042);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @everyboard/lib */ 65042);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../components/wrapper-components/rules-configuration/RulesConfigDescription */ 62692);
 /* harmony import */ var _common_MancalaRules__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../common/MancalaRules */ 60558);
 /* harmony import */ var _utils_MGPValidator__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../utils/MGPValidator */ 52248);
 /* harmony import */ var _jscaip_Player__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../jscaip/Player */ 22092);
@@ -36366,18 +36366,18 @@ __webpack_require__.r(__webpack_exports__);
 
 
 class BaAwaRules extends _common_MancalaRules__WEBPACK_IMPORTED_MODULE_2__.MancalaRules {
-  static singleton = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
-  static RULES_CONFIG_DESCRIPTION = new _components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_0__.RulesConfigDescription({
+  static singleton = _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.empty();
+  static RULES_CONFIG_DESCRIPTION = new _components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_1__.RulesConfigDescription({
     name: () => $localize`Ba-awa`,
     config: {
-      feedOriginalHouse: new _components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_0__.BooleanConfig(true, _common_MancalaRules__WEBPACK_IMPORTED_MODULE_2__.MancalaRules.FEED_ORIGINAL_HOUSE),
-      mustFeed: new _components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_0__.BooleanConfig(false, _common_MancalaRules__WEBPACK_IMPORTED_MODULE_2__.MancalaRules.MUST_FEED),
-      passByPlayerStore: new _components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_0__.BooleanConfig(false, _common_MancalaRules__WEBPACK_IMPORTED_MODULE_2__.MancalaRules.PASS_BY_PLAYER_STORE),
-      mustContinueDistributionAfterStore: new _components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_0__.BooleanConfig(false, _common_MancalaRules__WEBPACK_IMPORTED_MODULE_2__.MancalaRules.MULTIPLE_SOW),
-      continueLapUntilCaptureOrEmptyHouse: new _components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_0__.BooleanConfig(true, _common_MancalaRules__WEBPACK_IMPORTED_MODULE_2__.MancalaRules.CYCLICAL_LAP),
-      seedsByHouse: new _components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_0__.NumberConfig(4, _common_MancalaRules__WEBPACK_IMPORTED_MODULE_2__.MancalaRules.SEEDS_BY_HOUSE, _utils_MGPValidator__WEBPACK_IMPORTED_MODULE_3__.MGPValidators.range(1, 99)),
-      width: new _components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_0__.NumberConfig(6, _components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_0__.RulesConfigDescriptionLocalizable.WIDTH, _utils_MGPValidator__WEBPACK_IMPORTED_MODULE_3__.MGPValidators.range(1, 99)),
-      splitFinalSeedsEvenly: new _components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_0__.BooleanConfig(false, () => $localize`Split final seeds evenly`)
+      feedOriginalHouse: new _components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_1__.BooleanConfig(true, _common_MancalaRules__WEBPACK_IMPORTED_MODULE_2__.MancalaRules.FEED_ORIGINAL_HOUSE),
+      mustFeed: new _components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_1__.BooleanConfig(false, _common_MancalaRules__WEBPACK_IMPORTED_MODULE_2__.MancalaRules.MUST_FEED),
+      passByPlayerStore: new _components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_1__.BooleanConfig(false, _common_MancalaRules__WEBPACK_IMPORTED_MODULE_2__.MancalaRules.PASS_BY_PLAYER_STORE),
+      mustContinueDistributionAfterStore: new _components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_1__.BooleanConfig(false, _common_MancalaRules__WEBPACK_IMPORTED_MODULE_2__.MancalaRules.MULTIPLE_SOW),
+      continueLapUntilCaptureOrEmptyHouse: new _components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_1__.BooleanConfig(true, _common_MancalaRules__WEBPACK_IMPORTED_MODULE_2__.MancalaRules.CYCLICAL_LAP),
+      seedsByHouse: new _components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_1__.NumberConfig(4, _common_MancalaRules__WEBPACK_IMPORTED_MODULE_2__.MancalaRules.SEEDS_BY_HOUSE, _utils_MGPValidator__WEBPACK_IMPORTED_MODULE_3__.MGPValidators.range(1, 99)),
+      width: new _components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_1__.NumberConfig(6, _components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_1__.RulesConfigDescriptionLocalizable.WIDTH, _utils_MGPValidator__WEBPACK_IMPORTED_MODULE_3__.MGPValidators.range(1, 99)),
+      splitFinalSeedsEvenly: new _components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_1__.BooleanConfig(false, () => $localize`Split final seeds evenly`)
     }
   }, [{
     name: () => $localize`Even Ba-awa`,
@@ -36394,12 +36394,12 @@ class BaAwaRules extends _common_MancalaRules__WEBPACK_IMPORTED_MODULE_2__.Manca
   }]);
   static get() {
     if (BaAwaRules.singleton.isAbsent()) {
-      BaAwaRules.singleton = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(new BaAwaRules([4]));
+      BaAwaRules.singleton = _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.of(new BaAwaRules([4]));
     }
     return BaAwaRules.singleton.get();
   }
   getRulesConfigDescription() {
-    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(BaAwaRules.RULES_CONFIG_DESCRIPTION);
+    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.of(BaAwaRules.RULES_CONFIG_DESCRIPTION);
   }
   applyCapture(distributionResult) {
     const captureMap = _jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_5__.TableUtils.copy(distributionResult.captureMap);
@@ -37188,13 +37188,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   MancalaNode: () => (/* binding */ MancalaNode),
 /* harmony export */   MancalaRules: () => (/* binding */ MancalaRules)
 /* harmony export */ });
-/* harmony import */ var _jscaip_Coord__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../jscaip/Coord */ 16904);
-/* harmony import */ var _MancalaState__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MancalaState */ 17132);
-/* harmony import */ var _jscaip_Player__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../jscaip/Player */ 22092);
-/* harmony import */ var _jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../jscaip/TableUtils */ 37640);
-/* harmony import */ var _jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../jscaip/GameStatus */ 19613);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @everyboard/lib */ 65042);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @everyboard/lib */ 65042);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../jscaip/Coord */ 16904);
+/* harmony import */ var _MancalaState__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./MancalaState */ 17132);
+/* harmony import */ var _jscaip_Player__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../jscaip/Player */ 22092);
+/* harmony import */ var _jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../jscaip/TableUtils */ 37640);
+/* harmony import */ var _jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../jscaip/GameStatus */ 19613);
 /* harmony import */ var _jscaip_AI_GameNode__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../jscaip/AI/GameNode */ 49120);
 /* harmony import */ var _MancalaMove__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./MancalaMove */ 59124);
 /* harmony import */ var _jscaip_Rules__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../../jscaip/Rules */ 99150);
@@ -37221,12 +37221,12 @@ class MancalaRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_8__.Configurab
   static CYCLICAL_LAP = () => $localize`Continue distribution until capture or empty house`;
   static SEEDS_BY_HOUSE = () => $localize`Seeds by house`;
   // These are the coordinates of the store. These are fake coordinates since the stores are not on the board
-  static FAKE_STORE_COORD = new _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.ReversibleMap([{
-    key: _jscaip_Player__WEBPACK_IMPORTED_MODULE_2__.Player.ZERO,
-    value: new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_0__.Coord(-1, -1)
+  static FAKE_STORE_COORD = new _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.ReversibleMap([{
+    key: _jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ZERO,
+    value: new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord(-1, -1)
   }, {
-    key: _jscaip_Player__WEBPACK_IMPORTED_MODULE_2__.Player.ONE,
-    value: new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_0__.Coord(+2, +2)
+    key: _jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ONE,
+    value: new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord(+2, +2)
   }]);
   static isStarving(player, board) {
     let i = 0;
@@ -37241,7 +37241,7 @@ class MancalaRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_8__.Configurab
   static getEmptyDistributionResult(state) {
     return {
       capturedSum: 0,
-      captureMap: _jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_3__.TableUtils.create(state.getWidth(), 2, 0),
+      captureMap: _jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_4__.TableUtils.create(state.getWidth(), 2, 0),
       endsUpInStore: false,
       filledCoords: [],
       passedByStoreNTimes: 0,
@@ -37250,8 +37250,8 @@ class MancalaRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_8__.Configurab
   }
   static getInitialState(optionalConfig) {
     const config = optionalConfig.get();
-    const board = _jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_3__.TableUtils.create(config.width, 2, config.seedsByHouse);
-    return new _MancalaState__WEBPACK_IMPORTED_MODULE_1__.MancalaState(board, 0, _jscaip_PlayerMap__WEBPACK_IMPORTED_MODULE_9__.PlayerNumberMap.of(0, 0));
+    const board = _jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_4__.TableUtils.create(config.width, 2, config.seedsByHouse);
+    return new _MancalaState__WEBPACK_IMPORTED_MODULE_2__.MancalaState(board, 0, _jscaip_PlayerMap__WEBPACK_IMPORTED_MODULE_9__.PlayerNumberMap.of(0, 0));
   }
   constructor(capturableValues) {
     super();
@@ -37262,10 +37262,10 @@ class MancalaRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_8__.Configurab
     const playerY = state.getCurrentPlayerY();
     let canStillPlay = true;
     for (const distribution of move) {
-      _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.Utils.assert(canStillPlay, 'Cannot play after non kalah move');
+      _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.Utils.assert(canStillPlay, 'Cannot play after non kalah move');
       const distributionResult = this.isLegalDistribution(distribution, state, config);
       if (distributionResult.isFailure()) {
-        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPValidation.ofFallible(distributionResult);
+        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.ofFallible(distributionResult);
       } else {
         const previousDistributionResult = MancalaRules.getEmptyDistributionResult(state);
         state = this.distributeHouse(distribution.x, playerY, previousDistributionResult, config).resultingState;
@@ -37273,17 +37273,17 @@ class MancalaRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_8__.Configurab
       }
     }
     if (config.mustContinueDistributionAfterStore) {
-      _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.Utils.assert(canStillPlay === false, 'Must continue playing after kalah move');
+      _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.Utils.assert(canStillPlay === false, 'Must continue playing after kalah move');
     }
     if (config.mustFeed) {
       const opponent = state.getCurrentOpponent();
       const opponentIsStarving = MancalaRules.isStarving(opponent, state.board);
       const playerDoesEmbargo = this.canDistribute(state.getCurrentPlayer(), state, config);
       if (opponentIsStarving && playerDoesEmbargo) {
-        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPValidation.failure(_MancalaFailure__WEBPACK_IMPORTED_MODULE_10__.MancalaFailure.SHOULD_DISTRIBUTE());
+        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.failure(_MancalaFailure__WEBPACK_IMPORTED_MODULE_10__.MancalaFailure.SHOULD_DISTRIBUTE());
       }
     }
-    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPValidation.SUCCESS;
+    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.SUCCESS;
   }
   getInitialState(optionalConfig) {
     return MancalaRules.getInitialState(optionalConfig);
@@ -37295,11 +37295,11 @@ class MancalaRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_8__.Configurab
   isLegalDistribution(distribution, state, config) {
     const playerY = state.getCurrentPlayerY();
     if (state.getPieceAtXY(distribution.x, playerY) === 0) {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPFallible.failure(_MancalaFailure__WEBPACK_IMPORTED_MODULE_10__.MancalaFailure.MUST_CHOOSE_NON_EMPTY_HOUSE());
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPFallible.failure(_MancalaFailure__WEBPACK_IMPORTED_MODULE_10__.MancalaFailure.MUST_CHOOSE_NON_EMPTY_HOUSE());
     }
     const distributionResult = this.distributeMove(_MancalaMove__WEBPACK_IMPORTED_MODULE_7__.MancalaMove.of(distribution), state, config);
     const isStarving = MancalaRules.isStarving(distributionResult.resultingState.getCurrentPlayer(), distributionResult.resultingState.board);
-    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPFallible.success(distributionResult.endsUpInStore && isStarving === false);
+    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPFallible.success(distributionResult.endsUpInStore && isStarving === false);
   }
   /**
    * Apply the distribution part of the move.
@@ -37312,14 +37312,14 @@ class MancalaRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_8__.Configurab
     const filledCoords = [];
     let distributionResult = {
       capturedSum: 0,
-      captureMap: _jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_3__.TableUtils.create(config.width, 2, 0),
+      captureMap: _jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_4__.TableUtils.create(config.width, 2, 0),
       endsUpInStore: false,
       passedByStoreNTimes: 0,
       filledCoords: [],
       resultingState: state
     };
     for (const distribution of move) {
-      let houseToDistribute = new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_0__.Coord(distribution.x, playerY);
+      let houseToDistribute = new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord(distribution.x, playerY);
       let mustDoOneMoreLap = true;
       while (mustDoOneMoreLap) {
         distributionResult = this.distributeHouse(houseToDistribute.x, houseToDistribute.y, distributionResult, config);
@@ -37372,16 +37372,16 @@ class MancalaRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_8__.Configurab
     const width = node.gameState.getWidth();
     const seedsByHouse = config.get().seedsByHouse;
     const halfOfTotalSeeds = width * seedsByHouse;
-    if (state.scores.get(_jscaip_Player__WEBPACK_IMPORTED_MODULE_2__.Player.ZERO) > halfOfTotalSeeds) {
-      return _jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_4__.GameStatus.ZERO_WON;
+    if (state.scores.get(_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ZERO) > halfOfTotalSeeds) {
+      return _jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_5__.GameStatus.ZERO_WON;
     }
-    if (state.scores.get(_jscaip_Player__WEBPACK_IMPORTED_MODULE_2__.Player.ONE) > halfOfTotalSeeds) {
-      return _jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_4__.GameStatus.ONE_WON;
+    if (state.scores.get(_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ONE) > halfOfTotalSeeds) {
+      return _jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_5__.GameStatus.ONE_WON;
     }
-    if (state.scores.get(_jscaip_Player__WEBPACK_IMPORTED_MODULE_2__.Player.ZERO) === halfOfTotalSeeds && state.scores.get(_jscaip_Player__WEBPACK_IMPORTED_MODULE_2__.Player.ONE) === halfOfTotalSeeds) {
-      return _jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_4__.GameStatus.DRAW;
+    if (state.scores.get(_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ZERO) === halfOfTotalSeeds && state.scores.get(_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ONE) === halfOfTotalSeeds) {
+      return _jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_5__.GameStatus.DRAW;
     }
-    return _jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_4__.GameStatus.ONGOING;
+    return _jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_5__.GameStatus.ONGOING;
   }
   applyLegalMove(move, state, config, _) {
     const distributionsResult = this.distributeMove(move, state, config.get());
@@ -37397,7 +37397,7 @@ class MancalaRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_8__.Configurab
       const monsoonResult = this.sharedMonsoon(captureResult);
       resultingState = monsoonResult.resultingState;
     }
-    return new _MancalaState__WEBPACK_IMPORTED_MODULE_1__.MancalaState(resultingState.board, resultingState.turn + 1, resultingState.scores);
+    return new _MancalaState__WEBPACK_IMPORTED_MODULE_2__.MancalaState(resultingState.board, resultingState.turn + 1, resultingState.scores);
   }
   /**
    * Simply distribute the group of seeds in (x, y)
@@ -37405,8 +37405,8 @@ class MancalaRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_8__.Configurab
    * Returns the coords of the filled houses
    */
   distributeHouse(x, y, previousLapResult, config) {
-    let coord = new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_0__.Coord(x, y);
-    const initial = new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_0__.Coord(x, y);
+    let coord = new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord(x, y);
+    const initial = new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord(x, y);
     let seedsInHand = previousLapResult.resultingState.getPieceAt(initial);
     let resultingState = previousLapResult.resultingState.setPieceAt(initial, 0);
     const player = resultingState.getCurrentPlayer();
@@ -37432,7 +37432,7 @@ class MancalaRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_8__.Configurab
           // not to distribute on our starting space
           const dropResult = this.getDropResult(seedsInHand, resultingState, coord);
           resultingState = dropResult.resultingState;
-          previousLapResult.captureMap = _jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_3__.TableUtils.add(previousLapResult.captureMap, dropResult.captureMap);
+          previousLapResult.captureMap = _jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_4__.TableUtils.add(previousLapResult.captureMap, dropResult.captureMap);
           capturedSum += dropResult.capturedSum;
           filledCoords.push(coord);
           seedsInHand--; // drop in this space a piece we have in hand
@@ -37458,7 +37458,7 @@ class MancalaRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_8__.Configurab
   getDropResult(_seedsInHand, state, coord) {
     return {
       capturedSum: 0,
-      captureMap: _jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_3__.TableUtils.create(state.getWidth(), 2, 0),
+      captureMap: _jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_4__.TableUtils.create(state.getWidth(), 2, 0),
       resultingState: state.feed(coord)
     };
   }
@@ -37466,23 +37466,23 @@ class MancalaRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_8__.Configurab
     const player = state.getCurrentPlayer();
     if (coord.y === 0) {
       if (coord.x === state.getWidth() - 1) {
-        if (config.passByPlayerStore && player === _jscaip_Player__WEBPACK_IMPORTED_MODULE_2__.Player.ONE && previousDropWasStore === false) {
-          return _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.empty(); // This seed is dropped in the store
+        if (config.passByPlayerStore && player === _jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ONE && previousDropWasStore === false) {
+          return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.empty(); // This seed is dropped in the store
         } else {
-          return _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.of(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_0__.Coord(coord.x, 1)); // go from the bottom row to the top row
+          return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.of(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord(coord.x, 1)); // go from the bottom row to the top row
         }
       } else {
-        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.of(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_0__.Coord(coord.x + 1, 0)); // clockwise order on the top = left to right
+        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.of(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord(coord.x + 1, 0)); // clockwise order on the top = left to right
       }
     } else {
       if (coord.x === 0) {
-        if (config.passByPlayerStore && player === _jscaip_Player__WEBPACK_IMPORTED_MODULE_2__.Player.ZERO && previousDropWasStore === false) {
-          return _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.empty(); // This seed is dropped in the store
+        if (config.passByPlayerStore && player === _jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ZERO && previousDropWasStore === false) {
+          return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.empty(); // This seed is dropped in the store
         } else {
-          return _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.of(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_0__.Coord(0, 0)); // go from the bottom row to the top
+          return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.of(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord(0, 0)); // go from the bottom row to the top
         }
       } else {
-        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPOptional.of(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_0__.Coord(coord.x - 1, 1)); // clockwise order on the bottom = right to left
+        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.of(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord(coord.x - 1, 1)); // clockwise order on the bottom = right to left
       }
     }
   }
@@ -37514,29 +37514,29 @@ class MancalaRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_8__.Configurab
     */
   monsoon(monsooningPlayer, postCaptureResult) {
     const state = postCaptureResult.resultingState;
-    const resultingBoard = _jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_3__.TableUtils.create(state.getWidth(), 2, 0);
+    const resultingBoard = _jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_4__.TableUtils.create(state.getWidth(), 2, 0);
     const captured = state.getScoresCopy();
     const capturedSum = state.getTotalRemainingSeeds();
-    const captureMap = _jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_3__.TableUtils.add(postCaptureResult.captureMap, state.board);
+    const captureMap = _jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_4__.TableUtils.add(postCaptureResult.captureMap, state.board);
     captured.add(monsooningPlayer, capturedSum);
     return {
       capturedSum,
       captureMap,
-      resultingState: new _MancalaState__WEBPACK_IMPORTED_MODULE_1__.MancalaState(resultingBoard, state.turn, captured)
+      resultingState: new _MancalaState__WEBPACK_IMPORTED_MODULE_2__.MancalaState(resultingBoard, state.turn, captured)
     };
   }
   sharedMonsoon(postCaptureResult) {
     const state = postCaptureResult.resultingState;
-    const resultingBoard = _jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_3__.TableUtils.create(state.getWidth(), 2, 0);
+    const resultingBoard = _jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_4__.TableUtils.create(state.getWidth(), 2, 0);
     const captured = state.getScoresCopy();
     const capturedSum = state.getTotalRemainingSeeds();
-    const captureMap = _jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_3__.TableUtils.add(postCaptureResult.captureMap, state.board);
-    captured.add(_jscaip_Player__WEBPACK_IMPORTED_MODULE_2__.Player.ZERO, Math.floor(capturedSum / 2));
-    captured.add(_jscaip_Player__WEBPACK_IMPORTED_MODULE_2__.Player.ONE, Math.floor(capturedSum / 2));
+    const captureMap = _jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_4__.TableUtils.add(postCaptureResult.captureMap, state.board);
+    captured.add(_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ZERO, Math.floor(capturedSum / 2));
+    captured.add(_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ONE, Math.floor(capturedSum / 2));
     return {
       capturedSum,
       captureMap,
-      resultingState: new _MancalaState__WEBPACK_IMPORTED_MODULE_1__.MancalaState(resultingBoard, state.turn, captured)
+      resultingState: new _MancalaState__WEBPACK_IMPORTED_MODULE_2__.MancalaState(resultingBoard, state.turn, captured)
     };
   }
 }
@@ -37666,21 +37666,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   MancalaTutorial: () => (/* binding */ MancalaTutorial)
 /* harmony export */ });
-/* harmony import */ var _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../components/wrapper-components/tutorial-game-wrapper/TutorialStep */ 62518);
-/* harmony import */ var _MancalaMove__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MancalaMove */ 59124);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @everyboard/lib */ 65042);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @everyboard/lib */ 65042);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../components/wrapper-components/tutorial-game-wrapper/TutorialStep */ 62518);
+/* harmony import */ var _MancalaMove__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./MancalaMove */ 59124);
 
 
 
 class MancalaTutorial {
   static intro(gameName, state) {
-    return _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_0__.TutorialStep.informational(gameName, $localize`${gameName} is a Mancala. Mancala is the name of a family of board games that dates back at least to the third century. Mancalas are games of distribution (sowing) and capture. Their goal is to capture the most seeds. The spaces in Mancalas are called the houses. The ones on the extreme left and right are called the stores, they contain the seeds that each player captured. As you are playing Dark, the 6 houses on the bottom are yours.`, state);
+    return _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_1__.TutorialStep.informational(gameName, $localize`${gameName} is a Mancala. Mancala is the name of a family of board games that dates back at least to the third century. Mancalas are games of distribution (sowing) and capture. Their goal is to capture the most seeds. The spaces in Mancalas are called the houses. The ones on the extreme left and right are called the stores, they contain the seeds that each player captured. As you are playing Dark, the 6 houses on the bottom are yours.`, state);
   }
   static sowing(state) {
     const initialHouseContent = state.getPieceAtXY(5, 1);
-    _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.Utils.assert(initialHouseContent === 4, '(5, 1) should contain 4 seed');
-    return _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_0__.TutorialStep.fromMove($localize`Sowing`, $localize`The main move in Mancala games is sowing, let's see how seeds are sown. As you are playing Dark, the 6 houses on the bottom are yours.<br/><br/>When you sow a house, the seeds it contains are sown clockwise, one seed per house.<br/><br/>Click on the rightmost house!`, state, [_MancalaMove__WEBPACK_IMPORTED_MODULE_1__.MancalaMove.of(_MancalaMove__WEBPACK_IMPORTED_MODULE_1__.MancalaDistribution.of(5))], $localize`Look at the 4 houses that follow clockwise the one you picked, they now contain one more seed. This is how seeds are sown: one by one from the house next to the one they come from, clockwise.`, $localize`Failed. Choose the rightmost house on the bottom.`);
+    _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.Utils.assert(initialHouseContent === 4, '(5, 1) should contain 4 seed');
+    return _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_1__.TutorialStep.fromMove($localize`Sowing`, $localize`The main move in Mancala games is sowing, let's see how seeds are sown. As you are playing Dark, the 6 houses on the bottom are yours.<br/><br/>When you sow a house, the seeds it contains are sown clockwise, one seed per house.<br/><br/>Click on the rightmost house!`, state, [_MancalaMove__WEBPACK_IMPORTED_MODULE_2__.MancalaMove.of(_MancalaMove__WEBPACK_IMPORTED_MODULE_2__.MancalaDistribution.of(5))], $localize`Look at the 4 houses that follow clockwise the one you picked, they now contain one more seed. This is how seeds are sown: one by one from the house next to the one they come from, clockwise.`, $localize`Failed. Choose the rightmost house on the bottom.`);
   }
   static YOU_DID_NOT_CAPTURE_ANY_SEEDS = () => $localize`Failed. You did not capture anything. Try again.`;
 }
@@ -37889,10 +37889,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   KalahTutorial: () => (/* binding */ KalahTutorial)
 /* harmony export */ });
-/* harmony import */ var _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../components/wrapper-components/tutorial-game-wrapper/TutorialStep */ 62518);
-/* harmony import */ var _common_MancalaState__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../common/MancalaState */ 17132);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @everyboard/lib */ 65042);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @everyboard/lib */ 65042);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../components/wrapper-components/tutorial-game-wrapper/TutorialStep */ 62518);
+/* harmony import */ var _common_MancalaState__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../common/MancalaState */ 17132);
 /* harmony import */ var _KalahRules__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./KalahRules */ 24494);
 /* harmony import */ var _jscaip_PlayerMap__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../jscaip/PlayerMap */ 95208);
 /* harmony import */ var _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../components/wrapper-components/tutorial-game-wrapper/TutorialStepMessage */ 36695);
@@ -37907,21 +37907,21 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const defaultConfig = _KalahRules__WEBPACK_IMPORTED_MODULE_3__.KalahRules.get().getDefaultRulesConfig();
-class KalahTutorial extends _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_0__.Tutorial {
+class KalahTutorial extends _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_1__.Tutorial {
   gameName = $localize`Kalah`;
-  tutorial = [_common_MancalaTutorial__WEBPACK_IMPORTED_MODULE_6__.MancalaTutorial.intro(this.gameName, _KalahRules__WEBPACK_IMPORTED_MODULE_3__.KalahRules.get().getInitialState(defaultConfig)), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_0__.TutorialStep.informational($localize`Kalah`, $localize`Bonus fact: Kalah has been created in the U.S.A in 1940 by William Julius Champion Jr.`, _KalahRules__WEBPACK_IMPORTED_MODULE_3__.KalahRules.get().getInitialState(defaultConfig)), _common_MancalaTutorial__WEBPACK_IMPORTED_MODULE_6__.MancalaTutorial.sowing(_KalahRules__WEBPACK_IMPORTED_MODULE_3__.KalahRules.get().getInitialState(defaultConfig)), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_0__.TutorialStep.fromMove($localize`The Kalah` + ' (1/2)', $localize`The houses on the extreme left and right, unaligned with the others, are the Kalah. Yours is on the left, the opponent's on the right. When sowing, before passing from your leftmost house to the leftmost house of the opponent, you must drop one seed in your Kalah, but you won't have to drop seed in your opponent's Kalah. When you make a capture, the captured seeds are put in your Kalah.<br/><br/>You're playing Dark. Make a move that passes through your Kalah then feeds opponent's houses.`, _KalahRules__WEBPACK_IMPORTED_MODULE_3__.KalahRules.get().getInitialState(defaultConfig), [_common_MancalaMove__WEBPACK_IMPORTED_MODULE_7__.MancalaMove.of(_common_MancalaMove__WEBPACK_IMPORTED_MODULE_7__.MancalaDistribution.of(0)), _common_MancalaMove__WEBPACK_IMPORTED_MODULE_7__.MancalaMove.of(_common_MancalaMove__WEBPACK_IMPORTED_MODULE_7__.MancalaDistribution.of(1)), _common_MancalaMove__WEBPACK_IMPORTED_MODULE_7__.MancalaMove.of(_common_MancalaMove__WEBPACK_IMPORTED_MODULE_7__.MancalaDistribution.of(2))], $localize`As you see, three houses have been fed in addition to your Kalah.`, $localize`Failed. Choose the three leftmost house on the bottom.`), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_0__.TutorialStep.fromPredicate($localize`The Kalah` + ' (2/2)', $localize`When ending in the Kalah, you must distribute again.<br/><br/>You're playing Dark, play the house that ends up in the Kalah then do a second distribution!`, _KalahRules__WEBPACK_IMPORTED_MODULE_3__.KalahRules.get().getInitialState(defaultConfig), _common_MancalaMove__WEBPACK_IMPORTED_MODULE_7__.MancalaMove.of(_common_MancalaMove__WEBPACK_IMPORTED_MODULE_7__.MancalaDistribution.of(3), [_common_MancalaMove__WEBPACK_IMPORTED_MODULE_7__.MancalaDistribution.of(1)]), (move, _previous, _result) => {
+  tutorial = [_common_MancalaTutorial__WEBPACK_IMPORTED_MODULE_6__.MancalaTutorial.intro(this.gameName, _KalahRules__WEBPACK_IMPORTED_MODULE_3__.KalahRules.get().getInitialState(defaultConfig)), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_1__.TutorialStep.informational($localize`Kalah`, $localize`Bonus fact: Kalah has been created in the U.S.A in 1940 by William Julius Champion Jr.`, _KalahRules__WEBPACK_IMPORTED_MODULE_3__.KalahRules.get().getInitialState(defaultConfig)), _common_MancalaTutorial__WEBPACK_IMPORTED_MODULE_6__.MancalaTutorial.sowing(_KalahRules__WEBPACK_IMPORTED_MODULE_3__.KalahRules.get().getInitialState(defaultConfig)), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_1__.TutorialStep.fromMove($localize`The Kalah` + ' (1/2)', $localize`The houses on the extreme left and right, unaligned with the others, are the Kalah. Yours is on the left, the opponent's on the right. When sowing, before passing from your leftmost house to the leftmost house of the opponent, you must drop one seed in your Kalah, but you won't have to drop seed in your opponent's Kalah. When you make a capture, the captured seeds are put in your Kalah.<br/><br/>You're playing Dark. Make a move that passes through your Kalah then feeds opponent's houses.`, _KalahRules__WEBPACK_IMPORTED_MODULE_3__.KalahRules.get().getInitialState(defaultConfig), [_common_MancalaMove__WEBPACK_IMPORTED_MODULE_7__.MancalaMove.of(_common_MancalaMove__WEBPACK_IMPORTED_MODULE_7__.MancalaDistribution.of(0)), _common_MancalaMove__WEBPACK_IMPORTED_MODULE_7__.MancalaMove.of(_common_MancalaMove__WEBPACK_IMPORTED_MODULE_7__.MancalaDistribution.of(1)), _common_MancalaMove__WEBPACK_IMPORTED_MODULE_7__.MancalaMove.of(_common_MancalaMove__WEBPACK_IMPORTED_MODULE_7__.MancalaDistribution.of(2))], $localize`As you see, three houses have been fed in addition to your Kalah.`, $localize`Failed. Choose the three leftmost house on the bottom.`), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_1__.TutorialStep.fromPredicate($localize`The Kalah` + ' (2/2)', $localize`When ending in the Kalah, you must distribute again.<br/><br/>You're playing Dark, play the house that ends up in the Kalah then do a second distribution!`, _KalahRules__WEBPACK_IMPORTED_MODULE_3__.KalahRules.get().getInitialState(defaultConfig), _common_MancalaMove__WEBPACK_IMPORTED_MODULE_7__.MancalaMove.of(_common_MancalaMove__WEBPACK_IMPORTED_MODULE_7__.MancalaDistribution.of(3), [_common_MancalaMove__WEBPACK_IMPORTED_MODULE_7__.MancalaDistribution.of(1)]), (move, _previous, _result) => {
     if (move.distributions.length === 1) {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPValidation.failure($localize`This move only distributed one house, do one distribution that ends in the Kalah, then do a second one!`);
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.failure($localize`This move only distributed one house, do one distribution that ends in the Kalah, then do a second one!`);
     } else {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPValidation.SUCCESS;
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.SUCCESS;
     }
-  }, _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_5__.TutorialStepMessage.CONGRATULATIONS()), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_0__.TutorialStep.fromPredicate($localize`Captures`, $localize`When the last seed of a distribution ends up in one of your empty houses, if the opposite house is filled, then you capture both houses. On this board, such a move is possible.<br/><br/>You're playing Dark, do a capture!`, new _common_MancalaState__WEBPACK_IMPORTED_MODULE_1__.MancalaState([[0, 4, 4, 4, 4, 4], [0, 2, 0, 2, 4, 0]], 4, _jscaip_PlayerMap__WEBPACK_IMPORTED_MODULE_4__.PlayerNumberMap.of(0, 0)), _common_MancalaMove__WEBPACK_IMPORTED_MODULE_7__.MancalaMove.of(_common_MancalaMove__WEBPACK_IMPORTED_MODULE_7__.MancalaDistribution.of(1), [_common_MancalaMove__WEBPACK_IMPORTED_MODULE_7__.MancalaDistribution.of(0), _common_MancalaMove__WEBPACK_IMPORTED_MODULE_7__.MancalaDistribution.of(3)]), (_move, _state, resultingState) => {
+  }, _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_5__.TutorialStepMessage.CONGRATULATIONS()), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_1__.TutorialStep.fromPredicate($localize`Captures`, $localize`When the last seed of a distribution ends up in one of your empty houses, if the opposite house is filled, then you capture both houses. On this board, such a move is possible.<br/><br/>You're playing Dark, do a capture!`, new _common_MancalaState__WEBPACK_IMPORTED_MODULE_2__.MancalaState([[0, 4, 4, 4, 4, 4], [0, 2, 0, 2, 4, 0]], 4, _jscaip_PlayerMap__WEBPACK_IMPORTED_MODULE_4__.PlayerNumberMap.of(0, 0)), _common_MancalaMove__WEBPACK_IMPORTED_MODULE_7__.MancalaMove.of(_common_MancalaMove__WEBPACK_IMPORTED_MODULE_7__.MancalaDistribution.of(1), [_common_MancalaMove__WEBPACK_IMPORTED_MODULE_7__.MancalaDistribution.of(0), _common_MancalaMove__WEBPACK_IMPORTED_MODULE_7__.MancalaDistribution.of(3)]), (_move, _state, resultingState) => {
     if (resultingState.getPieceAtXY(1, 0) === 0) {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPValidation.SUCCESS;
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.SUCCESS;
     } else {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPValidation.failure($localize`You did not capture, try again!`);
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.failure($localize`You did not capture, try again!`);
     }
-  }, _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_5__.TutorialStepMessage.CONGRATULATIONS()), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_0__.TutorialStep.fromMove(_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_5__.TutorialStepMessage.END_OF_THE_GAME(), $localize`At any moment, when one player has more than 24 seeds in their Kalah, they win. That can happen before the board is empty, but, there is also a second way. When you don't have any seed in your houses, the game is over and your opponent takes all the remaining seeds from their houses. Here, your opponent just need one more point to win and will get it next turn if you allow it.<br/><br/>You're playing Dark, win!`, new _common_MancalaState__WEBPACK_IMPORTED_MODULE_1__.MancalaState([[0, 0, 0, 0, 2, 0], [2, 0, 0, 0, 0, 1]], 0, _jscaip_PlayerMap__WEBPACK_IMPORTED_MODULE_4__.PlayerNumberMap.of(19, 24)), [_common_MancalaMove__WEBPACK_IMPORTED_MODULE_7__.MancalaMove.of(_common_MancalaMove__WEBPACK_IMPORTED_MODULE_7__.MancalaDistribution.of(5))], $localize`Since there is no longer seeds in the opponent houses, all your seeds have been captured by you. Congratulations, you won!`, $localize`Failed, you gave the opponent a seed! Try again.`)];
+  }, _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_5__.TutorialStepMessage.CONGRATULATIONS()), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_1__.TutorialStep.fromMove(_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_5__.TutorialStepMessage.END_OF_THE_GAME(), $localize`At any moment, when one player has more than 24 seeds in their Kalah, they win. That can happen before the board is empty, but, there is also a second way. When you don't have any seed in your houses, the game is over and your opponent takes all the remaining seeds from their houses. Here, your opponent just need one more point to win and will get it next turn if you allow it.<br/><br/>You're playing Dark, win!`, new _common_MancalaState__WEBPACK_IMPORTED_MODULE_2__.MancalaState([[0, 0, 0, 0, 2, 0], [2, 0, 0, 0, 0, 1]], 0, _jscaip_PlayerMap__WEBPACK_IMPORTED_MODULE_4__.PlayerNumberMap.of(19, 24)), [_common_MancalaMove__WEBPACK_IMPORTED_MODULE_7__.MancalaMove.of(_common_MancalaMove__WEBPACK_IMPORTED_MODULE_7__.MancalaDistribution.of(5))], $localize`Since there is no longer seeds in the opponent houses, all your seeds have been captured by you. Congratulations, you won!`, $localize`Failed, you gave the opponent a seed! Try again.`)];
 }
 
 /***/ }),
@@ -38075,10 +38075,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   MartianChessMove: () => (/* binding */ MartianChessMove),
 /* harmony export */   MartianChessMoveFailure: () => (/* binding */ MartianChessMoveFailure)
 /* harmony export */ });
-/* harmony import */ var _jscaip_Coord__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../jscaip/Coord */ 16904);
-/* harmony import */ var _jscaip_Ordinal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../jscaip/Ordinal */ 63196);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @everyboard/lib */ 65042);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @everyboard/lib */ 65042);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../jscaip/Coord */ 16904);
+/* harmony import */ var _jscaip_Ordinal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../jscaip/Ordinal */ 63196);
 /* harmony import */ var _jscaip_MoveCoordToCoord__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../jscaip/MoveCoordToCoord */ 10529);
 /* harmony import */ var _jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../jscaip/RulesFailure */ 68566);
 /* harmony import */ var _MartianChessState__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./MartianChessState */ 34105);
@@ -38096,22 +38096,22 @@ class MartianChessMoveFailure {
 }
 class MartianChessMove extends _jscaip_MoveCoordToCoord__WEBPACK_IMPORTED_MODULE_3__.MoveCoordToCoord {
   calledTheClock;
-  static encoder = _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.Encoder.tuple([_jscaip_Coord__WEBPACK_IMPORTED_MODULE_0__.Coord.encoder, _jscaip_Coord__WEBPACK_IMPORTED_MODULE_0__.Coord.encoder, _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.Encoder.identity()], move => [move.getStart(), move.getEnd(), move.calledTheClock], f => MartianChessMove.from(f[0], f[1], f[2]).get());
+  static encoder = _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.Encoder.tuple([_jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord.encoder, _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord.encoder, _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.Encoder.identity()], move => [move.getStart(), move.getEnd(), move.calledTheClock], f => MartianChessMove.from(f[0], f[1], f[2]).get());
   static from(start, end, calledTheClock = false) {
     if (_MartianChessState__WEBPACK_IMPORTED_MODULE_5__.MartianChessState.isNotOnBoard(start)) {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPFallible.failure(MartianChessMoveFailure.START_COORD_OUT_OF_RANGE());
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPFallible.failure(MartianChessMoveFailure.START_COORD_OUT_OF_RANGE());
     }
     if (_MartianChessState__WEBPACK_IMPORTED_MODULE_5__.MartianChessState.isNotOnBoard(end)) {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPFallible.failure(MartianChessMoveFailure.END_COORD_OUT_OF_RANGE());
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPFallible.failure(MartianChessMoveFailure.END_COORD_OUT_OF_RANGE());
     }
     if (end.equals(start)) {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPFallible.failure(_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_4__.RulesFailure.MOVE_CANNOT_BE_STATIC());
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPFallible.failure(_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_4__.RulesFailure.MOVE_CANNOT_BE_STATIC());
     }
-    const dir = _jscaip_Ordinal__WEBPACK_IMPORTED_MODULE_1__.Ordinal.factory.fromDelta(end.x - start.x, end.y - start.y);
+    const dir = _jscaip_Ordinal__WEBPACK_IMPORTED_MODULE_2__.Ordinal.factory.fromDelta(end.x - start.x, end.y - start.y);
     if (dir.isFailure()) {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPFallible.failure(dir.getReason());
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPFallible.failure(dir.getReason());
     }
-    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPFallible.success(new MartianChessMove(start, end, calledTheClock));
+    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPFallible.success(new MartianChessMove(start, end, calledTheClock));
   }
   constructor(start, end, calledTheClock) {
     super(start, end);
@@ -38339,12 +38339,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   MartianChessNode: () => (/* binding */ MartianChessNode),
 /* harmony export */   MartianChessRules: () => (/* binding */ MartianChessRules)
 /* harmony export */ });
-/* harmony import */ var _jscaip_AI_GameNode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../jscaip/AI/GameNode */ 49120);
-/* harmony import */ var _jscaip_Player__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../jscaip/Player */ 22092);
-/* harmony import */ var _jscaip_Rules__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../jscaip/Rules */ 99150);
-/* harmony import */ var _jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../jscaip/RulesFailure */ 68566);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @everyboard/lib */ 65042);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @everyboard/lib */ 65042);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _jscaip_AI_GameNode__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../jscaip/AI/GameNode */ 49120);
+/* harmony import */ var _jscaip_Player__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../jscaip/Player */ 22092);
+/* harmony import */ var _jscaip_Rules__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../jscaip/Rules */ 99150);
+/* harmony import */ var _jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../jscaip/RulesFailure */ 68566);
 /* harmony import */ var _MartianChessMove__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./MartianChessMove */ 29287);
 /* harmony import */ var _MartianChessState__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./MartianChessState */ 34105);
 /* harmony import */ var _MartianChessPiece__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./MartianChessPiece */ 58662);
@@ -38360,13 +38360,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class MartianChessNode extends _jscaip_AI_GameNode__WEBPACK_IMPORTED_MODULE_0__.GameNode {}
-class MartianChessRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_2__.Rules {
-  static STARTING_COUNT_DOWN = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.of(7);
-  static singleton = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.empty();
+class MartianChessNode extends _jscaip_AI_GameNode__WEBPACK_IMPORTED_MODULE_1__.GameNode {}
+class MartianChessRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_3__.Rules {
+  static STARTING_COUNT_DOWN = _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.of(7);
+  static singleton = _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.empty();
   static get() {
     if (MartianChessRules.singleton.isAbsent()) {
-      MartianChessRules.singleton = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.of(new MartianChessRules());
+      MartianChessRules.singleton = _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.of(new MartianChessRules());
     }
     return MartianChessRules.singleton.get();
   }
@@ -38376,7 +38376,7 @@ class MartianChessRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_2__.Rules
     const B = _MartianChessPiece__WEBPACK_IMPORTED_MODULE_7__.MartianChessPiece.DRONE;
     const C = _MartianChessPiece__WEBPACK_IMPORTED_MODULE_7__.MartianChessPiece.QUEEN;
     const board = [[C, C, B, _], [C, B, A, _], [B, A, A, _], [_, _, _, _], [_, _, _, _], [_, A, A, B], [_, A, B, C], [_, B, C, C]];
-    return new _MartianChessState__WEBPACK_IMPORTED_MODULE_6__.MartianChessState(board, 0, _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.empty());
+    return new _MartianChessState__WEBPACK_IMPORTED_MODULE_6__.MartianChessState(board, 0, _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.empty());
   }
   applyLegalMove(move, state, _config, info) {
     const newBoard = state.getCopiedBoard();
@@ -38391,13 +38391,13 @@ class MartianChessRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_2__.Rules
         countDown = MartianChessRules.STARTING_COUNT_DOWN;
       } else {
         const previousRemainingTurn = state.countDown.get();
-        countDown = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.of(previousRemainingTurn - 1);
+        countDown = _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.of(previousRemainingTurn - 1);
       }
     }
     if (move.calledTheClock) {
       countDown = MartianChessRules.STARTING_COUNT_DOWN;
     }
-    return new _MartianChessState__WEBPACK_IMPORTED_MODULE_6__.MartianChessState(newBoard, state.turn + 1, _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.of(move), countDown, captured);
+    return new _MartianChessState__WEBPACK_IMPORTED_MODULE_6__.MartianChessState(newBoard, state.turn + 1, _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.of(move), countDown, captured);
   }
   isLegal(move, state) {
     this.assertNonDoubleClockCall(move, state);
@@ -38406,7 +38406,7 @@ class MartianChessRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_2__.Rules
       return moveLegality.toOtherFallible();
     }
     if (move.isUndoneBy(state.lastMove)) {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPFallible.failure(_MartianChessFailure__WEBPACK_IMPORTED_MODULE_8__.MartianChessFailure.CANNOT_UNDO_LAST_MOVE());
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPFallible.failure(_MartianChessFailure__WEBPACK_IMPORTED_MODULE_8__.MartianChessFailure.CANNOT_UNDO_LAST_MOVE());
     }
     if (this.isFieldPromotion(move, state)) {
       return this.isLegalFieldPromotion(move, state);
@@ -38425,13 +38425,13 @@ class MartianChessRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_2__.Rules
       finalPiece: landingPiece,
       score: captured
     };
-    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPFallible.success(moveResult);
+    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPFallible.success(moveResult);
   }
   assertNonDoubleClockCall(move, state) {
     const clockHadAlreadyBeenCalled = state.countDown.isPresent();
     const clockCalledThisTurn = move.calledTheClock;
     const doubleClockCall = clockHadAlreadyBeenCalled && clockCalledThisTurn;
-    _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.Utils.assert(doubleClockCall === false, 'Should not call the clock twice');
+    _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.Utils.assert(doubleClockCall === false, 'Should not call the clock twice');
   }
   isCapture(move, state) {
     const moveEndsInOpponentTerritory = state.isInOpponentTerritory(move.getEnd());
@@ -38446,44 +38446,44 @@ class MartianChessRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_2__.Rules
   isLegalFieldPromotion(move, state) {
     const optCreatedPiece = this.getPromotedPiece(move, state);
     if (optCreatedPiece.isAbsent()) {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPFallible.failure(_MartianChessFailure__WEBPACK_IMPORTED_MODULE_8__.MartianChessFailure.CANNOT_CAPTURE_YOUR_OWN_PIECE_NOR_PROMOTE_IT());
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPFallible.failure(_MartianChessFailure__WEBPACK_IMPORTED_MODULE_8__.MartianChessFailure.CANNOT_CAPTURE_YOUR_OWN_PIECE_NOR_PROMOTE_IT());
     }
     const createdPiece = optCreatedPiece.get();
     if (state.isTherePieceOnPlayerSide(createdPiece)) {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPFallible.failure(_MartianChessFailure__WEBPACK_IMPORTED_MODULE_8__.MartianChessFailure.CANNOT_CAPTURE_YOUR_OWN_PIECE_NOR_PROMOTE_IT());
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPFallible.failure(_MartianChessFailure__WEBPACK_IMPORTED_MODULE_8__.MartianChessFailure.CANNOT_CAPTURE_YOUR_OWN_PIECE_NOR_PROMOTE_IT());
     } else {
       const moveResult = {
         finalPiece: createdPiece,
         score: state.captured.getCopy()
       };
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPFallible.success(moveResult);
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPFallible.success(moveResult);
     }
   }
   isLegalMove(move, state) {
     const moveStartsInPlayerTerritory = state.isInPlayerTerritory(move.getStart());
     if (moveStartsInPlayerTerritory === false) {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPValidation.failure(_MartianChessFailure__WEBPACK_IMPORTED_MODULE_8__.MartianChessFailure.MUST_CHOOSE_PIECE_FROM_YOUR_TERRITORY());
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.failure(_MartianChessFailure__WEBPACK_IMPORTED_MODULE_8__.MartianChessFailure.MUST_CHOOSE_PIECE_FROM_YOUR_TERRITORY());
     }
     const movedPiece = state.getPieceAt(move.getStart());
     if (movedPiece === _MartianChessPiece__WEBPACK_IMPORTED_MODULE_7__.MartianChessPiece.EMPTY) {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPValidation.failure(_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_3__.RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_EMPTY());
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.failure(_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_4__.RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_EMPTY());
     } else if (movedPiece === _MartianChessPiece__WEBPACK_IMPORTED_MODULE_7__.MartianChessPiece.PAWN) {
       if (move.isValidForPawn()) {
-        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPValidation.SUCCESS;
+        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.SUCCESS;
       } else {
-        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPValidation.failure(_MartianChessMove__WEBPACK_IMPORTED_MODULE_5__.MartianChessMoveFailure.PAWN_MUST_MOVE_ONE_DIAGONAL_STEP());
+        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.failure(_MartianChessMove__WEBPACK_IMPORTED_MODULE_5__.MartianChessMoveFailure.PAWN_MUST_MOVE_ONE_DIAGONAL_STEP());
       }
     } else if (movedPiece === _MartianChessPiece__WEBPACK_IMPORTED_MODULE_7__.MartianChessPiece.DRONE) {
       if (move.isValidForDrone() === false) {
-        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPValidation.failure(_MartianChessMove__WEBPACK_IMPORTED_MODULE_5__.MartianChessMoveFailure.DRONE_MUST_DO_TWO_ORTHOGONAL_STEPS());
+        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.failure(_MartianChessMove__WEBPACK_IMPORTED_MODULE_5__.MartianChessMoveFailure.DRONE_MUST_DO_TWO_ORTHOGONAL_STEPS());
       }
     }
     for (const coord of move.getJumpedOverCoords()) {
       if (state.getPieceAt(coord) !== _MartianChessPiece__WEBPACK_IMPORTED_MODULE_7__.MartianChessPiece.EMPTY) {
-        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPValidation.failure(_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_3__.RulesFailure.SOMETHING_IN_THE_WAY());
+        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.failure(_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_4__.RulesFailure.SOMETHING_IN_THE_WAY());
       }
     }
-    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPValidation.SUCCESS;
+    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.SUCCESS;
   }
   getPromotedPiece(move, state) {
     const startPiece = state.getPieceAt(move.getStart());
@@ -38504,8 +38504,8 @@ class MartianChessRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_2__.Rules
     return _jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_9__.GameStatus.ONGOING;
   }
   getGameStatusScoreVictoryOr(state, defaultStatus) {
-    const scoreZero = state.getScoreOf(_jscaip_Player__WEBPACK_IMPORTED_MODULE_1__.Player.ZERO);
-    const scoreOne = state.getScoreOf(_jscaip_Player__WEBPACK_IMPORTED_MODULE_1__.Player.ONE);
+    const scoreZero = state.getScoreOf(_jscaip_Player__WEBPACK_IMPORTED_MODULE_2__.Player.ZERO);
+    const scoreOne = state.getScoreOf(_jscaip_Player__WEBPACK_IMPORTED_MODULE_2__.Player.ONE);
     if (scoreZero > scoreOne) return _jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_9__.GameStatus.ZERO_WON;else if (scoreOne > scoreZero) return _jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_9__.GameStatus.ONE_WON;else return defaultStatus;
   }
 }
@@ -38575,10 +38575,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   MartianChessCapture: () => (/* binding */ MartianChessCapture),
 /* harmony export */   MartianChessState: () => (/* binding */ MartianChessState)
 /* harmony export */ });
-/* harmony import */ var _jscaip_state_GameStateWithTable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../jscaip/state/GameStateWithTable */ 19102);
-/* harmony import */ var _jscaip_Player__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../jscaip/Player */ 22092);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @everyboard/lib */ 65042);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @everyboard/lib */ 65042);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _jscaip_state_GameStateWithTable__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../jscaip/state/GameStateWithTable */ 19102);
+/* harmony import */ var _jscaip_Player__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../jscaip/Player */ 22092);
 /* harmony import */ var _MartianChessPiece__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./MartianChessPiece */ 58662);
 
 
@@ -38587,7 +38587,7 @@ __webpack_require__.r(__webpack_exports__);
 class MartianChessCapture {
   captures;
   static of(pieces) {
-    const map = new _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPMap();
+    const map = new _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPMap();
     for (const piece of pieces) {
       MartianChessCapture.addToMap(map, piece);
     }
@@ -38618,13 +38618,13 @@ class MartianChessCapture {
     return new MartianChessCapture(newMap);
   }
 }
-class MartianChessState extends _jscaip_state_GameStateWithTable__WEBPACK_IMPORTED_MODULE_0__.GameStateWithTable {
+class MartianChessState extends _jscaip_state_GameStateWithTable__WEBPACK_IMPORTED_MODULE_1__.GameStateWithTable {
   lastMove;
   countDown;
   static WIDTH = 4;
   static HEIGHT = 8;
-  static PLAYER_ZERO_TERRITORY = new _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.Set([4, 5, 6, 7]);
-  static PLAYER_ONE_TERRITORY = new _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.Set([0, 1, 2, 3]);
+  static PLAYER_ZERO_TERRITORY = new _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.Set([4, 5, 6, 7]);
+  static PLAYER_ONE_TERRITORY = new _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.Set([0, 1, 2, 3]);
   static isOnBoard(coord) {
     return coord.isInRange(MartianChessState.WIDTH, MartianChessState.HEIGHT);
   }
@@ -38632,16 +38632,16 @@ class MartianChessState extends _jscaip_state_GameStateWithTable__WEBPACK_IMPORT
     return MartianChessState.isOnBoard(coord) === false;
   }
   captured;
-  constructor(board, turn, lastMove = _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPOptional.empty(), countDown = _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPOptional.empty(), captured) {
+  constructor(board, turn, lastMove = _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.empty(), countDown = _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.empty(), captured) {
     super(board, turn);
     this.lastMove = lastMove;
     this.countDown = countDown;
     if (captured == null) {
-      captured = new _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPMap([{
-        key: _jscaip_Player__WEBPACK_IMPORTED_MODULE_1__.Player.ZERO,
+      captured = new _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPMap([{
+        key: _jscaip_Player__WEBPACK_IMPORTED_MODULE_2__.Player.ZERO,
         value: MartianChessCapture.of([])
       }, {
-        key: _jscaip_Player__WEBPACK_IMPORTED_MODULE_1__.Player.ONE,
+        key: _jscaip_Player__WEBPACK_IMPORTED_MODULE_2__.Player.ONE,
         value: MartianChessCapture.of([])
       }]);
     }
@@ -38649,7 +38649,7 @@ class MartianChessState extends _jscaip_state_GameStateWithTable__WEBPACK_IMPORT
     this.captured = captured;
   }
   getPlayerTerritory(player) {
-    if (player === _jscaip_Player__WEBPACK_IMPORTED_MODULE_1__.Player.ZERO) {
+    if (player === _jscaip_Player__WEBPACK_IMPORTED_MODULE_2__.Player.ZERO) {
       return MartianChessState.PLAYER_ZERO_TERRITORY;
     } else {
       return MartianChessState.PLAYER_ONE_TERRITORY;
@@ -38671,12 +38671,12 @@ class MartianChessState extends _jscaip_state_GameStateWithTable__WEBPACK_IMPORT
     return this.captured.get(player).get().toValue();
   }
   getEmptyTerritory() {
-    if (this.isTerritoryEmpty(_jscaip_Player__WEBPACK_IMPORTED_MODULE_1__.Player.ZERO)) {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPOptional.of(_jscaip_Player__WEBPACK_IMPORTED_MODULE_1__.Player.ZERO);
-    } else if (this.isTerritoryEmpty(_jscaip_Player__WEBPACK_IMPORTED_MODULE_1__.Player.ONE)) {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPOptional.of(_jscaip_Player__WEBPACK_IMPORTED_MODULE_1__.Player.ONE);
+    if (this.isTerritoryEmpty(_jscaip_Player__WEBPACK_IMPORTED_MODULE_2__.Player.ZERO)) {
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.of(_jscaip_Player__WEBPACK_IMPORTED_MODULE_2__.Player.ZERO);
+    } else if (this.isTerritoryEmpty(_jscaip_Player__WEBPACK_IMPORTED_MODULE_2__.Player.ONE)) {
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.of(_jscaip_Player__WEBPACK_IMPORTED_MODULE_2__.Player.ONE);
     } else {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPOptional.empty();
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.empty();
     }
   }
   isTerritoryEmpty(player) {
@@ -38718,10 +38718,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   MartianChessTutorial: () => (/* binding */ MartianChessTutorial)
 /* harmony export */ });
-/* harmony import */ var _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../components/wrapper-components/tutorial-game-wrapper/TutorialStep */ 62518);
-/* harmony import */ var _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../jscaip/Coord */ 16904);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @everyboard/lib */ 65042);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @everyboard/lib */ 65042);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../components/wrapper-components/tutorial-game-wrapper/TutorialStep */ 62518);
+/* harmony import */ var _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../jscaip/Coord */ 16904);
 /* harmony import */ var _MartianChessMove__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./MartianChessMove */ 29287);
 /* harmony import */ var _MartianChessState__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./MartianChessState */ 34105);
 /* harmony import */ var _MartianChessPiece__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./MartianChessPiece */ 58662);
@@ -38739,43 +38739,43 @@ const _ = _MartianChessPiece__WEBPACK_IMPORTED_MODULE_5__.MartianChessPiece.EMPT
 const A = _MartianChessPiece__WEBPACK_IMPORTED_MODULE_5__.MartianChessPiece.PAWN;
 const B = _MartianChessPiece__WEBPACK_IMPORTED_MODULE_5__.MartianChessPiece.DRONE;
 const C = _MartianChessPiece__WEBPACK_IMPORTED_MODULE_5__.MartianChessPiece.QUEEN;
-class MartianChessTutorial extends _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_0__.Tutorial {
-  tutorial = [_components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_0__.TutorialStep.informational(_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`At Martian Chess, the goal is to have the most points at the end of the game. Each piece is assigned a value, you win this value when capturing the piece. The board is divided in two by a line called the canal. There is one side for each player. You do not own pieces, but you control the ones on your side of the canal. Pieces are colored to help you: they will change color when crossing the canal.`, _MartianChessRules__WEBPACK_IMPORTED_MODULE_7__.MartianChessRules.get().getInitialState()), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_0__.TutorialStep.informational($localize`The pieces`, $localize`The pieces are dark on the side of the first player, the light ones on the side of the second one. There are 3 kind of pieces: <ul><li>The Queens: represented as circles with 3 dots.</li><li>The Drones: represented as circles with 2 dots.</li><li>The Pawns: represented as circles with one dot.</li></ul>`, _MartianChessRules__WEBPACK_IMPORTED_MODULE_7__.MartianChessRules.get().getInitialState()), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_0__.TutorialStep.fromPredicate($localize`Moving pawns`, $localize`Pawns are worth one point. They can move one step diagonally.<br/><br/>You're playing Dark, move a pawn.`, _MartianChessRules__WEBPACK_IMPORTED_MODULE_7__.MartianChessRules.get().getInitialState(), _MartianChessMove__WEBPACK_IMPORTED_MODULE_3__.MartianChessMove.from(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord(2, 5), new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord(1, 4)).get(), (move, _previous, result) => {
+class MartianChessTutorial extends _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_1__.Tutorial {
+  tutorial = [_components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_1__.TutorialStep.informational(_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`At Martian Chess, the goal is to have the most points at the end of the game. Each piece is assigned a value, you win this value when capturing the piece. The board is divided in two by a line called the canal. There is one side for each player. You do not own pieces, but you control the ones on your side of the canal. Pieces are colored to help you: they will change color when crossing the canal.`, _MartianChessRules__WEBPACK_IMPORTED_MODULE_7__.MartianChessRules.get().getInitialState()), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_1__.TutorialStep.informational($localize`The pieces`, $localize`The pieces are dark on the side of the first player, the light ones on the side of the second one. There are 3 kind of pieces: <ul><li>The Queens: represented as circles with 3 dots.</li><li>The Drones: represented as circles with 2 dots.</li><li>The Pawns: represented as circles with one dot.</li></ul>`, _MartianChessRules__WEBPACK_IMPORTED_MODULE_7__.MartianChessRules.get().getInitialState()), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_1__.TutorialStep.fromPredicate($localize`Moving pawns`, $localize`Pawns are worth one point. They can move one step diagonally.<br/><br/>You're playing Dark, move a pawn.`, _MartianChessRules__WEBPACK_IMPORTED_MODULE_7__.MartianChessRules.get().getInitialState(), _MartianChessMove__WEBPACK_IMPORTED_MODULE_3__.MartianChessMove.from(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(2, 5), new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(1, 4)).get(), (move, _previous, result) => {
     if (result.getPieceAt(move.getEnd()) === _MartianChessPiece__WEBPACK_IMPORTED_MODULE_5__.MartianChessPiece.PAWN) {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPValidation.SUCCESS;
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.SUCCESS;
     } else {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPValidation.failure($localize`This is not a pawn!`);
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.failure($localize`This is not a pawn!`);
     }
-  }, _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.CONGRATULATIONS()), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_0__.TutorialStep.fromPredicate($localize`Moving drones`, $localize`Drones are worth two points. They can move one or two steps in any direction, in a straight line, without jumping over other pieces.<br/><br/>You're playing Dark, move a drone.`, _MartianChessRules__WEBPACK_IMPORTED_MODULE_7__.MartianChessRules.get().getInitialState(), _MartianChessMove__WEBPACK_IMPORTED_MODULE_3__.MartianChessMove.from(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord(1, 7), new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord(0, 7)).get(), (move, _previous, result) => {
+  }, _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.CONGRATULATIONS()), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_1__.TutorialStep.fromPredicate($localize`Moving drones`, $localize`Drones are worth two points. They can move one or two steps in any direction, in a straight line, without jumping over other pieces.<br/><br/>You're playing Dark, move a drone.`, _MartianChessRules__WEBPACK_IMPORTED_MODULE_7__.MartianChessRules.get().getInitialState(), _MartianChessMove__WEBPACK_IMPORTED_MODULE_3__.MartianChessMove.from(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(1, 7), new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(0, 7)).get(), (move, _previous, result) => {
     if (result.getPieceAt(move.getEnd()) === _MartianChessPiece__WEBPACK_IMPORTED_MODULE_5__.MartianChessPiece.DRONE) {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPValidation.SUCCESS;
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.SUCCESS;
     } else {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPValidation.failure($localize`This is not a drone!`);
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.failure($localize`This is not a drone!`);
     }
-  }, _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.CONGRATULATIONS()), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_0__.TutorialStep.fromPredicate($localize`Moving queens`, $localize`Queens are worth three points. They can move any number of steps in any direction, in a straight line, without jumping over other pieces.<br/><br/>You're playing Light, move a queen.`, new _MartianChessState__WEBPACK_IMPORTED_MODULE_4__.MartianChessState([[B, A, _, _], [C, _, _, _], [_, _, _, _], [_, _, C, _], [_, _, _, _], [_, _, _, _], [_, _, _, _], [C, B, A, _]], 1), _MartianChessMove__WEBPACK_IMPORTED_MODULE_3__.MartianChessMove.from(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord(2, 3), new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord(2, 7)).get(), (move, _previous, result) => {
+  }, _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.CONGRATULATIONS()), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_1__.TutorialStep.fromPredicate($localize`Moving queens`, $localize`Queens are worth three points. They can move any number of steps in any direction, in a straight line, without jumping over other pieces.<br/><br/>You're playing Light, move a queen.`, new _MartianChessState__WEBPACK_IMPORTED_MODULE_4__.MartianChessState([[B, A, _, _], [C, _, _, _], [_, _, _, _], [_, _, C, _], [_, _, _, _], [_, _, _, _], [_, _, _, _], [C, B, A, _]], 1), _MartianChessMove__WEBPACK_IMPORTED_MODULE_3__.MartianChessMove.from(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(2, 3), new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(2, 7)).get(), (move, _previous, result) => {
     if (result.getPieceAt(move.getEnd()) === _MartianChessPiece__WEBPACK_IMPORTED_MODULE_5__.MartianChessPiece.QUEEN) {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPValidation.SUCCESS;
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.SUCCESS;
     } else {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPValidation.failure($localize`This is not a queen!`);
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.failure($localize`This is not a queen!`);
     }
-  }, _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.CONGRATULATIONS()), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_0__.TutorialStep.fromMove($localize`Captures`, $localize`When a piece crosses the canal and lands on another piece, you capture it and gain the value of that captured piece. However, you lose control of your piece as it crosses the canal!<br/><br/>A capture is possible for Light, do it.`, new _MartianChessState__WEBPACK_IMPORTED_MODULE_4__.MartianChessState([[B, A, A, _], [_, _, _, _], [C, _, _, _], [_, _, _, _], [_, _, A, _], [_, _, _, _], [_, _, _, _], [_, B, A, _]], 1), [_MartianChessMove__WEBPACK_IMPORTED_MODULE_3__.MartianChessMove.from(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord(0, 2), new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord(2, 4)).get()], $localize`Congratulations! By capturing that pawn, you won one point.`, _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.YOU_DID_NOT_CAPTURE_ANY_PIECE()), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_0__.TutorialStep.fromMove($localize`Field Promotion` + ' (1/2)', $localize`It is sometimes possible to perform what is called a field promotion. If you are out of one type of piece, you can merge two pieces to add their value and get a new piece. For example, if you have no drones, you can merge two pawns into a drone. To merge two pawns, move one of your pawns on another.<br/><br/>Such a move is possible for Light. Do it.`, new _MartianChessState__WEBPACK_IMPORTED_MODULE_4__.MartianChessState([[_, _, _, C], [_, A, _, _], [_, _, A, _], [_, _, _, _], [_, _, _, _], [_, _, _, C], [_, _, B, _], [_, A, _, _]], 1), [_MartianChessMove__WEBPACK_IMPORTED_MODULE_3__.MartianChessMove.from(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord(1, 1), new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord(2, 2)).get(), _MartianChessMove__WEBPACK_IMPORTED_MODULE_3__.MartianChessMove.from(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord(2, 2), new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord(1, 1)).get()], _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.CONGRATULATIONS(), $localize`This is not a field promotion!`), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_0__.TutorialStep.fromPredicate($localize`Field Promotion` + ' (2/2)', $localize`The other kind of field promotion is to merge a drone and a pawn to obtain a queen.<br/><br/>Such a move is possible for Light. Do it.`, new _MartianChessState__WEBPACK_IMPORTED_MODULE_4__.MartianChessState([[A, _, _, _], [_, _, _, _], [_, _, _, _], [_, _, _, _], [_, _, _, _], [_, _, _, _], [_, _, B, _], [_, A, _, _]], 0), _MartianChessMove__WEBPACK_IMPORTED_MODULE_3__.MartianChessMove.from(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord(1, 7), new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord(2, 6)).get(), (move, _previous, result) => {
+  }, _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.CONGRATULATIONS()), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_1__.TutorialStep.fromMove($localize`Captures`, $localize`When a piece crosses the canal and lands on another piece, you capture it and gain the value of that captured piece. However, you lose control of your piece as it crosses the canal!<br/><br/>A capture is possible for Light, do it.`, new _MartianChessState__WEBPACK_IMPORTED_MODULE_4__.MartianChessState([[B, A, A, _], [_, _, _, _], [C, _, _, _], [_, _, _, _], [_, _, A, _], [_, _, _, _], [_, _, _, _], [_, B, A, _]], 1), [_MartianChessMove__WEBPACK_IMPORTED_MODULE_3__.MartianChessMove.from(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(0, 2), new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(2, 4)).get()], $localize`Congratulations! By capturing that pawn, you won one point.`, _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.YOU_DID_NOT_CAPTURE_ANY_PIECE()), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_1__.TutorialStep.fromMove($localize`Field Promotion` + ' (1/2)', $localize`It is sometimes possible to perform what is called a field promotion. If you are out of one type of piece, you can merge two pieces to add their value and get a new piece. For example, if you have no drones, you can merge two pawns into a drone. To merge two pawns, move one of your pawns on another.<br/><br/>Such a move is possible for Light. Do it.`, new _MartianChessState__WEBPACK_IMPORTED_MODULE_4__.MartianChessState([[_, _, _, C], [_, A, _, _], [_, _, A, _], [_, _, _, _], [_, _, _, _], [_, _, _, C], [_, _, B, _], [_, A, _, _]], 1), [_MartianChessMove__WEBPACK_IMPORTED_MODULE_3__.MartianChessMove.from(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(1, 1), new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(2, 2)).get(), _MartianChessMove__WEBPACK_IMPORTED_MODULE_3__.MartianChessMove.from(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(2, 2), new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(1, 1)).get()], _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.CONGRATULATIONS(), $localize`This is not a field promotion!`), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_1__.TutorialStep.fromPredicate($localize`Field Promotion` + ' (2/2)', $localize`The other kind of field promotion is to merge a drone and a pawn to obtain a queen.<br/><br/>Such a move is possible for Light. Do it.`, new _MartianChessState__WEBPACK_IMPORTED_MODULE_4__.MartianChessState([[A, _, _, _], [_, _, _, _], [_, _, _, _], [_, _, _, _], [_, _, _, _], [_, _, _, _], [_, _, B, _], [_, A, _, _]], 0), _MartianChessMove__WEBPACK_IMPORTED_MODULE_3__.MartianChessMove.from(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(1, 7), new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(2, 6)).get(), (move, _previous, result) => {
     const landed = result.getPieceAt(move.getEnd());
     if (landed === _MartianChessPiece__WEBPACK_IMPORTED_MODULE_5__.MartianChessPiece.QUEEN) {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPValidation.SUCCESS;
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.SUCCESS;
     } else {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPValidation.failure($localize`This is not a field promotion!`);
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.failure($localize`This is not a field promotion!`);
     }
-  }, _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.CONGRATULATIONS()), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_0__.TutorialStep.fromPredicate($localize`Call the clock`, $localize`When the game seems to be going nowhere, you can "call the clock" during your turn. To do so, click on the clock symbol on the right, then perform your move. Once the clock is called, seven more turn will be played.<br/><br/>You're playing Dark. Call the clock and perform a move.`, _MartianChessRules__WEBPACK_IMPORTED_MODULE_7__.MartianChessRules.get().getInitialState(), _MartianChessMove__WEBPACK_IMPORTED_MODULE_3__.MartianChessMove.from(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord(1, 5), new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord(0, 4), true).get(), (move, _previous, _result) => {
+  }, _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.CONGRATULATIONS()), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_1__.TutorialStep.fromPredicate($localize`Call the clock`, $localize`When the game seems to be going nowhere, you can "call the clock" during your turn. To do so, click on the clock symbol on the right, then perform your move. Once the clock is called, seven more turn will be played.<br/><br/>You're playing Dark. Call the clock and perform a move.`, _MartianChessRules__WEBPACK_IMPORTED_MODULE_7__.MartianChessRules.get().getInitialState(), _MartianChessMove__WEBPACK_IMPORTED_MODULE_3__.MartianChessMove.from(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(1, 5), new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(0, 4), true).get(), (move, _previous, _result) => {
     if (move.calledTheClock) {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPValidation.SUCCESS;
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.SUCCESS;
     } else {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPValidation.failure($localize`You did not call the clock!`);
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.failure($localize`You did not call the clock!`);
     }
-  }, _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.CONGRATULATIONS()), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_0__.TutorialStep.fromMove($localize`Restarting the clock`, $localize`If the clock has been called, whenever a capture is done the countdown restarts.<br/><br/>You're playing Dark, do a capture to restart the countdown.`, new _MartianChessState__WEBPACK_IMPORTED_MODULE_4__.MartianChessState([[_, _, _, _], [_, A, _, _], [_, _, _, _], [_, _, _, _], [_, _, _, _], [_, _, _, A], [_, _, B, _], [_, C, _, _]], 16, _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPOptional.empty(), _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPOptional.of(1)), [_MartianChessMove__WEBPACK_IMPORTED_MODULE_3__.MartianChessMove.from(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord(1, 7), new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord(1, 1)).get()], _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.CONGRATULATIONS(), $localize`This is not a capture, the game is now over, please retry!`), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_0__.TutorialStep.anyMove($localize`End game (by clock)`, $localize`When seven turns have passed after the clock has been called, the player with the most points win. If both player have the same number of points, it is a tie.<br/><br/>You're playing Light, do the last move.`, new _MartianChessState__WEBPACK_IMPORTED_MODULE_4__.MartianChessState([[_, _, _, C], [_, A, _, _], [_, _, _, _], [_, _, _, _], [_, _, _, _], [B, _, _, _], [_, _, _, _], [_, B, _, _]], 15, _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPOptional.empty(), _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPOptional.of(1)), _MartianChessMove__WEBPACK_IMPORTED_MODULE_3__.MartianChessMove.from(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord(1, 1), new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord(2, 2)).get(), _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.CONGRATULATIONS()), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_0__.TutorialStep.fromPredicate($localize`End by emptyness`, $localize`When a player's last piece is moved into the opponent territory, the game ends. If both players have the same number of points, the last player win!<br/><br/>Light player can win this way, do it!`, new _MartianChessState__WEBPACK_IMPORTED_MODULE_4__.MartianChessState([[_, _, _, C], [_, A, _, _], [_, _, _, _], [_, _, _, _], [_, _, A, _], [_, _, _, _], [_, _, _, _], [_, _, _, _]], 0), _MartianChessMove__WEBPACK_IMPORTED_MODULE_3__.MartianChessMove.from(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord(2, 4), new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord(1, 3)).get(), (move, _previous, _result) => {
+  }, _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.CONGRATULATIONS()), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_1__.TutorialStep.fromMove($localize`Restarting the clock`, $localize`If the clock has been called, whenever a capture is done the countdown restarts.<br/><br/>You're playing Dark, do a capture to restart the countdown.`, new _MartianChessState__WEBPACK_IMPORTED_MODULE_4__.MartianChessState([[_, _, _, _], [_, A, _, _], [_, _, _, _], [_, _, _, _], [_, _, _, _], [_, _, _, A], [_, _, B, _], [_, C, _, _]], 16, _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.empty(), _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.of(1)), [_MartianChessMove__WEBPACK_IMPORTED_MODULE_3__.MartianChessMove.from(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(1, 7), new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(1, 1)).get()], _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.CONGRATULATIONS(), $localize`This is not a capture, the game is now over, please retry!`), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_1__.TutorialStep.anyMove($localize`End game (by clock)`, $localize`When seven turns have passed after the clock has been called, the player with the most points win. If both player have the same number of points, it is a tie.<br/><br/>You're playing Light, do the last move.`, new _MartianChessState__WEBPACK_IMPORTED_MODULE_4__.MartianChessState([[_, _, _, C], [_, A, _, _], [_, _, _, _], [_, _, _, _], [_, _, _, _], [B, _, _, _], [_, _, _, _], [_, B, _, _]], 15, _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.empty(), _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.of(1)), _MartianChessMove__WEBPACK_IMPORTED_MODULE_3__.MartianChessMove.from(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(1, 1), new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(2, 2)).get(), _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.CONGRATULATIONS()), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_1__.TutorialStep.fromPredicate($localize`End by emptyness`, $localize`When a player's last piece is moved into the opponent territory, the game ends. If both players have the same number of points, the last player win!<br/><br/>Light player can win this way, do it!`, new _MartianChessState__WEBPACK_IMPORTED_MODULE_4__.MartianChessState([[_, _, _, C], [_, A, _, _], [_, _, _, _], [_, _, _, _], [_, _, A, _], [_, _, _, _], [_, _, _, _], [_, _, _, _]], 0), _MartianChessMove__WEBPACK_IMPORTED_MODULE_3__.MartianChessMove.from(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(2, 4), new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(1, 3)).get(), (move, _previous, _result) => {
     if (move.getEnd().y === 3) {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPValidation.SUCCESS;
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.SUCCESS;
     } else {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPValidation.failure($localize`Your piece is still in you territory!`);
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.failure($localize`Your piece is still in you territory!`);
     }
   }, _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.CONGRATULATIONS())];
 }
@@ -40210,12 +40210,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   P4Node: () => (/* binding */ P4Node),
 /* harmony export */   P4Rules: () => (/* binding */ P4Rules)
 /* harmony export */ });
-/* harmony import */ var _jscaip_AI_GameNode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../jscaip/AI/GameNode */ 49120);
-/* harmony import */ var _jscaip_Rules__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../jscaip/Rules */ 99150);
-/* harmony import */ var _P4State__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./P4State */ 77278);
-/* harmony import */ var _jscaip_Player__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../jscaip/Player */ 22092);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @everyboard/lib */ 65042);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @everyboard/lib */ 65042);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _jscaip_AI_GameNode__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../jscaip/AI/GameNode */ 49120);
+/* harmony import */ var _jscaip_Rules__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../jscaip/Rules */ 99150);
+/* harmony import */ var _P4State__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./P4State */ 77278);
+/* harmony import */ var _jscaip_Player__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../jscaip/Player */ 22092);
 /* harmony import */ var _jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../jscaip/TableUtils */ 37640);
 /* harmony import */ var _P4Failure__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./P4Failure */ 36641);
 /* harmony import */ var _jscaip_NInARowHelper__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../jscaip/NInARowHelper */ 48089);
@@ -40243,12 +40243,12 @@ var P4Rules_1;
 
 
 
-class P4Node extends _jscaip_AI_GameNode__WEBPACK_IMPORTED_MODULE_0__.GameNode {}
-let P4Rules = class P4Rules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_1__.ConfigurableRules {
+class P4Node extends _jscaip_AI_GameNode__WEBPACK_IMPORTED_MODULE_1__.GameNode {}
+let P4Rules = class P4Rules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_2__.ConfigurableRules {
   static {
     P4Rules_1 = this;
   }
-  static singleton = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.empty();
+  static singleton = _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.empty();
   static RULES_CONFIG_DESCRIPTION = new _components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_10__.RulesConfigDescription({
     name: () => $localize`Four in a Row`,
     config: {
@@ -40258,21 +40258,21 @@ let P4Rules = class P4Rules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_1__.C
   });
   static get() {
     if (P4Rules_1.singleton.isAbsent()) {
-      P4Rules_1.singleton = _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.of(new P4Rules_1());
+      P4Rules_1.singleton = _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.of(new P4Rules_1());
     }
     return P4Rules_1.singleton.get();
   }
   P4_HELPER;
   constructor() {
     super();
-    this.P4_HELPER = new _jscaip_NInARowHelper__WEBPACK_IMPORTED_MODULE_7__.NInARowHelper(_everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.Utils.identity, 4);
+    this.P4_HELPER = new _jscaip_NInARowHelper__WEBPACK_IMPORTED_MODULE_7__.NInARowHelper(_everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.Utils.identity, 4);
   }
   getRulesConfigDescription() {
-    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.of(P4Rules_1.RULES_CONFIG_DESCRIPTION);
+    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.of(P4Rules_1.RULES_CONFIG_DESCRIPTION);
   }
   getInitialState(config) {
-    const board = _jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_5__.TableUtils.create(config.get().width, config.get().height, _jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.PlayerOrNone.NONE);
-    return new _P4State__WEBPACK_IMPORTED_MODULE_2__.P4State(board, 0);
+    const board = _jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_5__.TableUtils.create(config.get().width, config.get().height, _jscaip_Player__WEBPACK_IMPORTED_MODULE_4__.PlayerOrNone.NONE);
+    return new _P4State__WEBPACK_IMPORTED_MODULE_3__.P4State(board, 0);
   }
   applyLegalMove(move, state, _config, _info) {
     const x = move.x;
@@ -40280,14 +40280,14 @@ let P4Rules = class P4Rules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_1__.C
     const y = P4Rules_1.get().getLowestUnoccupiedSpace(board, x);
     const turn = state.turn;
     board[y][x] = state.getCurrentPlayer();
-    const resultingState = new _P4State__WEBPACK_IMPORTED_MODULE_2__.P4State(board, turn + 1);
+    const resultingState = new _P4State__WEBPACK_IMPORTED_MODULE_3__.P4State(board, turn + 1);
     return resultingState;
   }
   isLegal(move, state) {
     if (state.getPieceAtXY(move.x, 0).isPlayer()) {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPValidation.failure(_P4Failure__WEBPACK_IMPORTED_MODULE_6__.P4Failure.COLUMN_IS_FULL());
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.failure(_P4Failure__WEBPACK_IMPORTED_MODULE_6__.P4Failure.COLUMN_IS_FULL());
     }
-    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPValidation.SUCCESS;
+    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.SUCCESS;
   }
   getGameStatus(node) {
     const state = node.gameState;
@@ -40608,9 +40608,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   PentagoMove: () => (/* binding */ PentagoMove)
 /* harmony export */ });
-/* harmony import */ var _jscaip_Coord__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../jscaip/Coord */ 16904);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @everyboard/lib */ 65042);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @everyboard/lib */ 65042);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../jscaip/Coord */ 16904);
 /* harmony import */ var _jscaip_MoveCoord__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../jscaip/MoveCoord */ 42559);
 /* harmony import */ var _PentagoState__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./PentagoState */ 83432);
 
@@ -40620,22 +40620,22 @@ __webpack_require__.r(__webpack_exports__);
 class PentagoMove extends _jscaip_MoveCoord__WEBPACK_IMPORTED_MODULE_2__.MoveCoord {
   blockTurned;
   turnedClockwise;
-  static encoder = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.Encoder.tuple([_jscaip_Coord__WEBPACK_IMPORTED_MODULE_0__.Coord.encoder, _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.getEncoder(_everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.Encoder.identity()), _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.Encoder.identity()], move => [move.coord, move.blockTurned, move.turnedClockwise], fields => PentagoMove.of(fields[0], fields[1], fields[2]));
+  static encoder = _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.Encoder.tuple([_jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord.encoder, _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.getEncoder(_everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.Encoder.identity()), _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.Encoder.identity()], move => [move.coord, move.blockTurned, move.turnedClockwise], fields => PentagoMove.of(fields[0], fields[1], fields[2]));
   static of(coord, blockTurned, turnedClockwise) {
     return new PentagoMove(coord.x, coord.y, blockTurned, turnedClockwise);
   }
   static withRotation(x, y, blockTurned, turnedClockwise) {
-    _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.Utils.assert(0 <= blockTurned && blockTurned <= 3, 'This block does not exist: ' + blockTurned);
-    return new PentagoMove(x, y, _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(blockTurned), turnedClockwise);
+    _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.Utils.assert(0 <= blockTurned && blockTurned <= 3, 'This block does not exist: ' + blockTurned);
+    return new PentagoMove(x, y, _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.of(blockTurned), turnedClockwise);
   }
   static rotationless(x, y) {
-    return new PentagoMove(x, y, _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty());
+    return new PentagoMove(x, y, _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.empty());
   }
   constructor(x, y, blockTurned, turnedClockwise = false) {
     super(x, y);
     this.blockTurned = blockTurned;
     this.turnedClockwise = turnedClockwise;
-    _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.Utils.assert(_PentagoState__WEBPACK_IMPORTED_MODULE_3__.PentagoState.isOnBoard(this.coord), 'The board is a ' + _PentagoState__WEBPACK_IMPORTED_MODULE_3__.PentagoState.SIZE + ' space wide square, invalid coord: ' + this.coord.toString());
+    _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.Utils.assert(_PentagoState__WEBPACK_IMPORTED_MODULE_3__.PentagoState.isOnBoard(this.coord), 'The board is a ' + _PentagoState__WEBPACK_IMPORTED_MODULE_3__.PentagoState.SIZE + ' space wide square, invalid coord: ' + this.coord.toString());
   }
   toString() {
     if (this.blockTurned.isPresent()) {
@@ -40738,14 +40738,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   PentagoNode: () => (/* binding */ PentagoNode),
 /* harmony export */   PentagoRules: () => (/* binding */ PentagoRules)
 /* harmony export */ });
-/* harmony import */ var _jscaip_Coord__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../jscaip/Coord */ 16904);
-/* harmony import */ var _jscaip_Vector__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../jscaip/Vector */ 33366);
-/* harmony import */ var _jscaip_AI_GameNode__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../jscaip/AI/GameNode */ 49120);
-/* harmony import */ var _jscaip_Player__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../jscaip/Player */ 22092);
-/* harmony import */ var _jscaip_Rules__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../jscaip/Rules */ 99150);
-/* harmony import */ var _jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../jscaip/RulesFailure */ 68566);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @everyboard/lib */ 65042);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @everyboard/lib */ 65042);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../jscaip/Coord */ 16904);
+/* harmony import */ var _jscaip_Vector__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../jscaip/Vector */ 33366);
+/* harmony import */ var _jscaip_AI_GameNode__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../jscaip/AI/GameNode */ 49120);
+/* harmony import */ var _jscaip_Player__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../jscaip/Player */ 22092);
+/* harmony import */ var _jscaip_Rules__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../jscaip/Rules */ 99150);
+/* harmony import */ var _jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../jscaip/RulesFailure */ 68566);
 /* harmony import */ var _PentagoFailure__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./PentagoFailure */ 82799);
 /* harmony import */ var _PentagoState__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./PentagoState */ 83432);
 /* harmony import */ var _jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../jscaip/GameStatus */ 19613);
@@ -40763,51 +40763,51 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class PentagoNode extends _jscaip_AI_GameNode__WEBPACK_IMPORTED_MODULE_2__.GameNode {}
-class PentagoRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_4__.Rules {
-  static singleton = _everyboard_lib__WEBPACK_IMPORTED_MODULE_6__.MGPOptional.empty();
+class PentagoNode extends _jscaip_AI_GameNode__WEBPACK_IMPORTED_MODULE_3__.GameNode {}
+class PentagoRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_5__.Rules {
+  static singleton = _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.empty();
   static get() {
     if (PentagoRules.singleton.isAbsent()) {
-      PentagoRules.singleton = _everyboard_lib__WEBPACK_IMPORTED_MODULE_6__.MGPOptional.of(new PentagoRules());
+      PentagoRules.singleton = _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.of(new PentagoRules());
     }
     return PentagoRules.singleton.get();
   }
   getInitialState() {
-    const initialBoard = _jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_10__.TableUtils.create(_PentagoState__WEBPACK_IMPORTED_MODULE_8__.PentagoState.SIZE, _PentagoState__WEBPACK_IMPORTED_MODULE_8__.PentagoState.SIZE, _jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.PlayerOrNone.NONE);
+    const initialBoard = _jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_10__.TableUtils.create(_PentagoState__WEBPACK_IMPORTED_MODULE_8__.PentagoState.SIZE, _PentagoState__WEBPACK_IMPORTED_MODULE_8__.PentagoState.SIZE, _jscaip_Player__WEBPACK_IMPORTED_MODULE_4__.PlayerOrNone.NONE);
     return new _PentagoState__WEBPACK_IMPORTED_MODULE_8__.PentagoState(initialBoard, 0);
   }
   static VICTORY_SOURCE = [
   // [ firstCoordToTest, directionToTest, shouldLookTheSpaceBeforeAsWellAsSpaceAfter]
-  [new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_0__.Coord(1, 0), new _jscaip_Vector__WEBPACK_IMPORTED_MODULE_1__.Vector(1, 1), false],
+  [new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord(1, 0), new _jscaip_Vector__WEBPACK_IMPORTED_MODULE_2__.Vector(1, 1), false],
   // 4 short diagonals
-  [new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_0__.Coord(0, 1), new _jscaip_Vector__WEBPACK_IMPORTED_MODULE_1__.Vector(1, 1), false], [new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_0__.Coord(4, 0), new _jscaip_Vector__WEBPACK_IMPORTED_MODULE_1__.Vector(-1, 1), false], [new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_0__.Coord(5, 1), new _jscaip_Vector__WEBPACK_IMPORTED_MODULE_1__.Vector(-1, 1), false], [new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_0__.Coord(1, 1), new _jscaip_Vector__WEBPACK_IMPORTED_MODULE_1__.Vector(1, 1), true],
+  [new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord(0, 1), new _jscaip_Vector__WEBPACK_IMPORTED_MODULE_2__.Vector(1, 1), false], [new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord(4, 0), new _jscaip_Vector__WEBPACK_IMPORTED_MODULE_2__.Vector(-1, 1), false], [new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord(5, 1), new _jscaip_Vector__WEBPACK_IMPORTED_MODULE_2__.Vector(-1, 1), false], [new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord(1, 1), new _jscaip_Vector__WEBPACK_IMPORTED_MODULE_2__.Vector(1, 1), true],
   // 2 long diagonals
-  [new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_0__.Coord(4, 1), new _jscaip_Vector__WEBPACK_IMPORTED_MODULE_1__.Vector(-1, 1), true], [new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_0__.Coord(0, 1), new _jscaip_Vector__WEBPACK_IMPORTED_MODULE_1__.Vector(0, 1), true],
+  [new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord(4, 1), new _jscaip_Vector__WEBPACK_IMPORTED_MODULE_2__.Vector(-1, 1), true], [new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord(0, 1), new _jscaip_Vector__WEBPACK_IMPORTED_MODULE_2__.Vector(0, 1), true],
   // 6 verticals
-  [new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_0__.Coord(1, 1), new _jscaip_Vector__WEBPACK_IMPORTED_MODULE_1__.Vector(0, 1), true], [new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_0__.Coord(2, 1), new _jscaip_Vector__WEBPACK_IMPORTED_MODULE_1__.Vector(0, 1), true], [new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_0__.Coord(3, 1), new _jscaip_Vector__WEBPACK_IMPORTED_MODULE_1__.Vector(0, 1), true], [new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_0__.Coord(4, 1), new _jscaip_Vector__WEBPACK_IMPORTED_MODULE_1__.Vector(0, 1), true], [new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_0__.Coord(5, 1), new _jscaip_Vector__WEBPACK_IMPORTED_MODULE_1__.Vector(0, 1), true], [new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_0__.Coord(1, 0), new _jscaip_Vector__WEBPACK_IMPORTED_MODULE_1__.Vector(1, 0), true],
+  [new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord(1, 1), new _jscaip_Vector__WEBPACK_IMPORTED_MODULE_2__.Vector(0, 1), true], [new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord(2, 1), new _jscaip_Vector__WEBPACK_IMPORTED_MODULE_2__.Vector(0, 1), true], [new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord(3, 1), new _jscaip_Vector__WEBPACK_IMPORTED_MODULE_2__.Vector(0, 1), true], [new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord(4, 1), new _jscaip_Vector__WEBPACK_IMPORTED_MODULE_2__.Vector(0, 1), true], [new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord(5, 1), new _jscaip_Vector__WEBPACK_IMPORTED_MODULE_2__.Vector(0, 1), true], [new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord(1, 0), new _jscaip_Vector__WEBPACK_IMPORTED_MODULE_2__.Vector(1, 0), true],
   // 6 horizontal
-  [new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_0__.Coord(1, 1), new _jscaip_Vector__WEBPACK_IMPORTED_MODULE_1__.Vector(1, 0), true], [new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_0__.Coord(1, 2), new _jscaip_Vector__WEBPACK_IMPORTED_MODULE_1__.Vector(1, 0), true], [new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_0__.Coord(1, 3), new _jscaip_Vector__WEBPACK_IMPORTED_MODULE_1__.Vector(1, 0), true], [new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_0__.Coord(1, 4), new _jscaip_Vector__WEBPACK_IMPORTED_MODULE_1__.Vector(1, 0), true], [new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_0__.Coord(1, 5), new _jscaip_Vector__WEBPACK_IMPORTED_MODULE_1__.Vector(1, 0), true]];
+  [new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord(1, 1), new _jscaip_Vector__WEBPACK_IMPORTED_MODULE_2__.Vector(1, 0), true], [new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord(1, 2), new _jscaip_Vector__WEBPACK_IMPORTED_MODULE_2__.Vector(1, 0), true], [new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord(1, 3), new _jscaip_Vector__WEBPACK_IMPORTED_MODULE_2__.Vector(1, 0), true], [new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord(1, 4), new _jscaip_Vector__WEBPACK_IMPORTED_MODULE_2__.Vector(1, 0), true], [new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord(1, 5), new _jscaip_Vector__WEBPACK_IMPORTED_MODULE_2__.Vector(1, 0), true]];
   applyLegalMove(move, state, _config, _info) {
     return state.applyLegalMove(move);
   }
   isLegal(move, state) {
     if (state.getPieceAt(move.coord).isPlayer()) {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_6__.MGPValidation.failure(_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_5__.RulesFailure.MUST_LAND_ON_EMPTY_SPACE());
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.failure(_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_6__.RulesFailure.MUST_LAND_ON_EMPTY_SPACE());
     }
     const postDropState = state.applyLegalDrop(move);
     if (postDropState.neutralBlocks.length === 0) {
       if (move.blockTurned.isAbsent()) {
-        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_6__.MGPValidation.failure(_PentagoFailure__WEBPACK_IMPORTED_MODULE_7__.PentagoFailure.MUST_CHOOSE_BLOCK_TO_ROTATE());
+        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.failure(_PentagoFailure__WEBPACK_IMPORTED_MODULE_7__.PentagoFailure.MUST_CHOOSE_BLOCK_TO_ROTATE());
       }
     } else {
       if (move.blockTurned.isPresent()) {
         const blockTurned = move.blockTurned.get();
         if (postDropState.neutralBlocks.includes(blockTurned)) {
-          return _everyboard_lib__WEBPACK_IMPORTED_MODULE_6__.MGPValidation.failure(_PentagoFailure__WEBPACK_IMPORTED_MODULE_7__.PentagoFailure.CANNOT_ROTATE_NEUTRAL_BLOCK());
+          return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.failure(_PentagoFailure__WEBPACK_IMPORTED_MODULE_7__.PentagoFailure.CANNOT_ROTATE_NEUTRAL_BLOCK());
         }
       }
     }
-    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_6__.MGPValidation.SUCCESS;
+    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.SUCCESS;
   }
   getVictoryCoords(state) {
     let victoryCoords = [];
@@ -40850,14 +40850,14 @@ class PentagoRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_4__.Rules {
     for (let i = 0; i < victoryCoords.length; i += 5) {
       victoryFound.put(state.getPieceAt(victoryCoords[i]), true);
     }
-    if (victoryFound.get(_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ZERO)) {
-      if (victoryFound.get(_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ONE)) {
+    if (victoryFound.get(_jscaip_Player__WEBPACK_IMPORTED_MODULE_4__.Player.ZERO)) {
+      if (victoryFound.get(_jscaip_Player__WEBPACK_IMPORTED_MODULE_4__.Player.ONE)) {
         return _jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_9__.GameStatus.DRAW;
       } else {
         return _jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_9__.GameStatus.ZERO_WON;
       }
     }
-    if (victoryFound.get(_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ONE)) {
+    if (victoryFound.get(_jscaip_Player__WEBPACK_IMPORTED_MODULE_4__.Player.ONE)) {
       return _jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_9__.GameStatus.ONE_WON;
     }
     if (state.turn === _PentagoState__WEBPACK_IMPORTED_MODULE_8__.PentagoState.SIZE * _PentagoState__WEBPACK_IMPORTED_MODULE_8__.PentagoState.SIZE) {
@@ -40969,10 +40969,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   PentagoTutorial: () => (/* binding */ PentagoTutorial)
 /* harmony export */ });
-/* harmony import */ var _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../components/wrapper-components/tutorial-game-wrapper/TutorialStep */ 62518);
-/* harmony import */ var _jscaip_Player__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../jscaip/Player */ 22092);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @everyboard/lib */ 65042);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @everyboard/lib */ 65042);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../components/wrapper-components/tutorial-game-wrapper/TutorialStep */ 62518);
+/* harmony import */ var _jscaip_Player__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../jscaip/Player */ 22092);
 /* harmony import */ var _PentagoMove__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./PentagoMove */ 79904);
 /* harmony import */ var _PentagoState__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./PentagoState */ 83432);
 /* harmony import */ var _PentagoRules__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./PentagoRules */ 42218);
@@ -40986,24 +40986,24 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const _ = _jscaip_Player__WEBPACK_IMPORTED_MODULE_1__.PlayerOrNone.NONE;
-const O = _jscaip_Player__WEBPACK_IMPORTED_MODULE_1__.PlayerOrNone.ZERO;
-const X = _jscaip_Player__WEBPACK_IMPORTED_MODULE_1__.PlayerOrNone.ONE;
+const _ = _jscaip_Player__WEBPACK_IMPORTED_MODULE_2__.PlayerOrNone.NONE;
+const O = _jscaip_Player__WEBPACK_IMPORTED_MODULE_2__.PlayerOrNone.ZERO;
+const X = _jscaip_Player__WEBPACK_IMPORTED_MODULE_2__.PlayerOrNone.ONE;
 class PentagoTutorial {
-  tutorial = [_components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_0__.TutorialStep.informational($localize`Initial board`, $localize`The initial Pentago board is made of 6x6 spaces, subdivided in 4 quadrants, which can each rotate.`, _PentagoRules__WEBPACK_IMPORTED_MODULE_5__.PentagoRules.get().getInitialState()), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_0__.TutorialStep.informational(_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`The goal at Pentago is to align 5 of your pieces. In the following board, Dark wins.`, new _PentagoState__WEBPACK_IMPORTED_MODULE_4__.PentagoState([[O, _, _, O, X, _], [O, X, _, _, _, _], [O, _, X, _, _, _], [O, _, _, _, _, X], [O, _, _, _, X, _], [_, _, _, _, _, _]], 10)).withPreviousMove(_PentagoMove__WEBPACK_IMPORTED_MODULE_3__.PentagoMove.withRotation(0, 0, 0, false)), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_0__.TutorialStep.fromPredicate($localize`Simple move`, $localize`At their turn, players put a piece on the board and possibly rotate one quadrant. As long as there are neutral quadrants, i.e., quadrants that would not change after being rotated, a player may skip rotating a quadrant. To do this, you have to click on the crossed circle that appears at the center of the board when it is possible.<br/><br/>You're playing Dark, do a simple move.`, new _PentagoState__WEBPACK_IMPORTED_MODULE_4__.PentagoState([[_, _, _, _, _, _], [_, O, _, _, X, _], [_, _, _, _, _, _], [_, _, _, _, _, _], [_, X, _, _, O, _], [_, _, _, _, _, _]], 10), _PentagoMove__WEBPACK_IMPORTED_MODULE_3__.PentagoMove.rotationless(2, 2), (move, _previous, _result) => {
+  tutorial = [_components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_1__.TutorialStep.informational($localize`Initial board`, $localize`The initial Pentago board is made of 6x6 spaces, subdivided in 4 quadrants, which can each rotate.`, _PentagoRules__WEBPACK_IMPORTED_MODULE_5__.PentagoRules.get().getInitialState()), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_1__.TutorialStep.informational(_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`The goal at Pentago is to align 5 of your pieces. In the following board, Dark wins.`, new _PentagoState__WEBPACK_IMPORTED_MODULE_4__.PentagoState([[O, _, _, O, X, _], [O, X, _, _, _, _], [O, _, X, _, _, _], [O, _, _, _, _, X], [O, _, _, _, X, _], [_, _, _, _, _, _]], 10)).withPreviousMove(_PentagoMove__WEBPACK_IMPORTED_MODULE_3__.PentagoMove.withRotation(0, 0, 0, false)), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_1__.TutorialStep.fromPredicate($localize`Simple move`, $localize`At their turn, players put a piece on the board and possibly rotate one quadrant. As long as there are neutral quadrants, i.e., quadrants that would not change after being rotated, a player may skip rotating a quadrant. To do this, you have to click on the crossed circle that appears at the center of the board when it is possible.<br/><br/>You're playing Dark, do a simple move.`, new _PentagoState__WEBPACK_IMPORTED_MODULE_4__.PentagoState([[_, _, _, _, _, _], [_, O, _, _, X, _], [_, _, _, _, _, _], [_, _, _, _, _, _], [_, X, _, _, O, _], [_, _, _, _, _, _]], 10), _PentagoMove__WEBPACK_IMPORTED_MODULE_3__.PentagoMove.rotationless(2, 2), (move, _previous, _result) => {
     if (move.blockTurned.isPresent()) {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPValidation.failure($localize`You have made a move with a rotation. This tutorial step is about moves without rotations!`);
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.failure($localize`You have made a move with a rotation. This tutorial step is about moves without rotations!`);
     } else {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPValidation.SUCCESS;
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.SUCCESS;
     }
-  }, _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.CONGRATULATIONS()).withPreviousMove(_PentagoMove__WEBPACK_IMPORTED_MODULE_3__.PentagoMove.of(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_7__.Coord(1, 4), _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPOptional.empty(), false)), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_0__.TutorialStep.fromPredicate($localize`Move with rotation`, $localize`After putting a piece, arrows will appear on non-neutral quadrants.<br/><br/>
+  }, _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_6__.TutorialStepMessage.CONGRATULATIONS()).withPreviousMove(_PentagoMove__WEBPACK_IMPORTED_MODULE_3__.PentagoMove.of(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_7__.Coord(1, 4), _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.empty(), false)), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_1__.TutorialStep.fromPredicate($localize`Move with rotation`, $localize`After putting a piece, arrows will appear on non-neutral quadrants.<br/><br/>
         You're playing Dark, place a piece on a quadrant and do a rotation!`, new _PentagoState__WEBPACK_IMPORTED_MODULE_4__.PentagoState([[_, _, _, _, _, _], [_, O, _, _, X, _], [_, _, _, _, _, _], [_, _, _, _, _, _], [_, X, _, _, O, _], [_, _, _, _, _, _]], 10), _PentagoMove__WEBPACK_IMPORTED_MODULE_3__.PentagoMove.withRotation(0, 0, 0, true), (move, _previous, _result) => {
     if (move.blockTurned.isPresent()) {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPValidation.SUCCESS;
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.SUCCESS;
     } else {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPValidation.failure($localize`You made a move without rotation, try again!`);
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.failure($localize`You made a move without rotation, try again!`);
     }
-  }, $localize`Congratulations! Note that if all quadrants are neutral after you have put your piece, there will be no rotation.`).withPreviousMove(_PentagoMove__WEBPACK_IMPORTED_MODULE_3__.PentagoMove.of(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_7__.Coord(1, 4), _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPOptional.empty(), false))];
+  }, $localize`Congratulations! Note that if all quadrants are neutral after you have put your piece, there will be no rotation.`).withPreviousMove(_PentagoMove__WEBPACK_IMPORTED_MODULE_3__.PentagoMove.of(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_7__.Coord(1, 4), _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.empty(), false))];
 }
 
 /***/ }),
@@ -41598,16 +41598,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   PenteNode: () => (/* binding */ PenteNode),
 /* harmony export */   PenteRules: () => (/* binding */ PenteRules)
 /* harmony export */ });
-/* harmony import */ var _jscaip_Coord__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../jscaip/Coord */ 16904);
-/* harmony import */ var _jscaip_Ordinal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../jscaip/Ordinal */ 63196);
-/* harmony import */ var _jscaip_AI_GameNode__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../jscaip/AI/GameNode */ 49120);
-/* harmony import */ var _jscaip_NInARowHelper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../jscaip/NInARowHelper */ 48089);
-/* harmony import */ var _jscaip_Player__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../jscaip/Player */ 22092);
-/* harmony import */ var _jscaip_Rules__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../jscaip/Rules */ 99150);
-/* harmony import */ var _jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../jscaip/GameStatus */ 19613);
-/* harmony import */ var _jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../jscaip/RulesFailure */ 68566);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @everyboard/lib */ 65042);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @everyboard/lib */ 65042);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../jscaip/Coord */ 16904);
+/* harmony import */ var _jscaip_Ordinal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../jscaip/Ordinal */ 63196);
+/* harmony import */ var _jscaip_AI_GameNode__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../jscaip/AI/GameNode */ 49120);
+/* harmony import */ var _jscaip_NInARowHelper__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../jscaip/NInARowHelper */ 48089);
+/* harmony import */ var _jscaip_Player__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../jscaip/Player */ 22092);
+/* harmony import */ var _jscaip_Rules__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../jscaip/Rules */ 99150);
+/* harmony import */ var _jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../jscaip/GameStatus */ 19613);
+/* harmony import */ var _jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../jscaip/RulesFailure */ 68566);
 /* harmony import */ var _PenteState__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./PenteState */ 39540);
 /* harmony import */ var _jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../jscaip/TableUtils */ 37640);
 /* harmony import */ var _components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../components/wrapper-components/rules-configuration/RulesConfigDescription */ 62692);
@@ -41627,8 +41627,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class PenteNode extends _jscaip_AI_GameNode__WEBPACK_IMPORTED_MODULE_2__.GameNode {}
-class PenteRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_5__.ConfigurableRules {
+class PenteNode extends _jscaip_AI_GameNode__WEBPACK_IMPORTED_MODULE_3__.GameNode {}
+class PenteRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_6__.ConfigurableRules {
   static RULES_CONFIG_DESCRIPTION = new _components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_11__.RulesConfigDescription({
     name: () => $localize`Default`,
     config: {
@@ -41639,31 +41639,31 @@ class PenteRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_5__.Configurable
       sizeOfSandwich: new _components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_11__.NumberConfig(2, () => $localize`Size of captures`, _utils_MGPValidator__WEBPACK_IMPORTED_MODULE_13__.MGPValidators.range(1, 99))
     }
   });
-  static singleton = _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.MGPOptional.empty();
+  static singleton = _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.empty();
   static get() {
     if (PenteRules.singleton.isAbsent()) {
-      PenteRules.singleton = _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.MGPOptional.of(new PenteRules());
+      PenteRules.singleton = _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.of(new PenteRules());
     }
     return PenteRules.singleton.get();
   }
   getInitialState(optionalConfig) {
     const config = optionalConfig.get();
-    const board = _jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_10__.TableUtils.create(config.width, config.height, _jscaip_Player__WEBPACK_IMPORTED_MODULE_4__.PlayerOrNone.NONE);
+    const board = _jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_10__.TableUtils.create(config.width, config.height, _jscaip_Player__WEBPACK_IMPORTED_MODULE_5__.PlayerOrNone.NONE);
     const cx = Math.floor(config.width / 2);
     const cy = Math.floor(config.height / 2);
-    board[cy][cx] = _jscaip_Player__WEBPACK_IMPORTED_MODULE_4__.PlayerOrNone.ONE;
+    board[cy][cx] = _jscaip_Player__WEBPACK_IMPORTED_MODULE_5__.PlayerOrNone.ONE;
     return new _PenteState__WEBPACK_IMPORTED_MODULE_9__.PenteState(board, _jscaip_PlayerMap__WEBPACK_IMPORTED_MODULE_12__.PlayerNumberMap.of(0, 0), 0);
   }
   getRulesConfigDescription() {
-    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.MGPOptional.of(PenteRules.RULES_CONFIG_DESCRIPTION);
+    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.of(PenteRules.RULES_CONFIG_DESCRIPTION);
   }
   isLegal(move, state) {
     if (state.isNotOnBoard(move.coord)) {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.MGPValidation.failure(_jscaip_Coord__WEBPACK_IMPORTED_MODULE_0__.CoordFailure.OUT_OF_RANGE(move.coord));
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.failure(_jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.CoordFailure.OUT_OF_RANGE(move.coord));
     } else if (state.getPieceAt(move.coord).isPlayer()) {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.MGPValidation.failure(_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_7__.RulesFailure.MUST_CLICK_ON_EMPTY_SQUARE());
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.failure(_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_8__.RulesFailure.MUST_CLICK_ON_EMPTY_SQUARE());
     } else {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.MGPValidation.SUCCESS;
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.SUCCESS;
     }
   }
   applyLegalMove(move, state, config, _info) {
@@ -41672,7 +41672,7 @@ class PenteRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_5__.Configurable
     newBoard[move.coord.y][move.coord.x] = player;
     const capturedPieces = this.getCaptures(move.coord, state, config.get(), player);
     for (const captured of capturedPieces) {
-      newBoard[captured.y][captured.x] = _jscaip_Player__WEBPACK_IMPORTED_MODULE_4__.PlayerOrNone.NONE;
+      newBoard[captured.y][captured.x] = _jscaip_Player__WEBPACK_IMPORTED_MODULE_5__.PlayerOrNone.NONE;
     }
     const captures = state.captures.getCopy();
     captures.add(player, capturedPieces.length);
@@ -41682,7 +41682,7 @@ class PenteRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_5__.Configurable
     const opponent = player.getOpponent();
     const captures = [];
     const sizeOfCapture = config.sizeOfSandwich;
-    for (const direction of _jscaip_Ordinal__WEBPACK_IMPORTED_MODULE_1__.Ordinal.factory.all) {
+    for (const direction of _jscaip_Ordinal__WEBPACK_IMPORTED_MODULE_2__.Ordinal.factory.all) {
       let i = 1;
       let potentialCapture = coord.getNext(direction, i);
       const captured = [potentialCapture];
@@ -41703,20 +41703,20 @@ class PenteRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_5__.Configurable
     const opponent = state.getCurrentOpponent();
     const capturesNeededToWin = config.get().capturesNeededToWin;
     if (capturesNeededToWin <= state.captures.get(opponent)) {
-      return _jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_6__.GameStatus.getVictory(opponent);
+      return _jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_7__.GameStatus.getVictory(opponent);
     }
     const victoriousCoord = this.getHelper(config.get()).getVictoriousCoord(state);
     if (victoriousCoord.length > 0) {
-      return _jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_6__.GameStatus.getVictory(opponent);
+      return _jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_7__.GameStatus.getVictory(opponent);
     }
     if (this.stillHaveEmptySquare(state)) {
-      return _jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_6__.GameStatus.ONGOING;
+      return _jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_7__.GameStatus.ONGOING;
     } else {
-      return _jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_6__.GameStatus.DRAW;
+      return _jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_7__.GameStatus.DRAW;
     }
   }
   getHelper(config) {
-    return new _jscaip_NInARowHelper__WEBPACK_IMPORTED_MODULE_3__.NInARowHelper(_everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.Utils.identity, config.nInARow);
+    return new _jscaip_NInARowHelper__WEBPACK_IMPORTED_MODULE_4__.NInARowHelper(_everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.Utils.identity, config.nInARow);
   }
   stillHaveEmptySquare(state) {
     const width = state.getWidth();
@@ -42206,10 +42206,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   PylosMoveGenerator: () => (/* binding */ PylosMoveGenerator)
 /* harmony export */ });
-/* harmony import */ var _PylosMove__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PylosMove */ 82784);
-/* harmony import */ var _PylosRules__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PylosRules */ 64490);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @everyboard/lib */ 65042);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @everyboard/lib */ 65042);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _PylosMove__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PylosMove */ 82784);
+/* harmony import */ var _PylosRules__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./PylosRules */ 64490);
 /* harmony import */ var _jscaip_AI_AI__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../jscaip/AI/AI */ 57204);
 
 
@@ -42219,20 +42219,20 @@ class PylosMoveGenerator extends _jscaip_AI_AI__WEBPACK_IMPORTED_MODULE_3__.Move
   getListMoves(node, _config) {
     const state = node.gameState;
     const result = [];
-    const stateInfo = _PylosRules__WEBPACK_IMPORTED_MODULE_1__.PylosRules.getStateInfo(state);
-    const climbings = _PylosRules__WEBPACK_IMPORTED_MODULE_1__.PylosRules.getClimbingMoves(stateInfo);
-    const drops = _PylosRules__WEBPACK_IMPORTED_MODULE_1__.PylosRules.getDropMoves(stateInfo);
+    const stateInfo = _PylosRules__WEBPACK_IMPORTED_MODULE_2__.PylosRules.getStateInfo(state);
+    const climbings = _PylosRules__WEBPACK_IMPORTED_MODULE_2__.PylosRules.getClimbingMoves(stateInfo);
+    const drops = _PylosRules__WEBPACK_IMPORTED_MODULE_2__.PylosRules.getDropMoves(stateInfo);
     const moves = climbings.concat(drops);
     for (const move of moves) {
       const postMoveState = state.applyLegalMove(move, false);
-      let possibleCaptures = new _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.Set();
-      if (_PylosRules__WEBPACK_IMPORTED_MODULE_1__.PylosRules.canCapture(postMoveState, move.landingCoord)) {
-        possibleCaptures = _PylosRules__WEBPACK_IMPORTED_MODULE_1__.PylosRules.getPossibleCaptures(postMoveState);
+      let possibleCaptures = new _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.Set();
+      if (_PylosRules__WEBPACK_IMPORTED_MODULE_2__.PylosRules.canCapture(postMoveState, move.landingCoord)) {
+        possibleCaptures = _PylosRules__WEBPACK_IMPORTED_MODULE_2__.PylosRules.getPossibleCaptures(postMoveState);
       } else {
         result.push(move);
       }
       for (const possiblesCapture of possibleCaptures) {
-        const newMove = _PylosMove__WEBPACK_IMPORTED_MODULE_0__.PylosMove.changeCapture(move, possiblesCapture.toList());
+        const newMove = _PylosMove__WEBPACK_IMPORTED_MODULE_1__.PylosMove.changeCapture(move, possiblesCapture.toList());
         result.push(newMove);
       }
     }
@@ -42306,17 +42306,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   PylosNode: () => (/* binding */ PylosNode),
 /* harmony export */   PylosRules: () => (/* binding */ PylosRules)
 /* harmony export */ });
-/* harmony import */ var _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../jscaip/Orthogonal */ 99342);
-/* harmony import */ var _jscaip_AI_GameNode__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../jscaip/AI/GameNode */ 49120);
-/* harmony import */ var _jscaip_Player__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../jscaip/Player */ 22092);
-/* harmony import */ var _jscaip_Rules__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../jscaip/Rules */ 99150);
-/* harmony import */ var _PylosCoord__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./PylosCoord */ 32532);
-/* harmony import */ var _PylosMove__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./PylosMove */ 82784);
-/* harmony import */ var _PylosState__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./PylosState */ 89352);
-/* harmony import */ var _jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../jscaip/RulesFailure */ 68566);
-/* harmony import */ var _PylosFailure__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./PylosFailure */ 60271);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @everyboard/lib */ 65042);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @everyboard/lib */ 65042);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../jscaip/Orthogonal */ 99342);
+/* harmony import */ var _jscaip_AI_GameNode__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../jscaip/AI/GameNode */ 49120);
+/* harmony import */ var _jscaip_Player__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../jscaip/Player */ 22092);
+/* harmony import */ var _jscaip_Rules__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../jscaip/Rules */ 99150);
+/* harmony import */ var _PylosCoord__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./PylosCoord */ 32532);
+/* harmony import */ var _PylosMove__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./PylosMove */ 82784);
+/* harmony import */ var _PylosState__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./PylosState */ 89352);
+/* harmony import */ var _jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../jscaip/RulesFailure */ 68566);
+/* harmony import */ var _PylosFailure__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./PylosFailure */ 60271);
 /* harmony import */ var _jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../jscaip/GameStatus */ 19613);
 /* harmony import */ var _jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../jscaip/TableUtils */ 37640);
 
@@ -42331,22 +42331,22 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class PylosNode extends _jscaip_AI_GameNode__WEBPACK_IMPORTED_MODULE_1__.GameNode {}
-class PylosRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_3__.Rules {
-  static singleton = _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__.MGPOptional.empty();
+class PylosNode extends _jscaip_AI_GameNode__WEBPACK_IMPORTED_MODULE_2__.GameNode {}
+class PylosRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_4__.Rules {
+  static singleton = _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.empty();
   static get() {
     if (PylosRules.singleton.isAbsent()) {
-      PylosRules.singleton = _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__.MGPOptional.of(new PylosRules());
+      PylosRules.singleton = _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.of(new PylosRules());
     }
     return PylosRules.singleton.get();
   }
   getInitialState() {
-    const board0 = _jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_11__.TableUtils.create(4, 4, _jscaip_Player__WEBPACK_IMPORTED_MODULE_2__.PlayerOrNone.NONE);
-    const board1 = _jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_11__.TableUtils.create(3, 3, _jscaip_Player__WEBPACK_IMPORTED_MODULE_2__.PlayerOrNone.NONE);
-    const board2 = _jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_11__.TableUtils.create(2, 2, _jscaip_Player__WEBPACK_IMPORTED_MODULE_2__.PlayerOrNone.NONE);
-    const board3 = [[_jscaip_Player__WEBPACK_IMPORTED_MODULE_2__.PlayerOrNone.NONE]];
+    const board0 = _jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_11__.TableUtils.create(4, 4, _jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.PlayerOrNone.NONE);
+    const board1 = _jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_11__.TableUtils.create(3, 3, _jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.PlayerOrNone.NONE);
+    const board2 = _jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_11__.TableUtils.create(2, 2, _jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.PlayerOrNone.NONE);
+    const board3 = [[_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.PlayerOrNone.NONE]];
     const turn = 0;
-    return new _PylosState__WEBPACK_IMPORTED_MODULE_6__.PylosState([board0, board1, board2, board3], turn);
+    return new _PylosState__WEBPACK_IMPORTED_MODULE_7__.PylosState([board0, board1, board2, board3], turn);
   }
   static getStateInfo(state) {
     const freeToMove = [];
@@ -42354,7 +42354,7 @@ class PylosRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_3__.Rules {
     for (let z = 0; z < 3; z++) {
       for (let y = 0; y < 4 - z; y++) {
         for (let x = 0; x < 4 - z; x++) {
-          const c = new _PylosCoord__WEBPACK_IMPORTED_MODULE_4__.PylosCoord(x, y, z);
+          const c = new _PylosCoord__WEBPACK_IMPORTED_MODULE_5__.PylosCoord(x, y, z);
           if (state.getPieceAt(c) === state.getCurrentPlayer() && state.isSupporting(c) === false) {
             freeToMove.push(c);
           }
@@ -42374,7 +42374,7 @@ class PylosRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_3__.Rules {
     for (const startingCoord of stateInfo.freeToMove) {
       for (const landingCoord of stateInfo.landable) {
         if (landingCoord.isHigherThan(startingCoord) && landingCoord.getLowerPieces().some(c => startingCoord.equals(c)) === false) {
-          const newMove = _PylosMove__WEBPACK_IMPORTED_MODULE_5__.PylosMove.ofClimb(startingCoord, landingCoord, []);
+          const newMove = _PylosMove__WEBPACK_IMPORTED_MODULE_6__.PylosMove.ofClimb(startingCoord, landingCoord, []);
           moves.push(newMove);
         }
       }
@@ -42384,17 +42384,17 @@ class PylosRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_3__.Rules {
   static getDropMoves(stateInfo) {
     const drops = [];
     for (const landableCoord of stateInfo.landable) {
-      const newMove = _PylosMove__WEBPACK_IMPORTED_MODULE_5__.PylosMove.ofDrop(landableCoord, []);
+      const newMove = _PylosMove__WEBPACK_IMPORTED_MODULE_6__.PylosMove.ofDrop(landableCoord, []);
       drops.push(newMove);
     }
     return drops;
   }
   static canCapture(state, landingCoord) {
     const currentPlayer = state.getCurrentPlayer();
-    for (const vertical of [_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_0__.Orthogonal.UP, _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_0__.Orthogonal.DOWN]) {
+    for (const vertical of [_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_1__.Orthogonal.UP, _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_1__.Orthogonal.DOWN]) {
       const firstNeighbors = landingCoord.getNextValid(vertical);
       if (firstNeighbors.isPresent() && state.getPieceAt(firstNeighbors.get()) === currentPlayer) {
-        for (const horizontal of [_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_0__.Orthogonal.LEFT, _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_0__.Orthogonal.RIGHT]) {
+        for (const horizontal of [_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_1__.Orthogonal.LEFT, _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_1__.Orthogonal.RIGHT]) {
           const secondNeighbors = firstNeighbors.get().getNextValid(horizontal);
           if (secondNeighbors.isPresent() && state.getPieceAt(secondNeighbors.get()) === currentPlayer) {
             const thirdDirection = vertical.getOpposite();
@@ -42409,14 +42409,14 @@ class PylosRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_3__.Rules {
     return false;
   }
   static getPossibleCaptures(state) {
-    let possibleCapturesSets = new _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__.Set();
+    let possibleCapturesSets = new _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.Set();
     const freeToMoveFirsts = state.getFreeToMoves();
     for (const freeToMoveFirst of freeToMoveFirsts) {
-      possibleCapturesSets = possibleCapturesSets.addElement(new _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__.Set([freeToMoveFirst]));
+      possibleCapturesSets = possibleCapturesSets.addElement(new _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.Set([freeToMoveFirst]));
       const secondState = state.removePieceAt(freeToMoveFirst);
       const freeToMoveThens = secondState.getFreeToMoves();
       for (const freeToMoveThen of freeToMoveThens) {
-        const captures = new _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__.Set([freeToMoveFirst, freeToMoveThen]);
+        const captures = new _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.Set([freeToMoveFirst, freeToMoveThen]);
         possibleCapturesSets = possibleCapturesSets.addElement(captures);
       }
     }
@@ -42432,9 +42432,9 @@ class PylosRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_3__.Rules {
   }
   static getGameStatus(node) {
     const ownershipMap = node.gameState.getPiecesRepartition();
-    if (ownershipMap.get(_jscaip_Player__WEBPACK_IMPORTED_MODULE_2__.Player.ZERO) === 15) {
+    if (ownershipMap.get(_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ZERO) === 15) {
       return _jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_10__.GameStatus.ONE_WON;
-    } else if (ownershipMap.get(_jscaip_Player__WEBPACK_IMPORTED_MODULE_2__.Player.ONE) === 15) {
+    } else if (ownershipMap.get(_jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ONE) === 15) {
       return _jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_10__.GameStatus.ZERO_WON;
     } else {
       return _jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_10__.GameStatus.ONGOING;
@@ -42458,7 +42458,7 @@ class PylosRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_3__.Rules {
     if (capturesLegality.isFailure()) {
       return capturesLegality;
     }
-    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__.MGPValidation.SUCCESS;
+    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.SUCCESS;
   }
   isLegalStartingCoord(move, initialState) {
     const opponent = initialState.getCurrentOpponent();
@@ -42466,49 +42466,49 @@ class PylosRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_3__.Rules {
       const startingCoord = move.startingCoord.get();
       const startingPiece = initialState.getPieceAt(startingCoord);
       if (startingPiece === opponent) {
-        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__.MGPFallible.failure(_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_7__.RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
+        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPFallible.failure(_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_8__.RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
       } else if (startingPiece.isNone()) {
-        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__.MGPFallible.failure(_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_7__.RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_EMPTY());
+        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPFallible.failure(_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_8__.RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_EMPTY());
       }
       const supportedPieces = startingCoord.getHigherCoords().filter(coord => initialState.getPieceAt(coord).isPlayer());
       if (supportedPieces.length === 0) {
         const stateWithLeftStartingCoord = initialState.removePieceAt(move.startingCoord.get());
-        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__.MGPFallible.success(stateWithLeftStartingCoord);
+        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPFallible.success(stateWithLeftStartingCoord);
       } else {
-        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__.MGPFallible.failure(_PylosFailure__WEBPACK_IMPORTED_MODULE_8__.PylosFailure.CANNOT_MOVE_SUPPORTING_PIECE());
+        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPFallible.failure(_PylosFailure__WEBPACK_IMPORTED_MODULE_9__.PylosFailure.CANNOT_MOVE_SUPPORTING_PIECE());
       }
     }
-    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__.MGPFallible.success(initialState);
+    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPFallible.success(initialState);
   }
   isLegalLandingCoord(move, stateAfterClimbStart) {
     if (stateAfterClimbStart.getPieceAt(move.landingCoord).isPlayer()) {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__.MGPFallible.failure(_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_7__.RulesFailure.MUST_LAND_ON_EMPTY_SPACE());
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPFallible.failure(_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_8__.RulesFailure.MUST_LAND_ON_EMPTY_SPACE());
     }
     if (stateAfterClimbStart.isLandable(move.landingCoord)) {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__.MGPFallible.success(stateAfterClimbStart.dropCurrentPlayersPieceAt(move.landingCoord));
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPFallible.success(stateAfterClimbStart.dropCurrentPlayersPieceAt(move.landingCoord));
     } else {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__.MGPFallible.failure(_PylosFailure__WEBPACK_IMPORTED_MODULE_8__.PylosFailure.SHOULD_HAVE_SUPPORTING_PIECES());
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPFallible.failure(_PylosFailure__WEBPACK_IMPORTED_MODULE_9__.PylosFailure.SHOULD_HAVE_SUPPORTING_PIECES());
     }
   }
   isLegalCaptures(move, postMoveState) {
     if (move.firstCapture.isAbsent()) {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__.MGPValidation.SUCCESS;
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.SUCCESS;
     }
     if (PylosRules.canCapture(postMoveState, move.landingCoord) === false) {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__.MGPValidation.failure(_PylosFailure__WEBPACK_IMPORTED_MODULE_8__.PylosFailure.CANNOT_CAPTURE());
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.failure(_PylosFailure__WEBPACK_IMPORTED_MODULE_9__.PylosFailure.CANNOT_CAPTURE());
     }
     if (PylosRules.isValidCapture(postMoveState, move, move.firstCapture.get())) {
       const afterFirstCapture = postMoveState.removePieceAt(move.firstCapture.get());
       if (move.secondCapture.isAbsent()) {
-        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__.MGPValidation.SUCCESS;
+        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.SUCCESS;
       }
       if (PylosRules.isValidCapture(afterFirstCapture, move, move.secondCapture.get())) {
-        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__.MGPValidation.SUCCESS;
+        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.SUCCESS;
       } else {
-        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__.MGPValidation.failure(_PylosFailure__WEBPACK_IMPORTED_MODULE_8__.PylosFailure.INVALID_SECOND_CAPTURE());
+        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.failure(_PylosFailure__WEBPACK_IMPORTED_MODULE_9__.PylosFailure.INVALID_SECOND_CAPTURE());
       }
     } else {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_9__.MGPValidation.failure(_PylosFailure__WEBPACK_IMPORTED_MODULE_8__.PylosFailure.INVALID_FIRST_CAPTURE());
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.failure(_PylosFailure__WEBPACK_IMPORTED_MODULE_9__.PylosFailure.INVALID_FIRST_CAPTURE());
     }
   }
   getGameStatus(node) {
@@ -42528,11 +42528,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   PylosState: () => (/* binding */ PylosState)
 /* harmony export */ });
-/* harmony import */ var _jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../jscaip/TableUtils */ 37640);
-/* harmony import */ var _jscaip_Player__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../jscaip/Player */ 22092);
-/* harmony import */ var _PylosCoord__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./PylosCoord */ 32532);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @everyboard/lib */ 65042);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @everyboard/lib */ 65042);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../jscaip/TableUtils */ 37640);
+/* harmony import */ var _jscaip_Player__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../jscaip/Player */ 22092);
+/* harmony import */ var _PylosCoord__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./PylosCoord */ 32532);
 /* harmony import */ var _jscaip_state_GameState__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../jscaip/state/GameState */ 11632);
 /* harmony import */ var _jscaip_PlayerMap__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../jscaip/PlayerMap */ 95208);
 
@@ -42550,7 +42550,7 @@ class PylosState extends _jscaip_state_GameState__WEBPACK_IMPORTED_MODULE_4__.Ga
       case 1:
         return [0, 1, 2];
       default:
-        _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.Utils.expectToBe(z, 2);
+        _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.Utils.expectToBe(z, 2);
         return [0, 1];
     }
   }
@@ -42570,19 +42570,19 @@ class PylosState extends _jscaip_state_GameState__WEBPACK_IMPORTED_MODULE_4__.Ga
     if (move.startingCoord.isPresent()) {
       updateValues.push({
         coord: move.startingCoord.get(),
-        value: _jscaip_Player__WEBPACK_IMPORTED_MODULE_1__.PlayerOrNone.NONE
+        value: _jscaip_Player__WEBPACK_IMPORTED_MODULE_2__.PlayerOrNone.NONE
       });
     }
     if (move.firstCapture.isPresent()) {
       updateValues.push({
         coord: move.firstCapture.get(),
-        value: _jscaip_Player__WEBPACK_IMPORTED_MODULE_1__.PlayerOrNone.NONE
+        value: _jscaip_Player__WEBPACK_IMPORTED_MODULE_2__.PlayerOrNone.NONE
       });
     }
     if (move.secondCapture.isPresent()) {
       updateValues.push({
         coord: move.secondCapture.get(),
-        value: _jscaip_Player__WEBPACK_IMPORTED_MODULE_1__.PlayerOrNone.NONE
+        value: _jscaip_Player__WEBPACK_IMPORTED_MODULE_2__.PlayerOrNone.NONE
       });
     }
     let turn;
@@ -42594,7 +42594,7 @@ class PylosState extends _jscaip_state_GameState__WEBPACK_IMPORTED_MODULE_4__.Ga
     return this.setBoardAtCoords(updateValues, turn);
   }
   setBoardAtCoords(coordValues, turn) {
-    const newBoard = [_jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_0__.TableUtils.copy(this.boards[0]), _jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_0__.TableUtils.copy(this.boards[1]), _jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_0__.TableUtils.copy(this.boards[2]), _jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_0__.TableUtils.copy(this.boards[3])];
+    const newBoard = [_jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_1__.TableUtils.copy(this.boards[0]), _jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_1__.TableUtils.copy(this.boards[1]), _jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_1__.TableUtils.copy(this.boards[2]), _jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_1__.TableUtils.copy(this.boards[3])];
     for (const coordValue of coordValues) {
       const coord = coordValue.coord;
       const value = coordValue.value;
@@ -42630,7 +42630,7 @@ class PylosState extends _jscaip_state_GameState__WEBPACK_IMPORTED_MODULE_4__.Ga
     for (let z = 0; z < 3; z++) {
       for (let y = 0; y < 4 - z; y++) {
         for (let x = 0; x < 4 - z; x++) {
-          const c = new _PylosCoord__WEBPACK_IMPORTED_MODULE_2__.PylosCoord(x, y, z);
+          const c = new _PylosCoord__WEBPACK_IMPORTED_MODULE_3__.PylosCoord(x, y, z);
           const v = this.getPieceAt(c);
           if (v.isPlayer()) {
             ownershipMap.add(v, 1);
@@ -42643,7 +42643,7 @@ class PylosState extends _jscaip_state_GameState__WEBPACK_IMPORTED_MODULE_4__.Ga
   removePieceAt(coord) {
     const removeCoord = {
       coord,
-      value: _jscaip_Player__WEBPACK_IMPORTED_MODULE_1__.PlayerOrNone.NONE
+      value: _jscaip_Player__WEBPACK_IMPORTED_MODULE_2__.PlayerOrNone.NONE
     };
     return this.setBoardAtCoords([removeCoord], this.turn);
   }
@@ -42661,14 +42661,14 @@ class PylosState extends _jscaip_state_GameState__WEBPACK_IMPORTED_MODULE_4__.Ga
       const levelRange = PylosState.getLevelRange(z);
       for (const y of levelRange) {
         for (const x of levelRange) {
-          const coord = new _PylosCoord__WEBPACK_IMPORTED_MODULE_2__.PylosCoord(x, y, z);
+          const coord = new _PylosCoord__WEBPACK_IMPORTED_MODULE_3__.PylosCoord(x, y, z);
           if (this.getPieceAt(coord).equals(currentPlayer) && this.isSupporting(coord) === false) {
             freeToMove.push(coord);
           }
         }
       }
     }
-    return new _everyboard_lib__WEBPACK_IMPORTED_MODULE_3__.Set(freeToMove);
+    return new _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.Set(freeToMove);
   }
 }
 
@@ -42684,13 +42684,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   PylosTutorial: () => (/* binding */ PylosTutorial)
 /* harmony export */ });
-/* harmony import */ var _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../components/wrapper-components/tutorial-game-wrapper/TutorialStepMessage */ 36695);
-/* harmony import */ var _PylosCoord__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PylosCoord */ 32532);
-/* harmony import */ var _PylosMove__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./PylosMove */ 82784);
-/* harmony import */ var _PylosState__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./PylosState */ 89352);
-/* harmony import */ var _jscaip_Player__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../jscaip/Player */ 22092);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @everyboard/lib */ 65042);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @everyboard/lib */ 65042);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../components/wrapper-components/tutorial-game-wrapper/TutorialStepMessage */ 36695);
+/* harmony import */ var _PylosCoord__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./PylosCoord */ 32532);
+/* harmony import */ var _PylosMove__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./PylosMove */ 82784);
+/* harmony import */ var _PylosState__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./PylosState */ 89352);
+/* harmony import */ var _jscaip_Player__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../jscaip/Player */ 22092);
 /* harmony import */ var _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../components/wrapper-components/tutorial-game-wrapper/TutorialStep */ 62518);
 /* harmony import */ var _PylosRules__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./PylosRules */ 64490);
 
@@ -42701,43 +42701,43 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const _ = _jscaip_Player__WEBPACK_IMPORTED_MODULE_4__.PlayerOrNone.NONE;
-const O = _jscaip_Player__WEBPACK_IMPORTED_MODULE_4__.PlayerOrNone.ZERO;
-const X = _jscaip_Player__WEBPACK_IMPORTED_MODULE_4__.PlayerOrNone.ONE;
+const _ = _jscaip_Player__WEBPACK_IMPORTED_MODULE_5__.PlayerOrNone.NONE;
+const O = _jscaip_Player__WEBPACK_IMPORTED_MODULE_5__.PlayerOrNone.ZERO;
+const X = _jscaip_Player__WEBPACK_IMPORTED_MODULE_5__.PlayerOrNone.ONE;
 class PylosTutorial extends _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_6__.Tutorial {
-  tutorial = [_components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_6__.TutorialStep.informational(_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_0__.TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`At Pylos, the goal is to be the last to play.
+  tutorial = [_components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_6__.TutorialStep.informational(_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_1__.TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`At Pylos, the goal is to be the last to play.
         To do this, you have to save up your pieces.
         As soon as a player puts its last piece, that player loses the game immediately.
         Here is what the initial board looks like, it is a board of 4 x 4 squares.
         This board will become a pyramid, little by little.
         It will be filled by the pieces of your stock. Each player has 15 pieces.`, _PylosRules__WEBPACK_IMPORTED_MODULE_7__.PylosRules.get().getInitialState()), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_6__.TutorialStep.anyMove($localize`Dropping a piece`, $localize`When it is your turn, you can always drop one of your piece on an empty square.
         The gray squares are where you can drop your pieces.<br/><br/>
-        Click on one of the squares to drop a piece there.`, _PylosRules__WEBPACK_IMPORTED_MODULE_7__.PylosRules.get().getInitialState(), _PylosMove__WEBPACK_IMPORTED_MODULE_2__.PylosMove.ofDrop(new _PylosCoord__WEBPACK_IMPORTED_MODULE_1__.PylosCoord(1, 1, 0), []), $localize`There you go, as simple as that.`), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_6__.TutorialStep.fromMove($localize`Climbing`, $localize`When 4 pieces form a square, it is possible to put a fifth piece on top.
+        Click on one of the squares to drop a piece there.`, _PylosRules__WEBPACK_IMPORTED_MODULE_7__.PylosRules.get().getInitialState(), _PylosMove__WEBPACK_IMPORTED_MODULE_3__.PylosMove.ofDrop(new _PylosCoord__WEBPACK_IMPORTED_MODULE_2__.PylosCoord(1, 1, 0), []), $localize`There you go, as simple as that.`), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_6__.TutorialStep.fromMove($localize`Climbing`, $localize`When 4 pieces form a square, it is possible to put a fifth piece on top.
         However, when that happens, you can save a piece by climbing instead of dropping a piece.
         To climb:
         <ol>
             <li>Click on one of your free pieces, which should be lower than the landing square.</li>
             <li>Click on an empty landing square, higher than your selected piece.</li>
         </ol><br/>
-        You're playing Dark, go ahead and climb!`, new _PylosState__WEBPACK_IMPORTED_MODULE_3__.PylosState([[[O, X, _, _], [X, O, _, _], [_, _, _, _], [_, _, _, O]], [[_, _, _], [_, _, _], [_, _, _]], [[_, _], [_, _]], [[_]]], 0), [_PylosMove__WEBPACK_IMPORTED_MODULE_2__.PylosMove.ofClimb(new _PylosCoord__WEBPACK_IMPORTED_MODULE_1__.PylosCoord(3, 3, 0), new _PylosCoord__WEBPACK_IMPORTED_MODULE_1__.PylosCoord(0, 0, 1), [])], $localize`Congratulations!<br/>
+        You're playing Dark, go ahead and climb!`, new _PylosState__WEBPACK_IMPORTED_MODULE_4__.PylosState([[[O, X, _, _], [X, O, _, _], [_, _, _, _], [_, _, _, O]], [[_, _, _], [_, _, _], [_, _, _]], [[_, _], [_, _]], [[_]]], 0), [_PylosMove__WEBPACK_IMPORTED_MODULE_3__.PylosMove.ofClimb(new _PylosCoord__WEBPACK_IMPORTED_MODULE_2__.PylosCoord(3, 3, 0), new _PylosCoord__WEBPACK_IMPORTED_MODULE_2__.PylosCoord(0, 0, 1), [])], $localize`Congratulations!<br/>
         Some important notes:
         <ol>
             <li>You cannot move a piece that is directly below another one.</li>
             <li>Of course, you cannot move the opponent's pieces.</li>
             <li>You can only climb when the landing square is higher than the starting square.</li>
-        </ol>`, _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_0__.TutorialStepMessage.FAILED_TRY_AGAIN()), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_6__.TutorialStep.fromMove($localize`Square` + ' (1/2)', $localize`When the piece you just moved or dropped is the fourth one of a square of your color,
+        </ol>`, _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_1__.TutorialStepMessage.FAILED_TRY_AGAIN()), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_6__.TutorialStep.fromMove($localize`Square` + ' (1/2)', $localize`When the piece you just moved or dropped is the fourth one of a square of your color,
         you can choose anywhere on the board one or two of your pieces.
         These pieces will be removed from the board, allowing you to save up one or two pieces.
         A chosen piece must not be directly below another piece.
         A chosen piece can be the piece you just placed.<br/><br/>
-        You're playing Dark. Form a square, click on one of the four pieces, then click on the V symbol on the bottom right to finalize your move.`, new _PylosState__WEBPACK_IMPORTED_MODULE_3__.PylosState([[[O, O, _, _], [_, O, _, _], [_, _, _, _], [_, _, _, _]], [[_, _, _], [_, _, _], [_, _, _]], [[_, _], [_, _]], [[_]]], 0), [_PylosMove__WEBPACK_IMPORTED_MODULE_2__.PylosMove.ofDrop(new _PylosCoord__WEBPACK_IMPORTED_MODULE_1__.PylosCoord(0, 1, 0), [new _PylosCoord__WEBPACK_IMPORTED_MODULE_1__.PylosCoord(0, 0, 0)]), _PylosMove__WEBPACK_IMPORTED_MODULE_2__.PylosMove.ofDrop(new _PylosCoord__WEBPACK_IMPORTED_MODULE_1__.PylosCoord(0, 1, 0), [new _PylosCoord__WEBPACK_IMPORTED_MODULE_1__.PylosCoord(0, 1, 0)]), _PylosMove__WEBPACK_IMPORTED_MODULE_2__.PylosMove.ofDrop(new _PylosCoord__WEBPACK_IMPORTED_MODULE_1__.PylosCoord(0, 1, 0), [new _PylosCoord__WEBPACK_IMPORTED_MODULE_1__.PylosCoord(1, 0, 0)]), _PylosMove__WEBPACK_IMPORTED_MODULE_2__.PylosMove.ofDrop(new _PylosCoord__WEBPACK_IMPORTED_MODULE_1__.PylosCoord(0, 1, 0), [new _PylosCoord__WEBPACK_IMPORTED_MODULE_1__.PylosCoord(1, 1, 0)])], $localize`Congratulations, you have saved up one piece. Note, you can cancel your selection by clicking again on the piece.`, _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_0__.TutorialStepMessage.FAILED_TRY_AGAIN()), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_6__.TutorialStep.fromPredicate($localize`Square` + ' (2/2)', $localize`You're playing Dark.<br/><br/>Do like in the previous step, but this time click on two different pieces before validating.`, new _PylosState__WEBPACK_IMPORTED_MODULE_3__.PylosState([[[O, O, _, _], [_, O, _, _], [_, _, _, _], [_, _, _, _]], [[_, _, _], [_, _, _], [_, _, _]], [[_, _], [_, _]], [[_]]], 0), _PylosMove__WEBPACK_IMPORTED_MODULE_2__.PylosMove.ofDrop(new _PylosCoord__WEBPACK_IMPORTED_MODULE_1__.PylosCoord(0, 1, 0), [new _PylosCoord__WEBPACK_IMPORTED_MODULE_1__.PylosCoord(0, 0, 0), new _PylosCoord__WEBPACK_IMPORTED_MODULE_1__.PylosCoord(1, 0, 0)]), (move, _previous, _result) => {
+        You're playing Dark. Form a square, click on one of the four pieces, then click on the V symbol on the bottom right to finalize your move.`, new _PylosState__WEBPACK_IMPORTED_MODULE_4__.PylosState([[[O, O, _, _], [_, O, _, _], [_, _, _, _], [_, _, _, _]], [[_, _, _], [_, _, _], [_, _, _]], [[_, _], [_, _]], [[_]]], 0), [_PylosMove__WEBPACK_IMPORTED_MODULE_3__.PylosMove.ofDrop(new _PylosCoord__WEBPACK_IMPORTED_MODULE_2__.PylosCoord(0, 1, 0), [new _PylosCoord__WEBPACK_IMPORTED_MODULE_2__.PylosCoord(0, 0, 0)]), _PylosMove__WEBPACK_IMPORTED_MODULE_3__.PylosMove.ofDrop(new _PylosCoord__WEBPACK_IMPORTED_MODULE_2__.PylosCoord(0, 1, 0), [new _PylosCoord__WEBPACK_IMPORTED_MODULE_2__.PylosCoord(0, 1, 0)]), _PylosMove__WEBPACK_IMPORTED_MODULE_3__.PylosMove.ofDrop(new _PylosCoord__WEBPACK_IMPORTED_MODULE_2__.PylosCoord(0, 1, 0), [new _PylosCoord__WEBPACK_IMPORTED_MODULE_2__.PylosCoord(1, 0, 0)]), _PylosMove__WEBPACK_IMPORTED_MODULE_3__.PylosMove.ofDrop(new _PylosCoord__WEBPACK_IMPORTED_MODULE_2__.PylosCoord(0, 1, 0), [new _PylosCoord__WEBPACK_IMPORTED_MODULE_2__.PylosCoord(1, 1, 0)])], $localize`Congratulations, you have saved up one piece. Note, you can cancel your selection by clicking again on the piece.`, _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_1__.TutorialStepMessage.FAILED_TRY_AGAIN()), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_6__.TutorialStep.fromPredicate($localize`Square` + ' (2/2)', $localize`You're playing Dark.<br/><br/>Do like in the previous step, but this time click on two different pieces before validating.`, new _PylosState__WEBPACK_IMPORTED_MODULE_4__.PylosState([[[O, O, _, _], [_, O, _, _], [_, _, _, _], [_, _, _, _]], [[_, _, _], [_, _, _], [_, _, _]], [[_, _], [_, _]], [[_]]], 0), _PylosMove__WEBPACK_IMPORTED_MODULE_3__.PylosMove.ofDrop(new _PylosCoord__WEBPACK_IMPORTED_MODULE_2__.PylosCoord(0, 1, 0), [new _PylosCoord__WEBPACK_IMPORTED_MODULE_2__.PylosCoord(0, 0, 0), new _PylosCoord__WEBPACK_IMPORTED_MODULE_2__.PylosCoord(1, 0, 0)]), (move, _previous, _result) => {
     if (move.secondCapture.isPresent()) {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPValidation.SUCCESS;
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.SUCCESS;
     }
     if (move.firstCapture.isPresent()) {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPValidation.failure($localize`Failed, you only captured one piece.`);
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.failure($localize`Failed, you only captured one piece.`);
     }
-    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPValidation.failure(_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_0__.TutorialStepMessage.YOU_DID_NOT_CAPTURE_ANY_PIECE());
+    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.failure(_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_1__.TutorialStepMessage.YOU_DID_NOT_CAPTURE_ANY_PIECE());
   }, $localize`Congratulations, you have saved up two pieces.`)];
 }
 
@@ -43464,9 +43464,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   QuartoMove: () => (/* binding */ QuartoMove)
 /* harmony export */ });
-/* harmony import */ var _jscaip_Coord__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../jscaip/Coord */ 16904);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @everyboard/lib */ 65042);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @everyboard/lib */ 65042);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../jscaip/Coord */ 16904);
 /* harmony import */ var _jscaip_MoveCoord__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../jscaip/MoveCoord */ 42559);
 /* harmony import */ var _QuartoPiece__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./QuartoPiece */ 17677);
 
@@ -43475,7 +43475,7 @@ __webpack_require__.r(__webpack_exports__);
 
 class QuartoMove extends _jscaip_MoveCoord__WEBPACK_IMPORTED_MODULE_2__.MoveCoord {
   piece;
-  static encoder = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.Encoder.tuple([_jscaip_Coord__WEBPACK_IMPORTED_MODULE_0__.Coord.encoder, _QuartoPiece__WEBPACK_IMPORTED_MODULE_3__.QuartoPiece.encoder], m => [m.coord, m.piece], fields => new QuartoMove(fields[0].x, fields[0].y, fields[1]));
+  static encoder = _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.Encoder.tuple([_jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord.encoder, _QuartoPiece__WEBPACK_IMPORTED_MODULE_3__.QuartoPiece.encoder], m => [m.coord, m.piece], fields => new QuartoMove(fields[0].x, fields[0].y, fields[1]));
   constructor(x, y, piece) {
     /* (x, y) is the coord where you put the 'inHand' quarto piece
      * piece is the quarto piece you give
@@ -44104,13 +44104,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   QuartoTutorial: () => (/* binding */ QuartoTutorial)
 /* harmony export */ });
-/* harmony import */ var _QuartoMove__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./QuartoMove */ 28054);
-/* harmony import */ var _QuartoState__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./QuartoState */ 31470);
-/* harmony import */ var _QuartoPiece__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./QuartoPiece */ 17677);
-/* harmony import */ var _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../components/wrapper-components/tutorial-game-wrapper/TutorialStep */ 62518);
-/* harmony import */ var _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../components/wrapper-components/tutorial-game-wrapper/TutorialStepMessage */ 36695);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @everyboard/lib */ 65042);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @everyboard/lib */ 65042);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _QuartoMove__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./QuartoMove */ 28054);
+/* harmony import */ var _QuartoState__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./QuartoState */ 31470);
+/* harmony import */ var _QuartoPiece__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./QuartoPiece */ 17677);
+/* harmony import */ var _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../components/wrapper-components/tutorial-game-wrapper/TutorialStep */ 62518);
+/* harmony import */ var _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../components/wrapper-components/tutorial-game-wrapper/TutorialStepMessage */ 36695);
 /* harmony import */ var _jscaip_Coord__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../jscaip/Coord */ 16904);
 
 
@@ -44119,27 +44119,27 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const AAAA = _QuartoPiece__WEBPACK_IMPORTED_MODULE_2__.QuartoPiece.AAAA;
-const AAAB = _QuartoPiece__WEBPACK_IMPORTED_MODULE_2__.QuartoPiece.AAAB;
-const AABA = _QuartoPiece__WEBPACK_IMPORTED_MODULE_2__.QuartoPiece.AABA;
-const AABB = _QuartoPiece__WEBPACK_IMPORTED_MODULE_2__.QuartoPiece.AABB;
-const ABAA = _QuartoPiece__WEBPACK_IMPORTED_MODULE_2__.QuartoPiece.ABAA;
-const ABAB = _QuartoPiece__WEBPACK_IMPORTED_MODULE_2__.QuartoPiece.ABAB;
-const ABBA = _QuartoPiece__WEBPACK_IMPORTED_MODULE_2__.QuartoPiece.ABBA;
-const BAAA = _QuartoPiece__WEBPACK_IMPORTED_MODULE_2__.QuartoPiece.BAAA;
-const BAAB = _QuartoPiece__WEBPACK_IMPORTED_MODULE_2__.QuartoPiece.BAAB;
-const BABB = _QuartoPiece__WEBPACK_IMPORTED_MODULE_2__.QuartoPiece.BABB;
-const BBAA = _QuartoPiece__WEBPACK_IMPORTED_MODULE_2__.QuartoPiece.BBAA;
-const BBAB = _QuartoPiece__WEBPACK_IMPORTED_MODULE_2__.QuartoPiece.BBAB;
-const BBBA = _QuartoPiece__WEBPACK_IMPORTED_MODULE_2__.QuartoPiece.BBBA;
-const BBBB = _QuartoPiece__WEBPACK_IMPORTED_MODULE_2__.QuartoPiece.BBBB;
-const ____ = _QuartoPiece__WEBPACK_IMPORTED_MODULE_2__.QuartoPiece.EMPTY;
-class QuartoTutorial extends _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_3__.Tutorial {
-  tutorial = [_components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_3__.TutorialStep.informational(_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_4__.TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`Quarto is an alignment game. The goal is to align four pieces that have at least one common aspect:<ul><li>their color (light or dark),</li><li>their size (big or small),</li><li>their pattern (empty or dotted),</li><li>their shape (round or square).</li></ul>Here, we have a board with a victory by an alignment of dark pieces. Note that the pieces are not owned by any player.`, new _QuartoState__WEBPACK_IMPORTED_MODULE_1__.QuartoState([[BBBA, BBAA, ABAA, AABA], [____, ____, ____, ____], [____, ____, ____, ____], [____, ____, ____, ____]], 7, ABAB)), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_3__.TutorialStep.anyMove($localize`Placement`, $localize`Every placement occurs in two steps: placing the piece you have in hand (in the small square) on a square of the board, and picking a piece that the opponent will have to place, by clicking on one of the pieces inside the dotted square. If you prefer, the order of these two steps can be reversed. Keep in mind that the second click confirms the move.<br/><br/> Make a move.`, new _QuartoState__WEBPACK_IMPORTED_MODULE_1__.QuartoState([[BBBA, AABB, ABBA, ____], [____, ____, ____, ____], [____, BAAA, ____, ____], [____, ____, ____, ____]], 7, ABAA), new _QuartoMove__WEBPACK_IMPORTED_MODULE_0__.QuartoMove(2, 2, BAAB), $localize`Perfect!`), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_3__.TutorialStep.fromMove($localize`Situation`, $localize`We have here a tricky situation.<br/><br/>Analyze the board and play your move, carefully paying attention not to let the opponent win on the next move.`, new _QuartoState__WEBPACK_IMPORTED_MODULE_1__.QuartoState([[BBBB, BBBA, BBAB, ____], [ABAA, BABB, BBAA, ____], [ABAB, BAAA, BAAB, ____], [____, ____, ____, ____]], 7, AABA), [new _QuartoMove__WEBPACK_IMPORTED_MODULE_0__.QuartoMove(3, 3, AABB)], $localize`Well done!`, $localize`Failed! Your opponent can either align:<ul><li>the squares horizontally on the third line or vertically on the third column,</li><li>small pieces horizontally on the first line or vertically on the second or third column,</li><li>empty pieces horizontally on the first line or vertically on the first column,</li><li>clear pieces diagonally.</li></ul>`), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_3__.TutorialStep.fromPredicate(_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_4__.TutorialStepMessage.RULES_CONFIGURATION(), $localize`A game of Quarto can be configured to make it more complicated for one or both players.<br/>When you create a game and you want to change the original configuration, you can add a level to one or both players. When your level increases, it becomes easier for you to win. So, if the first player is weaker at this game, make the first player play at level two and the game will be more even and interesting.<br/>At level two, a player can win by grouping pieces with a common criterion on a 2x2 square.<br/>In this board, Light can win by making a square.<br/><br/>You're playing Light, win.`, new _QuartoState__WEBPACK_IMPORTED_MODULE_1__.QuartoState([[AAAA, AAAB, ____, ____], [AABA, ____, ____, ____], [____, ____, ____, ____], [____, ____, ____, ____]], 7, AAAA), new _QuartoMove__WEBPACK_IMPORTED_MODULE_0__.QuartoMove(1, 1, AABB), move => {
+const AAAA = _QuartoPiece__WEBPACK_IMPORTED_MODULE_3__.QuartoPiece.AAAA;
+const AAAB = _QuartoPiece__WEBPACK_IMPORTED_MODULE_3__.QuartoPiece.AAAB;
+const AABA = _QuartoPiece__WEBPACK_IMPORTED_MODULE_3__.QuartoPiece.AABA;
+const AABB = _QuartoPiece__WEBPACK_IMPORTED_MODULE_3__.QuartoPiece.AABB;
+const ABAA = _QuartoPiece__WEBPACK_IMPORTED_MODULE_3__.QuartoPiece.ABAA;
+const ABAB = _QuartoPiece__WEBPACK_IMPORTED_MODULE_3__.QuartoPiece.ABAB;
+const ABBA = _QuartoPiece__WEBPACK_IMPORTED_MODULE_3__.QuartoPiece.ABBA;
+const BAAA = _QuartoPiece__WEBPACK_IMPORTED_MODULE_3__.QuartoPiece.BAAA;
+const BAAB = _QuartoPiece__WEBPACK_IMPORTED_MODULE_3__.QuartoPiece.BAAB;
+const BABB = _QuartoPiece__WEBPACK_IMPORTED_MODULE_3__.QuartoPiece.BABB;
+const BBAA = _QuartoPiece__WEBPACK_IMPORTED_MODULE_3__.QuartoPiece.BBAA;
+const BBAB = _QuartoPiece__WEBPACK_IMPORTED_MODULE_3__.QuartoPiece.BBAB;
+const BBBA = _QuartoPiece__WEBPACK_IMPORTED_MODULE_3__.QuartoPiece.BBBA;
+const BBBB = _QuartoPiece__WEBPACK_IMPORTED_MODULE_3__.QuartoPiece.BBBB;
+const ____ = _QuartoPiece__WEBPACK_IMPORTED_MODULE_3__.QuartoPiece.EMPTY;
+class QuartoTutorial extends _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_4__.Tutorial {
+  tutorial = [_components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_4__.TutorialStep.informational(_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_5__.TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`Quarto is an alignment game. The goal is to align four pieces that have at least one common aspect:<ul><li>their color (light or dark),</li><li>their size (big or small),</li><li>their pattern (empty or dotted),</li><li>their shape (round or square).</li></ul>Here, we have a board with a victory by an alignment of dark pieces. Note that the pieces are not owned by any player.`, new _QuartoState__WEBPACK_IMPORTED_MODULE_2__.QuartoState([[BBBA, BBAA, ABAA, AABA], [____, ____, ____, ____], [____, ____, ____, ____], [____, ____, ____, ____]], 7, ABAB)), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_4__.TutorialStep.anyMove($localize`Placement`, $localize`Every placement occurs in two steps: placing the piece you have in hand (in the small square) on a square of the board, and picking a piece that the opponent will have to place, by clicking on one of the pieces inside the dotted square. If you prefer, the order of these two steps can be reversed. Keep in mind that the second click confirms the move.<br/><br/> Make a move.`, new _QuartoState__WEBPACK_IMPORTED_MODULE_2__.QuartoState([[BBBA, AABB, ABBA, ____], [____, ____, ____, ____], [____, BAAA, ____, ____], [____, ____, ____, ____]], 7, ABAA), new _QuartoMove__WEBPACK_IMPORTED_MODULE_1__.QuartoMove(2, 2, BAAB), $localize`Perfect!`), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_4__.TutorialStep.fromMove($localize`Situation`, $localize`We have here a tricky situation.<br/><br/>Analyze the board and play your move, carefully paying attention not to let the opponent win on the next move.`, new _QuartoState__WEBPACK_IMPORTED_MODULE_2__.QuartoState([[BBBB, BBBA, BBAB, ____], [ABAA, BABB, BBAA, ____], [ABAB, BAAA, BAAB, ____], [____, ____, ____, ____]], 7, AABA), [new _QuartoMove__WEBPACK_IMPORTED_MODULE_1__.QuartoMove(3, 3, AABB)], $localize`Well done!`, $localize`Failed! Your opponent can either align:<ul><li>the squares horizontally on the third line or vertically on the third column,</li><li>small pieces horizontally on the first line or vertically on the second or third column,</li><li>empty pieces horizontally on the first line or vertically on the first column,</li><li>clear pieces diagonally.</li></ul>`), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_4__.TutorialStep.fromPredicate(_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_5__.TutorialStepMessage.RULES_CONFIGURATION(), $localize`A game of Quarto can be configured to make it more complicated for one or both players.<br/>When you create a game and you want to change the original configuration, you can add a level to one or both players. When your level increases, it becomes easier for you to win. So, if the first player is weaker at this game, make the first player play at level two and the game will be more even and interesting.<br/>At level two, a player can win by grouping pieces with a common criterion on a 2x2 square.<br/>In this board, Light can win by making a square.<br/><br/>You're playing Light, win.`, new _QuartoState__WEBPACK_IMPORTED_MODULE_2__.QuartoState([[AAAA, AAAB, ____, ____], [AABA, ____, ____, ____], [____, ____, ____, ____], [____, ____, ____, ____]], 7, AAAA), new _QuartoMove__WEBPACK_IMPORTED_MODULE_1__.QuartoMove(1, 1, AABB), move => {
     if (move.coord.equals(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_6__.Coord(1, 1))) {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPValidation.SUCCESS;
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.SUCCESS;
     } else {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_5__.MGPValidation.failure($localize`Wrong, you could have won by making a square.`);
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.failure($localize`Wrong, you could have won by making a square.`);
     }
   }, $localize`Well done!`)];
 }
@@ -46211,10 +46211,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   QuixoMove: () => (/* binding */ QuixoMove)
 /* harmony export */ });
-/* harmony import */ var _jscaip_Coord__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../jscaip/Coord */ 16904);
-/* harmony import */ var _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../jscaip/Orthogonal */ 99342);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @everyboard/lib */ 65042);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @everyboard/lib */ 65042);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../jscaip/Coord */ 16904);
+/* harmony import */ var _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../jscaip/Orthogonal */ 99342);
 /* harmony import */ var _jscaip_MoveCoord__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../jscaip/MoveCoord */ 42559);
 
 
@@ -46222,7 +46222,7 @@ __webpack_require__.r(__webpack_exports__);
 
 class QuixoMove extends _jscaip_MoveCoord__WEBPACK_IMPORTED_MODULE_3__.MoveCoord {
   direction;
-  static encoder = _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.Encoder.tuple([_jscaip_Coord__WEBPACK_IMPORTED_MODULE_0__.Coord.encoder, _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_1__.Orthogonal.encoder], m => [m.coord, m.direction], fields => new QuixoMove(fields[0].x, fields[0].y, fields[1]));
+  static encoder = _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.Encoder.tuple([_jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord.encoder, _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_2__.Orthogonal.encoder], m => [m.coord, m.direction], fields => new QuixoMove(fields[0].x, fields[0].y, fields[1]));
   constructor(x, y, direction) {
     super(x, y);
     this.direction = direction;
@@ -46286,16 +46286,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   QuixoNode: () => (/* binding */ QuixoNode),
 /* harmony export */   QuixoRules: () => (/* binding */ QuixoRules)
 /* harmony export */ });
-/* harmony import */ var _jscaip_Coord__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../jscaip/Coord */ 16904);
-/* harmony import */ var _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../jscaip/Orthogonal */ 99342);
-/* harmony import */ var _jscaip_AI_GameNode__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../jscaip/AI/GameNode */ 49120);
-/* harmony import */ var _jscaip_Player__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../jscaip/Player */ 22092);
-/* harmony import */ var _jscaip_Rules__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../jscaip/Rules */ 99150);
-/* harmony import */ var _QuixoState__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./QuixoState */ 41740);
-/* harmony import */ var _jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../jscaip/RulesFailure */ 68566);
-/* harmony import */ var _jscaip_NInARowHelper__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../jscaip/NInARowHelper */ 48089);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @everyboard/lib */ 65042);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @everyboard/lib */ 65042);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../jscaip/Coord */ 16904);
+/* harmony import */ var _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../jscaip/Orthogonal */ 99342);
+/* harmony import */ var _jscaip_AI_GameNode__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../jscaip/AI/GameNode */ 49120);
+/* harmony import */ var _jscaip_Player__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../jscaip/Player */ 22092);
+/* harmony import */ var _jscaip_Rules__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../jscaip/Rules */ 99150);
+/* harmony import */ var _QuixoState__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./QuixoState */ 41740);
+/* harmony import */ var _jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../jscaip/RulesFailure */ 68566);
+/* harmony import */ var _jscaip_NInARowHelper__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../jscaip/NInARowHelper */ 48089);
 /* harmony import */ var _jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../jscaip/GameStatus */ 19613);
 /* harmony import */ var _jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../jscaip/TableUtils */ 37640);
 /* harmony import */ var _QuixoFailure__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./QuixoFailure */ 51355);
@@ -46317,9 +46317,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class QuixoNode extends _jscaip_AI_GameNode__WEBPACK_IMPORTED_MODULE_2__.GameNode {}
-class QuixoRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_4__.ConfigurableRules {
-  static singleton = _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.MGPOptional.empty();
+class QuixoNode extends _jscaip_AI_GameNode__WEBPACK_IMPORTED_MODULE_3__.GameNode {}
+class QuixoRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_5__.ConfigurableRules {
+  static singleton = _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.empty();
   static RULES_CONFIG_DESCRIPTION = new _components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_12__.RulesConfigDescription({
     name: () => $localize`Quixo`,
     config: {
@@ -46327,17 +46327,17 @@ class QuixoRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_4__.Configurable
       height: new _components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_12__.NumberConfig(5, _components_wrapper_components_rules_configuration_RulesConfigDescription__WEBPACK_IMPORTED_MODULE_12__.RulesConfigDescriptionLocalizable.HEIGHT, _utils_MGPValidator__WEBPACK_IMPORTED_MODULE_13__.MGPValidators.range(1, 99))
     }
   });
-  static QUIXO_HELPER = new _jscaip_NInARowHelper__WEBPACK_IMPORTED_MODULE_7__.NInARowHelper(_everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.Utils.identity, 5);
+  static QUIXO_HELPER = new _jscaip_NInARowHelper__WEBPACK_IMPORTED_MODULE_8__.NInARowHelper(_everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.Utils.identity, 5);
   static getVerticalCoords(node) {
     const currentOpponent = node.gameState.getCurrentOpponent();
     const verticalCoords = [];
     const state = node.gameState;
     for (let y = 0; y < state.getHeight(); y++) {
       if (state.getPieceAtXY(0, y) !== currentOpponent) {
-        verticalCoords.push(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_0__.Coord(0, y));
+        verticalCoords.push(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord(0, y));
       }
       if (state.getPieceAtXY(state.getWidth() - 1, y) !== currentOpponent) {
-        verticalCoords.push(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_0__.Coord(state.getWidth() - 1, y));
+        verticalCoords.push(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord(state.getWidth() - 1, y));
       }
     }
     return verticalCoords;
@@ -46348,39 +46348,39 @@ class QuixoRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_4__.Configurable
     const state = node.gameState;
     for (let x = 1; x < state.getWidth() - 1; x++) {
       if (state.getPieceAtXY(x, 0) !== currentOpponent) {
-        horizontalCenterCoords.push(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_0__.Coord(x, 0));
+        horizontalCenterCoords.push(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord(x, 0));
       }
       if (state.getPieceAtXY(x, state.getHeight() - 1) !== currentOpponent) {
-        horizontalCenterCoords.push(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_0__.Coord(x, state.getHeight() - 1));
+        horizontalCenterCoords.push(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord(x, state.getHeight() - 1));
       }
     }
     return horizontalCenterCoords;
   }
   static getLinesSums(state) {
-    const sums = _jscaip_PlayerMap__WEBPACK_IMPORTED_MODULE_14__.PlayerMap.ofValues(new _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.MGPMap([{
+    const sums = _jscaip_PlayerMap__WEBPACK_IMPORTED_MODULE_14__.PlayerMap.ofValues(new _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPMap([{
       key: 'columns',
-      value: new _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.NumberMap()
+      value: new _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.NumberMap()
     }, {
       key: 'rows',
-      value: new _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.NumberMap()
+      value: new _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.NumberMap()
     }, {
       key: 'ascendingDiagonal',
-      value: new _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.NumberMap()
+      value: new _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.NumberMap()
     }, {
       key: 'descendingDiagonal',
-      value: new _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.NumberMap()
-    }]), new _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.MGPMap([{
+      value: new _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.NumberMap()
+    }]), new _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPMap([{
       key: 'columns',
-      value: new _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.NumberMap()
+      value: new _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.NumberMap()
     }, {
       key: 'rows',
-      value: new _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.NumberMap()
+      value: new _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.NumberMap()
     }, {
       key: 'ascendingDiagonal',
-      value: new _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.NumberMap()
+      value: new _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.NumberMap()
     }, {
       key: 'descendingDiagonal',
-      value: new _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.NumberMap()
+      value: new _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.NumberMap()
     }]));
     for (const coordAndContent of state.getPlayerCoordsAndContent()) {
       const content = coordAndContent.content;
@@ -46424,40 +46424,40 @@ class QuixoRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_4__.Configurable
   }
   static get() {
     if (QuixoRules.singleton.isAbsent()) {
-      QuixoRules.singleton = _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.MGPOptional.of(new QuixoRules());
+      QuixoRules.singleton = _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.of(new QuixoRules());
     }
     return QuixoRules.singleton.get();
   }
   getRulesConfigDescription() {
-    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.MGPOptional.of(QuixoRules.RULES_CONFIG_DESCRIPTION);
+    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.of(QuixoRules.RULES_CONFIG_DESCRIPTION);
   }
   getInitialState(config) {
-    const initialBoard = _jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_10__.TableUtils.create(config.get().width, config.get().height, _jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.PlayerOrNone.NONE);
-    return new _QuixoState__WEBPACK_IMPORTED_MODULE_5__.QuixoState(initialBoard, 0);
+    const initialBoard = _jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_10__.TableUtils.create(config.get().width, config.get().height, _jscaip_Player__WEBPACK_IMPORTED_MODULE_4__.PlayerOrNone.NONE);
+    return new _QuixoState__WEBPACK_IMPORTED_MODULE_6__.QuixoState(initialBoard, 0);
   }
   getPossibleDirections(state, coord) {
     const possibleDirections = [];
-    if (coord.x !== 0) possibleDirections.push(_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_1__.Orthogonal.LEFT);
-    if (coord.y !== 0) possibleDirections.push(_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_1__.Orthogonal.UP);
-    if (coord.x !== state.getWidth() - 1) possibleDirections.push(_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_1__.Orthogonal.RIGHT);
-    if (coord.y !== state.getHeight() - 1) possibleDirections.push(_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_1__.Orthogonal.DOWN);
+    if (coord.x !== 0) possibleDirections.push(_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_2__.Orthogonal.LEFT);
+    if (coord.y !== 0) possibleDirections.push(_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_2__.Orthogonal.UP);
+    if (coord.x !== state.getWidth() - 1) possibleDirections.push(_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_2__.Orthogonal.RIGHT);
+    if (coord.y !== state.getHeight() - 1) possibleDirections.push(_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_2__.Orthogonal.DOWN);
     return possibleDirections;
   }
   isValidCoord(state, coord) {
-    _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.Utils.assert(state.isOnBoard(coord), 'Invalid coord for QuixoMove: ' + coord.toString() + ' is outside the board.');
+    _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.Utils.assert(state.isOnBoard(coord), 'Invalid coord for QuixoMove: ' + coord.toString() + ' is outside the board.');
     if (coord.x !== 0 && coord.x !== state.getWidth() - 1 && coord.y !== 0 && coord.y !== state.getHeight() - 1) {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.MGPValidation.failure(_QuixoFailure__WEBPACK_IMPORTED_MODULE_11__.QuixoFailure.NO_INSIDE_CLICK());
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.failure(_QuixoFailure__WEBPACK_IMPORTED_MODULE_11__.QuixoFailure.NO_INSIDE_CLICK());
     }
-    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.MGPValidation.SUCCESS;
+    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.SUCCESS;
   }
   assertDirectionValidity(move, state) {
     const x = move.coord.x;
     const y = move.coord.y;
     const direction = move.direction;
-    _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.Utils.assert(x !== state.getWidth() - 1 || direction !== _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_1__.Orthogonal.RIGHT, `Invalid direction: piece on the right side can't be moved to the right.`);
-    _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.Utils.assert(y !== state.getHeight() - 1 || direction !== _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_1__.Orthogonal.DOWN, `Invalid direction: piece on the bottom side can't be moved down.`);
-    _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.Utils.assert(x !== 0 || direction !== _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_1__.Orthogonal.LEFT, `Invalid direction: piece on the left side can't be moved to the left.`);
-    _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.Utils.assert(y !== 0 || direction !== _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_1__.Orthogonal.UP, `Invalid direction: piece on the top side can't be moved up.`);
+    _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.Utils.assert(x !== state.getWidth() - 1 || direction !== _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_2__.Orthogonal.RIGHT, `Invalid direction: piece on the right side can't be moved to the right.`);
+    _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.Utils.assert(y !== state.getHeight() - 1 || direction !== _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_2__.Orthogonal.DOWN, `Invalid direction: piece on the bottom side can't be moved down.`);
+    _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.Utils.assert(x !== 0 || direction !== _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_2__.Orthogonal.LEFT, `Invalid direction: piece on the left side can't be moved to the left.`);
+    _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.Utils.assert(y !== 0 || direction !== _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_2__.Orthogonal.UP, `Invalid direction: piece on the top side can't be moved up.`);
   }
   applyLegalMove(move, state, _config, _info) {
     return state.applyLegalMove(move);
@@ -46469,16 +46469,16 @@ class QuixoRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_4__.Configurable
     }
     this.assertDirectionValidity(move, state);
     if (state.getPieceAt(move.coord) === state.getCurrentOpponent()) {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.MGPValidation.failure(_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_6__.RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.failure(_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_7__.RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
     } else {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.MGPValidation.SUCCESS;
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.SUCCESS;
     }
   }
   getGameStatus(node) {
     const state = node.gameState;
     const victoriousCoord = QuixoRules.QUIXO_HELPER.getVictoriousCoord(state);
     const unreducedWinners = victoriousCoord.map(coord => state.getPieceAt(coord));
-    const winners = new _everyboard_lib__WEBPACK_IMPORTED_MODULE_8__.Set(unreducedWinners);
+    const winners = new _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.Set(unreducedWinners);
     if (winners.size() === 0) {
       return _jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_9__.GameStatus.ONGOING;
     } else if (winners.size() === 1) {
@@ -47546,10 +47546,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   SaharaMove: () => (/* binding */ SaharaMove)
 /* harmony export */ });
-/* harmony import */ var _jscaip_MoveCoordToCoord__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../jscaip/MoveCoordToCoord */ 10529);
-/* harmony import */ var _jscaip_state_TriangularCheckerBoard__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../jscaip/state/TriangularCheckerBoard */ 43599);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @everyboard/lib */ 65042);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @everyboard/lib */ 65042);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _jscaip_MoveCoordToCoord__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../jscaip/MoveCoordToCoord */ 10529);
+/* harmony import */ var _jscaip_state_TriangularCheckerBoard__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../jscaip/state/TriangularCheckerBoard */ 43599);
 /* harmony import */ var _SaharaFailure__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./SaharaFailure */ 66577);
 /* harmony import */ var _jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../jscaip/RulesFailure */ 68566);
 /* harmony import */ var _jscaip_MoveWithTwoCoords__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../jscaip/MoveWithTwoCoords */ 71758);
@@ -47559,35 +47559,35 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class SaharaMove extends _jscaip_MoveCoordToCoord__WEBPACK_IMPORTED_MODULE_0__.MoveCoordToCoord {
+class SaharaMove extends _jscaip_MoveCoordToCoord__WEBPACK_IMPORTED_MODULE_1__.MoveCoordToCoord {
   static encoder = _jscaip_MoveWithTwoCoords__WEBPACK_IMPORTED_MODULE_5__.MoveWithTwoCoords.getFallibleEncoder(SaharaMove.from);
   static checkDistanceAndLocation(start, end) {
     const distance = start.getOrthogonalDistance(end);
     if (distance === 0) {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPValidation.failure(_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_4__.RulesFailure.MOVE_CANNOT_BE_STATIC());
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.failure(_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_4__.RulesFailure.MOVE_CANNOT_BE_STATIC());
     } else if (distance === 1) {
-      const fakeNeighbors = _jscaip_state_TriangularCheckerBoard__WEBPACK_IMPORTED_MODULE_1__.TriangularCheckerBoard.getFakeNeighbors(start);
+      const fakeNeighbors = _jscaip_state_TriangularCheckerBoard__WEBPACK_IMPORTED_MODULE_2__.TriangularCheckerBoard.getFakeNeighbors(start);
       if (end.equals(fakeNeighbors)) {
-        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPValidation.failure(_SaharaFailure__WEBPACK_IMPORTED_MODULE_3__.SaharaFailure.THOSE_TWO_SPACES_ARE_NOT_NEIGHBORS());
+        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.failure(_SaharaFailure__WEBPACK_IMPORTED_MODULE_3__.SaharaFailure.THOSE_TWO_SPACES_ARE_NOT_NEIGHBORS());
       }
     } else if (distance === 2) {
-      if (_jscaip_state_TriangularCheckerBoard__WEBPACK_IMPORTED_MODULE_1__.TriangularCheckerBoard.isSpaceDark(start)) {
-        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPValidation.failure(_SaharaFailure__WEBPACK_IMPORTED_MODULE_3__.SaharaFailure.CAN_ONLY_REBOUND_ON_BLACK());
+      if (_jscaip_state_TriangularCheckerBoard__WEBPACK_IMPORTED_MODULE_2__.TriangularCheckerBoard.isSpaceDark(start)) {
+        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.failure(_SaharaFailure__WEBPACK_IMPORTED_MODULE_3__.SaharaFailure.CAN_ONLY_REBOUND_ON_BLACK());
       }
       if (start.x === end.x) {
-        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPValidation.failure(_SaharaFailure__WEBPACK_IMPORTED_MODULE_3__.SaharaFailure.THOSE_TWO_SPACES_HAVE_NO_COMMON_NEIGHBOR());
+        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.failure(_SaharaFailure__WEBPACK_IMPORTED_MODULE_3__.SaharaFailure.THOSE_TWO_SPACES_HAVE_NO_COMMON_NEIGHBOR());
       }
     } else {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPValidation.failure($localize`You can move one or two spaces, not ${distance}.`);
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.failure($localize`You can move one or two spaces, not ${distance}.`);
     }
-    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPValidation.SUCCESS;
+    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.SUCCESS;
   }
   static from(start, end) {
     const validity = SaharaMove.checkDistanceAndLocation(start, end);
     if (validity.isFailure()) {
       return validity.toOtherFallible();
     } else {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPFallible.success(new SaharaMove(start, end));
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPFallible.success(new SaharaMove(start, end));
     }
   }
   constructor(start, end) {
@@ -47673,14 +47673,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   SaharaNode: () => (/* binding */ SaharaNode),
 /* harmony export */   SaharaRules: () => (/* binding */ SaharaRules)
 /* harmony export */ });
-/* harmony import */ var _jscaip_Rules__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../jscaip/Rules */ 99150);
-/* harmony import */ var _jscaip_AI_GameNode__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../jscaip/AI/GameNode */ 49120);
-/* harmony import */ var _jscaip_Player__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../jscaip/Player */ 22092);
-/* harmony import */ var _jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../jscaip/Coord */ 16904);
-/* harmony import */ var _SaharaState__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./SaharaState */ 43150);
-/* harmony import */ var _jscaip_state_TriangularCheckerBoard__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../jscaip/state/TriangularCheckerBoard */ 43599);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @everyboard/lib */ 65042);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @everyboard/lib */ 65042);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _jscaip_Rules__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../jscaip/Rules */ 99150);
+/* harmony import */ var _jscaip_AI_GameNode__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../jscaip/AI/GameNode */ 49120);
+/* harmony import */ var _jscaip_Player__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../jscaip/Player */ 22092);
+/* harmony import */ var _jscaip_Coord__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../jscaip/Coord */ 16904);
+/* harmony import */ var _SaharaState__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./SaharaState */ 43150);
+/* harmony import */ var _jscaip_state_TriangularCheckerBoard__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../jscaip/state/TriangularCheckerBoard */ 43599);
 /* harmony import */ var _jscaip_state_TriangularGameState__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../jscaip/state/TriangularGameState */ 5075);
 /* harmony import */ var _jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../jscaip/RulesFailure */ 68566);
 /* harmony import */ var _SaharaFailure__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./SaharaFailure */ 66577);
@@ -47712,15 +47712,15 @@ var SaharaRules_1;
 
 
 
-class SaharaNode extends _jscaip_AI_GameNode__WEBPACK_IMPORTED_MODULE_1__.GameNode {}
-let SaharaRules = class SaharaRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_0__.Rules {
+class SaharaNode extends _jscaip_AI_GameNode__WEBPACK_IMPORTED_MODULE_2__.GameNode {}
+let SaharaRules = class SaharaRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_1__.Rules {
   static {
     SaharaRules_1 = this;
   }
-  static singleton = _everyboard_lib__WEBPACK_IMPORTED_MODULE_6__.MGPOptional.empty();
+  static singleton = _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.empty();
   static get() {
     if (SaharaRules_1.singleton.isAbsent()) {
-      SaharaRules_1.singleton = _everyboard_lib__WEBPACK_IMPORTED_MODULE_6__.MGPOptional.of(new SaharaRules_1());
+      SaharaRules_1.singleton = _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.of(new SaharaRules_1());
     }
     return SaharaRules_1.singleton.get();
   }
@@ -47750,7 +47750,7 @@ let SaharaRules = class SaharaRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODU
     board[yEnd][second] = X;
     board[yEnd][third] = O;
     board[yEnd][fourth] = X;
-    return new _SaharaState__WEBPACK_IMPORTED_MODULE_4__.SaharaState(board, 0);
+    return new _SaharaState__WEBPACK_IMPORTED_MODULE_5__.SaharaState(board, 0);
   }
   static getStartingCoords(state, player) {
     const startingCoords = [];
@@ -47777,7 +47777,7 @@ let SaharaRules = class SaharaRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODU
     const board = state.getCopiedBoard();
     board[move.getEnd().y][move.getEnd().x] = board[move.getStart().y][move.getStart().x];
     board[move.getStart().y][move.getStart().x] = _jscaip_FourStatePiece__WEBPACK_IMPORTED_MODULE_10__.FourStatePiece.EMPTY;
-    const resultingState = new _SaharaState__WEBPACK_IMPORTED_MODULE_4__.SaharaState(board, state.turn + 1);
+    const resultingState = new _SaharaState__WEBPACK_IMPORTED_MODULE_5__.SaharaState(board, state.turn + 1);
     return resultingState;
   }
   isLegal(move, state) {
@@ -47787,49 +47787,49 @@ let SaharaRules = class SaharaRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODU
     }
     const movedPawn = state.getPieceAt(move.getStart());
     if (movedPawn.is(state.getCurrentPlayer()) === false) {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_6__.MGPValidation.failure(_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_8__.RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.failure(_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_8__.RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
     }
     const landingSpace = state.getPieceAt(move.getEnd());
     if (landingSpace !== _jscaip_FourStatePiece__WEBPACK_IMPORTED_MODULE_10__.FourStatePiece.EMPTY) {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_6__.MGPValidation.failure(_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_8__.RulesFailure.MUST_LAND_ON_EMPTY_SPACE());
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.failure(_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_8__.RulesFailure.MUST_LAND_ON_EMPTY_SPACE());
     }
-    const commonNeighbor = _jscaip_state_TriangularCheckerBoard__WEBPACK_IMPORTED_MODULE_5__.TriangularCheckerBoard.getCommonNeighbor(move.getStart(), move.getEnd());
+    const commonNeighbor = _jscaip_state_TriangularCheckerBoard__WEBPACK_IMPORTED_MODULE_6__.TriangularCheckerBoard.getCommonNeighbor(move.getStart(), move.getEnd());
     if (commonNeighbor.isPresent()) {
       if (state.getPieceAt(commonNeighbor.get()) === _jscaip_FourStatePiece__WEBPACK_IMPORTED_MODULE_10__.FourStatePiece.EMPTY) {
-        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_6__.MGPValidation.SUCCESS;
+        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.SUCCESS;
       } else {
-        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_6__.MGPValidation.failure(_SaharaFailure__WEBPACK_IMPORTED_MODULE_9__.SaharaFailure.CAN_ONLY_REBOUND_ON_EMPTY_SPACE());
+        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.failure(_SaharaFailure__WEBPACK_IMPORTED_MODULE_9__.SaharaFailure.CAN_ONLY_REBOUND_ON_EMPTY_SPACE());
       }
     } else {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_6__.MGPValidation.SUCCESS;
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.SUCCESS;
     }
   }
   getCoordsValidity(move, state) {
     if (state.isNotOnBoard(move.getStart())) {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_6__.MGPValidation.failure(_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.CoordFailure.OUT_OF_RANGE(move.getStart()));
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.failure(_jscaip_Coord__WEBPACK_IMPORTED_MODULE_4__.CoordFailure.OUT_OF_RANGE(move.getStart()));
     } else if (state.isNotOnBoard(move.getEnd())) {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_6__.MGPValidation.failure(_jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.CoordFailure.OUT_OF_RANGE(move.getEnd()));
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.failure(_jscaip_Coord__WEBPACK_IMPORTED_MODULE_4__.CoordFailure.OUT_OF_RANGE(move.getEnd()));
     } else {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_6__.MGPValidation.SUCCESS;
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.SUCCESS;
     }
   }
   getGameStatus(node) {
     const board = node.gameState;
-    const zeroFreedoms = SaharaRules_1.getBoardValuesFor(board, _jscaip_Player__WEBPACK_IMPORTED_MODULE_2__.Player.ZERO);
-    const oneFreedoms = SaharaRules_1.getBoardValuesFor(board, _jscaip_Player__WEBPACK_IMPORTED_MODULE_2__.Player.ONE);
+    const zeroFreedoms = SaharaRules_1.getBoardValuesFor(board, _jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ZERO);
+    const oneFreedoms = SaharaRules_1.getBoardValuesFor(board, _jscaip_Player__WEBPACK_IMPORTED_MODULE_3__.Player.ONE);
     return SaharaRules_1.getGameStatusFromFreedoms(zeroFreedoms, oneFreedoms);
   }
   getLandingCoords(state, coord) {
     const isOnBoardAndEmpty = c => {
       return state.hasPieceAt(c, _jscaip_FourStatePiece__WEBPACK_IMPORTED_MODULE_10__.FourStatePiece.EMPTY);
     };
-    const landings = new _jscaip_CoordSet__WEBPACK_IMPORTED_MODULE_13__.CoordSet(_jscaip_state_TriangularCheckerBoard__WEBPACK_IMPORTED_MODULE_5__.TriangularCheckerBoard.getNeighbors(coord).filter(isOnBoardAndEmpty));
-    if (_jscaip_state_TriangularCheckerBoard__WEBPACK_IMPORTED_MODULE_5__.TriangularCheckerBoard.isSpaceDark(coord)) {
+    const landings = new _jscaip_CoordSet__WEBPACK_IMPORTED_MODULE_13__.CoordSet(_jscaip_state_TriangularCheckerBoard__WEBPACK_IMPORTED_MODULE_6__.TriangularCheckerBoard.getNeighbors(coord).filter(isOnBoardAndEmpty));
+    if (_jscaip_state_TriangularCheckerBoard__WEBPACK_IMPORTED_MODULE_6__.TriangularCheckerBoard.isSpaceDark(coord)) {
       return landings.toList();
     } else {
       let farLandings = new _jscaip_CoordSet__WEBPACK_IMPORTED_MODULE_13__.CoordSet(landings.toList()); // Deep copy
       for (const neighbor of landings) {
-        const secondStepNeighbors = _jscaip_state_TriangularCheckerBoard__WEBPACK_IMPORTED_MODULE_5__.TriangularCheckerBoard.getNeighbors(neighbor).filter(isOnBoardAndEmpty);
+        const secondStepNeighbors = _jscaip_state_TriangularCheckerBoard__WEBPACK_IMPORTED_MODULE_6__.TriangularCheckerBoard.getNeighbors(neighbor).filter(isOnBoardAndEmpty);
         for (const secondStepNeighbor of secondStepNeighbors) {
           farLandings = farLandings.addElement(secondStepNeighbor);
         }
@@ -47877,12 +47877,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   SaharaTutorial: () => (/* binding */ SaharaTutorial)
 /* harmony export */ });
-/* harmony import */ var _SaharaMove__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SaharaMove */ 39446);
-/* harmony import */ var _SaharaState__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SaharaState */ 43150);
-/* harmony import */ var _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../jscaip/Coord */ 16904);
-/* harmony import */ var _jscaip_FourStatePiece__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../jscaip/FourStatePiece */ 10003);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @everyboard/lib */ 65042);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @everyboard/lib */ 65042);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _SaharaMove__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SaharaMove */ 39446);
+/* harmony import */ var _SaharaState__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SaharaState */ 43150);
+/* harmony import */ var _jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../jscaip/Coord */ 16904);
+/* harmony import */ var _jscaip_FourStatePiece__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../jscaip/FourStatePiece */ 10003);
 /* harmony import */ var _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../components/wrapper-components/tutorial-game-wrapper/TutorialStep */ 62518);
 /* harmony import */ var _SaharaRules__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./SaharaRules */ 31356);
 /* harmony import */ var _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../components/wrapper-components/tutorial-game-wrapper/TutorialStepMessage */ 36695);
@@ -47894,24 +47894,24 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const N = _jscaip_FourStatePiece__WEBPACK_IMPORTED_MODULE_3__.FourStatePiece.UNREACHABLE;
-const O = _jscaip_FourStatePiece__WEBPACK_IMPORTED_MODULE_3__.FourStatePiece.ZERO;
-const X = _jscaip_FourStatePiece__WEBPACK_IMPORTED_MODULE_3__.FourStatePiece.ONE;
-const _ = _jscaip_FourStatePiece__WEBPACK_IMPORTED_MODULE_3__.FourStatePiece.EMPTY;
+const N = _jscaip_FourStatePiece__WEBPACK_IMPORTED_MODULE_4__.FourStatePiece.UNREACHABLE;
+const O = _jscaip_FourStatePiece__WEBPACK_IMPORTED_MODULE_4__.FourStatePiece.ZERO;
+const X = _jscaip_FourStatePiece__WEBPACK_IMPORTED_MODULE_4__.FourStatePiece.ONE;
+const _ = _jscaip_FourStatePiece__WEBPACK_IMPORTED_MODULE_4__.FourStatePiece.EMPTY;
 class SaharaTutorial extends _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_5__.Tutorial {
   tutorial = [_components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_5__.TutorialStep.informational($localize`Initial board`, $localize`Sâhârâ is played on a board where each space is a triangle.
-        Each player has six pyramids.`, _SaharaRules__WEBPACK_IMPORTED_MODULE_6__.SaharaRules.get().getInitialState()), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_5__.TutorialStep.informational(_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_7__.TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`At Sâhârâ, the object of the game is to immobilize one of the opponent's pyramids. To do so, you have to occupy all neighboring space of that pyramid. Here, Light has lost because its leftmost pyramid is immobilized.`, new _SaharaState__WEBPACK_IMPORTED_MODULE_1__.SaharaState([[N, N, _, _, X, _, _, O, X, N, N], [N, _, _, _, _, _, _, _, _, _, N], [X, O, _, _, _, _, _, _, _, _, O], [O, _, _, _, _, _, _, _, _, _, X], [N, _, _, _, _, _, _, _, _, _, N], [N, N, X, O, _, _, _, X, O, N, N]], 3)), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_5__.TutorialStep.fromPredicate($localize`Simple step`, $localize`To immobilize your opponent, you have to move your pyramids.
+        Each player has six pyramids.`, _SaharaRules__WEBPACK_IMPORTED_MODULE_6__.SaharaRules.get().getInitialState()), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_5__.TutorialStep.informational(_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_7__.TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`At Sâhârâ, the object of the game is to immobilize one of the opponent's pyramids. To do so, you have to occupy all neighboring space of that pyramid. Here, Light has lost because its leftmost pyramid is immobilized.`, new _SaharaState__WEBPACK_IMPORTED_MODULE_2__.SaharaState([[N, N, _, _, X, _, _, O, X, N, N], [N, _, _, _, _, _, _, _, _, _, N], [X, O, _, _, _, _, _, _, _, _, O], [O, _, _, _, _, _, _, _, _, _, X], [N, _, _, _, _, _, _, _, _, _, N], [N, N, X, O, _, _, _, X, O, N, N]], 3)), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_5__.TutorialStep.fromPredicate($localize`Simple step`, $localize`To immobilize your opponent, you have to move your pyramids.
         When a pyramid shares its vertices with light spaces, it can move on these spaces (we call this a simple step).
         To perform a move:
         <ol>
             <li>Click on one of your pyramids.</li>
             <li>Click on one of its two or three neighboring spaces in order to move your pyramid there.</li>
         </ol><br/>
-        You're playing Dark, do any simple step.`, _SaharaRules__WEBPACK_IMPORTED_MODULE_6__.SaharaRules.get().getInitialState(), _SaharaMove__WEBPACK_IMPORTED_MODULE_0__.SaharaMove.from(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(2, 0), new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(2, 1)).get(), (move, _previous, _result) => {
+        You're playing Dark, do any simple step.`, _SaharaRules__WEBPACK_IMPORTED_MODULE_6__.SaharaRules.get().getInitialState(), _SaharaMove__WEBPACK_IMPORTED_MODULE_1__.SaharaMove.from(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(2, 0), new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(2, 1)).get(), (move, _previous, _result) => {
     if (move.isSimpleStep()) {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPValidation.SUCCESS;
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.SUCCESS;
     } else {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPValidation.failure($localize`You have made a double step, which is good but it is the next exercise!`);
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.failure($localize`You have made a double step, which is good but it is the next exercise!`);
     }
   }, _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_7__.TutorialStepMessage.CONGRATULATIONS()), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_5__.TutorialStep.fromPredicate($localize`Double step`, $localize`When a pyramid shares its vertices with dark spaces, it can move one or two steps.
         To do so:
@@ -47920,11 +47920,11 @@ class SaharaTutorial extends _components_wrapper_components_tutorial_game_wrappe
             <li>Click on one of the 6 destinations that you can reach in two steps:
                  the 6 neighboring light spaces of the 3 dark spaces that are neighbors of your pyramid.
         </ol><br/>
-        You're playing Dark, do a double step.`, _SaharaRules__WEBPACK_IMPORTED_MODULE_6__.SaharaRules.get().getInitialState(), _SaharaMove__WEBPACK_IMPORTED_MODULE_0__.SaharaMove.from(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(7, 0), new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(5, 0)).get(), (move, _previous, _result) => {
+        You're playing Dark, do a double step.`, _SaharaRules__WEBPACK_IMPORTED_MODULE_6__.SaharaRules.get().getInitialState(), _SaharaMove__WEBPACK_IMPORTED_MODULE_1__.SaharaMove.from(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(7, 0), new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(5, 0)).get(), (move, _previous, _result) => {
     if (move.isSimpleStep()) {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPValidation.failure($localize`Failed! You have made a single step.`);
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.failure($localize`Failed! You have made a single step.`);
     } else {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPValidation.SUCCESS;
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.SUCCESS;
     }
   }, _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_7__.TutorialStepMessage.CONGRATULATIONS())];
 }
@@ -48610,15 +48610,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   SiamNode: () => (/* binding */ SiamNode),
 /* harmony export */   SiamRules: () => (/* binding */ SiamRules)
 /* harmony export */ });
-/* harmony import */ var _jscaip_Rules__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../jscaip/Rules */ 99150);
-/* harmony import */ var _SiamMove__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SiamMove */ 5050);
-/* harmony import */ var _SiamState__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SiamState */ 63922);
-/* harmony import */ var _SiamPiece__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./SiamPiece */ 29289);
-/* harmony import */ var _jscaip_Player__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../jscaip/Player */ 22092);
-/* harmony import */ var _jscaip_Coord__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../jscaip/Coord */ 16904);
-/* harmony import */ var _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../jscaip/Orthogonal */ 99342);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @everyboard/lib */ 65042);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @everyboard/lib */ 65042);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _jscaip_Rules__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../jscaip/Rules */ 99150);
+/* harmony import */ var _SiamMove__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SiamMove */ 5050);
+/* harmony import */ var _SiamState__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./SiamState */ 63922);
+/* harmony import */ var _SiamPiece__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./SiamPiece */ 29289);
+/* harmony import */ var _jscaip_Player__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../jscaip/Player */ 22092);
+/* harmony import */ var _jscaip_Coord__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../jscaip/Coord */ 16904);
+/* harmony import */ var _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../jscaip/Orthogonal */ 99342);
 /* harmony import */ var _SiamFailure__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./SiamFailure */ 96989);
 /* harmony import */ var _jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../jscaip/RulesFailure */ 68566);
 /* harmony import */ var _jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../jscaip/TableUtils */ 37640);
@@ -48660,14 +48660,14 @@ class SiamLegalityInformation {
   }
 }
 class SiamNode extends _jscaip_AI_GameNode__WEBPACK_IMPORTED_MODULE_12__.GameNode {}
-let SiamRules = class SiamRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_0__.ConfigurableRules {
+let SiamRules = class SiamRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_1__.ConfigurableRules {
   static {
     SiamRules_1 = this;
   }
-  static singleton = _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPOptional.empty();
+  static singleton = _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.empty();
   static get() {
     if (SiamRules_1.singleton.isAbsent()) {
-      SiamRules_1.singleton = _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPOptional.of(new SiamRules_1());
+      SiamRules_1.singleton = _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.of(new SiamRules_1());
     }
     return SiamRules_1.singleton.get();
   }
@@ -48683,45 +48683,45 @@ let SiamRules = class SiamRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_0
     }
   });
   getRulesConfigDescription() {
-    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPOptional.of(SiamRules_1.RULES_CONFIG_DESCRIPTION);
+    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.of(SiamRules_1.RULES_CONFIG_DESCRIPTION);
   }
   getInitialState(optionalConfig) {
     const config = optionalConfig.get();
-    const board = _jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_10__.TableUtils.create(config.width, config.height, _SiamPiece__WEBPACK_IMPORTED_MODULE_3__.SiamPiece.EMPTY);
+    const board = _jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_10__.TableUtils.create(config.width, config.height, _SiamPiece__WEBPACK_IMPORTED_MODULE_4__.SiamPiece.EMPTY);
     const cy = Math.floor(config.height / 2);
     const cx = Math.floor(config.width / 2);
-    board[cy][cx] = _SiamPiece__WEBPACK_IMPORTED_MODULE_3__.SiamPiece.MOUNTAIN;
+    board[cy][cx] = _SiamPiece__WEBPACK_IMPORTED_MODULE_4__.SiamPiece.MOUNTAIN;
     config.numberOfBonusMountain = Math.min(config.numberOfBonusMountain, config.width - 1);
     let numberOfBonusMountainDropped = 0;
     while (numberOfBonusMountainDropped < config.numberOfBonusMountain) {
       const mountainExcentricity = Math.ceil((numberOfBonusMountainDropped + 1) / 2);
-      board[cy][cx + mountainExcentricity] = _SiamPiece__WEBPACK_IMPORTED_MODULE_3__.SiamPiece.MOUNTAIN;
+      board[cy][cx + mountainExcentricity] = _SiamPiece__WEBPACK_IMPORTED_MODULE_4__.SiamPiece.MOUNTAIN;
       numberOfBonusMountainDropped++;
       if (numberOfBonusMountainDropped < config.numberOfBonusMountain) {
-        board[cy][cx - mountainExcentricity] = _SiamPiece__WEBPACK_IMPORTED_MODULE_3__.SiamPiece.MOUNTAIN;
+        board[cy][cx - mountainExcentricity] = _SiamPiece__WEBPACK_IMPORTED_MODULE_4__.SiamPiece.MOUNTAIN;
         numberOfBonusMountainDropped++;
       }
     }
-    return new _SiamState__WEBPACK_IMPORTED_MODULE_2__.SiamState(board, 0);
+    return new _SiamState__WEBPACK_IMPORTED_MODULE_3__.SiamState(board, 0);
   }
   getMoveValidity(move, state) {
     const startedOutside = state.isNotOnBoard(move.coord);
     if (move.isRotation()) {
       if (startedOutside) {
-        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPFallible.failure($localize`You cannot rotate piece outside the board: ${move.toString()}`);
+        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPFallible.failure($localize`You cannot rotate piece outside the board: ${move.toString()}`);
       }
     } else {
       const finishedOutside = state.isNotOnBoard(move.coord.getNext(move.direction.get()));
       if (finishedOutside) {
         if (startedOutside) {
-          return _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPFallible.failure($localize`SiamMove should end or start on the board: ${move.toString()}`);
+          return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPFallible.failure($localize`SiamMove should end or start on the board: ${move.toString()}`);
         }
         if (move.direction.get() !== move.landingOrientation) {
-          return _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPFallible.failure($localize`SiamMove should have moveDirection and landingOrientation matching when a piece goes out of the board: ${move.toString()}`);
+          return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPFallible.failure($localize`SiamMove should have moveDirection and landingOrientation matching when a piece goes out of the board: ${move.toString()}`);
         }
       }
     }
-    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPValidation.SUCCESS;
+    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.SUCCESS;
   }
   isInsertion(move, state) {
     return move.coord.x === -1 || move.coord.x === state.getWidth() || move.coord.y === -1 || move.coord.y === state.getHeight();
@@ -48733,10 +48733,10 @@ let SiamRules = class SiamRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_0
     }
     if (this.isInsertion(move, state) === false) {
       const movedPiece = state.getPieceAt(move.coord);
-      if (movedPiece === _SiamPiece__WEBPACK_IMPORTED_MODULE_3__.SiamPiece.EMPTY) {
-        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPFallible.failure(_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_9__.RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_EMPTY());
+      if (movedPiece === _SiamPiece__WEBPACK_IMPORTED_MODULE_4__.SiamPiece.EMPTY) {
+        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPFallible.failure(_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_9__.RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_EMPTY());
       } else if (movedPiece.belongsTo(state.getCurrentOpponent())) {
-        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPFallible.failure(_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_9__.RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
+        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPFallible.failure(_jscaip_RulesFailure__WEBPACK_IMPORTED_MODULE_9__.RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
       }
     }
     if (move.isRotation()) {
@@ -48746,7 +48746,7 @@ let SiamRules = class SiamRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_0
       if (this.isInsertion(move, state)) {
         const insertionInfo = this.isLegalInsertion(move.coord, state, optionalConfig.get());
         if (insertionInfo.legal.isFailure()) {
-          return _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPFallible.failure(insertionInfo.legal.getReason());
+          return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPFallible.failure(insertionInfo.legal.getReason());
         }
         movingPiece = insertionInfo.insertedPiece;
       } else {
@@ -48758,7 +48758,7 @@ let SiamRules = class SiamRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_0
   isLegalInsertion(coord, state, config) {
     const numberOnBoard = state.countCurrentPlayerPawn();
     const currentPlayer = state.getCurrentPlayer();
-    const legal = numberOnBoard < config.numberOfPiece ? _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPValidation.SUCCESS : _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPValidation.failure(_SiamFailure__WEBPACK_IMPORTED_MODULE_8__.SiamFailure.NO_REMAINING_PIECE_TO_INSERT());
+    const legal = numberOnBoard < config.numberOfPiece ? _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.SUCCESS : _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.failure(_SiamFailure__WEBPACK_IMPORTED_MODULE_8__.SiamFailure.NO_REMAINING_PIECE_TO_INSERT());
     const insertedPiece = this.getInsertedPiece(coord, currentPlayer, state.getWidth());
     return {
       insertedPiece,
@@ -48766,47 +48766,47 @@ let SiamRules = class SiamRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_0
     };
   }
   getInsertedPiece(entrance, player, width) {
-    if (entrance.x === -1) return _SiamPiece__WEBPACK_IMPORTED_MODULE_3__.SiamPiece.of(_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_6__.Orthogonal.RIGHT, player);
-    if (entrance.y === -1) return _SiamPiece__WEBPACK_IMPORTED_MODULE_3__.SiamPiece.of(_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_6__.Orthogonal.DOWN, player);
-    if (entrance.x === width) return _SiamPiece__WEBPACK_IMPORTED_MODULE_3__.SiamPiece.of(_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_6__.Orthogonal.LEFT, player);
-    return _SiamPiece__WEBPACK_IMPORTED_MODULE_3__.SiamPiece.of(_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_6__.Orthogonal.UP, player);
+    if (entrance.x === -1) return _SiamPiece__WEBPACK_IMPORTED_MODULE_4__.SiamPiece.of(_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_7__.Orthogonal.RIGHT, player);
+    if (entrance.y === -1) return _SiamPiece__WEBPACK_IMPORTED_MODULE_4__.SiamPiece.of(_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_7__.Orthogonal.DOWN, player);
+    if (entrance.x === width) return _SiamPiece__WEBPACK_IMPORTED_MODULE_4__.SiamPiece.of(_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_7__.Orthogonal.LEFT, player);
+    return _SiamPiece__WEBPACK_IMPORTED_MODULE_4__.SiamPiece.of(_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_7__.Orthogonal.UP, player);
   }
   isLegalForwarding(move, state, firstPiece) {
-    _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.Utils.assert(firstPiece !== _SiamPiece__WEBPACK_IMPORTED_MODULE_3__.SiamPiece.MOUNTAIN && firstPiece !== _SiamPiece__WEBPACK_IMPORTED_MODULE_3__.SiamPiece.EMPTY, 'forwarding must be done with player piece');
+    _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.Utils.assert(firstPiece !== _SiamPiece__WEBPACK_IMPORTED_MODULE_4__.SiamPiece.MOUNTAIN && firstPiece !== _SiamPiece__WEBPACK_IMPORTED_MODULE_4__.SiamPiece.EMPTY, 'forwarding must be done with player piece');
     const movedPieces = [];
-    let movingPiece = _SiamPiece__WEBPACK_IMPORTED_MODULE_3__.SiamPiece.of(move.landingOrientation, state.getCurrentPlayer());
+    let movingPiece = _SiamPiece__WEBPACK_IMPORTED_MODULE_4__.SiamPiece.of(move.landingOrientation, state.getCurrentPlayer());
     const pushingDir = move.direction.get();
     let landingCoord = move.coord.getNext(pushingDir);
-    if (state.hasInequalPieceAt(landingCoord, _SiamPiece__WEBPACK_IMPORTED_MODULE_3__.SiamPiece.EMPTY) && this.isStraight(firstPiece, move) === false) {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPFallible.failure(_SiamFailure__WEBPACK_IMPORTED_MODULE_8__.SiamFailure.ILLEGAL_PUSH());
+    if (state.hasInequalPieceAt(landingCoord, _SiamPiece__WEBPACK_IMPORTED_MODULE_4__.SiamPiece.EMPTY) && this.isStraight(firstPiece, move) === false) {
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPFallible.failure(_SiamFailure__WEBPACK_IMPORTED_MODULE_8__.SiamFailure.ILLEGAL_PUSH());
     }
-    let currentDirection = _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPOptional.of(pushingDir);
+    let currentDirection = _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.of(pushingDir);
     const resistingDir = pushingDir.getOpposite();
     let totalForce = 0;
     const resultingBoard = state.getCopiedBoard();
     if (state.isOnBoard(move.coord)) {
-      resultingBoard[move.coord.y][move.coord.x] = _SiamPiece__WEBPACK_IMPORTED_MODULE_3__.SiamPiece.EMPTY;
+      resultingBoard[move.coord.y][move.coord.x] = _SiamPiece__WEBPACK_IMPORTED_MODULE_4__.SiamPiece.EMPTY;
       movedPieces.push(move.coord);
     }
-    let pushingPossible = state.isOnBoard(landingCoord) && movingPiece !== _SiamPiece__WEBPACK_IMPORTED_MODULE_3__.SiamPiece.EMPTY;
+    let pushingPossible = state.isOnBoard(landingCoord) && movingPiece !== _SiamPiece__WEBPACK_IMPORTED_MODULE_4__.SiamPiece.EMPTY;
     while (pushingPossible) {
       if (currentDirection.equalsValue(pushingDir)) totalForce++;else if (currentDirection.equalsValue(resistingDir)) totalForce--;
       const tmpPiece = resultingBoard[landingCoord.y][landingCoord.x];
-      if (tmpPiece === _SiamPiece__WEBPACK_IMPORTED_MODULE_3__.SiamPiece.MOUNTAIN) totalForce -= 0.9;
+      if (tmpPiece === _SiamPiece__WEBPACK_IMPORTED_MODULE_4__.SiamPiece.MOUNTAIN) totalForce -= 0.9;
       resultingBoard[landingCoord.y][landingCoord.x] = movingPiece;
       movedPieces.push(landingCoord);
       movingPiece = tmpPiece;
       landingCoord = landingCoord.getNext(pushingDir);
       currentDirection = movingPiece.getOptionalDirection();
-      pushingPossible = state.isOnBoard(landingCoord) && movingPiece !== _SiamPiece__WEBPACK_IMPORTED_MODULE_3__.SiamPiece.EMPTY && totalForce > 0;
+      pushingPossible = state.isOnBoard(landingCoord) && movingPiece !== _SiamPiece__WEBPACK_IMPORTED_MODULE_4__.SiamPiece.EMPTY && totalForce > 0;
     }
     if (state.isNotOnBoard(landingCoord)) {
       if (currentDirection.equalsValue(pushingDir)) totalForce++;else if (currentDirection.equalsValue(resistingDir)) totalForce--;
     }
     if (totalForce <= 0) {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPFallible.failure(_SiamFailure__WEBPACK_IMPORTED_MODULE_8__.SiamFailure.NOT_ENOUGH_FORCE_TO_PUSH());
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPFallible.failure(_SiamFailure__WEBPACK_IMPORTED_MODULE_8__.SiamFailure.NOT_ENOUGH_FORCE_TO_PUSH());
     }
-    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPFallible.success(new SiamLegalityInformation(resultingBoard, movedPieces));
+    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPFallible.success(new SiamLegalityInformation(resultingBoard, movedPieces));
   }
   isStraight(piece, move) {
     const pieceDirection = piece.getDirection();
@@ -48817,16 +48817,16 @@ let SiamRules = class SiamRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_0
     const currentPiece = state.getPieceAt(coord);
     const currentPlayer = state.getCurrentPlayer();
     if (currentPiece.getDirection() === rotation.landingOrientation) {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPFallible.failure(_SiamFailure__WEBPACK_IMPORTED_MODULE_8__.SiamFailure.MUST_MOVE_OR_ROTATE());
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPFallible.failure(_SiamFailure__WEBPACK_IMPORTED_MODULE_8__.SiamFailure.MUST_MOVE_OR_ROTATE());
     }
     const resultingBoard = state.getCopiedBoard();
-    resultingBoard[coord.y][coord.x] = _SiamPiece__WEBPACK_IMPORTED_MODULE_3__.SiamPiece.of(rotation.landingOrientation, currentPlayer);
-    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPFallible.success(new SiamLegalityInformation(resultingBoard, [coord]));
+    resultingBoard[coord.y][coord.x] = _SiamPiece__WEBPACK_IMPORTED_MODULE_4__.SiamPiece.of(rotation.landingOrientation, currentPlayer);
+    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPFallible.success(new SiamLegalityInformation(resultingBoard, [coord]));
   }
   applyLegalMove(_move, state, _config, info) {
     const newBoard = _jscaip_TableUtils__WEBPACK_IMPORTED_MODULE_10__.TableUtils.copy(info.resultingBoard);
     const newTurn = state.turn + 1;
-    const resultingState = new _SiamState__WEBPACK_IMPORTED_MODULE_2__.SiamState(newBoard, newTurn);
+    const resultingState = new _SiamState__WEBPACK_IMPORTED_MODULE_3__.SiamState(newBoard, newTurn);
     return resultingState;
   }
   getScoreFromShortestDistances(zeroShortestDistance, oneShortestDistance, currentPlayer) {
@@ -48847,7 +48847,7 @@ let SiamRules = class SiamRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_0
     const columns = [];
     let nbMountain = 0;
     for (const coordAndContent of state.getCoordsAndContents()) {
-      if (coordAndContent.content === _SiamPiece__WEBPACK_IMPORTED_MODULE_3__.SiamPiece.MOUNTAIN) {
+      if (coordAndContent.content === _SiamPiece__WEBPACK_IMPORTED_MODULE_4__.SiamPiece.MOUNTAIN) {
         if (rows.includes(coordAndContent.coord.y) === false) {
           rows.push(coordAndContent.coord.y);
         }
@@ -48867,7 +48867,7 @@ let SiamRules = class SiamRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_0
     if (nbMountain === config.numberOfBonusMountain) {
       return this.getPusher(state, move.get());
     } else {
-      return _jscaip_Player__WEBPACK_IMPORTED_MODULE_4__.PlayerOrNone.NONE;
+      return _jscaip_Player__WEBPACK_IMPORTED_MODULE_5__.PlayerOrNone.NONE;
     }
   }
   getPusher(state, finishingMove) {
@@ -48895,7 +48895,7 @@ let SiamRules = class SiamRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_0
       pusher = pushed;
       pushed = pushed.getNext(pushingDirection);
       const pushingPiece = state.getPieceAt(pusher);
-      if (pushingPiece !== _SiamPiece__WEBPACK_IMPORTED_MODULE_3__.SiamPiece.MOUNTAIN && pushingPiece.getDirection() === pushingDirection) {
+      if (pushingPiece !== _SiamPiece__WEBPACK_IMPORTED_MODULE_4__.SiamPiece.MOUNTAIN && pushingPiece.getDirection() === pushingDirection) {
         lastCorrectPusher = pusher;
       }
     }
@@ -48905,28 +48905,28 @@ let SiamRules = class SiamRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_0
     let pushers = [];
     const lineDirections = [];
     for (const x of mountainsColumn) {
-      let direction = _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_6__.Orthogonal.DOWN;
-      let fallingCoord = new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_5__.Coord(x, config.height - 1);
+      let direction = _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_7__.Orthogonal.DOWN;
+      let fallingCoord = new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_6__.Coord(x, config.height - 1);
       lineDirections.push({
         direction,
         fallingCoord
       });
-      direction = _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_6__.Orthogonal.UP;
-      fallingCoord = new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_5__.Coord(x, 0);
+      direction = _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_7__.Orthogonal.UP;
+      fallingCoord = new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_6__.Coord(x, 0);
       lineDirections.push({
         direction,
         fallingCoord
       });
     }
     for (const y of mountainsRow) {
-      let direction = _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_6__.Orthogonal.LEFT;
-      let fallingCoord = new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_5__.Coord(0, y);
+      let direction = _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_7__.Orthogonal.LEFT;
+      let fallingCoord = new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_6__.Coord(0, y);
       lineDirections.push({
         direction,
         fallingCoord
       });
-      direction = _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_6__.Orthogonal.RIGHT;
-      fallingCoord = new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_5__.Coord(config.width - 1, y);
+      direction = _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_7__.Orthogonal.RIGHT;
+      fallingCoord = new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_6__.Coord(config.width - 1, y);
       lineDirections.push({
         direction,
         fallingCoord
@@ -48962,7 +48962,7 @@ let SiamRules = class SiamRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_0
         coord: fallingCoord,
         distance: 1
       },
-      almostPusher: _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPOptional.empty(),
+      almostPusher: _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.empty(),
       pusherFound: false,
       mountainEncountered: false,
       missingForce: 0
@@ -48984,18 +48984,18 @@ let SiamRules = class SiamRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_0
     if (state.isNotOnBoard(lineInfo.closestPusher.coord)) {
       lineInfo.missingForce -= 1;
       if (state.countCurrentPlayerPawn() === config.numberOfPiece) {
-        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPOptional.empty();
+        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.empty();
       }
     }
     if (lineInfo.missingForce > 0) {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPOptional.empty();
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.empty();
     }
-    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPOptional.of(lineInfo.closestPusher);
+    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.of(lineInfo.closestPusher);
   }
   updateLineInfo(state, lineInfo, direction) {
     const currentPiece = state.getPieceAt(lineInfo.closestPusher.coord);
     if (currentPiece.isEmptyOrMountain()) {
-      if (currentPiece === _SiamPiece__WEBPACK_IMPORTED_MODULE_3__.SiamPiece.MOUNTAIN) {
+      if (currentPiece === _SiamPiece__WEBPACK_IMPORTED_MODULE_4__.SiamPiece.MOUNTAIN) {
         lineInfo.missingForce += 0.9;
         lineInfo.mountainEncountered = true;
       } else {
@@ -49023,8 +49023,8 @@ let SiamRules = class SiamRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_0
         }
       } else {
         if (lineInfo.mountainEncountered) {
-          lineInfo.almostPusher = _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPOptional.of(lineInfo.closestPusher.coord);
-          if (lineInfo.previousPiece !== _SiamPiece__WEBPACK_IMPORTED_MODULE_3__.SiamPiece.EMPTY) {
+          lineInfo.almostPusher = _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.of(lineInfo.closestPusher.coord);
+          if (lineInfo.previousPiece !== _SiamPiece__WEBPACK_IMPORTED_MODULE_4__.SiamPiece.EMPTY) {
             lineInfo.closestPusher.distance++;
           }
         } else {
@@ -49057,13 +49057,13 @@ let SiamRules = class SiamRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_0
   }
   getInsertionsAt(state, x, y, config) {
     const moves = [];
-    for (const direction of _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_6__.Orthogonal.ORTHOGONALS) {
-      const entrance = new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_5__.Coord(x, y).getPrevious(direction);
+    for (const direction of _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_7__.Orthogonal.ORTHOGONALS) {
+      const entrance = new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_6__.Coord(x, y).getPrevious(direction);
       if (state.isNotOnBoard(entrance)) {
-        for (const orientation of _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_6__.Orthogonal.ORTHOGONALS) {
-          const move = _SiamMove__WEBPACK_IMPORTED_MODULE_1__.SiamMove.of(entrance.x, entrance.y, _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPOptional.of(direction), orientation);
-          _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.Utils.assert(this.getMoveValidity(move, state).isSuccess(), 'SiamRules.getInsertionsAt should only construct valid insertions');
-          const legality = this.isLegal(move, state, _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPOptional.of(config));
+        for (const orientation of _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_7__.Orthogonal.ORTHOGONALS) {
+          const move = _SiamMove__WEBPACK_IMPORTED_MODULE_2__.SiamMove.of(entrance.x, entrance.y, _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.of(direction), orientation);
+          _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.Utils.assert(this.getMoveValidity(move, state).isSuccess(), 'SiamRules.getInsertionsAt should only construct valid insertions');
+          const legality = this.isLegal(move, state, _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.of(config));
           if (legality.isSuccess()) {
             moves.push(move);
           }
@@ -49073,10 +49073,10 @@ let SiamRules = class SiamRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_0
     return moves;
   }
   getMovesFrom(state, piece, x, y) {
-    const coord = new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_5__.Coord(x, y);
+    const coord = new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_6__.Coord(x, y);
     // Three rotations
     let moves = this.getRotationMovesAt(coord, piece);
-    for (const direction of _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_6__.Orthogonal.ORTHOGONALS) {
+    for (const direction of _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_7__.Orthogonal.ORTHOGONALS) {
       // All legal forward moves
       const landingCoord = coord.getNext(direction);
       moves = moves.concat(this.getForwardMovesBetween(state, coord, landingCoord));
@@ -49087,7 +49087,7 @@ let SiamRules = class SiamRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_0
     if (start.equals(end)) {
       return this.getRotationMovesAt(start, piece);
     } else {
-      const directionOpt = _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_6__.Orthogonal.factory.fromMove(start, end);
+      const directionOpt = _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_7__.Orthogonal.factory.fromMove(start, end);
       if (directionOpt.isSuccess() && start.getLinearDistanceToward(end) === 1) {
         return this.getForwardMovesBetween(state, start, end);
       } else {
@@ -49099,9 +49099,9 @@ let SiamRules = class SiamRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_0
   getRotationMovesAt(coord, piece) {
     const moves = [];
     const currentOrientation = piece.getDirection();
-    for (const direction of _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_6__.Orthogonal.ORTHOGONALS) {
+    for (const direction of _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_7__.Orthogonal.ORTHOGONALS) {
       if (direction !== currentOrientation) {
-        const newMove = _SiamMove__WEBPACK_IMPORTED_MODULE_1__.SiamMove.of(coord.x, coord.y, _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPOptional.empty(), direction);
+        const newMove = _SiamMove__WEBPACK_IMPORTED_MODULE_2__.SiamMove.of(coord.x, coord.y, _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.empty(), direction);
         moves.push(newMove);
       }
     }
@@ -49110,15 +49110,15 @@ let SiamRules = class SiamRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_0
   getForwardMovesBetween(state, start, end) {
     const moves = [];
     let orientations;
-    const direction = _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_6__.Orthogonal.factory.fromMove(start, end).get();
+    const direction = _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_7__.Orthogonal.factory.fromMove(start, end).get();
     const piece = state.getPieceAt(start);
     if (state.isOnBoard(end)) {
-      orientations = _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_6__.Orthogonal.ORTHOGONALS;
+      orientations = _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_7__.Orthogonal.ORTHOGONALS;
     } else {
       orientations = [direction];
     }
     for (const orientation of orientations) {
-      const move = _SiamMove__WEBPACK_IMPORTED_MODULE_1__.SiamMove.of(start.x, start.y, _everyboard_lib__WEBPACK_IMPORTED_MODULE_7__.MGPOptional.of(direction), orientation);
+      const move = _SiamMove__WEBPACK_IMPORTED_MODULE_2__.SiamMove.of(start.x, start.y, _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.of(direction), orientation);
       const legality = this.isLegalForwarding(move, state, piece);
       if (legality.isSuccess()) {
         moves.push(move);
@@ -49183,12 +49183,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   SiamTutorial: () => (/* binding */ SiamTutorial)
 /* harmony export */ });
-/* harmony import */ var _SiamMove__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SiamMove */ 5050);
-/* harmony import */ var _SiamPiece__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SiamPiece */ 29289);
-/* harmony import */ var _SiamState__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SiamState */ 63922);
-/* harmony import */ var _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../jscaip/Orthogonal */ 99342);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @everyboard/lib */ 65042);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @everyboard/lib */ 65042);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _SiamMove__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SiamMove */ 5050);
+/* harmony import */ var _SiamPiece__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SiamPiece */ 29289);
+/* harmony import */ var _SiamState__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./SiamState */ 63922);
+/* harmony import */ var _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../jscaip/Orthogonal */ 99342);
 /* harmony import */ var _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../components/wrapper-components/tutorial-game-wrapper/TutorialStep */ 62518);
 /* harmony import */ var _SiamRules__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./SiamRules */ 58784);
 /* harmony import */ var _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../components/wrapper-components/tutorial-game-wrapper/TutorialStepMessage */ 36695);
@@ -49200,19 +49200,19 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const _ = _SiamPiece__WEBPACK_IMPORTED_MODULE_1__.SiamPiece.EMPTY;
-const M = _SiamPiece__WEBPACK_IMPORTED_MODULE_1__.SiamPiece.MOUNTAIN;
-const U = _SiamPiece__WEBPACK_IMPORTED_MODULE_1__.SiamPiece.LIGHT_UP;
-const L = _SiamPiece__WEBPACK_IMPORTED_MODULE_1__.SiamPiece.LIGHT_LEFT;
-const R = _SiamPiece__WEBPACK_IMPORTED_MODULE_1__.SiamPiece.LIGHT_RIGHT;
-const D = _SiamPiece__WEBPACK_IMPORTED_MODULE_1__.SiamPiece.LIGHT_DOWN;
-const u = _SiamPiece__WEBPACK_IMPORTED_MODULE_1__.SiamPiece.DARK_UP;
-const l = _SiamPiece__WEBPACK_IMPORTED_MODULE_1__.SiamPiece.DARK_LEFT;
-const r = _SiamPiece__WEBPACK_IMPORTED_MODULE_1__.SiamPiece.DARK_RIGHT;
-const d = _SiamPiece__WEBPACK_IMPORTED_MODULE_1__.SiamPiece.DARK_DOWN;
+const _ = _SiamPiece__WEBPACK_IMPORTED_MODULE_2__.SiamPiece.EMPTY;
+const M = _SiamPiece__WEBPACK_IMPORTED_MODULE_2__.SiamPiece.MOUNTAIN;
+const U = _SiamPiece__WEBPACK_IMPORTED_MODULE_2__.SiamPiece.LIGHT_UP;
+const L = _SiamPiece__WEBPACK_IMPORTED_MODULE_2__.SiamPiece.LIGHT_LEFT;
+const R = _SiamPiece__WEBPACK_IMPORTED_MODULE_2__.SiamPiece.LIGHT_RIGHT;
+const D = _SiamPiece__WEBPACK_IMPORTED_MODULE_2__.SiamPiece.LIGHT_DOWN;
+const u = _SiamPiece__WEBPACK_IMPORTED_MODULE_2__.SiamPiece.DARK_UP;
+const l = _SiamPiece__WEBPACK_IMPORTED_MODULE_2__.SiamPiece.DARK_LEFT;
+const r = _SiamPiece__WEBPACK_IMPORTED_MODULE_2__.SiamPiece.DARK_RIGHT;
+const d = _SiamPiece__WEBPACK_IMPORTED_MODULE_2__.SiamPiece.DARK_DOWN;
 const defaultConfig = _SiamRules__WEBPACK_IMPORTED_MODULE_6__.SiamRules.get().getDefaultRulesConfig();
 class SiamTutorial extends _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_5__.Tutorial {
-  tutorial = [_components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_5__.TutorialStep.informational(_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_7__.TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`The goal at Siam is to be the first to push a mountain out of the board. The initial board contains three mountains, and no pieces are initially on the board. During its turn, a player can do one of the following actions:<ol><li>Put a new piece on the board.</li><li>Change the orientation of one of its piece</li><li>Move one of its piece and optionally reorient it.</li><li>Take one of its pieces out of the board.</li></ol>`, _SiamRules__WEBPACK_IMPORTED_MODULE_6__.SiamRules.get().getInitialState(defaultConfig)), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_5__.TutorialStep.anyMove($localize`Inserting a piece`, $localize`Each player has 5 pieces in total. As long as you have remaining pieces next to the board, you can insert new pieces. To do so:<ol><li>Click on one of your pieces from your reserve, next to board.</li><li>Click on one of the highlighted squares to select a landing for your piece.</li><li>Select an orientation for your piece by clicking on one of the arrows that appear on top of the board.</li></ol><br/>You're playing Dark, insert a piece on the board.`, _SiamRules__WEBPACK_IMPORTED_MODULE_6__.SiamRules.get().getInitialState(defaultConfig), _SiamMove__WEBPACK_IMPORTED_MODULE_0__.SiamMove.of(2, -1, _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.of(_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_3__.Orthogonal.DOWN), _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_3__.Orthogonal.DOWN), _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_7__.TutorialStepMessage.CONGRATULATIONS()), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_5__.TutorialStep.fromMove($localize`Moving a piece`, $localize`We will distinguish here "moving" and "pushing". A move is made from a piece's square to an empty neighboring square, horizontally or vertically. You can also move a piece out of the board. To move a piece:<ol><li>Click on it.</li><li>Click on the square on which you want the piece to move. You can also click a second time on your piece to change its orientation without moving it.</li><li>Select the orientation of your piece by clicking one one of the arrows that appear on top of the board.</li></ol><br/>You're playing Dark. Try to move your piece that is already on the board one square upwards and to orient it to the left.`, new _SiamState__WEBPACK_IMPORTED_MODULE_2__.SiamState([[_, _, _, _, _], [_, _, _, _, _], [_, M, M, M, _], [_, _, _, _, _], [_, _, u, _, _]], 0), [_SiamMove__WEBPACK_IMPORTED_MODULE_0__.SiamMove.of(2, 4, _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.of(_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_3__.Orthogonal.UP), _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_3__.Orthogonal.LEFT)], $localize`Congratulations, you made a side-slip!`, _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_7__.TutorialStepMessage.FAILED_TRY_AGAIN()), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_5__.TutorialStep.fromMove($localize`Moving a piece out of the board`, $localize`To move a piece out of the board, you do not have to pick an orientation after the move.<br/><br/> You're playing Dark, get that piece out of the board!`, new _SiamState__WEBPACK_IMPORTED_MODULE_2__.SiamState([[_, _, _, _, _], [_, _, _, _, _], [_, M, M, M, _], [_, _, _, _, _], [_, _, u, _, _]], 0), [_SiamMove__WEBPACK_IMPORTED_MODULE_0__.SiamMove.of(2, 4, _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.of(_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_3__.Orthogonal.DOWN), _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_3__.Orthogonal.DOWN)], $localize`Congratulations, even if in this context it was not a useful move.`, $localize`Failed, the piece is still on the board.`), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_5__.TutorialStep.fromMove($localize`Pushing` + ' (1/2)', $localize`When the landing square of your move is occupied, we use the term "push". In order to push player pieces, the following conditions must hold:<ol><li>Your piece must already be oriented in the direction of the push.</li><li>Along the line that you are pushing, the number of pieces (yours or your opponent's) that are oriented in the same way as the push should be strictly greater than the number of pieces oriented in the opposite way.</li></ol>Look closely at the board. On the first row, you cannot push as there is exactly one piece in the opposite direction. On the second row, you can push because there are two pieces against one.<br/><br/>You're playing Dark. Vertically, you can push using your piece in the center, as there is no resistance on that axis. Do it.`, new _SiamState__WEBPACK_IMPORTED_MODULE_2__.SiamState([[_, r, L, _, _], [r, R, L, _, _], [_, _, u, _, _], [_, _, _, _, _], [_, _, _, _, _]], 0), [_SiamMove__WEBPACK_IMPORTED_MODULE_0__.SiamMove.of(2, 2, _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.of(_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_3__.Orthogonal.UP), _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_3__.Orthogonal.UP)], _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_7__.TutorialStepMessage.CONGRATULATIONS(), _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_7__.TutorialStepMessage.FAILED_TRY_AGAIN()), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_5__.TutorialStep.fromMove($localize`Pushing` + ' (2/2)', $localize`To be able to push a mountain, you need at least one pusher per mountain. Each resistant (pieces in the opposite way) cancel the force of one pusher. In short, if there is no mountain, you need strictly more pushers than resistants. If there is a mountain, you need at least as much pushers than there are resistants and mountains. On the following board, as Dark, you can push the mountain on the first row. On the second and third row, because of the resisting forces, you cannot push. On the fourth row, you can push as there is one more pusher than resistant pieces.<br/><br/>You're playing Dark, push on the fourth row it.`, new _SiamState__WEBPACK_IMPORTED_MODULE_2__.SiamState([[_, _, r, M, _], [_, _, r, M, l], [_, r, M, M, _], [_, r, R, L, M], [_, _, _, _, _]], 0), [_SiamMove__WEBPACK_IMPORTED_MODULE_0__.SiamMove.of(1, 3, _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.of(_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_3__.Orthogonal.RIGHT), _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_3__.Orthogonal.RIGHT)], $localize`Congratulations! Note that this move made you lose the game, you will see why in the next step.`, _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_7__.TutorialStepMessage.FAILED_TRY_AGAIN()), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_5__.TutorialStep.fromMove($localize`Victory`, $localize`The game ends when a mountain is pushed out of the board. If you pushed it and nobody is in front of you, you're the winner. However, if you were pushing an opponent oriented in the same direction as you, your opponent will win because that piece is closer to the mountain. However, if that opponent is closer to the mountain but not oriented toward it, victory will be yours.<br/><br/>Here, playing Dark, you can push a mountain off the board and either win, or lose. Choose correctly!`, new _SiamState__WEBPACK_IMPORTED_MODULE_2__.SiamState([[_, _, _, _, _], [_, _, _, _, _], [M, U, l, _, d], [_, _, _, _, D], [_, _, _, _, M]], 0), [_SiamMove__WEBPACK_IMPORTED_MODULE_0__.SiamMove.of(2, 2, _everyboard_lib__WEBPACK_IMPORTED_MODULE_4__.MGPOptional.of(_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_3__.Orthogonal.LEFT), _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_3__.Orthogonal.LEFT)], _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_7__.TutorialStepMessage.CONGRATULATIONS_YOU_WON(), $localize`Failed, you lost.`)];
+  tutorial = [_components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_5__.TutorialStep.informational(_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_7__.TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`The goal at Siam is to be the first to push a mountain out of the board. The initial board contains three mountains, and no pieces are initially on the board. During its turn, a player can do one of the following actions:<ol><li>Put a new piece on the board.</li><li>Change the orientation of one of its piece</li><li>Move one of its piece and optionally reorient it.</li><li>Take one of its pieces out of the board.</li></ol>`, _SiamRules__WEBPACK_IMPORTED_MODULE_6__.SiamRules.get().getInitialState(defaultConfig)), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_5__.TutorialStep.anyMove($localize`Inserting a piece`, $localize`Each player has 5 pieces in total. As long as you have remaining pieces next to the board, you can insert new pieces. To do so:<ol><li>Click on one of your pieces from your reserve, next to board.</li><li>Click on one of the highlighted squares to select a landing for your piece.</li><li>Select an orientation for your piece by clicking on one of the arrows that appear on top of the board.</li></ol><br/>You're playing Dark, insert a piece on the board.`, _SiamRules__WEBPACK_IMPORTED_MODULE_6__.SiamRules.get().getInitialState(defaultConfig), _SiamMove__WEBPACK_IMPORTED_MODULE_1__.SiamMove.of(2, -1, _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.of(_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_4__.Orthogonal.DOWN), _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_4__.Orthogonal.DOWN), _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_7__.TutorialStepMessage.CONGRATULATIONS()), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_5__.TutorialStep.fromMove($localize`Moving a piece`, $localize`We will distinguish here "moving" and "pushing". A move is made from a piece's square to an empty neighboring square, horizontally or vertically. You can also move a piece out of the board. To move a piece:<ol><li>Click on it.</li><li>Click on the square on which you want the piece to move. You can also click a second time on your piece to change its orientation without moving it.</li><li>Select the orientation of your piece by clicking one one of the arrows that appear on top of the board.</li></ol><br/>You're playing Dark. Try to move your piece that is already on the board one square upwards and to orient it to the left.`, new _SiamState__WEBPACK_IMPORTED_MODULE_3__.SiamState([[_, _, _, _, _], [_, _, _, _, _], [_, M, M, M, _], [_, _, _, _, _], [_, _, u, _, _]], 0), [_SiamMove__WEBPACK_IMPORTED_MODULE_1__.SiamMove.of(2, 4, _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.of(_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_4__.Orthogonal.UP), _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_4__.Orthogonal.LEFT)], $localize`Congratulations, you made a side-slip!`, _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_7__.TutorialStepMessage.FAILED_TRY_AGAIN()), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_5__.TutorialStep.fromMove($localize`Moving a piece out of the board`, $localize`To move a piece out of the board, you do not have to pick an orientation after the move.<br/><br/> You're playing Dark, get that piece out of the board!`, new _SiamState__WEBPACK_IMPORTED_MODULE_3__.SiamState([[_, _, _, _, _], [_, _, _, _, _], [_, M, M, M, _], [_, _, _, _, _], [_, _, u, _, _]], 0), [_SiamMove__WEBPACK_IMPORTED_MODULE_1__.SiamMove.of(2, 4, _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.of(_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_4__.Orthogonal.DOWN), _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_4__.Orthogonal.DOWN)], $localize`Congratulations, even if in this context it was not a useful move.`, $localize`Failed, the piece is still on the board.`), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_5__.TutorialStep.fromMove($localize`Pushing` + ' (1/2)', $localize`When the landing square of your move is occupied, we use the term "push". In order to push player pieces, the following conditions must hold:<ol><li>Your piece must already be oriented in the direction of the push.</li><li>Along the line that you are pushing, the number of pieces (yours or your opponent's) that are oriented in the same way as the push should be strictly greater than the number of pieces oriented in the opposite way.</li></ol>Look closely at the board. On the first row, you cannot push as there is exactly one piece in the opposite direction. On the second row, you can push because there are two pieces against one.<br/><br/>You're playing Dark. Vertically, you can push using your piece in the center, as there is no resistance on that axis. Do it.`, new _SiamState__WEBPACK_IMPORTED_MODULE_3__.SiamState([[_, r, L, _, _], [r, R, L, _, _], [_, _, u, _, _], [_, _, _, _, _], [_, _, _, _, _]], 0), [_SiamMove__WEBPACK_IMPORTED_MODULE_1__.SiamMove.of(2, 2, _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.of(_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_4__.Orthogonal.UP), _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_4__.Orthogonal.UP)], _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_7__.TutorialStepMessage.CONGRATULATIONS(), _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_7__.TutorialStepMessage.FAILED_TRY_AGAIN()), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_5__.TutorialStep.fromMove($localize`Pushing` + ' (2/2)', $localize`To be able to push a mountain, you need at least one pusher per mountain. Each resistant (pieces in the opposite way) cancel the force of one pusher. In short, if there is no mountain, you need strictly more pushers than resistants. If there is a mountain, you need at least as much pushers than there are resistants and mountains. On the following board, as Dark, you can push the mountain on the first row. On the second and third row, because of the resisting forces, you cannot push. On the fourth row, you can push as there is one more pusher than resistant pieces.<br/><br/>You're playing Dark, push on the fourth row it.`, new _SiamState__WEBPACK_IMPORTED_MODULE_3__.SiamState([[_, _, r, M, _], [_, _, r, M, l], [_, r, M, M, _], [_, r, R, L, M], [_, _, _, _, _]], 0), [_SiamMove__WEBPACK_IMPORTED_MODULE_1__.SiamMove.of(1, 3, _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.of(_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_4__.Orthogonal.RIGHT), _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_4__.Orthogonal.RIGHT)], $localize`Congratulations! Note that this move made you lose the game, you will see why in the next step.`, _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_7__.TutorialStepMessage.FAILED_TRY_AGAIN()), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_5__.TutorialStep.fromMove($localize`Victory`, $localize`The game ends when a mountain is pushed out of the board. If you pushed it and nobody is in front of you, you're the winner. However, if you were pushing an opponent oriented in the same direction as you, your opponent will win because that piece is closer to the mountain. However, if that opponent is closer to the mountain but not oriented toward it, victory will be yours.<br/><br/>Here, playing Dark, you can push a mountain off the board and either win, or lose. Choose correctly!`, new _SiamState__WEBPACK_IMPORTED_MODULE_3__.SiamState([[_, _, _, _, _], [_, _, _, _, _], [M, U, l, _, d], [_, _, _, _, D], [_, _, _, _, M]], 0), [_SiamMove__WEBPACK_IMPORTED_MODULE_1__.SiamMove.of(2, 2, _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.of(_jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_4__.Orthogonal.LEFT), _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_4__.Orthogonal.LEFT)], _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_7__.TutorialStepMessage.CONGRATULATIONS_YOU_WON(), $localize`Failed, you lost.`)];
 }
 
 /***/ }),
