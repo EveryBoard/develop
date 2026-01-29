@@ -60902,9 +60902,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   MoveWithTwoCoords: () => (/* binding */ MoveWithTwoCoords)
 /* harmony export */ });
-/* harmony import */ var _Coord__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Coord */ 16904);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @everyboard/lib */ 65042);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @everyboard/lib */ 65042);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Coord__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Coord */ 16904);
 /* harmony import */ var _Move__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Move */ 26804);
 
 
@@ -60913,10 +60913,10 @@ class MoveWithTwoCoords extends _Move__WEBPACK_IMPORTED_MODULE_2__.Move {
   first;
   second;
   static getFallibleEncoder(generator) {
-    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.Encoder.tuple([_Coord__WEBPACK_IMPORTED_MODULE_0__.Coord.encoder, _Coord__WEBPACK_IMPORTED_MODULE_0__.Coord.encoder], move => [move.first, move.second], fields => generator(fields[0], fields[1]).get());
+    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.Encoder.tuple([_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord.encoder, _Coord__WEBPACK_IMPORTED_MODULE_1__.Coord.encoder], move => [move.first, move.second], fields => generator(fields[0], fields[1]).get());
   }
   static getEncoder(generator) {
-    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.Encoder.tuple([_Coord__WEBPACK_IMPORTED_MODULE_0__.Coord.encoder, _Coord__WEBPACK_IMPORTED_MODULE_0__.Coord.encoder], move => [move.first, move.second], fields => generator(fields[0], fields[1]));
+    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.Encoder.tuple([_Coord__WEBPACK_IMPORTED_MODULE_1__.Coord.encoder, _Coord__WEBPACK_IMPORTED_MODULE_1__.Coord.encoder], move => [move.first, move.second], fields => generator(fields[0], fields[1]));
   }
   constructor(first, second) {
     super();
@@ -61527,9 +61527,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   Rules: () => (/* binding */ Rules),
 /* harmony export */   SuperRules: () => (/* binding */ SuperRules)
 /* harmony export */ });
-/* harmony import */ var _AI_GameNode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AI/GameNode */ 49120);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @everyboard/lib */ 65042);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @everyboard/lib */ 65042);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _AI_GameNode__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AI/GameNode */ 49120);
 /* harmony import */ var _utils_Debug__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/Debug */ 36355);
 
 
@@ -61552,36 +61552,36 @@ class SuperRules {
     const legality = this.isLegal(move, node.gameState, config);
     if (legality.isFailure()) {
       _utils_Debug__WEBPACK_IMPORTED_MODULE_2__.Debug.display('Rules', 'choose', 'Move is illegal: ' + legality.getReason());
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPFallible.failure(legality.getReason());
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPFallible.failure(legality.getReason());
     }
     const choice = node.getChild(move);
     if (choice.isPresent()) {
       // The node is already in the tree, let's not create it twice
-      _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.Utils.assert(legality.isSuccess(), 'Rules.choose: Move is illegal: ' + legality.getReasonOr(''));
+      _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.Utils.assert(legality.isSuccess(), 'Rules.choose: Move is illegal: ' + legality.getReasonOr(''));
       _utils_Debug__WEBPACK_IMPORTED_MODULE_2__.Debug.display('Rules', 'choose', 'and this proposed move is found in the list, so it is legal');
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPFallible.success(choice.get());
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPFallible.success(choice.get());
     }
     const resultingState = this.applyLegalMove(move, node.gameState, config, legality.get());
-    const child = new _AI_GameNode__WEBPACK_IMPORTED_MODULE_0__.GameNode(resultingState, _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(node), _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(move));
-    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPFallible.success(child);
+    const child = new _AI_GameNode__WEBPACK_IMPORTED_MODULE_1__.GameNode(resultingState, _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.of(node), _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.of(move));
+    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPFallible.success(child);
   }
   getInitialNode(config) {
     const initialState = this.getInitialState(config);
-    return new _AI_GameNode__WEBPACK_IMPORTED_MODULE_0__.GameNode(initialState);
+    return new _AI_GameNode__WEBPACK_IMPORTED_MODULE_1__.GameNode(initialState);
   }
   getDefaultRulesConfig() {
     const rulesConfigDescription = this.getRulesConfigDescription();
     if (rulesConfigDescription.isPresent()) {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(rulesConfigDescription.get().getDefaultConfig().config);
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.of(rulesConfigDescription.get().getDefaultConfig().config);
     } else {
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.empty();
     }
   }
 }
 class ConfigurableRules extends SuperRules {}
 class Rules extends SuperRules {
   getRulesConfigDescription() {
-    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+    return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.empty();
   }
 }
 class AbstractRules extends SuperRules {}
@@ -62794,9 +62794,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   ChatService: () => (/* binding */ ChatService)
 /* harmony export */ });
 /* harmony import */ var _home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 89204);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @everyboard/lib */ 65042);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var firebase_firestore__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! firebase/firestore */ 63783);
+/* harmony import */ var firebase_firestore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! firebase/firestore */ 63783);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @everyboard/lib */ 65042);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _utils_Debug__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils/Debug */ 36355);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/core */ 37580);
 /* harmony import */ var _dao_ChatDAO__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../dao/ChatDAO */ 64259);
@@ -62842,19 +62842,19 @@ let ChatService = class ChatService {
     var _this3 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       if (_this3.userCanSendMessage(sender.name, chatId) === false) {
-        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.failure(ChatMessages.CANNOT_SEND_MESSAGE());
+        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPValidation.failure(ChatMessages.CANNOT_SEND_MESSAGE());
       }
       if (_this3.isForbiddenMessage(content)) {
-        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.failure(ChatMessages.FORBIDDEN_MESSAGE());
+        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPValidation.failure(ChatMessages.FORBIDDEN_MESSAGE());
       }
       const newMessage = {
         content,
         sender,
-        postedTime: (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_2__.serverTimestamp)(),
+        postedTime: (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.serverTimestamp)(),
         currentTurn
       };
       yield _this3.addMessage(chatId, newMessage);
-      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.SUCCESS;
+      return _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPValidation.SUCCESS;
     })();
   }
   userCanSendMessage(userName, _chatId) {
@@ -62889,9 +62889,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   ConfigRoomServiceFailure: () => (/* binding */ ConfigRoomServiceFailure)
 /* harmony export */ });
 /* harmony import */ var _home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 89204);
-/* harmony import */ var _domain_ConfigRoom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../domain/ConfigRoom */ 6278);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @everyboard/lib */ 65042);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @everyboard/lib */ 65042);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _domain_ConfigRoom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../domain/ConfigRoom */ 6278);
 /* harmony import */ var _dao_FirestoreCollectionObserver__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../dao/FirestoreCollectionObserver */ 58590);
 /* harmony import */ var _BackendService__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./BackendService */ 15264);
 /* harmony import */ var _utils_Debug__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils/Debug */ 36355);
@@ -62961,10 +62961,10 @@ let ConfigRoomService = class ConfigRoomService extends _BackendService__WEBPACK
       const endpoint = `config-room/${gameId}/candidates`;
       const result = yield _this.performRequest('POST', endpoint);
       if (result.isSuccess()) {
-        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPValidation.SUCCESS;
+        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.SUCCESS;
       } else {
-        _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.Utils.assert(result.getReason() === 'not_found', `Unexpected failure from backend: ${result.getReason()}`);
-        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPValidation.failure(ConfigRoomServiceFailure.GAME_DOES_NOT_EXIST());
+        _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.Utils.assert(result.getReason() === 'not_found', `Unexpected failure from backend: ${result.getReason()}`);
+        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.failure(ConfigRoomServiceFailure.GAME_DOES_NOT_EXIST());
       }
     })();
   }
@@ -62982,7 +62982,7 @@ let ConfigRoomService = class ConfigRoomService extends _BackendService__WEBPACK
     var _this3 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       const config = {
-        partStatus: _domain_ConfigRoom__WEBPACK_IMPORTED_MODULE_1__.PartStatus.CONFIG_PROPOSED.value,
+        partStatus: _domain_ConfigRoom__WEBPACK_IMPORTED_MODULE_2__.PartStatus.CONFIG_PROPOSED.value,
         partType: partType.value,
         maximalMoveDuration,
         totalPartDuration,
@@ -64253,9 +64253,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   UserService: () => (/* binding */ UserService)
 /* harmony export */ });
 /* harmony import */ var _home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 89204);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @everyboard/lib */ 65042);
-/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var firebase_firestore__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! firebase/firestore */ 63783);
+/* harmony import */ var firebase_firestore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! firebase/firestore */ 63783);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @everyboard/lib */ 65042);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/core */ 37580);
 /* harmony import */ var _dao_UserDAO__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../dao/UserDAO */ 99124);
 
@@ -64317,17 +64317,17 @@ class UserService {
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       const user = yield _this4.userDAO.read(id);
       if (user.isAbsent()) {
-        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.empty();
+        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPOptional.empty();
       } else {
         const lastUpdateTime = user.get().lastUpdateTime;
-        _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.Utils.assert(lastUpdateTime != null, 'should not receive a lastUpdateTime equal to null');
-        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(lastUpdateTime);
+        _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.Utils.assert(lastUpdateTime != null, 'should not receive a lastUpdateTime equal to null');
+        return _everyboard_lib__WEBPACK_IMPORTED_MODULE_2__.MGPOptional.of(lastUpdateTime);
       }
     })();
   }
   updatePresenceToken(userId) {
     return this.userDAO.update(userId, {
-      lastUpdateTime: (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_2__.serverTimestamp)()
+      lastUpdateTime: (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.serverTimestamp)()
     });
   }
   static ɵfac = function UserService_Factory(__ngFactoryType__) {
