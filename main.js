@@ -1572,7 +1572,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 class AccountComponent {
-  constructor() {}
   static ɵfac = function AccountComponent_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || AccountComponent)();
   };
