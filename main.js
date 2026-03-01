@@ -48146,7 +48146,7 @@ function SaharaComponent__svg_ng_template_3__svg_ng_container_0_Template(rf, ctx
   if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵnamespaceSVG"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵelementContainerStart"](0);
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵelement"](1, "polygon", 15)(2, "polygon", 15);
+    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵelement"](1, "polygon", 15)(2, "polygon", 16);
     _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵelementContainerEnd"]();
   }
   if (rf & 2) {
@@ -48263,7 +48263,7 @@ class SaharaComponent extends _components_game_components_game_component_Triangu
     features: [_angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵInheritDefinitionFeature"]],
     decls: 5,
     vars: 3,
-    consts: [["lastMove", ""], ["xmlns", "http://www.w3.org/2000/svg", "viewBox", "-3 -3 606 606", "preserveAspectRatio", "xMidYMid meet", 1, "board"], [4, "ngFor", "ngForOf"], [4, "ngIf", "ngIfElse"], [3, "id", "click", 4, "ngFor", "ngForOf"], [3, "click", "id"], [4, "ngIf"], [1, "base", "mid-stroke", 3, "id", "ngClass"], ["class", "base mid-stroke", 3, "id", 4, "ngIf"], ["class", "base mid-stroke background2", 3, "id", 4, "ngIf"], [1, "base", "mid-stroke", 3, "id"], [1, "base", "mid-stroke", "background2", 3, "id"], ["class", "base no-fill mid-stroke selected-stroke", 3, "id", 4, "ngFor", "ngForOf"], ["class", "base no-fill mid-stroke selected-stroke", 3, "id", 4, "ngIf"], [1, "base", "no-fill", "mid-stroke", "selected-stroke", 3, "id"], [1, "base", "no-fill", "mid-stroke", "moved-stroke"]],
+    consts: [["lastMove", ""], ["xmlns", "http://www.w3.org/2000/svg", "viewBox", "-3 -3 606 606", "preserveAspectRatio", "xMidYMid meet", 1, "board"], [4, "ngFor", "ngForOf"], [4, "ngIf", "ngIfElse"], [3, "id", "click", 4, "ngFor", "ngForOf"], [3, "click", "id"], [4, "ngIf"], [1, "base", "mid-stroke", 3, "id", "ngClass"], ["class", "base mid-stroke", 3, "id", 4, "ngIf"], ["class", "base mid-stroke background2", 3, "id", 4, "ngIf"], [1, "base", "mid-stroke", 3, "id"], [1, "base", "mid-stroke", "background2", 3, "id"], ["class", "base no-fill mid-stroke selected-stroke", 3, "id", 4, "ngFor", "ngForOf"], ["class", "base no-fill mid-stroke selected-stroke", 3, "id", 4, "ngIf"], [1, "base", "no-fill", "mid-stroke", "selected-stroke", 3, "id"], ["id", "last_move_origin", 1, "base", "no-fill", "mid-stroke", "last-move-stroke"], ["id", "last_move_destination", 1, "base", "no-fill", "mid-stroke", "last-move-stroke"]],
     template: function SaharaComponent_Template(rf, ctx) {
       if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵnamespaceSVG"]();
