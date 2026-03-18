@@ -1063,7 +1063,7 @@ function _performFetchWithErrorHandling2() {
   });
   return _performFetchWithErrorHandling2.apply(this, arguments);
 }
-function _performSignInRequest(_x8, _x9, _x10, _x11) {
+function _performSignInRequest(_x8, _x9, _x0, _x1) {
   return _performSignInRequest2.apply(this, arguments);
 }
 function _performSignInRequest2() {
@@ -1213,7 +1213,7 @@ class RecaptchaConfig {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-function getRecaptchaParams(_x12) {
+function getRecaptchaParams(_x10) {
   return _getRecaptchaParams.apply(this, arguments);
 }
 function _getRecaptchaParams() {
@@ -1222,7 +1222,7 @@ function _getRecaptchaParams() {
   });
   return _getRecaptchaParams.apply(this, arguments);
 }
-function getRecaptchaConfig(_x13, _x14) {
+function getRecaptchaConfig(_x11, _x12) {
   return _getRecaptchaConfig.apply(this, arguments);
 }
 /**
@@ -1247,7 +1247,7 @@ function _getRecaptchaConfig() {
   });
   return _getRecaptchaConfig.apply(this, arguments);
 }
-function deleteAccount(_x15, _x16) {
+function deleteAccount(_x13, _x14) {
   return _deleteAccount.apply(this, arguments);
 }
 function _deleteAccount() {
@@ -1256,7 +1256,7 @@ function _deleteAccount() {
   });
   return _deleteAccount.apply(this, arguments);
 }
-function deleteLinkedAccounts(_x17, _x18) {
+function deleteLinkedAccounts(_x15, _x16) {
   return _deleteLinkedAccounts.apply(this, arguments);
 }
 function _deleteLinkedAccounts() {
@@ -1265,7 +1265,7 @@ function _deleteLinkedAccounts() {
   });
   return _deleteLinkedAccounts.apply(this, arguments);
 }
-function getAccountInfo(_x19, _x20) {
+function getAccountInfo(_x17, _x18) {
   return _getAccountInfo.apply(this, arguments);
 }
 /**
@@ -1351,7 +1351,7 @@ function getIdToken(user, forceRefresh = false) {
  *
  * @public
  */
-function getIdTokenResult(_x21) {
+function getIdTokenResult(_x19) {
   return _getIdTokenResult.apply(this, arguments);
 }
 function _getIdTokenResult() {
@@ -1422,7 +1422,7 @@ function _tokenExpiresIn(token) {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-function _logoutIfInvalidated(_x22, _x23) {
+function _logoutIfInvalidated(_x20, _x21) {
   return _logoutIfInvalidated2.apply(this, arguments);
 }
 function _logoutIfInvalidated2() {
@@ -1513,7 +1513,7 @@ class ProactiveRefresh {
       return;
     }
     const interval = this.getInterval(wasError);
-    this.timerId = setTimeout( /*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    this.timerId = setTimeout(/*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       yield _this.iteration();
     }), interval);
   }
@@ -1525,7 +1525,7 @@ class ProactiveRefresh {
       } catch (e) {
         // Only retry on network errors
         if ((e === null || e === void 0 ? void 0 : e.code) === `auth/${"network-request-failed" /* AuthErrorCode.NETWORK_REQUEST_FAILED */}`) {
-          _this2.schedule( /* wasError */true);
+          _this2.schedule(/* wasError */true);
         }
         return;
       }
@@ -1589,7 +1589,7 @@ class UserMetadata {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-function _reloadWithoutSaving(_x24) {
+function _reloadWithoutSaving(_x22) {
   return _reloadWithoutSaving2.apply(this, arguments);
 }
 /**
@@ -1636,7 +1636,7 @@ function _reloadWithoutSaving2() {
   });
   return _reloadWithoutSaving2.apply(this, arguments);
 }
-function reload(_x25) {
+function reload(_x23) {
   return _reload.apply(this, arguments);
 }
 function _reload() {
@@ -1688,7 +1688,7 @@ function extractProviderData(providers) {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-function requestStsToken(_x26, _x27) {
+function requestStsToken(_x24, _x25) {
   return _requestStsToken.apply(this, arguments);
 }
 function _requestStsToken() {
@@ -1720,7 +1720,7 @@ function _requestStsToken() {
   });
   return _requestStsToken.apply(this, arguments);
 }
-function revokeToken(_x28, _x29) {
+function revokeToken(_x26, _x27) {
   return _revokeToken.apply(this, arguments);
 }
 /**
@@ -1772,9 +1772,9 @@ class StsTokenManager {
     const expiresIn = _tokenExpiresIn(idToken);
     this.updateTokensAndExpiration(idToken, null, expiresIn);
   }
-  getToken(auth, forceRefresh = false) {
+  getToken(_x28) {
     var _this3 = this;
-    return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (auth, forceRefresh = false) {
       if (!forceRefresh && _this3.accessToken && !_this3.isExpired) {
         return _this3.accessToken;
       }
@@ -1784,7 +1784,7 @@ class StsTokenManager {
         return _this3.accessToken;
       }
       return null;
-    })();
+    }).apply(this, arguments);
   }
   clearRefreshToken() {
     this.refreshToken = null;
@@ -1966,9 +1966,9 @@ class UserImpl {
   _stopProactiveRefresh() {
     this.proactiveRefresh._stop();
   }
-  _updateTokensIfNecessary(response, reload = false) {
+  _updateTokensIfNecessary(_x29) {
     var _this6 = this;
-    return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (response, reload = false) {
       let tokensRefreshed = false;
       if (response.idToken && response.idToken !== _this6.stsTokenManager.accessToken) {
         _this6.stsTokenManager.updateFromServerResponse(response);
@@ -1981,7 +1981,7 @@ class UserImpl {
       if (tokensRefreshed) {
         _this6.auth._notifyListenersIfCurrent(_this6);
       }
-    })();
+    }).apply(this, arguments);
   }
   delete() {
     var _this7 = this;
@@ -2080,8 +2080,8 @@ class UserImpl {
    * @param auth
    * @param idTokenResponse
    */
-  static _fromIdTokenResponse(auth, idTokenResponse, isAnonymous = false) {
-    return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+  static _fromIdTokenResponse(_x30, _x31) {
+    return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (auth, idTokenResponse, isAnonymous = false) {
       const stsTokenManager = new StsTokenManager();
       stsTokenManager.updateFromServerResponse(idTokenResponse);
       // Initialize the Firebase Auth user.
@@ -2094,7 +2094,7 @@ class UserImpl {
       // Updates the user info and data and resolves with a user instance.
       yield _reloadWithoutSaving(user);
       return user;
-    })();
+    }).apply(this, arguments);
   }
   /**
    * Initialize a User from an idToken server response
@@ -2204,9 +2204,9 @@ class InMemoryPersistence {
     })();
   }
   _remove(key) {
-    var _this10 = this;
+    var _this0 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      delete _this10.storage[key];
+      delete _this0.storage[key];
     })();
   }
   _addListener(_key, _listener) {
@@ -2263,10 +2263,10 @@ class PersistenceUserManager {
     return this.persistence._set(this.fullUserKey, user.toJSON());
   }
   getCurrentUser() {
-    var _this11 = this;
+    var _this1 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      const blob = yield _this11.persistence._get(_this11.fullUserKey);
-      return blob ? UserImpl._fromJSON(_this11.auth, blob) : null;
+      const blob = yield _this1.persistence._get(_this1.fullUserKey);
+      return blob ? UserImpl._fromJSON(_this1.auth, blob) : null;
     })();
   }
   removeCurrentUser() {
@@ -2276,36 +2276,36 @@ class PersistenceUserManager {
     return this.persistence._set(this.fullPersistenceKey, this.persistence.type);
   }
   setPersistence(newPersistence) {
-    var _this12 = this;
+    var _this10 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      if (_this12.persistence === newPersistence) {
+      if (_this10.persistence === newPersistence) {
         return;
       }
-      const currentUser = yield _this12.getCurrentUser();
-      yield _this12.removeCurrentUser();
-      _this12.persistence = newPersistence;
+      const currentUser = yield _this10.getCurrentUser();
+      yield _this10.removeCurrentUser();
+      _this10.persistence = newPersistence;
       if (currentUser) {
-        return _this12.setCurrentUser(currentUser);
+        return _this10.setCurrentUser(currentUser);
       }
     })();
   }
   delete() {
     this.persistence._removeListener(this.fullUserKey, this.boundEventHandler);
   }
-  static create(auth, persistenceHierarchy, userKey = "authUser" /* KeyName.AUTH_USER */) {
-    return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+  static create(_x32, _x33) {
+    return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (auth, persistenceHierarchy, userKey = "authUser" /* KeyName.AUTH_USER */) {
       if (!persistenceHierarchy.length) {
         return new PersistenceUserManager(_getInstance(inMemoryPersistence), auth, userKey);
       }
       // Eliminate any persistences that are not available
-      const availablePersistences = (yield Promise.all(persistenceHierarchy.map( /*#__PURE__*/function () {
+      const availablePersistences = (yield Promise.all(persistenceHierarchy.map(/*#__PURE__*/function () {
         var _ref2 = (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (persistence) {
           if (yield persistence._isAvailable()) {
             return persistence;
           }
           return undefined;
         });
-        return function (_x30) {
+        return function (_x34) {
           return _ref2.apply(this, arguments);
         };
       }()))).filter(persistence => persistence);
@@ -2346,7 +2346,7 @@ class PersistenceUserManager {
       }
       // Attempt to clear the key in other persistences but ignore errors. This helps prevent issues
       // such as users getting stuck with a previous account after signing out and refreshing the tab.
-      yield Promise.all(persistenceHierarchy.map( /*#__PURE__*/function () {
+      yield Promise.all(persistenceHierarchy.map(/*#__PURE__*/function () {
         var _ref3 = (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (persistence) {
           if (persistence !== selectedPersistence) {
             try {
@@ -2354,12 +2354,12 @@ class PersistenceUserManager {
             } catch (_a) {}
           }
         });
-        return function (_x31) {
+        return function (_x35) {
           return _ref3.apply(this, arguments);
         };
       }()));
       return new PersistenceUserManager(selectedPersistence, auth, userKey);
-    })();
+    }).apply(this, arguments);
   }
 }
 
@@ -2545,16 +2545,16 @@ class AuthMiddlewareQueue {
     };
   }
   runMiddleware(nextUser) {
-    var _this13 = this;
+    var _this11 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      if (_this13.auth.currentUser === nextUser) {
+      if (_this11.auth.currentUser === nextUser) {
         return;
       }
       // While running the middleware, build a temporary stack of onAbort
       // callbacks to call if one middleware callback rejects.
       const onAbortStack = [];
       try {
-        for (const beforeStateCallback of _this13.queue) {
+        for (const beforeStateCallback of _this11.queue) {
           yield beforeStateCallback(nextUser);
           // Only push the onAbort if the callback succeeds
           if (beforeStateCallback.onAbort) {
@@ -2572,7 +2572,7 @@ class AuthMiddlewareQueue {
             /* swallow error */
           }
         }
-        throw _this13.auth._errorFactory.create("login-blocked" /* AuthErrorCode.LOGIN_BLOCKED */, {
+        throw _this11.auth._errorFactory.create("login-blocked" /* AuthErrorCode.LOGIN_BLOCKED */, {
           originalMessage: e === null || e === void 0 ? void 0 : e.message
         });
       }
@@ -2603,7 +2603,7 @@ class AuthMiddlewareQueue {
  * @param request Password policy request.
  * @returns Password policy response.
  */
-function _getPasswordPolicy(_x32) {
+function _getPasswordPolicy(_x36) {
   return _getPasswordPolicy2.apply(this, arguments);
 }
 /**
@@ -2800,37 +2800,37 @@ class AuthImpl {
     this.clientVersion = config.sdkClientVersion;
   }
   _initializeWithPersistence(persistenceHierarchy, popupRedirectResolver) {
-    var _this14 = this;
+    var _this12 = this;
     if (popupRedirectResolver) {
       this._popupRedirectResolver = _getInstance(popupRedirectResolver);
     }
     // Have to check for app deletion throughout initialization (after each
     // promise resolution)
-    this._initializationPromise = this.queue( /*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    this._initializationPromise = this.queue(/*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       var _a, _b;
-      if (_this14._deleted) {
+      if (_this12._deleted) {
         return;
       }
-      _this14.persistenceManager = yield PersistenceUserManager.create(_this14, persistenceHierarchy);
-      if (_this14._deleted) {
+      _this12.persistenceManager = yield PersistenceUserManager.create(_this12, persistenceHierarchy);
+      if (_this12._deleted) {
         return;
       }
       // Initialize the resolver early if necessary (only applicable to web:
       // this will cause the iframe to load immediately in certain cases)
-      if ((_a = _this14._popupRedirectResolver) === null || _a === void 0 ? void 0 : _a._shouldInitProactively) {
+      if ((_a = _this12._popupRedirectResolver) === null || _a === void 0 ? void 0 : _a._shouldInitProactively) {
         // If this fails, don't halt auth loading
         try {
-          yield _this14._popupRedirectResolver._initialize(_this14);
+          yield _this12._popupRedirectResolver._initialize(_this12);
         } catch (e) {
           /* Ignore the error */
         }
       }
-      yield _this14.initializeCurrentUser(popupRedirectResolver);
-      _this14.lastNotifiedUid = ((_b = _this14.currentUser) === null || _b === void 0 ? void 0 : _b.uid) || null;
-      if (_this14._deleted) {
+      yield _this12.initializeCurrentUser(popupRedirectResolver);
+      _this12.lastNotifiedUid = ((_b = _this12.currentUser) === null || _b === void 0 ? void 0 : _b.uid) || null;
+      if (_this12._deleted) {
         return;
       }
-      _this14._isInitialized = true;
+      _this12._isInitialized = true;
     }));
     return this._initializationPromise;
   }
@@ -2838,70 +2838,70 @@ class AuthImpl {
    * If the persistence is changed in another window, the user manager will let us know
    */
   _onStorageEvent() {
-    var _this15 = this;
+    var _this13 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      if (_this15._deleted) {
+      if (_this13._deleted) {
         return;
       }
-      const user = yield _this15.assertedPersistence.getCurrentUser();
-      if (!_this15.currentUser && !user) {
+      const user = yield _this13.assertedPersistence.getCurrentUser();
+      if (!_this13.currentUser && !user) {
         // No change, do nothing (was signed out and remained signed out).
         return;
       }
       // If the same user is to be synchronized.
-      if (_this15.currentUser && user && _this15.currentUser.uid === user.uid) {
+      if (_this13.currentUser && user && _this13.currentUser.uid === user.uid) {
         // Data update, simply copy data changes.
-        _this15._currentUser._assign(user);
+        _this13._currentUser._assign(user);
         // If tokens changed from previous user tokens, this will trigger
         // notifyAuthListeners_.
-        yield _this15.currentUser.getIdToken();
+        yield _this13.currentUser.getIdToken();
         return;
       }
       // Update current Auth state. Either a new login or logout.
       // Skip blocking callbacks, they should not apply to a change in another tab.
-      yield _this15._updateCurrentUser(user, /* skipBeforeStateCallbacks */true);
+      yield _this13._updateCurrentUser(user, /* skipBeforeStateCallbacks */true);
     })();
   }
   initializeCurrentUserFromIdToken(idToken) {
-    var _this16 = this;
+    var _this14 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       try {
-        const response = yield getAccountInfo(_this16, {
+        const response = yield getAccountInfo(_this14, {
           idToken
         });
-        const user = yield UserImpl._fromGetAccountInfoResponse(_this16, response, idToken);
-        yield _this16.directlySetCurrentUser(user);
+        const user = yield UserImpl._fromGetAccountInfoResponse(_this14, response, idToken);
+        yield _this14.directlySetCurrentUser(user);
       } catch (err) {
         console.warn('FirebaseServerApp could not login user with provided authIdToken: ', err);
-        yield _this16.directlySetCurrentUser(null);
+        yield _this14.directlySetCurrentUser(null);
       }
     })();
   }
   initializeCurrentUser(popupRedirectResolver) {
-    var _this17 = this;
+    var _this15 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       var _a;
-      if ((0,_firebase_app__WEBPACK_IMPORTED_MODULE_1__._isFirebaseServerApp)(_this17.app)) {
-        const idToken = _this17.app.settings.authIdToken;
+      if ((0,_firebase_app__WEBPACK_IMPORTED_MODULE_1__._isFirebaseServerApp)(_this15.app)) {
+        const idToken = _this15.app.settings.authIdToken;
         if (idToken) {
           // Start the auth operation in the next tick to allow a moment for the customer's app to
           // attach an emulator, if desired.
           return new Promise(resolve => {
-            setTimeout(() => _this17.initializeCurrentUserFromIdToken(idToken).then(resolve, resolve));
+            setTimeout(() => _this15.initializeCurrentUserFromIdToken(idToken).then(resolve, resolve));
           });
         } else {
-          return _this17.directlySetCurrentUser(null);
+          return _this15.directlySetCurrentUser(null);
         }
       }
       // First check to see if we have a pending redirect event.
-      const previouslyStoredUser = yield _this17.assertedPersistence.getCurrentUser();
+      const previouslyStoredUser = yield _this15.assertedPersistence.getCurrentUser();
       let futureCurrentUser = previouslyStoredUser;
       let needsTocheckMiddleware = false;
-      if (popupRedirectResolver && _this17.config.authDomain) {
-        yield _this17.getOrInitRedirectPersistenceManager();
-        const redirectUserEventId = (_a = _this17.redirectUser) === null || _a === void 0 ? void 0 : _a._redirectEventId;
+      if (popupRedirectResolver && _this15.config.authDomain) {
+        yield _this15.getOrInitRedirectPersistenceManager();
+        const redirectUserEventId = (_a = _this15.redirectUser) === null || _a === void 0 ? void 0 : _a._redirectEventId;
         const storedUserEventId = futureCurrentUser === null || futureCurrentUser === void 0 ? void 0 : futureCurrentUser._redirectEventId;
-        const result = yield _this17.tryRedirectSignIn(popupRedirectResolver);
+        const result = yield _this15.tryRedirectSignIn(popupRedirectResolver);
         // If the stored user (i.e. the old "currentUser") has a redirectId that
         // matches the redirect user, then we want to initially sign in with the
         // new user object from result.
@@ -2913,40 +2913,40 @@ class AuthImpl {
       }
       // If no user in persistence, there is no current user. Set to null.
       if (!futureCurrentUser) {
-        return _this17.directlySetCurrentUser(null);
+        return _this15.directlySetCurrentUser(null);
       }
       if (!futureCurrentUser._redirectEventId) {
         // This isn't a redirect link operation, we can reload and bail.
         // First though, ensure that we check the middleware is happy.
         if (needsTocheckMiddleware) {
           try {
-            yield _this17.beforeStateQueue.runMiddleware(futureCurrentUser);
+            yield _this15.beforeStateQueue.runMiddleware(futureCurrentUser);
           } catch (e) {
             futureCurrentUser = previouslyStoredUser;
             // We know this is available since the bit is only set when the
             // resolver is available
-            _this17._popupRedirectResolver._overrideRedirectResult(_this17, () => Promise.reject(e));
+            _this15._popupRedirectResolver._overrideRedirectResult(_this15, () => Promise.reject(e));
           }
         }
         if (futureCurrentUser) {
-          return _this17.reloadAndSetCurrentUserOrClear(futureCurrentUser);
+          return _this15.reloadAndSetCurrentUserOrClear(futureCurrentUser);
         } else {
-          return _this17.directlySetCurrentUser(null);
+          return _this15.directlySetCurrentUser(null);
         }
       }
-      _assert(_this17._popupRedirectResolver, _this17, "argument-error" /* AuthErrorCode.ARGUMENT_ERROR */);
-      yield _this17.getOrInitRedirectPersistenceManager();
+      _assert(_this15._popupRedirectResolver, _this15, "argument-error" /* AuthErrorCode.ARGUMENT_ERROR */);
+      yield _this15.getOrInitRedirectPersistenceManager();
       // If the redirect user's event ID matches the current user's event ID,
       // DO NOT reload the current user, otherwise they'll be cleared from storage.
       // This is important for the reauthenticateWithRedirect() flow.
-      if (_this17.redirectUser && _this17.redirectUser._redirectEventId === futureCurrentUser._redirectEventId) {
-        return _this17.directlySetCurrentUser(futureCurrentUser);
+      if (_this15.redirectUser && _this15.redirectUser._redirectEventId === futureCurrentUser._redirectEventId) {
+        return _this15.directlySetCurrentUser(futureCurrentUser);
       }
-      return _this17.reloadAndSetCurrentUserOrClear(futureCurrentUser);
+      return _this15.reloadAndSetCurrentUserOrClear(futureCurrentUser);
     })();
   }
   tryRedirectSignIn(redirectResolver) {
-    var _this18 = this;
+    var _this16 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       // The redirect user needs to be checked (and signed in if available)
       // during auth initialization. All of the normal sign in and link/reauth
@@ -2967,17 +2967,17 @@ class AuthImpl {
       try {
         // We know this._popupRedirectResolver is set since redirectResolver
         // is passed in. The _completeRedirectFn expects the unwrapped extern.
-        result = yield _this18._popupRedirectResolver._completeRedirectFn(_this18, redirectResolver, true);
+        result = yield _this16._popupRedirectResolver._completeRedirectFn(_this16, redirectResolver, true);
       } catch (e) {
         // Swallow any errors here; the code can retrieve them in
         // getRedirectResult().
-        yield _this18._setRedirectUser(null);
+        yield _this16._setRedirectUser(null);
       }
       return result;
     })();
   }
   reloadAndSetCurrentUserOrClear(user) {
-    var _this19 = this;
+    var _this17 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       try {
         yield _reloadWithoutSaving(user);
@@ -2985,78 +2985,78 @@ class AuthImpl {
         if ((e === null || e === void 0 ? void 0 : e.code) !== `auth/${"network-request-failed" /* AuthErrorCode.NETWORK_REQUEST_FAILED */}`) {
           // Something's wrong with the user's token. Log them out and remove
           // them from storage
-          return _this19.directlySetCurrentUser(null);
+          return _this17.directlySetCurrentUser(null);
         }
       }
-      return _this19.directlySetCurrentUser(user);
+      return _this17.directlySetCurrentUser(user);
     })();
   }
   useDeviceLanguage() {
     this.languageCode = _getUserLanguage();
   }
   _delete() {
-    var _this20 = this;
+    var _this18 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      _this20._deleted = true;
+      _this18._deleted = true;
     })();
   }
   updateCurrentUser(userExtern) {
-    var _this21 = this;
+    var _this19 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      if ((0,_firebase_app__WEBPACK_IMPORTED_MODULE_1__._isFirebaseServerApp)(_this21.app)) {
-        return Promise.reject(_serverAppCurrentUserOperationNotSupportedError(_this21));
+      if ((0,_firebase_app__WEBPACK_IMPORTED_MODULE_1__._isFirebaseServerApp)(_this19.app)) {
+        return Promise.reject(_serverAppCurrentUserOperationNotSupportedError(_this19));
       }
       // The public updateCurrentUser method needs to make a copy of the user,
       // and also check that the project matches
       const user = userExtern ? (0,_firebase_util__WEBPACK_IMPORTED_MODULE_2__.getModularInstance)(userExtern) : null;
       if (user) {
-        _assert(user.auth.config.apiKey === _this21.config.apiKey, _this21, "invalid-user-token" /* AuthErrorCode.INVALID_AUTH */);
+        _assert(user.auth.config.apiKey === _this19.config.apiKey, _this19, "invalid-user-token" /* AuthErrorCode.INVALID_AUTH */);
       }
-      return _this21._updateCurrentUser(user && user._clone(_this21));
+      return _this19._updateCurrentUser(user && user._clone(_this19));
     })();
   }
-  _updateCurrentUser(user, skipBeforeStateCallbacks = false) {
-    var _this22 = this;
-    return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      if (_this22._deleted) {
+  _updateCurrentUser(_x37) {
+    var _this20 = this;
+    return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (user, skipBeforeStateCallbacks = false) {
+      if (_this20._deleted) {
         return;
       }
       if (user) {
-        _assert(_this22.tenantId === user.tenantId, _this22, "tenant-id-mismatch" /* AuthErrorCode.TENANT_ID_MISMATCH */);
+        _assert(_this20.tenantId === user.tenantId, _this20, "tenant-id-mismatch" /* AuthErrorCode.TENANT_ID_MISMATCH */);
       }
       if (!skipBeforeStateCallbacks) {
-        yield _this22.beforeStateQueue.runMiddleware(user);
+        yield _this20.beforeStateQueue.runMiddleware(user);
       }
-      return _this22.queue( /*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-        yield _this22.directlySetCurrentUser(user);
-        _this22.notifyAuthListeners();
+      return _this20.queue(/*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+        yield _this20.directlySetCurrentUser(user);
+        _this20.notifyAuthListeners();
       }));
-    })();
+    }).apply(this, arguments);
   }
   signOut() {
-    var _this23 = this;
+    var _this21 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      if ((0,_firebase_app__WEBPACK_IMPORTED_MODULE_1__._isFirebaseServerApp)(_this23.app)) {
-        return Promise.reject(_serverAppCurrentUserOperationNotSupportedError(_this23));
+      if ((0,_firebase_app__WEBPACK_IMPORTED_MODULE_1__._isFirebaseServerApp)(_this21.app)) {
+        return Promise.reject(_serverAppCurrentUserOperationNotSupportedError(_this21));
       }
       // Run first, to block _setRedirectUser() if any callbacks fail.
-      yield _this23.beforeStateQueue.runMiddleware(null);
+      yield _this21.beforeStateQueue.runMiddleware(null);
       // Clear the redirect user when signOut is called
-      if (_this23.redirectPersistenceManager || _this23._popupRedirectResolver) {
-        yield _this23._setRedirectUser(null);
+      if (_this21.redirectPersistenceManager || _this21._popupRedirectResolver) {
+        yield _this21._setRedirectUser(null);
       }
       // Prevent callbacks from being called again in _updateCurrentUser, as
       // they were already called in the first line.
-      return _this23._updateCurrentUser(null, /* skipBeforeStateCallbacks */true);
+      return _this21._updateCurrentUser(null, /* skipBeforeStateCallbacks */true);
     })();
   }
   setPersistence(persistence) {
-    var _this24 = this;
+    var _this22 = this;
     if ((0,_firebase_app__WEBPACK_IMPORTED_MODULE_1__._isFirebaseServerApp)(this.app)) {
       return Promise.reject(_serverAppCurrentUserOperationNotSupportedError(this));
     }
-    return this.queue( /*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      yield _this24.assertedPersistence.setPersistence(_getInstance(persistence));
+    return this.queue(/*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+      yield _this22.assertedPersistence.setPersistence(_getInstance(persistence));
     }));
   }
   _getRecaptchaConfig() {
@@ -3067,17 +3067,17 @@ class AuthImpl {
     }
   }
   validatePassword(password) {
-    var _this25 = this;
+    var _this23 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      if (!_this25._getPasswordPolicyInternal()) {
-        yield _this25._updatePasswordPolicy();
+      if (!_this23._getPasswordPolicyInternal()) {
+        yield _this23._updatePasswordPolicy();
       }
       // Password policy will be defined after fetching.
-      const passwordPolicy = _this25._getPasswordPolicyInternal();
+      const passwordPolicy = _this23._getPasswordPolicyInternal();
       // Check that the policy schema version is supported by the SDK.
       // TODO: Update this logic to use a max supported policy schema version once we have multiple schema versions.
-      if (passwordPolicy.schemaVersion !== _this25.EXPECTED_PASSWORD_POLICY_SCHEMA_VERSION) {
-        return Promise.reject(_this25._errorFactory.create("unsupported-password-policy-schema-version" /* AuthErrorCode.UNSUPPORTED_PASSWORD_POLICY_SCHEMA_VERSION */, {}));
+      if (passwordPolicy.schemaVersion !== _this23.EXPECTED_PASSWORD_POLICY_SCHEMA_VERSION) {
+        return Promise.reject(_this23._errorFactory.create("unsupported-password-policy-schema-version" /* AuthErrorCode.UNSUPPORTED_PASSWORD_POLICY_SCHEMA_VERSION */, {}));
       }
       return passwordPolicy.validatePassword(password);
     })();
@@ -3090,14 +3090,14 @@ class AuthImpl {
     }
   }
   _updatePasswordPolicy() {
-    var _this26 = this;
+    var _this24 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      const response = yield _getPasswordPolicy(_this26);
+      const response = yield _getPasswordPolicy(_this24);
       const passwordPolicy = new PasswordPolicyImpl(response);
-      if (_this26.tenantId === null) {
-        _this26._projectPasswordPolicy = passwordPolicy;
+      if (_this24.tenantId === null) {
+        _this24._projectPasswordPolicy = passwordPolicy;
       } else {
-        _this26._tenantPasswordPolicies[_this26.tenantId] = passwordPolicy;
+        _this24._tenantPasswordPolicies[_this24.tenantId] = passwordPolicy;
       }
     })();
   }
@@ -3132,10 +3132,10 @@ class AuthImpl {
    * Revokes the given access token. Currently only supports Apple OAuth access tokens.
    */
   revokeAccessToken(token) {
-    var _this27 = this;
+    var _this25 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      if (_this27.currentUser) {
-        const idToken = yield _this27.currentUser.getIdToken();
+      if (_this25.currentUser) {
+        const idToken = yield _this25.currentUser.getIdToken();
         // Generalize this to accept other providers once supported.
         const request = {
           providerId: 'apple.com',
@@ -3143,10 +3143,10 @@ class AuthImpl {
           token,
           idToken
         };
-        if (_this27.tenantId != null) {
-          request.tenantId = _this27.tenantId;
+        if (_this25.tenantId != null) {
+          request.tenantId = _this25.tenantId;
         }
-        yield revokeToken(_this27, request);
+        yield revokeToken(_this25, request);
       }
     })();
   }
@@ -3160,48 +3160,48 @@ class AuthImpl {
     };
   }
   _setRedirectUser(user, popupRedirectResolver) {
-    var _this28 = this;
+    var _this26 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      const redirectManager = yield _this28.getOrInitRedirectPersistenceManager(popupRedirectResolver);
+      const redirectManager = yield _this26.getOrInitRedirectPersistenceManager(popupRedirectResolver);
       return user === null ? redirectManager.removeCurrentUser() : redirectManager.setCurrentUser(user);
     })();
   }
   getOrInitRedirectPersistenceManager(popupRedirectResolver) {
-    var _this29 = this;
+    var _this27 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      if (!_this29.redirectPersistenceManager) {
-        const resolver = popupRedirectResolver && _getInstance(popupRedirectResolver) || _this29._popupRedirectResolver;
-        _assert(resolver, _this29, "argument-error" /* AuthErrorCode.ARGUMENT_ERROR */);
-        _this29.redirectPersistenceManager = yield PersistenceUserManager.create(_this29, [_getInstance(resolver._redirectPersistence)], "redirectUser" /* KeyName.REDIRECT_USER */);
-        _this29.redirectUser = yield _this29.redirectPersistenceManager.getCurrentUser();
+      if (!_this27.redirectPersistenceManager) {
+        const resolver = popupRedirectResolver && _getInstance(popupRedirectResolver) || _this27._popupRedirectResolver;
+        _assert(resolver, _this27, "argument-error" /* AuthErrorCode.ARGUMENT_ERROR */);
+        _this27.redirectPersistenceManager = yield PersistenceUserManager.create(_this27, [_getInstance(resolver._redirectPersistence)], "redirectUser" /* KeyName.REDIRECT_USER */);
+        _this27.redirectUser = yield _this27.redirectPersistenceManager.getCurrentUser();
       }
-      return _this29.redirectPersistenceManager;
+      return _this27.redirectPersistenceManager;
     })();
   }
   _redirectUserForId(id) {
-    var _this30 = this;
+    var _this28 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       var _a, _b;
       // Make sure we've cleared any pending persistence actions if we're not in
       // the initializer
-      if (_this30._isInitialized) {
-        yield _this30.queue( /*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {}));
+      if (_this28._isInitialized) {
+        yield _this28.queue(/*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {}));
       }
-      if (((_a = _this30._currentUser) === null || _a === void 0 ? void 0 : _a._redirectEventId) === id) {
-        return _this30._currentUser;
+      if (((_a = _this28._currentUser) === null || _a === void 0 ? void 0 : _a._redirectEventId) === id) {
+        return _this28._currentUser;
       }
-      if (((_b = _this30.redirectUser) === null || _b === void 0 ? void 0 : _b._redirectEventId) === id) {
-        return _this30.redirectUser;
+      if (((_b = _this28.redirectUser) === null || _b === void 0 ? void 0 : _b._redirectEventId) === id) {
+        return _this28.redirectUser;
       }
       return null;
     })();
   }
   _persistUserIfCurrent(user) {
-    var _this31 = this;
+    var _this29 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      if (user === _this31.currentUser) {
-        return _this31.queue( /*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-          return _this31.directlySetCurrentUser(user);
+      if (user === _this29.currentUser) {
+        return _this29.queue(/*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+          return _this29.directlySetCurrentUser(user);
         }));
       }
     })();
@@ -3279,19 +3279,19 @@ class AuthImpl {
    * because the queue shouldn't rely on another queued callback.
    */
   directlySetCurrentUser(user) {
-    var _this32 = this;
+    var _this30 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      if (_this32.currentUser && _this32.currentUser !== user) {
-        _this32._currentUser._stopProactiveRefresh();
+      if (_this30.currentUser && _this30.currentUser !== user) {
+        _this30._currentUser._stopProactiveRefresh();
       }
-      if (user && _this32.isProactiveRefreshEnabled) {
+      if (user && _this30.isProactiveRefreshEnabled) {
         user._startProactiveRefresh();
       }
-      _this32.currentUser = user;
+      _this30.currentUser = user;
       if (user) {
-        yield _this32.assertedPersistence.setCurrentUser(user);
+        yield _this30.assertedPersistence.setCurrentUser(user);
       } else {
-        yield _this32.assertedPersistence.removeCurrentUser();
+        yield _this30.assertedPersistence.removeCurrentUser();
       }
     })();
   }
@@ -3319,25 +3319,25 @@ class AuthImpl {
     return this.frameworks;
   }
   _getAdditionalHeaders() {
-    var _this33 = this;
+    var _this31 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       var _a;
       // Additional headers on every request
       const headers = {
-        ["X-Client-Version" /* HttpHeader.X_CLIENT_VERSION */]: _this33.clientVersion
+        ["X-Client-Version" /* HttpHeader.X_CLIENT_VERSION */]: _this31.clientVersion
       };
-      if (_this33.app.options.appId) {
-        headers["X-Firebase-gmpid" /* HttpHeader.X_FIREBASE_GMPID */] = _this33.app.options.appId;
+      if (_this31.app.options.appId) {
+        headers["X-Firebase-gmpid" /* HttpHeader.X_FIREBASE_GMPID */] = _this31.app.options.appId;
       }
       // If the heartbeat service exists, add the heartbeat string
-      const heartbeatsHeader = yield (_a = _this33.heartbeatServiceProvider.getImmediate({
+      const heartbeatsHeader = yield (_a = _this31.heartbeatServiceProvider.getImmediate({
         optional: true
       })) === null || _a === void 0 ? void 0 : _a.getHeartbeatsHeader();
       if (heartbeatsHeader) {
         headers["X-Firebase-Client" /* HttpHeader.X_FIREBASE_CLIENT */] = heartbeatsHeader;
       }
       // If the App Check service exists, add the App Check token in the headers
-      const appCheckToken = yield _this33._getAppCheckToken();
+      const appCheckToken = yield _this31._getAppCheckToken();
       if (appCheckToken) {
         headers["X-Firebase-AppCheck" /* HttpHeader.X_FIREBASE_APP_CHECK */] = appCheckToken;
       }
@@ -3345,10 +3345,10 @@ class AuthImpl {
     })();
   }
   _getAppCheckToken() {
-    var _this34 = this;
+    var _this32 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       var _a;
-      const appCheckTokenResult = yield (_a = _this34.appCheckServiceProvider.getImmediate({
+      const appCheckTokenResult = yield (_a = _this32.appCheckServiceProvider.getImmediate({
         optional: true
       })) === null || _a === void 0 ? void 0 : _a.getToken();
       if (appCheckTokenResult === null || appCheckTokenResult === void 0 ? void 0 : appCheckTokenResult.error) {
@@ -3450,10 +3450,10 @@ class RecaptchaEnterpriseVerifier {
    *
    * @returns A Promise for a token that can be used to assert the validity of a request.
    */
-  verify(action = 'verify', forceRefresh = false) {
-    var _this35 = this;
-    return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      function retrieveSiteKey(_x33) {
+  verify() {
+    var _this33 = this;
+    return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (action = 'verify', forceRefresh = false) {
+      function retrieveSiteKey(_x38) {
         return _retrieveSiteKey.apply(this, arguments);
       }
       function _retrieveSiteKey() {
@@ -3466,7 +3466,7 @@ class RecaptchaEnterpriseVerifier {
               return auth._tenantRecaptchaConfigs[auth.tenantId].siteKey;
             }
           }
-          return new Promise( /*#__PURE__*/function () {
+          return new Promise(/*#__PURE__*/function () {
             var _ref9 = (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (resolve, reject) {
               getRecaptchaConfig(auth, {
                 clientType: "CLIENT_TYPE_WEB" /* RecaptchaClientType.WEB */,
@@ -3487,7 +3487,7 @@ class RecaptchaEnterpriseVerifier {
                 reject(error);
               });
             });
-            return function (_x34, _x35) {
+            return function (_x39, _x40) {
               return _ref9.apply(this, arguments);
             };
           }());
@@ -3511,7 +3511,7 @@ class RecaptchaEnterpriseVerifier {
         }
       }
       return new Promise((resolve, reject) => {
-        retrieveSiteKey(_this35.auth).then(siteKey => {
+        retrieveSiteKey(_this33.auth).then(siteKey => {
           if (!forceRefresh && isEnterprise(window.grecaptcha)) {
             retrieveRecaptchaToken(siteKey, resolve, reject);
           } else {
@@ -3533,10 +3533,10 @@ class RecaptchaEnterpriseVerifier {
           reject(error);
         });
       });
-    })();
+    }).apply(this, arguments);
   }
 }
-function injectRecaptchaFields(_x36, _x37, _x38) {
+function injectRecaptchaFields(_x41, _x42, _x43) {
   return _injectRecaptchaFields.apply(this, arguments);
 }
 function _injectRecaptchaFields() {
@@ -3568,7 +3568,7 @@ function _injectRecaptchaFields() {
   });
   return _injectRecaptchaFields.apply(this, arguments);
 }
-function handleRecaptchaFlow(_x39, _x40, _x41, _x42) {
+function handleRecaptchaFlow(_x44, _x45, _x46, _x47) {
   return _handleRecaptchaFlow.apply(this, arguments);
 }
 function _handleRecaptchaFlow() {
@@ -3578,8 +3578,8 @@ function _handleRecaptchaFlow() {
       const requestWithRecaptcha = yield injectRecaptchaFields(authInstance, request, actionName, actionName === "getOobCode" /* RecaptchaActionName.GET_OOB_CODE */);
       return actionMethod(authInstance, requestWithRecaptcha);
     } else {
-      return actionMethod(authInstance, request).catch( /*#__PURE__*/function () {
-        var _ref24 = (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (error) {
+      return actionMethod(authInstance, request).catch(/*#__PURE__*/function () {
+        var _ref22 = (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (error) {
           if (error.code === `auth/${"missing-recaptcha-token" /* AuthErrorCode.MISSING_RECAPTCHA_TOKEN */}`) {
             console.log(`${actionName} is protected by reCAPTCHA Enterprise for this project. Automatically triggering the reCAPTCHA flow and restarting the flow.`);
             const requestWithRecaptcha = yield injectRecaptchaFields(authInstance, request, actionName, actionName === "getOobCode" /* RecaptchaActionName.GET_OOB_CODE */);
@@ -3588,15 +3588,15 @@ function _handleRecaptchaFlow() {
             return Promise.reject(error);
           }
         });
-        return function (_x210) {
-          return _ref24.apply(this, arguments);
+        return function (_x220) {
+          return _ref22.apply(this, arguments);
         };
       }());
     }
   });
   return _handleRecaptchaFlow.apply(this, arguments);
 }
-function _initializeRecaptchaConfig(_x43) {
+function _initializeRecaptchaConfig(_x48) {
   return _initializeRecaptchaConfig2.apply(this, arguments);
 }
 /**
@@ -3891,7 +3891,7 @@ class AuthCredential {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-function resetPassword(_x44, _x45) {
+function resetPassword(_x49, _x50) {
   return _resetPassword.apply(this, arguments);
 }
 function _resetPassword() {
@@ -3900,7 +3900,7 @@ function _resetPassword() {
   });
   return _resetPassword.apply(this, arguments);
 }
-function updateEmailPassword(_x46, _x47) {
+function updateEmailPassword(_x51, _x52) {
   return _updateEmailPassword.apply(this, arguments);
 } // Used for linking an email/password account to an existing idToken. Uses the same request/response
 // format as updateEmailPassword.
@@ -3910,7 +3910,7 @@ function _updateEmailPassword() {
   });
   return _updateEmailPassword.apply(this, arguments);
 }
-function linkEmailPassword(_x48, _x49) {
+function linkEmailPassword(_x53, _x54) {
   return _linkEmailPassword.apply(this, arguments);
 }
 function _linkEmailPassword() {
@@ -3919,7 +3919,7 @@ function _linkEmailPassword() {
   });
   return _linkEmailPassword.apply(this, arguments);
 }
-function applyActionCode$1(_x50, _x51) {
+function applyActionCode$1(_x55, _x56) {
   return _applyActionCode$.apply(this, arguments);
 }
 /**
@@ -3944,7 +3944,7 @@ function _applyActionCode$() {
   });
   return _applyActionCode$.apply(this, arguments);
 }
-function signInWithPassword(_x52, _x53) {
+function signInWithPassword(_x57, _x58) {
   return _signInWithPassword.apply(this, arguments);
 }
 function _signInWithPassword() {
@@ -3953,7 +3953,7 @@ function _signInWithPassword() {
   });
   return _signInWithPassword.apply(this, arguments);
 }
-function sendOobCode(_x54, _x55) {
+function sendOobCode(_x59, _x60) {
   return _sendOobCode.apply(this, arguments);
 }
 function _sendOobCode() {
@@ -3962,7 +3962,7 @@ function _sendOobCode() {
   });
   return _sendOobCode.apply(this, arguments);
 }
-function sendEmailVerification$1(_x56, _x57) {
+function sendEmailVerification$1(_x61, _x62) {
   return _sendEmailVerification$.apply(this, arguments);
 }
 function _sendEmailVerification$() {
@@ -3971,7 +3971,7 @@ function _sendEmailVerification$() {
   });
   return _sendEmailVerification$.apply(this, arguments);
 }
-function sendPasswordResetEmail$1(_x58, _x59) {
+function sendPasswordResetEmail$1(_x63, _x64) {
   return _sendPasswordResetEmail$.apply(this, arguments);
 }
 function _sendPasswordResetEmail$() {
@@ -3980,7 +3980,7 @@ function _sendPasswordResetEmail$() {
   });
   return _sendPasswordResetEmail$.apply(this, arguments);
 }
-function sendSignInLinkToEmail$1(_x60, _x61) {
+function sendSignInLinkToEmail$1(_x65, _x66) {
   return _sendSignInLinkToEmail$.apply(this, arguments);
 }
 function _sendSignInLinkToEmail$() {
@@ -3989,7 +3989,7 @@ function _sendSignInLinkToEmail$() {
   });
   return _sendSignInLinkToEmail$.apply(this, arguments);
 }
-function verifyAndChangeEmail(_x62, _x63) {
+function verifyAndChangeEmail(_x67, _x68) {
   return _verifyAndChangeEmail.apply(this, arguments);
 }
 /**
@@ -4014,7 +4014,7 @@ function _verifyAndChangeEmail() {
   });
   return _verifyAndChangeEmail.apply(this, arguments);
 }
-function signInWithEmailLink$1(_x64, _x65) {
+function signInWithEmailLink$1(_x69, _x70) {
   return _signInWithEmailLink$.apply(this, arguments);
 }
 function _signInWithEmailLink$() {
@@ -4023,7 +4023,7 @@ function _signInWithEmailLink$() {
   });
   return _signInWithEmailLink$.apply(this, arguments);
 }
-function signInWithEmailLinkForLinking(_x66, _x67) {
+function signInWithEmailLinkForLinking(_x71, _x72) {
   return _signInWithEmailLinkForLinking.apply(this, arguments);
 }
 /**
@@ -4060,7 +4060,7 @@ function _signInWithEmailLinkForLinking() {
 }
 class EmailAuthCredential extends AuthCredential {
   /** @internal */
-  constructor( /** @internal */
+  constructor(/** @internal */
   _email, /** @internal */
   _password, signInMethod, /** @internal */
   _tenantId = null) {
@@ -4107,21 +4107,21 @@ class EmailAuthCredential extends AuthCredential {
   }
   /** @internal */
   _getIdTokenResponse(auth) {
-    var _this36 = this;
+    var _this34 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      switch (_this36.signInMethod) {
+      switch (_this34.signInMethod) {
         case "password" /* SignInMethod.EMAIL_PASSWORD */:
           const request = {
             returnSecureToken: true,
-            email: _this36._email,
-            password: _this36._password,
+            email: _this34._email,
+            password: _this34._password,
             clientType: "CLIENT_TYPE_WEB" /* RecaptchaClientType.WEB */
           };
           return handleRecaptchaFlow(auth, request, "signInWithPassword" /* RecaptchaActionName.SIGN_IN_WITH_PASSWORD */, signInWithPassword);
         case "emailLink" /* SignInMethod.EMAIL_LINK */:
           return signInWithEmailLink$1(auth, {
-            email: _this36._email,
-            oobCode: _this36._password
+            email: _this34._email,
+            oobCode: _this34._password
           });
         default:
           _fail(auth, "internal-error" /* AuthErrorCode.INTERNAL_ERROR */);
@@ -4130,23 +4130,23 @@ class EmailAuthCredential extends AuthCredential {
   }
   /** @internal */
   _linkToIdToken(auth, idToken) {
-    var _this37 = this;
+    var _this35 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      switch (_this37.signInMethod) {
+      switch (_this35.signInMethod) {
         case "password" /* SignInMethod.EMAIL_PASSWORD */:
           const request = {
             idToken,
             returnSecureToken: true,
-            email: _this37._email,
-            password: _this37._password,
+            email: _this35._email,
+            password: _this35._password,
             clientType: "CLIENT_TYPE_WEB" /* RecaptchaClientType.WEB */
           };
           return handleRecaptchaFlow(auth, request, "signUpPassword" /* RecaptchaActionName.SIGN_UP_PASSWORD */, linkEmailPassword);
         case "emailLink" /* SignInMethod.EMAIL_LINK */:
           return signInWithEmailLinkForLinking(auth, {
             idToken,
-            email: _this37._email,
-            oobCode: _this37._password
+            email: _this35._email,
+            oobCode: _this35._password
           });
         default:
           _fail(auth, "internal-error" /* AuthErrorCode.INTERNAL_ERROR */);
@@ -4175,7 +4175,7 @@ class EmailAuthCredential extends AuthCredential {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-function signInWithIdp(_x68, _x69) {
+function signInWithIdp(_x73, _x74) {
   return _signInWithIdp.apply(this, arguments);
 }
 /**
@@ -4341,7 +4341,7 @@ class OAuthCredential extends AuthCredential {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-function sendPhoneVerificationCode(_x70, _x71) {
+function sendPhoneVerificationCode(_x75, _x76) {
   return _sendPhoneVerificationCode.apply(this, arguments);
 }
 function _sendPhoneVerificationCode() {
@@ -4350,7 +4350,7 @@ function _sendPhoneVerificationCode() {
   });
   return _sendPhoneVerificationCode.apply(this, arguments);
 }
-function signInWithPhoneNumber$1(_x72, _x73) {
+function signInWithPhoneNumber$1(_x77, _x78) {
   return _signInWithPhoneNumber$.apply(this, arguments);
 }
 function _signInWithPhoneNumber$() {
@@ -4359,7 +4359,7 @@ function _signInWithPhoneNumber$() {
   });
   return _signInWithPhoneNumber$.apply(this, arguments);
 }
-function linkWithPhoneNumber$1(_x74, _x75) {
+function linkWithPhoneNumber$1(_x79, _x80) {
   return _linkWithPhoneNumber$.apply(this, arguments);
 }
 function _linkWithPhoneNumber$() {
@@ -4375,7 +4375,7 @@ function _linkWithPhoneNumber$() {
 const VERIFY_PHONE_NUMBER_FOR_EXISTING_ERROR_MAP_ = {
   ["USER_NOT_FOUND" /* ServerError.USER_NOT_FOUND */]: "user-not-found" /* AuthErrorCode.USER_DELETED */
 };
-function verifyPhoneNumberForExisting(_x76, _x77) {
+function verifyPhoneNumberForExisting(_x81, _x82) {
   return _verifyPhoneNumberForExisting.apply(this, arguments);
 }
 /**
@@ -5612,7 +5612,7 @@ TwitterAuthProvider.PROVIDER_ID = "twitter.com" /* ProviderId.TWITTER */;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-function signUp(_x78, _x79) {
+function signUp(_x83, _x84) {
   return _signUp.apply(this, arguments);
 }
 /**
@@ -5644,8 +5644,8 @@ class UserCredentialImpl {
     this._tokenResponse = params._tokenResponse;
     this.operationType = params.operationType;
   }
-  static _fromIdTokenResponse(auth, operationType, idTokenResponse, isAnonymous = false) {
-    return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+  static _fromIdTokenResponse(_x85, _x86, _x87) {
+    return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (auth, operationType, idTokenResponse, isAnonymous = false) {
       const user = yield UserImpl._fromIdTokenResponse(auth, idTokenResponse, isAnonymous);
       const providerId = providerIdForResponse(idTokenResponse);
       const userCred = new UserCredentialImpl({
@@ -5655,7 +5655,7 @@ class UserCredentialImpl {
         operationType
       });
       return userCred;
-    })();
+    }).apply(this, arguments);
   }
   static _forOperation(user, operationType, response) {
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
@@ -5710,7 +5710,7 @@ function providerIdForResponse(response) {
  *
  * @public
  */
-function signInAnonymously(_x80) {
+function signInAnonymously(_x88) {
   return _signInAnonymously.apply(this, arguments);
 }
 /**
@@ -5832,7 +5832,7 @@ function providerDataAsNames(providerData) {
  *
  * @public
  */
-function unlink(_x81, _x82) {
+function unlink(_x89, _x90) {
   return _unlink.apply(this, arguments);
 }
 function _unlink() {
@@ -5855,7 +5855,7 @@ function _unlink() {
   });
   return _unlink.apply(this, arguments);
 }
-function _link$1(_x83, _x84) {
+function _link$1(_x91, _x92) {
   return _link$.apply(this, arguments);
 }
 function _link$() {
@@ -5865,7 +5865,7 @@ function _link$() {
   });
   return _link$.apply(this, arguments);
 }
-function _assertLinkedStatus(_x85, _x86, _x87) {
+function _assertLinkedStatus(_x93, _x94, _x95) {
   return _assertLinkedStatus2.apply(this, arguments);
 }
 /**
@@ -5893,7 +5893,7 @@ function _assertLinkedStatus2() {
   });
   return _assertLinkedStatus2.apply(this, arguments);
 }
-function _reauthenticate(_x88, _x89) {
+function _reauthenticate(_x96, _x97) {
   return _reauthenticate2.apply(this, arguments);
 }
 /**
@@ -5941,7 +5941,7 @@ function _reauthenticate2() {
   });
   return _reauthenticate2.apply(this, arguments);
 }
-function _signInWithCredential(_x90, _x91) {
+function _signInWithCredential(_x98, _x99) {
   return _signInWithCredential2.apply(this, arguments);
 }
 /**
@@ -5973,7 +5973,7 @@ function _signInWithCredential2() {
   });
   return _signInWithCredential2.apply(this, arguments);
 }
-function signInWithCredential(_x92, _x93) {
+function signInWithCredential(_x100, _x101) {
   return _signInWithCredential3.apply(this, arguments);
 }
 /**
@@ -5993,7 +5993,7 @@ function _signInWithCredential3() {
   });
   return _signInWithCredential3.apply(this, arguments);
 }
-function linkWithCredential(_x94, _x95) {
+function linkWithCredential(_x102, _x103) {
   return _linkWithCredential.apply(this, arguments);
 }
 /**
@@ -6020,7 +6020,7 @@ function _linkWithCredential() {
   });
   return _linkWithCredential.apply(this, arguments);
 }
-function reauthenticateWithCredential(_x96, _x97) {
+function reauthenticateWithCredential(_x104, _x105) {
   return _reauthenticateWithCredential.apply(this, arguments);
 }
 /**
@@ -6045,7 +6045,7 @@ function _reauthenticateWithCredential() {
   });
   return _reauthenticateWithCredential.apply(this, arguments);
 }
-function signInWithCustomToken$1(_x98, _x99) {
+function signInWithCustomToken$1(_x106, _x107) {
   return _signInWithCustomToken$.apply(this, arguments);
 }
 /**
@@ -6089,7 +6089,7 @@ function _signInWithCustomToken$() {
   });
   return _signInWithCustomToken$.apply(this, arguments);
 }
-function signInWithCustomToken(_x100, _x101) {
+function signInWithCustomToken(_x108, _x109) {
   return _signInWithCustomToken.apply(this, arguments);
 }
 /**
@@ -6222,7 +6222,7 @@ function _setActionCodeSettingsOnRequest(auth, request, actionCodeSettings) {
  *
  * @private
  */
-function recachePasswordPolicy(_x102) {
+function recachePasswordPolicy(_x110) {
   return _recachePasswordPolicy.apply(this, arguments);
 }
 /**
@@ -6269,7 +6269,7 @@ function _recachePasswordPolicy() {
   });
   return _recachePasswordPolicy.apply(this, arguments);
 }
-function sendPasswordResetEmail(_x103, _x104, _x105) {
+function sendPasswordResetEmail(_x111, _x112, _x113) {
   return _sendPasswordResetEmail.apply(this, arguments);
 }
 /**
@@ -6296,7 +6296,7 @@ function _sendPasswordResetEmail() {
   });
   return _sendPasswordResetEmail.apply(this, arguments);
 }
-function confirmPasswordReset(_x106, _x107, _x108) {
+function confirmPasswordReset(_x114, _x115, _x116) {
   return _confirmPasswordReset.apply(this, arguments);
 }
 /**
@@ -6312,22 +6312,22 @@ function _confirmPasswordReset() {
     yield resetPassword((0,_firebase_util__WEBPACK_IMPORTED_MODULE_2__.getModularInstance)(auth), {
       oobCode,
       newPassword
-    }).catch( /*#__PURE__*/function () {
-      var _ref25 = (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (error) {
+    }).catch(/*#__PURE__*/function () {
+      var _ref23 = (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (error) {
         if (error.code === `auth/${"password-does-not-meet-requirements" /* AuthErrorCode.PASSWORD_DOES_NOT_MEET_REQUIREMENTS */}`) {
           void recachePasswordPolicy(auth);
         }
         throw error;
       });
-      return function (_x211) {
-        return _ref25.apply(this, arguments);
+      return function (_x221) {
+        return _ref23.apply(this, arguments);
       };
     }());
     // Do not return the email.
   });
   return _confirmPasswordReset.apply(this, arguments);
 }
-function applyActionCode(_x109, _x110) {
+function applyActionCode(_x117, _x118) {
   return _applyActionCode.apply(this, arguments);
 }
 /**
@@ -6348,7 +6348,7 @@ function _applyActionCode() {
   });
   return _applyActionCode.apply(this, arguments);
 }
-function checkActionCode(_x111, _x112) {
+function checkActionCode(_x119, _x120) {
   return _checkActionCode.apply(this, arguments);
 }
 /**
@@ -6403,7 +6403,7 @@ function _checkActionCode() {
   });
   return _checkActionCode.apply(this, arguments);
 }
-function verifyPasswordResetCode(_x113, _x114) {
+function verifyPasswordResetCode(_x121, _x122) {
   return _verifyPasswordResetCode.apply(this, arguments);
 }
 /**
@@ -6436,7 +6436,7 @@ function _verifyPasswordResetCode() {
   });
   return _verifyPasswordResetCode.apply(this, arguments);
 }
-function createUserWithEmailAndPassword(_x115, _x116, _x117) {
+function createUserWithEmailAndPassword(_x123, _x124, _x125) {
   return _createUserWithEmailAndPassword.apply(this, arguments);
 }
 /**
@@ -6491,15 +6491,15 @@ function signInWithEmailAndPassword(auth, email, password) {
   if ((0,_firebase_app__WEBPACK_IMPORTED_MODULE_1__._isFirebaseServerApp)(auth.app)) {
     return Promise.reject(_serverAppCurrentUserOperationNotSupportedError(auth));
   }
-  return signInWithCredential((0,_firebase_util__WEBPACK_IMPORTED_MODULE_2__.getModularInstance)(auth), EmailAuthProvider.credential(email, password)).catch( /*#__PURE__*/function () {
-    var _ref10 = (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (error) {
+  return signInWithCredential((0,_firebase_util__WEBPACK_IMPORTED_MODULE_2__.getModularInstance)(auth), EmailAuthProvider.credential(email, password)).catch(/*#__PURE__*/function () {
+    var _ref0 = (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (error) {
       if (error.code === `auth/${"password-does-not-meet-requirements" /* AuthErrorCode.PASSWORD_DOES_NOT_MEET_REQUIREMENTS */}`) {
         void recachePasswordPolicy(auth);
       }
       throw error;
     });
-    return function (_x118) {
-      return _ref10.apply(this, arguments);
+    return function (_x126) {
+      return _ref0.apply(this, arguments);
     };
   }());
 }
@@ -6558,7 +6558,7 @@ function signInWithEmailAndPassword(auth, email, password) {
  *
  * @public
  */
-function sendSignInLinkToEmail(_x119, _x120, _x121) {
+function sendSignInLinkToEmail(_x127, _x128, _x129) {
   return _sendSignInLinkToEmail.apply(this, arguments);
 }
 /**
@@ -6633,7 +6633,7 @@ function isSignInWithEmailLink(auth, emailLink) {
  *
  * @public
  */
-function signInWithEmailLink(_x122, _x123, _x124) {
+function signInWithEmailLink(_x130, _x131, _x132) {
   return _signInWithEmailLink.apply(this, arguments);
 }
 /**
@@ -6666,7 +6666,7 @@ function _signInWithEmailLink() {
   });
   return _signInWithEmailLink.apply(this, arguments);
 }
-function createAuthUri(_x125, _x126) {
+function createAuthUri(_x133, _x134) {
   return _createAuthUri.apply(this, arguments);
 }
 /**
@@ -6711,7 +6711,7 @@ function _createAuthUri() {
   });
   return _createAuthUri.apply(this, arguments);
 }
-function fetchSignInMethodsForEmail(_x127, _x128) {
+function fetchSignInMethodsForEmail(_x135, _x136) {
   return _fetchSignInMethodsForEmail.apply(this, arguments);
 }
 /**
@@ -6761,7 +6761,7 @@ function _fetchSignInMethodsForEmail() {
   });
   return _fetchSignInMethodsForEmail.apply(this, arguments);
 }
-function sendEmailVerification(_x129, _x130) {
+function sendEmailVerification(_x137, _x138) {
   return _sendEmailVerification.apply(this, arguments);
 }
 /**
@@ -6818,7 +6818,7 @@ function _sendEmailVerification() {
   });
   return _sendEmailVerification.apply(this, arguments);
 }
-function verifyBeforeUpdateEmail(_x131, _x132, _x133) {
+function verifyBeforeUpdateEmail(_x139, _x140, _x141) {
   return _verifyBeforeUpdateEmail.apply(this, arguments);
 }
 /**
@@ -6860,7 +6860,7 @@ function _verifyBeforeUpdateEmail() {
   });
   return _verifyBeforeUpdateEmail.apply(this, arguments);
 }
-function updateProfile$1(_x134, _x135) {
+function updateProfile$1(_x142, _x143) {
   return _updateProfile$.apply(this, arguments);
 }
 /**
@@ -6893,7 +6893,7 @@ function _updateProfile$() {
   });
   return _updateProfile$.apply(this, arguments);
 }
-function updateProfile(_x136, _x137) {
+function updateProfile(_x144, _x145) {
   return _updateProfile.apply(this, arguments);
 }
 /**
@@ -6974,7 +6974,7 @@ function updateEmail(user, newEmail) {
 function updatePassword(user, newPassword) {
   return updateEmailOrPassword((0,_firebase_util__WEBPACK_IMPORTED_MODULE_2__.getModularInstance)(user), null, newPassword);
 }
-function updateEmailOrPassword(_x138, _x139, _x140) {
+function updateEmailOrPassword(_x146, _x147, _x148) {
   return _updateEmailOrPassword.apply(this, arguments);
 }
 /**
@@ -7209,7 +7209,7 @@ function initializeRecaptchaConfig(auth) {
  *
  * @public
  */
-function validatePassword(_x141, _x142) {
+function validatePassword(_x149, _x150) {
   return _validatePassword.apply(this, arguments);
 }
 /**
@@ -7341,7 +7341,7 @@ function revokeAccessToken(auth, token) {
  *
  * @public
  */
-function deleteUser(_x143) {
+function deleteUser(_x151) {
   return _deleteUser.apply(this, arguments);
 }
 /**
@@ -7429,7 +7429,7 @@ class MultiFactorResolverImpl {
     _assert(serverResponse.mfaPendingCredential, auth, "internal-error" /* AuthErrorCode.INTERNAL_ERROR */);
     const session = MultiFactorSessionImpl._fromMfaPendingCredential(serverResponse.mfaPendingCredential);
     return new MultiFactorResolverImpl(session, hints, /*#__PURE__*/function () {
-      var _ref11 = (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (assertion) {
+      var _ref1 = (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (assertion) {
         const mfaResponse = yield assertion._process(auth, session);
         // Clear out the unneeded fields from the old login response
         delete serverResponse.mfaInfo;
@@ -7452,16 +7452,16 @@ class MultiFactorResolverImpl {
             _fail(auth, "internal-error" /* AuthErrorCode.INTERNAL_ERROR */);
         }
       });
-      return function (_x144) {
-        return _ref11.apply(this, arguments);
+      return function (_x152) {
+        return _ref1.apply(this, arguments);
       };
     }());
   }
   resolveSignIn(assertionExtern) {
-    var _this38 = this;
+    var _this36 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       const assertion = assertionExtern;
-      return _this38.signInResolver(assertion);
+      return _this36.signInResolver(assertion);
     })();
   }
 }
@@ -7529,46 +7529,46 @@ class MultiFactorUserImpl {
     return new MultiFactorUserImpl(user);
   }
   getSession() {
-    var _this39 = this;
+    var _this37 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      return MultiFactorSessionImpl._fromIdtoken(yield _this39.user.getIdToken(), _this39.user);
+      return MultiFactorSessionImpl._fromIdtoken(yield _this37.user.getIdToken(), _this37.user);
     })();
   }
   enroll(assertionExtern, displayName) {
-    var _this40 = this;
+    var _this38 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       const assertion = assertionExtern;
-      const session = yield _this40.getSession();
-      const finalizeMfaResponse = yield _logoutIfInvalidated(_this40.user, assertion._process(_this40.user.auth, session, displayName));
+      const session = yield _this38.getSession();
+      const finalizeMfaResponse = yield _logoutIfInvalidated(_this38.user, assertion._process(_this38.user.auth, session, displayName));
       // New tokens will be issued after enrollment of the new second factors.
       // They need to be updated on the user.
-      yield _this40.user._updateTokensIfNecessary(finalizeMfaResponse);
+      yield _this38.user._updateTokensIfNecessary(finalizeMfaResponse);
       // The user needs to be reloaded to get the new multi-factor information
       // from server. USER_RELOADED event will be triggered and `enrolledFactors`
       // will be updated.
-      return _this40.user.reload();
+      return _this38.user.reload();
     })();
   }
   unenroll(infoOrUid) {
-    var _this41 = this;
+    var _this39 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       const mfaEnrollmentId = typeof infoOrUid === 'string' ? infoOrUid : infoOrUid.uid;
-      const idToken = yield _this41.user.getIdToken();
+      const idToken = yield _this39.user.getIdToken();
       try {
-        const idTokenResponse = yield _logoutIfInvalidated(_this41.user, withdrawMfa(_this41.user.auth, {
+        const idTokenResponse = yield _logoutIfInvalidated(_this39.user, withdrawMfa(_this39.user.auth, {
           idToken,
           mfaEnrollmentId
         }));
         // Remove the second factor from the user's list.
-        _this41.enrolledFactors = _this41.enrolledFactors.filter(({
+        _this39.enrolledFactors = _this39.enrolledFactors.filter(({
           uid
         }) => uid !== mfaEnrollmentId);
         // Depending on whether the backend decided to revoke the user's session,
         // the tokenResponse may be empty. If the tokens were not updated (and they
         // are now invalid), reloading the user will discover this and invalidate
         // the user's state accordingly.
-        yield _this41.user._updateTokensIfNecessary(idTokenResponse);
-        yield _this41.user.reload();
+        yield _this39.user._updateTokensIfNecessary(idTokenResponse);
+        yield _this39.user.reload();
       } catch (e) {
         throw e;
       }
@@ -7803,27 +7803,27 @@ class BrowserLocalPersistence extends BrowserPersistenceClass {
   // Update local cache on base operations:
   _set(key, value) {
     var _superprop_get_set = () => super._set,
-      _this42 = this;
+      _this40 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      yield _superprop_get_set().call(_this42, key, value);
-      _this42.localCache[key] = JSON.stringify(value);
+      yield _superprop_get_set().call(_this40, key, value);
+      _this40.localCache[key] = JSON.stringify(value);
     })();
   }
   _get(key) {
     var _superprop_get_get = () => super._get,
-      _this43 = this;
+      _this41 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      const value = yield _superprop_get_get().call(_this43, key);
-      _this43.localCache[key] = JSON.stringify(value);
+      const value = yield _superprop_get_get().call(_this41, key);
+      _this41.localCache[key] = JSON.stringify(value);
       return value;
     })();
   }
   _remove(key) {
     var _superprop_get_remove = () => super._remove,
-      _this44 = this;
+      _this42 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      yield _superprop_get_remove().call(_this44, key);
-      delete _this44.localCache[key];
+      yield _superprop_get_remove().call(_this42, key);
+      delete _this42.localCache[key];
     })();
   }
 }
@@ -7896,8 +7896,8 @@ const browserSessionPersistence = BrowserSessionPersistence;
  * @param promises - Array of promises to wait on.
  */
 function _allSettled(promises) {
-  return Promise.all(promises.map( /*#__PURE__*/function () {
-    var _ref12 = (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (promise) {
+  return Promise.all(promises.map(/*#__PURE__*/function () {
+    var _ref10 = (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (promise) {
       try {
         const value = yield promise;
         return {
@@ -7911,8 +7911,8 @@ function _allSettled(promises) {
         };
       }
     });
-    return function (_x145) {
-      return _ref12.apply(this, arguments);
+    return function (_x153) {
+      return _ref10.apply(this, arguments);
     };
   }()));
 }
@@ -7975,7 +7975,7 @@ class Receiver {
    *
    */
   handleEvent(event) {
-    var _this45 = this;
+    var _this43 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       const messageEvent = event;
       const {
@@ -7983,7 +7983,7 @@ class Receiver {
         eventType,
         data
       } = messageEvent.data;
-      const handlers = _this45.handlersMap[eventType];
+      const handlers = _this43.handlersMap[eventType];
       if (!(handlers === null || handlers === void 0 ? void 0 : handlers.size)) {
         return;
       }
@@ -7992,12 +7992,12 @@ class Receiver {
         eventId,
         eventType
       });
-      const promises = Array.from(handlers).map( /*#__PURE__*/function () {
-        var _ref13 = (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (handler) {
+      const promises = Array.from(handlers).map(/*#__PURE__*/function () {
+        var _ref11 = (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (handler) {
           return handler(messageEvent.origin, data);
         });
-        return function (_x146) {
-          return _ref13.apply(this, arguments);
+        return function (_x154) {
+          return _ref11.apply(this, arguments);
         };
       }());
       const response = yield _allSettled(promises);
@@ -8120,9 +8120,9 @@ class Sender {
    *
    * @returns An array of settled promises from all the handlers that were listening on the receiver.
    */
-  _send(eventType, data, timeout = 50 /* _TimeoutDuration.ACK */) {
-    var _this46 = this;
-    return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+  _send(_x155, _x156) {
+    var _this44 = this;
+    return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (eventType, data, timeout = 50 /* _TimeoutDuration.ACK */) {
       const messageChannel = typeof MessageChannel !== 'undefined' ? new MessageChannel() : null;
       if (!messageChannel) {
         throw new Error("connection_unavailable" /* _MessageError.CONNECTION_UNAVAILABLE */);
@@ -8167,19 +8167,19 @@ class Sender {
             }
           }
         };
-        _this46.handlers.add(handler);
+        _this44.handlers.add(handler);
         messageChannel.port1.addEventListener('message', handler.onMessage);
-        _this46.target.postMessage({
+        _this44.target.postMessage({
           eventType,
           eventId,
           data
         }, [messageChannel.port2]);
       }).finally(() => {
         if (handler) {
-          _this46.removeMessageHandler(handler);
+          _this44.removeMessageHandler(handler);
         }
       });
-    })();
+    }).apply(this, arguments);
   }
 }
 
@@ -8335,7 +8335,7 @@ function _openDatabase() {
     }));
   });
 }
-function _putObject(_x147, _x148, _x149) {
+function _putObject(_x157, _x158, _x159) {
   return _putObject2.apply(this, arguments);
 }
 function _putObject2() {
@@ -8348,7 +8348,7 @@ function _putObject2() {
   });
   return _putObject2.apply(this, arguments);
 }
-function getObject(_x150, _x151) {
+function getObject(_x160, _x161) {
   return _getObject.apply(this, arguments);
 }
 function _getObject() {
@@ -8383,30 +8383,30 @@ class IndexedDBLocalPersistence {
     this._workerInitializationPromise = this.initializeServiceWorkerMessaging().then(() => {}, () => {});
   }
   _openDb() {
-    var _this47 = this;
+    var _this45 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      if (_this47.db) {
-        return _this47.db;
+      if (_this45.db) {
+        return _this45.db;
       }
-      _this47.db = yield _openDatabase();
-      return _this47.db;
+      _this45.db = yield _openDatabase();
+      return _this45.db;
     })();
   }
   _withRetries(op) {
-    var _this48 = this;
+    var _this46 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       let numAttempts = 0;
       while (true) {
         try {
-          const db = yield _this48._openDb();
+          const db = yield _this46._openDb();
           return yield op(db);
         } catch (e) {
           if (numAttempts++ > _TRANSACTION_RETRY_COUNT) {
             throw e;
           }
-          if (_this48.db) {
-            _this48.db.close();
-            _this48.db = undefined;
+          if (_this46.db) {
+            _this46.db.close();
+            _this46.db = undefined;
           }
           // TODO: consider adding exponential backoff
         }
@@ -8418,37 +8418,37 @@ class IndexedDBLocalPersistence {
    * postMessage interface to send these events to the worker ourselves.
    */
   initializeServiceWorkerMessaging() {
-    var _this49 = this;
+    var _this47 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      return _isWorker() ? _this49.initializeReceiver() : _this49.initializeSender();
+      return _isWorker() ? _this47.initializeReceiver() : _this47.initializeSender();
     })();
   }
   /**
    * As the worker we should listen to events from the main window.
    */
   initializeReceiver() {
-    var _this50 = this;
+    var _this48 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      _this50.receiver = Receiver._getInstance(_getWorkerGlobalScope());
+      _this48.receiver = Receiver._getInstance(_getWorkerGlobalScope());
       // Refresh from persistence if we receive a KeyChanged message.
-      _this50.receiver._subscribe("keyChanged" /* _EventType.KEY_CHANGED */, /*#__PURE__*/function () {
-        var _ref15 = (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (_origin, data) {
-          const keys = yield _this50._poll();
+      _this48.receiver._subscribe("keyChanged" /* _EventType.KEY_CHANGED */, /*#__PURE__*/function () {
+        var _ref13 = (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (_origin, data) {
+          const keys = yield _this48._poll();
           return {
             keyProcessed: keys.includes(data.key)
           };
         });
-        return function (_x152, _x153) {
-          return _ref15.apply(this, arguments);
+        return function (_x162, _x163) {
+          return _ref13.apply(this, arguments);
         };
       }());
       // Let the sender know that we are listening so they give us more timeout.
-      _this50.receiver._subscribe("ping" /* _EventType.PING */, /*#__PURE__*/function () {
-        var _ref16 = (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (_origin, _data) {
+      _this48.receiver._subscribe("ping" /* _EventType.PING */, /*#__PURE__*/function () {
+        var _ref14 = (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (_origin, _data) {
           return ["keyChanged" /* _EventType.KEY_CHANGED */];
         });
-        return function (_x154, _x155) {
-          return _ref16.apply(this, arguments);
+        return function (_x164, _x165) {
+          return _ref14.apply(this, arguments);
         };
       }());
     })();
@@ -8461,22 +8461,22 @@ class IndexedDBLocalPersistence {
    * may not resolve.
    */
   initializeSender() {
-    var _this51 = this;
+    var _this49 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       var _a, _b;
       // Check to see if there's an active service worker.
-      _this51.activeServiceWorker = yield _getActiveServiceWorker();
-      if (!_this51.activeServiceWorker) {
+      _this49.activeServiceWorker = yield _getActiveServiceWorker();
+      if (!_this49.activeServiceWorker) {
         return;
       }
-      _this51.sender = new Sender(_this51.activeServiceWorker);
+      _this49.sender = new Sender(_this49.activeServiceWorker);
       // Ping the service worker to check what events they can handle.
-      const results = yield _this51.sender._send("ping" /* _EventType.PING */, {}, 800 /* _TimeoutDuration.LONG_ACK */);
+      const results = yield _this49.sender._send("ping" /* _EventType.PING */, {}, 800 /* _TimeoutDuration.LONG_ACK */);
       if (!results) {
         return;
       }
       if (((_a = results[0]) === null || _a === void 0 ? void 0 : _a.fulfilled) && ((_b = results[0]) === null || _b === void 0 ? void 0 : _b.value.includes("keyChanged" /* _EventType.KEY_CHANGED */))) {
-        _this51.serviceWorkerReceiverAvailable = true;
+        _this49.serviceWorkerReceiverAvailable = true;
       }
     })();
   }
@@ -8490,17 +8490,17 @@ class IndexedDBLocalPersistence {
    * @param key - Storage key which changed.
    */
   notifyServiceWorker(key) {
-    var _this52 = this;
+    var _this50 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      if (!_this52.sender || !_this52.activeServiceWorker || _getServiceWorkerController() !== _this52.activeServiceWorker) {
+      if (!_this50.sender || !_this50.activeServiceWorker || _getServiceWorkerController() !== _this50.activeServiceWorker) {
         return;
       }
       try {
-        yield _this52.sender._send("keyChanged" /* _EventType.KEY_CHANGED */, {
+        yield _this50.sender._send("keyChanged" /* _EventType.KEY_CHANGED */, {
           key
         },
         // Use long timeout if receiver has previously responded to a ping from us.
-        _this52.serviceWorkerReceiverAvailable ? 800 /* _TimeoutDuration.LONG_ACK */ : 50 /* _TimeoutDuration.ACK */);
+        _this50.serviceWorkerReceiverAvailable ? 800 /* _TimeoutDuration.LONG_ACK */ : 50 /* _TimeoutDuration.ACK */);
       } catch (_a) {
         // This is a best effort approach. Ignore errors.
       }
@@ -8521,49 +8521,49 @@ class IndexedDBLocalPersistence {
     })();
   }
   _withPendingWrite(write) {
-    var _this53 = this;
+    var _this51 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      _this53.pendingWrites++;
+      _this51.pendingWrites++;
       try {
         yield write();
       } finally {
-        _this53.pendingWrites--;
+        _this51.pendingWrites--;
       }
     })();
   }
   _set(key, value) {
-    var _this54 = this;
+    var _this52 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      return _this54._withPendingWrite( /*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-        yield _this54._withRetries(db => _putObject(db, key, value));
-        _this54.localCache[key] = value;
-        return _this54.notifyServiceWorker(key);
+      return _this52._withPendingWrite(/*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+        yield _this52._withRetries(db => _putObject(db, key, value));
+        _this52.localCache[key] = value;
+        return _this52.notifyServiceWorker(key);
       }));
     })();
   }
   _get(key) {
-    var _this55 = this;
+    var _this53 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      const obj = yield _this55._withRetries(db => getObject(db, key));
-      _this55.localCache[key] = obj;
+      const obj = yield _this53._withRetries(db => getObject(db, key));
+      _this53.localCache[key] = obj;
       return obj;
     })();
   }
   _remove(key) {
-    var _this56 = this;
+    var _this54 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      return _this56._withPendingWrite( /*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-        yield _this56._withRetries(db => _deleteObject(db, key));
-        delete _this56.localCache[key];
-        return _this56.notifyServiceWorker(key);
+      return _this54._withPendingWrite(/*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+        yield _this54._withRetries(db => _deleteObject(db, key));
+        delete _this54.localCache[key];
+        return _this54.notifyServiceWorker(key);
       }));
     })();
   }
   _poll() {
-    var _this57 = this;
+    var _this55 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       // TODO: check if we need to fallback if getAll is not supported
-      const result = yield _this57._withRetries(db => {
+      const result = yield _this55._withRetries(db => {
         const getAllRequest = getObjectStore(db, false).getAll();
         return new DBPromise(getAllRequest).toPromise();
       });
@@ -8571,7 +8571,7 @@ class IndexedDBLocalPersistence {
         return [];
       }
       // If we have pending writes in progress abort, we'll get picked up on the next poll
-      if (_this57.pendingWrites !== 0) {
+      if (_this55.pendingWrites !== 0) {
         return [];
       }
       const keys = [];
@@ -8582,16 +8582,16 @@ class IndexedDBLocalPersistence {
           value
         } of result) {
           keysInResult.add(key);
-          if (JSON.stringify(_this57.localCache[key]) !== JSON.stringify(value)) {
-            _this57.notifyListeners(key, value);
+          if (JSON.stringify(_this55.localCache[key]) !== JSON.stringify(value)) {
+            _this55.notifyListeners(key, value);
             keys.push(key);
           }
         }
       }
-      for (const localKey of Object.keys(_this57.localCache)) {
-        if (_this57.localCache[localKey] && !keysInResult.has(localKey)) {
+      for (const localKey of Object.keys(_this55.localCache)) {
+        if (_this55.localCache[localKey] && !keysInResult.has(localKey)) {
           // Deleted
-          _this57.notifyListeners(localKey, null);
+          _this55.notifyListeners(localKey, null);
           keys.push(localKey);
         }
       }
@@ -8608,10 +8608,10 @@ class IndexedDBLocalPersistence {
     }
   }
   startPolling() {
-    var _this58 = this;
+    var _this56 = this;
     this.stopPolling();
-    this.pollTimer = setInterval( /*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      return _this58._poll();
+    this.pollTimer = setInterval(/*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+      return _this56._poll();
     }), _POLLING_INTERVAL_MS);
   }
   stopPolling() {
@@ -8721,11 +8721,11 @@ class MockReCaptcha {
     return ((_a = this._widgets.get(id)) === null || _a === void 0 ? void 0 : _a.getResponse()) || '';
   }
   execute(optWidgetId) {
-    var _this59 = this;
+    var _this57 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       var _a;
       const id = optWidgetId || _WIDGET_ID_START;
-      void ((_a = _this59._widgets.get(id)) === null || _a === void 0 ? void 0 : _a.execute());
+      void ((_a = _this57._widgets.get(id)) === null || _a === void 0 ? void 0 : _a.execute());
       return '';
     })();
   }
@@ -8990,11 +8990,11 @@ class RecaptchaVerifier {
    * @returns A Promise for the reCAPTCHA token.
    */
   verify() {
-    var _this60 = this;
+    var _this58 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      _this60.assertNotDestroyed();
-      const id = yield _this60.render();
-      const recaptcha = _this60.getAssertedRecaptcha();
+      _this58.assertNotDestroyed();
+      const id = yield _this58.render();
+      const recaptcha = _this58.getAssertedRecaptcha();
       const response = recaptcha.getResponse(id);
       if (response) {
         return response;
@@ -9004,11 +9004,11 @@ class RecaptchaVerifier {
           if (!token) {
             return; // Ignore token expirations.
           }
-          _this60.tokenChangeListeners.delete(tokenChange);
+          _this58.tokenChangeListeners.delete(tokenChange);
           resolve(token);
         };
-        _this60.tokenChangeListeners.add(tokenChange);
-        if (_this60.isInvisible) {
+        _this58.tokenChangeListeners.add(tokenChange);
+        if (_this58.isInvisible) {
           recaptcha.execute(id);
         }
       });
@@ -9079,30 +9079,30 @@ class RecaptchaVerifier {
     _assert(!this.destroyed, this.auth, "internal-error" /* AuthErrorCode.INTERNAL_ERROR */);
   }
   makeRenderPromise() {
-    var _this61 = this;
+    var _this59 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      yield _this61.init();
-      if (!_this61.widgetId) {
-        let container = _this61.container;
-        if (!_this61.isInvisible) {
+      yield _this59.init();
+      if (!_this59.widgetId) {
+        let container = _this59.container;
+        if (!_this59.isInvisible) {
           const guaranteedEmpty = document.createElement('div');
           container.appendChild(guaranteedEmpty);
           container = guaranteedEmpty;
         }
-        _this61.widgetId = _this61.getAssertedRecaptcha().render(container, _this61.parameters);
+        _this59.widgetId = _this59.getAssertedRecaptcha().render(container, _this59.parameters);
       }
-      return _this61.widgetId;
+      return _this59.widgetId;
     })();
   }
   init() {
-    var _this62 = this;
+    var _this60 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      _assert(_isHttpOrHttps() && !_isWorker(), _this62.auth, "internal-error" /* AuthErrorCode.INTERNAL_ERROR */);
+      _assert(_isHttpOrHttps() && !_isWorker(), _this60.auth, "internal-error" /* AuthErrorCode.INTERNAL_ERROR */);
       yield domReady();
-      _this62.recaptcha = yield _this62._recaptchaLoader.load(_this62.auth, _this62.auth.languageCode || undefined);
-      const siteKey = yield getRecaptchaParams(_this62.auth);
-      _assert(siteKey, _this62.auth, "internal-error" /* AuthErrorCode.INTERNAL_ERROR */);
-      _this62.parameters.sitekey = siteKey;
+      _this60.recaptcha = yield _this60._recaptchaLoader.load(_this60.auth, _this60.auth.languageCode || undefined);
+      const siteKey = yield getRecaptchaParams(_this60.auth);
+      _assert(siteKey, _this60.auth, "internal-error" /* AuthErrorCode.INTERNAL_ERROR */);
+      _this60.parameters.sitekey = siteKey;
     })();
   }
   getAssertedRecaptcha() {
@@ -9189,7 +9189,7 @@ class ConfirmationResultImpl {
  *
  * @public
  */
-function signInWithPhoneNumber(_x156, _x157, _x158) {
+function signInWithPhoneNumber(_x166, _x167, _x168) {
   return _signInWithPhoneNumber.apply(this, arguments);
 }
 /**
@@ -9215,7 +9215,7 @@ function _signInWithPhoneNumber() {
   });
   return _signInWithPhoneNumber.apply(this, arguments);
 }
-function linkWithPhoneNumber(_x159, _x160, _x161) {
+function linkWithPhoneNumber(_x169, _x170, _x171) {
   return _linkWithPhoneNumber.apply(this, arguments);
 }
 /**
@@ -9242,7 +9242,7 @@ function _linkWithPhoneNumber() {
   });
   return _linkWithPhoneNumber.apply(this, arguments);
 }
-function reauthenticateWithPhoneNumber(_x162, _x163, _x164) {
+function reauthenticateWithPhoneNumber(_x172, _x173, _x174) {
   return _reauthenticateWithPhoneNumber.apply(this, arguments);
 }
 /**
@@ -9260,7 +9260,7 @@ function _reauthenticateWithPhoneNumber() {
   });
   return _reauthenticateWithPhoneNumber.apply(this, arguments);
 }
-function _verifyPhoneNumber(_x165, _x166, _x167) {
+function _verifyPhoneNumber(_x175, _x176, _x177) {
   return _verifyPhoneNumber2.apply(this, arguments);
 }
 /**
@@ -9341,7 +9341,7 @@ function _verifyPhoneNumber2() {
   });
   return _verifyPhoneNumber2.apply(this, arguments);
 }
-function updatePhoneNumber(_x168, _x169) {
+function updatePhoneNumber(_x178, _x179) {
   return _updatePhoneNumber.apply(this, arguments);
 }
 /**
@@ -9613,7 +9613,7 @@ function _reauth(params) {
   _assert(user, auth, "internal-error" /* AuthErrorCode.INTERNAL_ERROR */);
   return _reauthenticate(user, new IdpCredential(params), params.bypassAuthState);
 }
-function _link(_x170) {
+function _link(_x180) {
   return _link2.apply(this, arguments);
 }
 /**
@@ -9658,28 +9658,28 @@ class AbstractPopupRedirectOperation {
     this.filter = Array.isArray(filter) ? filter : [filter];
   }
   execute() {
-    var _this63 = this;
-    return new Promise( /*#__PURE__*/function () {
-      var _ref20 = (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (resolve, reject) {
-        _this63.pendingPromise = {
+    var _this61 = this;
+    return new Promise(/*#__PURE__*/function () {
+      var _ref18 = (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (resolve, reject) {
+        _this61.pendingPromise = {
           resolve,
           reject
         };
         try {
-          _this63.eventManager = yield _this63.resolver._initialize(_this63.auth);
-          yield _this63.onExecution();
-          _this63.eventManager.registerConsumer(_this63);
+          _this61.eventManager = yield _this61.resolver._initialize(_this61.auth);
+          yield _this61.onExecution();
+          _this61.eventManager.registerConsumer(_this61);
         } catch (e) {
-          _this63.reject(e);
+          _this61.reject(e);
         }
       });
-      return function (_x171, _x172) {
-        return _ref20.apply(this, arguments);
+      return function (_x181, _x182) {
+        return _ref18.apply(this, arguments);
       };
     }());
   }
   onAuthEvent(event) {
-    var _this64 = this;
+    var _this62 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       const {
         urlResponse,
@@ -9690,22 +9690,22 @@ class AbstractPopupRedirectOperation {
         type
       } = event;
       if (error) {
-        _this64.reject(error);
+        _this62.reject(error);
         return;
       }
       const params = {
-        auth: _this64.auth,
+        auth: _this62.auth,
         requestUri: urlResponse,
         sessionId: sessionId,
         tenantId: tenantId || undefined,
         postBody: postBody || undefined,
-        user: _this64.user,
-        bypassAuthState: _this64.bypassAuthState
+        user: _this62.user,
+        bypassAuthState: _this62.bypassAuthState
       };
       try {
-        _this64.resolve(yield _this64.getIdpTask(type)(params));
+        _this62.resolve(yield _this62.getIdpTask(type)(params));
       } catch (e) {
-        _this64.reject(e);
+        _this62.reject(e);
       }
     })();
   }
@@ -9794,7 +9794,7 @@ const _POLL_WINDOW_CLOSE_TIMEOUT = new Delay(2000, 10000);
  *
  * @public
  */
-function signInWithPopup(_x173, _x174, _x175) {
+function signInWithPopup(_x183, _x184, _x185) {
   return _signInWithPopup.apply(this, arguments);
 }
 /**
@@ -9838,7 +9838,7 @@ function _signInWithPopup() {
   });
   return _signInWithPopup.apply(this, arguments);
 }
-function reauthenticateWithPopup(_x176, _x177, _x178) {
+function reauthenticateWithPopup(_x186, _x187, _x188) {
   return _reauthenticateWithPopup.apply(this, arguments);
 }
 /**
@@ -9879,7 +9879,7 @@ function _reauthenticateWithPopup() {
   });
   return _reauthenticateWithPopup.apply(this, arguments);
 }
-function linkWithPopup(_x179, _x180, _x181) {
+function linkWithPopup(_x189, _x190, _x191) {
   return _linkWithPopup.apply(this, arguments);
 }
 /**
@@ -9909,22 +9909,22 @@ class PopupOperation extends AbstractPopupRedirectOperation {
     PopupOperation.currentPopupAction = this;
   }
   executeNotNull() {
-    var _this65 = this;
+    var _this63 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      const result = yield _this65.execute();
-      _assert(result, _this65.auth, "internal-error" /* AuthErrorCode.INTERNAL_ERROR */);
+      const result = yield _this63.execute();
+      _assert(result, _this63.auth, "internal-error" /* AuthErrorCode.INTERNAL_ERROR */);
       return result;
     })();
   }
   onExecution() {
-    var _this66 = this;
+    var _this64 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      debugAssert(_this66.filter.length === 1, 'Popup operations only handle one event');
+      debugAssert(_this64.filter.length === 1, 'Popup operations only handle one event');
       const eventId = _generateEventId();
-      _this66.authWindow = yield _this66.resolver._openPopup(_this66.auth, _this66.provider, _this66.filter[0],
+      _this64.authWindow = yield _this64.resolver._openPopup(_this64.auth, _this64.provider, _this64.filter[0],
       // There's always one, see constructor
       eventId);
-      _this66.authWindow.associatedEvent = eventId;
+      _this64.authWindow.associatedEvent = eventId;
       // Check for web storage support and origin validation _after_ the popup is
       // loaded. These operations are slow (~1 second or so) Rather than
       // waiting on them before opening the window, optimistically open the popup
@@ -9932,16 +9932,16 @@ class PopupOperation extends AbstractPopupRedirectOperation {
       // not available, this will cause the whole thing to reject properly. It
       // will also close the popup, but since the promise has already rejected,
       // the popup closed by user poll will reject into the void.
-      _this66.resolver._originValidation(_this66.auth).catch(e => {
-        _this66.reject(e);
+      _this64.resolver._originValidation(_this64.auth).catch(e => {
+        _this64.reject(e);
       });
-      _this66.resolver._isIframeWebStorageSupported(_this66.auth, isSupported => {
+      _this64.resolver._isIframeWebStorageSupported(_this64.auth, isSupported => {
         if (!isSupported) {
-          _this66.reject(_createError(_this66.auth, "web-storage-unsupported" /* AuthErrorCode.WEB_STORAGE_UNSUPPORTED */));
+          _this64.reject(_createError(_this64.auth, "web-storage-unsupported" /* AuthErrorCode.WEB_STORAGE_UNSUPPORTED */));
         }
       });
       // Handle user closure. Notice this does *not* use await
-      _this66.pollUserCancellation();
+      _this64.pollUserCancellation();
     })();
   }
   get eventId() {
@@ -10017,45 +10017,45 @@ class RedirectAction extends AbstractPopupRedirectOperation {
    */
   execute() {
     var _superprop_getExecute = () => super.execute,
-      _this67 = this;
+      _this65 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      let readyOutcome = redirectOutcomeMap.get(_this67.auth._key());
+      let readyOutcome = redirectOutcomeMap.get(_this65.auth._key());
       if (!readyOutcome) {
         try {
-          const hasPendingRedirect = yield _getAndClearPendingRedirectStatus(_this67.resolver, _this67.auth);
-          const result = hasPendingRedirect ? yield _superprop_getExecute().call(_this67) : null;
+          const hasPendingRedirect = yield _getAndClearPendingRedirectStatus(_this65.resolver, _this65.auth);
+          const result = hasPendingRedirect ? yield _superprop_getExecute().call(_this65) : null;
           readyOutcome = () => Promise.resolve(result);
         } catch (e) {
           readyOutcome = () => Promise.reject(e);
         }
-        redirectOutcomeMap.set(_this67.auth._key(), readyOutcome);
+        redirectOutcomeMap.set(_this65.auth._key(), readyOutcome);
       }
       // If we're not bypassing auth state, the ready outcome should be set to
       // null.
-      if (!_this67.bypassAuthState) {
-        redirectOutcomeMap.set(_this67.auth._key(), () => Promise.resolve(null));
+      if (!_this65.bypassAuthState) {
+        redirectOutcomeMap.set(_this65.auth._key(), () => Promise.resolve(null));
       }
       return readyOutcome();
     })();
   }
   onAuthEvent(event) {
     var _superprop_getOnAuthEvent = () => super.onAuthEvent,
-      _this68 = this;
+      _this66 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       if (event.type === "signInViaRedirect" /* AuthEventType.SIGN_IN_VIA_REDIRECT */) {
-        return _superprop_getOnAuthEvent().call(_this68, event);
+        return _superprop_getOnAuthEvent().call(_this66, event);
       } else if (event.type === "unknown" /* AuthEventType.UNKNOWN */) {
         // This is a sentinel value indicating there's no pending redirect
-        _this68.resolve(null);
+        _this66.resolve(null);
         return;
       }
       if (event.eventId) {
-        const user = yield _this68.auth._redirectUserForId(event.eventId);
+        const user = yield _this66.auth._redirectUserForId(event.eventId);
         if (user) {
-          _this68.user = user;
-          return _superprop_getOnAuthEvent().call(_this68, event);
+          _this66.user = user;
+          return _superprop_getOnAuthEvent().call(_this66, event);
         } else {
-          _this68.resolve(null);
+          _this66.resolve(null);
         }
       }
     })();
@@ -10065,7 +10065,7 @@ class RedirectAction extends AbstractPopupRedirectOperation {
   }
   cleanUp() {}
 }
-function _getAndClearPendingRedirectStatus(_x182, _x183) {
+function _getAndClearPendingRedirectStatus(_x192, _x193) {
   return _getAndClearPendingRedirectStatus2.apply(this, arguments);
 }
 function _getAndClearPendingRedirectStatus2() {
@@ -10081,7 +10081,7 @@ function _getAndClearPendingRedirectStatus2() {
   });
   return _getAndClearPendingRedirectStatus2.apply(this, arguments);
 }
-function _setPendingRedirectStatus(_x184, _x185) {
+function _setPendingRedirectStatus(_x194, _x195) {
   return _setPendingRedirectStatus2.apply(this, arguments);
 }
 function _setPendingRedirectStatus2() {
@@ -10166,7 +10166,7 @@ function pendingRedirectKey(auth) {
 function signInWithRedirect(auth, provider, resolver) {
   return _signInWithRedirect(auth, provider, resolver);
 }
-function _signInWithRedirect(_x186, _x187, _x188) {
+function _signInWithRedirect(_x196, _x197, _x198) {
   return _signInWithRedirect2.apply(this, arguments);
 }
 /**
@@ -10224,7 +10224,7 @@ function _signInWithRedirect2() {
 function reauthenticateWithRedirect(user, provider, resolver) {
   return _reauthenticateWithRedirect(user, provider, resolver);
 }
-function _reauthenticateWithRedirect(_x189, _x190, _x191) {
+function _reauthenticateWithRedirect(_x199, _x200, _x201) {
   return _reauthenticateWithRedirect2.apply(this, arguments);
 }
 /**
@@ -10280,7 +10280,7 @@ function _reauthenticateWithRedirect2() {
 function linkWithRedirect(user, provider, resolver) {
   return _linkWithRedirect(user, provider, resolver);
 }
-function _linkWithRedirect(_x192, _x193, _x194) {
+function _linkWithRedirect(_x202, _x203, _x204) {
   return _linkWithRedirect2.apply(this, arguments);
 }
 /**
@@ -10341,7 +10341,7 @@ function _linkWithRedirect2() {
   });
   return _linkWithRedirect2.apply(this, arguments);
 }
-function getRedirectResult(_x195, _x196) {
+function getRedirectResult(_x205, _x206) {
   return _getRedirectResult2.apply(this, arguments);
 }
 function _getRedirectResult2() {
@@ -10351,7 +10351,7 @@ function _getRedirectResult2() {
   });
   return _getRedirectResult2.apply(this, arguments);
 }
-function _getRedirectResult(_x197, _x198) {
+function _getRedirectResult(_x207, _x208) {
   return _getRedirectResult3.apply(this, arguments);
 }
 function _getRedirectResult3() {
@@ -10372,7 +10372,7 @@ function _getRedirectResult3() {
   });
   return _getRedirectResult3.apply(this, arguments);
 }
-function prepareUserForRedirect(_x199) {
+function prepareUserForRedirect(_x209) {
   return _prepareUserForRedirect.apply(this, arguments);
 }
 /**
@@ -10512,7 +10512,7 @@ function isRedirectEvent(event) {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-function _getProjectConfig(_x200) {
+function _getProjectConfig(_x210) {
   return _getProjectConfig2.apply(this, arguments);
 }
 /**
@@ -10539,7 +10539,7 @@ function _getProjectConfig2() {
 }
 const IP_ADDRESS_REGEX = /^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/;
 const HTTP_REGEX = /^https?/;
-function _validateOrigin(_x201) {
+function _validateOrigin(_x211) {
   return _validateOrigin2.apply(this, arguments);
 }
 function _validateOrigin2() {
@@ -10756,7 +10756,7 @@ function getIframeUrl(auth) {
   }
   return `${url}?${(0,_firebase_util__WEBPACK_IMPORTED_MODULE_2__.querystring)(params).slice(1)}`;
 }
-function _openIframe(_x202) {
+function _openIframe(_x212) {
   return _openIframe2.apply(this, arguments);
 }
 /**
@@ -10786,8 +10786,8 @@ function _openIframe2() {
       messageHandlersFilter: gapi.iframes.CROSS_ORIGIN_IFRAMES_FILTER,
       attributes: IFRAME_ATTRIBUTES,
       dontclear: true
-    }, iframe => new Promise( /*#__PURE__*/function () {
-      var _ref26 = (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (resolve, reject) {
+    }, iframe => new Promise(/*#__PURE__*/function () {
+      var _ref24 = (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (resolve, reject) {
         yield iframe.restyle({
           // Prevent iframe from closing on mouse out.
           setHideOnLeave: false
@@ -10809,8 +10809,8 @@ function _openIframe2() {
           reject(networkError);
         });
       });
-      return function (_x212, _x213) {
-        return _ref26.apply(this, arguments);
+      return function (_x222, _x223) {
+        return _ref24.apply(this, arguments);
       };
     }()));
   });
@@ -10920,7 +10920,7 @@ const EMULATOR_WIDGET_PATH = 'emulator/auth/handler';
  * @internal
  */
 const FIREBASE_APP_CHECK_FRAGMENT_ID = encodeURIComponent('fac');
-function _getRedirectUrl(_x203, _x204, _x205, _x206, _x207, _x208) {
+function _getRedirectUrl(_x213, _x214, _x215, _x216, _x217, _x218) {
   return _getRedirectUrl2.apply(this, arguments);
 }
 function _getRedirectUrl2() {
@@ -11013,18 +11013,18 @@ class BrowserPopupRedirectResolver {
   // Wrapping in async even though we don't await anywhere in order
   // to make sure errors are raised as promise rejections
   _openPopup(auth, provider, authType, eventId) {
-    var _this69 = this;
+    var _this67 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       var _a;
-      debugAssert((_a = _this69.eventManagers[auth._key()]) === null || _a === void 0 ? void 0 : _a.manager, '_initialize() not called before _openPopup()');
+      debugAssert((_a = _this67.eventManagers[auth._key()]) === null || _a === void 0 ? void 0 : _a.manager, '_initialize() not called before _openPopup()');
       const url = yield _getRedirectUrl(auth, provider, authType, _getCurrentUrl(), eventId);
       return _open(auth, url, _generateEventId());
     })();
   }
   _openRedirect(auth, provider, authType, eventId) {
-    var _this70 = this;
+    var _this68 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      yield _this70._originValidation(auth);
+      yield _this68._originValidation(auth);
       const url = yield _getRedirectUrl(auth, provider, authType, _getCurrentUrl(), eventId);
       _setWindowLocation(url);
       return new Promise(() => {});
@@ -11056,7 +11056,7 @@ class BrowserPopupRedirectResolver {
     return promise;
   }
   initAndGetManager(auth) {
-    var _this71 = this;
+    var _this69 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       const iframe = yield _openIframe(auth);
       const manager = new AuthEventManager(auth);
@@ -11068,10 +11068,10 @@ class BrowserPopupRedirectResolver {
           status: handled ? "ACK" /* GapiOutcome.ACK */ : "ERROR" /* GapiOutcome.ERROR */
         };
       }, gapi.iframes.CROSS_ORIGIN_IFRAMES_FILTER);
-      _this71.eventManagers[auth._key()] = {
+      _this69.eventManagers[auth._key()] = {
         manager
       };
-      _this71.iframes[auth._key()] = iframe;
+      _this69.iframes[auth._key()] = iframe;
       return manager;
     })();
   }
@@ -11256,27 +11256,27 @@ class TotpMultiFactorAssertionImpl extends MultiFactorAssertionImpl {
   }
   /** @internal */
   _finalizeEnroll(auth, idToken, displayName) {
-    var _this72 = this;
+    var _this70 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      _assert(typeof _this72.secret !== 'undefined', auth, "argument-error" /* AuthErrorCode.ARGUMENT_ERROR */);
+      _assert(typeof _this70.secret !== 'undefined', auth, "argument-error" /* AuthErrorCode.ARGUMENT_ERROR */);
       return finalizeEnrollTotpMfa(auth, {
         idToken,
         displayName,
-        totpVerificationInfo: _this72.secret._makeTotpVerificationInfo(_this72.otp)
+        totpVerificationInfo: _this70.secret._makeTotpVerificationInfo(_this70.otp)
       });
     })();
   }
   /** @internal */
   _finalizeSignIn(auth, mfaPendingCredential) {
-    var _this73 = this;
+    var _this71 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      _assert(_this73.enrollmentId !== undefined && _this73.otp !== undefined, auth, "argument-error" /* AuthErrorCode.ARGUMENT_ERROR */);
+      _assert(_this71.enrollmentId !== undefined && _this71.otp !== undefined, auth, "argument-error" /* AuthErrorCode.ARGUMENT_ERROR */);
       const totpVerificationInfo = {
-        verificationCode: _this73.otp
+        verificationCode: _this71.otp
       };
       return finalizeSignInTotpMfa(auth, {
         mfaPendingCredential,
-        mfaEnrollmentId: _this73.enrollmentId,
+        mfaEnrollmentId: _this71.enrollmentId,
         totpVerificationInfo
       });
     })();
@@ -11372,14 +11372,14 @@ class AuthInterop {
     return ((_a = this.auth.currentUser) === null || _a === void 0 ? void 0 : _a.uid) || null;
   }
   getToken(forceRefresh) {
-    var _this74 = this;
+    var _this72 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      _this74.assertAuthConfigured();
-      yield _this74.auth._initializationPromise;
-      if (!_this74.auth.currentUser) {
+      _this72.assertAuthConfigured();
+      yield _this72.auth._initializationPromise;
+      if (!_this72.auth.currentUser) {
         return null;
       }
-      const accessToken = yield _this74.auth.currentUser.getIdToken(forceRefresh);
+      const accessToken = yield _this72.auth.currentUser.getIdToken(forceRefresh);
       return {
         accessToken
       };
@@ -11517,8 +11517,8 @@ function registerAuth(clientPlatform) {
 const DEFAULT_ID_TOKEN_MAX_AGE = 5 * 60;
 const authIdTokenMaxAge = (0,_firebase_util__WEBPACK_IMPORTED_MODULE_2__.getExperimentalSetting)('authIdTokenMaxAge') || DEFAULT_ID_TOKEN_MAX_AGE;
 let lastPostedIdToken = null;
-const mintCookieFactory = url => ( /*#__PURE__*/function () {
-  var _ref21 = (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (user) {
+const mintCookieFactory = url => (/*#__PURE__*/function () {
+  var _ref19 = (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (user) {
     const idTokenResult = user && (yield user.getIdTokenResult());
     const idTokenAge = idTokenResult && (new Date().getTime() - Date.parse(idTokenResult.issuedAtTime)) / 1000;
     if (idTokenAge && idTokenAge > authIdTokenMaxAge) {
@@ -11537,8 +11537,8 @@ const mintCookieFactory = url => ( /*#__PURE__*/function () {
       } : {}
     });
   });
-  return function (_x209) {
-    return _ref21.apply(this, arguments);
+  return function (_x219) {
+    return _ref19.apply(this, arguments);
   };
 }());
 /**
@@ -12342,7 +12342,7 @@ class __PRIVATE_FirebaseAuthCredentialsProvider {
     };
     const __PRIVATE_awaitNextToken = () => {
         const t = r;
-        e.enqueueRetryable( /*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+        e.enqueueRetryable(/*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
           yield t.promise, yield __PRIVATE_guardedChangeListener(_this.currentUser);
         }));
       },
@@ -13147,7 +13147,7 @@ FieldIndex.UNKNOWN_ID = -1;
 
 /** An index component consisting of field path and index type.  */
 class IndexSegment {
-  constructor( /** The field path of the component. */
+  constructor(/** The field path of the component. */
   e, /** The fields sorting order. */
   t) {
     this.fieldPath = e, this.kind = t;
@@ -13983,11 +13983,11 @@ class __PRIVATE_IndexBackfiller {
   e, t) {
     this.localStore = e, this.persistence = t;
   }
-  ee(e = 50) {
+  ee() {
     var _this5 = this;
-    return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (e = 50) {
       return _this5.persistence.runTransaction("Backfill Indexes", "readwrite-primary", t => _this5.te(t, e));
-    })();
+    }).apply(this, arguments);
   }
   /** Writes index entries until the cap is reached. Returns the number of documents processed. */
   te(e, t) {
@@ -18005,7 +18005,7 @@ class TargetChange {
  * If document has been deleted NoDocument will be provided.
  */
 class __PRIVATE_DocumentWatchChange {
-  constructor( /** The new document applies to all of these targets. */
+  constructor(/** The new document applies to all of these targets. */
   e, /** The new document is removed from all of these targets. */
   t, /** The key of the document for this change. */
   n,
@@ -18023,7 +18023,7 @@ class __PRIVATE_ExistenceFilterChange {
   }
 }
 class __PRIVATE_WatchTargetChange {
-  constructor( /** What kind of change occurred to the watch target. */
+  constructor(/** What kind of change occurred to the watch target. */
   e, /** The target IDs that were added/removed/set. */
   t,
   /**
@@ -19155,7 +19155,7 @@ function __PRIVATE_isValidResourceName(e) {
  * An immutable set of metadata that the local store tracks for each target.
  */
 class TargetData {
-  constructor( /** The target being listened to. */
+  constructor(/** The target being listened to. */
   e,
   /**
    * The target ID to which the target corresponds; Assigned by the
@@ -24038,7 +24038,7 @@ class __PRIVATE_IndexedDbPersistence {
    * PORTING NOTE: This is only used for Web multi-tab.
    */
   setDatabaseDeletedListener(e) {
-    this.Ri.L( /*#__PURE__*/function () {
+    this.Ri.L(/*#__PURE__*/function () {
       var _ref5 = (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (t) {
         // Check if an attempt is made to delete IndexedDB.
         null === t.newVersion && (yield e());
@@ -24059,7 +24059,7 @@ class __PRIVATE_IndexedDbPersistence {
     this.networkEnabled !== e && (this.networkEnabled = e,
     // Schedule a primary lease refresh for immediate execution. The eventual
     // lease update will be propagated via `primaryStateListener`.
-    this.ui.enqueueAndForget( /*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    this.ui.enqueueAndForget(/*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       _this8.started && (yield _this8.mi());
     })));
   }
@@ -24185,19 +24185,19 @@ class __PRIVATE_IndexedDbPersistence {
     }).next(e => (this.isPrimary !== e && __PRIVATE_logDebug("IndexedDbPersistence", `Client ${e ? "is" : "is not"} eligible for a primary lease.`), e));
   }
   shutdown() {
-    var _this10 = this;
+    var _this0 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       // The shutdown() operations are idempotent and can be called even when
       // start() aborted (e.g. because it couldn't acquire the persistence lease).
-      _this10.Kr = !1, _this10.Li(), _this10.Ti && (_this10.Ti.cancel(), _this10.Ti = null), _this10.Bi(), _this10.ki(), // Use `SimpleDb.runTransaction` directly to avoid failing if another tab
+      _this0.Kr = !1, _this0.Li(), _this0.Ti && (_this0.Ti.cancel(), _this0.Ti = null), _this0.Bi(), _this0.ki(), // Use `SimpleDb.runTransaction` directly to avoid failing if another tab
       // has obtained the primary lease.
-      yield _this10.Ri.runTransaction("shutdown", "readwrite", ["owner", "clientMetadata"], e => {
+      yield _this0.Ri.runTransaction("shutdown", "readwrite", ["owner", "clientMetadata"], e => {
         const t = new __PRIVATE_IndexedDbTransaction(e, __PRIVATE_ListenSequence.oe);
-        return _this10.bi(t).next(() => _this10.Ci(t));
-      }), _this10.Ri.close(),
+        return _this0.bi(t).next(() => _this0.Ci(t));
+      }), _this0.Ri.close(),
       // Remove the entry marking the client as zombied from LocalStorage since
       // we successfully deleted its metadata from IndexedDb.
-      _this10.qi();
+      _this0.qi();
     })();
   }
   /**
@@ -24323,7 +24323,7 @@ class __PRIVATE_IndexedDbPersistence {
       // trigger a bug that prevents Safari from re-opening IndexedDB during
       // the next page load.
       // See https://bugs.webkit.org/show_bug.cgi?id=226547
-      this.ui.enterRestrictedMode( /* purgeExistingTasks= */!0), this.ui.enqueueAndForget(() => this.shutdown());
+      this.ui.enterRestrictedMode(/* purgeExistingTasks= */!0), this.ui.enqueueAndForget(() => this.shutdown());
     }, this.window.addEventListener("pagehide", this.Pi));
   }
   ki() {
@@ -24697,7 +24697,7 @@ class __PRIVATE_QueryEngine {
  * functions, such that they are tree-shakeable.
  */
 class __PRIVATE_LocalStoreImpl {
-  constructor( /** Manages our in-memory or durable persistence. */
+  constructor(/** Manages our in-memory or durable persistence. */
   e, t, n, r) {
     this.persistence = e, this.ss = t, this.serializer = r,
     /**
@@ -24726,7 +24726,7 @@ class __PRIVATE_LocalStoreImpl {
     return this.persistence.runTransaction("Collect garbage", "readwrite-primary", t => e.collect(t, this.os));
   }
 }
-function __PRIVATE_newLocalStore( /** Manages our in-memory or durable persistence. */
+function __PRIVATE_newLocalStore(/** Manages our in-memory or durable persistence. */
 e, t, n, r) {
   return new __PRIVATE_LocalStoreImpl(e, t, n, r);
 }
@@ -25107,7 +25107,7 @@ function __PRIVATE_setMaxReadTime(e, t, n) {
  * LocalDocuments are re-calculated if there are remaining mutations in the
  * queue.
  */
-function __PRIVATE_localStoreApplyBundledDocuments(_x9, _x10, _x11, _x12) {
+function __PRIVATE_localStoreApplyBundledDocuments(_x9, _x0, _x1, _x10) {
   return _PRIVATE_localStoreApplyBundledDocuments.apply(this, arguments);
 }
 /**
@@ -25142,7 +25142,7 @@ function _PRIVATE_localStoreApplyBundledDocuments() {
   });
   return _PRIVATE_localStoreApplyBundledDocuments.apply(this, arguments);
 }
-function __PRIVATE_localStoreSaveNamedQuery(_x13, _x14) {
+function __PRIVATE_localStoreSaveNamedQuery(_x11, _x12) {
   return _PRIVATE_localStoreSaveNamedQuery.apply(this, arguments);
 }
 /** Assembles the key for a client state in WebStorage */
@@ -25393,32 +25393,32 @@ class __PRIVATE_WebStorageSharedClientState {
     return !(!e || !e.localStorage);
   }
   start() {
-    var _this11 = this;
+    var _this1 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       // Retrieve the list of existing clients to backfill the data in
       // SharedClientState.
-      const e = yield _this11.syncEngine.Qi();
+      const e = yield _this1.syncEngine.Qi();
       for (const t of e) {
-        if (t === _this11.ps) continue;
-        const e = _this11.getItem(createWebStorageClientStateKey(_this11.persistenceKey, t));
+        if (t === _this1.ps) continue;
+        const e = _this1.getItem(createWebStorageClientStateKey(_this1.persistenceKey, t));
         if (e) {
           const n = __PRIVATE_RemoteClientState.Rs(t, e);
-          n && (_this11.Ss = _this11.Ss.insert(n.clientId, n));
+          n && (_this1.Ss = _this1.Ss.insert(n.clientId, n));
         }
       }
-      _this11.Ns();
+      _this1.Ns();
       // Check if there is an existing online state and call the callback handler
       // if applicable.
-      const t = _this11.storage.getItem(_this11.xs);
+      const t = _this1.storage.getItem(_this1.xs);
       if (t) {
-        const e = _this11.Ls(t);
-        e && _this11.Bs(e);
+        const e = _this1.Ls(t);
+        e && _this1.Bs(e);
       }
-      for (const e of _this11.bs) _this11.ws(e);
-      _this11.bs = [],
+      for (const e of _this1.bs) _this1.ws(e);
+      _this1.bs = [],
       // Register a window unload hook to remove the client metadata entry from
       // WebStorage even if `shutdown()` was not called.
-      _this11.window.addEventListener("pagehide", () => _this11.shutdown()), _this11.started = !0;
+      _this1.window.addEventListener("pagehide", () => _this1.shutdown()), _this1.started = !0;
     })();
   }
   writeSequenceNumber(e) {
@@ -25497,39 +25497,39 @@ class __PRIVATE_WebStorageSharedClientState {
     __PRIVATE_logDebug("SharedClientState", "REMOVE", e), this.storage.removeItem(e);
   }
   ws(e) {
-    var _this12 = this;
+    var _this10 = this;
     // Note: The function is typed to take Event to be interface-compatible with
     // `Window.addEventListener`.
     const t = e;
     if (t.storageArea === this.storage) {
       if (__PRIVATE_logDebug("SharedClientState", "EVENT", t.key, t.newValue), t.key === this.Ds) return void __PRIVATE_logError("Received WebStorage notification for local change. Another client might have garbage-collected our state");
-      this.ui.enqueueRetryable( /*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-        if (_this12.started) {
-          if (null !== t.key) if (_this12.Cs.test(t.key)) {
+      this.ui.enqueueRetryable(/*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+        if (_this10.started) {
+          if (null !== t.key) if (_this10.Cs.test(t.key)) {
             if (null == t.newValue) {
-              const e = _this12.Gs(t.key);
-              return _this12.zs(e, null);
+              const e = _this10.Gs(t.key);
+              return _this10.zs(e, null);
             }
             {
-              const e = _this12.js(t.key, t.newValue);
-              if (e) return _this12.zs(e.clientId, e);
+              const e = _this10.js(t.key, t.newValue);
+              if (e) return _this10.zs(e.clientId, e);
             }
-          } else if (_this12.Fs.test(t.key)) {
+          } else if (_this10.Fs.test(t.key)) {
             if (null !== t.newValue) {
-              const e = _this12.Hs(t.key, t.newValue);
-              if (e) return _this12.Js(e);
+              const e = _this10.Hs(t.key, t.newValue);
+              if (e) return _this10.Js(e);
             }
-          } else if (_this12.Ms.test(t.key)) {
+          } else if (_this10.Ms.test(t.key)) {
             if (null !== t.newValue) {
-              const e = _this12.Ys(t.key, t.newValue);
-              if (e) return _this12.Zs(e);
+              const e = _this10.Ys(t.key, t.newValue);
+              if (e) return _this10.Zs(e);
             }
-          } else if (t.key === _this12.xs) {
+          } else if (t.key === _this10.xs) {
             if (null !== t.newValue) {
-              const e = _this12.Ls(t.newValue);
-              if (e) return _this12.Bs(e);
+              const e = _this10.Ls(t.newValue);
+              if (e) return _this10.Bs(e);
             }
-          } else if (t.key === _this12.vs) {
+          } else if (t.key === _this10.vs) {
             const e = function __PRIVATE_fromWebStorageSequenceNumber(e) {
               let t = __PRIVATE_ListenSequence.oe;
               if (null != e) try {
@@ -25545,12 +25545,12 @@ class __PRIVATE_WebStorageSharedClientState {
             * clients using memory persistence. The state in this class remains fully
             * isolated and no synchronization is performed.
             */(t.newValue);
-            e !== __PRIVATE_ListenSequence.oe && _this12.sequenceNumberHandler(e);
-          } else if (t.key === _this12.Os) {
-            const e = _this12.Xs(t.newValue);
-            yield Promise.all(e.map(e => _this12.syncEngine.eo(e)));
+            e !== __PRIVATE_ListenSequence.oe && _this10.sequenceNumberHandler(e);
+          } else if (t.key === _this10.Os) {
+            const e = _this10.Xs(t.newValue);
+            yield Promise.all(e.map(e => _this10.syncEngine.eo(e)));
           }
-        } else _this12.bs.push(t);
+        } else _this10.bs.push(t);
       }));
     }
   }
@@ -25631,9 +25631,9 @@ class __PRIVATE_WebStorageSharedClientState {
     return JSON.parse(e);
   }
   Js(e) {
-    var _this13 = this;
+    var _this11 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      if (e.user.uid === _this13.currentUser.uid) return _this13.syncEngine.no(e.batchId, e.state, e.error);
+      if (e.user.uid === _this11.currentUser.uid) return _this11.syncEngine.no(e.batchId, e.state, e.error);
       __PRIVATE_logDebug("SharedClientState", `Ignoring mutation for non-active user ${e.user.uid}`);
     })();
   }
@@ -26448,9 +26448,9 @@ class __PRIVATE_PersistentStream {
    * When stop returns, isStarted() and isOpen() will both return false.
    */
   stop() {
-    var _this14 = this;
+    var _this12 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      _this14.n_() && (yield _this14.close(0 /* PersistentStreamState.Initial */));
+      _this12.n_() && (yield _this12.close(0 /* PersistentStreamState.Initial */));
     })();
   }
   /**
@@ -26485,12 +26485,12 @@ class __PRIVATE_PersistentStream {
   }
   /** Called by the idle timer when the stream should close due to inactivity. */
   __() {
-    var _this15 = this;
+    var _this13 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      if (_this15.r_())
+      if (_this13.r_())
         // When timing out an idle stream there's no reason to force the stream into backoff when
         // it restarts so set the stream state to Initial instead of Error.
-        return _this15.close(0 /* PersistentStreamState.Initial */);
+        return _this13.close(0 /* PersistentStreamState.Initial */);
     })();
   }
   /** Marks the stream as active again. */
@@ -26515,30 +26515,30 @@ class __PRIVATE_PersistentStream {
    * @param error - the error the connection was closed with.
    */
   close(e, t) {
-    var _this16 = this;
+    var _this14 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       // Cancel any outstanding timers (they're guaranteed not to execute).
-      _this16.u_(), _this16.c_(), _this16.t_.cancel(),
+      _this14.u_(), _this14.c_(), _this14.t_.cancel(),
       // Invalidates any stream-related callbacks (e.g. from auth or the
       // underlying stream), guaranteeing they won't execute.
-      _this16.Yo++, 4 /* PersistentStreamState.Error */ !== e ?
+      _this14.Yo++, 4 /* PersistentStreamState.Error */ !== e ?
       // If this is an intentional close ensure we don't delay our next connection attempt.
-      _this16.t_.reset() : t && t.code === D.RESOURCE_EXHAUSTED ? (
+      _this14.t_.reset() : t && t.code === D.RESOURCE_EXHAUSTED ? (
       // Log the error. (Probably either 'quota exceeded' or 'max queue length reached'.)
-      __PRIVATE_logError(t.toString()), __PRIVATE_logError("Using maximum backoff delay to prevent overloading the backend."), _this16.t_.Wo()) : t && t.code === D.UNAUTHENTICATED && 3 /* PersistentStreamState.Healthy */ !== _this16.state && (
+      __PRIVATE_logError(t.toString()), __PRIVATE_logError("Using maximum backoff delay to prevent overloading the backend."), _this14.t_.Wo()) : t && t.code === D.UNAUTHENTICATED && 3 /* PersistentStreamState.Healthy */ !== _this14.state && (
       // "unauthenticated" error means the token was rejected. This should rarely
       // happen since both Auth and AppCheck ensure a sufficient TTL when we
       // request a token. If a user manually resets their system clock this can
       // fail, however. In this case, we should get a Code.UNAUTHENTICATED error
       // before we received the first message and we need to invalidate the token
       // to ensure that we fetch a new token.
-      _this16.authCredentialsProvider.invalidateToken(), _this16.appCheckCredentialsProvider.invalidateToken()),
+      _this14.authCredentialsProvider.invalidateToken(), _this14.appCheckCredentialsProvider.invalidateToken()),
       // Clean up the underlying stream because we are no longer interested in events.
-      null !== _this16.stream && (_this16.l_(), _this16.stream.close(), _this16.stream = null),
+      null !== _this14.stream && (_this14.l_(), _this14.stream.close(), _this14.stream = null),
       // This state must be assigned before calling onClose() to allow the callback to
       // inhibit backoff or otherwise manipulate the state in its non-started state.
-      _this16.state = e, // Notify the listener that the stream closed.
-      yield _this16.listener.mo(t);
+      _this14.state = e, // Notify the listener that the stream closed.
+      yield _this14.listener.mo(t);
     })();
   }
   /**
@@ -26581,9 +26581,9 @@ class __PRIVATE_PersistentStream {
     });
   }
   i_() {
-    var _this17 = this;
-    this.state = 5 /* PersistentStreamState.Backoff */, this.t_.Go( /*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      _this17.state = 0 /* PersistentStreamState.Initial */, _this17.start();
+    var _this15 = this;
+    this.state = 5 /* PersistentStreamState.Backoff */, this.t_.Go(/*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+      _this15.state = 0 /* PersistentStreamState.Initial */, _this15.start();
     }));
   }
   // Visible for tests
@@ -26908,7 +26908,7 @@ class __PRIVATE_RemoteStoreImpl {
    */
   e, /** The client-side proxy for interacting with the backend. */
   t, n, r, i) {
-    var _this18 = this;
+    var _this16 = this;
     this.localStore = e, this.datastore = t, this.asyncQueue = n, this.remoteSyncer = {},
     /**
      * A list of up to MAX_PENDING_WRITES writes that we have fetched from the
@@ -26951,25 +26951,25 @@ class __PRIVATE_RemoteStoreImpl {
      * the streams are created during construction of RemoteStore.
      */
     this.B_ = [], this.k_ = i, this.k_._o(e => {
-      n.enqueueAndForget( /*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+      n.enqueueAndForget(/*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
         // Porting Note: Unlike iOS, `restartNetwork()` is called even when the
         // network becomes unreachable as we don't have any other way to tear
         // down our streams.
-        __PRIVATE_canUseNetwork(_this18) && (__PRIVATE_logDebug("RemoteStore", "Restarting streams for network reachability change."), yield function () {
+        __PRIVATE_canUseNetwork(_this16) && (__PRIVATE_logDebug("RemoteStore", "Restarting streams for network reachability change."), yield function () {
           var _PRIVATE_restartNetwork = (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (e) {
             const t = __PRIVATE_debugCast(e);
             t.L_.add(4 /* OfflineCause.ConnectivityChange */), yield __PRIVATE_disableNetworkInternal(t), t.q_.set("Unknown" /* OnlineState.Unknown */), t.L_.delete(4 /* OfflineCause.ConnectivityChange */), yield __PRIVATE_enableNetworkInternal(t);
           });
-          function __PRIVATE_restartNetwork(_x15) {
+          function __PRIVATE_restartNetwork(_x13) {
             return _PRIVATE_restartNetwork.apply(this, arguments);
           }
           return __PRIVATE_restartNetwork;
-        }()(_this18));
+        }()(_this16));
       }));
     }), this.q_ = new __PRIVATE_OnlineStateTracker(n, r);
   }
 }
-function __PRIVATE_enableNetworkInternal(_x16) {
+function __PRIVATE_enableNetworkInternal(_x14) {
   return _PRIVATE_enableNetworkInternal.apply(this, arguments);
 }
 /**
@@ -26978,11 +26978,11 @@ function __PRIVATE_enableNetworkInternal(_x16) {
  */
 function _PRIVATE_enableNetworkInternal() {
   _PRIVATE_enableNetworkInternal = (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (e) {
-    if (__PRIVATE_canUseNetwork(e)) for (const t of e.B_) yield t( /* enabled= */!0);
+    if (__PRIVATE_canUseNetwork(e)) for (const t of e.B_) yield t(/* enabled= */!0);
   });
   return _PRIVATE_enableNetworkInternal.apply(this, arguments);
 }
-function __PRIVATE_disableNetworkInternal(_x17) {
+function __PRIVATE_disableNetworkInternal(_x15) {
   return _PRIVATE_disableNetworkInternal.apply(this, arguments);
 }
 /**
@@ -26991,7 +26991,7 @@ function __PRIVATE_disableNetworkInternal(_x17) {
  */
 function _PRIVATE_disableNetworkInternal() {
   _PRIVATE_disableNetworkInternal = (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (e) {
-    for (const t of e.B_) yield t( /* enabled= */!1);
+    for (const t of e.B_) yield t(/* enabled= */!1);
   });
   return _PRIVATE_disableNetworkInternal.apply(this, arguments);
 }
@@ -27059,7 +27059,7 @@ function __PRIVATE_canUseNetwork(e) {
 function __PRIVATE_cleanUpWatchStreamState(e) {
   e.Q_ = void 0;
 }
-function __PRIVATE_onWatchStreamConnected(_x18) {
+function __PRIVATE_onWatchStreamConnected(_x16) {
   return _PRIVATE_onWatchStreamConnected.apply(this, arguments);
 }
 function _PRIVATE_onWatchStreamConnected() {
@@ -27069,7 +27069,7 @@ function _PRIVATE_onWatchStreamConnected() {
   });
   return _PRIVATE_onWatchStreamConnected.apply(this, arguments);
 }
-function __PRIVATE_onWatchStreamOpen(_x19) {
+function __PRIVATE_onWatchStreamOpen(_x17) {
   return _PRIVATE_onWatchStreamOpen.apply(this, arguments);
 }
 function _PRIVATE_onWatchStreamOpen() {
@@ -27080,7 +27080,7 @@ function _PRIVATE_onWatchStreamOpen() {
   });
   return _PRIVATE_onWatchStreamOpen.apply(this, arguments);
 }
-function __PRIVATE_onWatchStreamClose(_x20, _x21) {
+function __PRIVATE_onWatchStreamClose(_x18, _x19) {
   return _PRIVATE_onWatchStreamClose.apply(this, arguments);
 }
 function _PRIVATE_onWatchStreamClose() {
@@ -27095,7 +27095,7 @@ function _PRIVATE_onWatchStreamClose() {
   });
   return _PRIVATE_onWatchStreamClose.apply(this, arguments);
 }
-function __PRIVATE_onWatchStreamChange(_x22, _x23, _x24) {
+function __PRIVATE_onWatchStreamChange(_x20, _x21, _x22) {
   return _PRIVATE_onWatchStreamChange.apply(this, arguments);
 }
 /**
@@ -27122,7 +27122,7 @@ function _PRIVATE_onWatchStreamChange() {
             // A watched target might have been removed already.
             e.N_.has(r) && (yield e.remoteSyncer.rejectListen(r, n), e.N_.delete(r), e.Q_.removeTarget(r));
           });
-          function __PRIVATE_handleTargetError(_x135, _x136) {
+          function __PRIVATE_handleTargetError(_x133, _x134) {
             return _PRIVATE_handleTargetError.apply(this, arguments);
           }
           return __PRIVATE_handleTargetError;
@@ -27140,47 +27140,54 @@ function _PRIVATE_onWatchStreamChange() {
         __PRIVATE_logDebug("RemoteStore", "Failed to remove targets %s: %s ", t.targetIds.join(","), n), yield __PRIVATE_disableNetworkUntilRecovery(e, n);
       } else if (t instanceof __PRIVATE_DocumentWatchChange ? e.Q_.Ke(t) : t instanceof __PRIVATE_ExistenceFilterChange ? e.Q_.He(t) : e.Q_.We(t), !n.isEqual(SnapshotVersion.min())) try {
       const t = yield __PRIVATE_localStoreGetLastRemoteSnapshotVersion(e.localStore);
-      n.compareTo(t) >= 0 && ( // We have received a target change with a global snapshot if the snapshot
+      n.compareTo(t) >= 0 && (// We have received a target change with a global snapshot if the snapshot
       // version is not equal to SnapshotVersion.min().
-      yield function __PRIVATE_raiseWatchSnapshot(e, t) {
-        const n = e.Q_.rt(t);
-        // Update in-memory resume tokens. LocalStore will update the
-        // persistent view of these when applying the completed RemoteEvent.
-        return n.targetChanges.forEach((n, r) => {
-          if (n.resumeToken.approximateByteSize() > 0) {
-            const i = e.N_.get(r);
-            // A watched target might have been removed already.
-            i && e.N_.set(r, i.withResumeToken(n.resumeToken, t));
-          }
-        }),
-        // Re-establish listens for the targets that have been invalidated by
-        // existence filter mismatches.
-        n.targetMismatches.forEach((t, n) => {
-          const r = e.N_.get(t);
-          if (!r)
-            // A watched target might have been removed already.
-            return;
-          // Clear the resume token for the target, since we're in a known mismatch
-          // state.
-          e.N_.set(t, r.withResumeToken(ByteString.EMPTY_BYTE_STRING, r.snapshotVersion)),
-          // Cause a hard reset by unwatching and rewatching immediately, but
-          // deliberately don't send a resume token so that we get a full update.
-          __PRIVATE_sendUnwatchRequest(e, t);
-          // Mark the target we send as being on behalf of an existence filter
-          // mismatch, but don't actually retain that in listenTargets. This ensures
-          // that we flag the first re-listen this way without impacting future
-          // listens of this target (that might happen e.g. on reconnect).
-          const i = new TargetData(r.target, t, n, r.sequenceNumber);
-          __PRIVATE_sendWatchRequest(e, i);
-        }), e.remoteSyncer.applyRemoteEvent(n);
-      }(e, n));
+      yield (
+        /**
+        * Takes a batch of changes from the Datastore, repackages them as a
+        * RemoteEvent, and passes that on to the listener, which is typically the
+        * SyncEngine.
+        */
+        function __PRIVATE_raiseWatchSnapshot(e, t) {
+          const n = e.Q_.rt(t);
+          // Update in-memory resume tokens. LocalStore will update the
+          // persistent view of these when applying the completed RemoteEvent.
+          return n.targetChanges.forEach((n, r) => {
+            if (n.resumeToken.approximateByteSize() > 0) {
+              const i = e.N_.get(r);
+              // A watched target might have been removed already.
+              i && e.N_.set(r, i.withResumeToken(n.resumeToken, t));
+            }
+          }),
+          // Re-establish listens for the targets that have been invalidated by
+          // existence filter mismatches.
+          n.targetMismatches.forEach((t, n) => {
+            const r = e.N_.get(t);
+            if (!r)
+              // A watched target might have been removed already.
+              return;
+            // Clear the resume token for the target, since we're in a known mismatch
+            // state.
+            e.N_.set(t, r.withResumeToken(ByteString.EMPTY_BYTE_STRING, r.snapshotVersion)),
+            // Cause a hard reset by unwatching and rewatching immediately, but
+            // deliberately don't send a resume token so that we get a full update.
+            __PRIVATE_sendUnwatchRequest(e, t);
+            // Mark the target we send as being on behalf of an existence filter
+            // mismatch, but don't actually retain that in listenTargets. This ensures
+            // that we flag the first re-listen this way without impacting future
+            // listens of this target (that might happen e.g. on reconnect).
+            const i = new TargetData(r.target, t, n, r.sequenceNumber);
+            __PRIVATE_sendWatchRequest(e, i);
+          }), e.remoteSyncer.applyRemoteEvent(n);
+        }(e, n)
+      ));
     } catch (t) {
       __PRIVATE_logDebug("RemoteStore", "Failed to raise snapshot:", t), yield __PRIVATE_disableNetworkUntilRecovery(e, t);
     }
   });
   return _PRIVATE_onWatchStreamChange.apply(this, arguments);
 }
-function __PRIVATE_disableNetworkUntilRecovery(_x25, _x26, _x27) {
+function __PRIVATE_disableNetworkUntilRecovery(_x23, _x24, _x25) {
   return _PRIVATE_disableNetworkUntilRecovery.apply(this, arguments);
 }
 /**
@@ -27197,7 +27204,7 @@ function _PRIVATE_disableNetworkUntilRecovery() {
     // RemoteStore only has access to persistence through LocalStore.
     n = () => __PRIVATE_localStoreGetLastRemoteSnapshotVersion(e.localStore)),
     // Probe IndexedDB periodically and re-enable network
-    e.asyncQueue.enqueueRetryable( /*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    e.asyncQueue.enqueueRetryable(/*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       __PRIVATE_logDebug("RemoteStore", "Retrying IndexedDB access"), yield n(), e.L_.delete(1 /* OfflineCause.IndexedDbFailed */), yield __PRIVATE_enableNetworkInternal(e);
     }));
   });
@@ -27206,7 +27213,7 @@ function _PRIVATE_disableNetworkUntilRecovery() {
 function __PRIVATE_executeWithRecovery(e, t) {
   return t().catch(n => __PRIVATE_disableNetworkUntilRecovery(e, n, t));
 }
-function __PRIVATE_fillWritePipeline(_x28) {
+function __PRIVATE_fillWritePipeline(_x26) {
   return _PRIVATE_fillWritePipeline.apply(this, arguments);
 }
 /**
@@ -27251,7 +27258,7 @@ function __PRIVATE_shouldStartWriteStream(e) {
 function __PRIVATE_startWriteStream(e) {
   __PRIVATE_ensureWriteStream(e).start();
 }
-function __PRIVATE_onWriteStreamOpen(_x29) {
+function __PRIVATE_onWriteStreamOpen(_x27) {
   return _PRIVATE_onWriteStreamOpen.apply(this, arguments);
 }
 function _PRIVATE_onWriteStreamOpen() {
@@ -27260,7 +27267,7 @@ function _PRIVATE_onWriteStreamOpen() {
   });
   return _PRIVATE_onWriteStreamOpen.apply(this, arguments);
 }
-function __PRIVATE_onWriteHandshakeComplete(_x30) {
+function __PRIVATE_onWriteHandshakeComplete(_x28) {
   return _PRIVATE_onWriteHandshakeComplete.apply(this, arguments);
 }
 function _PRIVATE_onWriteHandshakeComplete() {
@@ -27271,7 +27278,7 @@ function _PRIVATE_onWriteHandshakeComplete() {
   });
   return _PRIVATE_onWriteHandshakeComplete.apply(this, arguments);
 }
-function __PRIVATE_onMutationResult(_x31, _x32, _x33) {
+function __PRIVATE_onMutationResult(_x29, _x30, _x31) {
   return _PRIVATE_onMutationResult.apply(this, arguments);
 }
 function _PRIVATE_onMutationResult() {
@@ -27284,14 +27291,14 @@ function _PRIVATE_onMutationResult() {
   });
   return _PRIVATE_onMutationResult.apply(this, arguments);
 }
-function __PRIVATE_onWriteStreamClose(_x34, _x35) {
+function __PRIVATE_onWriteStreamClose(_x32, _x33) {
   return _PRIVATE_onWriteStreamClose.apply(this, arguments);
 }
 function _PRIVATE_onWriteStreamClose() {
   _PRIVATE_onWriteStreamClose = (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (e, t) {
     // If the write stream closed after the write handshake completes, a write
     // operation failed and we fail the pending operation.
-    t && __PRIVATE_ensureWriteStream(e).V_ && ( // This error affects the actual write.
+    t && __PRIVATE_ensureWriteStream(e).V_ && (// This error affects the actual write.
     yield function () {
       var _PRIVATE_handleWriteError = (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (e, t) {
         // Only handle permanent errors here. If it's transient, just let the retry
@@ -27310,7 +27317,7 @@ function _PRIVATE_onWriteStreamClose() {
           yield __PRIVATE_fillWritePipeline(e);
         }
       });
-      function __PRIVATE_handleWriteError(_x137, _x138) {
+      function __PRIVATE_handleWriteError(_x135, _x136) {
         return _PRIVATE_handleWriteError.apply(this, arguments);
       }
       return __PRIVATE_handleWriteError;
@@ -27321,7 +27328,7 @@ function _PRIVATE_onWriteStreamClose() {
   });
   return _PRIVATE_onWriteStreamClose.apply(this, arguments);
 }
-function __PRIVATE_remoteStoreHandleCredentialChange(_x36, _x37) {
+function __PRIVATE_remoteStoreHandleCredentialChange(_x34, _x35) {
   return _PRIVATE_remoteStoreHandleCredentialChange.apply(this, arguments);
 }
 /**
@@ -27341,7 +27348,7 @@ function _PRIVATE_remoteStoreHandleCredentialChange() {
   });
   return _PRIVATE_remoteStoreHandleCredentialChange.apply(this, arguments);
 }
-function __PRIVATE_remoteStoreApplyPrimaryState(_x38, _x39) {
+function __PRIVATE_remoteStoreApplyPrimaryState(_x36, _x37) {
   return _PRIVATE_remoteStoreApplyPrimaryState.apply(this, arguments);
 }
 /**
@@ -27386,12 +27393,12 @@ function __PRIVATE_ensureWatchStream(e) {
     Ro: __PRIVATE_onWatchStreamOpen.bind(null, e),
     mo: __PRIVATE_onWatchStreamClose.bind(null, e),
     d_: __PRIVATE_onWatchStreamChange.bind(null, e)
-  }), e.B_.push( /*#__PURE__*/function () {
-    var _ref10 = (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (t) {
+  }), e.B_.push(/*#__PURE__*/function () {
+    var _ref0 = (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (t) {
       t ? (e.K_.s_(), __PRIVATE_shouldStartWatchStream(e) ? __PRIVATE_startWatchStream(e) : e.q_.set("Unknown" /* OnlineState.Unknown */)) : (yield e.K_.stop(), __PRIVATE_cleanUpWatchStreamState(e));
     });
-    return function (_x40) {
-      return _ref10.apply(this, arguments);
+    return function (_x38) {
+      return _ref0.apply(this, arguments);
     };
   }())), e.K_;
 }
@@ -27416,13 +27423,13 @@ function __PRIVATE_ensureWriteStream(e) {
     mo: __PRIVATE_onWriteStreamClose.bind(null, e),
     f_: __PRIVATE_onWriteHandshakeComplete.bind(null, e),
     g_: __PRIVATE_onMutationResult.bind(null, e)
-  }), e.B_.push( /*#__PURE__*/function () {
-    var _ref11 = (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (t) {
+  }), e.B_.push(/*#__PURE__*/function () {
+    var _ref1 = (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (t) {
       t ? (e.U_.s_(), // This will start the write stream if necessary.
       yield __PRIVATE_fillWritePipeline(e)) : (yield e.U_.stop(), e.O_.length > 0 && (__PRIVATE_logDebug("RemoteStore", `Stopping write stream with ${e.O_.length} pending writes`), e.O_ = []));
     });
-    return function (_x41) {
-      return _ref11.apply(this, arguments);
+    return function (_x39) {
+      return _ref1.apply(this, arguments);
     };
   }())), e.U_;
 }
@@ -27763,7 +27770,7 @@ class __PRIVATE_EventManagerImpl {
 function __PRIVATE_newQueriesObjectMap() {
   return new ObjectMap(e => __PRIVATE_canonifyQuery(e), __PRIVATE_queryEquals);
 }
-function __PRIVATE_eventManagerListen(_x42, _x43) {
+function __PRIVATE_eventManagerListen(_x40, _x41) {
   return _PRIVATE_eventManagerListen.apply(this, arguments);
 }
 function _PRIVATE_eventManagerListen() {
@@ -27798,7 +27805,7 @@ function _PRIVATE_eventManagerListen() {
   });
   return _PRIVATE_eventManagerListen.apply(this, arguments);
 }
-function __PRIVATE_eventManagerUnlisten(_x44, _x45) {
+function __PRIVATE_eventManagerUnlisten(_x42, _x43) {
   return _PRIVATE_eventManagerUnlisten.apply(this, arguments);
 }
 function _PRIVATE_eventManagerUnlisten() {
@@ -28045,14 +28052,14 @@ class __PRIVATE_BundleLoader {
    * Update the progress to 'Success' and return the updated progress.
    */
   complete() {
-    var _this19 = this;
+    var _this17 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      const e = yield __PRIVATE_localStoreApplyBundledDocuments(_this19.localStore, new __PRIVATE_BundleConverterImpl(_this19.serializer), _this19.documents, _this19.ca.id),
-        t = _this19.ha(_this19.documents);
-      for (const e of _this19.queries) yield __PRIVATE_localStoreSaveNamedQuery(_this19.localStore, e, t.get(e.name));
-      return _this19.progress.taskState = "Success", {
-        progress: _this19.progress,
-        Pa: _this19.collectionGroups,
+      const e = yield __PRIVATE_localStoreApplyBundledDocuments(_this17.localStore, new __PRIVATE_BundleConverterImpl(_this17.serializer), _this17.documents, _this17.ca.id),
+        t = _this17.ha(_this17.documents);
+      for (const e of _this17.queries) yield __PRIVATE_localStoreSaveNamedQuery(_this17.localStore, e, t.get(e.name));
+      return _this17.progress.taskState = "Success", {
+        progress: _this17.progress,
+        Pa: _this17.collectionGroups,
         Ia: e
       };
     })();
@@ -28468,7 +28475,7 @@ class __PRIVATE_SyncEngineImpl {
  * server. All the subsequent view snapshots or errors are sent to the
  * subscribed handlers. Returns the initial snapshot.
  */
-function __PRIVATE_syncEngineListen(_x46, _x47) {
+function __PRIVATE_syncEngineListen(_x44, _x45) {
   return _PRIVATE_syncEngineListen.apply(this, arguments);
 }
 /** Query has been listening to the cache, and tries to initiate the remote store listen */
@@ -28488,7 +28495,7 @@ function _PRIVATE_syncEngineListen() {
   });
   return _PRIVATE_syncEngineListen.apply(this, arguments);
 }
-function __PRIVATE_triggerRemoteStoreListen(_x48, _x49) {
+function __PRIVATE_triggerRemoteStoreListen(_x46, _x47) {
   return _PRIVATE_triggerRemoteStoreListen.apply(this, arguments);
 }
 function _PRIVATE_triggerRemoteStoreListen() {
@@ -28498,7 +28505,7 @@ function _PRIVATE_triggerRemoteStoreListen() {
   });
   return _PRIVATE_triggerRemoteStoreListen.apply(this, arguments);
 }
-function __PRIVATE_allocateTargetAndMaybeListen(_x50, _x51, _x52, _x53) {
+function __PRIVATE_allocateTargetAndMaybeListen(_x48, _x49, _x50, _x51) {
   return _PRIVATE_allocateTargetAndMaybeListen.apply(this, arguments);
 }
 /**
@@ -28515,7 +28522,7 @@ function _PRIVATE_allocateTargetAndMaybeListen() {
   });
   return _PRIVATE_allocateTargetAndMaybeListen.apply(this, arguments);
 }
-function __PRIVATE_initializeViewAndComputeSnapshot(_x54, _x55, _x56, _x57, _x58) {
+function __PRIVATE_initializeViewAndComputeSnapshot(_x52, _x53, _x54, _x55, _x56) {
   return _PRIVATE_initializeViewAndComputeSnapshot.apply(this, arguments);
 }
 /** Stops listening to the query. */
@@ -28539,7 +28546,7 @@ function _PRIVATE_initializeViewAndComputeSnapshot() {
           _ = t.view.applyChanges(i, /* limboResolutionEnabled= */e.isPrimaryClient, s, o);
         return __PRIVATE_updateTrackedLimbos(e, t.targetId, _.wa), _.snapshot;
       });
-      function __PRIVATE_applyDocChanges(_x139, _x140, _x141, _x142) {
+      function __PRIVATE_applyDocChanges(_x137, _x138, _x139, _x140) {
         return _PRIVATE_applyDocChanges.apply(this, arguments);
       }
       return __PRIVATE_applyDocChanges;
@@ -28555,7 +28562,7 @@ function _PRIVATE_initializeViewAndComputeSnapshot() {
   });
   return _PRIVATE_initializeViewAndComputeSnapshot.apply(this, arguments);
 }
-function __PRIVATE_syncEngineUnlisten(_x59, _x60, _x61) {
+function __PRIVATE_syncEngineUnlisten(_x57, _x58, _x59) {
   return _PRIVATE_syncEngineUnlisten.apply(this, arguments);
 }
 /** Unlistens to the remote store while still listening to the cache. */
@@ -28577,7 +28584,7 @@ function _PRIVATE_syncEngineUnlisten() {
   });
   return _PRIVATE_syncEngineUnlisten.apply(this, arguments);
 }
-function __PRIVATE_triggerRemoteStoreUnlisten(_x62, _x63) {
+function __PRIVATE_triggerRemoteStoreUnlisten(_x60, _x61) {
   return _PRIVATE_triggerRemoteStoreUnlisten.apply(this, arguments);
 }
 /**
@@ -28602,7 +28609,7 @@ function _PRIVATE_triggerRemoteStoreUnlisten() {
   });
   return _PRIVATE_triggerRemoteStoreUnlisten.apply(this, arguments);
 }
-function __PRIVATE_syncEngineWrite(_x64, _x65, _x66) {
+function __PRIVATE_syncEngineWrite(_x62, _x63, _x64) {
   return _PRIVATE_syncEngineWrite.apply(this, arguments);
 }
 /**
@@ -28677,7 +28684,7 @@ function _PRIVATE_syncEngineWrite() {
   });
   return _PRIVATE_syncEngineWrite.apply(this, arguments);
 }
-function __PRIVATE_syncEngineApplyRemoteEvent(_x67, _x68) {
+function __PRIVATE_syncEngineApplyRemoteEvent(_x65, _x66) {
   return _PRIVATE_syncEngineApplyRemoteEvent.apply(this, arguments);
 }
 /**
@@ -28738,7 +28745,7 @@ function __PRIVATE_syncEngineApplyOnlineStateChange(e, t, n) {
  * Nearly always this will be an indication that the user is no longer
  * authorized to see the data matching the target.
  */
-function __PRIVATE_syncEngineRejectListen(_x69, _x70, _x71) {
+function __PRIVATE_syncEngineRejectListen(_x67, _x68, _x69) {
   return _PRIVATE_syncEngineRejectListen.apply(this, arguments);
 }
 function _PRIVATE_syncEngineRejectListen() {
@@ -28773,7 +28780,7 @@ function _PRIVATE_syncEngineRejectListen() {
   });
   return _PRIVATE_syncEngineRejectListen.apply(this, arguments);
 }
-function __PRIVATE_syncEngineApplySuccessfulWrite(_x72, _x73) {
+function __PRIVATE_syncEngineApplySuccessfulWrite(_x70, _x71) {
   return _PRIVATE_syncEngineApplySuccessfulWrite.apply(this, arguments);
 }
 function _PRIVATE_syncEngineApplySuccessfulWrite() {
@@ -28793,7 +28800,7 @@ function _PRIVATE_syncEngineApplySuccessfulWrite() {
   });
   return _PRIVATE_syncEngineApplySuccessfulWrite.apply(this, arguments);
 }
-function __PRIVATE_syncEngineRejectFailedWrite(_x74, _x75, _x76) {
+function __PRIVATE_syncEngineRejectFailedWrite(_x72, _x73, _x74) {
   return _PRIVATE_syncEngineRejectFailedWrite.apply(this, arguments);
 }
 /**
@@ -28828,7 +28835,7 @@ function _PRIVATE_syncEngineRejectFailedWrite() {
   });
   return _PRIVATE_syncEngineRejectFailedWrite.apply(this, arguments);
 }
-function __PRIVATE_syncEngineRegisterPendingWritesCallback(_x77, _x78) {
+function __PRIVATE_syncEngineRegisterPendingWritesCallback(_x75, _x76) {
   return _PRIVATE_syncEngineRegisterPendingWritesCallback.apply(this, arguments);
 }
 /**
@@ -28922,7 +28929,7 @@ function __PRIVATE_pumpEnqueuedLimboResolutions(e) {
     e.Na.set(r, new LimboResolution(n)), e.Oa = e.Oa.insert(n, r), __PRIVATE_remoteStoreListen(e.remoteStore, new TargetData(__PRIVATE_queryToTarget(__PRIVATE_newQueryForPath(n.path)), r, "TargetPurposeLimboResolution" /* TargetPurpose.LimboResolution */, __PRIVATE_ListenSequence.oe));
   }
 }
-function __PRIVATE_syncEngineEmitNewSnapsAndNotifyLocalStore(_x79, _x80, _x81) {
+function __PRIVATE_syncEngineEmitNewSnapsAndNotifyLocalStore(_x77, _x78, _x79) {
   return _PRIVATE_syncEngineEmitNewSnapsAndNotifyLocalStore.apply(this, arguments);
 }
 function _PRIVATE_syncEngineEmitNewSnapsAndNotifyLocalStore() {
@@ -28974,7 +28981,7 @@ function _PRIVATE_syncEngineEmitNewSnapsAndNotifyLocalStore() {
           }
         }
       });
-      function __PRIVATE_localStoreNotifyLocalViewChanges(_x143, _x144) {
+      function __PRIVATE_localStoreNotifyLocalViewChanges(_x141, _x142) {
         return _PRIVATE_localStoreNotifyLocalViewChanges.apply(this, arguments);
       }
       return __PRIVATE_localStoreNotifyLocalViewChanges;
@@ -28982,7 +28989,7 @@ function _PRIVATE_syncEngineEmitNewSnapsAndNotifyLocalStore() {
   });
   return _PRIVATE_syncEngineEmitNewSnapsAndNotifyLocalStore.apply(this, arguments);
 }
-function __PRIVATE_syncEngineHandleCredentialChange(_x82, _x83) {
+function __PRIVATE_syncEngineHandleCredentialChange(_x80, _x81) {
   return _PRIVATE_syncEngineHandleCredentialChange.apply(this, arguments);
 }
 function _PRIVATE_syncEngineHandleCredentialChange() {
@@ -29026,7 +29033,7 @@ function __PRIVATE_syncEngineGetRemoteKeysForTarget(e, t) {
  * Reconcile the list of synced documents in an existing view with those
  * from persistence.
  */
-function __PRIVATE_synchronizeViewAndComputeSnapshot(_x84, _x85) {
+function __PRIVATE_synchronizeViewAndComputeSnapshot(_x82, _x83) {
   return _PRIVATE_synchronizeViewAndComputeSnapshot.apply(this, arguments);
 }
 /**
@@ -29043,7 +29050,7 @@ function _PRIVATE_synchronizeViewAndComputeSnapshot() {
   });
   return _PRIVATE_synchronizeViewAndComputeSnapshot.apply(this, arguments);
 }
-function __PRIVATE_syncEngineSynchronizeWithChangedDocuments(_x86, _x87) {
+function __PRIVATE_syncEngineSynchronizeWithChangedDocuments(_x84, _x85) {
   return _PRIVATE_syncEngineSynchronizeWithChangedDocuments.apply(this, arguments);
 }
 /** Applies a mutation state to an existing batch.  */
@@ -29055,7 +29062,7 @@ function _PRIVATE_syncEngineSynchronizeWithChangedDocuments() {
   });
   return _PRIVATE_syncEngineSynchronizeWithChangedDocuments.apply(this, arguments);
 }
-function __PRIVATE_syncEngineApplyBatchState(_x88, _x89, _x90, _x91) {
+function __PRIVATE_syncEngineApplyBatchState(_x86, _x87, _x88, _x89) {
   return _PRIVATE_syncEngineApplyBatchState.apply(this, arguments);
 }
 /** Applies a query target change from a different tab. */
@@ -29092,7 +29099,7 @@ function _PRIVATE_syncEngineApplyBatchState() {
   });
   return _PRIVATE_syncEngineApplyBatchState.apply(this, arguments);
 }
-function __PRIVATE_syncEngineApplyPrimaryState(_x92, _x93) {
+function __PRIVATE_syncEngineApplyPrimaryState(_x90, _x91) {
   return _PRIVATE_syncEngineApplyPrimaryState.apply(this, arguments);
 }
 function _PRIVATE_syncEngineApplyPrimaryState() {
@@ -29138,7 +29145,7 @@ function _PRIVATE_syncEngineApplyPrimaryState() {
   });
   return _PRIVATE_syncEngineApplyPrimaryState.apply(this, arguments);
 }
-function __PRIVATE_synchronizeQueryViewsAndRaiseSnapshots(_x94, _x95, _x96) {
+function __PRIVATE_synchronizeQueryViewsAndRaiseSnapshots(_x92, _x93, _x94) {
   return _PRIVATE_synchronizeQueryViewsAndRaiseSnapshots.apply(this, arguments);
 }
 /**
@@ -29197,7 +29204,7 @@ function __PRIVATE_syncEngineGetActiveClients(e) {
 
 /** Applies a query target change from a different tab. */
 // PORTING NOTE: Multi-Tab only.
-function __PRIVATE_syncEngineApplyTargetState(_x97, _x98, _x99, _x100) {
+function __PRIVATE_syncEngineApplyTargetState(_x95, _x96, _x97, _x98) {
   return _PRIVATE_syncEngineApplyTargetState.apply(this, arguments);
 }
 /** Adds or removes Watch targets for queries from different tabs. */
@@ -29227,7 +29234,7 @@ function _PRIVATE_syncEngineApplyTargetState() {
   });
   return _PRIVATE_syncEngineApplyTargetState.apply(this, arguments);
 }
-function __PRIVATE_syncEngineApplyActiveTargetsChange(_x101, _x102, _x103) {
+function __PRIVATE_syncEngineApplyActiveTargetsChange(_x99, _x100, _x101) {
   return _PRIVATE_syncEngineApplyActiveTargetsChange.apply(this, arguments);
 }
 function _PRIVATE_syncEngineApplyActiveTargetsChange() {
@@ -29246,7 +29253,7 @@ function _PRIVATE_syncEngineApplyActiveTargetsChange() {
       for (const e of n)
       // Check that the target is still active since the target might have been
       // removed if it has been rejected by the backend.
-      r.Ma.has(e) && ( // Release queries that are still active.
+      r.Ma.has(e) && (// Release queries that are still active.
       yield __PRIVATE_localStoreReleaseTarget(r.localStore, e, /* keepPersistedTargetData */!1).then(() => {
         __PRIVATE_remoteStoreUnlisten(r.remoteStore, e), __PRIVATE_removeAndCleanupTarget(r, e);
       }).catch(__PRIVATE_ignoreIfPrimaryLeaseLoss));
@@ -29274,7 +29281,7 @@ function __PRIVATE_syncEngineEnsureWriteCallbacks(e) {
 function __PRIVATE_syncEngineLoadBundle(e, t, n) {
   const r = __PRIVATE_debugCast(e);
   // eslint-disable-next-line @typescript-eslint/no-floating-promises
-  ( /** Loads a bundle and returns the list of affected collection groups. */function () {
+  (/** Loads a bundle and returns the list of affected collection groups. */function () {
     var _PRIVATE_loadBundleImpl = (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (e, t, n) {
       try {
         const r = yield t.getMetadata();
@@ -29315,7 +29322,7 @@ function __PRIVATE_syncEngineLoadBundle(e, t, n) {
         return __PRIVATE_logWarn("SyncEngine", `Loading bundle failed with ${e}`), n._failWith(e), Promise.resolve(new Set());
       }
     });
-    function __PRIVATE_loadBundleImpl(_x104, _x105, _x106) {
+    function __PRIVATE_loadBundleImpl(_x102, _x103, _x104) {
       return _PRIVATE_loadBundleImpl.apply(this, arguments);
     }
     return __PRIVATE_loadBundleImpl;
@@ -29349,9 +29356,9 @@ class __PRIVATE_MemoryOfflineComponentProvider {
     this.kind = "memory", this.synchronizeTabs = !1;
   }
   initialize(e) {
-    var _this20 = this;
+    var _this18 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      _this20.serializer = __PRIVATE_newSerializer(e.databaseInfo.databaseId), _this20.sharedClientState = _this20.Wa(e), _this20.persistence = _this20.Ga(e), yield _this20.persistence.start(), _this20.localStore = _this20.za(e), _this20.gcScheduler = _this20.ja(e, _this20.localStore), _this20.indexBackfillerScheduler = _this20.Ha(e, _this20.localStore);
+      _this18.serializer = __PRIVATE_newSerializer(e.databaseInfo.databaseId), _this18.sharedClientState = _this18.Wa(e), _this18.persistence = _this18.Ga(e), yield _this18.persistence.start(), _this18.localStore = _this18.za(e), _this18.gcScheduler = _this18.ja(e, _this18.localStore), _this18.indexBackfillerScheduler = _this18.Ha(e, _this18.localStore);
     })();
   }
   ja(e, t) {
@@ -29370,10 +29377,10 @@ class __PRIVATE_MemoryOfflineComponentProvider {
     return new __PRIVATE_MemorySharedClientState();
   }
   terminate() {
-    var _this21 = this;
+    var _this19 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       var e, t;
-      null === (e = _this21.gcScheduler) || void 0 === e || e.stop(), null === (t = _this21.indexBackfillerScheduler) || void 0 === t || t.stop(), _this21.sharedClientState.shutdown(), yield _this21.persistence.shutdown();
+      null === (e = _this19.gcScheduler) || void 0 === e || e.stop(), null === (t = _this19.indexBackfillerScheduler) || void 0 === t || t.stop(), _this19.sharedClientState.shutdown(), yield _this19.persistence.shutdown();
     })();
   }
 }
@@ -29404,12 +29411,12 @@ class __PRIVATE_IndexedDbOfflineComponentProvider extends __PRIVATE_MemoryOfflin
   }
   initialize(e) {
     var _superprop_getInitialize = () => super.initialize,
-      _this22 = this;
+      _this20 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      yield _superprop_getInitialize().call(_this22, e), yield _this22.Ja.initialize(_this22, e), // Enqueue writes from a previous session
-      yield __PRIVATE_syncEngineEnsureWriteCallbacks(_this22.Ja.syncEngine), yield __PRIVATE_fillWritePipeline(_this22.Ja.remoteStore), // NOTE: This will immediately call the listener, so we make sure to
+      yield _superprop_getInitialize().call(_this20, e), yield _this20.Ja.initialize(_this20, e), // Enqueue writes from a previous session
+      yield __PRIVATE_syncEngineEnsureWriteCallbacks(_this20.Ja.syncEngine), yield __PRIVATE_fillWritePipeline(_this20.Ja.remoteStore), // NOTE: This will immediately call the listener, so we make sure to
       // set it after localStore / remoteStore are started.
-      yield _this22.persistence.yi(() => (_this22.gcScheduler && !_this22.gcScheduler.started && _this22.gcScheduler.start(), _this22.indexBackfillerScheduler && !_this22.indexBackfillerScheduler.started && _this22.indexBackfillerScheduler.start(), Promise.resolve()));
+      yield _this20.persistence.yi(() => (_this20.gcScheduler && !_this20.gcScheduler.started && _this20.gcScheduler.start(), _this20.indexBackfillerScheduler && !_this20.indexBackfillerScheduler.started && _this20.indexBackfillerScheduler.start(), Promise.resolve()));
     })();
   }
   za(e) {
@@ -29447,24 +29454,24 @@ class __PRIVATE_MultiTabOfflineComponentProvider extends __PRIVATE_IndexedDbOffl
   }
   initialize(e) {
     var _superprop_getInitialize2 = () => super.initialize,
-      _this23 = this;
+      _this21 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      yield _superprop_getInitialize2().call(_this23, e);
-      const t = _this23.Ja.syncEngine;
-      _this23.sharedClientState instanceof __PRIVATE_WebStorageSharedClientState && (_this23.sharedClientState.syncEngine = {
+      yield _superprop_getInitialize2().call(_this21, e);
+      const t = _this21.Ja.syncEngine;
+      _this21.sharedClientState instanceof __PRIVATE_WebStorageSharedClientState && (_this21.sharedClientState.syncEngine = {
         no: __PRIVATE_syncEngineApplyBatchState.bind(null, t),
         ro: __PRIVATE_syncEngineApplyTargetState.bind(null, t),
         io: __PRIVATE_syncEngineApplyActiveTargetsChange.bind(null, t),
         Qi: __PRIVATE_syncEngineGetActiveClients.bind(null, t),
         eo: __PRIVATE_syncEngineSynchronizeWithChangedDocuments.bind(null, t)
-      }, yield _this23.sharedClientState.start()), // NOTE: This will immediately call the listener, so we make sure to
+      }, yield _this21.sharedClientState.start()), // NOTE: This will immediately call the listener, so we make sure to
       // set it after localStore / remoteStore are started.
-      yield _this23.persistence.yi( /*#__PURE__*/function () {
-        var _ref12 = (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (e) {
-          yield __PRIVATE_syncEngineApplyPrimaryState(_this23.Ja.syncEngine, e), _this23.gcScheduler && (e && !_this23.gcScheduler.started ? _this23.gcScheduler.start() : e || _this23.gcScheduler.stop()), _this23.indexBackfillerScheduler && (e && !_this23.indexBackfillerScheduler.started ? _this23.indexBackfillerScheduler.start() : e || _this23.indexBackfillerScheduler.stop());
+      yield _this21.persistence.yi(/*#__PURE__*/function () {
+        var _ref10 = (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (e) {
+          yield __PRIVATE_syncEngineApplyPrimaryState(_this21.Ja.syncEngine, e), _this21.gcScheduler && (e && !_this21.gcScheduler.started ? _this21.gcScheduler.start() : e || _this21.gcScheduler.stop()), _this21.indexBackfillerScheduler && (e && !_this21.indexBackfillerScheduler.started ? _this21.indexBackfillerScheduler.start() : e || _this21.indexBackfillerScheduler.stop());
         });
-        return function (_x107) {
-          return _ref12.apply(this, arguments);
+        return function (_x105) {
+          return _ref10.apply(this, arguments);
         };
       }());
     })();
@@ -29483,9 +29490,9 @@ class __PRIVATE_MultiTabOfflineComponentProvider extends __PRIVATE_IndexedDbOffl
  */
 class OnlineComponentProvider {
   initialize(e, t) {
-    var _this24 = this;
+    var _this22 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      _this24.localStore || (_this24.localStore = e.localStore, _this24.sharedClientState = e.sharedClientState, _this24.datastore = _this24.createDatastore(t), _this24.remoteStore = _this24.createRemoteStore(t), _this24.eventManager = _this24.createEventManager(t), _this24.syncEngine = _this24.createSyncEngine(t, /* startAsPrimary=*/!e.synchronizeTabs), _this24.sharedClientState.onlineStateHandler = e => __PRIVATE_syncEngineApplyOnlineStateChange(_this24.syncEngine, e, 1 /* OnlineStateSource.SharedClientState */), _this24.remoteStore.remoteSyncer.handleCredentialChange = __PRIVATE_syncEngineHandleCredentialChange.bind(null, _this24.syncEngine), yield __PRIVATE_remoteStoreApplyPrimaryState(_this24.remoteStore, _this24.syncEngine.isPrimaryClient));
+      _this22.localStore || (_this22.localStore = e.localStore, _this22.sharedClientState = e.sharedClientState, _this22.datastore = _this22.createDatastore(t), _this22.remoteStore = _this22.createRemoteStore(t), _this22.eventManager = _this22.createEventManager(t), _this22.syncEngine = _this22.createSyncEngine(t, /* startAsPrimary=*/!e.synchronizeTabs), _this22.sharedClientState.onlineStateHandler = e => __PRIVATE_syncEngineApplyOnlineStateChange(_this22.syncEngine, e, 1 /* OnlineStateSource.SharedClientState */), _this22.remoteStore.remoteSyncer.handleCredentialChange = __PRIVATE_syncEngineHandleCredentialChange.bind(null, _this22.syncEngine), yield __PRIVATE_remoteStoreApplyPrimaryState(_this22.remoteStore, _this22.syncEngine.isPrimaryClient));
     })();
   }
   createEventManager(e) {
@@ -29520,7 +29527,7 @@ class OnlineComponentProvider {
     }(this.localStore, this.remoteStore, this.eventManager, this.sharedClientState, e.initialUser, e.maxConcurrentLimboResolutions, t);
   }
   terminate() {
-    var _this25 = this;
+    var _this23 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       var e, t;
       yield function () {
@@ -29531,11 +29538,11 @@ class OnlineComponentProvider {
           // triggering spurious listener events with cached data, etc.
           t.q_.set("Unknown" /* OnlineState.Unknown */);
         });
-        function __PRIVATE_remoteStoreShutdown(_x108) {
+        function __PRIVATE_remoteStoreShutdown(_x106) {
           return _PRIVATE_remoteStoreShutdown.apply(this, arguments);
         }
         return __PRIVATE_remoteStoreShutdown;
-      }()(_this25.remoteStore), null === (e = _this25.datastore) || void 0 === e || e.terminate(), null === (t = _this25.eventManager) || void 0 === t || t.terminate();
+      }()(_this23.remoteStore), null === (e = _this23.datastore) || void 0 === e || e.terminate(), null === (t = _this23.eventManager) || void 0 === t || t.terminate();
     })();
   }
 }
@@ -29667,7 +29674,7 @@ class __PRIVATE_AsyncObserver {
  * elements out of the underlying content.
  */
 class __PRIVATE_BundleReaderImpl {
-  constructor( /** The reader to read from underlying binary bundle data source. */
+  constructor(/** The reader to read from underlying binary bundle data source. */
   e, t) {
     this.Xa = e, this.serializer = t, /** Cached bundle metadata. */
     this.metadata = new __PRIVATE_Deferred(),
@@ -29687,16 +29694,16 @@ class __PRIVATE_BundleReaderImpl {
     return this.Xa.cancel();
   }
   getMetadata() {
-    var _this26 = this;
+    var _this24 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      return _this26.metadata.promise;
+      return _this24.metadata.promise;
     })();
   }
   Ua() {
-    var _this27 = this;
+    var _this25 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       // Makes sure metadata is read before proceeding.
-      return yield _this27.getMetadata(), _this27.tu();
+      return yield _this25.getMetadata(), _this25.tu();
     })();
   }
   /**
@@ -29710,14 +29717,14 @@ class __PRIVATE_BundleReaderImpl {
    * the stream.
    */
   tu() {
-    var _this28 = this;
+    var _this26 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      const e = yield _this28.nu();
+      const e = yield _this26.nu();
       if (null === e) return null;
-      const t = _this28.eu.decode(e),
+      const t = _this26.eu.decode(e),
         n = Number(t);
-      isNaN(n) && _this28.ru(`length string (${t}) is not valid number`);
-      const r = yield _this28.iu(n);
+      isNaN(n) && _this26.ru(`length string (${t}) is not valid number`);
+      const r = yield _this26.iu(n);
       return new __PRIVATE_SizedBundleElement(JSON.parse(r), e.length + n);
     })();
   }
@@ -29732,21 +29739,21 @@ class __PRIVATE_BundleReaderImpl {
    * If reached end of the stream, returns a null.
    */
   nu() {
-    var _this29 = this;
+    var _this27 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      for (; _this29.su() < 0;) {
-        if (yield _this29.ou()) break;
+      for (; _this27.su() < 0;) {
+        if (yield _this27.ou()) break;
       }
       // Broke out of the loop because underlying stream is closed, and there
       // happens to be no more data to process.
-      if (0 === _this29.buffer.length) return null;
-      const e = _this29.su();
+      if (0 === _this27.buffer.length) return null;
+      const e = _this27.su();
       // Broke out of the loop because underlying stream is closed, but still
       // cannot find an open bracket.
-      e < 0 && _this29.ru("Reached the end of bundle when a length string is expected.");
-      const t = _this29.buffer.slice(0, e);
+      e < 0 && _this27.ru("Reached the end of bundle when a length string is expected.");
+      const t = _this27.buffer.slice(0, e);
       // Update the internal buffer to drop the read length.
-      return _this29.buffer = _this29.buffer.slice(e), t;
+      return _this27.buffer = _this27.buffer.slice(e), t;
     })();
   }
   /**
@@ -29756,14 +29763,14 @@ class __PRIVATE_BundleReaderImpl {
    * Returns a string decoded from the read bytes.
    */
   iu(e) {
-    var _this30 = this;
+    var _this28 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      for (; _this30.buffer.length < e;) {
-        (yield _this30.ou()) && _this30.ru("Reached the end of bundle when more is expected.");
+      for (; _this28.buffer.length < e;) {
+        (yield _this28.ou()) && _this28.ru("Reached the end of bundle when more is expected.");
       }
-      const t = _this30.eu.decode(_this30.buffer.slice(0, e));
+      const t = _this28.eu.decode(_this28.buffer.slice(0, e));
       // Update the internal buffer to drop the read json string.
-      return _this30.buffer = _this30.buffer.slice(e), t;
+      return _this28.buffer = _this28.buffer.slice(e), t;
     })();
   }
   ru(e) {
@@ -29775,12 +29782,12 @@ class __PRIVATE_BundleReaderImpl {
    * Returns a boolean indicating whether the stream is finished.
    */
   ou() {
-    var _this31 = this;
+    var _this29 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      const e = yield _this31.Xa.read();
+      const e = yield _this29.Xa.read();
       if (!e.done) {
-        const t = new Uint8Array(_this31.buffer.length + e.value.length);
-        t.set(_this31.buffer), t.set(e.value, _this31.buffer.length), _this31.buffer = t;
+        const t = new Uint8Array(_this29.buffer.length + e.value.length);
+        t.set(_this29.buffer), t.set(e.value, _this29.buffer.length), _this29.buffer = t;
       }
       return e.done;
     })();
@@ -29826,9 +29833,9 @@ class Transaction$2 {
     this.writtenDocs = new Set();
   }
   lookup(e) {
-    var _this32 = this;
+    var _this30 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      if (_this32.ensureCommitNotCalled(), _this32.mutations.length > 0) throw _this32.lastTransactionError = new FirestoreError(D.INVALID_ARGUMENT, "Firestore transactions require all reads to be executed before all writes."), _this32.lastTransactionError;
+      if (_this30.ensureCommitNotCalled(), _this30.mutations.length > 0) throw _this30.lastTransactionError = new FirestoreError(D.INVALID_ARGUMENT, "Firestore transactions require all reads to be executed before all writes."), _this30.lastTransactionError;
       const t = yield function () {
         var _PRIVATE_invokeBatchGetDocumentsRpc = (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (e, t) {
           const n = __PRIVATE_debugCast(e),
@@ -29847,12 +29854,12 @@ class Transaction$2 {
             __PRIVATE_hardAssert(!!t), o.push(t);
           }), o;
         });
-        function __PRIVATE_invokeBatchGetDocumentsRpc(_x109, _x110) {
+        function __PRIVATE_invokeBatchGetDocumentsRpc(_x107, _x108) {
           return _PRIVATE_invokeBatchGetDocumentsRpc.apply(this, arguments);
         }
         return __PRIVATE_invokeBatchGetDocumentsRpc;
-      }()(_this32.datastore, e);
-      return t.forEach(e => _this32.recordVersion(e)), t;
+      }()(_this30.datastore, e);
+      return t.forEach(e => _this30.recordVersion(e)), t;
     })();
   }
   set(e, t) {
@@ -29870,19 +29877,19 @@ class Transaction$2 {
     this.write(new __PRIVATE_DeleteMutation(e, this.precondition(e))), this.writtenDocs.add(e.toString());
   }
   commit() {
-    var _this33 = this;
+    var _this31 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      if (_this33.ensureCommitNotCalled(), _this33.lastTransactionError) throw _this33.lastTransactionError;
-      const e = _this33.readVersions;
+      if (_this31.ensureCommitNotCalled(), _this31.lastTransactionError) throw _this31.lastTransactionError;
+      const e = _this31.readVersions;
       // For each mutation, note that the doc was written.
-      _this33.mutations.forEach(t => {
+      _this31.mutations.forEach(t => {
         e.delete(t.key.toString());
       }),
       // For each document that was read but not written to, we want to perform
       // a `verify` operation.
       e.forEach((e, t) => {
         const n = DocumentKey.fromPath(t);
-        _this33.mutations.push(new __PRIVATE_VerifyMutation(n, _this33.precondition(n)));
+        _this31.mutations.push(new __PRIVATE_VerifyMutation(n, _this31.precondition(n)));
       }), yield function () {
         var _PRIVATE_invokeCommitRpc = (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (e, t) {
           const n = __PRIVATE_debugCast(e),
@@ -29891,11 +29898,11 @@ class Transaction$2 {
             };
           yield n.Mo("Commit", n.serializer.databaseId, ResourcePath.emptyPath(), r);
         });
-        function __PRIVATE_invokeCommitRpc(_x111, _x112) {
+        function __PRIVATE_invokeCommitRpc(_x109, _x110) {
           return _PRIVATE_invokeCommitRpc.apply(this, arguments);
         }
         return __PRIVATE_invokeCommitRpc;
-      }()(_this33.datastore, _this33.mutations), _this33.committed = !0;
+      }()(_this31.datastore, _this31.mutations), _this31.committed = !0;
     })();
   }
   recordVersion(e) {
@@ -29981,18 +29988,18 @@ class __PRIVATE_TransactionRunner {
     this._u -= 1, this.uu();
   }
   uu() {
-    var _this34 = this;
-    this.t_.Go( /*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      const e = new Transaction$2(_this34.datastore),
-        t = _this34.cu(e);
+    var _this32 = this;
+    this.t_.Go(/*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+      const e = new Transaction$2(_this32.datastore),
+        t = _this32.cu(e);
       t && t.then(t => {
-        _this34.asyncQueue.enqueueAndForget(() => e.commit().then(() => {
-          _this34.deferred.resolve(t);
+        _this32.asyncQueue.enqueueAndForget(() => e.commit().then(() => {
+          _this32.deferred.resolve(t);
         }).catch(e => {
-          _this34.lu(e);
+          _this32.lu(e);
         }));
       }).catch(e => {
-        _this34.lu(e);
+        _this32.lu(e);
       });
     }));
   }
@@ -30051,13 +30058,13 @@ class FirestoreClient {
    * an async I/O to complete).
    */
   n, r, i) {
-    var _this35 = this;
+    var _this33 = this;
     this.authCredentials = e, this.appCheckCredentials = t, this.asyncQueue = n, this.databaseInfo = r, this.user = User.UNAUTHENTICATED, this.clientId = __PRIVATE_AutoId.newId(), this.authCredentialListener = () => Promise.resolve(), this.appCheckCredentialListener = () => Promise.resolve(), this._uninitializedComponentsProvider = i, this.authCredentials.start(n, /*#__PURE__*/function () {
-      var _ref14 = (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (e) {
-        __PRIVATE_logDebug("FirestoreClient", "Received user=", e.uid), yield _this35.authCredentialListener(e), _this35.user = e;
+      var _ref12 = (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (e) {
+        __PRIVATE_logDebug("FirestoreClient", "Received user=", e.uid), yield _this33.authCredentialListener(e), _this33.user = e;
       });
-      return function (_x113) {
-        return _ref14.apply(this, arguments);
+      return function (_x111) {
+        return _ref12.apply(this, arguments);
       };
     }()), this.appCheckCredentials.start(n, e => (__PRIVATE_logDebug("FirestoreClient", "Received new app check token=", e), this.appCheckCredentialListener(e, this.user)));
   }
@@ -30079,16 +30086,16 @@ class FirestoreClient {
     this.appCheckCredentialListener = e;
   }
   terminate() {
-    var _this36 = this;
+    var _this34 = this;
     this.asyncQueue.enterRestrictedMode();
     const e = new __PRIVATE_Deferred();
-    return this.asyncQueue.enqueueAndForgetEvenWhileRestricted( /*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return this.asyncQueue.enqueueAndForgetEvenWhileRestricted(/*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       try {
-        _this36._onlineComponents && (yield _this36._onlineComponents.terminate()), _this36._offlineComponents && (yield _this36._offlineComponents.terminate()),
+        _this34._onlineComponents && (yield _this34._onlineComponents.terminate()), _this34._offlineComponents && (yield _this34._offlineComponents.terminate()),
         // The credentials provider must be terminated after shutting down the
         // RemoteStore as it will prevent the RemoteStore from retrieving auth
         // tokens.
-        _this36.authCredentials.shutdown(), _this36.appCheckCredentials.shutdown(), e.resolve();
+        _this34.authCredentials.shutdown(), _this34.appCheckCredentials.shutdown(), e.resolve();
       } catch (t) {
         const n = __PRIVATE_wrapInUserErrorIfRecoverable(t, "Failed to shutdown persistence");
         e.reject(n);
@@ -30096,7 +30103,7 @@ class FirestoreClient {
     })), e.promise;
   }
 }
-function __PRIVATE_setOfflineComponentProvider(_x114, _x115) {
+function __PRIVATE_setOfflineComponentProvider(_x112, _x113) {
   return _PRIVATE_setOfflineComponentProvider.apply(this, arguments);
 }
 function _PRIVATE_setOfflineComponentProvider() {
@@ -30105,12 +30112,12 @@ function _PRIVATE_setOfflineComponentProvider() {
     const n = e.configuration;
     yield t.initialize(n);
     let r = n.initialUser;
-    e.setCredentialChangeListener( /*#__PURE__*/function () {
-      var _ref37 = (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (e) {
+    e.setCredentialChangeListener(/*#__PURE__*/function () {
+      var _ref35 = (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (e) {
         r.isEqual(e) || (yield __PRIVATE_localStoreHandleUserChange(t.localStore, e), r = e);
       });
-      return function (_x145) {
-        return _ref37.apply(this, arguments);
+      return function (_x143) {
+        return _ref35.apply(this, arguments);
       };
     }()),
     // When a user calls clearPersistence() in one client, all other clients
@@ -30119,7 +30126,7 @@ function _PRIVATE_setOfflineComponentProvider() {
   });
   return _PRIVATE_setOfflineComponentProvider.apply(this, arguments);
 }
-function __PRIVATE_setOnlineComponentProvider(_x116, _x117) {
+function __PRIVATE_setOnlineComponentProvider(_x114, _x115) {
   return _PRIVATE_setOnlineComponentProvider.apply(this, arguments);
 }
 /**
@@ -30137,7 +30144,7 @@ function _PRIVATE_setOnlineComponentProvider() {
   });
   return _PRIVATE_setOnlineComponentProvider.apply(this, arguments);
 }
-function __PRIVATE_ensureOfflineComponents(_x118) {
+function __PRIVATE_ensureOfflineComponents(_x116) {
   return _PRIVATE_ensureOfflineComponents.apply(this, arguments);
 }
 function _PRIVATE_ensureOfflineComponents() {
@@ -30165,7 +30172,7 @@ function _PRIVATE_ensureOfflineComponents() {
   });
   return _PRIVATE_ensureOfflineComponents.apply(this, arguments);
 }
-function __PRIVATE_ensureOnlineComponents(_x119) {
+function __PRIVATE_ensureOnlineComponents(_x117) {
   return _PRIVATE_ensureOnlineComponents.apply(this, arguments);
 }
 function _PRIVATE_ensureOnlineComponents() {
@@ -30189,7 +30196,7 @@ function __PRIVATE_getSyncEngine(e) {
 function __PRIVATE_getDatastore(e) {
   return __PRIVATE_ensureOnlineComponents(e).then(e => e.datastore);
 }
-function __PRIVATE_getEventManager(_x120) {
+function __PRIVATE_getEventManager(_x118) {
   return _PRIVATE_getEventManager.apply(this, arguments);
 }
 /** Enables the network connection and re-enqueues all pending operations. */
@@ -30202,7 +30209,7 @@ function _PRIVATE_getEventManager() {
   return _PRIVATE_getEventManager.apply(this, arguments);
 }
 function __PRIVATE_firestoreClientEnableNetwork(e) {
-  return e.asyncQueue.enqueue( /*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+  return e.asyncQueue.enqueue(/*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
     const t = yield __PRIVATE_getPersistence(e),
       n = yield __PRIVATE_getRemoteStore(e);
     return t.setNetworkEnabled(!0), function __PRIVATE_remoteStoreEnableNetwork(e) {
@@ -30214,7 +30221,7 @@ function __PRIVATE_firestoreClientEnableNetwork(e) {
 
 /** Disables the network connection. Pending operations will not complete. */
 function __PRIVATE_firestoreClientDisableNetwork(e) {
-  return e.asyncQueue.enqueue( /*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+  return e.asyncQueue.enqueue(/*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
     const t = yield __PRIVATE_getPersistence(e),
       n = yield __PRIVATE_getRemoteStore(e);
     return t.setNetworkEnabled(!1), function () {
@@ -30224,7 +30231,7 @@ function __PRIVATE_firestoreClientDisableNetwork(e) {
         // Set the OnlineState to Offline so get()s return from cache, etc.
         t.q_.set("Offline" /* OnlineState.Offline */);
       });
-      function __PRIVATE_remoteStoreDisableNetwork(_x121) {
+      function __PRIVATE_remoteStoreDisableNetwork(_x119) {
         return _PRIVATE_remoteStoreDisableNetwork.apply(this, arguments);
       }
       return __PRIVATE_remoteStoreDisableNetwork;
@@ -30239,7 +30246,7 @@ function __PRIVATE_firestoreClientDisableNetwork(e) {
  */
 function __PRIVATE_firestoreClientGetDocumentFromLocalCache(e, t) {
   const n = new __PRIVATE_Deferred();
-  return e.asyncQueue.enqueueAndForget( /*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+  return e.asyncQueue.enqueueAndForget(/*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
     return function () {
       var _PRIVATE_readDocumentFromCache = (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (e, t, n) {
         try {
@@ -30253,7 +30260,7 @@ function __PRIVATE_firestoreClientGetDocumentFromLocalCache(e, t) {
           n.reject(r);
         }
       });
-      function __PRIVATE_readDocumentFromCache(_x122, _x123, _x124) {
+      function __PRIVATE_readDocumentFromCache(_x120, _x121, _x122) {
         return _PRIVATE_readDocumentFromCache.apply(this, arguments);
       }
       return __PRIVATE_readDocumentFromCache;
@@ -30267,7 +30274,7 @@ function __PRIVATE_firestoreClientGetDocumentFromLocalCache(e, t) {
 }
 function __PRIVATE_firestoreClientGetDocumentViaSnapshotListener(e, t, n = {}) {
   const r = new __PRIVATE_Deferred();
-  return e.asyncQueue.enqueueAndForget( /*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+  return e.asyncQueue.enqueueAndForget(/*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
     return function __PRIVATE_readDocumentViaSnapshotListener(e, t, n, r, i) {
       const s = new __PRIVATE_AsyncObserver({
           next: _ => {
@@ -30297,7 +30304,7 @@ function __PRIVATE_firestoreClientGetDocumentViaSnapshotListener(e, t, n = {}) {
 }
 function __PRIVATE_firestoreClientGetDocumentsFromLocalCache(e, t) {
   const n = new __PRIVATE_Deferred();
-  return e.asyncQueue.enqueueAndForget( /*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+  return e.asyncQueue.enqueueAndForget(/*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
     return function () {
       var _PRIVATE_executeQueryFromCache = (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (e, t, n) {
         try {
@@ -30311,7 +30318,7 @@ function __PRIVATE_firestoreClientGetDocumentsFromLocalCache(e, t) {
           n.reject(r);
         }
       });
-      function __PRIVATE_executeQueryFromCache(_x125, _x126, _x127) {
+      function __PRIVATE_executeQueryFromCache(_x123, _x124, _x125) {
         return _PRIVATE_executeQueryFromCache.apply(this, arguments);
       }
       return __PRIVATE_executeQueryFromCache;
@@ -30325,7 +30332,7 @@ function __PRIVATE_firestoreClientGetDocumentsFromLocalCache(e, t) {
 }
 function __PRIVATE_firestoreClientGetDocumentsViaSnapshotListener(e, t, n = {}) {
   const r = new __PRIVATE_Deferred();
-  return e.asyncQueue.enqueueAndForget( /*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+  return e.asyncQueue.enqueueAndForget(/*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
     return function __PRIVATE_executeQueryViaSnapshotListener(e, t, n, r, i) {
       const s = new __PRIVATE_AsyncObserver({
           next: n => {
@@ -30345,7 +30352,7 @@ function __PRIVATE_firestoreClientGetDocumentsViaSnapshotListener(e, t, n = {}) 
 }
 function __PRIVATE_firestoreClientRunAggregateQuery(e, t, n) {
   const r = new __PRIVATE_Deferred();
-  return e.asyncQueue.enqueueAndForget( /*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+  return e.asyncQueue.enqueueAndForget(/*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
     // Implement and call executeAggregateQueryViaSnapshotListener, similar
     // to the implementation in firestoreClientGetDocumentsViaSnapshotListener
     // above
@@ -30371,7 +30378,7 @@ function __PRIVATE_firestoreClientRunAggregateQuery(e, t, n) {
           const u = null === (r = a[0].result) || void 0 === r ? void 0 : r.aggregateFields;
           return Object.keys(u).reduce((e, t) => (e[o[t]] = u[t], e), {});
         });
-        function __PRIVATE_invokeRunAggregationQueryRpc(_x128, _x129, _x130) {
+        function __PRIVATE_invokeRunAggregationQueryRpc(_x126, _x127, _x128) {
           return _PRIVATE_invokeRunAggregationQueryRpc.apply(this, arguments);
         }
         return __PRIVATE_invokeRunAggregationQueryRpc;
@@ -30383,7 +30390,7 @@ function __PRIVATE_firestoreClientRunAggregateQuery(e, t, n) {
 }
 function __PRIVATE_firestoreClientAddSnapshotsInSyncListener(e, t) {
   const n = new __PRIVATE_AsyncObserver(t);
-  return e.asyncQueue.enqueueAndForget( /*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+  return e.asyncQueue.enqueueAndForget(/*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
     return function __PRIVATE_addSnapshotsInSyncListener(e, t) {
       __PRIVATE_debugCast(e).Y_.add(t),
       // Immediately fire an initial event, indicating all existing listeners
@@ -30391,7 +30398,7 @@ function __PRIVATE_firestoreClientAddSnapshotsInSyncListener(e, t) {
       t.next();
     }(yield __PRIVATE_getEventManager(e), n);
   })), () => {
-    n.Za(), e.asyncQueue.enqueueAndForget( /*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    n.Za(), e.asyncQueue.enqueueAndForget(/*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       return function __PRIVATE_removeSnapshotsInSyncListener(e, t) {
         __PRIVATE_debugCast(e).Y_.delete(t);
       }(yield __PRIVATE_getEventManager(e), n);
@@ -30427,12 +30434,12 @@ function __PRIVATE_firestoreClientLoadBundle(e, t, n, r) {
       throw new Error("Source of `toByteStreamReader` has to be a ArrayBuffer or ReadableStream");
     }(n), t);
   }(n, __PRIVATE_newSerializer(t));
-  e.asyncQueue.enqueueAndForget( /*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+  e.asyncQueue.enqueueAndForget(/*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
     __PRIVATE_syncEngineLoadBundle(yield __PRIVATE_getSyncEngine(e), i, r);
   }));
 }
 function __PRIVATE_firestoreClientGetNamedQuery(e, t) {
-  return e.asyncQueue.enqueue( /*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+  return e.asyncQueue.enqueue(/*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
     return function __PRIVATE_localStoreGetNamedQuery(e, t) {
       const n = __PRIVATE_debugCast(e);
       return n.persistence.runTransaction("Get named query", "readonly", e => n.Gr.getNamedQuery(e, t));
@@ -30440,7 +30447,7 @@ function __PRIVATE_firestoreClientGetNamedQuery(e, t) {
   }));
 }
 function __PRIVATE_firestoreClientSetIndexConfiguration(e, t) {
-  return e.asyncQueue.enqueue( /*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+  return e.asyncQueue.enqueue(/*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
     return function () {
       var _PRIVATE_localStoreConfigureFieldIndexes = (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (e, t) {
         const n = __PRIVATE_debugCast(e),
@@ -30513,7 +30520,7 @@ function __PRIVATE_firestoreClientSetIndexConfiguration(e, t) {
           i.push(r.deleteFieldIndex(e, t));
         })).next(() => PersistencePromise.waitFor(i)));
       });
-      function __PRIVATE_localStoreConfigureFieldIndexes(_x131, _x132) {
+      function __PRIVATE_localStoreConfigureFieldIndexes(_x129, _x130) {
         return _PRIVATE_localStoreConfigureFieldIndexes.apply(this, arguments);
       }
       return __PRIVATE_localStoreConfigureFieldIndexes;
@@ -30521,14 +30528,14 @@ function __PRIVATE_firestoreClientSetIndexConfiguration(e, t) {
   }));
 }
 function __PRIVATE_firestoreClientSetPersistentCacheIndexAutoCreationEnabled(e, t) {
-  return e.asyncQueue.enqueue( /*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+  return e.asyncQueue.enqueue(/*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
     return function __PRIVATE_localStoreSetIndexAutoCreationEnabled(e, t) {
       __PRIVATE_debugCast(e).ss.zi = t;
     }(yield __PRIVATE_getLocalStore(e), t);
   }));
 }
 function __PRIVATE_firestoreClientDeleteAllFieldIndexes(e) {
-  return e.asyncQueue.enqueue( /*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+  return e.asyncQueue.enqueue(/*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
     return function __PRIVATE_localStoreDeleteAllFieldIndexes(e) {
       const t = __PRIVATE_debugCast(e),
         n = t.indexManager;
@@ -30827,11 +30834,11 @@ class Firestore$1 {
     return "notTerminated" === this._terminateTask && (this._terminateTask = this._terminate()), this._terminateTask;
   }
   _restart() {
-    var _this37 = this;
+    var _this35 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       // The `_terminateTask` must equal 'notTerminated' after restart to
       // signal that client is in a state that accepts API calls.
-      "notTerminated" === _this37._terminateTask ? yield _this37._terminate() : _this37._terminateTask = "notTerminated";
+      "notTerminated" === _this35._terminateTask ? yield _this35._terminate() : _this35._terminateTask = "notTerminated";
     })();
   }
   /** Returns a JSON-serializable representation of this `Firestore` instance. */
@@ -31166,17 +31173,17 @@ class __PRIVATE_AsyncQueueImpl {
    * reschedules with backoff.
    */
   pu() {
-    var _this38 = this;
+    var _this36 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      if (0 !== _this38.Pu.length) {
+      if (0 !== _this36.Pu.length) {
         try {
-          yield _this38.Pu[0](), _this38.Pu.shift(), _this38.t_.reset();
+          yield _this36.Pu[0](), _this36.Pu.shift(), _this36.t_.reset();
         } catch (e) {
           if (!__PRIVATE_isIndexedDbTransactionError(e)) throw e;
           // Failure will be handled by AsyncQueue
           __PRIVATE_logDebug("AsyncQueue", "Operation failed with retryable error: " + e);
         }
-        _this38.Pu.length > 0 &&
+        _this36.Pu.length > 0 &&
         // If there are additional operations, we re-schedule `retryNextOp()`.
         // This is necessary to run retryable operations that failed during
         // their initial attempt since we don't know whether they are already
@@ -31187,7 +31194,7 @@ class __PRIVATE_AsyncQueueImpl {
         // Since `backoffAndRun()` cancels an existing backoff and schedules a
         // new backoff on every call, there is only ever a single additional
         // operation in the queue.
-        _this38.t_.Go(() => _this38.pu());
+        _this36.t_.Go(() => _this36.pu());
       }
     })();
   }
@@ -31244,7 +31251,7 @@ class __PRIVATE_AsyncQueueImpl {
    * operations are not run.
    */
   wu() {
-    var _this39 = this;
+    var _this37 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       // Operations in the queue prior to draining may have enqueued additional
       // operations. Keep draining the queue until the tail is no longer advanced,
@@ -31252,8 +31259,8 @@ class __PRIVATE_AsyncQueueImpl {
       // operations were executed.
       let e;
       do {
-        e = _this39.mu, yield e;
-      } while (e !== _this39.mu);
+        e = _this37.mu, yield e;
+      } while (e !== _this37.mu);
     })();
   }
   /**
@@ -31439,11 +31446,11 @@ class Firestore extends Firestore$1 {
     this.type = "firestore", this._queue = new __PRIVATE_AsyncQueueImpl(), this._persistenceKey = (null == r ? void 0 : r.name) || "[DEFAULT]";
   }
   _terminate() {
-    var _this40 = this;
+    var _this38 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      if (_this40._firestoreClient) {
-        const e = _this40._firestoreClient.terminate();
-        _this40._queue = new __PRIVATE_AsyncQueueImpl(e), _this40._firestoreClient = void 0, yield e;
+      if (_this38._firestoreClient) {
+        const e = _this38._firestoreClient.terminate();
+        _this38._queue = new __PRIVATE_AsyncQueueImpl(e), _this38._firestoreClient = void 0, yield e;
       }
     })();
   }
@@ -31579,7 +31586,7 @@ function enableIndexedDbPersistence(e, t) {
  * turn on indexeddb cache. Calling this function when `FirestoreSettings.localCache`
  * is already specified will throw an exception.
  */
-function enableMultiTabIndexedDbPersistence(_x133) {
+function enableMultiTabIndexedDbPersistence(_x131) {
   return _enableMultiTabIndexedDbPersistence.apply(this, arguments);
 }
 /**
@@ -31632,7 +31639,7 @@ function __PRIVATE_setPersistenceProviders(e, t, n) {
 function clearIndexedDbPersistence(e) {
   if (e._initialized && !e._terminated) throw new FirestoreError(D.FAILED_PRECONDITION, "Persistence can only be cleared before a Firestore instance is initialized or after it is terminated.");
   const t = new __PRIVATE_Deferred();
-  return e._queue.enqueueAndForgetEvenWhileRestricted( /*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+  return e._queue.enqueueAndForgetEvenWhileRestricted(/*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
     try {
       yield function () {
         var _PRIVATE_indexedDbClearPersistence = (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (e) {
@@ -31640,7 +31647,7 @@ function clearIndexedDbPersistence(e) {
           const t = e + "main";
           yield __PRIVATE_SimpleDb.delete(t);
         });
-        function __PRIVATE_indexedDbClearPersistence(_x134) {
+        function __PRIVATE_indexedDbClearPersistence(_x132) {
           return _PRIVATE_indexedDbClearPersistence.apply(this, arguments);
         }
         return __PRIVATE_indexedDbClearPersistence;
@@ -31670,7 +31677,7 @@ function clearIndexedDbPersistence(e) {
 function waitForPendingWrites(e) {
   return function __PRIVATE_firestoreClientWaitForPendingWrites(e) {
     const t = new __PRIVATE_Deferred();
-    return e.asyncQueue.enqueueAndForget( /*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return e.asyncQueue.enqueueAndForget(/*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       return __PRIVATE_syncEngineRegisterPendingWritesCallback(yield __PRIVATE_getSyncEngine(e), t);
     })), t.promise;
   }(ensureFirestoreConfigured(e = __PRIVATE_cast(e, Firestore)));
@@ -32924,7 +32931,7 @@ class QueryCompositeFilterConstraint extends AppliableConstraint {
   /**
    * @internal
    */
-  constructor( /** The type of this query constraint */
+  constructor(/** The type of this query constraint */
   e, t) {
     super(), this.type = e, this._queryConstraints = t;
   }
@@ -33058,7 +33065,7 @@ class QueryLimitConstraint extends QueryConstraint {
   /**
    * @internal
    */
-  constructor( /** The type of this query constraint */
+  constructor(/** The type of this query constraint */
   e, t, n) {
     super(), this.type = e, this._limit = t, this._limitType = n;
   }
@@ -33106,7 +33113,7 @@ class QueryStartAtConstraint extends QueryConstraint {
   /**
    * @internal
    */
-  constructor( /** The type of this query constraint */
+  constructor(/** The type of this query constraint */
   e, t, n) {
     super(), this.type = e, this._docOrFields = t, this._inclusive = n;
   }
@@ -33138,7 +33145,7 @@ class QueryEndAtConstraint extends QueryConstraint {
   /**
    * @internal
    */
-  constructor( /** The type of this query constraint */
+  constructor(/** The type of this query constraint */
   e, t, n) {
     super(), this.type = e, this._docOrFields = t, this._inclusive = n;
   }
@@ -33919,10 +33926,10 @@ function onSnapshot(e, ...t) {
   return function __PRIVATE_firestoreClientListen(e, t, n, r) {
     const i = new __PRIVATE_AsyncObserver(r),
       s = new __PRIVATE_QueryListener(t, i, n);
-    return e.asyncQueue.enqueueAndForget( /*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return e.asyncQueue.enqueueAndForget(/*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       return __PRIVATE_eventManagerListen(yield __PRIVATE_getEventManager(e), s);
     })), () => {
-      i.Za(), e.asyncQueue.enqueueAndForget( /*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+      i.Za(), e.asyncQueue.enqueueAndForget(/*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
         return __PRIVATE_eventManagerUnlisten(yield __PRIVATE_getEventManager(e), s);
       }));
     };
@@ -33941,7 +33948,7 @@ function onSnapshotsInSync(e, t) {
 function executeWrite(e, t) {
   return function __PRIVATE_firestoreClientWrite(e, t) {
     const n = new __PRIVATE_Deferred();
-    return e.asyncQueue.enqueueAndForget( /*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return e.asyncQueue.enqueueAndForget(/*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       return __PRIVATE_syncEngineWrite(yield __PRIVATE_getSyncEngine(e), t, n);
     })), n.promise;
   }(ensureFirestoreConfigured(e), t);
@@ -34408,7 +34415,7 @@ class Transaction extends class Transaction$1 {
   get(e) {
     const t = __PRIVATE_validateReference(e, this._firestore),
       n = new __PRIVATE_ExpUserDataWriter(this._firestore);
-    return super.get(e).then(e => new DocumentSnapshot(this._firestore, n, t._key, e._document, new SnapshotMetadata( /* hasPendingWrites= */!1, /* fromCache= */!1), t.converter));
+    return super.get(e).then(e => new DocumentSnapshot(this._firestore, n, t._key, e._document, new SnapshotMetadata(/* hasPendingWrites= */!1, /* fromCache= */!1), t.converter));
   }
 }
 
@@ -34439,7 +34446,7 @@ function runTransaction(e, t, n) {
   }(r);
   return function __PRIVATE_firestoreClientTransaction(e, t, n) {
     const r = new __PRIVATE_Deferred();
-    return e.asyncQueue.enqueueAndForget( /*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return e.asyncQueue.enqueueAndForget(/*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       const i = yield __PRIVATE_getDatastore(e);
       new __PRIVATE_TransactionRunner(e.asyncQueue, i, n, t, r).au();
     })), r.promise;
@@ -35884,7 +35891,7 @@ const ERROR_NAME = 'FirebaseError';
 // Based on code from:
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error#Custom_Error_Types
 class FirebaseError extends Error {
-  constructor( /** The error code for this error. */
+  constructor(/** The error code for this error. */
   code, message, /** Custom data for this error. */
   customData) {
     super(message);
@@ -40362,7 +40369,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common */ 60316);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ 37580);
 /**
- * @license Angular v18.2.13
+ * @license Angular v18.2.14
  * (c) 2010-2024 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -41868,7 +41875,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_animations__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/animations */ 47172);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ 37580);
 /**
- * @license Angular v18.2.13
+ * @license Angular v18.2.14
  * (c) 2010-2024 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -46457,7 +46464,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ 37580);
 
 /**
- * @license Angular v18.2.13
+ * @license Angular v18.2.14
  * (c) 2010-2024 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -49758,7 +49765,7 @@ function getParentInjector(injector) {
  * @publicApi
  */
 class NgForOfContext {
-  constructor( /** Reference to the current item from the collection. */
+  constructor(/** Reference to the current item from the collection. */
   $implicit,
   /**
    * The value of the iterable expression. Useful when the expression is
@@ -52294,7 +52301,7 @@ function isPlatformServer(platformId) {
 /**
  * @publicApi
  */
-const VERSION = new _angular_core__WEBPACK_IMPORTED_MODULE_1__.Version('18.2.13');
+const VERSION = new _angular_core__WEBPACK_IMPORTED_MODULE_1__.Version('18.2.14');
 
 /**
  * Defines a scroll position manager. Implemented by `BrowserViewportScroller`.
@@ -54212,7 +54219,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/common */ 60316);
 
 /**
- * @license Angular v18.2.13
+ * @license Angular v18.2.14
  * (c) 2010-2024 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -55789,7 +55796,7 @@ class FetchBackend {
         // Perform response processing outside of Angular zone to
         // ensure no excessive change detection runs are executed
         // Here calling the async ReadableStreamDefaultReader.read() is responsible for triggering CD
-        yield _this.ngZone.runOutsideAngular( /*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+        yield _this.ngZone.runOutsideAngular(/*#__PURE__*/(0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
           while (true) {
             const {
               done,
@@ -58008,7 +58015,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! rxjs/operators */ 2435);
 /* harmony import */ var _angular_core_primitives_event_dispatch__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/core/primitives/event-dispatch */ 56745);
 /**
- * @license Angular v18.2.13
+ * @license Angular v18.2.14
  * (c) 2010-2024 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -74428,7 +74435,7 @@ function createRootComponent(componentView, rootComponentDef, rootDirectives, ho
 function setRootNodeAttributes(hostRenderer, componentDef, hostRNode, rootSelectorOrNode) {
   if (rootSelectorOrNode) {
     // The placeholder will be replaced with the actual version at build time.
-    setUpAttributes(hostRenderer, hostRNode, ['ng-version', '18.2.13']);
+    setUpAttributes(hostRenderer, hostRNode, ['ng-version', '18.2.14']);
   } else {
     // If host element is created as a part of this function call (i.e. `rootSelectorOrNode`
     // is not defined), also apply attributes and classes extracted from component selector.
@@ -75382,13 +75389,13 @@ function createQuerySignalFn(firstOnly, required) {
   return signalFn;
 }
 function createSingleResultOptionalQuerySignalFn() {
-  return createQuerySignalFn( /* firstOnly */true, /* required */false);
+  return createQuerySignalFn(/* firstOnly */true, /* required */false);
 }
 function createSingleResultRequiredQuerySignalFn() {
-  return createQuerySignalFn( /* firstOnly */true, /* required */true);
+  return createQuerySignalFn(/* firstOnly */true, /* required */true);
 }
 function createMultiResultQuerySignalFn() {
-  return createQuerySignalFn( /* firstOnly */false, /* required */false);
+  return createQuerySignalFn(/* firstOnly */false, /* required */false);
 }
 function bindQueryToSignal(target, queryIndex) {
   const node = target[_angular_core_primitives_signals__WEBPACK_IMPORTED_MODULE_0__.SIGNAL];
@@ -88061,7 +88068,7 @@ class Version {
 /**
  * @publicApi
  */
-const VERSION = new Version('18.2.13');
+const VERSION = new Version('18.2.14');
 
 /*
  * This file exists to support compilation of @angular/core in Ivy mode.
@@ -91389,12 +91396,15 @@ const ALLOW_MULTIPLE_PLATFORMS = new InjectionToken(ngDevMode ? 'AllowMultipleTo
  * @publicApi
  */
 function createPlatform(injector) {
-  if (_platformInjector && !_platformInjector.get(ALLOW_MULTIPLE_PLATFORMS, false)) {
+  if (getPlatform()) {
     throw new RuntimeError(400 /* RuntimeErrorCode.MULTIPLE_PLATFORMS */, ngDevMode && 'There can be only one platform. Destroy the previous one to create a new one.');
   }
   publishDefaultGlobalUtils();
   publishSignalConfiguration();
-  _platformInjector = injector;
+  const isServer = injector.get(ALLOW_MULTIPLE_PLATFORMS, false);
+  // During SSR, using this setting and using an injector from the global can cause the
+  // injector to be used for a different requjest due to concurrency.
+  _platformInjector = !isServer ? injector : null;
   const platform = injector.get(PlatformRef);
   runPlatformInitializers(injector);
   return platform;
@@ -91420,13 +91430,10 @@ function createPlatformFactory(parentPlatformFactory, name, providers = []) {
         provide: marker,
         useValue: true
       }];
-      if (parentPlatformFactory) {
-        parentPlatformFactory(platformProviders);
-      } else {
-        createPlatform(createPlatformInjector(platformProviders, desc));
-      }
+      platform = parentPlatformFactory?.(platformProviders) ?? createPlatform(createPlatformInjector(platformProviders, desc));
     }
-    return assertPlatform(marker);
+    const isServer = platform.injector.get(ALLOW_MULTIPLE_PLATFORMS, false);
+    return isServer ? platform : assertPlatform(marker);
   };
 }
 /**
@@ -91461,16 +91468,23 @@ function assertPlatform(requiredToken) {
   return platform;
 }
 /**
- * Returns the current platform.
+ * Returns the current platform in the browser environment. In the server environment,
+ * returns `null`. If you need access to the platform information, inject `PlatformRef` in your application.
  *
  * @publicApi
  */
 function getPlatform() {
+  const isServer = _platformInjector && _platformInjector.get(ALLOW_MULTIPLE_PLATFORMS, false);
+  if (isServer) {
+    return null;
+  }
   return _platformInjector?.get(PlatformRef) ?? null;
 }
 /**
  * Destroys the current Angular platform and all Angular applications on the page.
  * Destroys all modules and listeners registered with the platform.
+ *
+ * This function should not be used in a server environment, as it will be a no-op.
  *
  * @publicApi
  */
@@ -91489,7 +91503,12 @@ function createOrReusePlatformInjector(providers = []) {
   publishDefaultGlobalUtils();
   // Otherwise, setup a new platform injector and run platform initializers.
   const injector = createPlatformInjector(providers);
-  _platformInjector = injector;
+  // During SSR, using this setting and using an injector from the global can cause the
+  // injector to be used for a different request due to concurrency.
+  const isServer = injector.get(ALLOW_MULTIPLE_PLATFORMS, false);
+  if (!isServer) {
+    _platformInjector = injector;
+  }
   publishSignalConfiguration();
   runPlatformInitializers(injector);
   return injector;
@@ -93964,16 +93983,20 @@ function setAlternateWeakRefImpl(impl) {
  * @returns A promise that returns an `ApplicationRef` instance once resolved.
  */
 function internalCreateApplication(config) {
+  const {
+    rootComponent,
+    appProviders,
+    platformProviders,
+    platformRef
+  } = config;
   try {
-    const {
-      rootComponent,
-      appProviders,
-      platformProviders
-    } = config;
+    const platformInjector = platformRef?.injector ?? createOrReusePlatformInjector(platformProviders);
+    if (platformInjector.get(ALLOW_MULTIPLE_PLATFORMS, false) === true && !config.platformRef) {
+      throw new RuntimeError(401 /* RuntimeErrorCode.PLATFORM_NOT_FOUND */, ngDevMode && 'Missing Platform: This may be due to using `bootstrapApplication` on the server without passing a `BootstrapContext`. ' + 'Please make sure that `bootstrapApplication` is called with a `BootstrapContext.');
+    }
     if ((typeof ngDevMode === 'undefined' || ngDevMode) && rootComponent !== undefined) {
       assertStandaloneComponentType(rootComponent);
     }
-    const platformInjector = createOrReusePlatformInjector(platformProviders);
     // Create root application injector based on a set of providers configured at the platform
     // bootstrap level as well as providers passed to the bootstrap call by a user.
     const allAppProviders = [internalProvideZoneChangeDetection({}), {
@@ -95503,7 +95526,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   removeAllAppScopedEventListeners: () => (/* binding */ removeAllAppScopedEventListeners)
 /* harmony export */ });
 /**
- * @license Angular v18.2.13
+ * @license Angular v18.2.14
  * (c) 2010-2024 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -97379,7 +97402,7 @@ class EventContract {
     this.containerManager = containerManager;
   }
   handleEvent(eventType, event, container) {
-    const eventInfo = createEventInfoFromParameters( /* eventType= */eventType, /* event= */event, /* targetElement= */event.target, /* container= */container, /* timestamp= */Date.now());
+    const eventInfo = createEventInfoFromParameters(/* eventType= */eventType, /* event= */event, /* targetElement= */event.target, /* container= */container, /* timestamp= */Date.now());
     this.handleEventInfo(eventInfo);
   }
   /**
@@ -97603,7 +97626,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   signalUpdateFn: () => (/* binding */ signalUpdateFn)
 /* harmony export */ });
 /**
- * @license Angular v18.2.13
+ * @license Angular v18.2.14
  * (c) 2010-2024 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -98227,7 +98250,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! rxjs */ 10819);
 /* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! rxjs/operators */ 70271);
 /**
- * @license Angular v18.2.13
+ * @license Angular v18.2.14
  * (c) 2010-2024 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -101193,7 +101216,7 @@ class FormGroup extends AbstractControl {
       // `as any` is required.
       const control = this.controls[name];
       if (control) {
-        control.patchValue( /* Guaranteed to be present, due to the outer forEach. */value[name], {
+        control.patchValue(/* Guaranteed to be present, due to the outer forEach. */value[name], {
           onlySelf: true,
           emitEvent: options.emitEvent
         });
@@ -106387,7 +106410,7 @@ class UntypedFormBuilder extends FormBuilder {
 /**
  * @publicApi
  */
-const VERSION = new _angular_core__WEBPACK_IMPORTED_MODULE_0__.Version('18.2.13');
+const VERSION = new _angular_core__WEBPACK_IMPORTED_MODULE_0__.Version('18.2.14');
 
 /**
  * Exports the required providers and directives for template-driven forms,
@@ -106552,7 +106575,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "ɵtranslate": () => (/* binding */ translate$1)
 /* harmony export */ });
 /**
- * @license Angular v18.2.13
+ * @license Angular v18.2.14
  * (c) 2010-2024 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -107466,7 +107489,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_animations_browser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/animations/browser */ 10655);
 /* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common */ 60316);
 /**
- * @license Angular v18.2.13
+ * @license Angular v18.2.14
  * (c) 2010-2024 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -107768,7 +107791,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ 37580);
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ 46443);
 /**
- * @license Angular v18.2.13
+ * @license Angular v18.2.14
  * (c) 2010-2024 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -108881,13 +108904,17 @@ class KeyEventsPlugin extends EventManagerPlugin {
  * @param rootComponent A reference to a standalone component that should be rendered.
  * @param options Extra configuration for the bootstrap operation, see `ApplicationConfig` for
  *     additional info.
+ * @param context Optional context object that can be used to provide a pre-existing
+ *     platform injector. This is useful for advanced use-cases, for example, server-side
+ *     rendering, where the platform is created for each request.
  * @returns A promise that returns an `ApplicationRef` instance once resolved.
  *
  * @publicApi
  */
-function bootstrapApplication(rootComponent, options) {
+function bootstrapApplication(rootComponent, options, context) {
   return (0,_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵinternalCreateApplication"])({
     rootComponent,
+    platformRef: context?.platformRef,
     ...createProvidersConfig(options)
   });
 }
@@ -110083,7 +110110,7 @@ function provideClientHydration(...features) {
 /**
  * @publicApi
  */
-const VERSION = new _angular_core__WEBPACK_IMPORTED_MODULE_1__.Version('18.2.13');
+const VERSION = new _angular_core__WEBPACK_IMPORTED_MODULE_1__.Version('18.2.14');
 
 /**
  * @module
@@ -110226,7 +110253,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_35__ = __webpack_require__(/*! rxjs/operators */ 23222);
 /* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! @angular/platform-browser */ 80436);
 /**
- * @license Angular v18.2.13
+ * @license Angular v18.2.14
  * (c) 2010-2024 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -110486,7 +110513,7 @@ function matrixParamsMatch(containerPaths, containeePaths, options) {
  * @publicApi
  */
 class UrlTree {
-  constructor( /** The root segment group of the URL tree */
+  constructor(/** The root segment group of the URL tree */
   root = new UrlSegmentGroup([], {}), /** The query params of the URL */
   queryParams = {}, /** The fragment of the URL */
   fragment = null) {
@@ -110518,7 +110545,7 @@ class UrlTree {
  * @publicApi
  */
 class UrlSegmentGroup {
-  constructor( /** The URL segments of this group. See `UrlSegment` for more information */
+  constructor(/** The URL segments of this group. See `UrlSegment` for more information */
   segments, /** The list of children of this group */
   children) {
     this.segments = segments;
@@ -110567,7 +110594,7 @@ class UrlSegmentGroup {
  * @publicApi
  */
 class UrlSegment {
-  constructor( /** The path part of a URL segment */
+  constructor(/** The path part of a URL segment */
   path, /** The matrix parameters associated with a segment */
   parameters) {
     this.path = path;
@@ -111437,7 +111464,7 @@ var EventType;
  * @publicApi
  */
 class RouterEvent {
-  constructor( /** A unique ID that the router assigns to every router navigation. */
+  constructor(/** A unique ID that the router assigns to every router navigation. */
   id, /** The URL that is the destination for this navigation. */
   url) {
     this.id = id;
@@ -111450,7 +111477,7 @@ class RouterEvent {
  * @publicApi
  */
 class NavigationStart extends RouterEvent {
-  constructor( /** @docsNotRequired */
+  constructor(/** @docsNotRequired */
   id, /** @docsNotRequired */
   url, /** @docsNotRequired */
   navigationTrigger = 'imperative', /** @docsNotRequired */
@@ -111475,7 +111502,7 @@ class NavigationStart extends RouterEvent {
  * @publicApi
  */
 class NavigationEnd extends RouterEvent {
-  constructor( /** @docsNotRequired */
+  constructor(/** @docsNotRequired */
   id, /** @docsNotRequired */
   url, /** @docsNotRequired */
   urlAfterRedirects) {
@@ -111545,7 +111572,7 @@ var NavigationSkippedCode;
  * @publicApi
  */
 class NavigationCancel extends RouterEvent {
-  constructor( /** @docsNotRequired */
+  constructor(/** @docsNotRequired */
   id, /** @docsNotRequired */
   url,
   /**
@@ -111578,7 +111605,7 @@ class NavigationCancel extends RouterEvent {
  * @publicApi
  */
 class NavigationSkipped extends RouterEvent {
-  constructor( /** @docsNotRequired */
+  constructor(/** @docsNotRequired */
   id, /** @docsNotRequired */
   url,
   /**
@@ -111608,7 +111635,7 @@ class NavigationSkipped extends RouterEvent {
  * @publicApi
  */
 class NavigationError extends RouterEvent {
-  constructor( /** @docsNotRequired */
+  constructor(/** @docsNotRequired */
   id, /** @docsNotRequired */
   url, /** @docsNotRequired */
   error,
@@ -111635,7 +111662,7 @@ class NavigationError extends RouterEvent {
  * @publicApi
  */
 class RoutesRecognized extends RouterEvent {
-  constructor( /** @docsNotRequired */
+  constructor(/** @docsNotRequired */
   id, /** @docsNotRequired */
   url, /** @docsNotRequired */
   urlAfterRedirects, /** @docsNotRequired */
@@ -111658,7 +111685,7 @@ class RoutesRecognized extends RouterEvent {
  * @publicApi
  */
 class GuardsCheckStart extends RouterEvent {
-  constructor( /** @docsNotRequired */
+  constructor(/** @docsNotRequired */
   id, /** @docsNotRequired */
   url, /** @docsNotRequired */
   urlAfterRedirects, /** @docsNotRequired */
@@ -111680,7 +111707,7 @@ class GuardsCheckStart extends RouterEvent {
  * @publicApi
  */
 class GuardsCheckEnd extends RouterEvent {
-  constructor( /** @docsNotRequired */
+  constructor(/** @docsNotRequired */
   id, /** @docsNotRequired */
   url, /** @docsNotRequired */
   urlAfterRedirects, /** @docsNotRequired */
@@ -111707,7 +111734,7 @@ class GuardsCheckEnd extends RouterEvent {
  * @publicApi
  */
 class ResolveStart extends RouterEvent {
-  constructor( /** @docsNotRequired */
+  constructor(/** @docsNotRequired */
   id, /** @docsNotRequired */
   url, /** @docsNotRequired */
   urlAfterRedirects, /** @docsNotRequired */
@@ -111728,7 +111755,7 @@ class ResolveStart extends RouterEvent {
  * @publicApi
  */
 class ResolveEnd extends RouterEvent {
-  constructor( /** @docsNotRequired */
+  constructor(/** @docsNotRequired */
   id, /** @docsNotRequired */
   url, /** @docsNotRequired */
   urlAfterRedirects, /** @docsNotRequired */
@@ -111750,7 +111777,7 @@ class ResolveEnd extends RouterEvent {
  * @publicApi
  */
 class RouteConfigLoadStart {
-  constructor( /** @docsNotRequired */
+  constructor(/** @docsNotRequired */
   route) {
     this.route = route;
     this.type = EventType.RouteConfigLoadStart;
@@ -111767,7 +111794,7 @@ class RouteConfigLoadStart {
  * @publicApi
  */
 class RouteConfigLoadEnd {
-  constructor( /** @docsNotRequired */
+  constructor(/** @docsNotRequired */
   route) {
     this.route = route;
     this.type = EventType.RouteConfigLoadEnd;
@@ -111785,7 +111812,7 @@ class RouteConfigLoadEnd {
  * @publicApi
  */
 class ChildActivationStart {
-  constructor( /** @docsNotRequired */
+  constructor(/** @docsNotRequired */
   snapshot) {
     this.snapshot = snapshot;
     this.type = EventType.ChildActivationStart;
@@ -111803,7 +111830,7 @@ class ChildActivationStart {
  * @publicApi
  */
 class ChildActivationEnd {
-  constructor( /** @docsNotRequired */
+  constructor(/** @docsNotRequired */
   snapshot) {
     this.snapshot = snapshot;
     this.type = EventType.ChildActivationEnd;
@@ -111822,7 +111849,7 @@ class ChildActivationEnd {
  * @publicApi
  */
 class ActivationStart {
-  constructor( /** @docsNotRequired */
+  constructor(/** @docsNotRequired */
   snapshot) {
     this.snapshot = snapshot;
     this.type = EventType.ActivationStart;
@@ -111841,7 +111868,7 @@ class ActivationStart {
  * @publicApi
  */
 class ActivationEnd {
-  constructor( /** @docsNotRequired */
+  constructor(/** @docsNotRequired */
   snapshot) {
     this.snapshot = snapshot;
     this.type = EventType.ActivationEnd;
@@ -111857,7 +111884,7 @@ class ActivationEnd {
  * @publicApi
  */
 class Scroll {
-  constructor( /** @docsNotRequired */
+  constructor(/** @docsNotRequired */
   routerEvent, /** @docsNotRequired */
   position, /** @docsNotRequired */
   anchor) {
@@ -112342,7 +112369,7 @@ function createEmptyStateSnapshot(rootComponent) {
  */
 class ActivatedRoute {
   /** @internal */
-  constructor( /** @internal */
+  constructor(/** @internal */
   urlSubject, /** @internal */
   paramsSubject, /** @internal */
   queryParamsSubject, /** @internal */
@@ -112502,7 +112529,7 @@ class ActivatedRouteSnapshot {
     return this.data?.[RouteTitleKey];
   }
   /** @internal */
-  constructor( /** The URL segments matched by this route */
+  constructor(/** The URL segments matched by this route */
   url,
   /**
    *  The matrix parameters scoped to this route.
@@ -112602,7 +112629,7 @@ class ActivatedRouteSnapshot {
  */
 class RouterStateSnapshot extends Tree {
   /** @internal */
-  constructor( /** The url from which this snapshot was created */
+  constructor(/** The url from which this snapshot was created */
   url, root) {
     super(root);
     this.url = url;
@@ -117913,7 +117940,7 @@ function mapToResolve(provider) {
 /**
  * @publicApi
  */
-const VERSION = new _angular_core__WEBPACK_IMPORTED_MODULE_1__.Version('18.2.13');
+const VERSION = new _angular_core__WEBPACK_IMPORTED_MODULE_1__.Version('18.2.14');
 
 /**
  * @module
@@ -123457,7 +123484,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   toHtml: () => (/* binding */ toHtml$1)
 /* harmony export */ });
 /*!
- * Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com
+ * Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com
  * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
  * Copyright 2024 Fonticons, Inc.
  */
@@ -123827,7 +123854,7 @@ var Yt = {
     normal: "fakd"
   }
 };
-var po = {
+var ua = {
     classic: {
       "fa-brands": "fab",
       "fa-duotone": "fad",
@@ -123860,7 +123887,7 @@ var po = {
     sharp: ["fass", "fasr", "fasl", "fast"],
     "sharp-duotone": ["fasds", "fasdr", "fasdl", "fasdt"]
   },
-  co = {
+  ga = {
     classic: {
       fab: "fa-brands",
       fad: "fa-duotone",
@@ -123888,12 +123915,12 @@ var po = {
     }
   },
   x = ["fa-solid", "fa-regular", "fa-light", "fa-thin", "fa-duotone", "fa-brands"],
-  xo = ["fa", "fas", "far", "fal", "fat", "fad", "fadr", "fadl", "fadt", "fab", "fass", "fasr", "fasl", "fast", "fasds", "fasdr", "fasdl", "fasdt", ...r$1, ...x],
+  Ia = ["fa", "fas", "far", "fal", "fat", "fad", "fadr", "fadl", "fadt", "fab", "fass", "fasr", "fasl", "fast", "fasds", "fasdr", "fasdl", "fasdt", ...r$1, ...x],
   m$1 = ["solid", "regular", "light", "thin", "duotone", "brands"],
   c$1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
   F$1 = c$1.concat([11, 12, 13, 14, 15, 16, 17, 18, 19, 20]),
-  Fo = [...Object.keys(I$1), ...m$1, "2xs", "xs", "sm", "lg", "xl", "2xl", "beat", "border", "fade", "beat-fade", "bounce", "flip-both", "flip-horizontal", "flip-vertical", "flip", "fw", "inverse", "layers-counter", "layers-text", "layers", "li", "pull-left", "pull-right", "pulse", "rotate-180", "rotate-270", "rotate-90", "rotate-by", "shake", "spin-pulse", "spin-reverse", "spin", "stack-1x", "stack-2x", "stack", "ul", t$1.GROUP, t$1.SWAP_OPACITY, t$1.PRIMARY, t$1.SECONDARY].concat(c$1.map(o => "".concat(o, "x"))).concat(F$1.map(o => "w-".concat(o)));
-var ko = {
+  ma = [...Object.keys(I$1), ...m$1, "2xs", "xs", "sm", "lg", "xl", "2xl", "beat", "border", "fade", "beat-fade", "bounce", "flip-both", "flip-horizontal", "flip-vertical", "flip", "fw", "inverse", "layers-counter", "layers-text", "layers", "li", "pull-left", "pull-right", "pulse", "rotate-180", "rotate-270", "rotate-90", "rotate-by", "shake", "spin-pulse", "spin-reverse", "spin", "stack-1x", "stack-2x", "stack", "ul", t$1.GROUP, t$1.SWAP_OPACITY, t$1.PRIMARY, t$1.SECONDARY].concat(c$1.map(a => "".concat(a, "x"))).concat(F$1.map(a => "w-".concat(a)));
+var wa = {
   "Font Awesome 5 Free": {
     900: "fas",
     400: "far"
@@ -123956,10 +123983,10 @@ _STYLE_TO_PREFIX[s] = _objectSpread2(_objectSpread2(_objectSpread2(_objectSpread
   duotone: 'fad'
 }), _STYLE_TO_PREFIX[s]), Et['kit']), Et['kit-duotone']);
 const STYLE_TO_PREFIX = familyProxy(_STYLE_TO_PREFIX);
-const _PREFIX_TO_LONG_STYLE = _objectSpread2({}, co);
+const _PREFIX_TO_LONG_STYLE = _objectSpread2({}, ga);
 _PREFIX_TO_LONG_STYLE[s] = _objectSpread2(_objectSpread2({}, _PREFIX_TO_LONG_STYLE[s]), Wt['kit']);
 const PREFIX_TO_LONG_STYLE = familyProxy(_PREFIX_TO_LONG_STYLE);
-const _LONG_STYLE_TO_PREFIX = _objectSpread2({}, po);
+const _LONG_STYLE_TO_PREFIX = _objectSpread2({}, ua);
 _LONG_STYLE_TO_PREFIX[s] = _objectSpread2(_objectSpread2({}, _LONG_STYLE_TO_PREFIX[s]), Ct['kit']);
 const LONG_STYLE_TO_PREFIX = familyProxy(_LONG_STYLE_TO_PREFIX);
 const ICON_SELECTION_SYNTAX_PATTERN = p; // eslint-disable-line no-useless-escape
@@ -123970,7 +123997,7 @@ const _FONT_WEIGHT_TO_PREFIX = _objectSpread2({}, G);
 const FONT_WEIGHT_TO_PREFIX = familyProxy(_FONT_WEIGHT_TO_PREFIX);
 const ATTRIBUTES_WATCHED_FOR_MUTATION = ['class', 'data-prefix', 'data-icon', 'data-fa-transform', 'data-fa-mask'];
 const DUOTONE_CLASSES = A;
-const RESERVED_CLASSES = [...At, ...Fo];
+const RESERVED_CLASSES = [...At, ...ma];
 const initial = WINDOW.FontAwesomeConfig || {};
 function getAttrConfig(attr) {
   var element = DOCUMENT.querySelector('script[' + attr + ']');
@@ -124597,9 +124624,9 @@ function getCanonicalIcon(values) {
     skipLookups = false
   } = params;
   let givenPrefix = null;
-  const faCombinedClasses = xo.concat(bt$1);
+  const faCombinedClasses = Ia.concat(bt$1);
   const faStyleOrFamilyClasses = sortedUniqueValues(values.filter(cls => faCombinedClasses.includes(cls)));
-  const nonStyleOrFamilyClasses = sortedUniqueValues(values.filter(cls => !xo.includes(cls)));
+  const nonStyleOrFamilyClasses = sortedUniqueValues(values.filter(cls => !Ia.includes(cls)));
   const faStyles = faStyleOrFamilyClasses.filter(cls => {
     givenPrefix = cls;
     return !P.includes(cls);
@@ -124648,7 +124675,7 @@ function applyShimAndAlias(skipLookups, givenPrefix, canonical) {
 const newCanonicalFamilies = L.filter(familyId => {
   return familyId !== s || familyId !== t;
 });
-const newCanonicalStyles = Object.keys(co).filter(key => key !== s).map(key => Object.keys(co[key])).flat();
+const newCanonicalStyles = Object.keys(ga).filter(key => key !== s).map(key => Object.keys(ga[key])).flat();
 function getDefaultCanonicalPrefix(prefixOptions) {
   const {
     values,
@@ -125210,7 +125237,7 @@ const p$2 = config.measurePerformance && PERFORMANCE && PERFORMANCE.mark && PERF
   mark: noop$1,
   measure: noop$1
 };
-const preamble = "FA \"6.7.1\"";
+const preamble = "FA \"6.7.2\"";
 const begin = name => {
   p$2.mark("".concat(preamble, " ").concat(name, " begins"));
   return () => end(name);
@@ -125354,7 +125381,7 @@ function disableObservation() {
 function enableObservation() {
   disabled = false;
 }
-let mo$1 = null;
+let mo = null;
 function observe(options) {
   if (!MUTATION_OBSERVER) {
     return;
@@ -125368,7 +125395,7 @@ function observe(options) {
     pseudoElementsCallback = noop$2,
     observeMutationsRoot = DOCUMENT
   } = options;
-  mo$1 = new MUTATION_OBSERVER(objects => {
+  mo = new MUTATION_OBSERVER(objects => {
     if (disabled) return;
     const defaultPrefix = getDefaultUsablePrefix();
     toArray(objects).forEach(mutationRecord => {
@@ -125396,7 +125423,7 @@ function observe(options) {
     });
   });
   if (!IS_DOM) return;
-  mo$1.observe(observeMutationsRoot, {
+  mo.observe(observeMutationsRoot, {
     childList: true,
     attributes: true,
     characterData: true,
@@ -125404,8 +125431,8 @@ function observe(options) {
   });
 }
 function disconnect() {
-  if (!mo$1) return;
-  mo$1.disconnect();
+  if (!mo) return;
+  mo.disconnect();
 }
 function styleParser(node) {
   const style = node.getAttribute('style');
@@ -125532,7 +125559,7 @@ function generateMutation(node) {
   }
 }
 function getKnownPrefixes() {
-  return [...Ft, ...xo];
+  return [...Ft, ...Ia];
 }
 function onTree(root) {
   let callback = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
@@ -125901,7 +125928,7 @@ const _FONT_FAMILY_WEIGHT_TO_PREFIX = _objectSpread2(_objectSpread2(_objectSprea
     normal: 'fas',
     400: 'fas'
   }
-}), lt), ko), Yt);
+}), lt), wa), Yt);
 const FONT_FAMILY_WEIGHT_TO_PREFIX = Object.keys(_FONT_FAMILY_WEIGHT_TO_PREFIX).reduce((acc, key) => {
   acc[key.toLowerCase()] = _FONT_FAMILY_WEIGHT_TO_PREFIX[key];
   return acc;
@@ -126978,7 +127005,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   prefix: () => (/* binding */ prefix)
 /* harmony export */ });
 /*!
- * Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com
+ * Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com
  * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
  * Copyright 2024 Fonticons, Inc.
  */
@@ -128196,7 +128223,7 @@ const faVine = {
 const faSignalMessenger = {
   prefix: 'fab',
   iconName: 'signal-messenger',
-  icon: [512, 512, [], "e663", "M194.6 7.5l5.8 23.3C177.7 36.3 156 45.3 136 57.4L123.7 36.8c22-13.3 45.9-23.2 70.9-29.3zm122.9 0l-5.8 23.3C334.3 36.3 356 45.3 376 57.4l12.4-20.6c-22-13.3-46-23.2-71-29.3zM36.8 123.7c-13.3 22-23.2 45.9-29.3 70.9l23.3 5.8C36.3 177.7 45.3 156 57.4 136L36.8 123.7zM24 256c0-11.6 .9-23.3 2.6-34.8L2.9 217.6c-3.8 25.4-3.8 51.3 0 76.7l23.7-3.6C24.9 279.3 24 267.6 24 256zM388.3 475.2L376 454.6c-20 12.1-41.6 21-64.2 26.6l5.8 23.3c24.9-6.2 48.8-16 70.8-29.3zM488 256c0 11.6-.9 23.3-2.6 34.8l23.7 3.6c3.8-25.4 3.8-51.3 0-76.7l-23.7 3.6c1.7 11.5 2.6 23.1 2.6 34.8zm16.5 61.4l-23.3-5.8c-5.6 22.7-14.5 44.3-26.6 64.3l20.6 12.4c13.3-22 23.2-46 29.3-71zm-213.8 168c-23 3.5-46.5 3.5-69.5 0l-3.6 23.7c25.4 3.8 51.3 3.8 76.7 0l-3.6-23.7zm152-91.8c-13.8 18.7-30.4 35.3-49.2 49.1l14.2 19.3c20.7-15.2 39-33.4 54.2-54.1l-19.3-14.4zM393.6 69.2c18.8 13.8 35.3 30.4 49.2 49.2L462.1 104C446.9 83.4 428.6 65.1 408 49.9L393.6 69.2zM69.2 118.4c13.8-18.8 30.4-35.3 49.2-49.2L104 49.9C83.4 65.1 65.1 83.4 49.9 104l19.3 14.4zm406 5.3L454.6 136c12.1 20 21 41.6 26.6 64.2l23.3-5.8c-6.2-24.9-16-48.8-29.3-70.8zm-254-97.1c23-3.5 46.5-3.5 69.5 0l3.6-23.7C268.9-1 243.1-1 217.6 2.9l3.6 23.7zM81.6 468.4L32 480l11.6-49.6L20.2 425 8.6 474.5c-.9 4-.8 8.1 .3 12.1s3.2 7.5 6.1 10.4s6.5 5 10.4 6.1s8.1 1.2 12.1 .3L87 492l-5.4-23.6zM25.2 403.6L48.6 409l8-34.4c-11.7-19.6-20.4-40.8-25.8-63L7.5 317.4c5.2 21.2 13.2 41.7 23.6 60.8l-5.9 25.3zm112 52l-34.4 8 5.4 23.4 25.3-5.9c19.2 10.4 39.6 18.4 60.8 23.6l5.8-23.3c-22.1-5.5-43.3-14.3-62.8-26l-.2 .2zM256 48c-37.2 0-73.6 10-105.6 28.9s-58.4 46-76.3 78.6s-26.9 69.3-25.8 106.4s12 73.3 31.8 104.8L60 452l85.3-20c27.3 17.2 58.2 27.8 90.3 31s64.5-1.1 94.6-12.6s57.2-29.8 79-53.6s37.8-52.2 46.8-83.2s10.5-63.6 4.7-95.3s-19-61.6-38.4-87.4s-44.5-46.7-73.4-61S288.3 48 256 48z"]
+  icon: [512, 512, [], "e663", "M256 0c13.3 0 26.3 1 39.1 3l-3.7 23.7C279.9 24.9 268 24 256 24s-23.9 .9-35.4 2.7L216.9 3C229.7 1 242.7 0 256 0zm60.8 7.3l-5.7 23.3c23.4 5.7 45.4 14.9 65.4 27.1l12.5-20.5c-22.1-13.4-46.4-23.6-72.2-29.9zm90.5 42.2L393.1 68.8c19.1 14 36 30.9 50.1 50.1l19.4-14.2C447 83.6 428.4 65 407.3 49.5zm67.5 73.6l-20.5 12.5c12.2 20 21.4 42 27.1 65.4l23.3-5.7c-6.3-25.8-16.5-50.1-29.9-72.2zM509 216.9l-23.7 3.7c1.8 11.5 2.7 23.4 2.7 35.4s-.9 23.9-2.7 35.4l23.7 3.7c1.9-12.7 3-25.8 3-39.1s-1-26.3-3-39.1zM454.3 376.5c12.2-20 21.4-42 27.1-65.4l23.3 5.7c-6.3 25.8-16.5 50.1-29.9 72.2l-20.5-12.5zm-11.1 16.6l19.4 14.2c-15.5 21.1-34.1 39.8-55.2 55.2l-14.2-19.4c19.1-14 36-30.9 50.1-50.1zm-66.7 61.2l12.5 20.5c-22.1 13.4-46.4 23.6-72.2 29.9l-5.7-23.3c23.4-5.7 45.4-14.9 65.4-27.1zm-85.1 31l3.7 23.7c-12.7 1.9-25.8 3-39.1 3s-26.3-1-39.1-3l3.7-23.7c11.5 1.8 23.4 2.7 35.4 2.7s23.9-.9 35.4-2.7zm-90.5-3.9l-5.7 23.3c-19.4-4.7-37.9-11.6-55.3-20.5l-24.3 5.7-5.5-23.4 32.8-7.7 7.8 4c15.7 8 32.5 14.3 50.1 18.6zM90 471.3l5.5 23.4-41.6 9.7C26 510.8 1.2 486 7.6 458.2l9.7-41.6L40.7 422 31 463.7c-2.4 10.4 6.9 19.7 17.3 17.3L90 471.3zM45.5 401.8l-23.4-5.5L27.8 372C18.9 354.7 12 336.1 7.3 316.7l23.3-5.7c4.3 17.6 10.6 34.4 18.6 50.1l4 7.8-7.7 32.8zM26.7 291.4L3 295.1C1 282.3 0 269.3 0 256s1-26.3 3-39.1l23.7 3.7C24.9 232.1 24 244 24 256s.9 23.9 2.7 35.4zm3.9-90.5L7.3 195.2c6.3-25.8 16.5-50.1 29.9-72.2l20.5 12.5c-12.2 20-21.4 42-27.1 65.4zm38.3-82.1L49.5 104.7C65 83.6 83.6 65 104.7 49.5l14.2 19.4c-19.1 14-36 30.9-50.1 50.1zm66.7-61.2L123.1 37.2c22.1-13.4 46.4-23.6 72.2-29.9l5.7 23.3c-23.4 5.7-45.4 14.9-65.4 27.1zM464 256c0 114.9-93.1 208-208 208c-36.4 0-70.7-9.4-100.5-25.8c-2.9-1.6-6.2-2.1-9.4-1.4L53.6 458.4l21.6-92.5c.7-3.2 .2-6.5-1.4-9.4C57.4 326.7 48 292.4 48 256C48 141.1 141.1 48 256 48s208 93.1 208 208z"]
 };
 const faPaypal = {
   prefix: 'fab',
@@ -132008,7 +132035,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   prefix: () => (/* binding */ prefix)
 /* harmony export */ });
 /*!
- * Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com
+ * Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com
  * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
  * Copyright 2024 Fonticons, Inc.
  */
