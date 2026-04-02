@@ -13904,7 +13904,7 @@ class ApagosRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_4__.Configurabl
       zeroPieces.push(0);
       onePieces.push(0);
       sizes.push(currentSize);
-      numberOfPieces += Math.floor(currentSize / 2) + 1;
+      numberOfPieces += Math.ceil(currentSize / 2);
       currentSize += increment;
     }
     return _ApagosState__WEBPACK_IMPORTED_MODULE_7__.ApagosState.fromRepresentation(0, [zeroPieces, onePieces, sizes.reverse()], numberOfPieces, numberOfPieces);
