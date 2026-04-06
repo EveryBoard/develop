@@ -527,10 +527,10 @@ class ViewBox {
     return new ViewBox(left, up, width, height);
   }
   static getLimits(coords) {
-    let maxX = Number.MIN_SAFE_INTEGER;
-    let maxY = Number.MIN_SAFE_INTEGER;
-    let minX = Number.MAX_SAFE_INTEGER;
-    let minY = Number.MAX_SAFE_INTEGER;
+    let maxX = Number.NEGATIVE_INFINITY;
+    let maxY = Number.NEGATIVE_INFINITY;
+    let minX = Number.POSITIVE_INFINITY;
+    let minY = Number.POSITIVE_INFINITY;
     for (const coord of coords) {
       minX = Math.min(minX, coord.x);
       minY = Math.min(minY, coord.y);
@@ -27203,7 +27203,8 @@ let AbstractGoMoveGenerator = class AbstractGoMoveGenerator extends _jscaip_AI_A
     // 5. remove the entry points which on the true actual board are link to an already dead group
     // 6. return that list of alive group that AI consider dead
     const correctBoard = this.getCorrectBoard(currentState).getCopiedBoard();
-    const groupsData = this.rules.getGroupsDataWhere(correctBoard, piece => piece !== _GoPiece__WEBPACK_IMPORTED_MODULE_3__.GoPiece.EMPTY && piece !== _GoPiece__WEBPACK_IMPORTED_MODULE_3__.GoPiece.UNREACHABLE);
+    const groupDataFactory = this.rules.getGoGroupDataFactory();
+    const groupsData = groupDataFactory.getGroupsDataWhere(correctBoard, piece => piece !== _GoPiece__WEBPACK_IMPORTED_MODULE_3__.GoPiece.EMPTY && piece !== _GoPiece__WEBPACK_IMPORTED_MODULE_3__.GoPiece.UNREACHABLE);
     for (const group of groupsData) {
       const coord = group.getCoords()[0];
       const correctContent = correctBoard[coord.y][coord.x];
@@ -27357,27 +27358,7 @@ let AbstractGoRules = class AbstractGoRules extends _jscaip_Rules__WEBPACK_IMPOR
     return new _GoState__WEBPACK_IMPORTED_MODULE_11__.GoState(resultingBoard, captured, state.turn, state.koCoord, state.phase);
   }
   getEmptyZones(deadlessState) {
-    return this.getGroupsDataWhere(deadlessState.getCopiedBoard(), piece => piece.isEmpty());
-  }
-  getGroupsDataWhere(board, condition) {
-    const groups = [];
-    let coord;
-    let group;
-    let currentSpace;
-    const goGroupDataFactory = this.getGoGroupDataFactory();
-    for (let y = 0; y < board.length; y++) {
-      for (let x = 0; x < board[0].length; x++) {
-        coord = new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_2__.Coord(x, y);
-        currentSpace = board[y][x];
-        if (condition(currentSpace)) {
-          if (groups.some(currentGroup => currentGroup.selfContains(coord)) === false) {
-            group = goGroupDataFactory.getGroupData(coord, board);
-            groups.push(group);
-          }
-        }
-      }
-    }
-    return groups;
+    return this.getGoGroupDataFactory().getGroupsDataWhere(deadlessState.getCopiedBoard(), piece => piece.isEmpty());
   }
   switchAliveness(groupCoord, switchedState) {
     const switchedBoard = switchedState.getCopiedBoard();
@@ -27669,7 +27650,7 @@ class GoFailure {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   GoGroupDatasFactory: () => (/* binding */ GoGroupDatasFactory),
+/* harmony export */   GoGroupDataFactory: () => (/* binding */ GoGroupDataFactory),
 /* harmony export */   OrthogonalGoGroupDataFactory: () => (/* binding */ OrthogonalGoGroupDataFactory),
 /* harmony export */   TriangularGoGroupDataFactory: () => (/* binding */ TriangularGoGroupDataFactory)
 /* harmony export */ });
@@ -27681,17 +27662,17 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class GoGroupDatasFactory extends _jscaip_BoardData__WEBPACK_IMPORTED_MODULE_0__.GroupDataFactory {
+class GoGroupDataFactory extends _jscaip_BoardData__WEBPACK_IMPORTED_MODULE_0__.GroupDataFactory {
   getNewInstance(color) {
     return new _GoGroupsData__WEBPACK_IMPORTED_MODULE_3__.GoGroupData(color, [], [], [], [], [], []);
   }
 }
-class OrthogonalGoGroupDataFactory extends GoGroupDatasFactory {
+class OrthogonalGoGroupDataFactory extends GoGroupDataFactory {
   getDirections(_) {
     return _jscaip_Orthogonal__WEBPACK_IMPORTED_MODULE_1__.Orthogonal.ORTHOGONALS;
   }
 }
-class TriangularGoGroupDataFactory extends GoGroupDatasFactory {
+class TriangularGoGroupDataFactory extends GoGroupDataFactory {
   getDirections(coord) {
     return _jscaip_state_TriangularCheckerBoard__WEBPACK_IMPORTED_MODULE_2__.TriangularCheckerBoard.getDirections(coord);
   }
@@ -46338,11 +46319,11 @@ class ReversiHeuristic extends _jscaip_AI_Minimax__WEBPACK_IMPORTED_MODULE_0__.P
     const metrics = _jscaip_PlayerNumberTable__WEBPACK_IMPORTED_MODULE_1__.PlayerNumberTable.of([0], [0]);
     for (const coordAndContent of state.getPlayerCoordsAndContent()) {
       const coord = coordAndContent.coord;
-      const content = coordAndContent.content;
+      const player = coordAndContent.content;
       const verticalBorder = state.isVerticalEdge(coord);
       const horizontalBorder = state.isHorizontalEdge(coord);
       const locationValue = (verticalBorder ? 4 : 1) * (horizontalBorder ? 4 : 1);
-      metrics.add(content, 0, locationValue);
+      metrics.add(player, 0, locationValue);
     }
     return metrics;
   }
@@ -46936,6 +46917,85 @@ class ReversiComponent extends _components_game_components_rectangular_game_comp
 
 /***/ }),
 
+/***/ 71699:
+/*!*******************************************************************************************!*\
+  !*** ./src/app/games/sahara/SaharaCapturedThenCapturedFreedomThenAllFreedomsHeuristic.ts ***!
+  \*******************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   SaharaCapturedThenCapturedFreedomThenAllFreedomsHeuristic: () => (/* binding */ SaharaCapturedThenCapturedFreedomThenAllFreedomsHeuristic)
+/* harmony export */ });
+/* harmony import */ var _jscaip_FourStatePiece__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../jscaip/FourStatePiece */ 10003);
+/* harmony import */ var _jscaip_Player__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../jscaip/Player */ 22092);
+/* harmony import */ var _jscaip_PlayerNumberTable__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../jscaip/PlayerNumberTable */ 97813);
+/* harmony import */ var _jscaip_state_TriangularGameState__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../jscaip/state/TriangularGameState */ 5075);
+/* harmony import */ var _SaharaMobilityHeuristic__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./SaharaMobilityHeuristic */ 53924);
+
+
+
+
+
+class SaharaCapturedThenCapturedFreedomThenAllFreedomsHeuristic extends _SaharaMobilityHeuristic__WEBPACK_IMPORTED_MODULE_4__.SaharaMobilityHeuristic {
+  getMetrics(node, _config) {
+    const capturedAndFreedomForZero = this.getCapturedAndFreedom(node.gameState, _jscaip_Player__WEBPACK_IMPORTED_MODULE_1__.Player.ZERO);
+    const capturedAndFreedomForOne = this.getCapturedAndFreedom(node.gameState, _jscaip_Player__WEBPACK_IMPORTED_MODULE_1__.Player.ONE);
+    const zeroFreedoms = this.rules.getBoardValuesFor(node.gameState, _jscaip_Player__WEBPACK_IMPORTED_MODULE_1__.Player.ZERO);
+    const oneFreedoms = this.rules.getBoardValuesFor(node.gameState, _jscaip_Player__WEBPACK_IMPORTED_MODULE_1__.Player.ONE);
+    // 1st criterion: having a prisonner is good
+    // 2nd criterion: having that prisonner piece have less freedoms as possible
+    // 3rd criterion: having yourself, the more freedoms
+    return _jscaip_PlayerNumberTable__WEBPACK_IMPORTED_MODULE_2__.PlayerNumberTable.of([capturedAndFreedomForOne.captured ? 1 : 0, -capturedAndFreedomForOne.freedoms, ...zeroFreedoms], [capturedAndFreedomForZero.captured ? 1 : 0, -capturedAndFreedomForZero.freedoms, ...oneFreedoms]);
+  }
+  getCapturedAndFreedom(state, player) {
+    for (const coord of state.allCoords()) {
+      if (state.hasPieceBelongingTo(coord, player)) {
+        if (this.countMovesToClosestAlly(state, coord) === Number.POSITIVE_INFINITY) {
+          const freedoms = _jscaip_state_TriangularGameState__WEBPACK_IMPORTED_MODULE_3__.TriangularGameState.getEmptyNeighbors(state.board, coord, _jscaip_FourStatePiece__WEBPACK_IMPORTED_MODULE_0__.FourStatePiece.EMPTY).length;
+          return {
+            captured: true,
+            freedoms
+          };
+        }
+      }
+    }
+    return {
+      captured: false,
+      freedoms: 0
+    };
+  }
+}
+
+/***/ }),
+
+/***/ 41040:
+/*!*****************************************************************************************!*\
+  !*** ./src/app/games/sahara/SaharaCapturedThenCapturedFreedomThenAllFreedomsMinimax.ts ***!
+  \*****************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   SaharaCapturedThenCapturedFreedomThenAllFreedomsMinimax: () => (/* binding */ SaharaCapturedThenCapturedFreedomThenAllFreedomsMinimax)
+/* harmony export */ });
+/* harmony import */ var _jscaip_AI_Minimax__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../jscaip/AI/Minimax */ 95291);
+/* harmony import */ var _SaharaCapturedThenCapturedFreedomThenAllFreedomsHeuristic__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SaharaCapturedThenCapturedFreedomThenAllFreedomsHeuristic */ 71699);
+/* harmony import */ var _SaharaMoveGenerator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SaharaMoveGenerator */ 29389);
+/* harmony import */ var _SaharaRules__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./SaharaRules */ 31356);
+
+
+
+
+class SaharaCapturedThenCapturedFreedomThenAllFreedomsMinimax extends _jscaip_AI_Minimax__WEBPACK_IMPORTED_MODULE_0__.Minimax {
+  constructor() {
+    super($localize`Capture > Captured Freedom > All Freedoms`, _SaharaRules__WEBPACK_IMPORTED_MODULE_3__.SaharaRules.get(), new _SaharaCapturedThenCapturedFreedomThenAllFreedomsHeuristic__WEBPACK_IMPORTED_MODULE_1__.SaharaCapturedThenCapturedFreedomThenAllFreedomsHeuristic(_SaharaRules__WEBPACK_IMPORTED_MODULE_3__.SaharaRules.get()), new _SaharaMoveGenerator__WEBPACK_IMPORTED_MODULE_2__.SaharaMoveGenerator());
+    this.random = true;
+  }
+}
+
+/***/ }),
+
 /***/ 66577:
 /*!***********************************************!*\
   !*** ./src/app/games/sahara/SaharaFailure.ts ***!
@@ -46957,15 +47017,15 @@ class SaharaFailure {
 
 /***/ }),
 
-/***/ 76635:
-/*!*************************************************!*\
-  !*** ./src/app/games/sahara/SaharaHeuristic.ts ***!
-  \*************************************************/
+/***/ 77581:
+/*!********************************************************!*\
+  !*** ./src/app/games/sahara/SaharaFreedomHeuristic.ts ***!
+  \********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   SaharaHeuristic: () => (/* binding */ SaharaHeuristic)
+/* harmony export */   SaharaFreedomHeuristic: () => (/* binding */ SaharaFreedomHeuristic)
 /* harmony export */ });
 /* harmony import */ var _jscaip_AI_Minimax__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../jscaip/AI/Minimax */ 95291);
 /* harmony import */ var _jscaip_Player__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../jscaip/Player */ 22092);
@@ -46975,10 +47035,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class SaharaHeuristic extends _jscaip_AI_Minimax__WEBPACK_IMPORTED_MODULE_0__.PlayerMetricHeuristic {
+class SaharaFreedomHeuristic extends _jscaip_AI_Minimax__WEBPACK_IMPORTED_MODULE_0__.PlayerMetricHeuristic {
   getMetrics(node, _config) {
-    const zeroFreedoms = _SaharaRules__WEBPACK_IMPORTED_MODULE_3__.SaharaRules.getBoardValuesFor(node.gameState, _jscaip_Player__WEBPACK_IMPORTED_MODULE_1__.Player.ZERO);
-    const oneFreedoms = _SaharaRules__WEBPACK_IMPORTED_MODULE_3__.SaharaRules.getBoardValuesFor(node.gameState, _jscaip_Player__WEBPACK_IMPORTED_MODULE_1__.Player.ONE);
+    const zeroFreedoms = _SaharaRules__WEBPACK_IMPORTED_MODULE_3__.SaharaRules.get().getBoardValuesFor(node.gameState, _jscaip_Player__WEBPACK_IMPORTED_MODULE_1__.Player.ZERO);
+    const oneFreedoms = _SaharaRules__WEBPACK_IMPORTED_MODULE_3__.SaharaRules.get().getBoardValuesFor(node.gameState, _jscaip_Player__WEBPACK_IMPORTED_MODULE_1__.Player.ONE);
     return _jscaip_PlayerNumberTable__WEBPACK_IMPORTED_MODULE_2__.PlayerNumberTable.of(zeroFreedoms, oneFreedoms);
   }
 }
@@ -46993,19 +47053,132 @@ class SaharaHeuristic extends _jscaip_AI_Minimax__WEBPACK_IMPORTED_MODULE_0__.Pl
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   SaharaMinimax: () => (/* binding */ SaharaMinimax)
+/* harmony export */   SaharaFreedomMinimax: () => (/* binding */ SaharaFreedomMinimax)
 /* harmony export */ });
 /* harmony import */ var _jscaip_AI_Minimax__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../jscaip/AI/Minimax */ 95291);
-/* harmony import */ var _SaharaHeuristic__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SaharaHeuristic */ 76635);
+/* harmony import */ var _SaharaFreedomHeuristic__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SaharaFreedomHeuristic */ 77581);
 /* harmony import */ var _SaharaMoveGenerator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SaharaMoveGenerator */ 29389);
 /* harmony import */ var _SaharaRules__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./SaharaRules */ 31356);
 
 
 
 
-class SaharaMinimax extends _jscaip_AI_Minimax__WEBPACK_IMPORTED_MODULE_0__.Minimax {
+class SaharaFreedomMinimax extends _jscaip_AI_Minimax__WEBPACK_IMPORTED_MODULE_0__.Minimax {
   constructor() {
-    super($localize`Sahara`, _SaharaRules__WEBPACK_IMPORTED_MODULE_3__.SaharaRules.get(), new _SaharaHeuristic__WEBPACK_IMPORTED_MODULE_1__.SaharaHeuristic(), new _SaharaMoveGenerator__WEBPACK_IMPORTED_MODULE_2__.SaharaMoveGenerator());
+    super($localize`Freedom`, _SaharaRules__WEBPACK_IMPORTED_MODULE_3__.SaharaRules.get(), new _SaharaFreedomHeuristic__WEBPACK_IMPORTED_MODULE_1__.SaharaFreedomHeuristic(), new _SaharaMoveGenerator__WEBPACK_IMPORTED_MODULE_2__.SaharaMoveGenerator());
+  }
+}
+
+/***/ }),
+
+/***/ 53924:
+/*!*********************************************************!*\
+  !*** ./src/app/games/sahara/SaharaMobilityHeuristic.ts ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   SaharaMobilityHeuristic: () => (/* binding */ SaharaMobilityHeuristic)
+/* harmony export */ });
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @everyboard/lib */ 65042);
+/* harmony import */ var _everyboard_lib__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_everyboard_lib__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _jscaip_AI_Minimax__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../jscaip/AI/Minimax */ 95291);
+/* harmony import */ var _jscaip_CoordSet__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../jscaip/CoordSet */ 37406);
+/* harmony import */ var _jscaip_FourStatePiece__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../jscaip/FourStatePiece */ 10003);
+/* harmony import */ var _jscaip_Player__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../jscaip/Player */ 22092);
+/* harmony import */ var _jscaip_PlayerNumberTable__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../jscaip/PlayerNumberTable */ 97813);
+
+
+
+
+
+
+class SaharaMobilityHeuristic extends _jscaip_AI_Minimax__WEBPACK_IMPORTED_MODULE_1__.PlayerMetricHeuristic {
+  rules;
+  constructor(rules) {
+    super();
+    this.rules = rules;
+  }
+  getMetrics(node, _config) {
+    const zeroMobilities = this.getMobilities(node.gameState, _jscaip_Player__WEBPACK_IMPORTED_MODULE_4__.Player.ZERO);
+    const oneMobilities = this.getMobilities(node.gameState, _jscaip_Player__WEBPACK_IMPORTED_MODULE_4__.Player.ONE);
+    // Inversing cause high number are bad for you, so good for the opponent
+    return _jscaip_PlayerNumberTable__WEBPACK_IMPORTED_MODULE_5__.PlayerNumberTable.of(oneMobilities, zeroMobilities);
+  }
+  /**
+   * @returns a list of number sorted from biggest to smallest
+   *          each of those number represents the number of moves that one piece must take to reach the closest ally
+   *          hence, the higher is considered the worst, as POSITIVE_INFINITY means surrounded
+   */
+  getMobilities(state, player) {
+    const mobilities = [];
+    for (const coord of state.allCoords()) {
+      if (state.hasPieceBelongingTo(coord, player)) {
+        mobilities.push(this.countMovesToClosestAlly(state, coord));
+      }
+    }
+    _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.ArrayUtils.sortByDescending(mobilities, mobility => mobility);
+    return mobilities;
+  }
+  countMovesToClosestAlly(state, coord) {
+    let exploredCoords = new _jscaip_CoordSet__WEBPACK_IMPORTED_MODULE_2__.CoordSet([coord]);
+    let newWaveOfNeighbors = this.getLandingCoords(state, new _jscaip_CoordSet__WEBPACK_IMPORTED_MODULE_2__.CoordSet([coord]));
+    let depth = 1;
+    while (newWaveOfNeighbors.size() > 0) {
+      const numberOfAllies = newWaveOfNeighbors.filter(c => state.getPieceAt(c).equals(state.getPieceAt(coord)));
+      const emptyNeighbors = newWaveOfNeighbors.filter(c => state.getPieceAt(c).equals(_jscaip_FourStatePiece__WEBPACK_IMPORTED_MODULE_3__.FourStatePiece.EMPTY));
+      if (numberOfAllies.size() > 0) {
+        return depth;
+      } else if (emptyNeighbors.size() === 0) {
+        newWaveOfNeighbors = new _jscaip_CoordSet__WEBPACK_IMPORTED_MODULE_2__.CoordSet();
+      } else {
+        exploredCoords = exploredCoords.union(emptyNeighbors);
+        newWaveOfNeighbors = this.getLandingCoords(state, emptyNeighbors);
+        newWaveOfNeighbors = newWaveOfNeighbors.filter(c => exploredCoords.contains(c) === false);
+        depth++;
+      }
+    }
+    return Number.POSITIVE_INFINITY;
+  }
+  getLandingCoords(state, coords) {
+    let neighboringCoords = new _jscaip_CoordSet__WEBPACK_IMPORTED_MODULE_2__.CoordSet();
+    for (const currentCoord of coords) {
+      const neighbors = this.rules.getValidLandingCoords(state, currentCoord);
+      for (const neighbor of neighbors) {
+        if (coords.contains(neighbor) === false) {
+          neighboringCoords = neighboringCoords.addElement(neighbor);
+        }
+      }
+    }
+    return neighboringCoords;
+  }
+}
+
+/***/ }),
+
+/***/ 50663:
+/*!*******************************************************!*\
+  !*** ./src/app/games/sahara/SaharaMobilityMinimax.ts ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   SaharaMobilityMinimax: () => (/* binding */ SaharaMobilityMinimax)
+/* harmony export */ });
+/* harmony import */ var _jscaip_AI_Minimax__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../jscaip/AI/Minimax */ 95291);
+/* harmony import */ var _SaharaMobilityHeuristic__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SaharaMobilityHeuristic */ 53924);
+/* harmony import */ var _SaharaMoveGenerator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SaharaMoveGenerator */ 29389);
+/* harmony import */ var _SaharaRules__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./SaharaRules */ 31356);
+
+
+
+
+class SaharaMobilityMinimax extends _jscaip_AI_Minimax__WEBPACK_IMPORTED_MODULE_0__.Minimax {
+  constructor() {
+    super($localize`Mobility`, _SaharaRules__WEBPACK_IMPORTED_MODULE_3__.SaharaRules.get(), new _SaharaMobilityHeuristic__WEBPACK_IMPORTED_MODULE_1__.SaharaMobilityHeuristic(_SaharaRules__WEBPACK_IMPORTED_MODULE_3__.SaharaRules.get()), new _SaharaMoveGenerator__WEBPACK_IMPORTED_MODULE_2__.SaharaMoveGenerator());
+    this.random = true;
   }
 }
 
@@ -47105,7 +47278,7 @@ class SaharaMoveGenerator extends _jscaip_AI_AI__WEBPACK_IMPORTED_MODULE_0__.Mov
     const moves = [];
     const board = node.gameState.getCopiedBoard();
     const player = node.gameState.getCurrentPlayer();
-    const startingCoords = _SaharaRules__WEBPACK_IMPORTED_MODULE_4__.SaharaRules.getStartingCoords(node.gameState, player);
+    const startingCoords = _SaharaRules__WEBPACK_IMPORTED_MODULE_4__.SaharaRules.get().getStartingCoords(node.gameState, player);
     for (const start of startingCoords) {
       const neighbors = _jscaip_state_TriangularGameState__WEBPACK_IMPORTED_MODULE_2__.TriangularGameState.getEmptyNeighbors(board, start, _jscaip_FourStatePiece__WEBPACK_IMPORTED_MODULE_1__.FourStatePiece.EMPTY);
       for (const neighbor of neighbors) {
@@ -47227,7 +47400,7 @@ let SaharaRules = class SaharaRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODU
     board[yEnd][fourth] = X;
     return new _SaharaState__WEBPACK_IMPORTED_MODULE_14__.SaharaState(board, 0);
   }
-  static getStartingCoords(state, player) {
+  getStartingCoords(state, player) {
     const startingCoords = [];
     for (const coordAndContent of state.getCoordsAndContents()) {
       if (coordAndContent.content.is(player)) {
@@ -47236,17 +47409,25 @@ let SaharaRules = class SaharaRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODU
     }
     return startingCoords;
   }
-  static getBoardValuesFor(state, player) {
-    const playersPiece = SaharaRules_1.getStartingCoords(state, player);
-    const playerFreedoms = [];
+  getBoardValueByPiece(state, player) {
+    const playersPiece = this.getStartingCoords(state, player);
+    const playerFreedoms = new _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPMap();
     for (const piece of playersPiece) {
       const freedoms = _jscaip_state_TriangularGameState__WEBPACK_IMPORTED_MODULE_11__.TriangularGameState.getEmptyNeighbors(state.board, piece, _jscaip_FourStatePiece__WEBPACK_IMPORTED_MODULE_4__.FourStatePiece.EMPTY).length;
-      if (freedoms === 0) {
-        return [0, 0, 0, 0, 0, 0]; // Because there are 6 pieces
-      }
-      playerFreedoms.push(freedoms);
+      playerFreedoms.set(piece, freedoms);
     }
-    return playerFreedoms.sort((a, b) => a - b);
+    return playerFreedoms;
+  }
+  /**
+   * @param state the evaluated state
+   * @param player the player for which returned values apply
+   * @returns a sorted table of the freedom of player's pieces
+   */
+  getBoardValuesFor(state, player) {
+    const playerFreedomsMap = this.getBoardValueByPiece(state, player);
+    const playerFreedomsValue = playerFreedomsMap.getValueList();
+    _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.ArrayUtils.sortByDescending(playerFreedomsValue, value => -value);
+    return playerFreedomsValue;
   }
   applyLegalMove(move, state, _config, _info) {
     const board = state.getCopiedBoard();
@@ -47290,21 +47471,19 @@ let SaharaRules = class SaharaRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODU
   }
   getGameStatus(node) {
     const board = node.gameState;
-    const zeroFreedoms = SaharaRules_1.getBoardValuesFor(board, _jscaip_Player__WEBPACK_IMPORTED_MODULE_7__.Player.ZERO);
-    const oneFreedoms = SaharaRules_1.getBoardValuesFor(board, _jscaip_Player__WEBPACK_IMPORTED_MODULE_7__.Player.ONE);
-    return SaharaRules_1.getGameStatusFromFreedoms(zeroFreedoms, oneFreedoms);
+    const zeroFreedoms = this.getBoardValuesFor(board, _jscaip_Player__WEBPACK_IMPORTED_MODULE_7__.Player.ZERO);
+    const oneFreedoms = this.getBoardValuesFor(board, _jscaip_Player__WEBPACK_IMPORTED_MODULE_7__.Player.ONE);
+    return this.getGameStatusFromFreedoms(zeroFreedoms, oneFreedoms);
   }
-  getLandingCoords(state, coord) {
-    const isOnBoardAndEmpty = c => {
-      return state.hasPieceAt(c, _jscaip_FourStatePiece__WEBPACK_IMPORTED_MODULE_4__.FourStatePiece.EMPTY);
-    };
-    const landings = new _jscaip_CoordSet__WEBPACK_IMPORTED_MODULE_3__.CoordSet(_jscaip_state_TriangularCheckerBoard__WEBPACK_IMPORTED_MODULE_10__.TriangularCheckerBoard.getNeighbors(coord).filter(isOnBoardAndEmpty));
+  getLandingCoordsMatching(coord, state, premise) {
+    const landings = new _jscaip_CoordSet__WEBPACK_IMPORTED_MODULE_3__.CoordSet(_jscaip_state_TriangularCheckerBoard__WEBPACK_IMPORTED_MODULE_10__.TriangularCheckerBoard.getNeighbors(coord).filter(premise));
     if (_jscaip_state_TriangularCheckerBoard__WEBPACK_IMPORTED_MODULE_10__.TriangularCheckerBoard.isSpaceDark(coord)) {
       return landings.toList();
     } else {
       let farLandings = new _jscaip_CoordSet__WEBPACK_IMPORTED_MODULE_3__.CoordSet(landings.toList()); // Deep copy
-      for (const neighbor of landings) {
-        const secondStepNeighbors = _jscaip_state_TriangularCheckerBoard__WEBPACK_IMPORTED_MODULE_10__.TriangularCheckerBoard.getNeighbors(neighbor).filter(isOnBoardAndEmpty);
+      const emptyNeighbors = landings.filter(c => state.getPieceAt(c).equals(_jscaip_FourStatePiece__WEBPACK_IMPORTED_MODULE_4__.FourStatePiece.EMPTY));
+      for (const neighbor of emptyNeighbors) {
+        const secondStepNeighbors = _jscaip_state_TriangularCheckerBoard__WEBPACK_IMPORTED_MODULE_10__.TriangularCheckerBoard.getNeighbors(neighbor).filter(premise);
         for (const secondStepNeighbor of secondStepNeighbors) {
           farLandings = farLandings.addElement(secondStepNeighbor);
         }
@@ -47312,7 +47491,19 @@ let SaharaRules = class SaharaRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODU
       return farLandings.toList();
     }
   }
-  static getGameStatusFromFreedoms(zeroFreedoms, oneFreedoms) {
+  getLegalLandingCoords(state, coord) {
+    const isOnBoardAndEmpty = c => {
+      return state.hasPieceAt(c, _jscaip_FourStatePiece__WEBPACK_IMPORTED_MODULE_4__.FourStatePiece.EMPTY);
+    };
+    return this.getLandingCoordsMatching(coord, state, isOnBoardAndEmpty);
+  }
+  getValidLandingCoords(state, coord) {
+    const isOnBoardAndReachable = c => {
+      return state.isOnBoard(c) && state.getPieceAt(c).equals(_jscaip_FourStatePiece__WEBPACK_IMPORTED_MODULE_4__.FourStatePiece.UNREACHABLE) === false;
+    };
+    return this.getLandingCoordsMatching(coord, state, isOnBoardAndReachable);
+  }
+  getGameStatusFromFreedoms(zeroFreedoms, oneFreedoms) {
     if (zeroFreedoms[0] === 0) {
       return _jscaip_GameStatus__WEBPACK_IMPORTED_MODULE_5__.GameStatus.ONE_WON;
     } else if (oneFreedoms[0] === 0) {
@@ -47424,13 +47615,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _jscaip_Coord__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../jscaip/Coord */ 16904);
 /* harmony import */ var _jscaip_FourStatePiece__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../jscaip/FourStatePiece */ 10003);
 /* harmony import */ var _jscaip_Player__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../jscaip/Player */ 22092);
-/* harmony import */ var _SaharaFailure__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./SaharaFailure */ 66577);
-/* harmony import */ var _SaharaMinimax__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./SaharaMinimax */ 61928);
-/* harmony import */ var _SaharaMove__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./SaharaMove */ 39446);
-/* harmony import */ var _SaharaMoveGenerator__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./SaharaMoveGenerator */ 29389);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @angular/core */ 37580);
-/* harmony import */ var _services_MessageDisplayer__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../services/MessageDisplayer */ 78055);
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @angular/common */ 60316);
+/* harmony import */ var _SaharaCapturedThenCapturedFreedomThenAllFreedomsMinimax__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./SaharaCapturedThenCapturedFreedomThenAllFreedomsMinimax */ 41040);
+/* harmony import */ var _SaharaFailure__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./SaharaFailure */ 66577);
+/* harmony import */ var _SaharaMinimax__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./SaharaMinimax */ 61928);
+/* harmony import */ var _SaharaMobilityMinimax__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./SaharaMobilityMinimax */ 50663);
+/* harmony import */ var _SaharaMove__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./SaharaMove */ 39446);
+/* harmony import */ var _SaharaMoveGenerator__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./SaharaMoveGenerator */ 29389);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @angular/core */ 37580);
+/* harmony import */ var _services_MessageDisplayer__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../services/MessageDisplayer */ 78055);
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @angular/common */ 60316);
+
+
 
 
 
@@ -47447,176 +47642,176 @@ __webpack_require__.r(__webpack_exports__);
 
 function SaharaComponent__svg_g_1__svg_g_1__svg_g_1__svg_g_1_Template(rf, ctx) {
   if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵnamespaceSVG"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵelementStart"](0, "g");
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵelement"](1, "polygon", 7);
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnamespaceSVG"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelementStart"](0, "g");
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelement"](1, "polygon", 7);
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelementEnd"]();
   }
   if (rf & 2) {
-    const x_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵnextContext"](2).index;
-    const y_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵnextContext"]().index;
-    const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵnextContext"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵpropertyInterpolate2"]("id", "pyramid_", x_r2, "_", y_r3, "");
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵproperty"]("ngClass", ctx_r3.getPlayerClassAtXY(x_r2, y_r3));
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵattribute"]("points", ctx_r3.getPyramidPointsAtXY(x_r2, y_r3));
+    const x_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"](2).index;
+    const y_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]().index;
+    const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵpropertyInterpolate2"]("id", "pyramid_", x_r2, "_", y_r3, "");
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("ngClass", ctx_r3.getPlayerClassAtXY(x_r2, y_r3));
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵattribute"]("points", ctx_r3.getPyramidPointsAtXY(x_r2, y_r3));
   }
 }
 function SaharaComponent__svg_g_1__svg_g_1__svg_g_1__svg_g_2__svg_polygon_1_Template(rf, ctx) {
   if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵnamespaceSVG"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵelement"](0, "polygon", 10);
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnamespaceSVG"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelement"](0, "polygon", 10);
   }
   if (rf & 2) {
-    const x_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵnextContext"](3).index;
-    const y_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵnextContext"]().index;
-    const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵnextContext"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵpropertyInterpolate2"]("id", "triangle_", x_r2, "_", y_r3, "");
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵattribute"]("points", ctx_r3.getTrianglePointsAtXY(x_r2, y_r3));
+    const x_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"](3).index;
+    const y_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]().index;
+    const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵpropertyInterpolate2"]("id", "triangle_", x_r2, "_", y_r3, "");
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵattribute"]("points", ctx_r3.getTrianglePointsAtXY(x_r2, y_r3));
   }
 }
 function SaharaComponent__svg_g_1__svg_g_1__svg_g_1__svg_g_2__svg_polygon_2_Template(rf, ctx) {
   if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵnamespaceSVG"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵelement"](0, "polygon", 11);
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnamespaceSVG"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelement"](0, "polygon", 11);
   }
   if (rf & 2) {
-    const x_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵnextContext"](3).index;
-    const y_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵnextContext"]().index;
-    const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵnextContext"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵpropertyInterpolate2"]("id", "triangle_", x_r2, "_", y_r3, "");
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵattribute"]("points", ctx_r3.getTrianglePointsAtXY(x_r2, y_r3));
+    const x_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"](3).index;
+    const y_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]().index;
+    const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵpropertyInterpolate2"]("id", "triangle_", x_r2, "_", y_r3, "");
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵattribute"]("points", ctx_r3.getTrianglePointsAtXY(x_r2, y_r3));
   }
 }
 function SaharaComponent__svg_g_1__svg_g_1__svg_g_1__svg_g_2_Template(rf, ctx) {
   if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵnamespaceSVG"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵelementStart"](0, "g");
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵtemplate"](1, SaharaComponent__svg_g_1__svg_g_1__svg_g_1__svg_g_2__svg_polygon_1_Template, 1, 4, "polygon", 8)(2, SaharaComponent__svg_g_1__svg_g_1__svg_g_1__svg_g_2__svg_polygon_2_Template, 1, 4, "polygon", 9);
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnamespaceSVG"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelementStart"](0, "g");
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵtemplate"](1, SaharaComponent__svg_g_1__svg_g_1__svg_g_1__svg_g_2__svg_polygon_1_Template, 1, 4, "polygon", 8)(2, SaharaComponent__svg_g_1__svg_g_1__svg_g_1__svg_g_2__svg_polygon_2_Template, 1, 4, "polygon", 9);
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelementEnd"]();
   }
   if (rf & 2) {
-    const x_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵnextContext"](2).index;
-    const y_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵnextContext"]().index;
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵproperty"]("ngIf", (x_r2 + y_r3) % 2 === 1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵproperty"]("ngIf", (x_r2 + y_r3) % 2 === 0);
+    const x_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"](2).index;
+    const y_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]().index;
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("ngIf", (x_r2 + y_r3) % 2 === 1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("ngIf", (x_r2 + y_r3) % 2 === 0);
   }
 }
 function SaharaComponent__svg_g_1__svg_g_1__svg_g_1_Template(rf, ctx) {
   if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵnamespaceSVG"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵelementStart"](0, "g");
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵtemplate"](1, SaharaComponent__svg_g_1__svg_g_1__svg_g_1__svg_g_1_Template, 2, 5, "g", 6)(2, SaharaComponent__svg_g_1__svg_g_1__svg_g_1__svg_g_2_Template, 3, 2, "g", 6);
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnamespaceSVG"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelementStart"](0, "g");
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵtemplate"](1, SaharaComponent__svg_g_1__svg_g_1__svg_g_1__svg_g_1_Template, 2, 5, "g", 6)(2, SaharaComponent__svg_g_1__svg_g_1__svg_g_1__svg_g_2_Template, 3, 2, "g", 6);
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelementEnd"]();
   }
   if (rf & 2) {
-    const spaceContent_r5 = _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵnextContext"]().$implicit;
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵproperty"]("ngIf", spaceContent_r5.isPlayer());
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵproperty"]("ngIf", spaceContent_r5.isPlayer() === false);
+    const spaceContent_r5 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]().$implicit;
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("ngIf", spaceContent_r5.isPlayer());
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("ngIf", spaceContent_r5.isPlayer() === false);
   }
 }
 function SaharaComponent__svg_g_1__svg_g_1_Template(rf, ctx) {
   if (rf & 1) {
-    const _r1 = _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵgetCurrentView"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵnamespaceSVG"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵelementStart"](0, "g", 5);
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵlistener"]("click", function SaharaComponent__svg_g_1__svg_g_1_Template_g_click_0_listener() {
-      const x_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵrestoreView"](_r1).index;
-      const y_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵnextContext"]().index;
-      const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵnextContext"]();
-      return _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵresetView"](ctx_r3.onClick(x_r2, y_r3));
+    const _r1 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵgetCurrentView"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnamespaceSVG"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelementStart"](0, "g", 5);
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵlistener"]("click", function SaharaComponent__svg_g_1__svg_g_1_Template_g_click_0_listener() {
+      const x_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵrestoreView"](_r1).index;
+      const y_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]().index;
+      const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]();
+      return _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵresetView"](ctx_r3.onClick(x_r2, y_r3));
     });
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵtemplate"](1, SaharaComponent__svg_g_1__svg_g_1__svg_g_1_Template, 3, 2, "g", 6);
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵtemplate"](1, SaharaComponent__svg_g_1__svg_g_1__svg_g_1_Template, 3, 2, "g", 6);
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelementEnd"]();
   }
   if (rf & 2) {
     const spaceContent_r5 = ctx.$implicit;
     const x_r2 = ctx.index;
-    const y_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵnextContext"]().index;
-    const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵnextContext"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵpropertyInterpolate2"]("id", "click_", x_r2, "_", y_r3, "");
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵattribute"]("transform", ctx_r3.getTriangleTranslationAtXY(x_r2, y_r3));
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵproperty"]("ngIf", spaceContent_r5.isReachable());
+    const y_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]().index;
+    const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵpropertyInterpolate2"]("id", "click_", x_r2, "_", y_r3, "");
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵattribute"]("transform", ctx_r3.getTriangleTranslationAtXY(x_r2, y_r3));
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("ngIf", spaceContent_r5.isReachable());
   }
 }
 function SaharaComponent__svg_g_1_Template(rf, ctx) {
   if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵnamespaceSVG"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵelementStart"](0, "g");
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵtemplate"](1, SaharaComponent__svg_g_1__svg_g_1_Template, 2, 5, "g", 4);
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnamespaceSVG"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelementStart"](0, "g");
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵtemplate"](1, SaharaComponent__svg_g_1__svg_g_1_Template, 2, 5, "g", 4);
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelementEnd"]();
   }
   if (rf & 2) {
     const line_r6 = ctx.$implicit;
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵproperty"]("ngForOf", line_r6);
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("ngForOf", line_r6);
   }
 }
 function SaharaComponent__svg_ng_container_2__svg_polygon_1_Template(rf, ctx) {
   if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵnamespaceSVG"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵelement"](0, "polygon", 14);
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnamespaceSVG"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelement"](0, "polygon", 14);
   }
   if (rf & 2) {
     const possibleLanding_r7 = ctx.$implicit;
-    const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵnextContext"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵpropertyInterpolate2"]("id", "possible_landing_", possibleLanding_r7.x, "_", possibleLanding_r7.y, "");
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵattribute"]("points", ctx_r3.getTrianglePointsAt(possibleLanding_r7))("transform", ctx_r3.getTriangleTranslationAt(possibleLanding_r7));
+    const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵpropertyInterpolate2"]("id", "possible_landing_", possibleLanding_r7.x, "_", possibleLanding_r7.y, "");
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵattribute"]("points", ctx_r3.getTrianglePointsAt(possibleLanding_r7))("transform", ctx_r3.getTriangleTranslationAt(possibleLanding_r7));
   }
 }
 function SaharaComponent__svg_ng_container_2__svg_polygon_2_Template(rf, ctx) {
   if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵnamespaceSVG"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵelement"](0, "polygon", 14);
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnamespaceSVG"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelement"](0, "polygon", 14);
   }
   if (rf & 2) {
-    const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵnextContext"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵpropertyInterpolate2"]("id", "chosen_coord_", ctx_r3.chosenCoord.get().x, "_", ctx_r3.chosenCoord.get().y, "");
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵattribute"]("points", ctx_r3.getTrianglePointsAt(ctx_r3.chosenCoord.get()))("transform", ctx_r3.getTriangleTranslationAt(ctx_r3.chosenCoord.get()));
+    const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵpropertyInterpolate2"]("id", "chosen_coord_", ctx_r3.chosenCoord.get().x, "_", ctx_r3.chosenCoord.get().y, "");
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵattribute"]("points", ctx_r3.getTrianglePointsAt(ctx_r3.chosenCoord.get()))("transform", ctx_r3.getTriangleTranslationAt(ctx_r3.chosenCoord.get()));
   }
 }
 function SaharaComponent__svg_ng_container_2_Template(rf, ctx) {
   if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵnamespaceSVG"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵelementContainerStart"](0);
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵtemplate"](1, SaharaComponent__svg_ng_container_2__svg_polygon_1_Template, 1, 5, "polygon", 12)(2, SaharaComponent__svg_ng_container_2__svg_polygon_2_Template, 1, 5, "polygon", 13);
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵelementContainerEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnamespaceSVG"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelementContainerStart"](0);
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵtemplate"](1, SaharaComponent__svg_ng_container_2__svg_polygon_1_Template, 1, 5, "polygon", 12)(2, SaharaComponent__svg_ng_container_2__svg_polygon_2_Template, 1, 5, "polygon", 13);
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelementContainerEnd"]();
   }
   if (rf & 2) {
-    const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵnextContext"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵproperty"]("ngForOf", ctx_r3.possibleLandings);
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵproperty"]("ngIf", ctx_r3.chosenCoord.isPresent());
+    const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("ngForOf", ctx_r3.possibleLandings);
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("ngIf", ctx_r3.chosenCoord.isPresent());
   }
 }
 function SaharaComponent__svg_ng_template_3__svg_ng_container_0_Template(rf, ctx) {
   if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵnamespaceSVG"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵelementContainerStart"](0);
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵelement"](1, "polygon", 15)(2, "polygon", 16);
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵelementContainerEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnamespaceSVG"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelementContainerStart"](0);
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelement"](1, "polygon", 15)(2, "polygon", 16);
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelementContainerEnd"]();
   }
   if (rf & 2) {
-    const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵnextContext"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵattribute"]("points", ctx_r3.getTrianglePointsAt(ctx_r3.lastCoord.get()))("transform", ctx_r3.getTriangleTranslationAt(ctx_r3.lastCoord.get()));
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵadvance"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵattribute"]("points", ctx_r3.getTrianglePointsAt(ctx_r3.lastMoved.get()))("transform", ctx_r3.getTriangleTranslationAt(ctx_r3.lastMoved.get()));
+    const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵattribute"]("points", ctx_r3.getTrianglePointsAt(ctx_r3.lastCoord.get()))("transform", ctx_r3.getTriangleTranslationAt(ctx_r3.lastCoord.get()));
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵattribute"]("points", ctx_r3.getTrianglePointsAt(ctx_r3.lastMoved.get()))("transform", ctx_r3.getTriangleTranslationAt(ctx_r3.lastMoved.get()));
   }
 }
 function SaharaComponent__svg_ng_template_3_Template(rf, ctx) {
   if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵtemplate"](0, SaharaComponent__svg_ng_template_3__svg_ng_container_0_Template, 3, 4, "ng-container", 6);
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵtemplate"](0, SaharaComponent__svg_ng_template_3__svg_ng_container_0_Template, 3, 4, "ng-container", 6);
   }
   if (rf & 2) {
-    const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵnextContext"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵproperty"]("ngIf", ctx_r3.lastMoved.isPresent());
+    const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnextContext"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("ngIf", ctx_r3.lastMoved.isPresent());
   }
 }
 class SaharaComponent extends _components_game_components_game_component_TriangularGameComponent__WEBPACK_IMPORTED_MODULE_2__.TriangularGameComponent {
@@ -47627,8 +47822,8 @@ class SaharaComponent extends _components_game_components_game_component_Triangu
   constructor(messageDisplayer, cdr) {
     super(messageDisplayer, cdr);
     this.setRulesAndNode('Sahara');
-    this.availableAIs = [new _SaharaMinimax__WEBPACK_IMPORTED_MODULE_8__.SaharaMinimax(), new _jscaip_AI_MCTS__WEBPACK_IMPORTED_MODULE_3__.MCTS($localize`MCTS`, new _SaharaMoveGenerator__WEBPACK_IMPORTED_MODULE_10__.SaharaMoveGenerator(), this.rules)];
-    this.encoder = _SaharaMove__WEBPACK_IMPORTED_MODULE_9__.SaharaMove.encoder;
+    this.availableAIs = [new _SaharaCapturedThenCapturedFreedomThenAllFreedomsMinimax__WEBPACK_IMPORTED_MODULE_7__.SaharaCapturedThenCapturedFreedomThenAllFreedomsMinimax(), new _SaharaMinimax__WEBPACK_IMPORTED_MODULE_9__.SaharaFreedomMinimax(), new _SaharaMobilityMinimax__WEBPACK_IMPORTED_MODULE_10__.SaharaMobilityMinimax(), new _jscaip_AI_MCTS__WEBPACK_IMPORTED_MODULE_3__.MCTS($localize`MCTS`, new _SaharaMoveGenerator__WEBPACK_IMPORTED_MODULE_12__.SaharaMoveGenerator(), this.rules)];
+    this.encoder = _SaharaMove__WEBPACK_IMPORTED_MODULE_11__.SaharaMove.encoder;
   }
   showLastMove(move) {
     var _this = this;
@@ -47670,7 +47865,7 @@ class SaharaComponent extends _components_game_components_game_component_Triangu
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       if (_this3.board[y][x] === _jscaip_FourStatePiece__WEBPACK_IMPORTED_MODULE_5__.FourStatePiece.EMPTY) {
         // Did not select pyramid
-        return _this3.cancelMove(_SaharaFailure__WEBPACK_IMPORTED_MODULE_7__.SaharaFailure.MUST_CHOOSE_PYRAMID_FIRST());
+        return _this3.cancelMove(_SaharaFailure__WEBPACK_IMPORTED_MODULE_8__.SaharaFailure.MUST_CHOOSE_PYRAMID_FIRST());
       } else if (_this3.board[y][x].is(_jscaip_Player__WEBPACK_IMPORTED_MODULE_6__.Player.ofTurn(_this3.getTurn()))) {
         // selected player's pyramid
         const coord = new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_4__.Coord(x, y);
@@ -47678,19 +47873,19 @@ class SaharaComponent extends _components_game_components_game_component_Triangu
         return _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPValidation.SUCCESS;
       } else {
         // Selected opponent pyramid
-        return _this3.cancelMove(_SaharaFailure__WEBPACK_IMPORTED_MODULE_7__.SaharaFailure.MUST_CHOOSE_OWN_PYRAMID());
+        return _this3.cancelMove(_SaharaFailure__WEBPACK_IMPORTED_MODULE_8__.SaharaFailure.MUST_CHOOSE_OWN_PYRAMID());
       }
     })();
   }
   selectPiece(coord) {
     this.chosenCoord = _everyboard_lib__WEBPACK_IMPORTED_MODULE_1__.MGPOptional.of(coord);
-    this.possibleLandings = this.rules.getLandingCoords(this.getState(), coord);
+    this.possibleLandings = this.rules.getLegalLandingCoords(this.getState(), coord);
   }
   chooseLandingCoord(x, y) {
     var _this4 = this;
     return (0,_home_runner_work_EveryBoard_EveryBoard_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       const clickedCoord = new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_4__.Coord(x, y);
-      const newMove = _SaharaMove__WEBPACK_IMPORTED_MODULE_9__.SaharaMove.from(_this4.chosenCoord.get(), clickedCoord);
+      const newMove = _SaharaMove__WEBPACK_IMPORTED_MODULE_11__.SaharaMove.from(_this4.chosenCoord.get(), clickedCoord);
       if (newMove.isFailure()) {
         return _this4.cancelMove(newMove.getReason());
       }
@@ -47708,31 +47903,31 @@ class SaharaComponent extends _components_game_components_game_component_Triangu
     return this.getPlayerClass(piece.getPlayer());
   }
   static ɵfac = function SaharaComponent_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || SaharaComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵdirectiveInject"](_services_MessageDisplayer__WEBPACK_IMPORTED_MODULE_11__.MessageDisplayer), _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_12__.ChangeDetectorRef));
+    return new (__ngFactoryType__ || SaharaComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵdirectiveInject"](_services_MessageDisplayer__WEBPACK_IMPORTED_MODULE_13__.MessageDisplayer), _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_14__.ChangeDetectorRef));
   };
-  static ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵdefineComponent"]({
+  static ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵdefineComponent"]({
     type: SaharaComponent,
     selectors: [["app-sahara"]],
-    features: [_angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵInheritDefinitionFeature"]],
+    features: [_angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵInheritDefinitionFeature"]],
     decls: 5,
     vars: 3,
     consts: [["lastMove", ""], ["xmlns", "http://www.w3.org/2000/svg", "viewBox", "-3 -3 606 606", "preserveAspectRatio", "xMidYMid meet", 1, "board"], [4, "ngFor", "ngForOf"], [4, "ngIf", "ngIfElse"], [3, "id", "click", 4, "ngFor", "ngForOf"], [3, "click", "id"], [4, "ngIf"], [1, "base", "mid-stroke", 3, "id", "ngClass"], ["class", "base mid-stroke", 3, "id", 4, "ngIf"], ["class", "base mid-stroke background2", 3, "id", 4, "ngIf"], [1, "base", "mid-stroke", 3, "id"], [1, "base", "mid-stroke", "background2", 3, "id"], ["class", "base no-fill mid-stroke selected-stroke", 3, "id", 4, "ngFor", "ngForOf"], ["class", "base no-fill mid-stroke selected-stroke", 3, "id", 4, "ngIf"], [1, "base", "no-fill", "mid-stroke", "selected-stroke", 3, "id"], ["id", "last_move_origin", 1, "base", "no-fill", "mid-stroke", "last-move-stroke"], ["id", "last_move_destination", 1, "base", "no-fill", "mid-stroke", "last-move-stroke"]],
     template: function SaharaComponent_Template(rf, ctx) {
       if (rf & 1) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵnamespaceSVG"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵelementStart"](0, "svg", 1);
-        _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵtemplate"](1, SaharaComponent__svg_g_1_Template, 2, 1, "g", 2)(2, SaharaComponent__svg_ng_container_2_Template, 3, 2, "ng-container", 3)(3, SaharaComponent__svg_ng_template_3_Template, 1, 1, "ng-template", null, 0, _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵtemplateRefExtractor"]);
-        _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵnamespaceSVG"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelementStart"](0, "svg", 1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵtemplate"](1, SaharaComponent__svg_g_1_Template, 2, 1, "g", 2)(2, SaharaComponent__svg_ng_container_2_Template, 3, 2, "ng-container", 3)(3, SaharaComponent__svg_ng_template_3_Template, 1, 1, "ng-template", null, 0, _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵtemplateRefExtractor"]);
+        _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵelementEnd"]();
       }
       if (rf & 2) {
-        const lastMove_r8 = _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵreference"](4);
-        _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵadvance"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵproperty"]("ngForOf", ctx.board);
-        _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵadvance"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵproperty"]("ngIf", ctx.chosenCoord.isPresent())("ngIfElse", lastMove_r8);
+        const lastMove_r8 = _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵreference"](4);
+        _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵadvance"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("ngForOf", ctx.board);
+        _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵadvance"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵproperty"]("ngIf", ctx.chosenCoord.isPresent())("ngIfElse", lastMove_r8);
       }
     },
-    dependencies: [_angular_common__WEBPACK_IMPORTED_MODULE_13__.NgClass, _angular_common__WEBPACK_IMPORTED_MODULE_13__.NgForOf, _angular_common__WEBPACK_IMPORTED_MODULE_13__.NgIf],
+    dependencies: [_angular_common__WEBPACK_IMPORTED_MODULE_15__.NgClass, _angular_common__WEBPACK_IMPORTED_MODULE_15__.NgForOf, _angular_common__WEBPACK_IMPORTED_MODULE_15__.NgIf],
     styles: [".base[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n\n.manual-stroke[_ngcontent-%COMP%] {\n  stroke-width: 0;\n}\n\n.base.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n}\n\n.base-no-stroke[_ngcontent-%COMP%] {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n\n.base-no-fill[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n\n.arrow[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n\n.text[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n}\n\n.white-background[_ngcontent-%COMP%] {\n  fill: white;\n}\n\n.background[_ngcontent-%COMP%] {\n  fill: var(--spaces-fill);\n}\n\n.transparent[_ngcontent-%COMP%] {\n  opacity: 0;\n}\n\n.background2[_ngcontent-%COMP%] {\n  fill: var(--alt-background-fill);\n}\n\n.background3[_ngcontent-%COMP%] {\n  fill: var(--alt-alt-background-fill);\n}\n\n.player0-fill[_ngcontent-%COMP%] {\n  fill: var(--player0);\n}\n\n.player0-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--player0-alternate);\n}\n\n.player0-stroke[_ngcontent-%COMP%] {\n  stroke: var(--player0);\n}\n\n.player1-fill[_ngcontent-%COMP%] {\n  fill: var(--player1);\n}\n\n.player1-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--player1-alternate);\n}\n\n.player1-stroke[_ngcontent-%COMP%] {\n  stroke: var(--player1);\n}\n\n.nonplayer-fill[_ngcontent-%COMP%] {\n  fill: var(--nonplayer);\n}\n\n.nonplayer-light-fill[_ngcontent-%COMP%] {\n  fill: var(--nonplayer-light);\n}\n\n.nonplayer-stroke[_ngcontent-%COMP%] {\n  stroke: var(--nonplayer);\n}\n\n.dashed-stroke[_ngcontent-%COMP%] {\n  stroke-dasharray: 2;\n}\n\n.pre-captured-fill[_ngcontent-%COMP%] {\n  fill: var(--pre-captured);\n}\n\n.captured-fill[_ngcontent-%COMP%] {\n  fill: var(--captured);\n}\n\n.captured-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--alt-captured);\n}\n\n.captured-stroke[_ngcontent-%COMP%] {\n  stroke: var(--captured);\n}\n\n.moved-fill[_ngcontent-%COMP%] {\n  fill: var(--moved);\n}\n\n.moved-stroke[_ngcontent-%COMP%] {\n  stroke: var(--moved);\n}\n\n.indicator[_ngcontent-%COMP%] {\n  fill: var(--indicator);\n  stroke: none;\n}\n\n.indicator-fill[_ngcontent-%COMP%] {\n  fill: var(--indicator);\n}\n\n.selectable-stroke[_ngcontent-%COMP%] {\n  stroke: var(--selectable);\n}\n\n.selectable[_ngcontent-%COMP%]    > .base-no-stroke[_ngcontent-%COMP%] {\n  fill: var(--selectable);\n}\n\n.last-move-stroke[_ngcontent-%COMP%] {\n  stroke: var(--last-move);\n}\n\n.last-move-stroke.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--last-move);\n}\n\n.last-move-fill[_ngcontent-%COMP%] {\n  fill: var(--last-move);\n}\n\n.victory-fill[_ngcontent-%COMP%] {\n  fill: var(--victory);\n}\n\n.victory-stroke[_ngcontent-%COMP%] {\n  stroke: var(--victory);\n}\n\n.victory-stroke.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--victory);\n}\n\n.defeat-fill[_ngcontent-%COMP%] {\n  fill: var(--defeat);\n}\n\n.defeat-stroke[_ngcontent-%COMP%] {\n  stroke: var(--defeat);\n}\n\n.selected-fill[_ngcontent-%COMP%] {\n  fill: var(--selected);\n}\n\n.selected-stroke[_ngcontent-%COMP%] {\n  stroke: var(--selected);\n}\n\n.clickable-stroke[_ngcontent-%COMP%] {\n  stroke: var(--clickable);\n}\n\n.clickable-stroke-hover[_ngcontent-%COMP%]:hover {\n  stroke: var(--clickable);\n}\n\n.capturable-stroke[_ngcontent-%COMP%] {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n\n.capturable-fill[_ngcontent-%COMP%] {\n  fill: var(--capturable);\n}\n\n.capturable-stroke[_ngcontent-%COMP%]:hover {\n  stroke-width: 8;\n}\n\n.no-fill[_ngcontent-%COMP%] {\n  fill: none;\n}\n\n.no-stroke[_ngcontent-%COMP%] {\n  stroke: none;\n}\n\n.small-stroke[_ngcontent-%COMP%] {\n  stroke-width: 2;\n}\n\n.mid-small-stroke[_ngcontent-%COMP%] {\n  stroke-width: 3;\n}\n\n.mid-stroke[_ngcontent-%COMP%] {\n  stroke-width: 5;\n}\n\n.big-stroke[_ngcontent-%COMP%] {\n  stroke-width: 8;\n}\n\n.huge-stroke[_ngcontent-%COMP%] {\n  stroke-width: 12;\n}\n\n.semi-transparent[_ngcontent-%COMP%] {\n  opacity: 0.5;\n}\n\n.territory-opacity[_ngcontent-%COMP%] {\n  fill-opacity: 0.7;\n}\n\n.round[_ngcontent-%COMP%] {\n  stroke-linecap: round;\n}\n\n.text-giant[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n\n.text-big[_ngcontent-%COMP%] {\n  font: 50px sans-serif;\n}\n\n.backgrounded-text[_ngcontent-%COMP%] {\n  fill: var(--backgrounded-text-color);\n}\n\n.text-medium-plus[_ngcontent-%COMP%] {\n  font: 38px sans-serif;\n}\n\n.text-medium[_ngcontent-%COMP%] {\n  font: 35px sans-serif;\n}\n\n.text-small-plus[_ngcontent-%COMP%] {\n  font: 28px sans-serif;\n}\n\n.text-small[_ngcontent-%COMP%] {\n  font: 25px sans-serif;\n}\n\n.text-bold[_ngcontent-%COMP%] {\n  font-weight: bold;\n}\n\n.text-center[_ngcontent-%COMP%] {\n  text-anchor: middle;\n}\n\n.black-fill[_ngcontent-%COMP%] {\n  fill: black;\n}\n\n.darker[_ngcontent-%COMP%] {\n  filter: brightness(80%);\n}\n\n.lighter[_ngcontent-%COMP%] {\n  filter: brightness(110%);\n}\n\nsvg[_ngcontent-%COMP%] {\n  max-height: calc(100vh - 15rem); \n\n}\n\n.click-delegator[_ngcontent-%COMP%] {\n  pointer-events: none;\n}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly8uL3NyYy9hcHAvY29tcG9uZW50cy9nYW1lLWNvbXBvbmVudHMvZ2FtZS1jb21wb25lbnQvZ2FtZS1jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNJLDBCQUFBO0VBQ0EsZUFBQTtFQUNBLHdCQUFBO0VBQ0Esb0JBQUE7RUFDQSxzQkFBQTtBQUNKOztBQUNBO0VBQ0ksZUFBQTtBQUVKOztBQUFBO0VBQ0ksd0JBQUE7QUFHSjs7QUFEQTtFQUNJLFlBQUE7RUFDQSxlQUFBO0VBQ0Esd0JBQUE7QUFJSjs7QUFGQTtFQUNJLDBCQUFBO0VBQ0EsZUFBQTtBQUtKOztBQUhBO0VBQ0ksMEJBQUE7RUFDQSxlQUFBO0FBTUo7O0FBSkE7RUFDSSx3QkFBQTtBQU9KOztBQUxBO0VBQ0ksV0FBQTtBQVFKOztBQU5BO0VBQ0ksd0JBQUE7QUFTSjs7QUFQQTtFQUNJLFVBQUE7QUFVSjs7QUFSQTtFQUNJLGdDQUFBO0FBV0o7O0FBVEE7RUFDSSxvQ0FBQTtBQVlKOztBQVZBO0VBQ0ksb0JBQUE7QUFhSjs7QUFYQTtFQUNJLDhCQUFBO0FBY0o7O0FBWkE7RUFDSSxzQkFBQTtBQWVKOztBQWJBO0VBQ0ksb0JBQUE7QUFnQko7O0FBZEE7RUFDSSw4QkFBQTtBQWlCSjs7QUFmQTtFQUNJLHNCQUFBO0FBa0JKOztBQWhCQTtFQUNJLHNCQUFBO0FBbUJKOztBQWpCQTtFQUNJLDRCQUFBO0FBb0JKOztBQWxCQTtFQUNJLHdCQUFBO0FBcUJKOztBQW5CQTtFQUNJLG1CQUFBO0FBc0JKOztBQXBCQTtFQUNJLHlCQUFBO0FBdUJKOztBQXJCQTtFQUNJLHFCQUFBO0FBd0JKOztBQXRCQTtFQUNJLHlCQUFBO0FBeUJKOztBQXZCQTtFQUNJLHVCQUFBO0FBMEJKOztBQXhCQTtFQUNJLGtCQUFBO0FBMkJKOztBQXpCQTtFQUNJLG9CQUFBO0FBNEJKOztBQTFCQTtFQUNJLHNCQUFBO0VBQ0EsWUFBQTtBQTZCSjs7QUEzQkE7RUFDSSxzQkFBQTtBQThCSjs7QUE1QkE7RUFDSSx5QkFBQTtBQStCSjs7QUE3QkE7RUFDSSx1QkFBQTtBQWdDSjs7QUE5QkE7RUFDSSx3QkFBQTtBQWlDSjs7QUEvQkE7RUFDSSxzQkFBQTtBQWtDSjs7QUFoQ0E7RUFDSSxzQkFBQTtBQW1DSjs7QUFqQ0E7RUFDSSxvQkFBQTtBQW9DSjs7QUFsQ0E7RUFDSSxzQkFBQTtBQXFDSjs7QUFuQ0E7RUFDSSxvQkFBQTtBQXNDSjs7QUFwQ0E7RUFDSSxtQkFBQTtBQXVDSjs7QUFyQ0E7RUFDSSxxQkFBQTtBQXdDSjs7QUF0Q0E7RUFDSSxxQkFBQTtBQXlDSjs7QUF2Q0E7RUFDSSx1QkFBQTtBQTBDSjs7QUF4Q0E7RUFDSSx3QkFBQTtBQTJDSjs7QUF6Q0E7RUFDSSx3QkFBQTtBQTRDSjs7QUExQ0E7RUFDSSxlQUFBO0VBQ0EseUJBQUE7QUE2Q0o7O0FBM0NBO0VBQ0ksdUJBQUE7QUE4Q0o7O0FBNUNBO0VBQ0ksZUFBQTtBQStDSjs7QUE3Q0E7RUFDSSxVQUFBO0FBZ0RKOztBQTlDQTtFQUNJLFlBQUE7QUFpREo7O0FBL0NBO0VBQ0ksZUFBQTtBQWtESjs7QUFoREE7RUFDSSxlQUFBO0FBbURKOztBQWpEQTtFQUNJLGVBQUE7QUFvREo7O0FBbERBO0VBQ0ksZUFBQTtBQXFESjs7QUFuREE7RUFDSSxnQkFBQTtBQXNESjs7QUFwREE7RUFDSSxZQUFBO0FBdURKOztBQXJEQTtFQUNJLGlCQUFBO0FBd0RKOztBQXREQTtFQUNJLHFCQUFBO0FBeURKOztBQXZEQTtFQUNJLHdCQUFBO0VBQ0EsdUJBQUE7RUFDQSxxQkFBQTtFQUNBLDBCQUFBO0FBMERKOztBQXhEQTtFQUNJLHFCQUFBO0FBMkRKOztBQXpEQTtFQUNJLG9DQUFBO0FBNERKOztBQTFEQTtFQUNJLHFCQUFBO0FBNkRKOztBQTNEQTtFQUNJLHFCQUFBO0FBOERKOztBQTVEQTtFQUNJLHFCQUFBO0FBK0RKOztBQTdEQTtFQUNJLHFCQUFBO0FBZ0VKOztBQTlEQTtFQUNJLGlCQUFBO0FBaUVKOztBQS9EQTtFQUNJLG1CQUFBO0FBa0VKOztBQWhFQTtFQUNJLFdBQUE7QUFtRUo7O0FBakVBO0VBQ0ksdUJBQUE7QUFvRUo7O0FBbEVBO0VBQ0ksd0JBQUE7QUFxRUo7O0FBbkVBO0VBQ0ksK0JBQUEsRUFBQSxpQ0FBQTtBQXNFSjs7QUFwRUE7RUFDSSxvQkFBQTtBQXVFSiIsInNvdXJjZXNDb250ZW50IjpbIi5iYXNlIHtcbiAgICBzdHJva2U6IHZhcigtLWJhc2Utc3Ryb2tlKTtcbiAgICBzdHJva2Utd2lkdGg6IDg7XG4gICAgZmlsbDogdmFyKC0tc3BhY2VzLWZpbGwpO1xuICAgIHN0cm9rZS1saW5lY2FwOiBidXR0O1xuICAgIHN0cm9rZS1saW5lam9pbjogcm91bmQ7XG59XG4ubWFudWFsLXN0cm9rZSB7XG4gICAgc3Ryb2tlLXdpZHRoOiAwO1xufVxuLmJhc2UubWFudWFsLXN0cm9rZSB7XG4gICAgZmlsbDogdmFyKC0tYmFzZS1zdHJva2UpO1xufVxuLmJhc2Utbm8tc3Ryb2tlIHtcbiAgICBzdHJva2U6IG5vbmU7XG4gICAgc3Ryb2tlLXdpZHRoOiAwO1xuICAgIGZpbGw6IHZhcigtLWJhc2Utc3Ryb2tlKTtcbn1cbi5iYXNlLW5vLWZpbGwge1xuICAgIHN0cm9rZTogdmFyKC0tYmFzZS1zdHJva2UpO1xuICAgIHN0cm9rZS13aWR0aDogODtcbn1cbi5hcnJvdyB7XG4gICAgc3Ryb2tlOiB2YXIoLS1iYXNlLXN0cm9rZSk7XG4gICAgc3Ryb2tlLXdpZHRoOiAzO1xufVxuLnRleHQge1xuICAgIGZpbGw6IHZhcigtLWJhc2Utc3Ryb2tlKTtcbn1cbi53aGl0ZS1iYWNrZ3JvdW5kIHtcbiAgICBmaWxsOiB3aGl0ZTtcbn1cbi5iYWNrZ3JvdW5kIHtcbiAgICBmaWxsOiB2YXIoLS1zcGFjZXMtZmlsbCk7XG59XG4udHJhbnNwYXJlbnQge1xuICAgIG9wYWNpdHk6IDA7XG59XG4uYmFja2dyb3VuZDIge1xuICAgIGZpbGw6IHZhcigtLWFsdC1iYWNrZ3JvdW5kLWZpbGwpO1xufVxuLmJhY2tncm91bmQzIHtcbiAgICBmaWxsOiB2YXIoLS1hbHQtYWx0LWJhY2tncm91bmQtZmlsbCk7XG59XG4ucGxheWVyMC1maWxsIHtcbiAgICBmaWxsOiB2YXIoLS1wbGF5ZXIwKTtcbn1cbi5wbGF5ZXIwLWFsdGVybmF0ZS1maWxsIHtcbiAgICBmaWxsOiB2YXIoLS1wbGF5ZXIwLWFsdGVybmF0ZSk7XG59XG4ucGxheWVyMC1zdHJva2Uge1xuICAgIHN0cm9rZTogdmFyKC0tcGxheWVyMCk7XG59XG4ucGxheWVyMS1maWxsIHtcbiAgICBmaWxsOiB2YXIoLS1wbGF5ZXIxKTtcbn1cbi5wbGF5ZXIxLWFsdGVybmF0ZS1maWxsIHtcbiAgICBmaWxsOiB2YXIoLS1wbGF5ZXIxLWFsdGVybmF0ZSk7XG59XG4ucGxheWVyMS1zdHJva2Uge1xuICAgIHN0cm9rZTogdmFyKC0tcGxheWVyMSk7XG59XG4ubm9ucGxheWVyLWZpbGwge1xuICAgIGZpbGw6IHZhcigtLW5vbnBsYXllcik7XG59XG4ubm9ucGxheWVyLWxpZ2h0LWZpbGwge1xuICAgIGZpbGw6IHZhcigtLW5vbnBsYXllci1saWdodCk7XG59XG4ubm9ucGxheWVyLXN0cm9rZSB7XG4gICAgc3Ryb2tlOiB2YXIoLS1ub25wbGF5ZXIpO1xufVxuLmRhc2hlZC1zdHJva2Uge1xuICAgIHN0cm9rZS1kYXNoYXJyYXk6IDI7XG59XG4ucHJlLWNhcHR1cmVkLWZpbGwge1xuICAgIGZpbGw6IHZhcigtLXByZS1jYXB0dXJlZCk7XG59XG4uY2FwdHVyZWQtZmlsbCB7XG4gICAgZmlsbDogdmFyKC0tY2FwdHVyZWQpO1xufVxuLmNhcHR1cmVkLWFsdGVybmF0ZS1maWxsIHtcbiAgICBmaWxsOiB2YXIoLS1hbHQtY2FwdHVyZWQpO1xufVxuLmNhcHR1cmVkLXN0cm9rZSB7XG4gICAgc3Ryb2tlOiB2YXIoLS1jYXB0dXJlZCk7XG59XG4ubW92ZWQtZmlsbCB7XG4gICAgZmlsbDogdmFyKC0tbW92ZWQpO1xufVxuLm1vdmVkLXN0cm9rZSB7XG4gICAgc3Ryb2tlOiB2YXIoLS1tb3ZlZCk7XG59XG4uaW5kaWNhdG9yIHtcbiAgICBmaWxsOiB2YXIoLS1pbmRpY2F0b3IpO1xuICAgIHN0cm9rZTogbm9uZTtcbn1cbi5pbmRpY2F0b3ItZmlsbCB7XG4gICAgZmlsbDogdmFyKC0taW5kaWNhdG9yKTtcbn1cbi5zZWxlY3RhYmxlLXN0cm9rZSB7XG4gICAgc3Ryb2tlOiB2YXIoLS1zZWxlY3RhYmxlKTtcbn1cbi5zZWxlY3RhYmxlID4gLmJhc2Utbm8tc3Ryb2tlIHtcbiAgICBmaWxsOiB2YXIoLS1zZWxlY3RhYmxlKTtcbn1cbi5sYXN0LW1vdmUtc3Ryb2tlIHtcbiAgICBzdHJva2U6IHZhcigtLWxhc3QtbW92ZSk7XG59XG4ubGFzdC1tb3ZlLXN0cm9rZS5tYW51YWwtc3Ryb2tlIHtcbiAgICBmaWxsOiB2YXIoLS1sYXN0LW1vdmUpO1xufVxuLmxhc3QtbW92ZS1maWxsIHtcbiAgICBmaWxsOiB2YXIoLS1sYXN0LW1vdmUpO1xufVxuLnZpY3RvcnktZmlsbCB7XG4gICAgZmlsbDogdmFyKC0tdmljdG9yeSk7XG59XG4udmljdG9yeS1zdHJva2Uge1xuICAgIHN0cm9rZTogdmFyKC0tdmljdG9yeSk7XG59XG4udmljdG9yeS1zdHJva2UubWFudWFsLXN0cm9rZSB7XG4gICAgZmlsbDogdmFyKC0tdmljdG9yeSk7XG59XG4uZGVmZWF0LWZpbGwge1xuICAgIGZpbGw6IHZhcigtLWRlZmVhdCk7XG59XG4uZGVmZWF0LXN0cm9rZSB7XG4gICAgc3Ryb2tlOiB2YXIoLS1kZWZlYXQpO1xufVxuLnNlbGVjdGVkLWZpbGwge1xuICAgIGZpbGw6IHZhcigtLXNlbGVjdGVkKTtcbn1cbi5zZWxlY3RlZC1zdHJva2Uge1xuICAgIHN0cm9rZTogdmFyKC0tc2VsZWN0ZWQpO1xufVxuLmNsaWNrYWJsZS1zdHJva2Uge1xuICAgIHN0cm9rZTogdmFyKC0tY2xpY2thYmxlKTtcbn1cbi5jbGlja2FibGUtc3Ryb2tlLWhvdmVyOmhvdmVyIHtcbiAgICBzdHJva2U6IHZhcigtLWNsaWNrYWJsZSk7XG59XG4uY2FwdHVyYWJsZS1zdHJva2Uge1xuICAgIHN0cm9rZS13aWR0aDogMjtcbiAgICBzdHJva2U6IHZhcigtLWNhcHR1cmFibGUpO1xufVxuLmNhcHR1cmFibGUtZmlsbCB7XG4gICAgZmlsbDogdmFyKC0tY2FwdHVyYWJsZSk7XG59XG4uY2FwdHVyYWJsZS1zdHJva2U6aG92ZXIge1xuICAgIHN0cm9rZS13aWR0aDogODtcbn1cbi5uby1maWxsIHtcbiAgICBmaWxsOiBub25lO1xufVxuLm5vLXN0cm9rZSB7XG4gICAgc3Ryb2tlOiBub25lO1xufVxuLnNtYWxsLXN0cm9rZSB7XG4gICAgc3Ryb2tlLXdpZHRoOiAyO1xufVxuLm1pZC1zbWFsbC1zdHJva2Uge1xuICAgIHN0cm9rZS13aWR0aDogMztcbn1cbi5taWQtc3Ryb2tlIHtcbiAgICBzdHJva2Utd2lkdGg6IDU7XG59XG4uYmlnLXN0cm9rZSB7XG4gICAgc3Ryb2tlLXdpZHRoOiA4O1xufVxuLmh1Z2Utc3Ryb2tlIHtcbiAgICBzdHJva2Utd2lkdGg6IDEyO1xufVxuLnNlbWktdHJhbnNwYXJlbnQge1xuICAgIG9wYWNpdHk6IDAuNTtcbn1cbi50ZXJyaXRvcnktb3BhY2l0eSB7XG4gICAgZmlsbC1vcGFjaXR5OiAwLjc7XG59XG4ucm91bmQge1xuICAgIHN0cm9rZS1saW5lY2FwOiByb3VuZDtcbn1cbi50ZXh0LWdpYW50IHtcbiAgICBmaWxsOiB2YXIoLS1iYXNlLXN0cm9rZSk7XG4gICAgZm9udDogMy43cmVtIHNhbnMtc2VyaWY7XG4gICAgc3Ryb2tlLXdpZHRoOiAwLjM3cmVtO1xuICAgIGRvbWluYW50LWJhc2VsaW5lOiBjZW50cmFsO1xufVxuLnRleHQtYmlnIHtcbiAgICBmb250OiA1MHB4IHNhbnMtc2VyaWY7XG59XG4uYmFja2dyb3VuZGVkLXRleHQge1xuICAgIGZpbGw6IHZhcigtLWJhY2tncm91bmRlZC10ZXh0LWNvbG9yKTtcbn1cbi50ZXh0LW1lZGl1bS1wbHVzIHtcbiAgICBmb250OiAzOHB4IHNhbnMtc2VyaWY7XG59XG4udGV4dC1tZWRpdW0ge1xuICAgIGZvbnQ6IDM1cHggc2Fucy1zZXJpZjtcbn1cbi50ZXh0LXNtYWxsLXBsdXMge1xuICAgIGZvbnQ6IDI4cHggc2Fucy1zZXJpZjtcbn1cbi50ZXh0LXNtYWxsIHtcbiAgICBmb250OiAyNXB4IHNhbnMtc2VyaWY7XG59XG4udGV4dC1ib2xkIHtcbiAgICBmb250LXdlaWdodDogYm9sZDtcbn1cbi50ZXh0LWNlbnRlciB7XG4gICAgdGV4dC1hbmNob3I6IG1pZGRsZTtcbn1cbi5ibGFjay1maWxsIHtcbiAgICBmaWxsOiBibGFjaztcbn1cbi5kYXJrZXIge1xuICAgIGZpbHRlcjogYnJpZ2h0bmVzcyg4MCUpO1xufVxuLmxpZ2h0ZXIge1xuICAgIGZpbHRlcjogYnJpZ2h0bmVzcygxMTAlKTtcbn1cbnN2ZyB7XG4gICAgbWF4LWhlaWdodDogY2FsYygxMDB2aCAtIDE1cmVtKTsgLyogRnVsbCBoZWlnaHQgbWludXMgdGhlIG5hdmJhciAqL1xufVxuLmNsaWNrLWRlbGVnYXRvciB7XG4gICAgcG9pbnRlci1ldmVudHM6IG5vbmU7XG59XG4iXSwic291cmNlUm9vdCI6IiJ9 */"]
   });
 }
@@ -47788,8 +47983,8 @@ class SiamHeuristic extends _jscaip_AI_Minimax__WEBPACK_IMPORTED_MODULE_1__.Heur
     const mountainsRow = mountainsInfo.rows;
     const mountainsColumn = mountainsInfo.columns;
     const pushers = _SiamRules__WEBPACK_IMPORTED_MODULE_3__.SiamRules.get().getPushers(state, mountainsColumn, mountainsRow, config);
-    let zeroShortestDistance = Number.MAX_SAFE_INTEGER;
-    let oneShortestDistance = Number.MAX_SAFE_INTEGER;
+    let zeroShortestDistance = Number.POSITIVE_INFINITY;
+    let oneShortestDistance = Number.POSITIVE_INFINITY;
     const currentPlayer = state.getCurrentPlayer();
     for (const pusher of pushers) {
       if (state.isOnBoard(pusher.coord)) {
@@ -48305,8 +48500,8 @@ let SiamRules = class SiamRules extends _jscaip_Rules__WEBPACK_IMPORTED_MODULE_7
     return resultingState;
   }
   getScoreFromShortestDistances(zeroShortestDistance, oneShortestDistance, currentPlayer) {
-    if (zeroShortestDistance === Number.MAX_SAFE_INTEGER) zeroShortestDistance = 6;
-    if (oneShortestDistance === Number.MAX_SAFE_INTEGER) oneShortestDistance = 6;
+    if (zeroShortestDistance === Number.POSITIVE_INFINITY) zeroShortestDistance = 6;
+    if (oneShortestDistance === Number.POSITIVE_INFINITY) oneShortestDistance = 6;
     const zeroScore = 6 - zeroShortestDistance;
     const oneScore = 6 - oneShortestDistance;
     if (zeroScore === oneScore) {
@@ -55460,7 +55655,7 @@ class TrexoTutorial extends _components_wrapper_components_tutorial_game_wrapper
   // 1. but du jeu et plateau
   _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_1__.TutorialStep.informational(_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_2__.TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`At Trexo, the object of the game is to align 5 pieces of your color in a vertical, horizontal or diagonal line. However, the players play with tiles that are constituted of two pieces, one from each player!`, _TrexoRules__WEBPACK_IMPORTED_MODULE_6__.TrexoRules.get().getInitialState()), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_1__.TutorialStep.anyMove($localize`Dropping a tile`, $localize`When you drop a tile, it needs to be on even ground, and it cannot be right on top of another tile. In others words, it needs to be either on the floor, or on two tiles at the same height. To drop a tile, just click on the square where you want to put the opponent side of the tile, then on the neighboring square where you want to put your piece.<br/><br/>You're playing Dark, put a tile on the board.`, _TrexoRules__WEBPACK_IMPORTED_MODULE_6__.TrexoRules.get().getInitialState(), _TrexoMove__WEBPACK_IMPORTED_MODULE_5__.TrexoMove.from(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(4, 4), new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(3, 4)).get(), _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_2__.TutorialStepMessage.CONGRATULATIONS()), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_1__.TutorialStep.fromMove($localize`Dropping a piece over other pieces`, $localize`You can put a tile on other tiles. For that you must respect two rules:<br/><ul><li>The two pieces must be at the same height.</li><li>You cannot drop your piece on only one other piece.</li></ul><br/>You're playing Dark, do such a move!`, new _TrexoState__WEBPACK_IMPORTED_MODULE_7__.TrexoState([[______, ______, ______, ONE__0, ZERO_0, ZERO_1, ONE__1, ______, ______, ______], [______, ______, ______, ______, ______, ______, ______, ______, ______, ______], [______, ______, ______, ______, ______, ______, ______, ______, ______, ______], [______, ______, ______, ______, ______, ______, ______, ______, ______, ______], [______, ______, ______, ______, ______, ______, ______, ______, ______, ______], [______, ______, ______, ______, ______, ______, ______, ______, ______, ______], [______, ______, ______, ______, ______, ______, ______, ______, ______, ______], [______, ______, ______, ______, ______, ______, ______, ______, ______, ______], [______, ______, ______, ______, ______, ______, ______, ______, ______, ______], [______, ______, ______, ______, ______, ______, ______, ______, ______, ______]], 7), [_TrexoMove__WEBPACK_IMPORTED_MODULE_5__.TrexoMove.from(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(4, 0), new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(5, 0)).get(), _TrexoMove__WEBPACK_IMPORTED_MODULE_5__.TrexoMove.from(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(5, 0), new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(4, 0)).get()], _components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_2__.TutorialStepMessage.CONGRATULATIONS(), $localize`Failed, you put that piece on the floor level, please put it on top of two pieces.`), _components_wrapper_components_tutorial_game_wrapper_TutorialStep__WEBPACK_IMPORTED_MODULE_1__.TutorialStep.fromPredicate($localize`Victory`, $localize`To win at Trexo, you need to align 5 of your pieces. Only the piece on top counts, the hidden piece are no longer threats, and a victory can include pieces on differents heights. Since you have to put the piece of your opponent first, if you create a victory for them, you lose, even if you aligned 5 of your pieces too.<br/><br/>You're playing Light, win.`, new _TrexoState__WEBPACK_IMPORTED_MODULE_7__.TrexoState([[______, ______, ______, ______, ______, ______, ______, ______, ______, ______], [______, ______, ______, ZERO_5, ______, ______, ______, ______, ______, ______], [______, ______, ______, ONE__5, ______, ______, ______, ______, ______, ______], [______, ______, ______, ______, ONE__0, ______, ______, ZERO_4, ONE__4, ______], [______, ______, ______, ______, ZERO_3, ONE__3, ZERO_1, ______, ______, ______], [______, ______, ______, ______, ______, ZERO_2, ONE__6, ZERO_6, ______, ______], [______, ______, ______, ______, ______, ONE__2, ______, ______, ______, ______], [______, ______, ______, ______, ______, ______, ______, ______, ______, ______], [______, ______, ______, ______, ______, ______, ______, ______, ______, ______], [______, ______, ______, ______, ______, ______, ______, ______, ______, ______]], 7), _TrexoMove__WEBPACK_IMPORTED_MODULE_5__.TrexoMove.from(new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(2, 0), new _jscaip_Coord__WEBPACK_IMPORTED_MODULE_3__.Coord(2, 1)).get(), (lastMove, _, resultingState) => {
     const moveScore = _TrexoRules__WEBPACK_IMPORTED_MODULE_6__.TrexoRules.TREXO_HELPER.getSquareScore(resultingState, lastMove.getOne());
-    if (moveScore === Number.MAX_SAFE_INTEGER) {
+    if (moveScore === Number.POSITIVE_INFINITY) {
       return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.SUCCESS;
     } else {
       return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPValidation.failure(_components_wrapper_components_tutorial_game_wrapper_TutorialStepMessage__WEBPACK_IMPORTED_MODULE_2__.TutorialStepMessage.FAILED_TRY_AGAIN());
@@ -58279,12 +58474,12 @@ class BoardValue {
     const min = _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.ArrayUtils.min(left.metrics, right.metrics);
     return BoardValue.multiMetric(min);
   }
-  static VICTORIES = [Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER];
+  static VICTORIES = [Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY];
   static isVictory(score) {
-    return score === Number.MAX_SAFE_INTEGER || score === Number.MIN_SAFE_INTEGER;
+    return score === Number.POSITIVE_INFINITY || score === Number.NEGATIVE_INFINITY;
   }
   static isPreVictory(score) {
-    return score === Number.MAX_SAFE_INTEGER - 1 || score === Number.MIN_SAFE_INTEGER + 1;
+    return score === Number.POSITIVE_INFINITY - 1 || score === Number.NEGATIVE_INFINITY + 1;
   }
   /**
    * return the board value corresponding to the players' scores
@@ -58333,12 +58528,12 @@ class BoardValue {
   }
   toMaximum() {
     const size = this.metrics.length;
-    const maximums = _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.ArrayUtils.create(size, Number.MAX_SAFE_INTEGER);
+    const maximums = _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.ArrayUtils.create(size, Number.POSITIVE_INFINITY);
     return BoardValue.multiMetric(maximums);
   }
   toMinimum() {
     const size = this.metrics.length;
-    const minimums = _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.ArrayUtils.create(size, Number.MIN_SAFE_INTEGER);
+    const minimums = _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.ArrayUtils.create(size, Number.NEGATIVE_INFINITY);
     return BoardValue.multiMetric(minimums);
   }
   equals(other) {
@@ -58590,7 +58785,7 @@ class MCTS {
   ucb(node, parentSimulations) {
     const simulations = this.simulations(node);
     if (parentSimulations === 0 || simulations === 0) {
-      return Number.MAX_SAFE_INTEGER;
+      return Number.POSITIVE_INFINITY;
     }
     return this.wins(node) / simulations + this.explorationParameter * Math.sqrt(Math.log(parentSimulations) / simulations);
   }
@@ -58989,6 +59184,9 @@ class BoardData {
     return new BoardData(groupIndices, groupsInfos);
   }
 }
+/**
+ * The main caracteristic of a group is piece of the same type that are connected together.
+ */
 class GroupInfos {
   coords;
   neighborsEntryPoints;
@@ -59017,6 +59215,25 @@ let GroupDataFactory = class GroupDataFactory {
       }
     }
     return groupDatas;
+  }
+  getGroupsDataWhere(board, condition) {
+    const groups = [];
+    let coord;
+    let group;
+    let currentSpace;
+    for (let y = 0; y < board.length; y++) {
+      for (let x = 0; x < board[0].length; x++) {
+        coord = new _Coord__WEBPACK_IMPORTED_MODULE_1__.Coord(x, y);
+        currentSpace = board[y][x];
+        if (condition(currentSpace)) {
+          if (groups.some(currentGroup => currentGroup.selfContains(coord)) === false) {
+            group = this.getGroupData(coord, board);
+            groups.push(group);
+          }
+        }
+      }
+    }
+    return groups;
   }
 };
 GroupDataFactory = __decorate([_utils_Debug__WEBPACK_IMPORTED_MODULE_0__.Debug.log], GroupDataFactory);
@@ -60491,7 +60708,7 @@ class AbstractNInARowHelper {
       const oppositeDirectionAllies = alliesByDirs.get(dir.getOpposite()).get();
       const lineAllies = directionAllies + oppositeDirectionAllies;
       if (this.N <= lineAllies + 1) {
-        return Number.MAX_SAFE_INTEGER;
+        return Number.POSITIVE_INFINITY;
       }
       const directionFreeSpaces = freeSpaceByDirs.get(dir).get();
       const oppositeDirectionFreeSpaces = freeSpaceByDirs.get(dir.getOpposite()).get();
@@ -60811,9 +61028,9 @@ class Player {
   }
   getVictoryValue() {
     if (this === Player.ZERO) {
-      return Number.MIN_SAFE_INTEGER;
+      return Number.NEGATIVE_INFINITY;
     } else {
-      return Number.MAX_SAFE_INTEGER;
+      return Number.POSITIVE_INFINITY;
     }
   }
   getOpponent() {
@@ -61495,12 +61712,12 @@ class GameStateWithTable extends _GameState__WEBPACK_IMPORTED_MODULE_4__.GameSta
       callback(coord, content);
     }
   }
-  findMatchingCoord(premise) {
+  findMatchingCoord(predicate) {
     for (const {
       coord,
       content
     } of this.getCoordsAndContents()) {
-      const result = premise(coord, content);
+      const result = predicate(coord, content);
       if (result) {
         return _everyboard_lib__WEBPACK_IMPORTED_MODULE_0__.MGPOptional.of(coord);
       }
@@ -61756,10 +61973,10 @@ class OpenHexagonalGameState extends _GameState__WEBPACK_IMPORTED_MODULE_3__.Gam
     return this.pieces.getKeyList();
   }
   computeScale() {
-    let minWidth = Number.MAX_SAFE_INTEGER;
-    let maxWidth = Number.MIN_SAFE_INTEGER;
-    let minHeight = Number.MAX_SAFE_INTEGER;
-    let maxHeight = Number.MIN_SAFE_INTEGER;
+    let minWidth = Number.POSITIVE_INFINITY;
+    let maxWidth = Number.NEGATIVE_INFINITY;
+    let minHeight = Number.POSITIVE_INFINITY;
+    let maxHeight = Number.NEGATIVE_INFINITY;
     for (const coord of this.pieces.getKeyList()) {
       minWidth = Math.min(coord.x, minWidth);
       maxWidth = Math.max(coord.x, maxWidth);
@@ -64058,9 +64275,12 @@ class ArrayUtils {
    * Counts the number of element in an array that have the provided value
    */
   static count(array, value) {
+    return ArrayUtils.countByPredicate(array, element => (0, Comparable_1.comparableEquals)(element, value));
+  }
+  static countByPredicate(array, predicate) {
     let total = 0;
     for (const element of array) {
-      if ((0, Comparable_1.comparableEquals)(element, value)) {
+      if (predicate(element)) {
         total++;
       }
     }
