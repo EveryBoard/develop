@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/pipes-and-directives/toggle-visibility.directive.ts"],
+  "sourcesContent": ["import { Directive, ElementRef, inject } from '@angular/core';\n\n@Directive({ selector: '[toggleVisibility]' })\nexport class ToggleVisibilityDirective {\n\n    private shown: boolean = false;\n    private readonly input: HTMLElement;\n\n    public constructor() {\n        const element: ElementRef = inject(ElementRef);\n\n        this.input = element.nativeElement.parentNode.previousSibling;\n        element.nativeElement.addEventListener('click', (_: Event) => {\n            this.toggle();\n        });\n    }\n\n    private toggle(): void {\n        this.shown = this.shown === false;\n        if (this.shown) {\n            this.input.setAttribute('type', 'text');\n        } else {\n            this.input.setAttribute('type', 'password');\n        }\n        this.input.focus();\n    }\n}\n"],
+  "mappings": ";;;;;;;;;AAGM,IAAO,4BAAP,MAAO,2BAAyB;EAE1B,QAAiB;EACR;EAEjB,cAAA;AACI,UAAM,UAAsB,OAAO,UAAU;AAE7C,SAAK,QAAQ,QAAQ,cAAc,WAAW;AAC9C,YAAQ,cAAc,iBAAiB,SAAS,CAAC,MAAY;AACzD,WAAK,OAAM;IACf,CAAC;EACL;EAEQ,SAAM;AACV,SAAK,QAAQ,KAAK,UAAU;AAC5B,QAAI,KAAK,OAAO;AACZ,WAAK,MAAM,aAAa,QAAQ,MAAM;IAC1C,OAAO;AACH,WAAK,MAAM,aAAa,QAAQ,UAAU;IAC9C;AACA,SAAK,MAAM,MAAK;EACpB;;qCAtBS,4BAAyB;EAAA;yEAAzB,4BAAyB,WAAA,CAAA,CAAA,IAAA,oBAAA,EAAA,CAAA,EAAA,CAAA;;;sEAAzB,2BAAyB,CAAA;UADrC;WAAU,EAAE,UAAU,qBAAoB,CAAE;;;",
+  "names": []
+}

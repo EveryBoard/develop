@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/pipes-and-directives/autofocus.directive.ts"],
+  "sourcesContent": ["import { Directive, ElementRef, OnInit, inject } from '@angular/core';\n\n@Directive({ selector: '[autofocus]' })\nexport class AutofocusDirective implements OnInit {\n\n    private readonly element: ElementRef = inject(ElementRef);\n\n    public ngOnInit(): void {\n        // focus need to be called after a bit, otherwise it doesn't do anything.\n        // 0ms is enough, just to get in the next event loop\n        setTimeout(() => {\n            this.element.nativeElement.focus();\n        }, 1);\n    }\n}\n"],
+  "mappings": ";;;;;;;;;AAGM,IAAO,qBAAP,MAAO,oBAAkB;EAEV,UAAsB,OAAO,UAAU;EAEjD,WAAQ;AAGX,eAAW,MAAK;AACZ,WAAK,QAAQ,cAAc,MAAK;IACpC,GAAG,CAAC;EACR;;qCAVS,qBAAkB;EAAA;yEAAlB,qBAAkB,WAAA,CAAA,CAAA,IAAA,aAAA,EAAA,CAAA,EAAA,CAAA;;;sEAAlB,oBAAkB,CAAA;UAD9B;WAAU,EAAE,UAAU,cAAa,CAAE;;;",
+  "names": []
+}

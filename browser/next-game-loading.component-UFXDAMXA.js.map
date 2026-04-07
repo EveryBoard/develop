@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/components/normal-component/next-game-loading/next-game-loading.component.ts", "src/app/components/normal-component/next-game-loading/next-game-loading.component.html"],
+  "sourcesContent": ["import { Component } from '@angular/core';\n\n@Component({\n    selector: 'app-next-game-loading',\n    templateUrl: './next-game-loading.component.html',\n})\nexport class NextGameLoadingComponent {\n}\n", "<p i18n>The replay game is loading, please wait, it should not take long.</p>\n"],
+  "mappings": ";;;;;;;;;;;AAMM,IAAO,2BAAP,MAAO,0BAAwB;;qCAAxB,2BAAwB;EAAA;yEAAxB,2BAAwB,WAAA,CAAA,CAAA,uBAAA,CAAA,GAAA,OAAA,GAAA,MAAA,GAAA,QAAA,MAAA;AAAA,QAAA;AAAA,QAAA,OAAA;;;;eCN7B;;;;;AAAR,MAAA,4BAAA,GAAA,GAAA;AAAA,MAAA,iBAAA,GAAA,CAAA;AAAyE,MAAA,0BAAA;;;;;sEDM5D,0BAAwB,CAAA;UAJpC;uBACa,yBAAuB,UAAA,kFAAA,CAAA;;;;6EAGxB,0BAAwB,EAAA,WAAA,4BAAA,UAAA,wFAAA,YAAA,EAAA,CAAA;AAAA,GAAA;",
+  "names": []
+}

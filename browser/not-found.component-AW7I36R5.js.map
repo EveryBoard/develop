@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/components/normal-component/not-found/not-found.component.ts", "src/app/components/normal-component/not-found/not-found.component.html"],
+  "sourcesContent": ["import { Component, inject } from '@angular/core';\nimport { ActivatedRoute } from '@angular/router';\n\n@Component({\n    selector: 'app-not-found',\n    templateUrl: './not-found.component.html',\n})\nexport class NotFoundComponent {\n\n    public message: string;\n\n    public constructor() {\n        this.message = inject(ActivatedRoute).snapshot.paramMap.get('message') ?? $localize`This page does not exist.`;\n    }\n}\n", "<div class=\"message is-danger\">\n    <div class=\"message-header\"\n         i18n>Not found</div>\n    <div class=\"message-body\">{{ message }}</div>\n</div>\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;;AAOM,IAAO,oBAAP,MAAO,mBAAiB;EAEnB;EAEP,cAAA;AACI,SAAK,UAAU,OAAO,cAAc,EAAE,SAAS,SAAS,IAAI,SAAS,KAAK;EAC9E;;qCANS,oBAAiB;EAAA;yEAAjB,oBAAiB,WAAA,CAAA,CAAA,eAAA,CAAA,GAAA,OAAA,GAAA,MAAA,GAAA,QAAA,MAAA;AAAA,QAAA;AAAA,QAAA,OAAA;;;;eCLhB;;;;;AAFd,MAAA,4BAAA,GAAA,OAAA,CAAA,EAA+B,GAAA,OAAA,CAAA;AAC3B,MAAA,iBAAA,GAAA,CAAA;AACmB,MAAA,0BAAA;AACnB,MAAA,4BAAA,GAAA,OAAA,CAAA;AAA0B,MAAA,iBAAA,CAAA;AAAa,MAAA,0BAAA,EAAM;;;AAAnB,MAAA,oBAAA,CAAA;AAAA,MAAA,4BAAA,IAAA,OAAA;;;;;sEDIjB,mBAAiB,CAAA;UAJ7B;uBACa,iBAAe,UAAA,+JAAA,CAAA;;;;6EAGhB,mBAAiB,EAAA,WAAA,qBAAA,UAAA,wEAAA,YAAA,EAAA,CAAA;AAAA,GAAA;",
+  "names": []
+}
