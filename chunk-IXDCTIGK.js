@@ -620,7 +620,7 @@ var AIStats = class {
 };
 
 // src/app/components/normal-component/pick-game/pick-game.component.ts
-var import_lib233 = __toESM(require_dist());
+var import_lib236 = __toESM(require_dist());
 
 // src/app/games/abalone/AbaloneRules.ts
 var import_lib17 = __toESM(require_dist());
@@ -684,7 +684,7 @@ var NumberConfig = class extends ConfigLine {
 var EnumConfig = class extends ConfigLine {
   possibleValues;
   validator;
-  constructor(value, title, possibleValues, validator = (_31) => import_lib5.MGPValidation.SUCCESS) {
+  constructor(value, title, possibleValues, validator = (_32) => import_lib5.MGPValidation.SUCCESS) {
     super(value, title);
     this.possibleValues = possibleValues;
     this.validator = validator;
@@ -1780,20 +1780,20 @@ var AbaloneRules = class _AbaloneRules extends ConfigurableRules {
     return import_lib17.MGPOptional.of(_AbaloneRules.RULES_CONFIG_DESCRIPTION);
   }
   getInitialState() {
-    const _31 = FourStatePiece.EMPTY;
-    const N9 = FourStatePiece.UNREACHABLE;
-    const O26 = FourStatePiece.ZERO;
-    const X26 = FourStatePiece.ONE;
+    const _32 = FourStatePiece.EMPTY;
+    const N10 = FourStatePiece.UNREACHABLE;
+    const O27 = FourStatePiece.ZERO;
+    const X27 = FourStatePiece.ONE;
     const board = [
-      [N9, N9, N9, N9, X26, X26, X26, X26, X26],
-      [N9, N9, N9, X26, X26, X26, X26, X26, X26],
-      [N9, N9, _31, _31, X26, X26, X26, _31, _31],
-      [N9, _31, _31, _31, _31, _31, _31, _31, _31],
-      [_31, _31, _31, _31, _31, _31, _31, _31, _31],
-      [_31, _31, _31, _31, _31, _31, _31, _31, N9],
-      [_31, _31, O26, O26, O26, _31, _31, N9, N9],
-      [O26, O26, O26, O26, O26, O26, N9, N9, N9],
-      [O26, O26, O26, O26, O26, N9, N9, N9, N9]
+      [N10, N10, N10, N10, X27, X27, X27, X27, X27],
+      [N10, N10, N10, X27, X27, X27, X27, X27, X27],
+      [N10, N10, _32, _32, X27, X27, X27, _32, _32],
+      [N10, _32, _32, _32, _32, _32, _32, _32, _32],
+      [_32, _32, _32, _32, _32, _32, _32, _32, _32],
+      [_32, _32, _32, _32, _32, _32, _32, _32, N10],
+      [_32, _32, O27, O27, O27, _32, _32, N10, N10],
+      [O27, O27, O27, O27, O27, O27, N10, N10, N10],
+      [O27, O27, O27, O27, O27, N10, N10, N10, N10]
     ];
     return new AbaloneState(board, 0);
   }
@@ -2643,9 +2643,9 @@ var GameComponent = class GameComponent2 extends BaseGameComponent {
   }
   setRulesAndNode(urlName) {
     const gameInfo = GameInfo.getByUrlName(urlName).get();
-    const defaultConfig24 = gameInfo.getRulesConfig();
+    const defaultConfig25 = gameInfo.getRulesConfig();
     this.rules = gameInfo.rules;
-    this.node = this.rules.getInitialNode(defaultConfig24);
+    this.node = this.rules.getInitialNode(defaultConfig25);
     this.tutorial = gameInfo.tutorial.tutorial;
   }
   getConfig() {
@@ -3068,6 +3068,13 @@ var HexaLayout = class {
     const points = this.getHexaPointsList().map((c) => c.toSVGPoint());
     return points.join(" ");
   }
+  getHexaDiagonalPoints() {
+    const pointList = this.getHexaPointsList();
+    const upLeft = pointList[0];
+    const downRight = pointList[3];
+    const points = [upLeft, downRight].map((c) => c.toSVGPoint());
+    return points.join(" ");
+  }
   /**
    * Returns the points to draw polygons to render a hexagon in an isometric view.
    * The first polygon is the one on the bottom left.
@@ -3351,8 +3358,9 @@ var AbaloneScoreMinimax = class extends Minimax {
 };
 
 // src/app/games/abalone/abalone.component.ts
-var _forTrack0 = ($index, $item) => $item.coord;
-var _forTrack1 = ($index, $item) => $item.start.toString() + $item.landing.toString();
+var _forTrack0 = ($index, $item) => $item.coord.toString();
+var _forTrack1 = ($index, $item) => $item.coord;
+var _forTrack2 = ($index, $item) => $item.start.toString() + $item.landing.toString();
 function AbaloneComponent_For_2_Template(rf, ctx) {
   if (rf & 1) {
     const _r1 = \u0275\u0275getCurrentView();
@@ -3824,8 +3832,8 @@ var AbaloneComponent = class _AbaloneComponent extends HexagonalGameComponent {
       \u0275\u0275elementStart(0, "svg", 0);
       \u0275\u0275repeaterCreate(1, AbaloneComponent_For_2_Template, 1, 5, ":svg:polygon", 1, \u0275\u0275repeaterTrackByIdentity);
       \u0275\u0275repeaterCreate(3, AbaloneComponent_For_4_Template, 2, 1, ":svg:g", null, _forTrack0);
-      \u0275\u0275repeaterCreate(5, AbaloneComponent_For_6_Template, 3, 11, ":svg:g", null, _forTrack0);
-      \u0275\u0275repeaterCreate(7, AbaloneComponent_For_8_Template, 1, 6, ":svg:g", 2, _forTrack1);
+      \u0275\u0275repeaterCreate(5, AbaloneComponent_For_6_Template, 3, 11, ":svg:g", null, _forTrack1);
+      \u0275\u0275repeaterCreate(7, AbaloneComponent_For_8_Template, 1, 6, ":svg:g", 2, _forTrack2);
       \u0275\u0275elementEnd();
     }
     if (rf & 2) {
@@ -3844,7 +3852,7 @@ var AbaloneComponent = class _AbaloneComponent extends HexagonalGameComponent {
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(AbaloneComponent, [{
     type: Component,
-    args: [{ selector: "app-abalone", imports: [NgClass, HexArrowComponent], template: '<svg xmlns="http://www.w3.org/2000/svg"\n     class="board"\n     [attr.viewBox]="getViewBox().toSVGString()"\n     [attr.transform]="rotation"\n     preserveAspectRatio="xMidYMid meet">\n\n    @for (invisibleSpace of boardNeighboringCoords; track invisibleSpace) {\n        <polygon id="invisible-space-{{ invisibleSpace.x }}-{{ invisibleSpace.y }}"\n                 [attr.transform]="getHexaCenterTranslationAt(invisibleSpace)"\n                 (click)="onInvisibleSpaceClick(invisibleSpace)"\n                 class="transparent"\n                 [attr.points]="getHexaPoints()"\n                 stroke-linecap="round"/>\n    }\n\n    @for (coordAndContent of getState().getCoordsAndContents(); track coordAndContent.coord) {\n        <g>\n            @if (isReachable(coordAndContent.content)) {\n                <g [attr.transform]="getHexaCenterTranslationAt(coordAndContent.coord)">\n                    <polygon id="space-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n                             (click)="onSpaceClick(coordAndContent.coord)"\n                             [ngClass]="getSquareClassesAt(coordAndContent.coord)"\n                             class="base"\n                             [attr.points]="getHexaPoints()"\n                             stroke-linecap="round"/>\n                    @if (coordAndContent.content.isPlayer()) {\n                        <circle id="piece-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n                                (click)="onPieceClick(coordAndContent.coord)"\n                                cx="0"\n                                cy="0"\n                                [attr.r]="SPACE_SIZE * 0.5"\n                                [ngClass]="getPieceClasses(coordAndContent.coord)"\n                                class="base"/>\n                    }\n                </g>\n            }\n        </g>\n    }\n\n    @for (captured of captureds; track captured.coord) {\n        <g [attr.transform]="getHexaCenterTranslationAt(captured.coord)">\n            <polygon id="captured-space-{{ captured.coord.x }}-{{ captured.coord.y }}"\n                     [ngClass]="getSquareClassesAt(captured.coord)"\n                     class="base captured-fill"\n                     [attr.points]="getHexaPoints()"\n                     stroke-linecap="round"/>\n            <circle id="captured-piece-{{ captured.coord.x }}-{{ captured.coord.y }}"\n                    cx="0"\n                    cy="0"\n                    [attr.r]="SPACE_SIZE * 0.5"\n                    [ngClass]="captured.pieceClasses"\n                    class="base semi-transparent"/>\n        </g>\n    }\n\n    @for (arrow of directions; track arrow.start.toString() + arrow.landing.toString()) {\n        <g id="arrow-{{ arrow.start.x }}-{{ arrow.start.y }}-to-{{ arrow.landing.x }}-{{ arrow.landing.y }}"\n           (click)="chooseDirection(arrow.dir)"\n           app-hex-arrow\n           [arrow]="arrow"/>\n    }\n\n</svg>\n', styles: ["/* src/app/components/game-components/game-component/game-component.scss */\n.base {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke {\n  stroke-width: 0;\n}\n.base.manual-stroke {\n  fill: var(--base-stroke);\n}\n.base-no-stroke {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text {\n  fill: var(--base-stroke);\n}\n.white-background {\n  fill: white;\n}\n.background {\n  fill: var(--spaces-fill);\n}\n.transparent {\n  opacity: 0;\n}\n.background2 {\n  fill: var(--alt-background-fill);\n}\n.background3 {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill {\n  fill: var(--player0);\n}\n.player0-alternate-fill {\n  fill: var(--player0-alternate);\n}\n.player0-stroke {\n  stroke: var(--player0);\n}\n.player1-fill {\n  fill: var(--player1);\n}\n.player1-alternate-fill {\n  fill: var(--player1-alternate);\n}\n.player1-stroke {\n  stroke: var(--player1);\n}\n.nonplayer-fill {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill {\n  fill: var(--pre-captured);\n}\n.captured-fill {\n  fill: var(--captured);\n}\n.captured-alternate-fill {\n  fill: var(--alt-captured);\n}\n.captured-stroke {\n  stroke: var(--captured);\n}\n.moved-fill {\n  fill: var(--moved);\n}\n.moved-stroke {\n  stroke: var(--moved);\n}\n.indicator {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill {\n  fill: var(--indicator);\n}\n.selectable-stroke {\n  stroke: var(--selectable);\n}\n.selectable > .base-no-stroke {\n  fill: var(--selectable);\n}\n.last-move-stroke {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke {\n  fill: var(--last-move);\n}\n.last-move-fill {\n  fill: var(--last-move);\n}\n.victory-fill {\n  fill: var(--victory);\n}\n.victory-stroke {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke {\n  fill: var(--victory);\n}\n.defeat-fill {\n  fill: var(--defeat);\n}\n.defeat-stroke {\n  stroke: var(--defeat);\n}\n.selected-fill {\n  fill: var(--selected);\n}\n.selected-stroke {\n  stroke: var(--selected);\n}\n.clickable-stroke {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill {\n  fill: var(--capturable);\n}\n.capturable-stroke:hover {\n  stroke-width: 8;\n}\n.no-fill {\n  fill: none;\n}\n.no-stroke {\n  stroke: none;\n}\n.small-stroke {\n  stroke-width: 2;\n}\n.mid-small-stroke {\n  stroke-width: 3;\n}\n.mid-stroke {\n  stroke-width: 5;\n}\n.big-stroke {\n  stroke-width: 8;\n}\n.huge-stroke {\n  stroke-width: 12;\n}\n.semi-transparent {\n  opacity: 0.5;\n}\n.territory-opacity {\n  fill-opacity: 0.7;\n}\n.round {\n  stroke-linecap: round;\n}\n.text-giant {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big {\n  font: 50px sans-serif;\n}\n.backgrounded-text {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus {\n  font: 38px sans-serif;\n}\n.text-medium {\n  font: 35px sans-serif;\n}\n.text-small-plus {\n  font: 28px sans-serif;\n}\n.text-small {\n  font: 25px sans-serif;\n}\n.text-bold {\n  font-weight: bold;\n}\n.text-center {\n  text-anchor: middle;\n}\n.black-fill {\n  fill: black;\n}\n.darker {\n  filter: brightness(80%);\n}\n.lighter {\n  filter: brightness(110%);\n}\nsvg {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */\n"] }]
+    args: [{ selector: "app-abalone", imports: [NgClass, HexArrowComponent], template: '<svg xmlns="http://www.w3.org/2000/svg"\n     class="board"\n     [attr.viewBox]="getViewBox().toSVGString()"\n     [attr.transform]="rotation"\n     preserveAspectRatio="xMidYMid meet">\n\n    @for (invisibleSpace of boardNeighboringCoords; track invisibleSpace) {\n        <polygon id="invisible-space-{{ invisibleSpace.x }}-{{ invisibleSpace.y }}"\n                 [attr.transform]="getHexaCenterTranslationAt(invisibleSpace)"\n                 (click)="onInvisibleSpaceClick(invisibleSpace)"\n                 class="transparent"\n                 [attr.points]="getHexaPoints()"\n                 stroke-linecap="round"/>\n    }\n\n    @for (coordAndContent of getState().getCoordsAndContents(); track coordAndContent.coord.toString()) {\n        <g>\n            @if (isReachable(coordAndContent.content)) {\n                <g [attr.transform]="getHexaCenterTranslationAt(coordAndContent.coord)">\n                    <polygon id="space-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n                             (click)="onSpaceClick(coordAndContent.coord)"\n                             [ngClass]="getSquareClassesAt(coordAndContent.coord)"\n                             class="base"\n                             [attr.points]="getHexaPoints()"\n                             stroke-linecap="round"/>\n                    @if (coordAndContent.content.isPlayer()) {\n                        <circle id="piece-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n                                (click)="onPieceClick(coordAndContent.coord)"\n                                cx="0"\n                                cy="0"\n                                [attr.r]="SPACE_SIZE * 0.5"\n                                [ngClass]="getPieceClasses(coordAndContent.coord)"\n                                class="base"/>\n                    }\n                </g>\n            }\n        </g>\n    }\n\n    @for (captured of captureds; track captured.coord) {\n        <g [attr.transform]="getHexaCenterTranslationAt(captured.coord)">\n            <polygon id="captured-space-{{ captured.coord.x }}-{{ captured.coord.y }}"\n                     [ngClass]="getSquareClassesAt(captured.coord)"\n                     class="base captured-fill"\n                     [attr.points]="getHexaPoints()"\n                     stroke-linecap="round"/>\n            <circle id="captured-piece-{{ captured.coord.x }}-{{ captured.coord.y }}"\n                    cx="0"\n                    cy="0"\n                    [attr.r]="SPACE_SIZE * 0.5"\n                    [ngClass]="captured.pieceClasses"\n                    class="base semi-transparent"/>\n        </g>\n    }\n\n    @for (arrow of directions; track arrow.start.toString() + arrow.landing.toString()) {\n        <g id="arrow-{{ arrow.start.x }}-{{ arrow.start.y }}-to-{{ arrow.landing.x }}-{{ arrow.landing.y }}"\n           (click)="chooseDirection(arrow.dir)"\n           app-hex-arrow\n           [arrow]="arrow"/>\n    }\n\n</svg>\n', styles: ["/* src/app/components/game-components/game-component/game-component.scss */\n.base {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke {\n  stroke-width: 0;\n}\n.base.manual-stroke {\n  fill: var(--base-stroke);\n}\n.base-no-stroke {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text {\n  fill: var(--base-stroke);\n}\n.white-background {\n  fill: white;\n}\n.background {\n  fill: var(--spaces-fill);\n}\n.transparent {\n  opacity: 0;\n}\n.background2 {\n  fill: var(--alt-background-fill);\n}\n.background3 {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill {\n  fill: var(--player0);\n}\n.player0-alternate-fill {\n  fill: var(--player0-alternate);\n}\n.player0-stroke {\n  stroke: var(--player0);\n}\n.player1-fill {\n  fill: var(--player1);\n}\n.player1-alternate-fill {\n  fill: var(--player1-alternate);\n}\n.player1-stroke {\n  stroke: var(--player1);\n}\n.nonplayer-fill {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill {\n  fill: var(--pre-captured);\n}\n.captured-fill {\n  fill: var(--captured);\n}\n.captured-alternate-fill {\n  fill: var(--alt-captured);\n}\n.captured-stroke {\n  stroke: var(--captured);\n}\n.moved-fill {\n  fill: var(--moved);\n}\n.moved-stroke {\n  stroke: var(--moved);\n}\n.indicator {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill {\n  fill: var(--indicator);\n}\n.selectable-stroke {\n  stroke: var(--selectable);\n}\n.selectable > .base-no-stroke {\n  fill: var(--selectable);\n}\n.last-move-stroke {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke {\n  fill: var(--last-move);\n}\n.last-move-fill {\n  fill: var(--last-move);\n}\n.victory-fill {\n  fill: var(--victory);\n}\n.victory-stroke {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke {\n  fill: var(--victory);\n}\n.defeat-fill {\n  fill: var(--defeat);\n}\n.defeat-stroke {\n  stroke: var(--defeat);\n}\n.selected-fill {\n  fill: var(--selected);\n}\n.selected-stroke {\n  stroke: var(--selected);\n}\n.clickable-stroke {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill {\n  fill: var(--capturable);\n}\n.capturable-stroke:hover {\n  stroke-width: 8;\n}\n.no-fill {\n  fill: none;\n}\n.no-stroke {\n  stroke: none;\n}\n.small-stroke {\n  stroke-width: 2;\n}\n.mid-small-stroke {\n  stroke-width: 3;\n}\n.mid-stroke {\n  stroke-width: 5;\n}\n.big-stroke {\n  stroke-width: 8;\n}\n.huge-stroke {\n  stroke-width: 12;\n}\n.semi-transparent {\n  opacity: 0.5;\n}\n.territory-opacity {\n  fill-opacity: 0.7;\n}\n.round {\n  stroke-linecap: round;\n}\n.text-giant {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big {\n  font: 50px sans-serif;\n}\n.backgrounded-text {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus {\n  font: 38px sans-serif;\n}\n.text-medium {\n  font: 35px sans-serif;\n}\n.text-small-plus {\n  font: 28px sans-serif;\n}\n.text-small {\n  font: 25px sans-serif;\n}\n.text-bold {\n  font-weight: bold;\n}\n.text-center {\n  text-anchor: middle;\n}\n.black-fill {\n  fill: black;\n}\n.darker {\n  filter: brightness(80%);\n}\n.lighter {\n  filter: brightness(110%);\n}\nsvg {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */\n"] }]
   }], () => [], null);
 })();
 (() => {
@@ -5064,10 +5072,10 @@ var AbstractCheckersRules = class extends ConfigurableRules {
   getInitialState(optionalConfig) {
     const U3 = new CheckersStack([CheckersPiece.ZERO]);
     const V2 = new CheckersStack([CheckersPiece.ONE]);
-    const _31 = CheckersStack.EMPTY;
+    const _32 = CheckersStack.EMPTY;
     const config = optionalConfig.get();
     const height = config.emptyRows + 2 * config.playerRows;
-    const board = TableUtils.create(config.width, height, _31);
+    const board = TableUtils.create(config.width, height, _32);
     const occupiedSquare = config.occupyEvenSquare ? 0 : 1;
     for (let y = 0; y < height; y++) {
       for (let x2 = 0; x2 < config.width; x2++) {
@@ -7057,34 +7065,34 @@ var CoerceoRules = (_a3 = class extends ConfigurableRules {
     return CoerceoRules_1.singleton.get();
   }
   getInitialState(config) {
-    const _31 = FourStatePiece.EMPTY;
-    const N9 = FourStatePiece.UNREACHABLE;
-    const O26 = FourStatePiece.ZERO;
-    const X26 = FourStatePiece.ONE;
+    const _32 = FourStatePiece.EMPTY;
+    const N10 = FourStatePiece.UNREACHABLE;
+    const O27 = FourStatePiece.ZERO;
+    const X27 = FourStatePiece.ONE;
     let board;
     if (config.get().smallBoard) {
       board = [
-        [N9, N9, N9, N9, N9, N9, N9, N9, N9],
-        [N9, N9, N9, O26, _31, O26, N9, N9, N9],
-        [_31, _31, O26, _31, _31, _31, O26, _31, _31],
-        [_31, _31, _31, O26, _31, O26, _31, _31, _31],
-        [_31, _31, _31, X26, _31, X26, _31, _31, _31],
-        [_31, _31, X26, _31, _31, _31, X26, _31, _31],
-        [N9, N9, N9, X26, _31, X26, N9, N9, N9],
-        [N9, N9, N9, N9, N9, N9, N9, N9, N9]
+        [N10, N10, N10, N10, N10, N10, N10, N10, N10],
+        [N10, N10, N10, O27, _32, O27, N10, N10, N10],
+        [_32, _32, O27, _32, _32, _32, O27, _32, _32],
+        [_32, _32, _32, O27, _32, O27, _32, _32, _32],
+        [_32, _32, _32, X27, _32, X27, _32, _32, _32],
+        [_32, _32, X27, _32, _32, _32, X27, _32, _32],
+        [N10, N10, N10, X27, _32, X27, N10, N10, N10],
+        [N10, N10, N10, N10, N10, N10, N10, N10, N10]
       ];
     } else {
       board = [
-        [N9, N9, N9, N9, N9, N9, O26, _31, O26, N9, N9, N9, N9, N9, N9],
-        [N9, N9, N9, _31, _31, O26, _31, _31, _31, O26, _31, _31, N9, N9, N9],
-        [_31, X26, _31, X26, _31, _31, O26, _31, O26, _31, _31, X26, _31, X26, _31],
-        [X26, _31, _31, _31, X26, _31, _31, _31, _31, _31, X26, _31, _31, _31, X26],
-        [_31, X26, _31, X26, _31, _31, _31, _31, _31, _31, _31, X26, _31, X26, _31],
-        [_31, O26, _31, O26, _31, _31, _31, _31, _31, _31, _31, O26, _31, O26, _31],
-        [O26, _31, _31, _31, O26, _31, _31, _31, _31, _31, O26, _31, _31, _31, O26],
-        [_31, O26, _31, O26, _31, _31, X26, _31, X26, _31, _31, O26, _31, O26, _31],
-        [N9, N9, N9, _31, _31, X26, _31, _31, _31, X26, _31, _31, N9, N9, N9],
-        [N9, N9, N9, N9, N9, N9, X26, _31, X26, N9, N9, N9, N9, N9, N9]
+        [N10, N10, N10, N10, N10, N10, O27, _32, O27, N10, N10, N10, N10, N10, N10],
+        [N10, N10, N10, _32, _32, O27, _32, _32, _32, O27, _32, _32, N10, N10, N10],
+        [_32, X27, _32, X27, _32, _32, O27, _32, O27, _32, _32, X27, _32, X27, _32],
+        [X27, _32, _32, _32, X27, _32, _32, _32, _32, _32, X27, _32, _32, _32, X27],
+        [_32, X27, _32, X27, _32, _32, _32, _32, _32, _32, _32, X27, _32, X27, _32],
+        [_32, O27, _32, O27, _32, _32, _32, _32, _32, _32, _32, O27, _32, O27, _32],
+        [O27, _32, _32, _32, O27, _32, _32, _32, _32, _32, O27, _32, _32, _32, O27],
+        [_32, O27, _32, O27, _32, _32, X27, _32, X27, _32, _32, O27, _32, O27, _32],
+        [N10, N10, N10, _32, _32, X27, _32, _32, _32, X27, _32, _32, N10, N10, N10],
+        [N10, N10, N10, N10, N10, N10, X27, _32, X27, N10, N10, N10, N10, N10, N10]
       ];
     }
     return new CoerceoState(board, 0, PlayerNumberMap.of(0, 0), PlayerNumberMap.of(0, 0));
@@ -8300,9 +8308,9 @@ var AbstractNInARowHelper = class {
   N;
   directions;
   doubleDirections;
-  constructor(getOwner, N9, directions) {
+  constructor(getOwner, N10, directions) {
     this.getOwner = getOwner;
-    this.N = N9;
+    this.N = N10;
     this.directions = directions;
     const doubleDirections = [];
     for (const direction of directions) {
@@ -8405,8 +8413,8 @@ var AbstractNInARowHelper = class {
   }
 };
 var NInARowHelper = class extends AbstractNInARowHelper {
-  constructor(getOwner, N9) {
-    super(getOwner, N9, Ordinal.ORDINALS);
+  constructor(getOwner, N10) {
+    super(getOwner, N10, Ordinal.ORDINALS);
   }
 };
 
@@ -10261,19 +10269,19 @@ var DiaballikRules = class _DiaballikRules extends Rules {
     return _DiaballikRules.singleton.get();
   }
   getInitialState() {
-    const O26 = DiaballikPiece.ZERO;
+    const O27 = DiaballikPiece.ZERO;
     const \u022E2 = DiaballikPiece.ZERO_WITH_BALL;
-    const X26 = DiaballikPiece.ONE;
+    const X27 = DiaballikPiece.ONE;
     const \u1E8A2 = DiaballikPiece.ONE_WITH_BALL;
-    const _31 = DiaballikPiece.NONE;
+    const _32 = DiaballikPiece.NONE;
     const board = [
-      [X26, X26, X26, \u1E8A2, X26, X26, X26],
-      [_31, _31, _31, _31, _31, _31, _31],
-      [_31, _31, _31, _31, _31, _31, _31],
-      [_31, _31, _31, _31, _31, _31, _31],
-      [_31, _31, _31, _31, _31, _31, _31],
-      [_31, _31, _31, _31, _31, _31, _31],
-      [O26, O26, O26, \u022E2, O26, O26, O26]
+      [X27, X27, X27, \u1E8A2, X27, X27, X27],
+      [_32, _32, _32, _32, _32, _32, _32],
+      [_32, _32, _32, _32, _32, _32, _32],
+      [_32, _32, _32, _32, _32, _32, _32],
+      [_32, _32, _32, _32, _32, _32, _32],
+      [_32, _32, _32, _32, _32, _32, _32],
+      [O27, O27, O27, \u022E2, O27, O27, O27]
     ];
     return new DiaballikState(board, 0);
   }
@@ -11634,12 +11642,12 @@ var DiamRules = class _DiamRules extends Rules {
     return _DiamRules.singleton.get();
   }
   getInitialState() {
-    const _31 = DiamPiece.EMPTY;
+    const _32 = DiamPiece.EMPTY;
     const board = [
-      [_31, _31, _31, _31, _31, _31, _31, _31],
-      [_31, _31, _31, _31, _31, _31, _31, _31],
-      [_31, _31, _31, _31, _31, _31, _31, _31],
-      [_31, _31, _31, _31, _31, _31, _31, _31]
+      [_32, _32, _32, _32, _32, _32, _32, _32],
+      [_32, _32, _32, _32, _32, _32, _32, _32],
+      [_32, _32, _32, _32, _32, _32, _32, _32],
+      [_32, _32, _32, _32, _32, _32, _32, _32]
     ];
     return new DiamState(board, [4, 4, 4, 4], 0);
   }
@@ -12632,16 +12640,16 @@ var DvonnState = class _DvonnState extends HexagonalGameState {
    *     W D W B B W W W B
    */
   static balancedBoard() {
-    const _31 = DvonnPieceStack.UNREACHABLE;
-    const O26 = DvonnPieceStack.PLAYER_ZERO;
-    const X26 = DvonnPieceStack.PLAYER_ONE;
+    const _32 = DvonnPieceStack.UNREACHABLE;
+    const O27 = DvonnPieceStack.PLAYER_ZERO;
+    const X27 = DvonnPieceStack.PLAYER_ONE;
     const S3 = DvonnPieceStack.SOURCE;
     return [
-      [_31, _31, O26, X26, X26, X26, O26, O26, X26, S3, X26],
-      [_31, X26, X26, O26, O26, O26, X26, X26, O26, X26, X26],
-      [X26, X26, X26, X26, O26, S3, X26, O26, O26, O26, O26],
-      [O26, O26, X26, O26, O26, X26, X26, X26, O26, O26, _31],
-      [O26, S3, O26, X26, X26, O26, O26, O26, X26, _31, _31]
+      [_32, _32, O27, X27, X27, X27, O27, O27, X27, S3, X27],
+      [_32, X27, X27, O27, O27, O27, X27, X27, O27, X27, X27],
+      [X27, X27, X27, X27, O27, S3, X27, O27, O27, O27, O27],
+      [O27, O27, X27, O27, O27, X27, X27, X27, O27, O27, _32],
+      [O27, S3, O27, X27, X27, O27, O27, O27, X27, _32, _32]
     ];
   }
   static isOnBoard(coord) {
@@ -13460,7 +13468,7 @@ var EncapsuleSpace = class _EncapsuleSpace {
     const occupiedCircles = this.getOccupiedCircles();
     return occupiedCircles.size() === 0;
   }
-  isEmptyKeyValue(_31, value) {
+  isEmptyKeyValue(_32, value) {
     return value.isPlayer();
   }
   toList() {
@@ -13542,8 +13550,8 @@ var EncapsuleRules = (_a4 = class extends ConfigurableRules {
   }
   getInitialState(optionalConfig) {
     const config = optionalConfig.get();
-    const _31 = new EncapsuleSpace(new import_lib87.MGPMap());
-    const startingBoard = TableUtils.create(config.width, config.height, _31);
+    const _32 = new EncapsuleSpace(new import_lib87.MGPMap());
+    const startingBoard = TableUtils.create(config.width, config.height, _32);
     const initialPieces = this.getInitialEncapsulePieceMap(config);
     return new EncapsuleState(startingBoard, 0, initialPieces, config.nbOfSizes);
   }
@@ -14320,12 +14328,12 @@ var EpaminondasRules = class _EpaminondasRules extends ConfigurableRules {
   }
   getInitialState(optionalConfig) {
     const config = optionalConfig.get();
-    const _31 = PlayerOrNone.NONE;
-    const O26 = PlayerOrNone.ZERO;
-    const X26 = PlayerOrNone.ONE;
-    const upperBoard = TableUtils.create(config.width, config.rowsOfSoldiers, X26);
-    const middleBoard = TableUtils.create(config.width, config.emptyRows, _31);
-    const lowerBoard = TableUtils.create(config.width, config.rowsOfSoldiers, O26);
+    const _32 = PlayerOrNone.NONE;
+    const O27 = PlayerOrNone.ZERO;
+    const X27 = PlayerOrNone.ONE;
+    const upperBoard = TableUtils.create(config.width, config.rowsOfSoldiers, X27);
+    const middleBoard = TableUtils.create(config.width, config.emptyRows, _32);
+    const lowerBoard = TableUtils.create(config.width, config.rowsOfSoldiers, O27);
     const board = upperBoard.concat(middleBoard).concat(lowerBoard);
     return new EpaminondasState(board, 0);
   }
@@ -15361,18 +15369,18 @@ var GipfRules = class _GipfRules extends Rules {
     return _GipfRules.singleton.get();
   }
   getInitialState() {
-    const _31 = FourStatePiece.EMPTY;
-    const N9 = FourStatePiece.UNREACHABLE;
-    const O26 = FourStatePiece.ZERO;
-    const X26 = FourStatePiece.ONE;
+    const _32 = FourStatePiece.EMPTY;
+    const N10 = FourStatePiece.UNREACHABLE;
+    const O27 = FourStatePiece.ZERO;
+    const X27 = FourStatePiece.ONE;
     const board = [
-      [N9, N9, N9, X26, _31, _31, O26],
-      [N9, N9, _31, _31, _31, _31, _31],
-      [N9, _31, _31, _31, _31, _31, _31],
-      [O26, _31, _31, _31, _31, _31, X26],
-      [_31, _31, _31, _31, _31, _31, N9],
-      [_31, _31, _31, _31, _31, N9, N9],
-      [X26, _31, _31, O26, N9, N9, N9]
+      [N10, N10, N10, X27, _32, _32, O27],
+      [N10, N10, _32, _32, _32, _32, _32],
+      [N10, _32, _32, _32, _32, _32, _32],
+      [O27, _32, _32, _32, _32, _32, X27],
+      [_32, _32, _32, _32, _32, _32, N10],
+      [_32, _32, _32, _32, _32, N10, N10],
+      [X27, _32, _32, O27, N10, N10, N10]
     ];
     return new GipfState(board, 0, PlayerNumberMap.of(12, 12), PlayerNumberMap.of(0, 0));
   }
@@ -16316,6 +16324,7 @@ var GoFailure = class {
   static CANNOT_PASS_AFTER_PASSED_PHASE = () => $localize`We are in the counting phase, you must mark stones as dead or alive or accept the current board by passing your turn.`;
   static CANNOT_ACCEPT_BEFORE_COUNTING_PHASE = () => $localize`You cannot accept before the counting phase.`;
   static OCCUPIED_INTERSECTION = () => $localize`This intersection is already occupied.`;
+  static OCCUPIED_SPACE = () => $localize`This space is already occupied.`;
   static CANNOT_COMMIT_SUICIDE = () => $localize`You cannot commit suicide.`;
 };
 
@@ -16489,6 +16498,11 @@ var __decorate6 = function(decorators, target, key, desc) {
   return c > 3 && r2 && Object.defineProperty(target, key, r2), r2;
 };
 var AbstractGoRules = class AbstractGoRules2 extends ConfigurableRules {
+  playOnIntersection;
+  constructor(playOnIntersection) {
+    super();
+    this.playOnIntersection = playOnIntersection;
+  }
   getNewKo(move, newBoard, captures) {
     if (captures.length === 1) {
       const captured = captures[0];
@@ -16753,7 +16767,11 @@ var AbstractGoRules = class AbstractGoRules2 extends ConfigurableRules {
       if (legal) {
         return import_lib102.MGPFallible.success([]);
       } else {
-        return import_lib102.MGPFallible.failure(GoFailure.OCCUPIED_INTERSECTION());
+        if (this.playOnIntersection) {
+          return import_lib102.MGPFallible.failure(GoFailure.OCCUPIED_INTERSECTION());
+        } else {
+          return import_lib102.MGPFallible.failure(GoFailure.OCCUPIED_SPACE());
+        }
       }
     } else {
       Debug.display("GoRules", "isLegal", "move is normal stuff: " + move.toString());
@@ -16981,13 +16999,18 @@ var GoGroupDataFactory = class extends GroupDataFactory {
   }
 };
 var OrthogonalGoGroupDataFactory = class extends GoGroupDataFactory {
-  getDirections(_31) {
+  getDirections(_32) {
     return Orthogonal.ORTHOGONALS;
   }
 };
 var TriangularGoGroupDataFactory = class extends GoGroupDataFactory {
   getDirections(coord) {
     return TriangularCheckerBoard.getDirections(coord);
+  }
+};
+var HexagonalGoGroupDataFactory = class extends GoGroupDataFactory {
+  getDirections(_32) {
+    return HexaDirection.factory.all;
   }
 };
 
@@ -17021,6 +17044,9 @@ var GoRules = class _GoRules extends AbstractGoRules {
       _GoRules.singleton = import_lib104.MGPOptional.of(new _GoRules());
     }
     return _GoRules.singleton.get();
+  }
+  constructor() {
+    super(true);
   }
   getInitialState(optionalConfig) {
     const config = optionalConfig.get();
@@ -17234,9 +17260,9 @@ var AbstractGoMoveGenerator = class AbstractGoMoveGenerator2 extends MoveGenerat
     super();
     this.rules = rules;
   }
-  getListMoves(node) {
+  getListMoves(node, config) {
     const currentState = node.gameState;
-    const playingMoves = this.getPlayingMovesList(currentState);
+    const playingMoves = this.getPlayingMovesList(currentState, config);
     if (currentState.phase.isPlaying() || currentState.phase.isPassed()) {
       playingMoves.push(GoMove.PASS);
       return playingMoves;
@@ -17249,7 +17275,7 @@ var AbstractGoMoveGenerator = class AbstractGoMoveGenerator2 extends MoveGenerat
       }
     }
   }
-  getPlayingMovesList(state) {
+  getPlayingMovesList(state, config) {
     const choices = [];
     for (const coordAndContent of state.getCoordsAndContents()) {
       const coord = coordAndContent.coord;
@@ -17688,10 +17714,377 @@ GoComponent = __decorate9([
   (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(GoComponent, { className: "GoComponent", filePath: "src/app/games/gos/go/go.component.ts", lineNumber: 31 });
 })();
 
-// src/app/games/gos/trigo/TrigoRules.ts
+// src/app/games/gos/hexagonal-go/HexagonalGoRules.ts
 var import_lib107 = __toESM(require_dist());
-var TrigoRules = class _TrigoRules extends AbstractGoRules {
+var HexagonalGoRules = class _HexagonalGoRules extends AbstractGoRules {
   static singleton = import_lib107.MGPOptional.empty();
+  static RULES_CONFIG_DESCRIPTION = new RulesConfigDescription({
+    name: () => $localize`Standard`,
+    config: {
+      size: new NumberConfig(7, RulesConfigDescriptionLocalizable.SIZE, MGPValidators.range(1, 99))
+    }
+  });
+  static get() {
+    if (_HexagonalGoRules.singleton.isAbsent()) {
+      _HexagonalGoRules.singleton = import_lib107.MGPOptional.of(new _HexagonalGoRules());
+    }
+    return _HexagonalGoRules.singleton.get();
+  }
+  constructor() {
+    super(false);
+  }
+  getInitialState(optionalConfig) {
+    const config = optionalConfig.get();
+    const size = config.size;
+    const boardSize = size * 2 - 1;
+    const maximumDiagonalIndex = 3 * size - 2;
+    const board = TableUtils.create(boardSize, boardSize, GoPiece.UNREACHABLE);
+    for (let y = 0; y < boardSize; y++) {
+      for (let x2 = 0; x2 < boardSize; x2++) {
+        const diagonalIndex = x2 + y;
+        if (size - 2 < diagonalIndex && diagonalIndex < maximumDiagonalIndex) {
+          board[y][x2] = GoPiece.EMPTY;
+        }
+      }
+    }
+    return new GoState(board, PlayerNumberMap.of(0, 0), 0, import_lib107.MGPOptional.empty(), GoPhase.PLAYING);
+  }
+  getRulesConfigDescription() {
+    return import_lib107.MGPOptional.of(_HexagonalGoRules.RULES_CONFIG_DESCRIPTION);
+  }
+  getGoGroupDataFactory() {
+    return new HexagonalGoGroupDataFactory();
+  }
+};
+
+// src/app/games/gos/hexagonal-go/HexagonalGoTutorial.ts
+var import_lib108 = __toESM(require_dist());
+var X9 = GoPiece.LIGHT;
+var O10 = GoPiece.DARK;
+var _11 = GoPiece.EMPTY;
+var N4 = GoPiece.UNREACHABLE;
+var defaultConfig9 = HexagonalGoRules.get().getDefaultRulesConfig();
+var HexagonalGoTutorial = class extends Tutorial {
+  tutorial = [
+    TutorialStep.informational($localize`Preliminary information`, $localize`The game of HexagonalGo is a hexagonal adaptation of the game of Go. Go is present on Everyboard, you can go learn it <a href="/tutorial/Go">here</a>. This tutorial will only review the small differences that this experimental adaptation induced.`, HexagonalGoRules.get().getInitialState(defaultConfig9)),
+    TutorialStep.informational($localize`Freedom` + " (1/4)", $localize`Since the board is hexagonal, pieces have three freedom in the corners.`, new GoState([
+      [N4, N4, N4, N4, N4, N4, _11, _11, _11, _11, _11, _11, _11],
+      [N4, N4, N4, N4, N4, _11, _11, _11, _11, _11, _11, _11, _11],
+      [N4, N4, N4, N4, _11, _11, _11, _11, _11, _11, _11, _11, _11],
+      [N4, N4, N4, _11, _11, _11, _11, _11, _11, _11, _11, _11, _11],
+      [N4, N4, _11, _11, _11, _11, _11, _11, _11, _11, _11, _11, _11],
+      [N4, _11, _11, _11, _11, _11, _11, _11, _11, _11, _11, _11, _11],
+      [_11, _11, _11, _11, _11, _11, _11, _11, _11, _11, _11, _11, _11],
+      [_11, _11, _11, _11, _11, _11, _11, _11, _11, _11, _11, _11, N4],
+      [_11, _11, _11, _11, _11, _11, _11, _11, _11, _11, _11, N4, N4],
+      [_11, _11, _11, _11, _11, _11, _11, _11, _11, _11, N4, N4, N4],
+      [_11, _11, _11, _11, _11, _11, _11, _11, _11, N4, N4, N4, N4],
+      [O10, O10, _11, _11, _11, _11, _11, _11, N4, N4, N4, N4, N4],
+      [X9, _11, _11, _11, _11, _11, _11, N4, N4, N4, N4, N4, N4]
+    ], PlayerNumberMap.of(0, 0), 0, import_lib108.MGPOptional.empty(), GoPhase.PLAYING)),
+    TutorialStep.informational($localize`Freedom` + " (2/4)", $localize`Since the board is hexagonal, pieces have four freedoms on the edges.`, new GoState([
+      [N4, N4, N4, N4, N4, N4, _11, _11, _11, _11, _11, _11, _11],
+      [N4, N4, N4, N4, N4, _11, _11, _11, _11, _11, _11, _11, _11],
+      [N4, N4, N4, N4, _11, _11, _11, _11, _11, _11, _11, _11, _11],
+      [N4, N4, N4, _11, _11, _11, _11, _11, _11, _11, _11, _11, _11],
+      [N4, N4, _11, _11, _11, _11, _11, _11, _11, _11, _11, _11, _11],
+      [N4, _11, _11, _11, _11, _11, _11, _11, _11, _11, _11, _11, _11],
+      [_11, _11, _11, _11, _11, _11, _11, _11, _11, _11, _11, _11, _11],
+      [_11, _11, _11, _11, _11, _11, _11, _11, _11, _11, _11, _11, N4],
+      [_11, _11, _11, _11, _11, _11, _11, _11, _11, X9, _11, N4, N4],
+      [_11, _11, _11, _11, _11, _11, _11, _11, X9, O10, N4, N4, N4],
+      [_11, _11, _11, _11, _11, _11, _11, _11, X9, N4, N4, N4, N4],
+      [_11, _11, _11, _11, _11, _11, _11, _11, N4, N4, N4, N4, N4],
+      [_11, _11, _11, _11, _11, _11, _11, N4, N4, N4, N4, N4, N4]
+    ], PlayerNumberMap.of(0, 0), 0, import_lib108.MGPOptional.empty(), GoPhase.PLAYING)),
+    TutorialStep.informational($localize`Freedom` + " (3/4)", $localize`Since the board is hexagonal, pieces have six freedoms when they don't touch the edge.`, new GoState([
+      [N4, N4, N4, N4, N4, N4, _11, _11, _11, _11, _11, _11, _11],
+      [N4, N4, N4, N4, N4, _11, _11, _11, _11, _11, _11, _11, _11],
+      [N4, N4, N4, N4, _11, _11, _11, _11, _11, _11, _11, _11, _11],
+      [N4, N4, N4, _11, _11, _11, _11, _11, _11, _11, _11, _11, _11],
+      [N4, N4, _11, _11, _11, _11, _11, _11, _11, _11, _11, _11, _11],
+      [N4, _11, _11, _11, _11, _11, _11, _11, _11, _11, _11, _11, _11],
+      [_11, _11, _11, _11, _11, _11, O10, _11, _11, _11, _11, _11, _11],
+      [_11, _11, _11, _11, _11, _11, _11, _11, _11, _11, _11, _11, N4],
+      [_11, _11, _11, _11, _11, _11, _11, _11, _11, _11, _11, N4, N4],
+      [_11, _11, _11, _11, _11, _11, _11, _11, _11, _11, N4, N4, N4],
+      [_11, _11, _11, _11, _11, _11, _11, _11, _11, N4, N4, N4, N4],
+      [_11, _11, _11, _11, _11, _11, _11, _11, N4, N4, N4, N4, N4],
+      [_11, _11, _11, _11, _11, _11, _11, N4, N4, N4, N4, N4, N4]
+    ], PlayerNumberMap.of(0, 0), 0, import_lib108.MGPOptional.empty(), GoPhase.PLAYING)),
+    TutorialStep.informational($localize`Freedom` + " (4/4)", $localize`Since the board is hexagonal, groups of two pieces have three more freedoms (making ko impossible).`, new GoState([
+      [N4, N4, N4, N4, N4, N4, _11, _11, _11, _11, _11, _11, _11],
+      [N4, N4, N4, N4, N4, _11, _11, _11, _11, _11, _11, _11, _11],
+      [N4, N4, N4, N4, _11, _11, _11, _11, _11, _11, _11, _11, _11],
+      [N4, N4, N4, _11, _11, _11, _11, _11, _11, _11, _11, _11, _11],
+      [N4, N4, _11, _11, _11, _11, _11, _11, _11, _11, _11, _11, _11],
+      [N4, _11, _11, _11, _11, _11, X9, X9, _11, _11, _11, _11, _11],
+      [_11, _11, _11, _11, _11, X9, O10, O10, X9, _11, _11, _11, _11],
+      [_11, _11, _11, _11, _11, X9, X9, X9, _11, _11, _11, _11, N4],
+      [_11, _11, _11, _11, _11, _11, _11, _11, _11, _11, _11, N4, N4],
+      [_11, _11, _11, _11, _11, _11, _11, _11, _11, _11, N4, N4, N4],
+      [_11, _11, _11, _11, _11, _11, _11, _11, _11, N4, N4, N4, N4],
+      [_11, _11, _11, _11, _11, _11, _11, _11, N4, N4, N4, N4, N4],
+      [_11, _11, _11, _11, _11, _11, _11, N4, N4, N4, N4, N4, N4]
+    ], PlayerNumberMap.of(0, 0), 0, import_lib108.MGPOptional.empty(), GoPhase.PLAYING))
+  ];
+};
+
+// src/app/games/gos/hexagonal-go/hexagonal-go.component.ts
+var import_lib109 = __toESM(require_dist());
+
+// src/app/games/gos/hexagonal-go/HexagonalGoHeuristic.ts
+var HexagonalGoHeuristic = class extends AbstractGoHeuristic {
+  constructor() {
+    super(HexagonalGoRules.get());
+  }
+};
+
+// src/app/games/gos/hexagonal-go/HexagonalGoMoveGenerator.ts
+var HexagonalGoMoveGenerator = class extends AbstractGoMoveGenerator {
+  constructor() {
+    super(HexagonalGoRules.get());
+  }
+};
+
+// src/app/games/gos/hexagonal-go/HexagonalGoMinimax.ts
+var HexagonalGoMinimax = class extends AbstractGoMinimax {
+  constructor() {
+    super(HexagonalGoRules.get(), new HexagonalGoMoveGenerator(), new HexagonalGoHeuristic());
+  }
+};
+
+// src/app/games/gos/hexagonal-go/hexagonal-go.component.ts
+var __decorate10 = function(decorators, target, key, desc) {
+  var c = arguments.length, r2 = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d2;
+  if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r2 = Reflect.decorate(decorators, target, key, desc);
+  else for (var i2 = decorators.length - 1; i2 >= 0; i2--) if (d2 = decorators[i2]) r2 = (c < 3 ? d2(r2) : c > 3 ? d2(target, key, r2) : d2(target, key)) || r2;
+  return c > 3 && r2 && Object.defineProperty(target, key, r2), r2;
+};
+var _forTrack014 = ($index, $item) => $item.toString();
+function HexagonalGoComponent_For_2_Conditional_1_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275namespaceSVG();
+    \u0275\u0275element(0, "polygon", 4);
+  }
+  if (rf & 2) {
+    const coordAndContent_r2 = \u0275\u0275nextContext().$implicit;
+    const ctx_r2 = \u0275\u0275nextContext();
+    \u0275\u0275property("id", \u0275\u0275interpolate2("polygon-", coordAndContent_r2.coord.x, "-", coordAndContent_r2.coord.y))("ngClass", ctx_r2.getPlayerClassAt(coordAndContent_r2.coord));
+    \u0275\u0275attribute("points", ctx_r2.getHexaPoints());
+  }
+}
+function HexagonalGoComponent_For_2_Conditional_2_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275namespaceSVG();
+    \u0275\u0275elementStart(0, "g", 1);
+    \u0275\u0275element(1, "polygon", 6);
+    \u0275\u0275text(2, " /> ");
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const coordAndContent_r2 = \u0275\u0275nextContext().$implicit;
+    const ctx_r2 = \u0275\u0275nextContext();
+    \u0275\u0275property("id", \u0275\u0275interpolate2("dead-", coordAndContent_r2.coord.x, "-", coordAndContent_r2.coord.y));
+    \u0275\u0275advance();
+    \u0275\u0275attribute("points", ctx_r2.getHexaDiagonalPoints());
+  }
+}
+function HexagonalGoComponent_For_2_Conditional_3_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275namespaceSVG();
+    \u0275\u0275element(0, "polygon", 5);
+  }
+  if (rf & 2) {
+    const coordAndContent_r2 = \u0275\u0275nextContext().$implicit;
+    const ctx_r2 = \u0275\u0275nextContext();
+    \u0275\u0275property("id", \u0275\u0275interpolate2("territory-", coordAndContent_r2.coord.x, "-", coordAndContent_r2.coord.y))("ngClass", ctx_r2.getPlayerClass(coordAndContent_r2.content.player));
+    \u0275\u0275attribute("points", ctx_r2.getHexaPoints())("transform", ctx_r2.getTerritoryHexagonalTransform());
+  }
+}
+function HexagonalGoComponent_For_2_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r1 = \u0275\u0275getCurrentView();
+    \u0275\u0275namespaceSVG();
+    \u0275\u0275elementStart(0, "g", 3);
+    \u0275\u0275listener("click", function HexagonalGoComponent_For_2_Template_g_click_0_listener() {
+      const coordAndContent_r2 = \u0275\u0275restoreView(_r1).$implicit;
+      const ctx_r2 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r2.onClick(coordAndContent_r2.coord));
+    });
+    \u0275\u0275conditionalCreate(1, HexagonalGoComponent_For_2_Conditional_1_Template, 1, 5, ":svg:polygon", 4);
+    \u0275\u0275conditionalCreate(2, HexagonalGoComponent_For_2_Conditional_2_Template, 3, 4, ":svg:g", 1);
+    \u0275\u0275conditionalCreate(3, HexagonalGoComponent_For_2_Conditional_3_Template, 1, 6, ":svg:polygon", 5);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const coordAndContent_r2 = ctx.$implicit;
+    const ctx_r2 = \u0275\u0275nextContext();
+    \u0275\u0275property("id", \u0275\u0275interpolate2("click-", coordAndContent_r2.coord.x, "-", coordAndContent_r2.coord.y));
+    \u0275\u0275attribute("transform", ctx_r2.getHexaCenterTranslationAt(coordAndContent_r2.coord));
+    \u0275\u0275advance();
+    \u0275\u0275conditional(coordAndContent_r2.content.isReachable() ? 1 : -1);
+    \u0275\u0275advance();
+    \u0275\u0275conditional(coordAndContent_r2.content.isDead() ? 2 : -1);
+    \u0275\u0275advance();
+    \u0275\u0275conditional(coordAndContent_r2.content.isTerritory() ? 3 : -1);
+  }
+}
+function HexagonalGoComponent_Conditional_3_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275namespaceSVG();
+    \u0275\u0275element(0, "polygon", 2);
+  }
+  if (rf & 2) {
+    const ctx_r2 = \u0275\u0275nextContext();
+    \u0275\u0275property("id", \u0275\u0275interpolate2("last-", ctx_r2.last.get().x, "-", ctx_r2.last.get().y))("ngClass", ctx_r2.getPlayerClassAt(ctx_r2.last.get()));
+    \u0275\u0275attribute("transform", ctx_r2.getHexaCenterTranslationAt(ctx_r2.last.get()))("points", ctx_r2.getHexaPoints());
+  }
+}
+var HexagonalGoComponent = class HexagonalGoComponent2 extends HexagonalGameComponent {
+  boardInfo;
+  ko = import_lib109.MGPOptional.empty();
+  last = import_lib109.MGPOptional.empty();
+  captures = [];
+  GoPiece = GoPiece;
+  constructor() {
+    super();
+    this.setRulesAndNode("HexagonalGo");
+    this.availableAIs = [
+      new HexagonalGoMinimax(),
+      new MCTS($localize`MCTS`, new HexagonalGoMoveGenerator(), this.rules)
+    ];
+    this.encoder = GoMove.encoder;
+    this.canPass = true;
+    this.scores = import_lib109.MGPOptional.of(PlayerNumberMap.of(0, 0));
+    this.setHexaLayout();
+  }
+  setHexaLayout() {
+    const halfStroke = this.STROKE_WIDTH / 2;
+    const configSize = Math.floor(this.getState().getWidth() / 2);
+    const hexaLayoutStartX = -halfStroke * (configSize + 1) + Math.sqrt(2) * this.SPACE_SIZE;
+    const hexaLayoutStartY = this.SPACE_SIZE + halfStroke;
+    const hexaLayoutStartingCoord = new Coord(hexaLayoutStartX, hexaLayoutStartY);
+    this.hexaLayout = new HexaLayout(this.SPACE_SIZE, hexaLayoutStartingCoord, PointyHexaOrientation.INSTANCE);
+  }
+  showLastMove(move) {
+    return __async(this, null, function* () {
+      this.last = import_lib109.MGPOptional.of(move.coord);
+      this.showCaptures();
+    });
+  }
+  hideLastMove() {
+    this.captures = [];
+    this.last = import_lib109.MGPOptional.empty();
+  }
+  getViewBox() {
+    return ViewBox.fromHexa(this.getState().allCoords(), this.hexaLayout, this.STROKE_WIDTH).expandAbove(this.SPACE_SIZE).expandBelow(this.SPACE_SIZE);
+  }
+  onClick(coord) {
+    return __async(this, null, function* () {
+      const x2 = coord.x;
+      const y = coord.y;
+      const clickValidity = yield this.canUserPlay("#click-" + x2 + "-" + y);
+      if (clickValidity.isFailure()) {
+        return this.cancelMove(clickValidity.getReason());
+      }
+      const resultlessMove = new GoMove(x2, y);
+      return this.chooseMove(resultlessMove);
+    });
+  }
+  updateBoard(_triggerAnimation) {
+    return __async(this, null, function* () {
+      const state = this.getState();
+      const phase = state.phase;
+      this.hexaBoard = state.getCopiedBoard();
+      this.updateScores();
+      this.ko = state.koCoord;
+      this.canPass = phase.allowsPass();
+    });
+  }
+  updateScores() {
+    this.scores = import_lib109.MGPOptional.of(this.getState().captured);
+  }
+  getScoreName() {
+    return this.getState().phase.getScoreName();
+  }
+  showCaptures() {
+    const previousState = this.getPreviousState();
+    this.captures = [];
+    for (const coordAndContent of this.getState().getCoordsAndContents()) {
+      const coord = coordAndContent.coord;
+      const wasOccupied = previousState.getPieceAt(coord).isOccupied();
+      const isEmpty = this.hexaBoard[coord.y][coord.x] === GoPiece.EMPTY;
+      const isNotKo = this.ko.equalsValue(coord) === false;
+      if (wasOccupied && isEmpty && isNotKo) {
+        this.captures.push(coord);
+      }
+    }
+  }
+  pass() {
+    return __async(this, null, function* () {
+      const phase = this.getState().phase;
+      if (phase.isPlaying() || phase.isPassed()) {
+        return this.onClick(GoMove.PASS.coord);
+      }
+      import_lib109.Utils.assert(phase.isCounting() || phase.isAccept(), "HexagonalGoComponent: pass() must be called only in playing, passed, counting, or accept phases");
+      return this.onClick(GoMove.ACCEPT.coord);
+    });
+  }
+  getPlayerClassAt(coord) {
+    const piece = this.getState().getPieceAt(coord);
+    const classes = [];
+    if (this.captures.some((c) => c.equals(coord))) {
+      classes.push("captured-fill");
+    }
+    if (piece.isOccupied()) {
+      classes.push(this.getPlayerClass(piece.player));
+    }
+    return classes;
+  }
+  getTerritoryHexagonalTransform() {
+    return "scale(0.6) ";
+  }
+  getHexaDiagonalPoints() {
+    return this.hexaLayout.getHexaDiagonalPoints();
+  }
+  static \u0275fac = function HexagonalGoComponent_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || HexagonalGoComponent2)();
+  };
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: HexagonalGoComponent2, selectors: [["app-hexagonal-go"]], features: [\u0275\u0275InheritDefinitionFeature], decls: 4, vars: 2, consts: [["xmlns", "http://www.w3.org/2000/svg", "preserveAspectRatio", "xMidYMid meet", 1, "board"], [3, "id"], [1, "last-move-stroke", "big-stroke", "no-fill", 3, "id", "ngClass"], [3, "click", "id"], [1, "base", "mid-stroke", 3, "id", "ngClass"], [3, "id", "ngClass"], [1, "base", "no-fill", "captured-stroke"]], template: function HexagonalGoComponent_Template(rf, ctx) {
+    if (rf & 1) {
+      \u0275\u0275namespaceSVG();
+      \u0275\u0275elementStart(0, "svg", 0);
+      \u0275\u0275repeaterCreate(1, HexagonalGoComponent_For_2_Template, 4, 7, ":svg:g", 1, _forTrack014);
+      \u0275\u0275conditionalCreate(3, HexagonalGoComponent_Conditional_3_Template, 1, 6, ":svg:polygon", 2);
+      \u0275\u0275elementEnd();
+    }
+    if (rf & 2) {
+      \u0275\u0275attribute("viewBox", ctx.getViewBox().toSVGString());
+      \u0275\u0275advance();
+      \u0275\u0275repeater(ctx.getState().getCoordsAndContents());
+      \u0275\u0275advance(2);
+      \u0275\u0275conditional(ctx.last.isPresent() && ctx.getState().isOnBoard(ctx.last.get()) ? 3 : -1);
+    }
+  }, dependencies: [NgClass], styles: ["\n\n.base[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke[_ngcontent-%COMP%] {\n  stroke-width: 0;\n}\n.base.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n}\n.base-no-stroke[_ngcontent-%COMP%] {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n}\n.white-background[_ngcontent-%COMP%] {\n  fill: white;\n}\n.background[_ngcontent-%COMP%] {\n  fill: var(--spaces-fill);\n}\n.transparent[_ngcontent-%COMP%] {\n  opacity: 0;\n}\n.background2[_ngcontent-%COMP%] {\n  fill: var(--alt-background-fill);\n}\n.background3[_ngcontent-%COMP%] {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill[_ngcontent-%COMP%] {\n  fill: var(--player0);\n}\n.player0-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--player0-alternate);\n}\n.player0-stroke[_ngcontent-%COMP%] {\n  stroke: var(--player0);\n}\n.player1-fill[_ngcontent-%COMP%] {\n  fill: var(--player1);\n}\n.player1-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--player1-alternate);\n}\n.player1-stroke[_ngcontent-%COMP%] {\n  stroke: var(--player1);\n}\n.nonplayer-fill[_ngcontent-%COMP%] {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill[_ngcontent-%COMP%] {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke[_ngcontent-%COMP%] {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke[_ngcontent-%COMP%] {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill[_ngcontent-%COMP%] {\n  fill: var(--pre-captured);\n}\n.captured-fill[_ngcontent-%COMP%] {\n  fill: var(--captured);\n}\n.captured-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--alt-captured);\n}\n.captured-stroke[_ngcontent-%COMP%] {\n  stroke: var(--captured);\n}\n.moved-fill[_ngcontent-%COMP%] {\n  fill: var(--moved);\n}\n.moved-stroke[_ngcontent-%COMP%] {\n  stroke: var(--moved);\n}\n.indicator[_ngcontent-%COMP%] {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill[_ngcontent-%COMP%] {\n  fill: var(--indicator);\n}\n.selectable-stroke[_ngcontent-%COMP%] {\n  stroke: var(--selectable);\n}\n.selectable[_ngcontent-%COMP%]    > .base-no-stroke[_ngcontent-%COMP%] {\n  fill: var(--selectable);\n}\n.last-move-stroke[_ngcontent-%COMP%] {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--last-move);\n}\n.last-move-fill[_ngcontent-%COMP%] {\n  fill: var(--last-move);\n}\n.victory-fill[_ngcontent-%COMP%] {\n  fill: var(--victory);\n}\n.victory-stroke[_ngcontent-%COMP%] {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--victory);\n}\n.defeat-fill[_ngcontent-%COMP%] {\n  fill: var(--defeat);\n}\n.defeat-stroke[_ngcontent-%COMP%] {\n  stroke: var(--defeat);\n}\n.selected-fill[_ngcontent-%COMP%] {\n  fill: var(--selected);\n}\n.selected-stroke[_ngcontent-%COMP%] {\n  stroke: var(--selected);\n}\n.clickable-stroke[_ngcontent-%COMP%] {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover[_ngcontent-%COMP%]:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke[_ngcontent-%COMP%] {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill[_ngcontent-%COMP%] {\n  fill: var(--capturable);\n}\n.capturable-stroke[_ngcontent-%COMP%]:hover {\n  stroke-width: 8;\n}\n.no-fill[_ngcontent-%COMP%] {\n  fill: none;\n}\n.no-stroke[_ngcontent-%COMP%] {\n  stroke: none;\n}\n.small-stroke[_ngcontent-%COMP%] {\n  stroke-width: 2;\n}\n.mid-small-stroke[_ngcontent-%COMP%] {\n  stroke-width: 3;\n}\n.mid-stroke[_ngcontent-%COMP%] {\n  stroke-width: 5;\n}\n.big-stroke[_ngcontent-%COMP%] {\n  stroke-width: 8;\n}\n.huge-stroke[_ngcontent-%COMP%] {\n  stroke-width: 12;\n}\n.semi-transparent[_ngcontent-%COMP%] {\n  opacity: 0.5;\n}\n.territory-opacity[_ngcontent-%COMP%] {\n  fill-opacity: 0.7;\n}\n.round[_ngcontent-%COMP%] {\n  stroke-linecap: round;\n}\n.text-giant[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big[_ngcontent-%COMP%] {\n  font: 50px sans-serif;\n}\n.backgrounded-text[_ngcontent-%COMP%] {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus[_ngcontent-%COMP%] {\n  font: 38px sans-serif;\n}\n.text-medium[_ngcontent-%COMP%] {\n  font: 35px sans-serif;\n}\n.text-small-plus[_ngcontent-%COMP%] {\n  font: 28px sans-serif;\n}\n.text-small[_ngcontent-%COMP%] {\n  font: 25px sans-serif;\n}\n.text-bold[_ngcontent-%COMP%] {\n  font-weight: bold;\n}\n.text-center[_ngcontent-%COMP%] {\n  text-anchor: middle;\n}\n.black-fill[_ngcontent-%COMP%] {\n  fill: black;\n}\n.darker[_ngcontent-%COMP%] {\n  filter: brightness(80%);\n}\n.lighter[_ngcontent-%COMP%] {\n  filter: brightness(110%);\n}\nsvg[_ngcontent-%COMP%] {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator[_ngcontent-%COMP%] {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */"] });
+};
+HexagonalGoComponent = __decorate10([
+  Debug.log
+], HexagonalGoComponent);
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(HexagonalGoComponent, [{
+    type: Component,
+    args: [{ selector: "app-hexagonal-go", imports: [NgClass], template: '<svg xmlns="http://www.w3.org/2000/svg"\r\n     class="board"\r\n     [attr.viewBox]="getViewBox().toSVGString()"\r\n     preserveAspectRatio="xMidYMid meet">\r\n    @for (coordAndContent of getState().getCoordsAndContents(); track coordAndContent.toString()) {\r\n        <g id="click-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\r\n           [attr.transform]="getHexaCenterTranslationAt(coordAndContent.coord)"\r\n           (click)="onClick(coordAndContent.coord)">\r\n            @if (coordAndContent.content.isReachable()) {\r\n                <polygon id="polygon-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\r\n                         [attr.points]="getHexaPoints()"\r\n                         [ngClass]="getPlayerClassAt(coordAndContent.coord)"\r\n                         class="base mid-stroke"/>\r\n            }\r\n            @if (coordAndContent.content.isDead()) {\r\n                <g id="dead-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}">\r\n                    <polygon [attr.points]="getHexaDiagonalPoints()"\r\n                             class="base no-fill captured-stroke"/>\r\n                    />\r\n                </g>\r\n            }\r\n            @if (coordAndContent.content.isTerritory()) {\r\n                <polygon id="territory-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\r\n                         [attr.points]="getHexaPoints()"\r\n                         [attr.transform]="getTerritoryHexagonalTransform()"\r\n                         [ngClass]="getPlayerClass(coordAndContent.content.player)"/>\r\n            }\r\n        </g>\r\n    }\r\n\r\n    @if (last.isPresent() && getState().isOnBoard(last.get())) {\r\n        <polygon id="last-{{ last.get().x }}-{{ last.get().y }}"\r\n                 [attr.transform]="getHexaCenterTranslationAt(last.get())"\r\n                 [attr.points]="getHexaPoints()"\r\n                 [ngClass]="getPlayerClassAt(last.get())"\r\n                 class="last-move-stroke big-stroke no-fill"/>\r\n    }\r\n\r\n</svg>\r\n', styles: ["/* src/app/components/game-components/game-component/game-component.scss */\n.base {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke {\n  stroke-width: 0;\n}\n.base.manual-stroke {\n  fill: var(--base-stroke);\n}\n.base-no-stroke {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text {\n  fill: var(--base-stroke);\n}\n.white-background {\n  fill: white;\n}\n.background {\n  fill: var(--spaces-fill);\n}\n.transparent {\n  opacity: 0;\n}\n.background2 {\n  fill: var(--alt-background-fill);\n}\n.background3 {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill {\n  fill: var(--player0);\n}\n.player0-alternate-fill {\n  fill: var(--player0-alternate);\n}\n.player0-stroke {\n  stroke: var(--player0);\n}\n.player1-fill {\n  fill: var(--player1);\n}\n.player1-alternate-fill {\n  fill: var(--player1-alternate);\n}\n.player1-stroke {\n  stroke: var(--player1);\n}\n.nonplayer-fill {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill {\n  fill: var(--pre-captured);\n}\n.captured-fill {\n  fill: var(--captured);\n}\n.captured-alternate-fill {\n  fill: var(--alt-captured);\n}\n.captured-stroke {\n  stroke: var(--captured);\n}\n.moved-fill {\n  fill: var(--moved);\n}\n.moved-stroke {\n  stroke: var(--moved);\n}\n.indicator {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill {\n  fill: var(--indicator);\n}\n.selectable-stroke {\n  stroke: var(--selectable);\n}\n.selectable > .base-no-stroke {\n  fill: var(--selectable);\n}\n.last-move-stroke {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke {\n  fill: var(--last-move);\n}\n.last-move-fill {\n  fill: var(--last-move);\n}\n.victory-fill {\n  fill: var(--victory);\n}\n.victory-stroke {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke {\n  fill: var(--victory);\n}\n.defeat-fill {\n  fill: var(--defeat);\n}\n.defeat-stroke {\n  stroke: var(--defeat);\n}\n.selected-fill {\n  fill: var(--selected);\n}\n.selected-stroke {\n  stroke: var(--selected);\n}\n.clickable-stroke {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill {\n  fill: var(--capturable);\n}\n.capturable-stroke:hover {\n  stroke-width: 8;\n}\n.no-fill {\n  fill: none;\n}\n.no-stroke {\n  stroke: none;\n}\n.small-stroke {\n  stroke-width: 2;\n}\n.mid-small-stroke {\n  stroke-width: 3;\n}\n.mid-stroke {\n  stroke-width: 5;\n}\n.big-stroke {\n  stroke-width: 8;\n}\n.huge-stroke {\n  stroke-width: 12;\n}\n.semi-transparent {\n  opacity: 0.5;\n}\n.territory-opacity {\n  fill-opacity: 0.7;\n}\n.round {\n  stroke-linecap: round;\n}\n.text-giant {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big {\n  font: 50px sans-serif;\n}\n.backgrounded-text {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus {\n  font: 38px sans-serif;\n}\n.text-medium {\n  font: 35px sans-serif;\n}\n.text-small-plus {\n  font: 28px sans-serif;\n}\n.text-small {\n  font: 25px sans-serif;\n}\n.text-bold {\n  font-weight: bold;\n}\n.text-center {\n  text-anchor: middle;\n}\n.black-fill {\n  fill: black;\n}\n.darker {\n  filter: brightness(80%);\n}\n.lighter {\n  filter: brightness(110%);\n}\nsvg {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */\n"] }]
+  }], () => [], null);
+})();
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(HexagonalGoComponent, { className: "HexagonalGoComponent", filePath: "src/app/games/gos/hexagonal-go/hexagonal-go.component.ts", lineNumber: 33 });
+})();
+
+// src/app/games/gos/trigo/TrigoRules.ts
+var import_lib110 = __toESM(require_dist());
+var TrigoRules = class _TrigoRules extends AbstractGoRules {
+  static singleton = import_lib110.MGPOptional.empty();
   static RULES_CONFIG_DESCRIPTION = new RulesConfigDescription({
     name: () => $localize`Standard`,
     config: {
@@ -17701,9 +18094,12 @@ var TrigoRules = class _TrigoRules extends AbstractGoRules {
   });
   static get() {
     if (_TrigoRules.singleton.isAbsent()) {
-      _TrigoRules.singleton = import_lib107.MGPOptional.of(new _TrigoRules());
+      _TrigoRules.singleton = import_lib110.MGPOptional.of(new _TrigoRules());
     }
     return _TrigoRules.singleton.get();
+  }
+  constructor() {
+    super(false);
   }
   getInitialState(optionalConfig) {
     const config = optionalConfig.get();
@@ -17714,10 +18110,10 @@ var TrigoRules = class _TrigoRules extends AbstractGoRules {
     } else {
       board = TriangularCheckerBoard.createBoard(size, GoPiece.UNREACHABLE, GoPiece.EMPTY);
     }
-    return new GoState(board, PlayerNumberMap.of(0, 0), 0, import_lib107.MGPOptional.empty(), GoPhase.PLAYING);
+    return new GoState(board, PlayerNumberMap.of(0, 0), 0, import_lib110.MGPOptional.empty(), GoPhase.PLAYING);
   }
   getRulesConfigDescription() {
-    return import_lib107.MGPOptional.of(_TrigoRules.RULES_CONFIG_DESCRIPTION);
+    return import_lib110.MGPOptional.of(_TrigoRules.RULES_CONFIG_DESCRIPTION);
   }
   getGoGroupDataFactory() {
     return new TriangularGoGroupDataFactory();
@@ -17725,56 +18121,56 @@ var TrigoRules = class _TrigoRules extends AbstractGoRules {
 };
 
 // src/app/games/gos/trigo/TrigoTutorial.ts
-var import_lib108 = __toESM(require_dist());
-var X9 = GoPiece.LIGHT;
-var O10 = GoPiece.DARK;
-var _11 = GoPiece.EMPTY;
-var N4 = GoPiece.UNREACHABLE;
-var defaultConfig9 = TrigoRules.get().getDefaultRulesConfig();
+var import_lib111 = __toESM(require_dist());
+var X10 = GoPiece.LIGHT;
+var O11 = GoPiece.DARK;
+var _12 = GoPiece.EMPTY;
+var N5 = GoPiece.UNREACHABLE;
+var defaultConfig10 = TrigoRules.get().getDefaultRulesConfig();
 var TrigoTutorial = class extends Tutorial {
   tutorial = [
-    TutorialStep.informational($localize`Preliminary information`, $localize`The game of Trigo is a triangular adaptation of the game of Go. Go is present on Everyboard, you can go learn it <a href="/tutorial/Go">here<a/>. This tutorial will only review the small differences that this experimental adaptation induced.`, TrigoRules.get().getInitialState(defaultConfig9)),
+    TutorialStep.informational($localize`Preliminary information`, $localize`The game of Trigo is a triangular adaptation of the game of Go. Go is present on Everyboard, you can go learn it <a href="/tutorial/Go">here</a>. This tutorial will only review the small differences that this experimental adaptation induced.`, TrigoRules.get().getInitialState(defaultConfig10)),
     TutorialStep.informational($localize`Freedom` + " (1/4)", $localize`Since the board is triangular, pieces have only one freedom in the corners.`, new GoState([
-      [N4, N4, N4, N4, N4, N4, _11, N4, N4, N4, N4, N4, N4],
-      [N4, N4, N4, N4, N4, _11, _11, _11, N4, N4, N4, N4, N4],
-      [N4, N4, N4, N4, _11, _11, _11, _11, _11, N4, N4, N4, N4],
-      [N4, N4, N4, _11, _11, _11, _11, _11, _11, _11, N4, N4, N4],
-      [N4, N4, _11, _11, _11, _11, _11, _11, _11, _11, _11, N4, N4],
-      [N4, _11, _11, _11, _11, _11, _11, _11, _11, _11, _11, _11, N4],
-      [O10, _11, _11, _11, _11, _11, _11, _11, _11, _11, _11, _11, X9]
-    ], PlayerNumberMap.of(0, 0), 0, import_lib108.MGPOptional.empty(), GoPhase.PLAYING)),
+      [N5, N5, N5, N5, N5, N5, _12, N5, N5, N5, N5, N5, N5],
+      [N5, N5, N5, N5, N5, _12, _12, _12, N5, N5, N5, N5, N5],
+      [N5, N5, N5, N5, _12, _12, _12, _12, _12, N5, N5, N5, N5],
+      [N5, N5, N5, _12, _12, _12, _12, _12, _12, _12, N5, N5, N5],
+      [N5, N5, _12, _12, _12, _12, _12, _12, _12, _12, _12, N5, N5],
+      [N5, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, N5],
+      [O11, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, X10]
+    ], PlayerNumberMap.of(0, 0), 0, import_lib111.MGPOptional.empty(), GoPhase.PLAYING)),
     TutorialStep.informational($localize`Freedom` + " (2/4)", $localize`Since the board is triangular, pieces have only two freedoms on the edges.<br/> When pieces touch the board's edge with their corner only, like the pieces on the right, they're not really on the edges.`, new GoState([
-      [N4, N4, N4, N4, N4, N4, _11, N4, N4, N4, N4, N4, N4],
-      [N4, N4, N4, N4, N4, O10, _11, _11, N4, N4, N4, N4, N4],
-      [N4, N4, N4, N4, _11, _11, _11, _11, _11, N4, N4, N4, N4],
-      [N4, N4, N4, X9, _11, _11, _11, _11, O10, _11, N4, N4, N4],
-      [N4, N4, _11, _11, _11, _11, _11, _11, _11, _11, _11, N4, N4],
-      [N4, O10, _11, _11, _11, _11, _11, _11, _11, _11, X9, _11, N4],
-      [_11, _11, _11, _11, O10, _11, _11, _11, X9, _11, _11, _11, _11]
-    ], PlayerNumberMap.of(0, 0), 0, import_lib108.MGPOptional.empty(), GoPhase.PLAYING)),
+      [N5, N5, N5, N5, N5, N5, _12, N5, N5, N5, N5, N5, N5],
+      [N5, N5, N5, N5, N5, O11, _12, _12, N5, N5, N5, N5, N5],
+      [N5, N5, N5, N5, _12, _12, _12, _12, _12, N5, N5, N5, N5],
+      [N5, N5, N5, X10, _12, _12, _12, _12, O11, _12, N5, N5, N5],
+      [N5, N5, _12, _12, _12, _12, _12, _12, _12, _12, _12, N5, N5],
+      [N5, O11, _12, _12, _12, _12, _12, _12, _12, _12, X10, _12, N5],
+      [_12, _12, _12, _12, O11, _12, _12, _12, X10, _12, _12, _12, _12]
+    ], PlayerNumberMap.of(0, 0), 0, import_lib111.MGPOptional.empty(), GoPhase.PLAYING)),
     TutorialStep.informational($localize`Freedom` + " (3/4)", $localize`Since the board is triangular, pieces have three freedoms when they don't touch the edge.`, new GoState([
-      [N4, N4, N4, N4, N4, N4, _11, N4, N4, N4, N4, N4, N4],
-      [N4, N4, N4, N4, N4, _11, _11, _11, N4, N4, N4, N4, N4],
-      [N4, N4, N4, N4, _11, _11, O10, _11, _11, N4, N4, N4, N4],
-      [N4, N4, N4, _11, _11, _11, _11, _11, _11, _11, N4, N4, N4],
-      [N4, N4, _11, _11, _11, _11, _11, _11, _11, _11, _11, N4, N4],
-      [N4, _11, _11, X9, _11, _11, _11, _11, _11, _11, _11, _11, N4],
-      [_11, _11, _11, _11, _11, _11, _11, _11, _11, _11, _11, _11, _11]
-    ], PlayerNumberMap.of(0, 0), 0, import_lib108.MGPOptional.empty(), GoPhase.PLAYING)),
+      [N5, N5, N5, N5, N5, N5, _12, N5, N5, N5, N5, N5, N5],
+      [N5, N5, N5, N5, N5, _12, _12, _12, N5, N5, N5, N5, N5],
+      [N5, N5, N5, N5, _12, _12, O11, _12, _12, N5, N5, N5, N5],
+      [N5, N5, N5, _12, _12, _12, _12, _12, _12, _12, N5, N5, N5],
+      [N5, N5, _12, _12, _12, _12, _12, _12, _12, _12, _12, N5, N5],
+      [N5, _12, _12, X10, _12, _12, _12, _12, _12, _12, _12, _12, N5],
+      [_12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12]
+    ], PlayerNumberMap.of(0, 0), 0, import_lib111.MGPOptional.empty(), GoPhase.PLAYING)),
     TutorialStep.informational($localize`Freedom` + " (4/4)", $localize`Since the board is triangular, groups of two pieces have only one more freedom (making an atari a shisho by default).`, new GoState([
-      [N4, N4, N4, N4, N4, N4, O10, N4, N4, N4, N4, N4, N4],
-      [N4, N4, N4, N4, N4, _11, O10, _11, N4, N4, N4, N4, N4],
-      [N4, N4, N4, N4, _11, _11, _11, _11, _11, N4, N4, N4, N4],
-      [N4, N4, N4, _11, _11, _11, _11, O10, _11, _11, N4, N4, N4],
-      [N4, N4, O10, O10, _11, _11, _11, O10, _11, _11, _11, N4, N4],
-      [N4, _11, _11, _11, _11, _11, _11, _11, _11, _11, _11, _11, N4],
-      [_11, _11, _11, _11, _11, _11, _11, _11, _11, _11, _11, _11, _11]
-    ], PlayerNumberMap.of(0, 0), 0, import_lib108.MGPOptional.empty(), GoPhase.PLAYING))
+      [N5, N5, N5, N5, N5, N5, O11, N5, N5, N5, N5, N5, N5],
+      [N5, N5, N5, N5, N5, _12, O11, _12, N5, N5, N5, N5, N5],
+      [N5, N5, N5, N5, _12, _12, _12, _12, _12, N5, N5, N5, N5],
+      [N5, N5, N5, _12, _12, _12, _12, O11, _12, _12, N5, N5, N5],
+      [N5, N5, O11, O11, _12, _12, _12, O11, _12, _12, _12, N5, N5],
+      [N5, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, N5],
+      [_12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12]
+    ], PlayerNumberMap.of(0, 0), 0, import_lib111.MGPOptional.empty(), GoPhase.PLAYING))
   ];
 };
 
 // src/app/games/gos/trigo/trigo.component.ts
-var import_lib109 = __toESM(require_dist());
+var import_lib112 = __toESM(require_dist());
 
 // src/app/games/gos/trigo/TrigoHeuristic.ts
 var TrigoHeuristic = class extends AbstractGoHeuristic {
@@ -17798,13 +18194,13 @@ var TrigoMinimax = class extends AbstractGoMinimax {
 };
 
 // src/app/games/gos/trigo/trigo.component.ts
-var __decorate10 = function(decorators, target, key, desc) {
+var __decorate11 = function(decorators, target, key, desc) {
   var c = arguments.length, r2 = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d2;
   if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r2 = Reflect.decorate(decorators, target, key, desc);
   else for (var i2 = decorators.length - 1; i2 >= 0; i2--) if (d2 = decorators[i2]) r2 = (c < 3 ? d2(r2) : c > 3 ? d2(target, key, r2) : d2(target, key)) || r2;
   return c > 3 && r2 && Object.defineProperty(target, key, r2), r2;
 };
-var _forTrack014 = ($index, $item) => $item.coord.toString();
+var _forTrack015 = ($index, $item) => $item.coord.toString();
 function TrigoComponent_For_2_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
@@ -17918,8 +18314,8 @@ function TrigoComponent_Conditional_4_Template(rf, ctx) {
 }
 var TrigoComponent = class TrigoComponent2 extends TriangularGameComponent {
   boardInfo;
-  ko = import_lib109.MGPOptional.empty();
-  last = import_lib109.MGPOptional.empty();
+  ko = import_lib112.MGPOptional.empty();
+  last = import_lib112.MGPOptional.empty();
   captures = [];
   GoPiece = GoPiece;
   constructor() {
@@ -17931,17 +18327,17 @@ var TrigoComponent = class TrigoComponent2 extends TriangularGameComponent {
     ];
     this.encoder = GoMove.encoder;
     this.canPass = true;
-    this.scores = import_lib109.MGPOptional.of(PlayerNumberMap.of(0, 0));
+    this.scores = import_lib112.MGPOptional.of(PlayerNumberMap.of(0, 0));
   }
   showLastMove(move) {
     return __async(this, null, function* () {
-      this.last = import_lib109.MGPOptional.of(move.coord);
+      this.last = import_lib112.MGPOptional.of(move.coord);
       this.showCaptures();
     });
   }
   hideLastMove() {
     this.captures = [];
-    this.last = import_lib109.MGPOptional.empty();
+    this.last = import_lib112.MGPOptional.empty();
   }
   getViewBox() {
     const state = this.getState();
@@ -17976,7 +18372,7 @@ var TrigoComponent = class TrigoComponent2 extends TriangularGameComponent {
     });
   }
   updateScores() {
-    this.scores = import_lib109.MGPOptional.of(this.getState().captured);
+    this.scores = import_lib112.MGPOptional.of(this.getState().captured);
   }
   getScoreName() {
     return this.getState().phase.getScoreName();
@@ -18000,7 +18396,7 @@ var TrigoComponent = class TrigoComponent2 extends TriangularGameComponent {
       if (phase.isPlaying() || phase.isPassed()) {
         return this.onClick(GoMove.PASS.coord);
       }
-      import_lib109.Utils.assert(phase.isCounting() || phase.isAccept(), "TrigoComponent: pass() must be called only in playing, passed, counting, or accept phases");
+      import_lib112.Utils.assert(phase.isCounting() || phase.isAccept(), "TrigoComponent: pass() must be called only in playing, passed, counting, or accept phases");
       return this.onClick(GoMove.ACCEPT.coord);
     });
   }
@@ -18048,7 +18444,7 @@ var TrigoComponent = class TrigoComponent2 extends TriangularGameComponent {
     if (rf & 1) {
       \u0275\u0275namespaceSVG();
       \u0275\u0275elementStart(0, "svg", 0);
-      \u0275\u0275repeaterCreate(1, TrigoComponent_For_2_Template, 4, 7, ":svg:g", 1, _forTrack014);
+      \u0275\u0275repeaterCreate(1, TrigoComponent_For_2_Template, 4, 7, ":svg:g", 1, _forTrack015);
       \u0275\u0275conditionalCreate(3, TrigoComponent_Conditional_3_Template, 1, 8, ":svg:rect", 2);
       \u0275\u0275conditionalCreate(4, TrigoComponent_Conditional_4_Template, 1, 6, ":svg:polygon", 3);
       \u0275\u0275elementEnd();
@@ -18064,7 +18460,7 @@ var TrigoComponent = class TrigoComponent2 extends TriangularGameComponent {
     }
   }, dependencies: [NgClass], styles: ["\n\n.base[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke[_ngcontent-%COMP%] {\n  stroke-width: 0;\n}\n.base.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n}\n.base-no-stroke[_ngcontent-%COMP%] {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n}\n.white-background[_ngcontent-%COMP%] {\n  fill: white;\n}\n.background[_ngcontent-%COMP%] {\n  fill: var(--spaces-fill);\n}\n.transparent[_ngcontent-%COMP%] {\n  opacity: 0;\n}\n.background2[_ngcontent-%COMP%] {\n  fill: var(--alt-background-fill);\n}\n.background3[_ngcontent-%COMP%] {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill[_ngcontent-%COMP%] {\n  fill: var(--player0);\n}\n.player0-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--player0-alternate);\n}\n.player0-stroke[_ngcontent-%COMP%] {\n  stroke: var(--player0);\n}\n.player1-fill[_ngcontent-%COMP%] {\n  fill: var(--player1);\n}\n.player1-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--player1-alternate);\n}\n.player1-stroke[_ngcontent-%COMP%] {\n  stroke: var(--player1);\n}\n.nonplayer-fill[_ngcontent-%COMP%] {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill[_ngcontent-%COMP%] {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke[_ngcontent-%COMP%] {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke[_ngcontent-%COMP%] {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill[_ngcontent-%COMP%] {\n  fill: var(--pre-captured);\n}\n.captured-fill[_ngcontent-%COMP%] {\n  fill: var(--captured);\n}\n.captured-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--alt-captured);\n}\n.captured-stroke[_ngcontent-%COMP%] {\n  stroke: var(--captured);\n}\n.moved-fill[_ngcontent-%COMP%] {\n  fill: var(--moved);\n}\n.moved-stroke[_ngcontent-%COMP%] {\n  stroke: var(--moved);\n}\n.indicator[_ngcontent-%COMP%] {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill[_ngcontent-%COMP%] {\n  fill: var(--indicator);\n}\n.selectable-stroke[_ngcontent-%COMP%] {\n  stroke: var(--selectable);\n}\n.selectable[_ngcontent-%COMP%]    > .base-no-stroke[_ngcontent-%COMP%] {\n  fill: var(--selectable);\n}\n.last-move-stroke[_ngcontent-%COMP%] {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--last-move);\n}\n.last-move-fill[_ngcontent-%COMP%] {\n  fill: var(--last-move);\n}\n.victory-fill[_ngcontent-%COMP%] {\n  fill: var(--victory);\n}\n.victory-stroke[_ngcontent-%COMP%] {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--victory);\n}\n.defeat-fill[_ngcontent-%COMP%] {\n  fill: var(--defeat);\n}\n.defeat-stroke[_ngcontent-%COMP%] {\n  stroke: var(--defeat);\n}\n.selected-fill[_ngcontent-%COMP%] {\n  fill: var(--selected);\n}\n.selected-stroke[_ngcontent-%COMP%] {\n  stroke: var(--selected);\n}\n.clickable-stroke[_ngcontent-%COMP%] {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover[_ngcontent-%COMP%]:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke[_ngcontent-%COMP%] {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill[_ngcontent-%COMP%] {\n  fill: var(--capturable);\n}\n.capturable-stroke[_ngcontent-%COMP%]:hover {\n  stroke-width: 8;\n}\n.no-fill[_ngcontent-%COMP%] {\n  fill: none;\n}\n.no-stroke[_ngcontent-%COMP%] {\n  stroke: none;\n}\n.small-stroke[_ngcontent-%COMP%] {\n  stroke-width: 2;\n}\n.mid-small-stroke[_ngcontent-%COMP%] {\n  stroke-width: 3;\n}\n.mid-stroke[_ngcontent-%COMP%] {\n  stroke-width: 5;\n}\n.big-stroke[_ngcontent-%COMP%] {\n  stroke-width: 8;\n}\n.huge-stroke[_ngcontent-%COMP%] {\n  stroke-width: 12;\n}\n.semi-transparent[_ngcontent-%COMP%] {\n  opacity: 0.5;\n}\n.territory-opacity[_ngcontent-%COMP%] {\n  fill-opacity: 0.7;\n}\n.round[_ngcontent-%COMP%] {\n  stroke-linecap: round;\n}\n.text-giant[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big[_ngcontent-%COMP%] {\n  font: 50px sans-serif;\n}\n.backgrounded-text[_ngcontent-%COMP%] {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus[_ngcontent-%COMP%] {\n  font: 38px sans-serif;\n}\n.text-medium[_ngcontent-%COMP%] {\n  font: 35px sans-serif;\n}\n.text-small-plus[_ngcontent-%COMP%] {\n  font: 28px sans-serif;\n}\n.text-small[_ngcontent-%COMP%] {\n  font: 25px sans-serif;\n}\n.text-bold[_ngcontent-%COMP%] {\n  font-weight: bold;\n}\n.text-center[_ngcontent-%COMP%] {\n  text-anchor: middle;\n}\n.black-fill[_ngcontent-%COMP%] {\n  fill: black;\n}\n.darker[_ngcontent-%COMP%] {\n  filter: brightness(80%);\n}\n.lighter[_ngcontent-%COMP%] {\n  filter: brightness(110%);\n}\nsvg[_ngcontent-%COMP%] {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator[_ngcontent-%COMP%] {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */"] });
 };
-TrigoComponent = __decorate10([
+TrigoComponent = __decorate11([
   Debug.log
 ], TrigoComponent);
 (() => {
@@ -18078,10 +18474,10 @@ TrigoComponent = __decorate10([
 })();
 
 // src/app/games/hexodia/HexodiaRules.ts
-var import_lib111 = __toESM(require_dist());
+var import_lib114 = __toESM(require_dist());
 
 // src/app/jscaip/DodecaHexaDirection.ts
-var import_lib110 = __toESM(require_dist());
+var import_lib113 = __toESM(require_dist());
 var DodecaHexaDirection = class _DodecaHexaDirection extends Direction {
   static DIRECTION_000 = new _DodecaHexaDirection(0, -1);
   static DIRECTION_030 = new _DodecaHexaDirection(1, -2);
@@ -18111,7 +18507,7 @@ var DodecaHexaDirection = class _DodecaHexaDirection extends Direction {
       _DodecaHexaDirection.DIRECTION_330
     ];
   }();
-  static encoder = import_lib110.Encoder.fromFunctions((direction) => {
+  static encoder = import_lib113.Encoder.fromFunctions((direction) => {
     switch (direction) {
       case _DodecaHexaDirection.DIRECTION_000:
         return 0;
@@ -18136,11 +18532,11 @@ var DodecaHexaDirection = class _DodecaHexaDirection extends Direction {
       case _DodecaHexaDirection.DIRECTION_300:
         return 10;
       default:
-        import_lib110.Utils.expectToBe(direction, _DodecaHexaDirection.DIRECTION_330);
+        import_lib113.Utils.expectToBe(direction, _DodecaHexaDirection.DIRECTION_330);
         return 11;
     }
   }, (encoded) => {
-    import_lib110.Utils.assert(0 <= encoded && encoded <= 11, "Invalid encoded number for DodecaHexaDirection " + encoded);
+    import_lib113.Utils.assert(0 <= encoded && encoded <= 11, "Invalid encoded number for DodecaHexaDirection " + encoded);
     return _DodecaHexaDirection.factory.all[encoded];
   });
   getAngle() {
@@ -18168,7 +18564,7 @@ var DodecaHexaDirection = class _DodecaHexaDirection extends Direction {
       case _DodecaHexaDirection.DIRECTION_300:
         return 300;
       default:
-        import_lib110.Utils.expectToBe(this, _DodecaHexaDirection.DIRECTION_330);
+        import_lib113.Utils.expectToBe(this, _DodecaHexaDirection.DIRECTION_330);
         return 330;
     }
   }
@@ -18205,8 +18601,8 @@ var HexodiaState = class _HexodiaState extends FourStatePieceGameStateWithTable 
 
 // src/app/games/hexodia/HexodiaRules.ts
 var HexodiaRules = class _HexodiaRules extends ConfigurableRules {
-  static singleton = import_lib111.MGPOptional.empty();
-  static helpers = new import_lib111.MGPMap();
+  static singleton = import_lib114.MGPOptional.empty();
+  static helpers = new import_lib114.MGPMap();
   static RULES_CONFIG_DESCRIPTION = new RulesConfigDescription({
     name: () => $localize`Hexodia`,
     config: {
@@ -18217,7 +18613,7 @@ var HexodiaRules = class _HexodiaRules extends ConfigurableRules {
   });
   static get() {
     if (_HexodiaRules.singleton.isAbsent()) {
-      _HexodiaRules.singleton = import_lib111.MGPOptional.of(new _HexodiaRules());
+      _HexodiaRules.singleton = import_lib114.MGPOptional.of(new _HexodiaRules());
     }
     return _HexodiaRules.singleton.get();
   }
@@ -18235,7 +18631,7 @@ var HexodiaRules = class _HexodiaRules extends ConfigurableRules {
     return _HexodiaRules.getHexodiaHelper(config).getVictoriousCoord(state);
   }
   getRulesConfigDescription() {
-    return import_lib111.MGPOptional.of(_HexodiaRules.RULES_CONFIG_DESCRIPTION);
+    return import_lib114.MGPOptional.of(_HexodiaRules.RULES_CONFIG_DESCRIPTION);
   }
   getInitialState(config) {
     const size = config.get().size;
@@ -18264,24 +18660,24 @@ var HexodiaRules = class _HexodiaRules extends ConfigurableRules {
     const configuration = config.get();
     const numberOfDrops = move.coords.size();
     if (state.turn === 0) {
-      import_lib111.Utils.assert(numberOfDrops === 1, "HexodiaMove should only drop one piece at first turn");
+      import_lib114.Utils.assert(numberOfDrops === 1, "HexodiaMove should only drop one piece at first turn");
     } else {
       const remainingSpaces = TableUtils.count(state.board, FourStatePiece.EMPTY);
       const requiredDrop = Math.min(remainingSpaces, configuration.numberOfDrops);
-      import_lib111.Utils.assert(numberOfDrops === requiredDrop, "HexodiaMove should have exactly " + configuration.numberOfDrops + " drops (got " + numberOfDrops + ")");
+      import_lib114.Utils.assert(numberOfDrops === requiredDrop, "HexodiaMove should have exactly " + configuration.numberOfDrops + " drops (got " + numberOfDrops + ")");
     }
     return this.isLegalDrop(move, state);
   }
   isLegalDrop(move, state) {
     for (const coord of move.coords) {
       if (state.isNotOnBoard(coord)) {
-        return import_lib111.MGPValidation.failure(CoordFailure.OUT_OF_RANGE(coord));
+        return import_lib114.MGPValidation.failure(CoordFailure.OUT_OF_RANGE(coord));
       }
       if (state.getPieceAt(coord).isPlayer()) {
-        return import_lib111.MGPValidation.failure(RulesFailure.MUST_CLICK_ON_EMPTY_SQUARE());
+        return import_lib114.MGPValidation.failure(RulesFailure.MUST_CLICK_ON_EMPTY_SQUARE());
       }
     }
-    return import_lib111.MGPValidation.SUCCESS;
+    return import_lib114.MGPValidation.SUCCESS;
   }
   getGameStatus(node, config) {
     const state = node.gameState;
@@ -18298,13 +18694,13 @@ var HexodiaRules = class _HexodiaRules extends ConfigurableRules {
 };
 
 // src/app/games/hexodia/HexodiaMove.ts
-var import_lib112 = __toESM(require_dist());
+var import_lib115 = __toESM(require_dist());
 var HexodiaMove = class _HexodiaMove extends Move {
   coords;
   static of(coords) {
     return new _HexodiaMove(new CoordSet(coords));
   }
-  static encoder = import_lib112.Encoder.tuple([import_lib112.Encoder.list(Coord.encoder)], (move) => [move.coords.toList()], (value) => _HexodiaMove.of(value[0]));
+  static encoder = import_lib115.Encoder.tuple([import_lib115.Encoder.list(Coord.encoder)], (move) => [move.coords.toList()], (value) => _HexodiaMove.of(value[0]));
   constructor(coords) {
     super();
     this.coords = coords;
@@ -18318,75 +18714,75 @@ var HexodiaMove = class _HexodiaMove extends Move {
 };
 
 // src/app/games/hexodia/HexodiaTutorial.ts
-var _12 = FourStatePiece.EMPTY;
-var O11 = FourStatePiece.ZERO;
-var X10 = FourStatePiece.ONE;
-var N5 = FourStatePiece.UNREACHABLE;
-var defaultConfig10 = HexodiaRules.get().getDefaultRulesConfig();
-var initialState = HexodiaRules.get().getInitialState(defaultConfig10);
+var _13 = FourStatePiece.EMPTY;
+var O12 = FourStatePiece.ZERO;
+var X11 = FourStatePiece.ONE;
+var N6 = FourStatePiece.UNREACHABLE;
+var defaultConfig11 = HexodiaRules.get().getDefaultRulesConfig();
+var initialState = HexodiaRules.get().getInitialState(defaultConfig11);
 var HexodiaTutorial = class extends Tutorial {
   tutorial = [
     TutorialStep.informational(TutorialStepMessage.INITIAL_BOARD_AND_OBJECT_OF_THE_GAME(), $localize`Hexodia is played on a hexagonal board, your goal is to be the first to align 6 of your pieces.`, initialState),
     TutorialStep.anyMove($localize`First turn`, $localize`At the first turn, the first player plays only one piece.<br/><br/>You're playing Dark, place your first piece by clicking on a space.`, initialState, HexodiaMove.of([new Coord(12, 12)]), TutorialStepMessage.CONGRATULATIONS()),
     TutorialStep.fromMove($localize`Next turns`, $localize`On all following turns, the players play two pieces, until a victory or a draw is reached.<br/><br/>You're playing Light, do the winning move.`, new HexodiaState([
-      [N5, N5, N5, N5, N5, N5, N5, N5, N5, N5, N5, N5, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12],
-      [N5, N5, N5, N5, N5, N5, N5, N5, N5, N5, N5, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12],
-      [N5, N5, N5, N5, N5, N5, N5, N5, N5, N5, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12],
-      [N5, N5, N5, N5, N5, N5, N5, N5, N5, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12],
-      [N5, N5, N5, N5, N5, N5, N5, N5, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12],
-      [N5, N5, N5, N5, N5, N5, N5, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12],
-      [N5, N5, N5, N5, N5, N5, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12],
-      [N5, N5, N5, N5, N5, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12],
-      [N5, N5, N5, N5, _12, _12, _12, _12, _12, X10, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12],
-      [N5, N5, N5, _12, _12, _12, _12, _12, _12, _12, O11, _12, X10, O11, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12],
-      [N5, N5, _12, _12, _12, _12, _12, _12, _12, _12, _12, O11, O11, _12, _12, X10, O11, _12, _12, _12, _12, _12, _12, _12, _12],
-      [N5, _12, _12, _12, _12, _12, _12, _12, _12, _12, X10, O11, O11, O11, O11, X10, _12, _12, _12, _12, _12, _12, _12, _12, _12],
-      [_12, _12, _12, _12, _12, _12, _12, _12, _12, X10, O11, O11, O11, O11, X10, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12],
-      [_12, _12, _12, _12, _12, _12, _12, _12, _12, X10, _12, X10, O11, X10, X10, _12, _12, _12, _12, _12, _12, _12, _12, _12, N5],
-      [_12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, O11, X10, O11, _12, _12, _12, _12, _12, _12, _12, _12, _12, N5, N5],
-      [_12, _12, _12, _12, _12, _12, _12, _12, _12, _12, X10, _12, X10, _12, O11, _12, _12, _12, _12, _12, _12, _12, N5, N5, N5],
-      [_12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, X10, X10, _12, X10, _12, _12, _12, _12, _12, N5, N5, N5, N5],
-      [_12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, X10, _12, _12, _12, _12, _12, _12, _12, N5, N5, N5, N5, N5],
-      [_12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, O11, _12, _12, _12, _12, _12, _12, N5, N5, N5, N5, N5, N5],
-      [_12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, N5, N5, N5, N5, N5, N5, N5],
-      [_12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, N5, N5, N5, N5, N5, N5, N5, N5],
-      [_12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, N5, N5, N5, N5, N5, N5, N5, N5, N5],
-      [_12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, N5, N5, N5, N5, N5, N5, N5, N5, N5, N5],
-      [_12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, N5, N5, N5, N5, N5, N5, N5, N5, N5, N5, N5],
-      [_12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, N5, N5, N5, N5, N5, N5, N5, N5, N5, N5, N5, N5]
+      [N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13],
+      [N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13],
+      [N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13],
+      [N6, N6, N6, N6, N6, N6, N6, N6, N6, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13],
+      [N6, N6, N6, N6, N6, N6, N6, N6, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13],
+      [N6, N6, N6, N6, N6, N6, N6, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13],
+      [N6, N6, N6, N6, N6, N6, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13],
+      [N6, N6, N6, N6, N6, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13],
+      [N6, N6, N6, N6, _13, _13, _13, _13, _13, X11, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13],
+      [N6, N6, N6, _13, _13, _13, _13, _13, _13, _13, O12, _13, X11, O12, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13],
+      [N6, N6, _13, _13, _13, _13, _13, _13, _13, _13, _13, O12, O12, _13, _13, X11, O12, _13, _13, _13, _13, _13, _13, _13, _13],
+      [N6, _13, _13, _13, _13, _13, _13, _13, _13, _13, X11, O12, O12, O12, O12, X11, _13, _13, _13, _13, _13, _13, _13, _13, _13],
+      [_13, _13, _13, _13, _13, _13, _13, _13, _13, X11, O12, O12, O12, O12, X11, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13],
+      [_13, _13, _13, _13, _13, _13, _13, _13, _13, X11, _13, X11, O12, X11, X11, _13, _13, _13, _13, _13, _13, _13, _13, _13, N6],
+      [_13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, O12, X11, O12, _13, _13, _13, _13, _13, _13, _13, _13, _13, N6, N6],
+      [_13, _13, _13, _13, _13, _13, _13, _13, _13, _13, X11, _13, X11, _13, O12, _13, _13, _13, _13, _13, _13, _13, N6, N6, N6],
+      [_13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, X11, X11, _13, X11, _13, _13, _13, _13, _13, N6, N6, N6, N6],
+      [_13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, X11, _13, _13, _13, _13, _13, _13, _13, N6, N6, N6, N6, N6],
+      [_13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, O12, _13, _13, _13, _13, _13, _13, N6, N6, N6, N6, N6, N6],
+      [_13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, N6, N6, N6, N6, N6, N6, N6],
+      [_13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, N6, N6, N6, N6, N6, N6, N6, N6],
+      [_13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, N6, N6, N6, N6, N6, N6, N6, N6, N6],
+      [_13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6],
+      [_13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6],
+      [_13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6]
     ], 21), [HexodiaMove.of([new Coord(10, 16), new Coord(11, 15)])], TutorialStepMessage.CONGRATULATIONS(), TutorialStepMessage.FAILED_TRY_AGAIN()),
     TutorialStep.fromMove($localize`Hexagonal Diagonals`, $localize`But an unusual kind of diagonal also exist in Hexodia. Here, Dark has made alignment in each of those three direction, in only one a victory is still possible.<br/><br/>You're playing Dark, do the winning move.`, new HexodiaState([
-      [N5, N5, N5, N5, N5, N5, N5, N5, N5, N5, N5, N5, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12],
-      [N5, N5, N5, N5, N5, N5, N5, N5, N5, N5, N5, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12],
-      [N5, N5, N5, N5, N5, N5, N5, N5, N5, N5, _12, _12, _12, _12, _12, _12, _12, X10, _12, _12, _12, _12, _12, _12, _12],
-      [N5, N5, N5, N5, N5, N5, N5, N5, N5, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12],
-      [N5, N5, N5, N5, N5, N5, N5, N5, _12, _12, _12, _12, _12, _12, _12, _12, O11, _12, _12, _12, _12, _12, _12, _12, _12],
-      [N5, N5, N5, N5, N5, N5, N5, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12],
-      [N5, N5, N5, N5, N5, N5, _12, _12, _12, _12, _12, _12, _12, _12, _12, O11, _12, _12, _12, _12, _12, _12, _12, _12, _12],
-      [N5, N5, N5, N5, N5, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12],
-      [N5, N5, N5, N5, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, O11, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12],
-      [N5, N5, N5, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12],
-      [N5, N5, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, O11, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12],
-      [N5, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, X10, _12, _12, X10, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12],
-      [_12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, O11, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12],
-      [_12, _12, _12, _12, _12, _12, _12, _12, _12, _12, O11, _12, _12, O11, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, N5],
-      [_12, _12, _12, _12, _12, _12, _12, _12, O11, _12, _12, X10, _12, _12, O11, _12, _12, _12, _12, _12, _12, _12, _12, N5, N5],
-      [_12, _12, _12, _12, _12, _12, O11, _12, _12, _12, _12, _12, _12, _12, _12, O11, _12, _12, _12, _12, _12, _12, N5, N5, N5],
-      [_12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, O11, _12, _12, _12, _12, N5, N5, N5, N5],
-      [_12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, X10, _12, _12, N5, N5, N5, N5, N5],
-      [_12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, N5, N5, N5, N5, N5, N5],
-      [_12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, N5, N5, N5, N5, N5, N5, N5],
-      [_12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, N5, N5, N5, N5, N5, N5, N5, N5],
-      [_12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, N5, N5, N5, N5, N5, N5, N5, N5, N5],
-      [_12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, N5, N5, N5, N5, N5, N5, N5, N5, N5, N5],
-      [_12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, N5, N5, N5, N5, N5, N5, N5, N5, N5, N5, N5],
-      [_12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, _12, N5, N5, N5, N5, N5, N5, N5, N5, N5, N5, N5, N5]
+      [N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13],
+      [N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13],
+      [N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, _13, _13, _13, _13, _13, _13, _13, X11, _13, _13, _13, _13, _13, _13, _13],
+      [N6, N6, N6, N6, N6, N6, N6, N6, N6, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13],
+      [N6, N6, N6, N6, N6, N6, N6, N6, _13, _13, _13, _13, _13, _13, _13, _13, O12, _13, _13, _13, _13, _13, _13, _13, _13],
+      [N6, N6, N6, N6, N6, N6, N6, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13],
+      [N6, N6, N6, N6, N6, N6, _13, _13, _13, _13, _13, _13, _13, _13, _13, O12, _13, _13, _13, _13, _13, _13, _13, _13, _13],
+      [N6, N6, N6, N6, N6, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13],
+      [N6, N6, N6, N6, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, O12, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13],
+      [N6, N6, N6, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13],
+      [N6, N6, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, O12, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13],
+      [N6, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, X11, _13, _13, X11, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13],
+      [_13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, O12, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13],
+      [_13, _13, _13, _13, _13, _13, _13, _13, _13, _13, O12, _13, _13, O12, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, N6],
+      [_13, _13, _13, _13, _13, _13, _13, _13, O12, _13, _13, X11, _13, _13, O12, _13, _13, _13, _13, _13, _13, _13, _13, N6, N6],
+      [_13, _13, _13, _13, _13, _13, O12, _13, _13, _13, _13, _13, _13, _13, _13, O12, _13, _13, _13, _13, _13, _13, N6, N6, N6],
+      [_13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, O12, _13, _13, _13, _13, N6, N6, N6, N6],
+      [_13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, X11, _13, _13, N6, N6, N6, N6, N6],
+      [_13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, N6, N6, N6, N6, N6, N6],
+      [_13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, N6, N6, N6, N6, N6, N6, N6],
+      [_13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, N6, N6, N6, N6, N6, N6, N6, N6],
+      [_13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, N6, N6, N6, N6, N6, N6, N6, N6, N6],
+      [_13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6],
+      [_13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6],
+      [_13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6]
     ], 20), [HexodiaMove.of([new Coord(2, 17), new Coord(4, 16)])], TutorialStepMessage.CONGRATULATIONS(), TutorialStepMessage.FAILED_TRY_AGAIN())
   ];
 };
 
 // src/app/games/hexodia/hexodia.component.ts
-var import_lib114 = __toESM(require_dist());
+var import_lib117 = __toESM(require_dist());
 
 // src/app/games/hexodia/HexodiaAlignmentHeuristic.ts
 var HexodiaAlignmentHeuristic = class extends Heuristic {
@@ -18402,7 +18798,7 @@ var HexodiaAlignmentHeuristic = class extends Heuristic {
 };
 
 // src/app/games/hexodia/HexodiaMoveGenerator.ts
-var import_lib113 = __toESM(require_dist());
+var import_lib116 = __toESM(require_dist());
 var HexodiaMoveGenerator = class extends MoveGenerator {
   getListMoves(node, _config) {
     if (node.gameState.turn === 0) {
@@ -18434,7 +18830,7 @@ var HexodiaMoveGenerator = class extends MoveGenerator {
         moves.push(newMove);
       }
     }
-    return new import_lib113.Set(moves).toList();
+    return new import_lib116.Set(moves).toList();
   }
   getAvailableCoords(state) {
     const usefulCoordTable = this.getUsefulCoordsTable(state);
@@ -18489,7 +18885,7 @@ var HexodiaAlignmentMinimax = class extends Minimax {
 
 // src/app/games/hexodia/hexodia.component.ts
 var _c05 = (a0) => ["moved-stroke", a0];
-var _forTrack015 = ($index, $item) => $item.coord.toString();
+var _forTrack016 = ($index, $item) => $item.coord.toString();
 var _forTrack17 = ($index, $item) => $item.toString();
 function HexodiaComponent_For_2_Conditional_1_Conditional_2_Template(rf, ctx) {
   if (rf & 1) {
@@ -18635,7 +19031,7 @@ var HexodiaComponent = class _HexodiaComponent extends HexagonalGameComponent {
             const move = HexodiaMove.of(this.droppedCoords);
             return this.chooseMove(move);
           } else {
-            return import_lib114.MGPValidation.SUCCESS;
+            return import_lib117.MGPValidation.SUCCESS;
           }
         }
       }
@@ -18666,7 +19062,7 @@ var HexodiaComponent = class _HexodiaComponent extends HexagonalGameComponent {
     if (rf & 1) {
       \u0275\u0275namespaceSVG();
       \u0275\u0275elementStart(0, "svg", 0);
-      \u0275\u0275repeaterCreate(1, HexodiaComponent_For_2_Template, 2, 1, ":svg:g", null, _forTrack015);
+      \u0275\u0275repeaterCreate(1, HexodiaComponent_For_2_Template, 2, 1, ":svg:g", null, _forTrack016);
       \u0275\u0275repeaterCreate(3, HexodiaComponent_For_4_Template, 2, 8, ":svg:g", null, _forTrack17);
       \u0275\u0275elementEnd();
     }
@@ -18729,7 +19125,7 @@ var HexodiaComponent = class _HexodiaComponent extends HexagonalGameComponent {
 })();
 
 // src/app/games/hive/HiveRules.ts
-var import_lib120 = __toESM(require_dist());
+var import_lib123 = __toESM(require_dist());
 
 // src/app/games/hive/HiveFailure.ts
 var HiveFailure = class {
@@ -18752,15 +19148,15 @@ var HiveFailure = class {
 };
 
 // src/app/games/hive/HiveMove.ts
-var import_lib116 = __toESM(require_dist());
+var import_lib119 = __toESM(require_dist());
 
 // src/app/games/hive/HivePiece.ts
-var import_lib115 = __toESM(require_dist());
-var HivePieceKindEncoder = import_lib115.Encoder.fromFunctions((value) => value, (json) => json);
+var import_lib118 = __toESM(require_dist());
+var HivePieceKindEncoder = import_lib118.Encoder.fromFunctions((value) => value, (json) => json);
 var HivePiece = class _HivePiece {
   owner;
   kind;
-  static encoder = import_lib115.Encoder.tuple([Player.encoder, HivePieceKindEncoder], (piece) => [piece.owner, piece.kind], (fields) => new _HivePiece(fields[0], fields[1]));
+  static encoder = import_lib118.Encoder.tuple([Player.encoder, HivePieceKindEncoder], (piece) => [piece.owner, piece.kind], (fields) => new _HivePiece(fields[0], fields[1]));
   constructor(owner, kind) {
     this.owner = owner;
     this.kind = kind;
@@ -18781,7 +19177,7 @@ var HivePieceStack = class _HivePieceStack {
   equals(other) {
     if (this.size() !== other.size())
       return false;
-    return import_lib115.ArrayUtils.equals(this.pieces, other.pieces);
+    return import_lib118.ArrayUtils.equals(this.pieces, other.pieces);
   }
   isEmpty() {
     return this.pieces.length === 0;
@@ -18793,7 +19189,7 @@ var HivePieceStack = class _HivePieceStack {
     return new _HivePieceStack([piece, ...this.pieces]);
   }
   topPiece() {
-    import_lib115.Utils.assert(this.hasPieces(), "HivePieceStack: cannot get top piece of an empty stack");
+    import_lib118.Utils.assert(this.hasPieces(), "HivePieceStack: cannot get top piece of an empty stack");
     return this.pieces[0];
   }
   removeTopPiece() {
@@ -18809,7 +19205,7 @@ var HivePieceStack = class _HivePieceStack {
 // src/app/games/hive/HiveMove.ts
 var HiveDropMove = class _HiveDropMove extends MoveCoord {
   piece;
-  static encoder = import_lib116.Encoder.tuple([HivePiece.encoder, Coord.encoder], (move) => [move.piece, move.coord], (fields) => new _HiveDropMove(fields[0], fields[1].x, fields[1].y));
+  static encoder = import_lib119.Encoder.tuple([HivePiece.encoder, Coord.encoder], (move) => [move.piece, move.coord], (fields) => new _HiveDropMove(fields[0], fields[1].x, fields[1].y));
   static of(piece, coord) {
     return new _HiveDropMove(piece, coord.x, coord.y);
   }
@@ -18831,9 +19227,9 @@ var HiveCoordToCoordMove = class _HiveCoordToCoordMove extends MoveCoordToCoord 
   static encoder = MoveWithTwoCoords.getFallibleEncoder(_HiveCoordToCoordMove.from);
   static from(start, end) {
     if (start.equals(end)) {
-      return import_lib116.MGPFallible.failure(RulesFailure.MOVE_CANNOT_BE_STATIC());
+      return import_lib119.MGPFallible.failure(RulesFailure.MOVE_CANNOT_BE_STATIC());
     }
-    return import_lib116.MGPFallible.success(new _HiveCoordToCoordMove(start, end));
+    return import_lib119.MGPFallible.success(new _HiveCoordToCoordMove(start, end));
   }
   constructor(start, end) {
     super(start, end);
@@ -18853,7 +19249,7 @@ var HiveCoordToCoordMove = class _HiveCoordToCoordMove extends MoveCoordToCoord 
 };
 var HiveSpiderMove = class _HiveSpiderMove extends HiveCoordToCoordMove {
   coords;
-  static encoder = import_lib116.Encoder.tuple([Coord.encoder, Coord.encoder, Coord.encoder, Coord.encoder], (move) => move.coords, (fields) => new _HiveSpiderMove(fields));
+  static encoder = import_lib119.Encoder.tuple([Coord.encoder, Coord.encoder, Coord.encoder, Coord.encoder], (move) => move.coords, (fields) => new _HiveSpiderMove(fields));
   static ofCoords(coords) {
     return new _HiveSpiderMove(coords);
   }
@@ -18873,7 +19269,7 @@ var HiveSpiderMove = class _HiveSpiderMove extends HiveCoordToCoordMove {
   }
 };
 var HivePassMove = class _HivePassMove extends Move {
-  static encoder = import_lib116.Encoder.constant("HiveMovePass", new _HivePassMove());
+  static encoder = import_lib119.Encoder.constant("HiveMovePass", new _HivePassMove());
   toString() {
     return "HiveMovePass";
   }
@@ -18908,7 +19304,7 @@ var HiveMove;
     return HiveSpiderMove.ofCoords(coords);
   }
   HiveMove2.spiderMove = spiderMove;
-  HiveMove2.encoder = import_lib116.Encoder.disjunction([
+  HiveMove2.encoder = import_lib119.Encoder.disjunction([
     isInstanceOfHiveDropMove,
     isInstanceOfHiveMoveSpider,
     isInstanceOfHiveMoveCoordToCoord,
@@ -18917,12 +19313,12 @@ var HiveMove;
 })(HiveMove || (HiveMove = {}));
 
 // src/app/games/hive/HivePieceRules.ts
-var import_lib117 = __toESM(require_dist());
+var import_lib120 = __toESM(require_dist());
 var HivePieceRules = class _HivePieceRules {
-  static INSTANCES = import_lib117.MGPOptional.empty();
+  static INSTANCES = import_lib120.MGPOptional.empty();
   static of(piece) {
     if (_HivePieceRules.INSTANCES.isAbsent()) {
-      _HivePieceRules.INSTANCES = import_lib117.MGPOptional.of({
+      _HivePieceRules.INSTANCES = import_lib120.MGPOptional.of({
         "QueenBee": HiveQueenBeeRules.get(),
         "Beetle": HiveBeetleRules.get(),
         "Grasshopper": HiveGrasshopperRules.get(),
@@ -18934,9 +19330,9 @@ var HivePieceRules = class _HivePieceRules {
   }
   checkEmptyDestination(move, state) {
     if (state.getAt(move.getEnd()).hasPieces()) {
-      return import_lib117.MGPValidation.failure(HiveFailure.THIS_PIECE_CANNOT_CLIMB());
+      return import_lib120.MGPValidation.failure(HiveFailure.THIS_PIECE_CANNOT_CLIMB());
     }
-    return import_lib117.MGPValidation.SUCCESS;
+    return import_lib120.MGPValidation.SUCCESS;
   }
   canSlideBetweenNeighbors(state, start, end) {
     const startNeighbors = new CoordSet(HexagonalUtils.getNeighbors(start));
@@ -18951,19 +19347,19 @@ var HivePieceRules = class _HivePieceRules {
   }
 };
 var HiveQueenBeeRules = class _HiveQueenBeeRules extends HivePieceRules {
-  static INSTANCE = import_lib117.MGPOptional.empty();
+  static INSTANCE = import_lib120.MGPOptional.empty();
   static get() {
     if (this.INSTANCE.isAbsent()) {
-      this.INSTANCE = import_lib117.MGPOptional.of(new _HiveQueenBeeRules());
+      this.INSTANCE = import_lib120.MGPOptional.of(new _HiveQueenBeeRules());
     }
     return this.INSTANCE.get();
   }
   moveValidity(move, state) {
     if (HexagonalUtils.areNeighbors(move.getStart(), move.getEnd()) === false) {
-      return import_lib117.MGPValidation.failure(HiveFailure.QUEEN_BEE_CAN_ONLY_MOVE_TO_DIRECT_NEIGHBORS());
+      return import_lib120.MGPValidation.failure(HiveFailure.QUEEN_BEE_CAN_ONLY_MOVE_TO_DIRECT_NEIGHBORS());
     }
     if (this.canSlideBetweenNeighbors(state, move.getStart(), move.getEnd()) === false) {
-      return import_lib117.MGPValidation.failure(HiveFailure.MUST_BE_ABLE_TO_SLIDE());
+      return import_lib120.MGPValidation.failure(HiveFailure.MUST_BE_ABLE_TO_SLIDE());
     }
     return this.checkEmptyDestination(move, state);
   }
@@ -18978,18 +19374,18 @@ var HiveQueenBeeRules = class _HiveQueenBeeRules extends HivePieceRules {
   }
 };
 var HiveBeetleRules = class _HiveBeetleRules extends HivePieceRules {
-  static INSTANCE = import_lib117.MGPOptional.empty();
+  static INSTANCE = import_lib120.MGPOptional.empty();
   static get() {
     if (this.INSTANCE.isAbsent()) {
-      this.INSTANCE = import_lib117.MGPOptional.of(new _HiveBeetleRules());
+      this.INSTANCE = import_lib120.MGPOptional.of(new _HiveBeetleRules());
     }
     return this.INSTANCE.get();
   }
   moveValidity(move, state) {
     if (HexagonalUtils.areNeighbors(move.getStart(), move.getEnd()) === false) {
-      return import_lib117.MGPValidation.failure(HiveFailure.BEETLE_CAN_ONLY_MOVE_TO_DIRECT_NEIGHBORS());
+      return import_lib120.MGPValidation.failure(HiveFailure.BEETLE_CAN_ONLY_MOVE_TO_DIRECT_NEIGHBORS());
     }
-    return import_lib117.MGPValidation.SUCCESS;
+    return import_lib120.MGPValidation.SUCCESS;
   }
   getPotentialMoves(coord, state) {
     const moves = [];
@@ -19000,25 +19396,25 @@ var HiveBeetleRules = class _HiveBeetleRules extends HivePieceRules {
   }
 };
 var HiveGrasshopperRules = class _HiveGrasshopperRules extends HivePieceRules {
-  static INSTANCE = import_lib117.MGPOptional.empty();
+  static INSTANCE = import_lib120.MGPOptional.empty();
   static get() {
     if (this.INSTANCE.isAbsent()) {
-      this.INSTANCE = import_lib117.MGPOptional.of(new _HiveGrasshopperRules());
+      this.INSTANCE = import_lib120.MGPOptional.of(new _HiveGrasshopperRules());
     }
     return this.INSTANCE.get();
   }
   moveValidity(move, state) {
     const direction = HexaDirection.factory.fromMove(move.getStart(), move.getEnd());
     if (direction.isFailure()) {
-      return import_lib117.MGPValidation.failure(HiveFailure.GRASSHOPPER_MUST_MOVE_IN_STRAIGHT_LINE());
+      return import_lib120.MGPValidation.failure(HiveFailure.GRASSHOPPER_MUST_MOVE_IN_STRAIGHT_LINE());
     }
     const jumpedCoords = move.getJumpedOverCoords();
     if (jumpedCoords.length === 0) {
-      return import_lib117.MGPValidation.failure(HiveFailure.GRASSHOPPER_MUST_JUMP_OVER_PIECES());
+      return import_lib120.MGPValidation.failure(HiveFailure.GRASSHOPPER_MUST_JUMP_OVER_PIECES());
     }
     for (const coord of jumpedCoords) {
       if (state.getAt(coord).isEmpty()) {
-        return import_lib117.MGPValidation.failure(HiveFailure.GRASSHOPPER_MUST_JUMP_OVER_PIECES());
+        return import_lib120.MGPValidation.failure(HiveFailure.GRASSHOPPER_MUST_JUMP_OVER_PIECES());
       }
     }
     return this.checkEmptyDestination(move, state);
@@ -19039,10 +19435,10 @@ var HiveGrasshopperRules = class _HiveGrasshopperRules extends HivePieceRules {
   }
 };
 var HiveSpiderRules = class _HiveSpiderRules extends HivePieceRules {
-  static INSTANCE = import_lib117.MGPOptional.empty();
+  static INSTANCE = import_lib120.MGPOptional.empty();
   static get() {
     if (this.INSTANCE.isAbsent()) {
-      this.INSTANCE = import_lib117.MGPOptional.of(new _HiveSpiderRules());
+      this.INSTANCE = import_lib120.MGPOptional.of(new _HiveSpiderRules());
     }
     return this.INSTANCE.get();
   }
@@ -19051,26 +19447,26 @@ var HiveSpiderRules = class _HiveSpiderRules extends HivePieceRules {
     const stateWithoutMovedSpider = state.update().setAt(coords[0], HivePieceStack.EMPTY).increaseTurnAndFinalizeUpdate();
     for (let i2 = 1; i2 < coords.length; i2++) {
       if (stateWithoutMovedSpider.getAt(coords[i2]).hasPieces()) {
-        return import_lib117.MGPValidation.failure(HiveFailure.THIS_PIECE_CANNOT_CLIMB());
+        return import_lib120.MGPValidation.failure(HiveFailure.THIS_PIECE_CANNOT_CLIMB());
       }
       if (HexagonalUtils.areNeighbors(coords[i2 - 1], coords[i2]) === false) {
-        return import_lib117.MGPValidation.failure(HiveFailure.SPIDER_MUST_MOVE_ON_NEIGHBORING_SPACES());
+        return import_lib120.MGPValidation.failure(HiveFailure.SPIDER_MUST_MOVE_ON_NEIGHBORING_SPACES());
       }
       if (stateWithoutMovedSpider.haveCommonNeighbor(coords[i2], coords[i2 - 1]) === false) {
-        return import_lib117.MGPValidation.failure(HiveFailure.SPIDER_CAN_ONLY_MOVE_WITH_DIRECT_CONTACT());
+        return import_lib120.MGPValidation.failure(HiveFailure.SPIDER_CAN_ONLY_MOVE_WITH_DIRECT_CONTACT());
       }
       if (this.canSlideBetweenNeighbors(stateWithoutMovedSpider, coords[i2 - 1], coords[i2]) === false) {
-        return import_lib117.MGPValidation.failure(HiveFailure.MUST_BE_ABLE_TO_SLIDE());
+        return import_lib120.MGPValidation.failure(HiveFailure.MUST_BE_ABLE_TO_SLIDE());
       }
       if (visited.contains(coords[i2])) {
-        return import_lib117.MGPValidation.failure(HiveFailure.SPIDER_CANNOT_BACKTRACK());
+        return import_lib120.MGPValidation.failure(HiveFailure.SPIDER_CANNOT_BACKTRACK());
       }
       visited = visited.addElement(coords[i2]);
     }
-    return import_lib117.MGPValidation.SUCCESS;
+    return import_lib120.MGPValidation.SUCCESS;
   }
   moveValidity(move, state) {
-    import_lib117.Utils.assert(move instanceof HiveSpiderMove, "HiveSpiderRules: move should be a spider move");
+    import_lib120.Utils.assert(move instanceof HiveSpiderMove, "HiveSpiderRules: move should be a spider move");
     const spiderMove = move;
     const prefixLegality = this.prefixLegality(spiderMove.coords, state);
     if (prefixLegality.isFailure()) {
@@ -19087,7 +19483,7 @@ var HiveSpiderRules = class _HiveSpiderRules extends HivePieceRules {
     function makeMove(move) {
       return HiveSpiderMove.ofCoords(move);
     }
-    const uniqueMoves = new import_lib117.Set(movesSoFar.map(makeMove));
+    const uniqueMoves = new import_lib120.Set(movesSoFar.map(makeMove));
     return uniqueMoves.toList();
   }
   nextMoveStep(state, move) {
@@ -19106,10 +19502,10 @@ var HiveSpiderRules = class _HiveSpiderRules extends HivePieceRules {
   }
 };
 var HiveSoldierAntRules = class _HiveSoldierAntRules extends HivePieceRules {
-  static INSTANCE = import_lib117.MGPOptional.empty();
+  static INSTANCE = import_lib120.MGPOptional.empty();
   static get() {
     if (this.INSTANCE.isAbsent()) {
-      this.INSTANCE = import_lib117.MGPOptional.of(new _HiveSoldierAntRules());
+      this.INSTANCE = import_lib120.MGPOptional.of(new _HiveSoldierAntRules());
     }
     return this.INSTANCE.get();
   }
@@ -19138,12 +19534,12 @@ var HiveSoldierAntRules = class _HiveSoldierAntRules extends HivePieceRules {
   }
   moveValidity(move, state) {
     if (this.pathExists(state, move.getStart(), move.getEnd()) === false) {
-      return import_lib117.MGPValidation.failure(HiveFailure.MUST_BE_ABLE_TO_SLIDE());
+      return import_lib120.MGPValidation.failure(HiveFailure.MUST_BE_ABLE_TO_SLIDE());
     }
     return this.checkEmptyDestination(move, state);
   }
   getPotentialMoves(coord, state) {
-    let moves = new import_lib117.Set();
+    let moves = new import_lib120.Set();
     for (const occupiedSpace of state.occupiedSpaces()) {
       if (occupiedSpace.equals(coord)) {
         continue;
@@ -19157,10 +19553,10 @@ var HiveSoldierAntRules = class _HiveSoldierAntRules extends HivePieceRules {
 };
 
 // src/app/games/hive/HiveState.ts
-var import_lib119 = __toESM(require_dist());
+var import_lib122 = __toESM(require_dist());
 
 // src/app/jscaip/state/OpenHexagonalGameState.ts
-var import_lib118 = __toESM(require_dist());
+var import_lib121 = __toESM(require_dist());
 var OpenHexagonalGameState = class extends GameState {
   pieces;
   width;
@@ -19206,7 +19602,7 @@ var OpenHexagonalGameState = class extends GameState {
   }
   getGroups() {
     let visited = new CoordSet();
-    let groups = new import_lib118.Set();
+    let groups = new import_lib121.Set();
     for (const coord of this.pieces.getKeyList()) {
       if (visited.contains(coord) === false) {
         let group = new CoordSet();
@@ -19231,7 +19627,7 @@ var OpenHexagonalGameState = class extends GameState {
 var HiveRemainingPieces = class _HiveRemainingPieces {
   pieces;
   static getInitial() {
-    const pieces = new import_lib119.MGPMap();
+    const pieces = new import_lib122.MGPMap();
     for (const player of Player.PLAYERS) {
       pieces.set(new HivePiece(player, "QueenBee"), 1);
       pieces.set(new HivePiece(player, "Beetle"), 2);
@@ -19257,14 +19653,14 @@ var HiveRemainingPieces = class _HiveRemainingPieces {
   getAny(player) {
     for (const piece of this.pieces.getKeyList()) {
       if (piece.owner === player && this.hasRemaining(piece)) {
-        return import_lib119.MGPOptional.of(piece);
+        return import_lib122.MGPOptional.of(piece);
       }
     }
-    return import_lib119.MGPOptional.empty();
+    return import_lib122.MGPOptional.empty();
   }
   remove(piece) {
     const remaining = this.pieces.get(piece).get();
-    import_lib119.Utils.assert(remaining > 0, "HiveRemainingPieces cannot remove a non-remainingPiece");
+    import_lib122.Utils.assert(remaining > 0, "HiveRemainingPieces cannot remove a non-remainingPiece");
     const newPieces = this.pieces.getCopy();
     newPieces.replace(piece, remaining - 1);
     return new _HiveRemainingPieces(newPieces);
@@ -19335,15 +19731,15 @@ var HiveState = class _HiveState extends OpenHexagonalGameState {
   remainingPieces;
   queenBees;
   static fromRepresentation(board, turn, vector = new Vector(0, 0)) {
-    const pieces = new import_lib119.ReversibleMap();
+    const pieces = new import_lib122.ReversibleMap();
     let remainingPieces = HiveRemainingPieces.getInitial();
-    const queenBees = new import_lib119.MGPMap();
+    const queenBees = new import_lib122.MGPMap();
     for (let y = 0; y < board.length; y++) {
       for (let x2 = 0; x2 < board[0].length; x2++) {
         if (board[y][x2].length > 0) {
           const adaptedCoord = new Coord(x2, y).getNext(vector, 1);
           pieces.set(adaptedCoord, new HivePieceStack(board[y][x2]));
-          const queenBee = import_lib119.MGPOptional.ofNullable(board[y][x2].find((piece) => piece.kind === "QueenBee"));
+          const queenBee = import_lib122.MGPOptional.ofNullable(board[y][x2].find((piece) => piece.kind === "QueenBee"));
           if (queenBee.isPresent()) {
             queenBees.set(queenBee.get().owner, adaptedCoord);
           }
@@ -19419,10 +19815,10 @@ var HiveState = class _HiveState extends OpenHexagonalGameState {
 
 // src/app/games/hive/HiveRules.ts
 var HiveRules = class _HiveRules extends Rules {
-  static singleton = import_lib120.MGPOptional.empty();
+  static singleton = import_lib123.MGPOptional.empty();
   static get() {
     if (_HiveRules.singleton.isAbsent()) {
-      _HiveRules.singleton = import_lib120.MGPOptional.of(new _HiveRules());
+      _HiveRules.singleton = import_lib123.MGPOptional.of(new _HiveRules());
     }
     return _HiveRules.singleton.get();
   }
@@ -19455,23 +19851,23 @@ var HiveRules = class _HiveRules extends Rules {
       return this.isLegalMoveCoordToCoord(move, state);
     } else {
       if (this.shouldPass(state)) {
-        return import_lib120.MGPValidation.SUCCESS;
+        return import_lib123.MGPValidation.SUCCESS;
       } else {
-        return import_lib120.MGPValidation.failure(RulesFailure.CANNOT_PASS());
+        return import_lib123.MGPValidation.failure(RulesFailure.CANNOT_PASS());
       }
     }
   }
   isLegalMoveCoordToCoord(move, state) {
     if (state.queenBeeLocation(state.getCurrentPlayer()).isPresent() === false) {
-      return import_lib120.MGPValidation.failure(HiveFailure.QUEEN_BEE_MUST_BE_ON_BOARD_BEFORE_MOVE());
+      return import_lib123.MGPValidation.failure(HiveFailure.QUEEN_BEE_MUST_BE_ON_BOARD_BEFORE_MOVE());
     }
     const stack = state.getAt(move.getStart());
     if (stack.isEmpty()) {
-      return import_lib120.MGPValidation.failure(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_EMPTY());
+      return import_lib123.MGPValidation.failure(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_EMPTY());
     }
     const movedPiece = stack.topPiece();
     if (movedPiece.owner === state.getCurrentOpponent()) {
-      return import_lib120.MGPValidation.failure(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
+      return import_lib123.MGPValidation.failure(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
     }
     const moveValidity = HivePieceRules.of(movedPiece).moveValidity(move, state);
     if (moveValidity.isFailure()) {
@@ -19479,13 +19875,13 @@ var HiveRules = class _HiveRules extends Rules {
     }
     const stateWithoutMovedPiece = state.update().setAt(move.getStart(), stack.removeTopPiece()).increaseTurnAndFinalizeUpdate();
     if (stateWithoutMovedPiece.isDisconnected()) {
-      return import_lib120.MGPValidation.failure(HiveFailure.CANNOT_DISCONNECT_HIVE());
+      return import_lib123.MGPValidation.failure(HiveFailure.CANNOT_DISCONNECT_HIVE());
     }
     const newEnd = move.getEnd();
     if (stateWithoutMovedPiece.numberOfNeighbors(newEnd) === 0) {
-      return import_lib120.MGPValidation.failure(HiveFailure.CANNOT_DISCONNECT_HIVE());
+      return import_lib123.MGPValidation.failure(HiveFailure.CANNOT_DISCONNECT_HIVE());
     }
-    return import_lib120.MGPValidation.SUCCESS;
+    return import_lib123.MGPValidation.SUCCESS;
   }
   mustPlaceQueenBee(state) {
     return 6 <= state.turn && state.hasQueenBeeOnBoard(state.getCurrentPlayer()) === false;
@@ -19493,22 +19889,22 @@ var HiveRules = class _HiveRules extends Rules {
   isLegalDrop(move, state) {
     const player = state.getCurrentPlayer();
     if (move.piece.owner === player.getOpponent()) {
-      return import_lib120.MGPValidation.failure(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
+      return import_lib123.MGPValidation.failure(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
     }
     if (state.remainingPieces.hasRemaining(move.piece) === false) {
-      return import_lib120.MGPValidation.failure(HiveFailure.CANNOT_DROP_PIECE_YOU_DONT_HAVE());
+      return import_lib123.MGPValidation.failure(HiveFailure.CANNOT_DROP_PIECE_YOU_DONT_HAVE());
     }
     if (move.piece.kind !== "QueenBee" && this.mustPlaceQueenBee(state)) {
-      return import_lib120.MGPValidation.failure(HiveFailure.MUST_PLACE_QUEEN_BEE_LATEST_AT_FOURTH_TURN());
+      return import_lib123.MGPValidation.failure(HiveFailure.MUST_PLACE_QUEEN_BEE_LATEST_AT_FOURTH_TURN());
     }
     const neighborValidity = this.checkNeighborValidity(move, state);
     if (neighborValidity.isFailure()) {
       return neighborValidity;
     }
     if (state.getAt(move.coord).hasPieces()) {
-      return import_lib120.MGPValidation.failure(HiveFailure.MUST_DROP_ON_EMPTY_SPACE());
+      return import_lib123.MGPValidation.failure(HiveFailure.MUST_DROP_ON_EMPTY_SPACE());
     }
-    return import_lib120.MGPValidation.SUCCESS;
+    return import_lib123.MGPValidation.SUCCESS;
   }
   checkNeighborValidity(move, state) {
     const player = state.getCurrentPlayer();
@@ -19518,14 +19914,14 @@ var HiveRules = class _HiveRules extends Rules {
       if (neighborStack.hasPieces()) {
         hasNeighbor = true;
         if (state.turn !== 1 && neighborStack.topPiece().owner === player.getOpponent()) {
-          return import_lib120.MGPValidation.failure(HiveFailure.CANNOT_DROP_NEXT_TO_OPPONENT());
+          return import_lib123.MGPValidation.failure(HiveFailure.CANNOT_DROP_NEXT_TO_OPPONENT());
         }
       }
     }
     if (state.turn !== 0 && hasNeighbor === false) {
-      return import_lib120.MGPValidation.failure(HiveFailure.MUST_BE_CONNECTED_TO_HIVE());
+      return import_lib123.MGPValidation.failure(HiveFailure.MUST_BE_CONNECTED_TO_HIVE());
     }
-    return import_lib120.MGPValidation.SUCCESS;
+    return import_lib123.MGPValidation.SUCCESS;
   }
   getPossibleDropLocations(state) {
     const player = state.getCurrentPlayer();
@@ -19555,7 +19951,7 @@ var HiveRules = class _HiveRules extends Rules {
   }
   getPossibleMovesFrom(state, coord) {
     const player = state.getCurrentPlayer();
-    let moves = new import_lib120.Set();
+    let moves = new import_lib123.Set();
     const topPiece = state.getAt(coord).topPiece();
     if (topPiece.owner === player) {
       for (const move of HivePieceRules.of(topPiece).getPotentialMoves(coord, state)) {
@@ -19567,7 +19963,7 @@ var HiveRules = class _HiveRules extends Rules {
     return moves;
   }
   getPossibleMovesOnBoard(state) {
-    let moves = new import_lib120.Set();
+    let moves = new import_lib123.Set();
     for (const coord of state.occupiedSpaces()) {
       moves = moves.union(this.getPossibleMovesFrom(state, coord));
     }
@@ -19599,7 +19995,7 @@ var HiveRules = class _HiveRules extends Rules {
 };
 
 // src/app/games/hive/HiveTutorial.ts
-var import_lib121 = __toESM(require_dist());
+var import_lib124 = __toESM(require_dist());
 var Q = new HivePiece(Player.ZERO, "QueenBee");
 var B3 = new HivePiece(Player.ZERO, "Beetle");
 var G = new HivePiece(Player.ZERO, "Grasshopper");
@@ -19650,9 +20046,9 @@ var HiveTutorial = class extends Tutorial {
       [[a], [s2], []]
     ], 6), HiveMove.move(new Coord(1, 0), new Coord(3, 1)).get(), (move, _previousState, _resultingState) => {
       if (move.equals(HiveMove.move(new Coord(1, 0), new Coord(0, 1)).get())) {
-        return import_lib121.MGPValidation.failure($localize`You have not freed your queen, try again!`);
+        return import_lib124.MGPValidation.failure($localize`You have not freed your queen, try again!`);
       }
-      return import_lib121.MGPValidation.SUCCESS;
+      return import_lib124.MGPValidation.SUCCESS;
     }, TutorialStepMessage.CONGRATULATIONS()),
     TutorialStep.anyMove($localize`Moving the spider`, $localize`Finally, the spider can move exactly 3 spaces at a time. It is not allowed to go twice through the same space in a move. As the spider crawls around other pieces, it can only move around pieces that are in direct contact with it. This means that the spider is not allowed to temporarily split the hive. For example, here, Dark's spider cannot go on the left as its first move. To do a spider move, select a spider and click on the three spaces that compose the move.<br/><br/>You're playing Dark, move your spider!`, HiveState.fromRepresentation([
       [[], [S2], [s2], [b3]],
@@ -19673,7 +20069,7 @@ var HiveTutorial = class extends Tutorial {
 };
 
 // src/app/games/hive/hive.component.ts
-var import_lib122 = __toESM(require_dist());
+var import_lib125 = __toESM(require_dist());
 
 // src/app/games/hive/HiveHeuristic.ts
 var HiveHeuristic = class extends PlayerMetricHeuristic {
@@ -19881,7 +20277,7 @@ var HivePieceComponent = class _HivePieceComponent extends BaseGameComponent {
 })();
 
 // src/app/games/hive/hive.component.ts
-var _forTrack016 = ($index, $item) => $item.x + "-" + $item.y;
+var _forTrack017 = ($index, $item) => $item.x + "-" + $item.y;
 function HiveComponent_For_2_Template(rf, ctx) {
   if (rf & 1) {
     const _r1 = \u0275\u0275getCurrentView();
@@ -20031,8 +20427,8 @@ function HiveComponent_For_8_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
     \u0275\u0275elementStart(0, "g");
-    \u0275\u0275repeaterCreate(1, HiveComponent_For_8_For_2_Template, 2, 11, ":svg:g", null, _forTrack016);
-    \u0275\u0275repeaterCreate(3, HiveComponent_For_8_For_4_Template, 2, 2, ":svg:g", null, _forTrack016);
+    \u0275\u0275repeaterCreate(1, HiveComponent_For_8_For_2_Template, 2, 11, ":svg:g", null, _forTrack017);
+    \u0275\u0275repeaterCreate(3, HiveComponent_For_8_For_4_Template, 2, 2, ":svg:g", null, _forTrack017);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -20167,10 +20563,10 @@ var HiveComponent = class _HiveComponent extends HexagonalGameComponent {
   remainingStacks = [];
   layers = [];
   ground = new Ground();
-  inspectedStack = import_lib122.MGPOptional.empty();
-  inspectedStackCoord = import_lib122.MGPOptional.empty();
-  selectedRemaining = import_lib122.MGPOptional.empty();
-  selectedStart = import_lib122.MGPOptional.empty();
+  inspectedStack = import_lib125.MGPOptional.empty();
+  inspectedStackCoord = import_lib125.MGPOptional.empty();
+  selectedRemaining = import_lib125.MGPOptional.empty();
+  selectedStart = import_lib125.MGPOptional.empty();
   selectedSpiderCoords = [];
   PIECE_HEIGHT;
   boardViewBox;
@@ -20229,7 +20625,7 @@ var HiveComponent = class _HiveComponent extends HexagonalGameComponent {
   }
   pass() {
     return __async(this, null, function* () {
-      import_lib122.Utils.assert(this.canPass, "HiveComponent: pass() can only be called if canPass is true");
+      import_lib125.Utils.assert(this.canPass, "HiveComponent: pass() can only be called if canPass is true");
       return yield this.chooseMove(HiveMove.PASS);
     });
   }
@@ -20289,10 +20685,10 @@ var HiveComponent = class _HiveComponent extends HexagonalGameComponent {
   }
   cancelMoveAttempt() {
     this.clearHighlights();
-    this.selectedStart = import_lib122.MGPOptional.empty();
-    this.selectedRemaining = import_lib122.MGPOptional.empty();
+    this.selectedStart = import_lib125.MGPOptional.empty();
+    this.selectedRemaining = import_lib125.MGPOptional.empty();
     this.selectedSpiderCoords = [];
-    this.inspectedStack = import_lib122.MGPOptional.empty();
+    this.inspectedStack = import_lib125.MGPOptional.empty();
     this.computeViewBox();
   }
   showLastMove(move) {
@@ -20346,7 +20742,7 @@ var HiveComponent = class _HiveComponent extends HexagonalGameComponent {
       case "Spider":
         return 0.5;
       default:
-        import_lib122.Utils.expectToBe(piece.kind, "SoldierAnt");
+        import_lib125.Utils.expectToBe(piece.kind, "SoldierAnt");
         return 1.5;
     }
   }
@@ -20366,13 +20762,13 @@ var HiveComponent = class _HiveComponent extends HexagonalGameComponent {
         return this.cancelMove();
       } else {
         this.cancelMoveAttempt();
-        this.selectedRemaining = import_lib122.MGPOptional.of(piece);
+        this.selectedRemaining = import_lib125.MGPOptional.of(piece);
         this.clearHighlights();
         const possibleDropLocations = HiveRules.get().getPossibleDropLocations(this.getState()).toList();
         for (const coord of possibleDropLocations) {
           this.ground.highlightStroke(coord, "clickable-stroke");
         }
-        return import_lib122.MGPValidation.SUCCESS;
+        return import_lib125.MGPValidation.SUCCESS;
       }
     });
   }
@@ -20425,7 +20821,7 @@ var HiveComponent = class _HiveComponent extends HexagonalGameComponent {
         return this.selectNextSpiderSpace(coord);
       } else {
         const move = HiveMove.move(this.selectedStart.get(), coord);
-        import_lib122.Utils.assert(move.isSuccess(), "Hive: the only forbidden moves are static moves");
+        import_lib125.Utils.assert(move.isSuccess(), "Hive: the only forbidden moves are static moves");
         return this.chooseMove(move.get());
       }
     });
@@ -20441,10 +20837,10 @@ var HiveComponent = class _HiveComponent extends HexagonalGameComponent {
           return this.cancelMove();
         } else {
           this.highlight(coord, "selected-stroke");
-          this.inspectedStack = import_lib122.MGPOptional.of(stack);
-          this.inspectedStackCoord = import_lib122.MGPOptional.of(coord);
+          this.inspectedStack = import_lib125.MGPOptional.of(stack);
+          this.inspectedStackCoord = import_lib125.MGPOptional.of(coord);
           this.computeViewBox();
-          return import_lib122.MGPValidation.SUCCESS;
+          return import_lib125.MGPValidation.SUCCESS;
         }
       }
       this.cancelMoveAttempt();
@@ -20452,18 +20848,18 @@ var HiveComponent = class _HiveComponent extends HexagonalGameComponent {
       if (piece.kind !== "QueenBee" && HiveRules.get().mustPlaceQueenBee(state)) {
         return this.cancelMove(HiveFailure.MUST_PLACE_QUEEN_BEE_LATEST_AT_FOURTH_TURN());
       }
-      this.selectedStart = import_lib122.MGPOptional.of(coord);
+      this.selectedStart = import_lib125.MGPOptional.of(coord);
       this.highlight(coord, "selected-stroke");
       if (piece.kind === "Spider") {
         this.selectedSpiderCoords.push(this.selectedStart.get());
       }
       if (stack.size() > 1) {
-        this.inspectedStack = import_lib122.MGPOptional.of(stack);
-        this.inspectedStackCoord = import_lib122.MGPOptional.of(coord);
+        this.inspectedStack = import_lib125.MGPOptional.of(stack);
+        this.inspectedStackCoord = import_lib125.MGPOptional.of(coord);
         this.computeViewBox();
       }
       this.highlightNextPossibleCoords(coord);
-      return import_lib122.MGPValidation.SUCCESS;
+      return import_lib125.MGPValidation.SUCCESS;
     });
   }
   highlightNextPossibleCoords(coord) {
@@ -20478,7 +20874,7 @@ var HiveComponent = class _HiveComponent extends HexagonalGameComponent {
     const moves = HiveRules.get().getPossibleMovesFrom(state, coord);
     if (topPiece.kind === "Spider") {
       const spiderMoves = moves;
-      return spiderMoves.filter((move) => import_lib122.ArrayUtils.isPrefix(this.selectedSpiderCoords, move.coords)).map((move) => move.coords[this.selectedSpiderCoords.length]).toList();
+      return spiderMoves.filter((move) => import_lib125.ArrayUtils.isPrefix(this.selectedSpiderCoords, move.coords)).map((move) => move.coords[this.selectedSpiderCoords.length]).toList();
     } else {
       return moves.map((move) => move.getEnd()).toList();
     }
@@ -20500,7 +20896,7 @@ var HiveComponent = class _HiveComponent extends HexagonalGameComponent {
         this.ground.select(spiderCoord);
       }
       this.highlightNextPossibleCoords(this.selectedStart.get());
-      return import_lib122.MGPValidation.SUCCESS;
+      return import_lib125.MGPValidation.SUCCESS;
     });
   }
   static \u0275fac = function HiveComponent_Factory(__ngFactoryType__) {
@@ -20510,9 +20906,9 @@ var HiveComponent = class _HiveComponent extends HexagonalGameComponent {
     if (rf & 1) {
       \u0275\u0275namespaceSVG();
       \u0275\u0275elementStart(0, "svg", 0);
-      \u0275\u0275repeaterCreate(1, HiveComponent_For_2_Template, 2, 6, ":svg:g", null, _forTrack016);
-      \u0275\u0275repeaterCreate(3, HiveComponent_For_4_Template, 2, 1, ":svg:g", null, _forTrack016);
-      \u0275\u0275repeaterCreate(5, HiveComponent_For_6_Template, 2, 1, ":svg:g", null, _forTrack016);
+      \u0275\u0275repeaterCreate(1, HiveComponent_For_2_Template, 2, 6, ":svg:g", null, _forTrack017);
+      \u0275\u0275repeaterCreate(3, HiveComponent_For_4_Template, 2, 1, ":svg:g", null, _forTrack017);
+      \u0275\u0275repeaterCreate(5, HiveComponent_For_6_Template, 2, 1, ":svg:g", null, _forTrack017);
       \u0275\u0275repeaterCreate(7, HiveComponent_For_8_Template, 5, 0, ":svg:g", null, \u0275\u0275repeaterTrackByIndex);
       \u0275\u0275repeaterCreate(9, HiveComponent_For_10_Template, 3, 1, ":svg:g", null, \u0275\u0275repeaterTrackByIndex);
       \u0275\u0275elementStart(11, "g");
@@ -20664,10 +21060,10 @@ var HiveComponent = class _HiveComponent extends HexagonalGameComponent {
 })();
 
 // src/app/games/kamisado/KamisadoRules.ts
-var import_lib125 = __toESM(require_dist());
+var import_lib128 = __toESM(require_dist());
 
 // src/app/games/kamisado/KamisadoColor.ts
-var import_lib123 = __toESM(require_dist());
+var import_lib126 = __toESM(require_dist());
 var KamisadoColor = class _KamisadoColor {
   value;
   name;
@@ -20700,7 +21096,7 @@ var KamisadoColor = class _KamisadoColor {
       case 7:
         return _KamisadoColor.GREEN;
       default:
-        import_lib123.Utils.expectToBe(value, 8, "Invalid value " + value + " for KamisadoColor");
+        import_lib126.Utils.expectToBe(value, 8, "Invalid value " + value + " for KamisadoColor");
         return _KamisadoColor.BROWN;
     }
   }
@@ -20766,15 +21162,15 @@ var KamisadoBoard = class _KamisadoBoard {
     return _KamisadoBoard.COLORS[y][x2];
   }
   static getInitialBoard() {
-    const _31 = KamisadoPiece.EMPTY;
+    const _32 = KamisadoPiece.EMPTY;
     return [
       [1, 2, 3, 4, 5, 6, 7, 8].map((value) => KamisadoPiece.of(Player.ONE, value)),
-      [_31, _31, _31, _31, _31, _31, _31, _31],
-      [_31, _31, _31, _31, _31, _31, _31, _31],
-      [_31, _31, _31, _31, _31, _31, _31, _31],
-      [_31, _31, _31, _31, _31, _31, _31, _31],
-      [_31, _31, _31, _31, _31, _31, _31, _31],
-      [_31, _31, _31, _31, _31, _31, _31, _31],
+      [_32, _32, _32, _32, _32, _32, _32, _32],
+      [_32, _32, _32, _32, _32, _32, _32, _32],
+      [_32, _32, _32, _32, _32, _32, _32, _32],
+      [_32, _32, _32, _32, _32, _32, _32, _32],
+      [_32, _32, _32, _32, _32, _32, _32, _32],
+      [_32, _32, _32, _32, _32, _32, _32, _32],
       [8, 7, 6, 5, 4, 3, 2, 1].map((value) => KamisadoPiece.of(Player.ZERO, value))
     ];
   }
@@ -20789,7 +21185,7 @@ var KamisadoFailure = class {
 };
 
 // src/app/games/kamisado/KamisadoMove.ts
-var import_lib124 = __toESM(require_dist());
+var import_lib127 = __toESM(require_dist());
 
 // src/app/games/kamisado/KamisadoState.ts
 var KamisadoState = class extends GameStateWithTable {
@@ -20822,7 +21218,7 @@ var KamisadoState = class extends GameStateWithTable {
 // src/app/games/kamisado/KamisadoMove.ts
 var KamisadoPassMove = class _KamisadoPassMove extends Move {
   static PASS = new _KamisadoPassMove();
-  static encoder = import_lib124.Encoder.constant("PASS", _KamisadoPassMove.PASS);
+  static encoder = import_lib127.Encoder.constant("PASS", _KamisadoPassMove.PASS);
   constructor() {
     super();
   }
@@ -20839,8 +21235,8 @@ var KamisadoPassMove = class _KamisadoPassMove extends Move {
 var KamisadoPieceMove = class _KamisadoPieceMove extends MoveCoordToCoord {
   static encoder = MoveWithTwoCoords.getEncoder(_KamisadoPieceMove.of);
   static of(start, end) {
-    import_lib124.Utils.assert(KamisadoState.isOnBoard(start), "Starting coord of KamisadoMove must be on the board, not at " + start.toString());
-    import_lib124.Utils.assert(KamisadoState.isOnBoard(end), "End coord of KamisadoMove must be on the board, not at " + end.toString());
+    import_lib127.Utils.assert(KamisadoState.isOnBoard(start), "Starting coord of KamisadoMove must be on the board, not at " + start.toString());
+    import_lib127.Utils.assert(KamisadoState.isOnBoard(end), "End coord of KamisadoMove must be on the board, not at " + end.toString());
     return new _KamisadoPieceMove(start, end);
   }
   constructor(start, end) {
@@ -20875,20 +21271,20 @@ var KamisadoMove;
     return move instanceof KamisadoPieceMove;
   }
   KamisadoMove2.isPiece = isPiece;
-  KamisadoMove2.encoder = import_lib124.Encoder.disjunction([KamisadoMove2.isPiece, isPass], [KamisadoPieceMove.encoder, KamisadoPassMove.encoder]);
+  KamisadoMove2.encoder = import_lib127.Encoder.disjunction([KamisadoMove2.isPiece, isPass], [KamisadoPieceMove.encoder, KamisadoPassMove.encoder]);
 })(KamisadoMove || (KamisadoMove = {}));
 
 // src/app/games/kamisado/KamisadoRules.ts
 var KamisadoRules = class _KamisadoRules extends Rules {
-  static singleton = import_lib125.MGPOptional.empty();
+  static singleton = import_lib128.MGPOptional.empty();
   static get() {
     if (_KamisadoRules.singleton.isAbsent()) {
-      _KamisadoRules.singleton = import_lib125.MGPOptional.of(new _KamisadoRules());
+      _KamisadoRules.singleton = import_lib128.MGPOptional.of(new _KamisadoRules());
     }
     return _KamisadoRules.singleton.get();
   }
   getInitialState() {
-    return new KamisadoState(0, KamisadoColor.ANY, import_lib125.MGPOptional.empty(), false, KamisadoBoard.INITIAL);
+    return new KamisadoState(0, KamisadoColor.ANY, import_lib128.MGPOptional.empty(), false, KamisadoBoard.INITIAL);
   }
   static getColorMatchingPiece(state) {
     if (state.coordToPlay.isPresent()) {
@@ -20941,7 +21337,7 @@ var KamisadoRules = class _KamisadoRules extends Rules {
     let furthest1 = 0;
     state.allPieceCoords().forEach((c) => {
       const piece = state.getPieceAt(c);
-      import_lib125.Utils.assert(piece !== KamisadoPiece.EMPTY, "allPieceCoords failed to filter KamisadoPiece.EMPTY");
+      import_lib128.Utils.assert(piece !== KamisadoPiece.EMPTY, "allPieceCoords failed to filter KamisadoPiece.EMPTY");
       if (piece.player === Player.ONE) {
         furthest1 = Math.max(furthest1, c.y);
       } else {
@@ -20957,48 +21353,48 @@ var KamisadoRules = class _KamisadoRules extends Rules {
       const colorToPlay = state.colorToPlay;
       const piece = state.getPieceAt(start);
       if (piece.isEmpty()) {
-        return import_lib125.MGPValidation.failure(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_EMPTY());
+        return import_lib128.MGPValidation.failure(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_EMPTY());
       }
       if (piece.belongsTo(state.getCurrentOpponent())) {
-        return import_lib125.MGPValidation.failure(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
+        return import_lib128.MGPValidation.failure(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
       }
       if (colorToPlay !== KamisadoColor.ANY && piece.color !== colorToPlay) {
-        return import_lib125.MGPValidation.failure(KamisadoFailure.NOT_RIGHT_COLOR());
+        return import_lib128.MGPValidation.failure(KamisadoFailure.NOT_RIGHT_COLOR());
       }
       const endPiece = state.getPieceAt(end);
       if (endPiece.isEmpty() === false) {
-        return import_lib125.MGPValidation.failure(RulesFailure.MUST_CLICK_ON_EMPTY_SPACE());
+        return import_lib128.MGPValidation.failure(RulesFailure.MUST_CLICK_ON_EMPTY_SPACE());
       }
       const directionOptional = Ordinal.factory.fromMove(start, end);
       if (directionOptional.isFailure()) {
-        return import_lib125.MGPValidation.failure(KamisadoFailure.DIRECTION_NOT_ALLOWED());
+        return import_lib128.MGPValidation.failure(KamisadoFailure.DIRECTION_NOT_ALLOWED());
       }
       const dir = directionOptional.get();
       if (_KamisadoRules.directionAllowedForPlayer(dir, state.getCurrentPlayer()) === false) {
-        return import_lib125.MGPValidation.failure(KamisadoFailure.DIRECTION_NOT_ALLOWED());
+        return import_lib128.MGPValidation.failure(KamisadoFailure.DIRECTION_NOT_ALLOWED());
       }
       let currentCoord = start;
       while (currentCoord.equals(end) === false) {
         currentCoord = currentCoord.getNext(dir);
         if (state.getPieceAt(currentCoord).isEmpty() === false) {
-          return import_lib125.MGPValidation.failure(KamisadoFailure.MOVE_BLOCKED());
+          return import_lib128.MGPValidation.failure(KamisadoFailure.MOVE_BLOCKED());
         }
       }
-      return import_lib125.MGPValidation.SUCCESS;
+      return import_lib128.MGPValidation.SUCCESS;
     } else {
       return this.isLegalPass(state);
     }
   }
   static isLegalPass(state) {
     if (this.mustPass(state) && state.alreadyPassed === false) {
-      return import_lib125.MGPValidation.SUCCESS;
+      return import_lib128.MGPValidation.SUCCESS;
     } else {
-      return import_lib125.MGPValidation.failure(RulesFailure.CANNOT_PASS());
+      return import_lib128.MGPValidation.failure(RulesFailure.CANNOT_PASS());
     }
   }
   // Returns the next coord that plays
   nextCoordToPlay(state, colorToPlay) {
-    return import_lib125.MGPOptional.ofNullable(state.allPieceCoords().find((c) => {
+    return import_lib128.MGPOptional.ofNullable(state.allPieceCoords().find((c) => {
       const piece = state.getPieceAt(c);
       return piece.player === state.getCurrentOpponent() && piece.color === colorToPlay;
     }));
@@ -21042,7 +21438,7 @@ var KamisadoRules = class _KamisadoRules extends Rules {
 };
 
 // src/app/games/kamisado/KamisadoTutorial.ts
-var import_lib126 = __toESM(require_dist());
+var import_lib129 = __toESM(require_dist());
 var __4 = KamisadoPiece.EMPTY;
 var or = KamisadoPiece.ZERO.ORANGE;
 var Or = KamisadoPiece.ONE.ORANGE;
@@ -21065,7 +21461,7 @@ var KamisadoTutorial = class extends Tutorial {
     TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`At Kamisado, there are two ways to win the game:
         either by moving one of your pieces on the opponent's starting line,
         or by forcing the opponent to make a move that blocks the entire game.
-        Here, Dark wins because its brown piece is on Light's starting line, on the top left.`, new KamisadoState(5, KamisadoColor.ORANGE, import_lib126.MGPOptional.empty(), false, [
+        Here, Dark wins because its brown piece is on Light's starting line, on the top left.`, new KamisadoState(5, KamisadoColor.ORANGE, import_lib129.MGPOptional.empty(), false, [
       [br, Bl, Pu, Pi, Ye, Re, Gr, Br],
       [__4, __4, __4, __4, __4, __4, __4, __4],
       [__4, __4, __4, __4, __4, __4, __4, __4],
@@ -21084,7 +21480,7 @@ var KamisadoTutorial = class extends Tutorial {
         of the square upon which the last move ended.
         Here, the last move ended on the pink square, hence the pink piece must move.
         It is already selected, you do not have to click on it.<br/><br/>
-        You're playing Light, move your piece on a blue square.`, new KamisadoState(1, KamisadoColor.PINK, import_lib126.MGPOptional.of(new Coord(3, 0)), false, [
+        You're playing Light, move your piece on a blue square.`, new KamisadoState(1, KamisadoColor.PINK, import_lib129.MGPOptional.of(new Coord(3, 0)), false, [
       [Or, Bl, Pu, Pi, Ye, Re, Gr, Br],
       [__4, __4, __4, __4, __4, __4, __4, __4],
       [__4, __4, __4, __4, __4, __4, __4, __4],
@@ -21099,7 +21495,7 @@ var KamisadoTutorial = class extends Tutorial {
     ], TutorialStepMessage.CONGRATULATIONS(), $localize`You have not moved your pink piece on a blue square!`).withPreviousMove(KamisadoMove.of(new Coord(6, 7), new Coord(6, 5))),
     TutorialStep.informational($localize`Stuck situation`, $localize`Dark moved to another pink square, hence you have to move your pink piece again.
         However, your pink piece is stuck! In this case, you must pass your turn.
-        Dark will now have to play by moving its pink piece.`, new KamisadoState(1, KamisadoColor.PINK, import_lib126.MGPOptional.of(new Coord(3, 6)), false, [
+        Dark will now have to play by moving its pink piece.`, new KamisadoState(1, KamisadoColor.PINK, import_lib129.MGPOptional.of(new Coord(3, 6)), false, [
       [Or, Bl, Pu, __4, Ye, Re, Gr, Br],
       [__4, __4, __4, __4, __4, __4, __4, __4],
       [__4, __4, __4, __4, __4, __4, __4, __4],
@@ -21113,7 +21509,7 @@ var KamisadoTutorial = class extends Tutorial {
         In other words, if a player forces its opponent to move a piece that the opponent cannot move,
         and the player cannot move its own piece of the same color, then that player loses.
         Here, you're playing Dark and you can force your opponent to create such a situation, hence you can force your opponent to lose!<br/><br/>
-        You're playing Dark, analyze the board and make the winning move.`, new KamisadoState(2, KamisadoColor.RED, import_lib126.MGPOptional.of(new Coord(2, 4)), false, [
+        You're playing Dark, analyze the board and make the winning move.`, new KamisadoState(2, KamisadoColor.RED, import_lib129.MGPOptional.of(new Coord(2, 4)), false, [
       [__4, Bl, Pu, __4, __4, Re, __4, __4],
       [__4, __4, __4, Ye, __4, __4, __4, __4],
       [__4, __4, __4, Pi, __4, Pu, __4, __4],
@@ -21132,7 +21528,7 @@ var KamisadoTutorial = class extends Tutorial {
 };
 
 // src/app/games/kamisado/kamisado.component.ts
-var import_lib128 = __toESM(require_dist());
+var import_lib131 = __toESM(require_dist());
 
 // src/app/games/kamisado/KamisadoHeuristic.ts
 var KamisadoHeuristic = class extends PlayerMetricHeuristic {
@@ -21144,17 +21540,17 @@ var KamisadoHeuristic = class extends PlayerMetricHeuristic {
 };
 
 // src/app/games/kamisado/KamisadoMoveGenerator.ts
-var import_lib127 = __toESM(require_dist());
+var import_lib130 = __toESM(require_dist());
 var KamisadoMoveGenerator = class extends MoveGenerator {
   getListMoves(node, _config) {
     const state = node.gameState;
     const movablePieces = KamisadoRules.getMovablePieces(state);
     if (movablePieces.length === 0) {
-      import_lib127.Utils.assert(state.alreadyPassed === false, "getListMovesFromState should not be called once game is ended.");
+      import_lib130.Utils.assert(state.alreadyPassed === false, "getListMovesFromState should not be called once game is ended.");
       return [KamisadoMove.PASS];
     } else {
       const moves = this.getListMovesFromNonBlockedState(state, movablePieces);
-      import_lib127.ArrayUtils.sortByDescending(moves, (move) => move.getDistance());
+      import_lib130.ArrayUtils.sortByDescending(moves, (move) => move.getDistance());
       return moves;
     }
   }
@@ -21288,9 +21684,9 @@ function KamisadoComponent_Conditional_4_Template(rf, ctx) {
 }
 var KamisadoComponent = class _KamisadoComponent extends RectangularGameComponent {
   UNOCCUPIED = KamisadoPiece.EMPTY;
-  lastMove = import_lib128.MGPOptional.empty();
-  lastPieceMove = import_lib128.MGPOptional.empty();
-  chosen = import_lib128.MGPOptional.empty();
+  lastMove = import_lib131.MGPOptional.empty();
+  lastPieceMove = import_lib131.MGPOptional.empty();
+  chosen = import_lib131.MGPOptional.empty();
   chosenAutomatically = false;
   constructor() {
     super();
@@ -21322,7 +21718,7 @@ var KamisadoComponent = class _KamisadoComponent extends RectangularGameComponen
       const isFinished = this.rules.getGameStatus(this.node) !== GameStatus.ONGOING;
       if (this.canPass || state.coordToPlay.isAbsent() || isFinished) {
         this.chosenAutomatically = false;
-        this.chosen = import_lib128.MGPOptional.empty();
+        this.chosen = import_lib131.MGPOptional.empty();
       } else {
         this.chosenAutomatically = true;
         this.chosen = state.coordToPlay;
@@ -21332,16 +21728,16 @@ var KamisadoComponent = class _KamisadoComponent extends RectangularGameComponen
   showLastMove(move) {
     return __async(this, null, function* () {
       if (KamisadoMove.isPiece(move)) {
-        this.lastPieceMove = import_lib128.MGPOptional.of(move);
+        this.lastPieceMove = import_lib131.MGPOptional.of(move);
       }
     });
   }
   hideLastMove() {
-    this.lastPieceMove = import_lib128.MGPOptional.empty();
+    this.lastPieceMove = import_lib131.MGPOptional.empty();
   }
   pass() {
     return __async(this, null, function* () {
-      import_lib128.Utils.assert(this.canPass, "KamisadoComponent: pass() must be called only if canPass is true");
+      import_lib131.Utils.assert(this.canPass, "KamisadoComponent: pass() must be called only if canPass is true");
       return this.chooseMove(KamisadoMove.PASS);
     });
   }
@@ -21366,8 +21762,8 @@ var KamisadoComponent = class _KamisadoComponent extends RectangularGameComponen
           if (this.chosenAutomatically) {
             return this.cancelMove(KamisadoFailure.PLAY_WITH_SELECTED_PIECE());
           } else {
-            this.chosen = import_lib128.MGPOptional.of(clickedCoord);
-            return import_lib128.MGPValidation.SUCCESS;
+            this.chosen = import_lib131.MGPOptional.of(clickedCoord);
+            return import_lib131.MGPValidation.SUCCESS;
           }
         } else {
           return yield this.chooseDestination(x2, y);
@@ -21382,8 +21778,8 @@ var KamisadoComponent = class _KamisadoComponent extends RectangularGameComponen
       if (piece.belongsTo(opponent)) {
         return this.cancelMove(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
       }
-      this.chosen = import_lib128.MGPOptional.of(new Coord(x2, y));
-      return import_lib128.MGPValidation.SUCCESS;
+      this.chosen = import_lib131.MGPOptional.of(new Coord(x2, y));
+      return import_lib131.MGPValidation.SUCCESS;
     });
   }
   chooseDestination(x2, y) {
@@ -21396,7 +21792,7 @@ var KamisadoComponent = class _KamisadoComponent extends RectangularGameComponen
   }
   cancelMoveAttempt() {
     if (this.chosenAutomatically === false) {
-      this.chosen = import_lib128.MGPOptional.empty();
+      this.chosen = import_lib131.MGPOptional.empty();
     }
   }
   static \u0275fac = function KamisadoComponent_Factory(__ngFactoryType__) {
@@ -21433,7 +21829,7 @@ var KamisadoComponent = class _KamisadoComponent extends RectangularGameComponen
 })();
 
 // src/app/games/lines-of-action/LinesOfActionRules.ts
-var import_lib130 = __toESM(require_dist());
+var import_lib133 = __toESM(require_dist());
 
 // src/app/games/lines-of-action/LinesOfActionFailure.ts
 var LinesOfActionFailure = class {
@@ -21443,7 +21839,7 @@ var LinesOfActionFailure = class {
 };
 
 // src/app/games/lines-of-action/LinesOfActionMove.ts
-var import_lib129 = __toESM(require_dist());
+var import_lib132 = __toESM(require_dist());
 
 // src/app/games/lines-of-action/LinesOfActionState.ts
 var LinesOfActionState = class _LinesOfActionState extends PlayerOrNoneGameStateWithTable {
@@ -21461,15 +21857,15 @@ var LinesOfActionMove = class _LinesOfActionMove extends MoveCoordToCoord {
   static from(start, end) {
     const directionOptional = Ordinal.factory.fromMove(start, end);
     if (directionOptional.isFailure()) {
-      return import_lib129.MGPFallible.failure(directionOptional.getReason());
+      return import_lib132.MGPFallible.failure(directionOptional.getReason());
     }
     if (start.isNotInRange(LinesOfActionState.SIZE, LinesOfActionState.SIZE)) {
-      return import_lib129.MGPFallible.failure("start coord is not in range");
+      return import_lib132.MGPFallible.failure("start coord is not in range");
     }
     if (end.isNotInRange(LinesOfActionState.SIZE, LinesOfActionState.SIZE)) {
-      return import_lib129.MGPFallible.failure("end coord is not in range");
+      return import_lib132.MGPFallible.failure("end coord is not in range");
     }
-    return import_lib129.MGPFallible.success(new _LinesOfActionMove(start, end, directionOptional.get()));
+    return import_lib132.MGPFallible.success(new _LinesOfActionMove(start, end, directionOptional.get()));
   }
   constructor(start, end, direction) {
     super(start, end);
@@ -21483,26 +21879,26 @@ var LinesOfActionMove = class _LinesOfActionMove extends MoveCoordToCoord {
 
 // src/app/games/lines-of-action/LinesOfActionRules.ts
 var LinesOfActionRules = class _LinesOfActionRules extends Rules {
-  static singleton = import_lib130.MGPOptional.empty();
+  static singleton = import_lib133.MGPOptional.empty();
   static get() {
     if (_LinesOfActionRules.singleton.isAbsent()) {
-      _LinesOfActionRules.singleton = import_lib130.MGPOptional.of(new _LinesOfActionRules());
+      _LinesOfActionRules.singleton = import_lib133.MGPOptional.of(new _LinesOfActionRules());
     }
     return _LinesOfActionRules.singleton.get();
   }
   getInitialState() {
-    const _31 = PlayerOrNone.NONE;
-    const O26 = PlayerOrNone.ZERO;
-    const X26 = PlayerOrNone.ONE;
+    const _32 = PlayerOrNone.NONE;
+    const O27 = PlayerOrNone.ZERO;
+    const X27 = PlayerOrNone.ONE;
     const board = [
-      [_31, O26, O26, O26, O26, O26, O26, _31],
-      [X26, _31, _31, _31, _31, _31, _31, X26],
-      [X26, _31, _31, _31, _31, _31, _31, X26],
-      [X26, _31, _31, _31, _31, _31, _31, X26],
-      [X26, _31, _31, _31, _31, _31, _31, X26],
-      [X26, _31, _31, _31, _31, _31, _31, X26],
-      [X26, _31, _31, _31, _31, _31, _31, X26],
-      [_31, O26, O26, O26, O26, O26, O26, _31]
+      [_32, O27, O27, O27, O27, O27, O27, _32],
+      [X27, _32, _32, _32, _32, _32, _32, X27],
+      [X27, _32, _32, _32, _32, _32, _32, X27],
+      [X27, _32, _32, _32, _32, _32, _32, X27],
+      [X27, _32, _32, _32, _32, _32, _32, X27],
+      [X27, _32, _32, _32, _32, _32, _32, X27],
+      [X27, _32, _32, _32, _32, _32, _32, X27],
+      [_32, O27, O27, O27, O27, O27, O27, _32]
     ];
     return new LinesOfActionState(board, 0);
   }
@@ -21525,7 +21921,7 @@ var LinesOfActionRules = class _LinesOfActionRules extends Rules {
     const stack = [pos];
     const player = state.getPieceAt(pos);
     while (stack.length > 0) {
-      const coord = import_lib130.Utils.getNonNullable(stack.pop());
+      const coord = import_lib133.Utils.getNonNullable(stack.pop());
       if (groups[coord.y][coord.x] === -1) {
         const content = state.getPieceAt(coord);
         if (content === player) {
@@ -21551,21 +21947,21 @@ var LinesOfActionRules = class _LinesOfActionRules extends Rules {
   static isLegal(move, state) {
     const piece = state.getPieceAt(move.getStart());
     if (piece.isNone()) {
-      return import_lib130.MGPValidation.failure(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_EMPTY());
+      return import_lib133.MGPValidation.failure(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_EMPTY());
     }
     if (piece === state.getCurrentOpponent()) {
-      return import_lib130.MGPValidation.failure(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
+      return import_lib133.MGPValidation.failure(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
     }
     if (move.getDistance() !== this.numberOfPiecesOnLine(state, move.getStart(), move.direction)) {
-      return import_lib130.MGPValidation.failure(LinesOfActionFailure.INVALID_MOVE_LENGTH());
+      return import_lib133.MGPValidation.failure(LinesOfActionFailure.INVALID_MOVE_LENGTH());
     }
     if (move.getJumpedOverCoords().some((c) => state.getPieceAt(c) === state.getCurrentOpponent())) {
-      return import_lib130.MGPValidation.failure(LinesOfActionFailure.CANNOT_JUMP_OVER_OPPONENT());
+      return import_lib133.MGPValidation.failure(LinesOfActionFailure.CANNOT_JUMP_OVER_OPPONENT());
     }
     if (state.getPieceAt(move.getEnd()) === state.getCurrentPlayer()) {
-      return import_lib130.MGPValidation.failure(RulesFailure.SHOULD_LAND_ON_EMPTY_OR_OPPONENT_SPACE());
+      return import_lib133.MGPValidation.failure(RulesFailure.SHOULD_LAND_ON_EMPTY_OR_OPPONENT_SPACE());
     }
-    return import_lib130.MGPValidation.SUCCESS;
+    return import_lib133.MGPValidation.SUCCESS;
   }
   isLegal(move, state) {
     return _LinesOfActionRules.isLegal(move, state);
@@ -21602,7 +21998,7 @@ var LinesOfActionRules = class _LinesOfActionRules extends Rules {
       case Ordinal.DOWN_LEFT:
         return [new Coord(Math.max(0, pos.x + pos.y - 7), Math.min(7, pos.x + pos.y)), Ordinal.UP_RIGHT];
       default:
-        import_lib130.Utils.expectToBeMultiple(dir, [Ordinal.UP_LEFT, Ordinal.DOWN_RIGHT]);
+        import_lib133.Utils.expectToBeMultiple(dir, [Ordinal.UP_LEFT, Ordinal.DOWN_RIGHT]);
         return [
           new Coord(pos.x - Math.min(pos.x, pos.y), pos.y - Math.min(pos.x, pos.y)),
           Ordinal.DOWN_RIGHT
@@ -21614,13 +22010,13 @@ var LinesOfActionRules = class _LinesOfActionRules extends Rules {
     const groupsZero = groups.get(Player.ZERO);
     const groupsOne = groups.get(Player.ONE);
     if (groupsZero === 1 && groupsOne === 1) {
-      return import_lib130.MGPOptional.of(PlayerOrNone.NONE);
+      return import_lib133.MGPOptional.of(PlayerOrNone.NONE);
     } else if (groupsZero === 1) {
-      return import_lib130.MGPOptional.of(Player.ZERO);
+      return import_lib133.MGPOptional.of(Player.ZERO);
     } else if (groupsOne === 1) {
-      return import_lib130.MGPOptional.of(Player.ONE);
+      return import_lib133.MGPOptional.of(Player.ONE);
     } else {
-      return import_lib130.MGPOptional.empty();
+      return import_lib133.MGPOptional.empty();
     }
   }
   static possibleTargets(state, start) {
@@ -21654,23 +22050,23 @@ var LinesOfActionRules = class _LinesOfActionRules extends Rules {
 };
 
 // src/app/games/lines-of-action/LinesOfActionTutorial.ts
-var import_lib131 = __toESM(require_dist());
-var _13 = PlayerOrNone.NONE;
-var O12 = PlayerOrNone.ZERO;
-var X11 = PlayerOrNone.ONE;
+var import_lib134 = __toESM(require_dist());
+var _14 = PlayerOrNone.NONE;
+var O13 = PlayerOrNone.ZERO;
+var X12 = PlayerOrNone.ONE;
 var LinesOfActionTutorial = class {
   tutorial = [
     TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`At Lines of Actions, the goal is to group your pieces contiguously, orthogonally and/or diagonally.
         Here, Dark wins the game:
         Dark's pieces are forming a single group, while Light's pieces form three groups.`, new LinesOfActionState([
-      [_13, _13, _13, _13, _13, _13, _13, _13],
-      [X11, _13, _13, _13, O12, _13, _13, X11],
-      [_13, _13, O12, O12, X11, _13, _13, _13],
-      [_13, _13, _13, O12, _13, _13, _13, _13],
-      [_13, _13, _13, _13, _13, _13, _13, _13],
-      [_13, _13, _13, _13, _13, _13, _13, _13],
-      [_13, _13, _13, _13, _13, _13, _13, _13],
-      [_13, _13, _13, _13, _13, _13, _13, _13]
+      [_14, _14, _14, _14, _14, _14, _14, _14],
+      [X12, _14, _14, _14, O13, _14, _14, X12],
+      [_14, _14, O13, O13, X12, _14, _14, _14],
+      [_14, _14, _14, O13, _14, _14, _14, _14],
+      [_14, _14, _14, _14, _14, _14, _14, _14],
+      [_14, _14, _14, _14, _14, _14, _14, _14],
+      [_14, _14, _14, _14, _14, _14, _14, _14],
+      [_14, _14, _14, _14, _14, _14, _14, _14]
     ], 0)),
     TutorialStep.anyMove($localize`Initial board and initial move`, $localize`Here is the initial board.
          Moves can be made orthogonally or diagonally.
@@ -21680,14 +22076,14 @@ var LinesOfActionTutorial = class {
     TutorialStep.fromMove($localize`Jumping`, $localize`During a move, it is possible to jump above your own pieces.
         But it is forbidden to jump over the opponent's pieces.<br/><br/>
         You're playing Dark, make a jump over one of your pieces on the following board.`, new LinesOfActionState([
-      [_13, _13, _13, _13, _13, _13, _13, _13],
-      [_13, _13, X11, O12, O12, _13, _13, _13],
-      [_13, _13, _13, _13, _13, _13, _13, _13],
-      [_13, _13, _13, _13, _13, _13, _13, _13],
-      [_13, _13, _13, _13, _13, _13, _13, _13],
-      [_13, _13, _13, _13, _13, _13, _13, _13],
-      [_13, _13, _13, _13, _13, _13, _13, X11],
-      [_13, _13, _13, _13, _13, _13, _13, O12]
+      [_14, _14, _14, _14, _14, _14, _14, _14],
+      [_14, _14, X12, O13, O13, _14, _14, _14],
+      [_14, _14, _14, _14, _14, _14, _14, _14],
+      [_14, _14, _14, _14, _14, _14, _14, _14],
+      [_14, _14, _14, _14, _14, _14, _14, _14],
+      [_14, _14, _14, _14, _14, _14, _14, _14],
+      [_14, _14, _14, _14, _14, _14, _14, X12],
+      [_14, _14, _14, _14, _14, _14, _14, O13]
     ], 0), [LinesOfActionMove.from(new Coord(3, 1), new Coord(6, 1)).get()], TutorialStepMessage.CONGRATULATIONS(), $localize`Failed. You did not jump over one of your pieces.`),
     TutorialStep.fromMove($localize`Moving`, $localize`Here is a different board. Pick the dark piece in the middle (line 4, column 4)
         and observe its possible moves.
@@ -21700,14 +22096,14 @@ var LinesOfActionTutorial = class {
                 On the other diagonal, there are too many pieces to end the move on the board.</li>
         </ul><br/>
         You're playing Dark, make one of these moves.`, new LinesOfActionState([
-      [_13, _13, _13, _13, _13, _13, X11, _13],
-      [_13, _13, _13, _13, _13, O12, _13, _13],
-      [_13, _13, _13, _13, X11, _13, _13, _13],
-      [_13, _13, _13, O12, _13, _13, _13, _13],
-      [_13, _13, _13, _13, _13, _13, _13, X11],
-      [_13, _13, _13, _13, _13, X11, _13, X11],
-      [_13, _13, _13, O12, _13, _13, X11, X11],
-      [_13, _13, _13, O12, _13, _13, _13, _13]
+      [_14, _14, _14, _14, _14, _14, X12, _14],
+      [_14, _14, _14, _14, _14, O13, _14, _14],
+      [_14, _14, _14, _14, X12, _14, _14, _14],
+      [_14, _14, _14, O13, _14, _14, _14, _14],
+      [_14, _14, _14, _14, _14, _14, _14, X12],
+      [_14, _14, _14, _14, _14, X12, _14, X12],
+      [_14, _14, _14, O13, _14, _14, X12, X12],
+      [_14, _14, _14, O13, _14, _14, _14, _14]
     ], 0), [
       LinesOfActionMove.from(new Coord(3, 3), new Coord(3, 0)).get(),
       LinesOfActionMove.from(new Coord(3, 3), new Coord(0, 0)).get(),
@@ -21719,38 +22115,38 @@ var LinesOfActionTutorial = class {
         Watch out, having less pieces at Lines of Action makes a victory easier, as there are less pieces to regroup!
         If a player has only one piece, that player wins the game.<br/><br/>
         On the following board, try to capture one piece with Dark.`, new LinesOfActionState([
-      [_13, O12, _13, O12, O12, O12, O12, _13],
-      [X11, _13, _13, _13, _13, _13, _13, X11],
-      [_13, _13, O12, _13, X11, _13, _13, _13],
-      [X11, _13, _13, _13, _13, _13, _13, X11],
-      [X11, _13, _13, _13, _13, _13, _13, X11],
-      [X11, _13, _13, _13, _13, _13, _13, X11],
-      [X11, _13, _13, _13, _13, _13, _13, X11],
-      [_13, O12, O12, O12, O12, O12, O12, _13]
+      [_14, O13, _14, O13, O13, O13, O13, _14],
+      [X12, _14, _14, _14, _14, _14, _14, X12],
+      [_14, _14, O13, _14, X12, _14, _14, _14],
+      [X12, _14, _14, _14, _14, _14, _14, X12],
+      [X12, _14, _14, _14, _14, _14, _14, X12],
+      [X12, _14, _14, _14, _14, _14, _14, X12],
+      [X12, _14, _14, _14, _14, _14, _14, X12],
+      [_14, O13, O13, O13, O13, O13, O13, _14]
     ], 0), LinesOfActionMove.from(new Coord(2, 2), new Coord(4, 2)).get(), (move, previous, _result) => {
       if (previous.getPieceAt(move.getEnd()) === PlayerOrNone.ONE) {
-        return import_lib131.MGPValidation.SUCCESS;
+        return import_lib134.MGPValidation.SUCCESS;
       } else {
-        return import_lib131.MGPValidation.failure(TutorialStepMessage.FAILED_TRY_AGAIN());
+        return import_lib134.MGPValidation.failure(TutorialStepMessage.FAILED_TRY_AGAIN());
       }
     }, TutorialStepMessage.CONGRATULATIONS()),
     TutorialStep.fromMove($localize`Tie`, $localize`In the special case where a move ends up connecting all pieces of both player, simultaneously,
         then the game ends up with a tie.<br/><br/>
         You're playing Dark, force the tie in one move.`, new LinesOfActionState([
-      [_13, _13, _13, _13, _13, _13, _13, _13],
-      [_13, _13, _13, _13, _13, _13, _13, _13],
-      [O12, _13, _13, O12, X11, O12, _13, _13],
-      [_13, _13, _13, O12, _13, _13, _13, X11],
-      [_13, _13, _13, _13, _13, _13, _13, X11],
-      [_13, _13, _13, _13, _13, _13, _13, X11],
-      [_13, _13, _13, _13, _13, _13, _13, X11],
-      [_13, _13, _13, _13, _13, _13, _13, _13]
+      [_14, _14, _14, _14, _14, _14, _14, _14],
+      [_14, _14, _14, _14, _14, _14, _14, _14],
+      [O13, _14, _14, O13, X12, O13, _14, _14],
+      [_14, _14, _14, O13, _14, _14, _14, X12],
+      [_14, _14, _14, _14, _14, _14, _14, X12],
+      [_14, _14, _14, _14, _14, _14, _14, X12],
+      [_14, _14, _14, _14, _14, _14, _14, X12],
+      [_14, _14, _14, _14, _14, _14, _14, _14]
     ], 0), [LinesOfActionMove.from(new Coord(0, 2), new Coord(4, 2)).get()], TutorialStepMessage.CONGRATULATIONS(), TutorialStepMessage.FAILED_TRY_AGAIN())
   ];
 };
 
 // src/app/games/lines-of-action/lines-of-action.component.ts
-var import_lib132 = __toESM(require_dist());
+var import_lib135 = __toESM(require_dist());
 
 // src/app/games/lines-of-action/LinesOfActionHeuristic.ts
 var LinesOfActionHeuristic = class extends PlayerMetricHeuristic {
@@ -21793,7 +22189,7 @@ var LinesOfActionMinimax = class extends Minimax {
 };
 
 // src/app/games/lines-of-action/lines-of-action.component.ts
-var _forTrack017 = ($index, $item) => $item.toString();
+var _forTrack018 = ($index, $item) => $item.toString();
 function LinesOfActionComponent_For_2_For_2_Conditional_3_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
@@ -21871,9 +22267,9 @@ var LinesOfActionComponent = class _LinesOfActionComponent extends RectangularGa
   INDICATOR_SIZE = 20;
   EMPTY = PlayerOrNone.NONE;
   targets = [];
-  selected = import_lib132.MGPOptional.empty();
+  selected = import_lib135.MGPOptional.empty();
   lastMoved = [];
-  captured = import_lib132.MGPOptional.empty();
+  captured = import_lib135.MGPOptional.empty();
   constructor() {
     super();
     this.setRulesAndNode("LinesOfAction");
@@ -21919,12 +22315,12 @@ var LinesOfActionComponent = class _LinesOfActionComponent extends RectangularGa
       } else if (piece === this.getState().getCurrentOpponent()) {
         return this.cancelMove(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
       }
-      this.selected = import_lib132.MGPOptional.of(coord);
+      this.selected = import_lib135.MGPOptional.of(coord);
       this.targets = LinesOfActionRules.possibleTargets(this.getState(), this.selected.get()).toList();
       if (this.targets.length === 0) {
         return this.cancelMove(LinesOfActionFailure.PIECE_CANNOT_MOVE());
       }
-      return import_lib132.MGPValidation.SUCCESS;
+      return import_lib135.MGPValidation.SUCCESS;
     });
   }
   updateBoard(_triggerAnimation) {
@@ -21935,7 +22331,7 @@ var LinesOfActionComponent = class _LinesOfActionComponent extends RectangularGa
   showLastMove(move) {
     return __async(this, null, function* () {
       if (this.getPreviousState().getPieceAt(move.getEnd()).isPlayer()) {
-        this.captured = import_lib132.MGPOptional.of(move.getEnd());
+        this.captured = import_lib135.MGPOptional.of(move.getEnd());
       }
       const lastMoveStart = move.getStart();
       const lastMoveEnd = move.getEnd();
@@ -21943,11 +22339,11 @@ var LinesOfActionComponent = class _LinesOfActionComponent extends RectangularGa
     });
   }
   hideLastMove() {
-    this.captured = import_lib132.MGPOptional.empty();
+    this.captured = import_lib135.MGPOptional.empty();
     this.lastMoved = [];
   }
   cancelMoveAttempt() {
-    this.selected = import_lib132.MGPOptional.empty();
+    this.selected = import_lib135.MGPOptional.empty();
     this.targets = [];
   }
   getSquareClasses(x2, y) {
@@ -21977,7 +22373,7 @@ var LinesOfActionComponent = class _LinesOfActionComponent extends RectangularGa
       \u0275\u0275namespaceSVG();
       \u0275\u0275elementStart(0, "svg", 0);
       \u0275\u0275repeaterCreate(1, LinesOfActionComponent_For_2_Template, 3, 0, ":svg:g", null, \u0275\u0275repeaterTrackByIndex);
-      \u0275\u0275repeaterCreate(3, LinesOfActionComponent_For_4_Template, 1, 4, ":svg:rect", 1, _forTrack017);
+      \u0275\u0275repeaterCreate(3, LinesOfActionComponent_For_4_Template, 1, 4, ":svg:rect", 1, _forTrack018);
       \u0275\u0275elementEnd();
     }
     if (rf & 2) {
@@ -22000,7 +22396,7 @@ var LinesOfActionComponent = class _LinesOfActionComponent extends RectangularGa
 })();
 
 // src/app/games/lodestone/LodestoneRules.ts
-var import_lib134 = __toESM(require_dist());
+var import_lib137 = __toESM(require_dist());
 
 // src/app/games/lodestone/LodestoneFailure.ts
 var LodestoneFailure = class {
@@ -22127,7 +22523,7 @@ var LodestonePieceLodestone = class _LodestonePieceLodestone {
 };
 
 // src/app/games/lodestone/LodestoneState.ts
-var import_lib133 = __toESM(require_dist());
+var import_lib136 = __toESM(require_dist());
 var LodestonePressurePlateGroup = class _LodestonePressurePlateGroup {
   plates;
   static of(sizes) {
@@ -22155,10 +22551,10 @@ var LodestonePressurePlateGroup = class _LodestonePressurePlateGroup {
   getCurrentPlate() {
     for (const plate of this.plates) {
       if (plate.getRemainingSpaces() > 0) {
-        return import_lib133.MGPOptional.of(plate);
+        return import_lib136.MGPOptional.of(plate);
       }
     }
-    return import_lib133.MGPOptional.empty();
+    return import_lib136.MGPOptional.empty();
   }
   getFollowingPlates() {
     const nextPlates = [];
@@ -22190,11 +22586,11 @@ var LodestonePressurePlateGroup = class _LodestonePressurePlateGroup {
       return this;
     }
     const remainingSpaces = this.getGroupRemainingSpaces();
-    import_lib133.Utils.assert(quantity <= remainingSpaces, `should never put more pieces than the plate can support (${remainingSpaces} > ${quantity})`);
+    import_lib136.Utils.assert(quantity <= remainingSpaces, `should never put more pieces than the plate can support (${remainingSpaces} > ${quantity})`);
     const fullPlates = this.getCrumbledPlates();
     const currentPlate = this.getCurrentPlate().get();
     const nextPlates = this.getFollowingPlates();
-    const newPieces = import_lib133.ArrayUtils.copy(currentPlate.getPiecesCopy());
+    const newPieces = import_lib136.ArrayUtils.copy(currentPlate.getPiecesCopy());
     const maxPiecesToPut = Math.min(quantity, currentPlate.getRemainingSpaces());
     for (let i2 = 0; i2 < maxPiecesToPut; i2++) {
       newPieces.push(LodestonePiecePlayer.of(player));
@@ -22234,7 +22630,7 @@ var LodestonePressurePlate = class {
     return this.width - this.pieces.length;
   }
   getPiecesCopy() {
-    return import_lib133.ArrayUtils.copy(this.pieces);
+    return import_lib136.ArrayUtils.copy(this.pieces);
   }
 };
 var LodestonePressurePlates;
@@ -22300,17 +22696,17 @@ var LodestoneState = class _LodestoneState extends GameStateWithTable {
     const lodestonePosition = this.lodestones.get(currentPlayer);
     if (lodestonePosition.isPresent()) {
       const piece = this.getPieceAt(lodestonePosition.get());
-      import_lib133.Utils.assert(piece.isLodestone(), "Piece must be lodestone (invariant from LodestoneState)" + lodestonePosition.get());
+      import_lib136.Utils.assert(piece.isLodestone(), "Piece must be lodestone (invariant from LodestoneState)" + lodestonePosition.get());
       const lodestone = piece;
       const currentDirection = lodestone.direction;
       switch (currentDirection) {
         case "push":
-          return import_lib133.MGPOptional.of("pull");
+          return import_lib136.MGPOptional.of("pull");
         case "pull":
-          return import_lib133.MGPOptional.of("push");
+          return import_lib136.MGPOptional.of("push");
       }
     } else {
-      return import_lib133.MGPOptional.empty();
+      return import_lib136.MGPOptional.empty();
     }
   }
   coordIsOwnedBy(coord, player) {
@@ -22325,7 +22721,7 @@ var LodestoneState = class _LodestoneState extends GameStateWithTable {
 
 // src/app/games/lodestone/LodestoneRules.ts
 var LodestoneRules = class _LodestoneRules extends Rules {
-  static THREATENED_COORD_RANGE = import_lib134.MGPMap.from({
+  static THREATENED_COORD_RANGE = import_lib137.MGPMap.from({
     top: {
       start: (indexPlate) => new Coord(0, indexPlate),
       direction: Ordinal.RIGHT
@@ -22343,29 +22739,29 @@ var LodestoneRules = class _LodestoneRules extends Rules {
       direction: Ordinal.DOWN
     }
   });
-  static singleton = import_lib134.MGPOptional.empty();
+  static singleton = import_lib137.MGPOptional.empty();
   static get() {
     if (_LodestoneRules.singleton.isAbsent()) {
-      _LodestoneRules.singleton = import_lib134.MGPOptional.of(new _LodestoneRules());
+      _LodestoneRules.singleton = import_lib137.MGPOptional.of(new _LodestoneRules());
     }
     return _LodestoneRules.singleton.get();
   }
   getInitialState() {
-    const _31 = LodestonePieceNone.EMPTY;
-    const O26 = LodestonePiecePlayer.ZERO;
-    const X26 = LodestonePiecePlayer.ONE;
+    const _32 = LodestonePieceNone.EMPTY;
+    const O27 = LodestonePiecePlayer.ZERO;
+    const X27 = LodestonePiecePlayer.ONE;
     const board = [
-      [_31, _31, O26, X26, O26, X26, _31, _31],
-      [_31, O26, X26, O26, X26, O26, X26, _31],
-      [O26, X26, O26, X26, O26, X26, O26, X26],
-      [X26, O26, X26, _31, _31, O26, X26, O26],
-      [O26, X26, O26, _31, _31, X26, O26, X26],
-      [X26, O26, X26, O26, X26, O26, X26, O26],
-      [_31, X26, O26, X26, O26, X26, O26, _31],
-      [_31, _31, X26, O26, X26, O26, _31, _31]
+      [_32, _32, O27, X27, O27, X27, _32, _32],
+      [_32, O27, X27, O27, X27, O27, X27, _32],
+      [O27, X27, O27, X27, O27, X27, O27, X27],
+      [X27, O27, X27, _32, _32, O27, X27, O27],
+      [O27, X27, O27, _32, _32, X27, O27, X27],
+      [X27, O27, X27, O27, X27, O27, X27, O27],
+      [_32, X27, O27, X27, O27, X27, O27, _32],
+      [_32, _32, X27, O27, X27, O27, _32, _32]
     ];
     const plates = LodestonePressurePlates.getInitialLodestonePressurePlates([5, 3]);
-    return new LodestoneState(board, 0, new import_lib134.MGPMap(), plates);
+    return new LodestoneState(board, 0, new import_lib137.MGPMap(), plates);
   }
   applyLegalMove(move, state, _config, infos) {
     const currentPlayer = state.getCurrentPlayer();
@@ -22415,21 +22811,21 @@ var LodestoneRules = class _LodestoneRules extends Rules {
   isLegal(move, state) {
     const validityBeforeCaptures = this.isLegalWithoutCaptures(state, move.coord, move.direction);
     if (validityBeforeCaptures.isFailure()) {
-      return import_lib134.MGPFallible.failure(validityBeforeCaptures.getReason());
+      return import_lib137.MGPFallible.failure(validityBeforeCaptures.getReason());
     }
     const infos = this.applyMoveWithoutPlacingCaptures(state, move.coord, move);
     const numberOfCapturesInMove = move.captures.top + move.captures.bottom + move.captures.left + move.captures.right;
     const actualCaptures = Math.min(infos.captures.length, state.remainingSpaces());
     if (numberOfCapturesInMove !== actualCaptures) {
-      return import_lib134.MGPFallible.failure(LodestoneFailure.MUST_PLACE_CAPTURES_ON_PRESSURE_PLATES());
+      return import_lib137.MGPFallible.failure(LodestoneFailure.MUST_PLACE_CAPTURES_ON_PRESSURE_PLATES());
     }
     for (const position of LodestonePressurePlate.POSITIONS) {
       const pressurePlate = state.pressurePlates[position];
       if (pressurePlate.getGroupRemainingSpaces() < move.captures[position]) {
-        return import_lib134.MGPFallible.failure(LodestoneFailure.TOO_MANY_CAPTURES_ON_SAME_PRESSURE_PLATE());
+        return import_lib137.MGPFallible.failure(LodestoneFailure.TOO_MANY_CAPTURES_ON_SAME_PRESSURE_PLATE());
       }
     }
-    return import_lib134.MGPFallible.success(infos);
+    return import_lib137.MGPFallible.success(infos);
   }
   applyMoveWithoutPlacingCaptures(state, coord, lodestone) {
     let result;
@@ -22528,23 +22924,23 @@ var LodestoneRules = class _LodestoneRules extends Rules {
     const nextLodestoneDirection = state.nextLodestoneDirection();
     const validLodestoneDirection = nextLodestoneDirection.isAbsent() || nextLodestoneDirection.equalsValue(direction);
     if (validLodestoneDirection === false) {
-      return import_lib134.MGPValidation.failure(LodestoneFailure.MUST_FLIP_LODESTONE());
+      return import_lib137.MGPValidation.failure(LodestoneFailure.MUST_FLIP_LODESTONE());
     }
-    return import_lib134.MGPValidation.SUCCESS;
+    return import_lib137.MGPValidation.SUCCESS;
   }
   isTargetLegal(state, coord) {
     const targetContent = state.getPieceAt(coord);
     if (targetContent.isUnreachable()) {
-      return import_lib134.MGPValidation.failure(LodestoneFailure.TARGET_IS_CRUMBLED());
+      return import_lib137.MGPValidation.failure(LodestoneFailure.TARGET_IS_CRUMBLED());
     }
     if (targetContent.isPlayerPiece()) {
-      return import_lib134.MGPValidation.failure(RulesFailure.MUST_CLICK_ON_EMPTY_SQUARE());
+      return import_lib137.MGPValidation.failure(RulesFailure.MUST_CLICK_ON_EMPTY_SQUARE());
     }
     const player = state.getCurrentPlayer();
     if (targetContent.isLodestone() && targetContent.owner !== player) {
-      return import_lib134.MGPValidation.failure(RulesFailure.MUST_CLICK_ON_EMPTY_SQUARE());
+      return import_lib137.MGPValidation.failure(RulesFailure.MUST_CLICK_ON_EMPTY_SQUARE());
     }
-    return import_lib134.MGPValidation.SUCCESS;
+    return import_lib137.MGPValidation.SUCCESS;
   }
   getGameStatus(node) {
     const state = node.gameState;
@@ -22564,15 +22960,15 @@ var LodestoneRules = class _LodestoneRules extends Rules {
 };
 
 // src/app/games/lodestone/LodestoneTutorial.ts
-var import_lib136 = __toESM(require_dist());
+var import_lib139 = __toESM(require_dist());
 
 // src/app/games/lodestone/LodestoneMove.ts
-var import_lib135 = __toESM(require_dist());
+var import_lib138 = __toESM(require_dist());
 var LodestoneMove = class _LodestoneMove extends MoveCoord {
   direction;
   orientation;
   captures;
-  static encoder = new class extends import_lib135.Encoder {
+  static encoder = new class extends import_lib138.Encoder {
     encode(move) {
       return {
         coord: Coord.encoder.encode(move.coord),
@@ -22583,10 +22979,10 @@ var LodestoneMove = class _LodestoneMove extends MoveCoord {
     }
     decode(encoded) {
       const casted = encoded;
-      import_lib135.Utils.assert(casted.coord != null, "Invalid encoded LodestoneMove");
-      import_lib135.Utils.assert(casted.direction != null, "Invalid encoded LodestoneMove");
-      import_lib135.Utils.assert(casted.orientation != null, "Invalid encoded LodestoneMove");
-      import_lib135.Utils.assert(casted.captures != null, "Invalid encoded LodestoneMove");
+      import_lib138.Utils.assert(casted.coord != null, "Invalid encoded LodestoneMove");
+      import_lib138.Utils.assert(casted.direction != null, "Invalid encoded LodestoneMove");
+      import_lib138.Utils.assert(casted.orientation != null, "Invalid encoded LodestoneMove");
+      import_lib138.Utils.assert(casted.captures != null, "Invalid encoded LodestoneMove");
       return new _LodestoneMove(Coord.encoder.decode(casted.coord), casted.direction, casted.orientation, casted.captures);
     }
   }();
@@ -22621,11 +23017,11 @@ var LodestoneMove = class _LodestoneMove extends MoveCoord {
 };
 
 // src/app/games/lodestone/LodestoneTutorial.ts
-var N6 = LodestonePieceNone.UNREACHABLE;
-var _14 = LodestonePieceNone.EMPTY;
+var N7 = LodestonePieceNone.UNREACHABLE;
+var _15 = LodestonePieceNone.EMPTY;
 var A3 = LodestonePiecePlayer.ZERO;
 var B4 = LodestonePiecePlayer.ONE;
-var X12 = LodestonePieceLodestone.ONE_PUSH_ORTHOGONAL;
+var X13 = LodestonePieceLodestone.ONE_PUSH_ORTHOGONAL;
 var allPressurePlates = LodestoneState.INITIAL_PRESSURE_PLATES;
 var LodestoneTutorial = class extends Tutorial {
   tutorial = [
@@ -22636,58 +23032,58 @@ var LodestoneTutorial = class extends Tutorial {
     TutorialStep.informational($localize`Flipping the lodestone`, $localize`Note that, after every move, you must flip your lodestone: if it was on its repelling side, you must use it on its attracting side, and vice versa. Also, you are allowed to place your lodestone on the same location as it was on your previous turn.`, LodestoneRules.get().getInitialState()),
     TutorialStep.fromPredicate($localize`Captures`, $localize`To summarize, it is possible to capture the opponent's pieces in two ways:<ul><li>with a repelling lodestone, by pushing your opponent's pieces out of the board, or</li><li>with an attracting lodestone, by moving your pieces on your opponent's pieces.</li></ul>Once a lodestone is placed and the pieces have been moved and/or captured, in case any of the opponent's pieces have been captured, you have to place them on the <i>pressure plates</i> that lie around the board. To do so, click on an empty space of the pressure plate of your choice for each capture. You can cancel this by clicking again on a piece you just put on a pressure plate.<br/><br/>You're playing Dark. Try to perform a move that captures at least one of your opponent's piece, and place your capture(s) on pressure plates.`, LodestoneRules.get().getInitialState(), new LodestoneMove(new Coord(0, 6), "pull", "orthogonal", { top: 2, bottom: 1, left: 1, right: 1 }), (_move, _previous, result) => {
       if (result.remainingSpaces() === 32) {
-        return import_lib136.MGPValidation.failure(TutorialStepMessage.YOU_DID_NOT_CAPTURE_ANY_PIECE());
+        return import_lib139.MGPValidation.failure(TutorialStepMessage.YOU_DID_NOT_CAPTURE_ANY_PIECE());
       }
-      return import_lib136.MGPValidation.SUCCESS;
+      return import_lib139.MGPValidation.SUCCESS;
     }, TutorialStepMessage.CONGRATULATIONS()),
     TutorialStep.fromPredicate($localize`Crumbling a first pressure plate`, $localize`When a pressure plate is full, it will crumble and take a full row or column of the board with it! All pieces that are on the crumbled squares are considered lost, but will not have to be placed on pressure plates. You have here a board with a pressure plate that only requires one more piece to crumble.<br/><br/>You're playing Dark. Perform a move that captures at least one piece, and fill that pressure plate to make it crumble.`, new LodestoneState([
-      [_14, _14, _14, _14, B4, _14, _14, _14],
-      [_14, _14, A3, _14, _14, B4, _14, _14],
-      [_14, _14, X12, _14, _14, _14, _14, A3],
-      [_14, _14, _14, _14, B4, _14, _14, A3],
-      [_14, _14, _14, _14, _14, A3, _14, _14],
-      [_14, _14, _14, _14, _14, _14, _14, _14],
-      [_14, _14, _14, _14, _14, _14, _14, _14],
-      [_14, _14, _14, _14, _14, _14, _14, _14]
-    ], 0, new import_lib136.MGPMap([
+      [_15, _15, _15, _15, B4, _15, _15, _15],
+      [_15, _15, A3, _15, _15, B4, _15, _15],
+      [_15, _15, X13, _15, _15, _15, _15, A3],
+      [_15, _15, _15, _15, B4, _15, _15, A3],
+      [_15, _15, _15, _15, _15, A3, _15, _15],
+      [_15, _15, _15, _15, _15, _15, _15, _15],
+      [_15, _15, _15, _15, _15, _15, _15, _15],
+      [_15, _15, _15, _15, _15, _15, _15, _15]
+    ], 0, new import_lib139.MGPMap([
       { key: Player.ONE, value: new Coord(2, 2) }
     ]), __spreadProps(__spreadValues({}, allPressurePlates), {
       top: LodestonePressurePlateGroup.of([5, 3]).addCaptured(Player.ONE, 4)
     })), new LodestoneMove(new Coord(6, 2), "push", "diagonal", { top: 1, bottom: 0, left: 0, right: 0 }), (_move, _previous, result) => {
       if (result.pressurePlates.top.getCurrentPlateWidth() === 5) {
-        return import_lib136.MGPValidation.failure($localize`You must capture and place your capture on the top pressure plate to make it crumble!`);
+        return import_lib139.MGPValidation.failure($localize`You must capture and place your capture on the top pressure plate to make it crumble!`);
       }
-      return import_lib136.MGPValidation.SUCCESS;
+      return import_lib139.MGPValidation.SUCCESS;
     }, TutorialStepMessage.CONGRATULATIONS()),
     TutorialStep.fromPredicate($localize`Crumbling a second pressure plate`, $localize`Once a pressure plate has crumbled, a shorter pressure plate takes it place. It is the case here, where only 3 spots are available on the top pressure plate.<br/><br/>You're playing Dark. Perform a move that captures enough pieces to fill the top pressure plate, and make it crumble.`, new LodestoneState([
-      [N6, N6, N6, N6, N6, N6, N6, N6],
-      [_14, _14, _14, _14, _14, _14, _14, _14],
-      [_14, _14, _14, _14, _14, _14, _14, A3],
-      [_14, _14, _14, _14, _14, A3, _14, A3],
-      [_14, X12, _14, _14, B4, _14, _14, _14],
-      [_14, _14, _14, _14, _14, _14, _14, _14],
-      [_14, _14, _14, _14, B4, _14, _14, _14],
-      [_14, _14, _14, _14, _14, _14, _14, _14]
-    ], 0, new import_lib136.MGPMap([
+      [N7, N7, N7, N7, N7, N7, N7, N7],
+      [_15, _15, _15, _15, _15, _15, _15, _15],
+      [_15, _15, _15, _15, _15, _15, _15, A3],
+      [_15, _15, _15, _15, _15, A3, _15, A3],
+      [_15, X13, _15, _15, B4, _15, _15, _15],
+      [_15, _15, _15, _15, _15, _15, _15, _15],
+      [_15, _15, _15, _15, B4, _15, _15, _15],
+      [_15, _15, _15, _15, _15, _15, _15, _15]
+    ], 0, new import_lib139.MGPMap([
       { key: Player.ONE, value: new Coord(1, 4) }
     ]), __spreadProps(__spreadValues({}, allPressurePlates), {
       top: LodestonePressurePlateGroup.of([5, 3]).addCaptured(Player.ONE, 7)
     })), new LodestoneMove(new Coord(3, 5), "pull", "diagonal", { top: 1, bottom: 0, left: 0, right: 0 }), (_move, _previous, result) => {
       if (result.pressurePlates.top.getCurrentPlate().isPresent()) {
-        return import_lib136.MGPValidation.failure($localize`You must capture and place your capture on the top pressure plate to make it crumble a second time!`);
+        return import_lib139.MGPValidation.failure($localize`You must capture and place your capture on the top pressure plate to make it crumble a second time!`);
       }
-      return import_lib136.MGPValidation.SUCCESS;
+      return import_lib139.MGPValidation.SUCCESS;
     }, TutorialStepMessage.CONGRATULATIONS()),
     TutorialStep.informational($localize`Minimal board`, $localize`After a pressure plate has crumbled for a second time, there is no more pressure plate available on that side. In case all pressure plates have crumbled, the board is reduced to a 4x4 board.`, new LodestoneState([
-      [N6, N6, N6, N6, N6, N6, N6, N6],
-      [N6, N6, N6, N6, N6, N6, N6, N6],
-      [N6, N6, A3, B4, _14, _14, N6, N6],
-      [N6, N6, X12, B4, _14, _14, N6, N6],
-      [N6, N6, _14, A3, A3, _14, N6, N6],
-      [N6, N6, A3, _14, _14, _14, N6, N6],
-      [N6, N6, N6, N6, N6, N6, N6, N6],
-      [N6, N6, N6, N6, N6, N6, N6, N6]
-    ], 0, new import_lib136.MGPMap([
+      [N7, N7, N7, N7, N7, N7, N7, N7],
+      [N7, N7, N7, N7, N7, N7, N7, N7],
+      [N7, N7, A3, B4, _15, _15, N7, N7],
+      [N7, N7, X13, B4, _15, _15, N7, N7],
+      [N7, N7, _15, A3, A3, _15, N7, N7],
+      [N7, N7, A3, _15, _15, _15, N7, N7],
+      [N7, N7, N7, N7, N7, N7, N7, N7],
+      [N7, N7, N7, N7, N7, N7, N7, N7]
+    ], 0, new import_lib139.MGPMap([
       { key: Player.ONE, value: new Coord(2, 3) }
     ]), {
       top: LodestonePressurePlateGroup.of([5, 3]).addCaptured(Player.ZERO, 8),
@@ -22696,29 +23092,29 @@ var LodestoneTutorial = class extends Tutorial {
       right: LodestonePressurePlateGroup.of([5, 3]).addCaptured(Player.ZERO, 8)
     })),
     TutorialStep.fromMove($localize`Making the lodestone fall`, $localize`If, at any point during the game, your lodestone is situated on a square that crumbles with a pressure plate, you will be allowed to select any lodestone side on your next turn.<br/><br/>In this board, playing Dark, you can place your lodestone and make a pressure plate crumble so that your lodestone falls too, allowing to choose more freely its side on your next turn. Do it!`, new LodestoneState([
-      [_14, _14, _14, _14, _14, _14, _14, _14],
-      [_14, _14, _14, _14, _14, B4, _14, _14],
-      [_14, _14, _14, X12, _14, _14, A3, _14],
-      [_14, _14, A3, A3, B4, _14, _14, A3],
-      [_14, _14, _14, _14, _14, A3, _14, _14],
-      [_14, _14, A3, _14, _14, _14, _14, _14],
-      [_14, _14, B4, _14, _14, _14, _14, _14],
-      [_14, _14, _14, _14, _14, _14, _14, _14]
-    ], 0, new import_lib136.MGPMap([
+      [_15, _15, _15, _15, _15, _15, _15, _15],
+      [_15, _15, _15, _15, _15, B4, _15, _15],
+      [_15, _15, _15, X13, _15, _15, A3, _15],
+      [_15, _15, A3, A3, B4, _15, _15, A3],
+      [_15, _15, _15, _15, _15, A3, _15, _15],
+      [_15, _15, A3, _15, _15, _15, _15, _15],
+      [_15, _15, B4, _15, _15, _15, _15, _15],
+      [_15, _15, _15, _15, _15, _15, _15, _15]
+    ], 0, new import_lib139.MGPMap([
       { key: Player.ONE, value: new Coord(3, 2) }
     ]), __spreadProps(__spreadValues({}, allPressurePlates), {
       top: LodestonePressurePlateGroup.of([5, 3]).addCaptured(Player.ZERO, 4)
     })), [new LodestoneMove(new Coord(4, 0), "pull", "diagonal", { top: 1, bottom: 0, left: 0, right: 0 })], $localize`Congratulations! At your next turn, you will be allowed to place your lodestone on any side.`, TutorialStepMessage.FAILED_TRY_AGAIN()),
     TutorialStep.fromMove(TutorialStepMessage.END_OF_THE_GAME(), $localize`In order to win, you must take out all of your opponent's pieces.<br/><br/>Here, you can win in a single move, do it!`, new LodestoneState([
-      [N6, N6, N6, N6, N6, N6, N6, N6],
-      [N6, N6, N6, N6, N6, N6, N6, N6],
-      [N6, B4, A3, B4, _14, _14, N6, N6],
-      [N6, B4, X12, _14, B4, _14, N6, N6],
-      [N6, _14, _14, A3, A3, _14, N6, N6],
-      [N6, B4, A3, _14, B4, _14, N6, N6],
-      [N6, _14, _14, _14, A3, _14, N6, N6],
-      [N6, N6, N6, N6, N6, N6, N6, N6]
-    ], 0, new import_lib136.MGPMap([
+      [N7, N7, N7, N7, N7, N7, N7, N7],
+      [N7, N7, N7, N7, N7, N7, N7, N7],
+      [N7, B4, A3, B4, _15, _15, N7, N7],
+      [N7, B4, X13, _15, B4, _15, N7, N7],
+      [N7, _15, _15, A3, A3, _15, N7, N7],
+      [N7, B4, A3, _15, B4, _15, N7, N7],
+      [N7, _15, _15, _15, A3, _15, N7, N7],
+      [N7, N7, N7, N7, N7, N7, N7, N7]
+    ], 0, new import_lib139.MGPMap([
       { key: Player.ONE, value: new Coord(2, 3) }
     ]), {
       top: LodestonePressurePlateGroup.of([5, 3]).addCaptured(Player.ZERO, 8),
@@ -22730,10 +23126,10 @@ var LodestoneTutorial = class extends Tutorial {
 };
 
 // src/app/games/lodestone/lodestone.component.ts
-var import_lib138 = __toESM(require_dist());
+var import_lib141 = __toESM(require_dist());
 
 // src/app/games/lodestone/LodestoneMoveGenerator.ts
-var import_lib137 = __toESM(require_dist());
+var import_lib140 = __toESM(require_dist());
 var LodestoneMoveGenerator = class extends MoveGenerator {
   getListMoves(node, _config) {
     const state = node.gameState;
@@ -22755,9 +23151,9 @@ var LodestoneMoveGenerator = class extends MoveGenerator {
   }
   captureCombinations(state, numberOfCaptures) {
     if (numberOfCaptures === 0) {
-      return new import_lib137.Set([{ top: 0, bottom: 0, left: 0, right: 0 }]);
+      return new import_lib140.Set([{ top: 0, bottom: 0, left: 0, right: 0 }]);
     } else {
-      let combinations = new import_lib137.Set();
+      let combinations = new import_lib140.Set();
       const available = state.remainingSpacesDetails();
       const subCombinations = this.captureCombinations(state, numberOfCaptures - 1);
       for (const subCombination of subCombinations) {
@@ -23165,7 +23561,7 @@ function LodestoneComponent_Conditional_8_Template(rf, ctx) {
 }
 var LodestoneComponent = class _LodestoneComponent extends GameComponent {
   static PRESSURE_PLATE_EXTRA_SHIFT = 0.2;
-  static PRESSURE_PLATES_POSITIONS = import_lib138.MGPMap.from({
+  static PRESSURE_PLATES_POSITIONS = import_lib141.MGPMap.from({
     top: {
       start: (plateIndex, plateWidth) => new Coord((8 - plateWidth) / 2, -(plateIndex + 1) * (1 + _LodestoneComponent.PRESSURE_PLATE_EXTRA_SHIFT)),
       direction: Ordinal.RIGHT
@@ -23193,10 +23589,10 @@ var LodestoneComponent = class _LodestoneComponent extends GameComponent {
   platesGroupSize;
   boardSize;
   displayedState;
-  stateAfterPlacingLodestone = import_lib138.MGPOptional.empty();
+  stateAfterPlacingLodestone = import_lib141.MGPOptional.empty();
   // Variables used to display ongoing move
-  selectedCoord = import_lib138.MGPOptional.empty();
-  selectedLodestone = import_lib138.MGPOptional.empty();
+  selectedCoord = import_lib141.MGPOptional.empty();
+  selectedLodestone = import_lib141.MGPOptional.empty();
   ongoingMoves = [];
   ongoingCaptures = [];
   capturesToPlace = 0;
@@ -23214,7 +23610,7 @@ var LodestoneComponent = class _LodestoneComponent extends GameComponent {
     this.encoder = LodestoneMove.encoder;
     this.PIECE_RADIUS = (this.SPACE_SIZE - 2 * this.STROKE_WIDTH) * 0.5;
     this.displayedState = this.getState();
-    this.scores = import_lib138.MGPOptional.of(PlayerNumberMap.of(0, 0));
+    this.scores = import_lib141.MGPOptional.of(PlayerNumberMap.of(0, 0));
   }
   getScoreName() {
     return ScoreName.CAPTURES;
@@ -23243,12 +23639,12 @@ var LodestoneComponent = class _LodestoneComponent extends GameComponent {
       if (this.selectedCoord.equalsValue(coord)) {
         return this.cancelMove();
       }
-      this.selectedCoord = import_lib138.MGPOptional.of(coord);
+      this.selectedCoord = import_lib141.MGPOptional.of(coord);
       if (this.selectedLodestone.isPresent()) {
         return this.putLodestone();
       } else {
         this.updateViewInfo();
-        return import_lib138.MGPValidation.SUCCESS;
+        return import_lib141.MGPValidation.SUCCESS;
       }
     });
   }
@@ -23260,18 +23656,18 @@ var LodestoneComponent = class _LodestoneComponent extends GameComponent {
       if (clickValidity.isFailure()) {
         return this.cancelMove(clickValidity.getReason());
       }
-      import_lib138.Utils.assert(this.capturesToPlace === 0, "should not be able to click on a lodestone when captures need to be placed");
+      import_lib141.Utils.assert(this.capturesToPlace === 0, "should not be able to click on a lodestone when captures need to be placed");
       const player = this.getCurrentPlayer();
       const playerLodestone = LodestonePieceLodestone.of(player, lodestone);
       if (this.selectedLodestone.equalsValue(playerLodestone)) {
         return this.cancelMove();
       }
-      this.selectedLodestone = import_lib138.MGPOptional.of(playerLodestone);
+      this.selectedLodestone = import_lib141.MGPOptional.of(playerLodestone);
       if (this.selectedCoord.isPresent()) {
         return this.putLodestone();
       } else {
         this.updateViewInfo();
-        return import_lib138.MGPValidation.SUCCESS;
+        return import_lib141.MGPValidation.SUCCESS;
       }
     });
   }
@@ -23282,13 +23678,13 @@ var LodestoneComponent = class _LodestoneComponent extends GameComponent {
   }
   putLodestone() {
     return __async(this, null, function* () {
-      import_lib138.Utils.assert(this.selectedCoord.isPresent(), "coord should have been selected");
-      import_lib138.Utils.assert(this.selectedLodestone.isPresent(), "lodestone should have been selected");
+      import_lib141.Utils.assert(this.selectedCoord.isPresent(), "coord should have been selected");
+      import_lib141.Utils.assert(this.selectedLodestone.isPresent(), "lodestone should have been selected");
       const coord = this.selectedCoord.get();
       const lodestone = this.selectedLodestone.get();
       const state = this.getState();
       const validity = LodestoneRules.get().isLegalWithoutCaptures(state, coord, lodestone.direction);
-      import_lib138.Utils.assert(validity.isSuccess(), "Lodestone component should only allow creation of legal moves");
+      import_lib141.Utils.assert(validity.isSuccess(), "Lodestone component should only allow creation of legal moves");
       const infos = LodestoneRules.get().applyMoveWithoutPlacingCaptures(state, coord, lodestone);
       this.ongoingCaptures = infos.captures;
       this.ongoingMoves = infos.moved;
@@ -23297,16 +23693,16 @@ var LodestoneComponent = class _LodestoneComponent extends GameComponent {
         return this.applyMove();
       } else {
         this.displayedState = this.displayedState.withBoard(infos.board);
-        this.stateAfterPlacingLodestone = import_lib138.MGPOptional.of(this.displayedState);
+        this.stateAfterPlacingLodestone = import_lib141.MGPOptional.of(this.displayedState);
         this.updateViewInfo();
-        return import_lib138.MGPValidation.SUCCESS;
+        return import_lib141.MGPValidation.SUCCESS;
       }
     });
   }
   applyMove() {
     return __async(this, null, function* () {
-      import_lib138.Utils.assert(this.selectedCoord.isPresent(), "coord should have been selected");
-      import_lib138.Utils.assert(this.selectedLodestone.isPresent(), "lodestone should have been selected");
+      import_lib141.Utils.assert(this.selectedCoord.isPresent(), "coord should have been selected");
+      import_lib141.Utils.assert(this.selectedLodestone.isPresent(), "lodestone should have been selected");
       const coord = this.selectedCoord.get();
       const lodestone = this.selectedLodestone.get();
       const move = new LodestoneMove(coord, lodestone.direction, lodestone.orientation, this.captures);
@@ -23353,7 +23749,7 @@ var LodestoneComponent = class _LodestoneComponent extends GameComponent {
         this.updateViewInfo();
         this.showPressurePlateDifferences(this.getState(), this.displayedState, true);
       }
-      return import_lib138.MGPValidation.SUCCESS;
+      return import_lib141.MGPValidation.SUCCESS;
     });
   }
   deselectPressurePlate(position) {
@@ -23369,14 +23765,14 @@ var LodestoneComponent = class _LodestoneComponent extends GameComponent {
       this.displayedState = new LodestoneState(board, state.turn, lodestones, pressurePlates);
       this.updateViewInfo();
       this.showPressurePlateDifferences(this.getState(), this.displayedState, true);
-      return import_lib138.MGPValidation.SUCCESS;
+      return import_lib141.MGPValidation.SUCCESS;
     });
   }
   updateBoard(_triggerAnimation) {
     return __async(this, null, function* () {
       this.displayedState = this.getState();
       this.removePlayerLodestoneFromDisplayedState();
-      this.scores = import_lib138.MGPOptional.of(this.getState().getScores());
+      this.scores = import_lib141.MGPOptional.of(this.getState().getScores());
       this.boardSize = this.getState().board.length * this.SPACE_SIZE;
       const abstractPlateWidth = this.getState().pressurePlates.top.plates.length;
       this.platesGroupSize = abstractPlateWidth * this.SPACE_SIZE * 1.2;
@@ -23385,12 +23781,12 @@ var LodestoneComponent = class _LodestoneComponent extends GameComponent {
   }
   cancelMoveAttempt() {
     this.displayedState = this.getState();
-    this.stateAfterPlacingLodestone = import_lib138.MGPOptional.empty();
+    this.stateAfterPlacingLodestone = import_lib141.MGPOptional.empty();
     this.ongoingCaptures = [];
     this.ongoingMoves = [];
     this.removePlayerLodestoneFromDisplayedState();
-    this.selectedCoord = import_lib138.MGPOptional.empty();
-    this.selectedLodestone = import_lib138.MGPOptional.empty();
+    this.selectedCoord = import_lib141.MGPOptional.empty();
+    this.selectedLodestone = import_lib141.MGPOptional.empty();
     this.capturesToPlace = 0;
     this.captures = { top: 0, bottom: 0, left: 0, right: 0 };
     this.updateViewInfo();
@@ -23445,38 +23841,38 @@ var LodestoneComponent = class _LodestoneComponent extends GameComponent {
   }
   getPreCaptureInfo() {
     if (this.selectedCoord.isPresent() && this.selectedLodestone.isPresent()) {
-      return import_lib138.MGPOptional.of({
+      return import_lib141.MGPOptional.of({
         preCaptureMove: new LodestoneMove(this.selectedCoord.get(), this.selectedLodestone.get().direction, this.selectedLodestone.get().orientation),
         preCaptureState: this.getState()
       });
     } else if (this.node.previousMove.isPresent()) {
-      return import_lib138.MGPOptional.of({
+      return import_lib141.MGPOptional.of({
         preCaptureMove: this.node.previousMove.get(),
         preCaptureState: this.getPreviousState()
       });
     } else {
-      return import_lib138.MGPOptional.empty();
+      return import_lib141.MGPOptional.empty();
     }
   }
   getLodestoneInfo(x2, y) {
     const coord = new Coord(x2, y);
     const piece = this.displayedState.getPieceAt(coord);
     if (piece.isLodestone()) {
-      return import_lib138.MGPOptional.of(this.getLodestoneInfoAt(this.displayedState, coord));
+      return import_lib141.MGPOptional.of(this.getLodestoneInfoAt(this.displayedState, coord));
     } else if (piece.isUnreachable()) {
       const preCaptureInfo = this.getPreCaptureInfo();
       if (preCaptureInfo.isPresent()) {
         if (this.selectedCoord.equalsValue(coord)) {
           const lodestone = this.selectedLodestone.get();
-          return import_lib138.MGPOptional.of(this.getLodestoneInfoFromLodestone(lodestone));
+          return import_lib141.MGPOptional.of(this.getLodestoneInfoFromLodestone(lodestone));
         } else if (this.wasLastMoveLodestone(coord)) {
-          return import_lib138.MGPOptional.of(this.getDroppedThenCrumbedLodestoneInfo(this.node.previousMove.get()));
+          return import_lib141.MGPOptional.of(this.getDroppedThenCrumbedLodestoneInfo(this.node.previousMove.get()));
         } else if (this.isCrumbledLodestone(coord)) {
-          return import_lib138.MGPOptional.of(this.getCrumbledLodestoneInfo(coord));
+          return import_lib141.MGPOptional.of(this.getCrumbledLodestoneInfo(coord));
         }
       }
     }
-    return import_lib138.MGPOptional.empty();
+    return import_lib141.MGPOptional.empty();
   }
   getDroppedThenCrumbedLodestoneInfo(lastMove) {
     const lodestoneDescription = {
@@ -23488,7 +23884,7 @@ var LodestoneComponent = class _LodestoneComponent extends GameComponent {
   }
   getCrumbledLodestoneInfo(coord) {
     const lodestone = this.getPreviousState().getPieceAt(coord);
-    import_lib138.Utils.assert(lodestone.isLodestone(), "getCrumbledLodestoneInfo should only be called with coord that contain crumbled lodestone!");
+    import_lib141.Utils.assert(lodestone.isLodestone(), "getCrumbledLodestoneInfo should only be called with coord that contain crumbled lodestone!");
     return this.getLodestoneInfoFromLodestone(lodestone);
   }
   getLodestoneInfoFromLodestone(lodestone) {
@@ -23528,7 +23924,7 @@ var LodestoneComponent = class _LodestoneComponent extends GameComponent {
   }
   getLodestoneInfoAt(state, coord) {
     const lodestone = state.getPieceAt(coord);
-    import_lib138.Utils.assert(lodestone.isLodestone(), "piece should be lodestone");
+    import_lib141.Utils.assert(lodestone.isLodestone(), "piece should be lodestone");
     return this.getLodestoneInfoFromLodestone(lodestone);
   }
   getPieceThatCrumbledLastEndOfTurn(coord, previousState, moveToDisplay) {
@@ -23541,9 +23937,9 @@ var LodestoneComponent = class _LodestoneComponent extends GameComponent {
     const coordHadAPiece = previousPiece.isEmpty() === false;
     const pieceWasReachable = previousPiece.isUnreachable() === false;
     if (coordHadAPiece && pieceWasReachable) {
-      return import_lib138.MGPOptional.of(previousPiece);
+      return import_lib141.MGPOptional.of(previousPiece);
     } else {
-      return import_lib138.MGPOptional.empty();
+      return import_lib141.MGPOptional.empty();
     }
   }
   showAvailableLodestones() {
@@ -23843,10 +24239,10 @@ var LodestoneComponent = class _LodestoneComponent extends GameComponent {
 })();
 
 // src/app/games/mancala/awale/AwaleRules.ts
-var import_lib141 = __toESM(require_dist());
+var import_lib144 = __toESM(require_dist());
 
 // src/app/games/mancala/common/MancalaRules.ts
-var import_lib140 = __toESM(require_dist());
+var import_lib143 = __toESM(require_dist());
 
 // src/app/games/mancala/common/MancalaFailure.ts
 var MancalaFailure = class {
@@ -23856,12 +24252,12 @@ var MancalaFailure = class {
 };
 
 // src/app/games/mancala/common/MancalaMove.ts
-var import_lib139 = __toESM(require_dist());
+var import_lib142 = __toESM(require_dist());
 var MancalaDistribution = class _MancalaDistribution {
   x;
-  static encoder = import_lib139.Encoder.tuple([import_lib139.Encoder.identity()], (distribution) => [distribution.x], (value) => _MancalaDistribution.of(value[0]));
+  static encoder = import_lib142.Encoder.tuple([import_lib142.Encoder.identity()], (distribution) => [distribution.x], (value) => _MancalaDistribution.of(value[0]));
   static of(x2) {
-    import_lib139.Utils.assert(0 <= x2, "MancalaDistribution should be a positive integer!");
+    import_lib142.Utils.assert(0 <= x2, "MancalaDistribution should be a positive integer!");
     return new _MancalaDistribution(x2);
   }
   constructor(x2) {
@@ -23875,7 +24271,7 @@ var MancalaDistribution = class _MancalaDistribution {
 };
 var MancalaMove = class _MancalaMove extends Move {
   distributions;
-  static encoder = import_lib139.Encoder.tuple([import_lib139.Encoder.list(MancalaDistribution.encoder)], (move) => [move.distributions], (value) => _MancalaMove.of(value[0][0], value[0].slice(1)));
+  static encoder = import_lib142.Encoder.tuple([import_lib142.Encoder.list(MancalaDistribution.encoder)], (move) => [move.distributions], (value) => _MancalaMove.of(value[0][0], value[0].slice(1)));
   static of(mandatoryDistribution, bonusDistributions = []) {
     const distributions = [mandatoryDistribution];
     distributions.push(...bonusDistributions);
@@ -23884,7 +24280,7 @@ var MancalaMove = class _MancalaMove extends Move {
   constructor(distributions) {
     super();
     this.distributions = distributions;
-    import_lib139.Utils.assert(distributions.length > 0, "Move should have distribution ");
+    import_lib142.Utils.assert(distributions.length > 0, "Move should have distribution ");
   }
   add(move) {
     return _MancalaMove.of(this.distributions[0], this.distributions.slice(1).concat(move));
@@ -23894,7 +24290,7 @@ var MancalaMove = class _MancalaMove extends Move {
     return "MancalaMove([" + distributions.join(", ") + "])";
   }
   equals(other) {
-    return import_lib139.ArrayUtils.equals(this.distributions, other.distributions);
+    return import_lib142.ArrayUtils.equals(this.distributions, other.distributions);
   }
   getFirstDistribution() {
     return this.distributions[0];
@@ -23972,7 +24368,7 @@ var MancalaRules = class _MancalaRules extends ConfigurableRules {
   static CYCLICAL_LAP = () => $localize`Continue distribution until capture or empty house`;
   static SEEDS_BY_HOUSE = () => $localize`Seeds by house`;
   // These are the coordinates of the store. These are fake coordinates since the stores are not on the board
-  static FAKE_STORE_COORD = new import_lib140.ReversibleMap([
+  static FAKE_STORE_COORD = new import_lib143.ReversibleMap([
     { key: Player.ZERO, value: new Coord(-1, -1) },
     { key: Player.ONE, value: new Coord(2, 2) }
   ]);
@@ -24010,10 +24406,10 @@ var MancalaRules = class _MancalaRules extends ConfigurableRules {
     const playerY = state.getCurrentPlayerY();
     let canStillPlay = true;
     for (const distribution of move) {
-      import_lib140.Utils.assert(canStillPlay, "Cannot play after non kalah move");
+      import_lib143.Utils.assert(canStillPlay, "Cannot play after non kalah move");
       const distributionResult = this.isLegalDistribution(distribution, state, config);
       if (distributionResult.isFailure()) {
-        return import_lib140.MGPValidation.ofFallible(distributionResult);
+        return import_lib143.MGPValidation.ofFallible(distributionResult);
       } else {
         const previousDistributionResult = _MancalaRules.getEmptyDistributionResult(state);
         state = this.distributeHouse(distribution.x, playerY, previousDistributionResult, config).resultingState;
@@ -24021,17 +24417,17 @@ var MancalaRules = class _MancalaRules extends ConfigurableRules {
       }
     }
     if (config.mustContinueDistributionAfterStore) {
-      import_lib140.Utils.assert(canStillPlay === false, "Must continue playing after kalah move");
+      import_lib143.Utils.assert(canStillPlay === false, "Must continue playing after kalah move");
     }
     if (config.mustFeed) {
       const opponent = state.getCurrentOpponent();
       const opponentIsStarving = _MancalaRules.isStarving(opponent, state.board);
       const playerDoesEmbargo = this.canDistribute(state.getCurrentPlayer(), state, config);
       if (opponentIsStarving && playerDoesEmbargo) {
-        return import_lib140.MGPValidation.failure(MancalaFailure.SHOULD_DISTRIBUTE());
+        return import_lib143.MGPValidation.failure(MancalaFailure.SHOULD_DISTRIBUTE());
       }
     }
-    return import_lib140.MGPValidation.SUCCESS;
+    return import_lib143.MGPValidation.SUCCESS;
   }
   getInitialState(optionalConfig) {
     return _MancalaRules.getInitialState(optionalConfig);
@@ -24043,11 +24439,11 @@ var MancalaRules = class _MancalaRules extends ConfigurableRules {
   isLegalDistribution(distribution, state, config) {
     const playerY = state.getCurrentPlayerY();
     if (state.getPieceAtXY(distribution.x, playerY) === 0) {
-      return import_lib140.MGPFallible.failure(MancalaFailure.MUST_CHOOSE_NON_EMPTY_HOUSE());
+      return import_lib143.MGPFallible.failure(MancalaFailure.MUST_CHOOSE_NON_EMPTY_HOUSE());
     }
     const distributionResult = this.distributeMove(MancalaMove.of(distribution), state, config);
     const isStarving = _MancalaRules.isStarving(distributionResult.resultingState.getCurrentPlayer(), distributionResult.resultingState.board);
-    return import_lib140.MGPFallible.success(distributionResult.endsUpInStore && isStarving === false);
+    return import_lib143.MGPFallible.success(distributionResult.endsUpInStore && isStarving === false);
   }
   /**
    * Apply the distribution part of the move.
@@ -24129,7 +24525,7 @@ var MancalaRules = class _MancalaRules extends ConfigurableRules {
     }
     return GameStatus.ONGOING;
   }
-  applyLegalMove(move, state, config, _31) {
+  applyLegalMove(move, state, config, _32) {
     const distributionsResult = this.distributeMove(move, state, config.get());
     const captureResult = this.applyCapture(distributionsResult, config.get());
     let resultingState = captureResult.resultingState;
@@ -24209,22 +24605,22 @@ var MancalaRules = class _MancalaRules extends ConfigurableRules {
     if (coord.y === 0) {
       if (coord.x === state.getWidth() - 1) {
         if (config.passByPlayerStore && player === Player.ONE && previousDropWasStore === false) {
-          return import_lib140.MGPOptional.empty();
+          return import_lib143.MGPOptional.empty();
         } else {
-          return import_lib140.MGPOptional.of(new Coord(coord.x, 1));
+          return import_lib143.MGPOptional.of(new Coord(coord.x, 1));
         }
       } else {
-        return import_lib140.MGPOptional.of(new Coord(coord.x + 1, 0));
+        return import_lib143.MGPOptional.of(new Coord(coord.x + 1, 0));
       }
     } else {
       if (coord.x === 0) {
         if (config.passByPlayerStore && player === Player.ZERO && previousDropWasStore === false) {
-          return import_lib140.MGPOptional.empty();
+          return import_lib143.MGPOptional.empty();
         } else {
-          return import_lib140.MGPOptional.of(new Coord(0, 0));
+          return import_lib143.MGPOptional.of(new Coord(0, 0));
         }
       } else {
-        return import_lib140.MGPOptional.of(new Coord(coord.x - 1, 1));
+        return import_lib143.MGPOptional.of(new Coord(coord.x - 1, 1));
       }
     }
   }
@@ -24285,7 +24681,7 @@ var MancalaRules = class _MancalaRules extends ConfigurableRules {
 
 // src/app/games/mancala/awale/AwaleRules.ts
 var AwaleRules = class _AwaleRules extends MancalaRules {
-  static singleton = import_lib141.MGPOptional.empty();
+  static singleton = import_lib144.MGPOptional.empty();
   static RULES_CONFIG_DESCRIPTION = new RulesConfigDescription({
     name: () => $localize`Awalé`,
     config: {
@@ -24300,12 +24696,12 @@ var AwaleRules = class _AwaleRules extends MancalaRules {
   });
   static get() {
     if (_AwaleRules.singleton.isAbsent()) {
-      _AwaleRules.singleton = import_lib141.MGPOptional.of(new _AwaleRules([2, 3]));
+      _AwaleRules.singleton = import_lib144.MGPOptional.of(new _AwaleRules([2, 3]));
     }
     return _AwaleRules.singleton.get();
   }
   getRulesConfigDescription() {
-    return import_lib141.MGPOptional.of(_AwaleRules.RULES_CONFIG_DESCRIPTION);
+    return import_lib144.MGPOptional.of(_AwaleRules.RULES_CONFIG_DESCRIPTION);
   }
   applyCapture(distributionResult, config) {
     const filledCoords = distributionResult.filledCoords;
@@ -24321,7 +24717,7 @@ var AwaleRules = class _AwaleRules extends MancalaRules {
    */
   capture(x2, y, state, config) {
     const playerY = state.getCurrentPlayerY();
-    import_lib141.Utils.assert(y !== playerY, "AwaleRules.capture cannot capture the players house");
+    import_lib144.Utils.assert(y !== playerY, "AwaleRules.capture cannot capture the players house");
     let resultingState = state;
     let target = resultingState.getOptionalPieceAtXY(x2, y);
     let capturedSum = 0;
@@ -24368,27 +24764,27 @@ var AwaleRules = class _AwaleRules extends MancalaRules {
 };
 
 // src/app/games/mancala/common/MancalaTutorial.ts
-var import_lib142 = __toESM(require_dist());
+var import_lib145 = __toESM(require_dist());
 var MancalaTutorial = class {
   static intro(gameName, state) {
     return TutorialStep.informational(gameName, $localize`${gameName} is a Mancala. Mancala is the name of a family of board games that dates back at least to the third century. Mancalas are games of distribution (sowing) and capture. Their goal is to capture the most seeds. The spaces in Mancalas are called the houses. The ones on the extreme left and right are called the stores, they contain the seeds that each player captured. As you are playing Dark, the 6 houses on the bottom are yours.`, state);
   }
   static sowing(state) {
     const initialHouseContent = state.getPieceAtXY(5, 1);
-    import_lib142.Utils.assert(initialHouseContent === 4, "(5, 1) should contain 4 seed");
+    import_lib145.Utils.assert(initialHouseContent === 4, "(5, 1) should contain 4 seed");
     return TutorialStep.fromMove($localize`Sowing`, $localize`The main move in Mancala games is sowing, let's see how seeds are sown. As you are playing Dark, the 6 houses on the bottom are yours.<br/><br/>When you sow a house, the seeds it contains are sown clockwise, one seed per house.<br/><br/>Click on the rightmost house!`, state, [MancalaMove.of(MancalaDistribution.of(5))], $localize`Look at the 4 houses that follow clockwise the one you picked, they now contain one more seed. This is how seeds are sown: one by one from the house next to the one they come from, clockwise.`, $localize`Failed. Choose the rightmost house on the bottom.`);
   }
   static YOU_DID_NOT_CAPTURE_ANY_SEEDS = () => $localize`Failed. You did not capture anything. Try again.`;
 };
 
 // src/app/games/mancala/awale/AwaleTutorial.ts
-var defaultConfig11 = AwaleRules.get().getDefaultRulesConfig();
+var defaultConfig12 = AwaleRules.get().getDefaultRulesConfig();
 var AwaleTutorial = class extends Tutorial {
   gameName = $localize`Awalé`;
   tutorial = [
-    MancalaTutorial.intro(this.gameName, AwaleRules.get().getInitialState(defaultConfig11)),
-    TutorialStep.informational($localize`Awalé`, $localize`Bonus fact: Awalé is the most common of all Mancalas.`, AwaleRules.get().getInitialState(defaultConfig11)),
-    MancalaTutorial.sowing(AwaleRules.get().getInitialState(defaultConfig11)),
+    MancalaTutorial.intro(this.gameName, AwaleRules.get().getInitialState(defaultConfig12)),
+    TutorialStep.informational($localize`Awalé`, $localize`Bonus fact: Awalé is the most common of all Mancalas.`, AwaleRules.get().getInitialState(defaultConfig12)),
+    MancalaTutorial.sowing(AwaleRules.get().getInitialState(defaultConfig12)),
     TutorialStep.anyMove($localize`Big sowing`, $localize`When there are enough seeds to make a full turn, something else happens.<br/><br/> You're playing Dark. Sow the house that contains 12 seeds.`, new MancalaState([
       [0, 0, 0, 0, 0, 0],
       [0, 12, 0, 0, 0, 0]
@@ -24425,7 +24821,7 @@ var AwaleTutorial = class extends Tutorial {
 };
 
 // src/app/games/mancala/common/MancalaComponent.ts
-var import_lib143 = __toESM(require_dist());
+var import_lib146 = __toESM(require_dist());
 
 // src/app/games/mancala/common/MancalaScoreHeurisic.ts
 var MancalaScoreHeuristic = class extends PlayerMetricHeuristic {
@@ -24447,7 +24843,7 @@ var MancalaComponent = class _MancalaComponent extends RectangularGameComponent 
   // The awaited time between two laps or distributions
   static TIMEOUT_BETWEEN_LAPS = 1e3;
   lastDistributedHouses = [];
-  currentMove = import_lib143.MGPOptional.empty();
+  currentMove = import_lib146.MGPOptional.empty();
   captured = TableUtils.create(6, 2, 0);
   droppedInStore = PlayerNumberMap.of(0, 0);
   filledCoords = [];
@@ -24456,7 +24852,7 @@ var MancalaComponent = class _MancalaComponent extends RectangularGameComponent 
   constructor() {
     super();
     this.hasAsymmetricBoard = true;
-    this.scores = import_lib143.MGPOptional.of(PlayerNumberMap.of(0, 0));
+    this.scores = import_lib146.MGPOptional.of(PlayerNumberMap.of(0, 0));
   }
   getScoreName() {
     return ScoreName.CAPTURES;
@@ -24496,21 +24892,21 @@ var MancalaComponent = class _MancalaComponent extends RectangularGameComponent 
       if (triggerAnimation) {
         this.opponentMoveIsBeingAnimated = true;
         this.animationOngoing = true;
-        import_lib143.Utils.assert(this.node.parent.isPresent(), "triggerAnimation in store should be false at first turn");
+        import_lib146.Utils.assert(this.node.parent.isPresent(), "triggerAnimation in store should be false at first turn");
         this.changeVisibleState(this.node.parent.get().gameState);
         let indexDistribution = 0;
         const move = this.node.previousMove.get();
         for (const distributions of move) {
           yield this.showSeedBySeedDistribution(distributions);
           if (indexDistribution + 1 < move.distributions.length) {
-            yield import_lib143.TimeUtils.sleep(_MancalaComponent.TIMEOUT_BETWEEN_LAPS);
+            yield import_lib146.TimeUtils.sleep(_MancalaComponent.TIMEOUT_BETWEEN_LAPS);
           }
           indexDistribution++;
         }
         this.opponentMoveIsBeingAnimated = false;
         this.animationOngoing = false;
       }
-      this.scores = import_lib143.MGPOptional.of(state.getScoresCopy());
+      this.scores = import_lib146.MGPOptional.of(state.getScoresCopy());
       this.changeVisibleState(state);
     });
   }
@@ -24521,7 +24917,7 @@ var MancalaComponent = class _MancalaComponent extends RectangularGameComponent 
         return this.cancelMove(clickValidity.getReason());
       }
       if (this.animationOngoing) {
-        return import_lib143.MGPValidation.SUCCESS;
+        return import_lib146.MGPValidation.SUCCESS;
       } else {
         this.animationOngoing = true;
         const result = yield this.onLegalClick(x2, y);
@@ -24555,7 +24951,7 @@ var MancalaComponent = class _MancalaComponent extends RectangularGameComponent 
         if (MancalaRules.isStarving(player, distributionResult.resultingState.board)) {
           return this.chooseMove(this.currentMove.get());
         } else {
-          return import_lib143.MGPValidation.SUCCESS;
+          return import_lib146.MGPValidation.SUCCESS;
         }
       } else {
         return this.chooseMove(this.currentMove.get());
@@ -24571,7 +24967,7 @@ var MancalaComponent = class _MancalaComponent extends RectangularGameComponent 
         if (MancalaRules.isStarving(player, distributionResult.resultingState.board)) {
           return this.rules.isLegal(this.currentMove.get(), this.getState(), config);
         } else {
-          return import_lib143.MGPValidation.SUCCESS;
+          return import_lib146.MGPValidation.SUCCESS;
         }
       } else {
         return this.rules.isLegal(this.currentMove.get(), this.getState(), config);
@@ -24618,7 +25014,7 @@ var MancalaComponent = class _MancalaComponent extends RectangularGameComponent 
         seedDropResult.seedsInHand = seedDropResult.resultingState.getPieceAt(seedDropResult.houseToDistribute);
         seedDropResult.resultingState = seedDropResult.resultingState.setPieceAt(seedDropResult.houseToDistribute, 0);
         this.changeVisibleState(seedDropResult.resultingState);
-        yield import_lib143.TimeUtils.sleep(_MancalaComponent.TIMEOUT_BETWEEN_SEEDS);
+        yield import_lib146.TimeUtils.sleep(_MancalaComponent.TIMEOUT_BETWEEN_SEEDS);
         while (seedDropResult.seedsInHand > 0) {
           seedDropResult = yield this.showSeedDrop(seedDropResult, config, initial);
         }
@@ -24628,7 +25024,7 @@ var MancalaComponent = class _MancalaComponent extends RectangularGameComponent 
           const lastHouseContent = seedDropResult.resultingState.getPieceAt(seedDropResult.houseToDistribute);
           mustDoOneMoreLap = lastHouseContent !== 1 && lastHouseContent !== 4;
           if (mustDoOneMoreLap) {
-            yield import_lib143.TimeUtils.sleep(_MancalaComponent.TIMEOUT_BETWEEN_LAPS);
+            yield import_lib146.TimeUtils.sleep(_MancalaComponent.TIMEOUT_BETWEEN_LAPS);
           }
         }
       }
@@ -24659,7 +25055,7 @@ var MancalaComponent = class _MancalaComponent extends RectangularGameComponent 
       }
       this.changeVisibleState(resultingState);
       if (seedsInHand > 0) {
-        yield import_lib143.TimeUtils.sleep(_MancalaComponent.TIMEOUT_BETWEEN_SEEDS);
+        yield import_lib146.TimeUtils.sleep(_MancalaComponent.TIMEOUT_BETWEEN_SEEDS);
       }
       return { houseToDistribute, currentDropIsStore, seedsInHand, resultingState };
     });
@@ -24672,7 +25068,7 @@ var MancalaComponent = class _MancalaComponent extends RectangularGameComponent 
     this.changeVisibleState(this.getState());
   }
   cancelMoveAttempt() {
-    this.currentMove = import_lib143.MGPOptional.empty();
+    this.currentMove = import_lib146.MGPOptional.empty();
     this.droppedInStore = PlayerNumberMap.of(0, 0);
     this.filledCoords = [];
     this.lastDistributedHouses = [];
@@ -24722,13 +25118,13 @@ var MancalaComponent = class _MancalaComponent extends RectangularGameComponent 
     const currentContent = this.constructedState.getPieceAtXY(x2, y);
     const difference = currentContent - previousContent;
     if (this.captured[y][x2] > 0) {
-      return import_lib143.MGPOptional.of("-" + this.captured[y][x2]);
+      return import_lib146.MGPOptional.of("-" + this.captured[y][x2]);
     } else if (difference > 0) {
-      return import_lib143.MGPOptional.of("+" + difference);
+      return import_lib146.MGPOptional.of("+" + difference);
     } else if (difference < 0) {
-      return import_lib143.MGPOptional.of("" + difference);
+      return import_lib146.MGPOptional.of("" + difference);
     } else {
-      return import_lib143.MGPOptional.empty();
+      return import_lib146.MGPOptional.empty();
     }
   }
   getStoreContent(owner) {
@@ -24739,14 +25135,14 @@ var MancalaComponent = class _MancalaComponent extends RectangularGameComponent 
     const currentScore = this.constructedState.scores.get(owner);
     const difference = currentScore - previousScore;
     if (difference > 0) {
-      return import_lib143.MGPOptional.of("+" + difference);
+      return import_lib146.MGPOptional.of("+" + difference);
     } else {
-      return import_lib143.MGPOptional.empty();
+      return import_lib146.MGPOptional.empty();
     }
   }
   getPreviousStableState() {
     if (this.opponentMoveIsBeingAnimated) {
-      import_lib143.Utils.assert(this.getTurn() > 0, "Kalah: Should not animate move at turn 0");
+      import_lib146.Utils.assert(this.getTurn() > 0, "Kalah: Should not animate move at turn 0");
       return this.node.parent.get().gameState;
     } else {
       if (this.constructedState.equals(this.getState())) {
@@ -24789,9 +25185,9 @@ var MancalaComponent = class _MancalaComponent extends RectangularGameComponent 
   updateOrCreateCurrentMove(x2) {
     if (this.currentMove.isPresent()) {
       const newMove = this.addToMove(x2);
-      this.currentMove = import_lib143.MGPOptional.of(newMove);
+      this.currentMove = import_lib146.MGPOptional.of(newMove);
     } else {
-      this.currentMove = import_lib143.MGPOptional.of(this.generateMove(x2));
+      this.currentMove = import_lib146.MGPOptional.of(this.generateMove(x2));
     }
   }
   generateMove(x2) {
@@ -25025,9 +25421,9 @@ var AwaleComponent = class _AwaleComponent extends MancalaComponent {
 })();
 
 // src/app/games/mancala/ba-awa/BaAwaRules.ts
-var import_lib144 = __toESM(require_dist());
+var import_lib147 = __toESM(require_dist());
 var BaAwaRules = class _BaAwaRules extends MancalaRules {
-  static singleton = import_lib144.MGPOptional.empty();
+  static singleton = import_lib147.MGPOptional.empty();
   static RULES_CONFIG_DESCRIPTION = new RulesConfigDescription({
     name: () => $localize`Ba-awa`,
     config: {
@@ -25055,12 +25451,12 @@ var BaAwaRules = class _BaAwaRules extends MancalaRules {
   }]);
   static get() {
     if (_BaAwaRules.singleton.isAbsent()) {
-      _BaAwaRules.singleton = import_lib144.MGPOptional.of(new _BaAwaRules([4]));
+      _BaAwaRules.singleton = import_lib147.MGPOptional.of(new _BaAwaRules([4]));
     }
     return _BaAwaRules.singleton.get();
   }
   getRulesConfigDescription() {
-    return import_lib144.MGPOptional.of(_BaAwaRules.RULES_CONFIG_DESCRIPTION);
+    return import_lib147.MGPOptional.of(_BaAwaRules.RULES_CONFIG_DESCRIPTION);
   }
   applyCapture(distributionResult) {
     const captureMap = TableUtils.copy(distributionResult.captureMap);
@@ -25110,12 +25506,12 @@ var BaAwaRules = class _BaAwaRules extends MancalaRules {
 };
 
 // src/app/games/mancala/ba-awa/BaAwaTutorial.ts
-var defaultConfig12 = BaAwaRules.get().getDefaultRulesConfig();
+var defaultConfig13 = BaAwaRules.get().getDefaultRulesConfig();
 var BaAwaTutorial = class extends Tutorial {
   gameName = $localize`Ba-awa`;
   tutorial = [
-    MancalaTutorial.intro(this.gameName, BaAwaRules.get().getInitialState(defaultConfig12)),
-    TutorialStep.informational($localize`Ba-awa`, $localize`Bonus fact: Ba-awa, also called Adi, is played mainly in Ghana.`, BaAwaRules.get().getInitialState(defaultConfig12)),
+    MancalaTutorial.intro(this.gameName, BaAwaRules.get().getInitialState(defaultConfig13)),
+    TutorialStep.informational($localize`Ba-awa`, $localize`Bonus fact: Ba-awa, also called Adi, is played mainly in Ghana.`, BaAwaRules.get().getInitialState(defaultConfig13)),
     MancalaTutorial.sowing(new MancalaState([
       [4, 4, 4, 4, 4, 4],
       [4, 0, 4, 4, 4, 4]
@@ -25244,9 +25640,9 @@ var BaAwaComponent = class _BaAwaComponent extends MancalaComponent {
 })();
 
 // src/app/games/mancala/kalah/KalahRules.ts
-var import_lib145 = __toESM(require_dist());
+var import_lib148 = __toESM(require_dist());
 var KalahRules = class _KalahRules extends MancalaRules {
-  static singleton = import_lib145.MGPOptional.empty();
+  static singleton = import_lib148.MGPOptional.empty();
   static RULES_CONFIG_DESCRIPTION = new RulesConfigDescription({
     name: () => $localize`Kalah`,
     config: {
@@ -25261,12 +25657,12 @@ var KalahRules = class _KalahRules extends MancalaRules {
   });
   static get() {
     if (_KalahRules.singleton.isAbsent()) {
-      _KalahRules.singleton = import_lib145.MGPOptional.of(new _KalahRules([]));
+      _KalahRules.singleton = import_lib148.MGPOptional.of(new _KalahRules([]));
     }
     return _KalahRules.singleton.get();
   }
   getRulesConfigDescription() {
-    return import_lib145.MGPOptional.of(_KalahRules.RULES_CONFIG_DESCRIPTION);
+    return import_lib148.MGPOptional.of(_KalahRules.RULES_CONFIG_DESCRIPTION);
   }
   applyCapture(distributionResult) {
     const distributedState = distributionResult.resultingState;
@@ -25307,24 +25703,24 @@ var KalahRules = class _KalahRules extends MancalaRules {
 };
 
 // src/app/games/mancala/kalah/KalahTutorial.ts
-var import_lib146 = __toESM(require_dist());
-var defaultConfig13 = KalahRules.get().getDefaultRulesConfig();
+var import_lib149 = __toESM(require_dist());
+var defaultConfig14 = KalahRules.get().getDefaultRulesConfig();
 var KalahTutorial = class extends Tutorial {
   gameName = $localize`Kalah`;
   tutorial = [
-    MancalaTutorial.intro(this.gameName, KalahRules.get().getInitialState(defaultConfig13)),
-    TutorialStep.informational($localize`Kalah`, $localize`Bonus fact: Kalah has been created in the U.S.A in 1940 by William Julius Champion Jr.`, KalahRules.get().getInitialState(defaultConfig13)),
-    MancalaTutorial.sowing(KalahRules.get().getInitialState(defaultConfig13)),
-    TutorialStep.fromMove($localize`The Kalah` + " (1/2)", $localize`The houses on the extreme left and right, unaligned with the others, are the Kalah. Yours is on the left, the opponent's on the right. When sowing, before passing from your leftmost house to the leftmost house of the opponent, you must drop one seed in your Kalah, but you won't have to drop seed in your opponent's Kalah. When you make a capture, the captured seeds are put in your Kalah.<br/><br/>You're playing Dark. Make a move that passes through your Kalah then feeds opponent's houses.`, KalahRules.get().getInitialState(defaultConfig13), [
+    MancalaTutorial.intro(this.gameName, KalahRules.get().getInitialState(defaultConfig14)),
+    TutorialStep.informational($localize`Kalah`, $localize`Bonus fact: Kalah has been created in the U.S.A in 1940 by William Julius Champion Jr.`, KalahRules.get().getInitialState(defaultConfig14)),
+    MancalaTutorial.sowing(KalahRules.get().getInitialState(defaultConfig14)),
+    TutorialStep.fromMove($localize`The Kalah` + " (1/2)", $localize`The houses on the extreme left and right, unaligned with the others, are the Kalah. Yours is on the left, the opponent's on the right. When sowing, before passing from your leftmost house to the leftmost house of the opponent, you must drop one seed in your Kalah, but you won't have to drop seed in your opponent's Kalah. When you make a capture, the captured seeds are put in your Kalah.<br/><br/>You're playing Dark. Make a move that passes through your Kalah then feeds opponent's houses.`, KalahRules.get().getInitialState(defaultConfig14), [
       MancalaMove.of(MancalaDistribution.of(0)),
       MancalaMove.of(MancalaDistribution.of(1)),
       MancalaMove.of(MancalaDistribution.of(2))
     ], $localize`As you see, three houses have been fed in addition to your Kalah.`, $localize`Failed. Choose the three leftmost house on the bottom.`),
-    TutorialStep.fromPredicate($localize`The Kalah` + " (2/2)", $localize`When ending in the Kalah, you must distribute again.<br/><br/>You're playing Dark, play the house that ends up in the Kalah then do a second distribution!`, KalahRules.get().getInitialState(defaultConfig13), MancalaMove.of(MancalaDistribution.of(3), [MancalaDistribution.of(1)]), (move, _previous, _result) => {
+    TutorialStep.fromPredicate($localize`The Kalah` + " (2/2)", $localize`When ending in the Kalah, you must distribute again.<br/><br/>You're playing Dark, play the house that ends up in the Kalah then do a second distribution!`, KalahRules.get().getInitialState(defaultConfig14), MancalaMove.of(MancalaDistribution.of(3), [MancalaDistribution.of(1)]), (move, _previous, _result) => {
       if (move.distributions.length === 1) {
-        return import_lib146.MGPValidation.failure($localize`This move only distributed one house, do one distribution that ends in the Kalah, then do a second one!`);
+        return import_lib149.MGPValidation.failure($localize`This move only distributed one house, do one distribution that ends in the Kalah, then do a second one!`);
       } else {
-        return import_lib146.MGPValidation.SUCCESS;
+        return import_lib149.MGPValidation.SUCCESS;
       }
     }, TutorialStepMessage.CONGRATULATIONS()),
     TutorialStep.fromPredicate($localize`Captures`, $localize`When the last seed of a distribution ends up in one of your empty houses, if the opposite house is filled, then you capture both houses. On this board, such a move is possible.<br/><br/>You're playing Dark, do a capture!`, new MancalaState([
@@ -25332,9 +25728,9 @@ var KalahTutorial = class extends Tutorial {
       [0, 2, 0, 2, 4, 0]
     ], 4, PlayerNumberMap.of(0, 0)), MancalaMove.of(MancalaDistribution.of(1), [MancalaDistribution.of(0), MancalaDistribution.of(3)]), (_move, _state, resultingState) => {
       if (resultingState.getPieceAtXY(1, 0) === 0) {
-        return import_lib146.MGPValidation.SUCCESS;
+        return import_lib149.MGPValidation.SUCCESS;
       } else {
-        return import_lib146.MGPValidation.failure($localize`You did not capture, try again!`);
+        return import_lib149.MGPValidation.failure($localize`You did not capture, try again!`);
       }
     }, TutorialStepMessage.CONGRATULATIONS()),
     TutorialStep.fromMove(TutorialStepMessage.END_OF_THE_GAME(), $localize`At any moment, when one player has more than 24 seeds in their Kalah, they win. That can happen before the board is empty, but, there is also a second way. When you don't have any seed in your houses, the game is over and your opponent takes all the remaining seeds from their houses. Here, your opponent just need one more point to win and will get it next turn if you allow it.<br/><br/>You're playing Dark, win!`, new MancalaState([
@@ -25447,7 +25843,7 @@ var KalahComponent = class _KalahComponent extends MancalaComponent {
 })();
 
 // src/app/games/martian-chess/MartianChessRules.ts
-var import_lib150 = __toESM(require_dist());
+var import_lib153 = __toESM(require_dist());
 
 // src/app/games/martian-chess/MartianChessFailure.ts
 var MartianChessFailure = class {
@@ -25457,13 +25853,13 @@ var MartianChessFailure = class {
 };
 
 // src/app/games/martian-chess/MartianChessMove.ts
-var import_lib149 = __toESM(require_dist());
+var import_lib152 = __toESM(require_dist());
 
 // src/app/games/martian-chess/MartianChessState.ts
-var import_lib148 = __toESM(require_dist());
+var import_lib151 = __toESM(require_dist());
 
 // src/app/games/martian-chess/MartianChessPiece.ts
-var import_lib147 = __toESM(require_dist());
+var import_lib150 = __toESM(require_dist());
 var MartianChessPiece = class _MartianChessPiece {
   value;
   static EMPTY = new _MartianChessPiece(0);
@@ -25472,12 +25868,12 @@ var MartianChessPiece = class _MartianChessPiece {
   static QUEEN = new _MartianChessPiece(3);
   static tryMerge(left, right) {
     const noEmptyPieces = left !== _MartianChessPiece.EMPTY && right !== _MartianChessPiece.EMPTY;
-    import_lib147.Utils.assert(noEmptyPieces, "tryMerge cannot be called with empty pieces");
+    import_lib150.Utils.assert(noEmptyPieces, "tryMerge cannot be called with empty pieces");
     const totalValue = left.value + right.value;
     if (totalValue === 2 || totalValue === 3) {
-      return import_lib147.MGPOptional.of(_MartianChessPiece.of(totalValue));
+      return import_lib150.MGPOptional.of(_MartianChessPiece.of(totalValue));
     } else {
-      return import_lib147.MGPOptional.empty();
+      return import_lib150.MGPOptional.empty();
     }
   }
   static of(value) {
@@ -25485,7 +25881,7 @@ var MartianChessPiece = class _MartianChessPiece {
       case _MartianChessPiece.DRONE.value:
         return _MartianChessPiece.DRONE;
       default:
-        import_lib147.Utils.expectToBe(value, _MartianChessPiece.QUEEN.value);
+        import_lib150.Utils.expectToBe(value, _MartianChessPiece.QUEEN.value);
         return _MartianChessPiece.QUEEN;
     }
   }
@@ -25504,7 +25900,7 @@ var MartianChessPiece = class _MartianChessPiece {
 var MartianChessCapture = class _MartianChessCapture {
   captures;
   static of(pieces) {
-    const map = new import_lib148.MGPMap();
+    const map = new import_lib151.MGPMap();
     for (const piece of pieces) {
       _MartianChessCapture.addToMap(map, piece);
     }
@@ -25540,8 +25936,8 @@ var MartianChessState = class _MartianChessState extends GameStateWithTable {
   countDown;
   static WIDTH = 4;
   static HEIGHT = 8;
-  static PLAYER_ZERO_TERRITORY = new import_lib148.Set([4, 5, 6, 7]);
-  static PLAYER_ONE_TERRITORY = new import_lib148.Set([0, 1, 2, 3]);
+  static PLAYER_ZERO_TERRITORY = new import_lib151.Set([4, 5, 6, 7]);
+  static PLAYER_ONE_TERRITORY = new import_lib151.Set([0, 1, 2, 3]);
   static isOnBoard(coord) {
     return coord.isInRange(_MartianChessState.WIDTH, _MartianChessState.HEIGHT);
   }
@@ -25549,12 +25945,12 @@ var MartianChessState = class _MartianChessState extends GameStateWithTable {
     return _MartianChessState.isOnBoard(coord) === false;
   }
   captured;
-  constructor(board, turn, lastMove = import_lib148.MGPOptional.empty(), countDown = import_lib148.MGPOptional.empty(), captured) {
+  constructor(board, turn, lastMove = import_lib151.MGPOptional.empty(), countDown = import_lib151.MGPOptional.empty(), captured) {
     super(board, turn);
     this.lastMove = lastMove;
     this.countDown = countDown;
     if (captured == null) {
-      captured = new import_lib148.MGPMap([
+      captured = new import_lib151.MGPMap([
         { key: Player.ZERO, value: MartianChessCapture.of([]) },
         { key: Player.ONE, value: MartianChessCapture.of([]) }
       ]);
@@ -25586,11 +25982,11 @@ var MartianChessState = class _MartianChessState extends GameStateWithTable {
   }
   getEmptyTerritory() {
     if (this.isTerritoryEmpty(Player.ZERO)) {
-      return import_lib148.MGPOptional.of(Player.ZERO);
+      return import_lib151.MGPOptional.of(Player.ZERO);
     } else if (this.isTerritoryEmpty(Player.ONE)) {
-      return import_lib148.MGPOptional.of(Player.ONE);
+      return import_lib151.MGPOptional.of(Player.ONE);
     } else {
-      return import_lib148.MGPOptional.empty();
+      return import_lib151.MGPOptional.empty();
     }
   }
   isTerritoryEmpty(player) {
@@ -25633,22 +26029,22 @@ var MartianChessMoveFailure = class {
 };
 var MartianChessMove = class _MartianChessMove extends MoveCoordToCoord {
   calledTheClock;
-  static encoder = import_lib149.Encoder.tuple([Coord.encoder, Coord.encoder, import_lib149.Encoder.identity()], (move) => [move.getStart(), move.getEnd(), move.calledTheClock], (f) => _MartianChessMove.from(f[0], f[1], f[2]).get());
+  static encoder = import_lib152.Encoder.tuple([Coord.encoder, Coord.encoder, import_lib152.Encoder.identity()], (move) => [move.getStart(), move.getEnd(), move.calledTheClock], (f) => _MartianChessMove.from(f[0], f[1], f[2]).get());
   static from(start, end, calledTheClock = false) {
     if (MartianChessState.isNotOnBoard(start)) {
-      return import_lib149.MGPFallible.failure(MartianChessMoveFailure.START_COORD_OUT_OF_RANGE());
+      return import_lib152.MGPFallible.failure(MartianChessMoveFailure.START_COORD_OUT_OF_RANGE());
     }
     if (MartianChessState.isNotOnBoard(end)) {
-      return import_lib149.MGPFallible.failure(MartianChessMoveFailure.END_COORD_OUT_OF_RANGE());
+      return import_lib152.MGPFallible.failure(MartianChessMoveFailure.END_COORD_OUT_OF_RANGE());
     }
     if (end.equals(start)) {
-      return import_lib149.MGPFallible.failure(RulesFailure.MOVE_CANNOT_BE_STATIC());
+      return import_lib152.MGPFallible.failure(RulesFailure.MOVE_CANNOT_BE_STATIC());
     }
     const dir = Ordinal.factory.fromDelta(end.x - start.x, end.y - start.y);
     if (dir.isFailure()) {
-      return import_lib149.MGPFallible.failure(dir.getReason());
+      return import_lib152.MGPFallible.failure(dir.getReason());
     }
-    return import_lib149.MGPFallible.success(new _MartianChessMove(start, end, calledTheClock));
+    return import_lib152.MGPFallible.success(new _MartianChessMove(start, end, calledTheClock));
   }
   constructor(start, end, calledTheClock) {
     super(start, end);
@@ -25684,30 +26080,30 @@ var MartianChessMove = class _MartianChessMove extends MoveCoordToCoord {
 
 // src/app/games/martian-chess/MartianChessRules.ts
 var MartianChessRules = class _MartianChessRules extends Rules {
-  static STARTING_COUNT_DOWN = import_lib150.MGPOptional.of(7);
-  static singleton = import_lib150.MGPOptional.empty();
+  static STARTING_COUNT_DOWN = import_lib153.MGPOptional.of(7);
+  static singleton = import_lib153.MGPOptional.empty();
   static get() {
     if (_MartianChessRules.singleton.isAbsent()) {
-      _MartianChessRules.singleton = import_lib150.MGPOptional.of(new _MartianChessRules());
+      _MartianChessRules.singleton = import_lib153.MGPOptional.of(new _MartianChessRules());
     }
     return _MartianChessRules.singleton.get();
   }
   getInitialState() {
-    const _31 = MartianChessPiece.EMPTY;
+    const _32 = MartianChessPiece.EMPTY;
     const A9 = MartianChessPiece.PAWN;
     const B7 = MartianChessPiece.DRONE;
     const C2 = MartianChessPiece.QUEEN;
     const board = [
-      [C2, C2, B7, _31],
-      [C2, B7, A9, _31],
-      [B7, A9, A9, _31],
-      [_31, _31, _31, _31],
-      [_31, _31, _31, _31],
-      [_31, A9, A9, B7],
-      [_31, A9, B7, C2],
-      [_31, B7, C2, C2]
+      [C2, C2, B7, _32],
+      [C2, B7, A9, _32],
+      [B7, A9, A9, _32],
+      [_32, _32, _32, _32],
+      [_32, _32, _32, _32],
+      [_32, A9, A9, B7],
+      [_32, A9, B7, C2],
+      [_32, B7, C2, C2]
     ];
-    return new MartianChessState(board, 0, import_lib150.MGPOptional.empty());
+    return new MartianChessState(board, 0, import_lib153.MGPOptional.empty());
   }
   applyLegalMove(move, state, _config, info) {
     const newBoard = state.getCopiedBoard();
@@ -25722,13 +26118,13 @@ var MartianChessRules = class _MartianChessRules extends Rules {
         countDown = _MartianChessRules.STARTING_COUNT_DOWN;
       } else {
         const previousRemainingTurn = state.countDown.get();
-        countDown = import_lib150.MGPOptional.of(previousRemainingTurn - 1);
+        countDown = import_lib153.MGPOptional.of(previousRemainingTurn - 1);
       }
     }
     if (move.calledTheClock) {
       countDown = _MartianChessRules.STARTING_COUNT_DOWN;
     }
-    return new MartianChessState(newBoard, state.turn + 1, import_lib150.MGPOptional.of(move), countDown, captured);
+    return new MartianChessState(newBoard, state.turn + 1, import_lib153.MGPOptional.of(move), countDown, captured);
   }
   isLegal(move, state) {
     this.assertNonDoubleClockCall(move, state);
@@ -25737,7 +26133,7 @@ var MartianChessRules = class _MartianChessRules extends Rules {
       return moveLegality.toOtherFallible();
     }
     if (move.isUndoneBy(state.lastMove)) {
-      return import_lib150.MGPFallible.failure(MartianChessFailure.CANNOT_UNDO_LAST_MOVE());
+      return import_lib153.MGPFallible.failure(MartianChessFailure.CANNOT_UNDO_LAST_MOVE());
     }
     if (this.isFieldPromotion(move, state)) {
       return this.isLegalFieldPromotion(move, state);
@@ -25753,13 +26149,13 @@ var MartianChessRules = class _MartianChessRules extends Rules {
       captured.makeImmutable();
     }
     const moveResult = { finalPiece: landingPiece, score: captured };
-    return import_lib150.MGPFallible.success(moveResult);
+    return import_lib153.MGPFallible.success(moveResult);
   }
   assertNonDoubleClockCall(move, state) {
     const clockHadAlreadyBeenCalled = state.countDown.isPresent();
     const clockCalledThisTurn = move.calledTheClock;
     const doubleClockCall = clockHadAlreadyBeenCalled && clockCalledThisTurn;
-    import_lib150.Utils.assert(doubleClockCall === false, "Should not call the clock twice");
+    import_lib153.Utils.assert(doubleClockCall === false, "Should not call the clock twice");
   }
   isCapture(move, state) {
     const moveEndsInOpponentTerritory = state.isInOpponentTerritory(move.getEnd());
@@ -25774,44 +26170,44 @@ var MartianChessRules = class _MartianChessRules extends Rules {
   isLegalFieldPromotion(move, state) {
     const optCreatedPiece = this.getPromotedPiece(move, state);
     if (optCreatedPiece.isAbsent()) {
-      return import_lib150.MGPFallible.failure(MartianChessFailure.CANNOT_CAPTURE_YOUR_OWN_PIECE_NOR_PROMOTE_IT());
+      return import_lib153.MGPFallible.failure(MartianChessFailure.CANNOT_CAPTURE_YOUR_OWN_PIECE_NOR_PROMOTE_IT());
     }
     const createdPiece = optCreatedPiece.get();
     if (state.isTherePieceOnPlayerSide(createdPiece)) {
-      return import_lib150.MGPFallible.failure(MartianChessFailure.CANNOT_CAPTURE_YOUR_OWN_PIECE_NOR_PROMOTE_IT());
+      return import_lib153.MGPFallible.failure(MartianChessFailure.CANNOT_CAPTURE_YOUR_OWN_PIECE_NOR_PROMOTE_IT());
     } else {
       const moveResult = {
         finalPiece: createdPiece,
         score: state.captured.getCopy()
       };
-      return import_lib150.MGPFallible.success(moveResult);
+      return import_lib153.MGPFallible.success(moveResult);
     }
   }
   isLegalMove(move, state) {
     const moveStartsInPlayerTerritory = state.isInPlayerTerritory(move.getStart());
     if (moveStartsInPlayerTerritory === false) {
-      return import_lib150.MGPValidation.failure(MartianChessFailure.MUST_CHOOSE_PIECE_FROM_YOUR_TERRITORY());
+      return import_lib153.MGPValidation.failure(MartianChessFailure.MUST_CHOOSE_PIECE_FROM_YOUR_TERRITORY());
     }
     const movedPiece = state.getPieceAt(move.getStart());
     if (movedPiece === MartianChessPiece.EMPTY) {
-      return import_lib150.MGPValidation.failure(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_EMPTY());
+      return import_lib153.MGPValidation.failure(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_EMPTY());
     } else if (movedPiece === MartianChessPiece.PAWN) {
       if (move.isValidForPawn()) {
-        return import_lib150.MGPValidation.SUCCESS;
+        return import_lib153.MGPValidation.SUCCESS;
       } else {
-        return import_lib150.MGPValidation.failure(MartianChessMoveFailure.PAWN_MUST_MOVE_ONE_DIAGONAL_STEP());
+        return import_lib153.MGPValidation.failure(MartianChessMoveFailure.PAWN_MUST_MOVE_ONE_DIAGONAL_STEP());
       }
     } else if (movedPiece === MartianChessPiece.DRONE) {
       if (move.isValidForDrone() === false) {
-        return import_lib150.MGPValidation.failure(MartianChessMoveFailure.DRONE_MUST_DO_TWO_ORTHOGONAL_STEPS());
+        return import_lib153.MGPValidation.failure(MartianChessMoveFailure.DRONE_MUST_DO_TWO_ORTHOGONAL_STEPS());
       }
     }
     for (const coord of move.getJumpedOverCoords()) {
       if (state.getPieceAt(coord) !== MartianChessPiece.EMPTY) {
-        return import_lib150.MGPValidation.failure(RulesFailure.SOMETHING_IN_THE_WAY());
+        return import_lib153.MGPValidation.failure(RulesFailure.SOMETHING_IN_THE_WAY());
       }
     }
-    return import_lib150.MGPValidation.SUCCESS;
+    return import_lib153.MGPValidation.SUCCESS;
   }
   getPromotedPiece(move, state) {
     const startPiece = state.getPieceAt(move.getStart());
@@ -25844,8 +26240,8 @@ var MartianChessRules = class _MartianChessRules extends Rules {
 };
 
 // src/app/games/martian-chess/MartianChessTutorial.ts
-var import_lib151 = __toESM(require_dist());
-var _15 = MartianChessPiece.EMPTY;
+var import_lib154 = __toESM(require_dist());
+var _16 = MartianChessPiece.EMPTY;
 var A4 = MartianChessPiece.PAWN;
 var B5 = MartianChessPiece.DRONE;
 var C = MartianChessPiece.QUEEN;
@@ -25855,122 +26251,122 @@ var MartianChessTutorial = class extends Tutorial {
     TutorialStep.informational($localize`The pieces`, $localize`The pieces are dark on the side of the first player, the light ones on the side of the second one. There are 3 kind of pieces: <ul><li>The Queens: represented as circles with 3 dots.</li><li>The Drones: represented as circles with 2 dots.</li><li>The Pawns: represented as circles with one dot.</li></ul>`, MartianChessRules.get().getInitialState()),
     TutorialStep.fromPredicate($localize`Moving pawns`, $localize`Pawns are worth one point. They can move one step diagonally.<br/><br/>You're playing Dark, move a pawn.`, MartianChessRules.get().getInitialState(), MartianChessMove.from(new Coord(2, 5), new Coord(1, 4)).get(), (move, _previous, result) => {
       if (result.getPieceAt(move.getEnd()) === MartianChessPiece.PAWN) {
-        return import_lib151.MGPValidation.SUCCESS;
+        return import_lib154.MGPValidation.SUCCESS;
       } else {
-        return import_lib151.MGPValidation.failure($localize`This is not a pawn!`);
+        return import_lib154.MGPValidation.failure($localize`This is not a pawn!`);
       }
     }, TutorialStepMessage.CONGRATULATIONS()),
     TutorialStep.fromPredicate($localize`Moving drones`, $localize`Drones are worth two points. They can move one or two steps in any direction, in a straight line, without jumping over other pieces.<br/><br/>You're playing Dark, move a drone.`, MartianChessRules.get().getInitialState(), MartianChessMove.from(new Coord(1, 7), new Coord(0, 7)).get(), (move, _previous, result) => {
       if (result.getPieceAt(move.getEnd()) === MartianChessPiece.DRONE) {
-        return import_lib151.MGPValidation.SUCCESS;
+        return import_lib154.MGPValidation.SUCCESS;
       } else {
-        return import_lib151.MGPValidation.failure($localize`This is not a drone!`);
+        return import_lib154.MGPValidation.failure($localize`This is not a drone!`);
       }
     }, TutorialStepMessage.CONGRATULATIONS()),
     TutorialStep.fromPredicate($localize`Moving queens`, $localize`Queens are worth three points. They can move any number of steps in any direction, in a straight line, without jumping over other pieces.<br/><br/>You're playing Light, move a queen.`, new MartianChessState([
-      [B5, A4, _15, _15],
-      [C, _15, _15, _15],
-      [_15, _15, _15, _15],
-      [_15, _15, C, _15],
-      [_15, _15, _15, _15],
-      [_15, _15, _15, _15],
-      [_15, _15, _15, _15],
-      [C, B5, A4, _15]
+      [B5, A4, _16, _16],
+      [C, _16, _16, _16],
+      [_16, _16, _16, _16],
+      [_16, _16, C, _16],
+      [_16, _16, _16, _16],
+      [_16, _16, _16, _16],
+      [_16, _16, _16, _16],
+      [C, B5, A4, _16]
     ], 1), MartianChessMove.from(new Coord(2, 3), new Coord(2, 7)).get(), (move, _previous, result) => {
       if (result.getPieceAt(move.getEnd()) === MartianChessPiece.QUEEN) {
-        return import_lib151.MGPValidation.SUCCESS;
+        return import_lib154.MGPValidation.SUCCESS;
       } else {
-        return import_lib151.MGPValidation.failure($localize`This is not a queen!`);
+        return import_lib154.MGPValidation.failure($localize`This is not a queen!`);
       }
     }, TutorialStepMessage.CONGRATULATIONS()),
     TutorialStep.fromMove($localize`Captures`, $localize`When a piece crosses the canal and lands on another piece, you capture it and gain the value of that captured piece. However, you lose control of your piece as it crosses the canal!<br/><br/>A capture is possible for Light, do it.`, new MartianChessState([
-      [B5, A4, A4, _15],
-      [_15, _15, _15, _15],
-      [C, _15, _15, _15],
-      [_15, _15, _15, _15],
-      [_15, _15, A4, _15],
-      [_15, _15, _15, _15],
-      [_15, _15, _15, _15],
-      [_15, B5, A4, _15]
+      [B5, A4, A4, _16],
+      [_16, _16, _16, _16],
+      [C, _16, _16, _16],
+      [_16, _16, _16, _16],
+      [_16, _16, A4, _16],
+      [_16, _16, _16, _16],
+      [_16, _16, _16, _16],
+      [_16, B5, A4, _16]
     ], 1), [MartianChessMove.from(new Coord(0, 2), new Coord(2, 4)).get()], $localize`Congratulations! By capturing that pawn, you won one point.`, TutorialStepMessage.YOU_DID_NOT_CAPTURE_ANY_PIECE()),
     TutorialStep.fromMove($localize`Field Promotion` + " (1/2)", $localize`It is sometimes possible to perform what is called a field promotion. If you are out of one type of piece, you can merge two pieces to add their value and get a new piece. For example, if you have no drones, you can merge two pawns into a drone. To merge two pawns, move one of your pawns on another.<br/><br/>Such a move is possible for Light. Do it.`, new MartianChessState([
-      [_15, _15, _15, C],
-      [_15, A4, _15, _15],
-      [_15, _15, A4, _15],
-      [_15, _15, _15, _15],
-      [_15, _15, _15, _15],
-      [_15, _15, _15, C],
-      [_15, _15, B5, _15],
-      [_15, A4, _15, _15]
+      [_16, _16, _16, C],
+      [_16, A4, _16, _16],
+      [_16, _16, A4, _16],
+      [_16, _16, _16, _16],
+      [_16, _16, _16, _16],
+      [_16, _16, _16, C],
+      [_16, _16, B5, _16],
+      [_16, A4, _16, _16]
     ], 1), [
       MartianChessMove.from(new Coord(1, 1), new Coord(2, 2)).get(),
       MartianChessMove.from(new Coord(2, 2), new Coord(1, 1)).get()
     ], TutorialStepMessage.CONGRATULATIONS(), $localize`This is not a field promotion!`),
     TutorialStep.fromPredicate($localize`Field Promotion` + " (2/2)", $localize`The other kind of field promotion is to merge a drone and a pawn to obtain a queen.<br/><br/>Such a move is possible for Light. Do it.`, new MartianChessState([
-      [A4, _15, _15, _15],
-      [_15, _15, _15, _15],
-      [_15, _15, _15, _15],
-      [_15, _15, _15, _15],
-      [_15, _15, _15, _15],
-      [_15, _15, _15, _15],
-      [_15, _15, B5, _15],
-      [_15, A4, _15, _15]
+      [A4, _16, _16, _16],
+      [_16, _16, _16, _16],
+      [_16, _16, _16, _16],
+      [_16, _16, _16, _16],
+      [_16, _16, _16, _16],
+      [_16, _16, _16, _16],
+      [_16, _16, B5, _16],
+      [_16, A4, _16, _16]
     ], 0), MartianChessMove.from(new Coord(1, 7), new Coord(2, 6)).get(), (move, _previous, result) => {
       const landed = result.getPieceAt(move.getEnd());
       if (landed === MartianChessPiece.QUEEN) {
-        return import_lib151.MGPValidation.SUCCESS;
+        return import_lib154.MGPValidation.SUCCESS;
       } else {
-        return import_lib151.MGPValidation.failure($localize`This is not a field promotion!`);
+        return import_lib154.MGPValidation.failure($localize`This is not a field promotion!`);
       }
     }, TutorialStepMessage.CONGRATULATIONS()),
     TutorialStep.fromPredicate($localize`Call the clock`, $localize`When the game seems to be going nowhere, you can "call the clock" during your turn. To do so, click on the clock symbol on the right, then perform your move. Once the clock is called, seven more turn will be played.<br/><br/>You're playing Dark. Call the clock and perform a move.`, MartianChessRules.get().getInitialState(), MartianChessMove.from(new Coord(1, 5), new Coord(0, 4), true).get(), (move, _previous, _result) => {
       if (move.calledTheClock) {
-        return import_lib151.MGPValidation.SUCCESS;
+        return import_lib154.MGPValidation.SUCCESS;
       } else {
-        return import_lib151.MGPValidation.failure($localize`You did not call the clock!`);
+        return import_lib154.MGPValidation.failure($localize`You did not call the clock!`);
       }
     }, TutorialStepMessage.CONGRATULATIONS()),
     TutorialStep.fromMove($localize`Restarting the clock`, $localize`If the clock has been called, whenever a capture is done the countdown restarts.<br/><br/>You're playing Dark, do a capture to restart the countdown.`, new MartianChessState([
-      [_15, _15, _15, _15],
-      [_15, A4, _15, _15],
-      [_15, _15, _15, _15],
-      [_15, _15, _15, _15],
-      [_15, _15, _15, _15],
-      [_15, _15, _15, A4],
-      [_15, _15, B5, _15],
-      [_15, C, _15, _15]
-    ], 16, import_lib151.MGPOptional.empty(), import_lib151.MGPOptional.of(1)), [MartianChessMove.from(new Coord(1, 7), new Coord(1, 1)).get()], TutorialStepMessage.CONGRATULATIONS(), $localize`This is not a capture, the game is now over, please retry!`),
+      [_16, _16, _16, _16],
+      [_16, A4, _16, _16],
+      [_16, _16, _16, _16],
+      [_16, _16, _16, _16],
+      [_16, _16, _16, _16],
+      [_16, _16, _16, A4],
+      [_16, _16, B5, _16],
+      [_16, C, _16, _16]
+    ], 16, import_lib154.MGPOptional.empty(), import_lib154.MGPOptional.of(1)), [MartianChessMove.from(new Coord(1, 7), new Coord(1, 1)).get()], TutorialStepMessage.CONGRATULATIONS(), $localize`This is not a capture, the game is now over, please retry!`),
     TutorialStep.anyMove($localize`End game (by clock)`, $localize`When seven turns have passed after the clock has been called, the player with the most points win. If both player have the same number of points, it is a tie.<br/><br/>You're playing Light, do the last move.`, new MartianChessState([
-      [_15, _15, _15, C],
-      [_15, A4, _15, _15],
-      [_15, _15, _15, _15],
-      [_15, _15, _15, _15],
-      [_15, _15, _15, _15],
-      [B5, _15, _15, _15],
-      [_15, _15, _15, _15],
-      [_15, B5, _15, _15]
-    ], 15, import_lib151.MGPOptional.empty(), import_lib151.MGPOptional.of(1)), MartianChessMove.from(new Coord(1, 1), new Coord(2, 2)).get(), TutorialStepMessage.CONGRATULATIONS()),
+      [_16, _16, _16, C],
+      [_16, A4, _16, _16],
+      [_16, _16, _16, _16],
+      [_16, _16, _16, _16],
+      [_16, _16, _16, _16],
+      [B5, _16, _16, _16],
+      [_16, _16, _16, _16],
+      [_16, B5, _16, _16]
+    ], 15, import_lib154.MGPOptional.empty(), import_lib154.MGPOptional.of(1)), MartianChessMove.from(new Coord(1, 1), new Coord(2, 2)).get(), TutorialStepMessage.CONGRATULATIONS()),
     TutorialStep.fromPredicate($localize`End by emptyness`, $localize`When a player's last piece is moved into the opponent territory, the game ends. If both players have the same number of points, the last player win!<br/><br/>Light player can win this way, do it!`, new MartianChessState([
-      [_15, _15, _15, C],
-      [_15, A4, _15, _15],
-      [_15, _15, _15, _15],
-      [_15, _15, _15, _15],
-      [_15, _15, A4, _15],
-      [_15, _15, _15, _15],
-      [_15, _15, _15, _15],
-      [_15, _15, _15, _15]
+      [_16, _16, _16, C],
+      [_16, A4, _16, _16],
+      [_16, _16, _16, _16],
+      [_16, _16, _16, _16],
+      [_16, _16, A4, _16],
+      [_16, _16, _16, _16],
+      [_16, _16, _16, _16],
+      [_16, _16, _16, _16]
     ], 0), MartianChessMove.from(new Coord(2, 4), new Coord(1, 3)).get(), (move, _previous, _result) => {
       if (move.getEnd().y === 3) {
-        return import_lib151.MGPValidation.SUCCESS;
+        return import_lib154.MGPValidation.SUCCESS;
       } else {
-        return import_lib151.MGPValidation.failure($localize`Your piece is still in you territory!`);
+        return import_lib154.MGPValidation.failure($localize`Your piece is still in you territory!`);
       }
     }, TutorialStepMessage.CONGRATULATIONS())
   ];
 };
 
 // src/app/games/martian-chess/martian-chess.component.ts
-var import_lib152 = __toESM(require_dist());
+var import_lib155 = __toESM(require_dist());
 
 // src/app/games/martian-chess/MartianChessComponentUtils.ts
 var MartianChessComponentUtils = class _MartianChessComponentUtils {
@@ -26712,9 +27108,9 @@ var MartianChessQueenComponent = class _MartianChessQueenComponent {
 
 // src/app/games/martian-chess/martian-chess.component.ts
 var _c012 = (a0) => [a0];
-var _forTrack018 = ($index, $item) => $item.coord.toString();
+var _forTrack019 = ($index, $item) => $item.coord.toString();
 var _forTrack18 = ($index, $item) => $item.toString();
-var _forTrack2 = ($index, $item) => $item.name;
+var _forTrack22 = ($index, $item) => $item.name;
 function MartianChessComponent_For_3_Conditional_2_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
@@ -26884,7 +27280,7 @@ function MartianChessComponent_Conditional_14_Template(rf, ctx) {
     \u0275\u0275namespaceSVG();
     \u0275\u0275elementStart(0, "g", 10);
     \u0275\u0275element(1, "rect", 22);
-    \u0275\u0275repeaterCreate(2, MartianChessComponent_Conditional_14_For_3_Template, 2, 7, ":svg:ng-container", null, _forTrack2);
+    \u0275\u0275repeaterCreate(2, MartianChessComponent_Conditional_14_For_3_Template, 2, 7, ":svg:ng-container", null, _forTrack22);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -27027,11 +27423,11 @@ var MartianChessComponent = class _MartianChessComponent extends RectangularGame
   pieces = MartianChessPiece;
   configViewTranslation;
   configCogTransformation;
-  selectedPieceInfo = import_lib152.MGPOptional.empty();
+  selectedPieceInfo = import_lib155.MGPOptional.empty();
   lastMoved = [];
-  captured = import_lib152.MGPOptional.empty();
-  promoted = import_lib152.MGPOptional.empty();
-  countDown = import_lib152.MGPOptional.empty();
+  captured = import_lib155.MGPOptional.empty();
+  promoted = import_lib155.MGPOptional.empty();
+  countDown = import_lib155.MGPOptional.empty();
   callTheClock = false;
   displayModePanel = false;
   listOfStyles = [
@@ -27050,7 +27446,7 @@ var MartianChessComponent = class _MartianChessComponent extends RectangularGame
     ];
     this.encoder = MartianChessMove.encoder;
     this.hasAsymmetricBoard = true;
-    this.scores = import_lib152.MGPOptional.of(PlayerNumberMap.of(0, 0));
+    this.scores = import_lib155.MGPOptional.of(PlayerNumberMap.of(0, 0));
     this.SPACE_SIZE = MartianChessComponentUtils.SPACE_SIZE;
     this.configCogTransformation = this.getConfigCogTransformation();
     this.configViewTranslation = this.getConfigViewTranslation();
@@ -27084,7 +27480,7 @@ var MartianChessComponent = class _MartianChessComponent extends RectangularGame
       const scoreZero = this.state.getScoreOf(Player.ZERO);
       const scoreOne = this.state.getScoreOf(Player.ONE);
       this.countDown = this.state.countDown;
-      this.scores = import_lib152.MGPOptional.of(PlayerNumberMap.of(scoreZero, scoreOne));
+      this.scores = import_lib155.MGPOptional.of(PlayerNumberMap.of(scoreZero, scoreOne));
     });
   }
   showLastMove(move) {
@@ -27096,17 +27492,17 @@ var MartianChessComponent = class _MartianChessComponent extends RectangularGame
       const landingInOpponentTerritory = this.node.gameState.isInPlayerTerritory(landing);
       if (wasFilled) {
         if (landingInOpponentTerritory) {
-          this.captured = import_lib152.MGPOptional.of(landing);
+          this.captured = import_lib155.MGPOptional.of(landing);
         } else {
-          this.promoted = import_lib152.MGPOptional.of(landing);
+          this.promoted = import_lib155.MGPOptional.of(landing);
         }
       }
     });
   }
   hideLastMove() {
     this.lastMoved = [];
-    this.captured = import_lib152.MGPOptional.empty();
-    this.promoted = import_lib152.MGPOptional.empty();
+    this.captured = import_lib155.MGPOptional.empty();
+    this.promoted = import_lib155.MGPOptional.empty();
   }
   getPieceClasses(coord) {
     const classes = [];
@@ -27145,11 +27541,11 @@ var MartianChessComponent = class _MartianChessComponent extends RectangularGame
   selectAsFirstPiece(coord) {
     return __async(this, null, function* () {
       const legalLandings = this.getLegalLandings(coord);
-      this.selectedPieceInfo = import_lib152.MGPOptional.of({
+      this.selectedPieceInfo = import_lib155.MGPOptional.of({
         selectedPiece: coord,
         legalLandings
       });
-      return import_lib152.MGPValidation.SUCCESS;
+      return import_lib155.MGPValidation.SUCCESS;
     });
   }
   getLegalLandings(coord) {
@@ -27195,7 +27591,7 @@ var MartianChessComponent = class _MartianChessComponent extends RectangularGame
         return this.cancelMove();
       } else if (info.legalLandings.some((c) => c.equals(endCoord))) {
         const move = MartianChessMove.from(info.selectedPiece, endCoord, this.callTheClock);
-        import_lib152.Utils.assert(move.isSuccess(), "MartianChessComponent or Rules did a mistake thinking this would have been a legal move!");
+        import_lib155.Utils.assert(move.isSuccess(), "MartianChessComponent or Rules did a mistake thinking this would have been a legal move!");
         return this.chooseMove(move.get());
       } else if (this.isOneOfUsersPieces(endCoord)) {
         return this.selectAsFirstPiece(endCoord);
@@ -27213,7 +27609,7 @@ var MartianChessComponent = class _MartianChessComponent extends RectangularGame
     return this.state.getPieceAt(coord) !== MartianChessPiece.EMPTY && this.state.isInPlayerTerritory(coord);
   }
   cancelMoveAttempt() {
-    this.selectedPieceInfo = import_lib152.MGPOptional.empty();
+    this.selectedPieceInfo = import_lib155.MGPOptional.empty();
     this.callTheClock = false;
   }
   onClockClick() {
@@ -27226,7 +27622,7 @@ var MartianChessComponent = class _MartianChessComponent extends RectangularGame
       if (canCallTheClock) {
         this.callTheClock = this.callTheClock === false;
       }
-      return import_lib152.MGPValidation.SUCCESS;
+      return import_lib155.MGPValidation.SUCCESS;
     });
   }
   getClockCircleClasses() {
@@ -27287,7 +27683,7 @@ var MartianChessComponent = class _MartianChessComponent extends RectangularGame
     if (rf & 1) {
       \u0275\u0275namespaceSVG();
       \u0275\u0275elementStart(0, "svg", 0)(1, "g");
-      \u0275\u0275repeaterCreate(2, MartianChessComponent_For_3_Template, 3, 11, ":svg:g", 1, _forTrack018);
+      \u0275\u0275repeaterCreate(2, MartianChessComponent_For_3_Template, 3, 11, ":svg:g", 1, _forTrack019);
       \u0275\u0275conditionalCreate(4, MartianChessComponent_Conditional_4_Template, 3, 0, ":svg:g");
       \u0275\u0275elementEnd();
       \u0275\u0275elementStart(5, "g", 2);
@@ -27514,7 +27910,7 @@ var MartianChessComponent = class _MartianChessComponent extends RectangularGame
 })();
 
 // src/app/games/p4/P4Rules.ts
-var import_lib153 = __toESM(require_dist());
+var import_lib156 = __toESM(require_dist());
 
 // src/app/games/p4/P4Failure.ts
 var P4Failure = class {
@@ -27526,7 +27922,7 @@ var P4State = class extends PlayerOrNoneGameStateWithTable {
 };
 
 // src/app/games/p4/P4Rules.ts
-var __decorate11 = function(decorators, target, key, desc) {
+var __decorate12 = function(decorators, target, key, desc) {
   var c = arguments.length, r2 = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d2;
   if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r2 = Reflect.decorate(decorators, target, key, desc);
   else for (var i2 = decorators.length - 1; i2 >= 0; i2--) if (d2 = decorators[i2]) r2 = (c < 3 ? d2(r2) : c > 3 ? d2(target, key, r2) : d2(target, key)) || r2;
@@ -27537,17 +27933,17 @@ var _a5;
 var P4Rules = (_a5 = class extends ConfigurableRules {
   static get() {
     if (P4Rules_1.singleton.isAbsent()) {
-      P4Rules_1.singleton = import_lib153.MGPOptional.of(new P4Rules_1());
+      P4Rules_1.singleton = import_lib156.MGPOptional.of(new P4Rules_1());
     }
     return P4Rules_1.singleton.get();
   }
   P4_HELPER;
   constructor() {
     super();
-    this.P4_HELPER = new NInARowHelper(import_lib153.Utils.identity, 4);
+    this.P4_HELPER = new NInARowHelper(import_lib156.Utils.identity, 4);
   }
   getRulesConfigDescription() {
-    return import_lib153.MGPOptional.of(P4Rules_1.RULES_CONFIG_DESCRIPTION);
+    return import_lib156.MGPOptional.of(P4Rules_1.RULES_CONFIG_DESCRIPTION);
   }
   getInitialState(config) {
     const board = TableUtils.create(config.get().width, config.get().height, PlayerOrNone.NONE);
@@ -27564,9 +27960,9 @@ var P4Rules = (_a5 = class extends ConfigurableRules {
   }
   isLegal(move, state) {
     if (state.getPieceAtXY(move.x, 0).isPlayer()) {
-      return import_lib153.MGPValidation.failure(P4Failure.COLUMN_IS_FULL());
+      return import_lib156.MGPValidation.failure(P4Failure.COLUMN_IS_FULL());
     }
-    return import_lib153.MGPValidation.SUCCESS;
+    return import_lib156.MGPValidation.SUCCESS;
   }
   getGameStatus(node) {
     const state = node.gameState;
@@ -27589,24 +27985,24 @@ var P4Rules = (_a5 = class extends ConfigurableRules {
     }
     return y - 1;
   }
-}, P4Rules_1 = _a5, __publicField(_a5, "singleton", import_lib153.MGPOptional.empty()), __publicField(_a5, "RULES_CONFIG_DESCRIPTION", new RulesConfigDescription({
+}, P4Rules_1 = _a5, __publicField(_a5, "singleton", import_lib156.MGPOptional.empty()), __publicField(_a5, "RULES_CONFIG_DESCRIPTION", new RulesConfigDescription({
   name: () => $localize`Four in a Row`,
   config: {
     width: new NumberConfig(7, RulesConfigDescriptionLocalizable.WIDTH, MGPValidators.range(1, 99)),
     height: new NumberConfig(6, RulesConfigDescriptionLocalizable.HEIGHT, MGPValidators.range(1, 99))
   }
 })), _a5);
-P4Rules = P4Rules_1 = __decorate11([
+P4Rules = P4Rules_1 = __decorate12([
   Debug.log
 ], P4Rules);
 
 // src/app/games/p4/P4Move.ts
-var import_lib154 = __toESM(require_dist());
+var import_lib157 = __toESM(require_dist());
 var P4Move = class _P4Move extends Move {
   x;
-  static encoder = import_lib154.Encoder.tuple([import_lib154.Encoder.identity()], (move) => [move.x], (value) => _P4Move.of(value[0]));
+  static encoder = import_lib157.Encoder.tuple([import_lib157.Encoder.identity()], (move) => [move.x], (value) => _P4Move.of(value[0]));
   static of(x2) {
-    import_lib154.Utils.assert(0 <= x2, "P4Move should be a positive integer!");
+    import_lib157.Utils.assert(0 <= x2, "P4Move should be a positive integer!");
     return new _P4Move(x2);
   }
   constructor(x2) {
@@ -27622,32 +28018,32 @@ var P4Move = class _P4Move extends Move {
 };
 
 // src/app/games/p4/P4Tutorial.ts
-var _16 = PlayerOrNone.NONE;
-var O13 = PlayerOrNone.ZERO;
-var X13 = PlayerOrNone.ONE;
-var defaultConfig14 = P4Rules.get().getDefaultRulesConfig();
+var _17 = PlayerOrNone.NONE;
+var O14 = PlayerOrNone.ZERO;
+var X14 = PlayerOrNone.ONE;
+var defaultConfig15 = P4Rules.get().getDefaultRulesConfig();
 var P4Tutorial = class extends Tutorial {
   tutorial = [
     TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`The board at Four in a Row is made of 7 columns and 6 rows, and it is initially empty.
         The first player plays Dark, the second plays Light.
-        The goal is to be the first to align 4 of its pieces (horizontally, vertically, or diagonally).`, P4Rules.get().getInitialState(defaultConfig14)),
-    TutorialStep.anyMove($localize`Dropping a piece`, $localize`Click on any space in any column.`, P4Rules.get().getInitialState(defaultConfig14), P4Move.of(3), $localize`As you can see, the piece falls at the bottom of the column.`),
+        The goal is to be the first to align 4 of its pieces (horizontally, vertically, or diagonally).`, P4Rules.get().getInitialState(defaultConfig15)),
+    TutorialStep.anyMove($localize`Dropping a piece`, $localize`Click on any space in any column.`, P4Rules.get().getInitialState(defaultConfig15), P4Move.of(3), $localize`As you can see, the piece falls at the bottom of the column.`),
     TutorialStep.fromMove($localize`Victory`, $localize`You're playing Dark.
         Place your piece so that you create a horizontal alignment of 4 of your pieces.`, new P4State([
-      [_16, _16, _16, _16, _16, _16, _16],
-      [_16, _16, _16, _16, _16, _16, _16],
-      [_16, _16, _16, _16, _16, _16, _16],
-      [_16, _16, _16, X13, _16, _16, _16],
-      [_16, _16, _16, X13, _16, _16, _16],
-      [_16, _16, O13, O13, O13, X13, _16]
+      [_17, _17, _17, _17, _17, _17, _17],
+      [_17, _17, _17, _17, _17, _17, _17],
+      [_17, _17, _17, _17, _17, _17, _17],
+      [_17, _17, _17, X14, _17, _17, _17],
+      [_17, _17, _17, X14, _17, _17, _17],
+      [_17, _17, O14, O14, O14, X14, _17]
     ], 0), [P4Move.of(1)], $localize`You won!`, $localize`Failed, you have not aligned 4 pieces and missed an opportunity to win.`),
     TutorialStep.fromMove($localize`Other victory`, $localize`You can also align 4 pieces diagonally or vertically.`, new P4State([
-      [_16, _16, _16, _16, _16, _16, _16],
-      [_16, _16, _16, _16, _16, _16, _16],
-      [_16, _16, _16, _16, _16, _16, _16],
-      [_16, _16, _16, O13, X13, _16, _16],
-      [_16, _16, O13, O13, X13, _16, _16],
-      [_16, O13, X13, O13, O13, _16, _16]
+      [_17, _17, _17, _17, _17, _17, _17],
+      [_17, _17, _17, _17, _17, _17, _17],
+      [_17, _17, _17, _17, _17, _17, _17],
+      [_17, _17, _17, O14, X14, _17, _17],
+      [_17, _17, O14, O14, X14, _17, _17],
+      [_17, O14, X14, O14, O14, _17, _17]
     ], 0), [
       P4Move.of(3),
       P4Move.of(4)
@@ -27656,7 +28052,7 @@ var P4Tutorial = class extends Tutorial {
 };
 
 // src/app/games/p4/p4.component.ts
-var import_lib155 = __toESM(require_dist());
+var import_lib158 = __toESM(require_dist());
 
 // src/app/games/p4/P4Heuristic.ts
 var P4Heuristic = class extends Heuristic {
@@ -27674,7 +28070,7 @@ var P4Heuristic = class extends Heuristic {
 };
 
 // src/app/games/p4/P4MoveGenerator.ts
-var __decorate12 = function(decorators, target, key, desc) {
+var __decorate13 = function(decorators, target, key, desc) {
   var c = arguments.length, r2 = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d2;
   if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r2 = Reflect.decorate(decorators, target, key, desc);
   else for (var i2 = decorators.length - 1; i2 >= 0; i2--) if (d2 = decorators[i2]) r2 = (c < 3 ? d2(r2) : c > 3 ? d2(target, key, r2) : d2(target, key)) || r2;
@@ -27703,7 +28099,7 @@ var P4MoveGenerator = class P4MoveGenerator2 extends MoveGenerator {
     return moves;
   }
 };
-P4MoveGenerator = __decorate12([
+P4MoveGenerator = __decorate13([
   Debug.log
 ], P4MoveGenerator);
 
@@ -27728,7 +28124,7 @@ var P4Minimax = class extends Minimax {
 };
 
 // src/app/games/p4/p4.component.ts
-var _forTrack019 = ($index, $item) => $item.toString();
+var _forTrack020 = ($index, $item) => $item.toString();
 function P4Component_For_2_For_2_Conditional_2_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
@@ -27806,7 +28202,7 @@ function P4Component_For_5_Template(rf, ctx) {
 }
 var P4Component = class _P4Component extends RectangularGameComponent {
   EMPTY = PlayerOrNone.NONE;
-  last = import_lib155.MGPOptional.empty();
+  last = import_lib158.MGPOptional.empty();
   victoryCoords = [];
   constructor() {
     super();
@@ -27838,11 +28234,11 @@ var P4Component = class _P4Component extends RectangularGameComponent {
     return __async(this, null, function* () {
       const state = this.getState();
       const y = P4Rules.get().getLowestUnoccupiedSpace(state.board, move.x) + 1;
-      this.last = import_lib155.MGPOptional.of(new Coord(move.x, y));
+      this.last = import_lib158.MGPOptional.of(new Coord(move.x, y));
     });
   }
   hideLastMove() {
-    this.last = import_lib155.MGPOptional.empty();
+    this.last = import_lib158.MGPOptional.empty();
   }
   getSquareFillClass(x2, y) {
     const content = this.board[y][x2];
@@ -27857,7 +28253,7 @@ var P4Component = class _P4Component extends RectangularGameComponent {
       \u0275\u0275elementStart(0, "svg", 0);
       \u0275\u0275repeaterCreate(1, P4Component_For_2_Template, 3, 0, ":svg:g", null, \u0275\u0275repeaterTrackByIndex);
       \u0275\u0275conditionalCreate(3, P4Component_Conditional_3_Template, 1, 4, ":svg:rect", 1);
-      \u0275\u0275repeaterCreate(4, P4Component_For_5_Template, 1, 7, ":svg:rect", 2, _forTrack019);
+      \u0275\u0275repeaterCreate(4, P4Component_For_5_Template, 1, 7, ":svg:rect", 2, _forTrack020);
       \u0275\u0275elementEnd();
     }
     if (rf & 2) {
@@ -27882,7 +28278,7 @@ var P4Component = class _P4Component extends RectangularGameComponent {
 })();
 
 // src/app/games/pentago/PentagoRules.ts
-var import_lib156 = __toESM(require_dist());
+var import_lib159 = __toESM(require_dist());
 
 // src/app/games/pentago/PentagoFailure.ts
 var PentagoFailure = class {
@@ -27971,10 +28367,10 @@ var PentagoState = class _PentagoState extends PlayerOrNoneGameStateWithTable {
 
 // src/app/games/pentago/PentagoRules.ts
 var PentagoRules = class _PentagoRules extends Rules {
-  static singleton = import_lib156.MGPOptional.empty();
+  static singleton = import_lib159.MGPOptional.empty();
   static get() {
     if (_PentagoRules.singleton.isAbsent()) {
-      _PentagoRules.singleton = import_lib156.MGPOptional.of(new _PentagoRules());
+      _PentagoRules.singleton = import_lib159.MGPOptional.of(new _PentagoRules());
     }
     return _PentagoRules.singleton.get();
   }
@@ -28012,22 +28408,22 @@ var PentagoRules = class _PentagoRules extends Rules {
   }
   isLegal(move, state) {
     if (state.getPieceAt(move.coord).isPlayer()) {
-      return import_lib156.MGPValidation.failure(RulesFailure.MUST_LAND_ON_EMPTY_SPACE());
+      return import_lib159.MGPValidation.failure(RulesFailure.MUST_LAND_ON_EMPTY_SPACE());
     }
     const postDropState = state.applyLegalDrop(move);
     if (postDropState.neutralBlocks.length === 0) {
       if (move.blockTurned.isAbsent()) {
-        return import_lib156.MGPValidation.failure(PentagoFailure.MUST_CHOOSE_BLOCK_TO_ROTATE());
+        return import_lib159.MGPValidation.failure(PentagoFailure.MUST_CHOOSE_BLOCK_TO_ROTATE());
       }
     } else {
       if (move.blockTurned.isPresent()) {
         const blockTurned = move.blockTurned.get();
         if (postDropState.neutralBlocks.includes(blockTurned)) {
-          return import_lib156.MGPValidation.failure(PentagoFailure.CANNOT_ROTATE_NEUTRAL_BLOCK());
+          return import_lib159.MGPValidation.failure(PentagoFailure.CANNOT_ROTATE_NEUTRAL_BLOCK());
         }
       }
     }
-    return import_lib156.MGPValidation.SUCCESS;
+    return import_lib159.MGPValidation.SUCCESS;
   }
   getVictoryCoords(state) {
     let victoryCoords = [];
@@ -28088,29 +28484,29 @@ var PentagoRules = class _PentagoRules extends Rules {
 };
 
 // src/app/games/pentago/PentagoTutorial.ts
-var import_lib158 = __toESM(require_dist());
+var import_lib161 = __toESM(require_dist());
 
 // src/app/games/pentago/PentagoMove.ts
-var import_lib157 = __toESM(require_dist());
+var import_lib160 = __toESM(require_dist());
 var PentagoMove = class _PentagoMove extends MoveCoord {
   blockTurned;
   turnedClockwise;
-  static encoder = import_lib157.Encoder.tuple([Coord.encoder, import_lib157.MGPOptional.getEncoder(import_lib157.Encoder.identity()), import_lib157.Encoder.identity()], (move) => [move.coord, move.blockTurned, move.turnedClockwise], (fields) => _PentagoMove.of(fields[0], fields[1], fields[2]));
+  static encoder = import_lib160.Encoder.tuple([Coord.encoder, import_lib160.MGPOptional.getEncoder(import_lib160.Encoder.identity()), import_lib160.Encoder.identity()], (move) => [move.coord, move.blockTurned, move.turnedClockwise], (fields) => _PentagoMove.of(fields[0], fields[1], fields[2]));
   static of(coord, blockTurned, turnedClockwise) {
     return new _PentagoMove(coord.x, coord.y, blockTurned, turnedClockwise);
   }
   static withRotation(x2, y, blockTurned, turnedClockwise) {
-    import_lib157.Utils.assert(0 <= blockTurned && blockTurned <= 3, "This block does not exist: " + blockTurned);
-    return new _PentagoMove(x2, y, import_lib157.MGPOptional.of(blockTurned), turnedClockwise);
+    import_lib160.Utils.assert(0 <= blockTurned && blockTurned <= 3, "This block does not exist: " + blockTurned);
+    return new _PentagoMove(x2, y, import_lib160.MGPOptional.of(blockTurned), turnedClockwise);
   }
   static rotationless(x2, y) {
-    return new _PentagoMove(x2, y, import_lib157.MGPOptional.empty());
+    return new _PentagoMove(x2, y, import_lib160.MGPOptional.empty());
   }
   constructor(x2, y, blockTurned, turnedClockwise = false) {
     super(x2, y);
     this.blockTurned = blockTurned;
     this.turnedClockwise = turnedClockwise;
-    import_lib157.Utils.assert(PentagoState.isOnBoard(this.coord), "The board is a " + PentagoState.SIZE + " space wide square, invalid coord: " + this.coord.toString());
+    import_lib160.Utils.assert(PentagoState.isOnBoard(this.coord), "The board is a " + PentagoState.SIZE + " space wide square, invalid coord: " + this.coord.toString());
   }
   toString() {
     if (this.blockTurned.isPresent()) {
@@ -28129,54 +28525,54 @@ var PentagoMove = class _PentagoMove extends MoveCoord {
 };
 
 // src/app/games/pentago/PentagoTutorial.ts
-var _17 = PlayerOrNone.NONE;
-var O14 = PlayerOrNone.ZERO;
-var X14 = PlayerOrNone.ONE;
+var _18 = PlayerOrNone.NONE;
+var O15 = PlayerOrNone.ZERO;
+var X15 = PlayerOrNone.ONE;
 var PentagoTutorial = class {
   tutorial = [
     TutorialStep.informational($localize`Initial board`, $localize`The initial Pentago board is made of 6x6 spaces, subdivided in 4 quadrants, which can each rotate.`, PentagoRules.get().getInitialState()),
     TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`The goal at Pentago is to align 5 of your pieces. In the following board, Dark wins.`, new PentagoState([
-      [O14, _17, _17, O14, X14, _17],
-      [O14, X14, _17, _17, _17, _17],
-      [O14, _17, X14, _17, _17, _17],
-      [O14, _17, _17, _17, _17, X14],
-      [O14, _17, _17, _17, X14, _17],
-      [_17, _17, _17, _17, _17, _17]
+      [O15, _18, _18, O15, X15, _18],
+      [O15, X15, _18, _18, _18, _18],
+      [O15, _18, X15, _18, _18, _18],
+      [O15, _18, _18, _18, _18, X15],
+      [O15, _18, _18, _18, X15, _18],
+      [_18, _18, _18, _18, _18, _18]
     ], 10)).withPreviousMove(PentagoMove.withRotation(0, 0, 0, false)),
     TutorialStep.fromPredicate($localize`Simple move`, $localize`At their turn, players put a piece on the board and possibly rotate one quadrant. As long as there are neutral quadrants, i.e., quadrants that would not change after being rotated, a player may skip rotating a quadrant. To do this, you have to click on the crossed circle that appears at the center of the board when it is possible.<br/><br/>You're playing Dark, do a simple move.`, new PentagoState([
-      [_17, _17, _17, _17, _17, _17],
-      [_17, O14, _17, _17, X14, _17],
-      [_17, _17, _17, _17, _17, _17],
-      [_17, _17, _17, _17, _17, _17],
-      [_17, X14, _17, _17, O14, _17],
-      [_17, _17, _17, _17, _17, _17]
+      [_18, _18, _18, _18, _18, _18],
+      [_18, O15, _18, _18, X15, _18],
+      [_18, _18, _18, _18, _18, _18],
+      [_18, _18, _18, _18, _18, _18],
+      [_18, X15, _18, _18, O15, _18],
+      [_18, _18, _18, _18, _18, _18]
     ], 10), PentagoMove.rotationless(2, 2), (move, _previous, _result) => {
       if (move.blockTurned.isPresent()) {
-        return import_lib158.MGPValidation.failure($localize`You have made a move with a rotation. This tutorial step is about moves without rotations!`);
+        return import_lib161.MGPValidation.failure($localize`You have made a move with a rotation. This tutorial step is about moves without rotations!`);
       } else {
-        return import_lib158.MGPValidation.SUCCESS;
+        return import_lib161.MGPValidation.SUCCESS;
       }
-    }, TutorialStepMessage.CONGRATULATIONS()).withPreviousMove(PentagoMove.of(new Coord(1, 4), import_lib158.MGPOptional.empty(), false)),
+    }, TutorialStepMessage.CONGRATULATIONS()).withPreviousMove(PentagoMove.of(new Coord(1, 4), import_lib161.MGPOptional.empty(), false)),
     TutorialStep.fromPredicate($localize`Move with rotation`, $localize`After putting a piece, arrows will appear on non-neutral quadrants.<br/><br/>
         You're playing Dark, place a piece on a quadrant and do a rotation!`, new PentagoState([
-      [_17, _17, _17, _17, _17, _17],
-      [_17, O14, _17, _17, X14, _17],
-      [_17, _17, _17, _17, _17, _17],
-      [_17, _17, _17, _17, _17, _17],
-      [_17, X14, _17, _17, O14, _17],
-      [_17, _17, _17, _17, _17, _17]
+      [_18, _18, _18, _18, _18, _18],
+      [_18, O15, _18, _18, X15, _18],
+      [_18, _18, _18, _18, _18, _18],
+      [_18, _18, _18, _18, _18, _18],
+      [_18, X15, _18, _18, O15, _18],
+      [_18, _18, _18, _18, _18, _18]
     ], 10), PentagoMove.withRotation(0, 0, 0, true), (move, _previous, _result) => {
       if (move.blockTurned.isPresent()) {
-        return import_lib158.MGPValidation.SUCCESS;
+        return import_lib161.MGPValidation.SUCCESS;
       } else {
-        return import_lib158.MGPValidation.failure($localize`You made a move without rotation, try again!`);
+        return import_lib161.MGPValidation.failure($localize`You made a move without rotation, try again!`);
       }
-    }, $localize`Congratulations! Note that if all quadrants are neutral after you have put your piece, there will be no rotation.`).withPreviousMove(PentagoMove.of(new Coord(1, 4), import_lib158.MGPOptional.empty(), false))
+    }, $localize`Congratulations! Note that if all quadrants are neutral after you have put your piece, there will be no rotation.`).withPreviousMove(PentagoMove.of(new Coord(1, 4), import_lib161.MGPOptional.empty(), false))
   ];
 };
 
 // src/app/games/pentago/pentago.component.ts
-var import_lib159 = __toESM(require_dist());
+var import_lib162 = __toESM(require_dist());
 
 // src/app/games/pentago/PentagoMoveGenerator.ts
 var PentagoMoveGenerator = class _PentagoMoveGenerator extends MoveGenerator {
@@ -28248,7 +28644,7 @@ var PentagoDummyMinimax = class extends Minimax {
 
 // src/app/games/pentago/pentago.component.ts
 var _c013 = (a0) => [0, a0];
-var _forTrack020 = ($index, $item) => $item.coord.toString();
+var _forTrack021 = ($index, $item) => $item.coord.toString();
 var _forTrack19 = ($index, $item) => $item.toString();
 function PentagoComponent_For_8_For_2_Template(rf, ctx) {
   if (rf & 1) {
@@ -28392,10 +28788,10 @@ var PentagoComponent = class _PentagoComponent extends RectangularGameComponent 
   arrows = [];
   victoryCoords = [];
   canSkipRotation;
-  currentDrop = import_lib159.MGPOptional.empty();
-  movedBlock = import_lib159.MGPOptional.empty();
-  lastDrop = import_lib159.MGPOptional.empty();
-  lastRotation = import_lib159.MGPOptional.empty();
+  currentDrop = import_lib162.MGPOptional.empty();
+  movedBlock = import_lib162.MGPOptional.empty();
+  lastDrop = import_lib162.MGPOptional.empty();
+  lastRotation = import_lib162.MGPOptional.empty();
   ARROWS;
   constructor() {
     super();
@@ -28440,7 +28836,7 @@ var PentagoComponent = class _PentagoComponent extends RectangularGameComponent 
           return this.showLastDrop(move, localCoord);
         }
       }
-      this.lastDrop = import_lib159.MGPOptional.of(move.coord);
+      this.lastDrop = import_lib162.MGPOptional.of(move.coord);
     });
   }
   showLastRotation(lastMove) {
@@ -28449,17 +28845,17 @@ var PentagoComponent = class _PentagoComponent extends RectangularGameComponent 
       const lastArrow = this.ARROWS.filter((arrow) => {
         return arrow.blockIndex === blockIndex && arrow.clockwise === lastMove.turnedClockwise;
       })[0];
-      this.lastRotation = import_lib159.MGPOptional.of(lastArrow);
+      this.lastRotation = import_lib162.MGPOptional.of(lastArrow);
     }
   }
   showLastDrop(lastMove, localCoord) {
     let postRotation;
     if (lastMove.turnedClockwise) {
-      postRotation = import_lib159.Utils.getNonNullable(PentagoState.ROTATION_MAP.find((value) => {
+      postRotation = import_lib162.Utils.getNonNullable(PentagoState.ROTATION_MAP.find((value) => {
         return value[0].equals(localCoord);
       }))[1];
     } else {
-      postRotation = import_lib159.Utils.getNonNullable(PentagoState.ROTATION_MAP.find((value) => {
+      postRotation = import_lib162.Utils.getNonNullable(PentagoState.ROTATION_MAP.find((value) => {
         return value[1].equals(localCoord);
       }))[0];
     }
@@ -28468,7 +28864,7 @@ var PentagoComponent = class _PentagoComponent extends RectangularGameComponent 
     const cy = turnedBlockIndex < 2 ? 1 : 4;
     const turnedBlockCenterCoord = new Coord(cx, cy);
     postRotation = postRotation.getNext(turnedBlockCenterCoord, 1);
-    this.lastDrop = import_lib159.MGPOptional.of(postRotation);
+    this.lastDrop = import_lib162.MGPOptional.of(postRotation);
   }
   coordBelongToBlock(lastMove) {
     const lastMoveBlockY = lastMove.coord.y < 3 ? 0 : 1;
@@ -28477,9 +28873,9 @@ var PentagoComponent = class _PentagoComponent extends RectangularGameComponent 
     return lastMove.blockTurned.equalsValue(lastMoveBlockIndex);
   }
   hideLastMove() {
-    this.lastDrop = import_lib159.MGPOptional.empty();
-    this.movedBlock = import_lib159.MGPOptional.empty();
-    this.lastRotation = import_lib159.MGPOptional.empty();
+    this.lastDrop = import_lib162.MGPOptional.empty();
+    this.movedBlock = import_lib162.MGPOptional.empty();
+    this.lastRotation = import_lib162.MGPOptional.empty();
     this.victoryCoords = [];
   }
   generateArrowsCoord() {
@@ -28510,7 +28906,7 @@ var PentagoComponent = class _PentagoComponent extends RectangularGameComponent 
   }
   cancelMoveAttempt() {
     this.arrows = [];
-    this.currentDrop = import_lib159.MGPOptional.empty();
+    this.currentDrop = import_lib162.MGPOptional.empty();
     this.canSkipRotation = false;
   }
   onClick(coord) {
@@ -28535,9 +28931,9 @@ var PentagoComponent = class _PentagoComponent extends RectangularGameComponent 
       }
       const gameStatus = this.rules.getGameStatus(this.node);
       this.canSkipRotation = postDropState.neutralBlocks.length > 0 && gameStatus.isEndGame === false;
-      this.currentDrop = import_lib159.MGPOptional.of(coord);
+      this.currentDrop = import_lib162.MGPOptional.of(coord);
       this.displayArrows(postDropState.neutralBlocks);
-      return import_lib159.MGPValidation.SUCCESS;
+      return import_lib162.MGPValidation.SUCCESS;
     });
   }
   displayArrows(neutralBlocks) {
@@ -28609,7 +29005,7 @@ var PentagoComponent = class _PentagoComponent extends RectangularGameComponent 
       \u0275\u0275element(6, "polygon", 2);
       \u0275\u0275elementEnd()();
       \u0275\u0275repeaterCreate(7, PentagoComponent_For_8_Template, 3, 2, ":svg:ng-container", null, \u0275\u0275repeaterTrackByIdentity);
-      \u0275\u0275repeaterCreate(9, PentagoComponent_For_10_Template, 1, 8, ":svg:circle", 4, _forTrack020);
+      \u0275\u0275repeaterCreate(9, PentagoComponent_For_10_Template, 1, 8, ":svg:circle", 4, _forTrack021);
       \u0275\u0275conditionalCreate(11, PentagoComponent_Conditional_11_Template, 1, 8, ":svg:circle", 4);
       \u0275\u0275repeaterCreate(12, PentagoComponent_For_13_Template, 2, 5, ":svg:ng-container", null, \u0275\u0275repeaterTrackByIndex);
       \u0275\u0275conditionalCreate(14, PentagoComponent_Conditional_14_Template, 1, 5, ":svg:path", 5);
@@ -28765,7 +29161,7 @@ var PentagoComponent = class _PentagoComponent extends RectangularGameComponent 
 })();
 
 // src/app/games/pente/PenteRules.ts
-var import_lib160 = __toESM(require_dist());
+var import_lib163 = __toESM(require_dist());
 
 // src/app/games/pente/PenteState.ts
 var PenteState = class extends PlayerOrNoneGameStateWithTable {
@@ -28788,10 +29184,10 @@ var PenteRules = class _PenteRules extends ConfigurableRules {
       sizeOfSandwich: new NumberConfig(2, () => $localize`Size of captures`, MGPValidators.range(1, 99))
     }
   });
-  static singleton = import_lib160.MGPOptional.empty();
+  static singleton = import_lib163.MGPOptional.empty();
   static get() {
     if (_PenteRules.singleton.isAbsent()) {
-      _PenteRules.singleton = import_lib160.MGPOptional.of(new _PenteRules());
+      _PenteRules.singleton = import_lib163.MGPOptional.of(new _PenteRules());
     }
     return _PenteRules.singleton.get();
   }
@@ -28804,15 +29200,15 @@ var PenteRules = class _PenteRules extends ConfigurableRules {
     return new PenteState(board, PlayerNumberMap.of(0, 0), 0);
   }
   getRulesConfigDescription() {
-    return import_lib160.MGPOptional.of(_PenteRules.RULES_CONFIG_DESCRIPTION);
+    return import_lib163.MGPOptional.of(_PenteRules.RULES_CONFIG_DESCRIPTION);
   }
   isLegal(move, state) {
     if (state.isNotOnBoard(move.coord)) {
-      return import_lib160.MGPValidation.failure(CoordFailure.OUT_OF_RANGE(move.coord));
+      return import_lib163.MGPValidation.failure(CoordFailure.OUT_OF_RANGE(move.coord));
     } else if (state.getPieceAt(move.coord).isPlayer()) {
-      return import_lib160.MGPValidation.failure(RulesFailure.MUST_CLICK_ON_EMPTY_SQUARE());
+      return import_lib163.MGPValidation.failure(RulesFailure.MUST_CLICK_ON_EMPTY_SQUARE());
     } else {
-      return import_lib160.MGPValidation.SUCCESS;
+      return import_lib163.MGPValidation.SUCCESS;
     }
   }
   applyLegalMove(move, state, config, _info) {
@@ -28865,7 +29261,7 @@ var PenteRules = class _PenteRules extends ConfigurableRules {
     }
   }
   getHelper(config) {
-    return new NInARowHelper(import_lib160.Utils.identity, config.nInARow);
+    return new NInARowHelper(import_lib163.Utils.identity, config.nInARow);
   }
   stillHaveEmptySquare(state) {
     const width = state.getWidth();
@@ -28896,76 +29292,76 @@ var PenteMove = class _PenteMove extends MoveCoord {
 };
 
 // src/app/games/pente/PenteTutorial.ts
-var _18 = PlayerOrNone.NONE;
-var O15 = PlayerOrNone.ZERO;
-var X15 = PlayerOrNone.ONE;
-var defaultConfig15 = PenteRules.get().getDefaultRulesConfig();
+var _19 = PlayerOrNone.NONE;
+var O16 = PlayerOrNone.ZERO;
+var X16 = PlayerOrNone.ONE;
+var defaultConfig16 = PenteRules.get().getDefaultRulesConfig();
 var PenteTutorial = class extends Tutorial {
   tutorial = [
-    TutorialStep.informational(TutorialStepMessage.INITIAL_BOARD_AND_OBJECT_OF_THE_GAME(), $localize`Pente is played on a 19x19 board, on which the pieces are put on the intersections of the squares. The object of the game is to align 5 of your pieces, or to capture 10 pieces of your opponent. Initially, a piece of the second player is in the center location of the board.`, PenteRules.get().getInitialState(defaultConfig15)),
-    TutorialStep.anyMove($localize`Dropping a piece`, $localize`At your turn, you must drop one piece on any empty space of the board. There is no other restriction.<br/><br/>You're playing Dark, put a piece on the board.`, PenteRules.get().getInitialState(defaultConfig15), PenteMove.of(new Coord(9, 8)), TutorialStepMessage.CONGRATULATIONS()),
+    TutorialStep.informational(TutorialStepMessage.INITIAL_BOARD_AND_OBJECT_OF_THE_GAME(), $localize`Pente is played on a 19x19 board, on which the pieces are put on the intersections of the squares. The object of the game is to align 5 of your pieces, or to capture 10 pieces of your opponent. Initially, a piece of the second player is in the center location of the board.`, PenteRules.get().getInitialState(defaultConfig16)),
+    TutorialStep.anyMove($localize`Dropping a piece`, $localize`At your turn, you must drop one piece on any empty space of the board. There is no other restriction.<br/><br/>You're playing Dark, put a piece on the board.`, PenteRules.get().getInitialState(defaultConfig16), PenteMove.of(new Coord(9, 8)), TutorialStepMessage.CONGRATULATIONS()),
     TutorialStep.fromMove($localize`Captures`, $localize`You can capture exactly two pieces of your opponent by sandwiching them between two of your pieces.<br/><br/>You're playing Light and you can capture, do it!`, new PenteState([
-      [_18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18],
-      [_18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18],
-      [_18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18],
-      [_18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18],
-      [_18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18],
-      [_18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18],
-      [_18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18],
-      [_18, _18, _18, _18, _18, _18, _18, _18, _18, O15, _18, _18, _18, _18, _18, _18, _18, _18, _18],
-      [_18, _18, _18, _18, _18, _18, _18, _18, X15, O15, _18, _18, _18, _18, _18, _18, _18, _18, _18],
-      [_18, _18, _18, _18, _18, _18, _18, _18, _18, X15, _18, _18, _18, _18, _18, _18, _18, _18, _18],
-      [_18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18],
-      [_18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18],
-      [_18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18],
-      [_18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18],
-      [_18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18],
-      [_18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18],
-      [_18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18],
-      [_18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18],
-      [_18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18]
+      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
+      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
+      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
+      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
+      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
+      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
+      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
+      [_19, _19, _19, _19, _19, _19, _19, _19, _19, O16, _19, _19, _19, _19, _19, _19, _19, _19, _19],
+      [_19, _19, _19, _19, _19, _19, _19, _19, X16, O16, _19, _19, _19, _19, _19, _19, _19, _19, _19],
+      [_19, _19, _19, _19, _19, _19, _19, _19, _19, X16, _19, _19, _19, _19, _19, _19, _19, _19, _19],
+      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
+      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
+      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
+      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
+      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
+      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
+      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
+      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
+      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19]
     ], PlayerNumberMap.of(0, 0), 3), [PenteMove.of(new Coord(9, 6))], TutorialStepMessage.CONGRATULATIONS(), TutorialStepMessage.FAILED_TRY_AGAIN()),
     TutorialStep.fromMove($localize`Placing in a sandwich position`, $localize`You can safely place a piece next to another of your piece in what would look like a sandwich from the opponent's pieces. This is a safe move.<br/><br/>You're playing Light and have the opportunity to do such a move here, do it!`, new PenteState([
-      [_18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18],
-      [_18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18],
-      [_18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18],
-      [_18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18],
-      [_18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18],
-      [_18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18],
-      [_18, _18, _18, _18, _18, _18, _18, _18, _18, X15, _18, _18, _18, _18, _18, _18, _18, _18, _18],
-      [_18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18],
-      [_18, _18, _18, _18, _18, _18, _18, _18, X15, O15, _18, _18, _18, _18, _18, _18, _18, _18, _18],
-      [_18, _18, _18, _18, _18, _18, _18, _18, _18, X15, _18, _18, _18, _18, _18, _18, _18, _18, _18],
-      [_18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18],
-      [_18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18],
-      [_18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18],
-      [_18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18],
-      [_18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18],
-      [_18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18],
-      [_18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18],
-      [_18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18],
-      [_18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18]
+      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
+      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
+      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
+      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
+      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
+      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
+      [_19, _19, _19, _19, _19, _19, _19, _19, _19, X16, _19, _19, _19, _19, _19, _19, _19, _19, _19],
+      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
+      [_19, _19, _19, _19, _19, _19, _19, _19, X16, O16, _19, _19, _19, _19, _19, _19, _19, _19, _19],
+      [_19, _19, _19, _19, _19, _19, _19, _19, _19, X16, _19, _19, _19, _19, _19, _19, _19, _19, _19],
+      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
+      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
+      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
+      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
+      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
+      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
+      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
+      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
+      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19]
     ], PlayerNumberMap.of(0, 0), 4), [PenteMove.of(new Coord(9, 7))], TutorialStepMessage.CONGRATULATIONS(), TutorialStepMessage.FAILED_TRY_AGAIN()),
     TutorialStep.fromMove($localize`Victory`, $localize`Remember, to win you can either align 5 or your pieces, or capture 10 pieces of your opponent. Here, as Light, you have already captured 8 pieces and you only need two more to win.<br/><br/>You're playing Light, you can win in two ways. Win!`, new PenteState([
-      [_18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18],
-      [_18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18],
-      [_18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18],
-      [_18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18],
-      [_18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18],
-      [_18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18],
-      [_18, _18, _18, _18, _18, _18, _18, _18, X15, _18, _18, O15, O15, _18, _18, _18, _18, _18, _18],
-      [_18, _18, _18, _18, _18, _18, _18, _18, _18, O15, _18, O15, _18, _18, _18, _18, _18, _18, _18],
-      [_18, _18, _18, _18, _18, _18, _18, _18, X15, O15, O15, O15, _18, _18, _18, _18, _18, _18, _18],
-      [_18, _18, _18, _18, _18, _18, _18, _18, _18, X15, X15, X15, X15, _18, _18, _18, _18, _18, _18],
-      [_18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18],
-      [_18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18],
-      [_18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18],
-      [_18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18],
-      [_18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18],
-      [_18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18],
-      [_18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18],
-      [_18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18],
-      [_18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18, _18]
+      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
+      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
+      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
+      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
+      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
+      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
+      [_19, _19, _19, _19, _19, _19, _19, _19, X16, _19, _19, O16, O16, _19, _19, _19, _19, _19, _19],
+      [_19, _19, _19, _19, _19, _19, _19, _19, _19, O16, _19, O16, _19, _19, _19, _19, _19, _19, _19],
+      [_19, _19, _19, _19, _19, _19, _19, _19, X16, O16, O16, O16, _19, _19, _19, _19, _19, _19, _19],
+      [_19, _19, _19, _19, _19, _19, _19, _19, _19, X16, X16, X16, X16, _19, _19, _19, _19, _19, _19],
+      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
+      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
+      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
+      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
+      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
+      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
+      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
+      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
+      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19]
     ], PlayerNumberMap.of(8, 8), 7), [
       PenteMove.of(new Coord(9, 6)),
       PenteMove.of(new Coord(8, 9)),
@@ -28975,7 +29371,7 @@ var PenteTutorial = class extends Tutorial {
 };
 
 // src/app/games/pente/pente.component.ts
-var import_lib161 = __toESM(require_dist());
+var import_lib164 = __toESM(require_dist());
 
 // src/app/games/pente/PenteAlignmentHeuristic.ts
 var PenteAlignmentHeuristic = class extends Heuristic {
@@ -29006,7 +29402,7 @@ var PenteAlignmentMinimax = class extends Minimax {
 };
 
 // src/app/games/pente/pente.component.ts
-var _forTrack021 = ($index, $item) => $item.coord.toString();
+var _forTrack022 = ($index, $item) => $item.coord.toString();
 var _forTrack110 = ($index, $item) => $item.toString();
 function PenteComponent_For_3_Template(rf, ctx) {
   if (rf & 1) {
@@ -29047,7 +29443,7 @@ function PenteComponent_For_5_Template(rf, ctx) {
   }
 }
 var PenteComponent = class _PenteComponent extends GobanGameComponent {
-  lastMoved = import_lib161.MGPOptional.empty();
+  lastMoved = import_lib164.MGPOptional.empty();
   victoryCoords = [];
   captured = [];
   constructor() {
@@ -29058,7 +29454,7 @@ var PenteComponent = class _PenteComponent extends GobanGameComponent {
       new MCTS($localize`MCTS`, new PenteMoveGenerator(), this.rules)
     ];
     this.encoder = PenteMove.encoder;
-    this.scores = import_lib161.MGPOptional.of(PlayerNumberMap.of(0, 0));
+    this.scores = import_lib164.MGPOptional.of(PlayerNumberMap.of(0, 0));
   }
   getScoreName() {
     return ScoreName.CAPTURES;
@@ -29067,7 +29463,7 @@ var PenteComponent = class _PenteComponent extends GobanGameComponent {
     return __async(this, null, function* () {
       const state = this.getState();
       this.board = state.board;
-      this.scores = import_lib161.MGPOptional.of(this.getState().captures);
+      this.scores = import_lib164.MGPOptional.of(this.getState().captures);
       const config = this.getConfig();
       this.victoryCoords = this.rules.getHelper(config.get()).getVictoriousCoord(state);
       this.createHoshis();
@@ -29075,14 +29471,14 @@ var PenteComponent = class _PenteComponent extends GobanGameComponent {
   }
   showLastMove(move) {
     return __async(this, null, function* () {
-      this.lastMoved = import_lib161.MGPOptional.of(move.coord);
+      this.lastMoved = import_lib164.MGPOptional.of(move.coord);
       const opponent = this.getCurrentOpponent();
       this.captured = PenteRules.get().getCaptures(move.coord, this.getPreviousState(), this.getConfig().get(), opponent);
     });
   }
   hideLastMove() {
     this.captured = [];
-    this.lastMoved = import_lib161.MGPOptional.empty();
+    this.lastMoved = import_lib164.MGPOptional.empty();
   }
   onClick(coord) {
     return __async(this, null, function* () {
@@ -29116,7 +29512,7 @@ var PenteComponent = class _PenteComponent extends GobanGameComponent {
         return ctx.onClick($event);
       });
       \u0275\u0275elementEnd();
-      \u0275\u0275repeaterCreate(2, PenteComponent_For_3_Template, 1, 7, ":svg:circle", 2, _forTrack021);
+      \u0275\u0275repeaterCreate(2, PenteComponent_For_3_Template, 1, 7, ":svg:circle", 2, _forTrack022);
       \u0275\u0275repeaterCreate(4, PenteComponent_For_5_Template, 1, 6, ":svg:circle", 3, _forTrack110);
       \u0275\u0275elementEnd();
     }
@@ -29142,23 +29538,23 @@ var PenteComponent = class _PenteComponent extends GobanGameComponent {
 })();
 
 // src/app/games/pylos/PylosRules.ts
-var import_lib165 = __toESM(require_dist());
+var import_lib168 = __toESM(require_dist());
 
 // src/app/games/pylos/PylosCoord.ts
-var import_lib162 = __toESM(require_dist());
+var import_lib165 = __toESM(require_dist());
 var PylosCoord = class _PylosCoord extends Coord3D {
   static coordEncoder = Coord3D.getCoord3DEncoder(_PylosCoord.of);
-  static optionalEncoder = import_lib162.MGPOptional.getEncoder(_PylosCoord.coordEncoder);
+  static optionalEncoder = import_lib165.MGPOptional.getEncoder(_PylosCoord.coordEncoder);
   static of(x2, y, z) {
     return new _PylosCoord(x2, y, z);
   }
   constructor(x2, y, z) {
     super(x2, y, z);
-    import_lib162.Utils.assert(0 <= x2 && x2 <= 3, `PylosCoord: Invalid X: ${x2}.`);
-    import_lib162.Utils.assert(0 <= y && y <= 3, `PylosCoord: Invalid Y: ${y}.`);
-    import_lib162.Utils.assert(0 <= z && z <= 3, `PylosCoord: Invalid Z: ${z}.`);
+    import_lib165.Utils.assert(0 <= x2 && x2 <= 3, `PylosCoord: Invalid X: ${x2}.`);
+    import_lib165.Utils.assert(0 <= y && y <= 3, `PylosCoord: Invalid Y: ${y}.`);
+    import_lib165.Utils.assert(0 <= z && z <= 3, `PylosCoord: Invalid Z: ${z}.`);
     const floorSize = 4 - z;
-    import_lib162.Utils.assert(this.isInRange(floorSize, floorSize), this.toString() + " is not in range.");
+    import_lib165.Utils.assert(this.isInRange(floorSize, floorSize), this.toString() + " is not in range.");
   }
   toString() {
     return "PylosCoord" + this.toShortString();
@@ -29188,9 +29584,9 @@ var PylosCoord = class _PylosCoord extends Coord3D {
     const xyNext = new Coord(this.x, this.y).getNext(dir);
     const floorSize = 4 - this.z;
     if (xyNext.isNotInRange(floorSize, floorSize)) {
-      return import_lib162.MGPOptional.empty();
+      return import_lib165.MGPOptional.empty();
     } else {
-      return import_lib162.MGPOptional.of(new _PylosCoord(xyNext.x, xyNext.y, this.z));
+      return import_lib165.MGPOptional.of(new _PylosCoord(xyNext.x, xyNext.y, this.z));
     }
   }
 };
@@ -29206,7 +29602,7 @@ var PylosFailure = class {
 };
 
 // src/app/games/pylos/PylosMove.ts
-var import_lib163 = __toESM(require_dist());
+var import_lib166 = __toESM(require_dist());
 var PylosMoveFailure = class {
   static MUST_CAPTURE_MAXIMUM_TWO_PIECES = () => $localize`You must capture one or two pieces, not more.`;
 };
@@ -29215,27 +29611,27 @@ var PylosMove = class _PylosMove extends Move {
   landingCoord;
   firstCapture;
   secondCapture;
-  static encoder = import_lib163.Encoder.tuple([PylosCoord.optionalEncoder, PylosCoord.coordEncoder, PylosCoord.optionalEncoder, PylosCoord.optionalEncoder], (move) => [move.startingCoord, move.landingCoord, move.firstCapture, move.secondCapture], (fields) => _PylosMove.of(fields[0], fields[1], fields[2], fields[3]));
+  static encoder = import_lib166.Encoder.tuple([PylosCoord.optionalEncoder, PylosCoord.coordEncoder, PylosCoord.optionalEncoder, PylosCoord.optionalEncoder], (move) => [move.startingCoord, move.landingCoord, move.firstCapture, move.secondCapture], (fields) => _PylosMove.of(fields[0], fields[1], fields[2], fields[3]));
   static ofClimb(startingCoord, landingCoord, captures) {
-    const startingCoordOpt = import_lib163.MGPOptional.of(startingCoord);
+    const startingCoordOpt = import_lib166.MGPOptional.of(startingCoord);
     const capturesOptionals = _PylosMove.checkCaptures(captures);
     const newMove = new _PylosMove(startingCoordOpt, landingCoord, capturesOptionals.firstCapture, capturesOptionals.secondCapture);
-    import_lib163.Utils.assert(landingCoord.isHigherThan(startingCoord), PylosFailure.MUST_MOVE_UPWARD());
+    import_lib166.Utils.assert(landingCoord.isHigherThan(startingCoord), PylosFailure.MUST_MOVE_UPWARD());
     return newMove;
   }
   static checkCaptures(captures) {
-    let firstCapture = import_lib163.MGPOptional.empty();
-    let secondCapture = import_lib163.MGPOptional.empty();
+    let firstCapture = import_lib166.MGPOptional.empty();
+    let secondCapture = import_lib166.MGPOptional.empty();
     if (captures.length > 0) {
-      firstCapture = import_lib163.MGPOptional.of(captures[0]);
+      firstCapture = import_lib166.MGPOptional.of(captures[0]);
       if (captures.length > 1) {
         if (captures[1].equals(captures[0])) {
           throw new Error("PylosMove: should not capture twice same piece.");
         }
-        secondCapture = import_lib163.MGPOptional.of(captures[1]);
+        secondCapture = import_lib166.MGPOptional.of(captures[1]);
         if (captures[1].isHigherThan(captures[0])) {
-          firstCapture = import_lib163.MGPOptional.of(captures[1]);
-          secondCapture = import_lib163.MGPOptional.of(captures[0]);
+          firstCapture = import_lib166.MGPOptional.of(captures[1]);
+          secondCapture = import_lib166.MGPOptional.of(captures[0]);
         }
         if (captures.length > 2) {
           throw new Error(PylosMoveFailure.MUST_CAPTURE_MAXIMUM_TWO_PIECES());
@@ -29245,7 +29641,7 @@ var PylosMove = class _PylosMove extends Move {
     return { firstCapture, secondCapture };
   }
   static ofDrop(landingCoord, captures) {
-    const startingCoord = import_lib163.MGPOptional.empty();
+    const startingCoord = import_lib166.MGPOptional.empty();
     const capturesOptionals = _PylosMove.checkCaptures(captures);
     return new _PylosMove(startingCoord, landingCoord, capturesOptionals.firstCapture, capturesOptionals.secondCapture);
   }
@@ -29288,7 +29684,7 @@ var PylosMove = class _PylosMove extends Move {
 };
 
 // src/app/games/pylos/PylosState.ts
-var import_lib164 = __toESM(require_dist());
+var import_lib167 = __toESM(require_dist());
 var PylosState = class _PylosState extends GameState {
   boards;
   static getLevelRange(z) {
@@ -29298,7 +29694,7 @@ var PylosState = class _PylosState extends GameState {
       case 1:
         return [0, 1, 2];
       default:
-        import_lib164.Utils.expectToBe(z, 2);
+        import_lib167.Utils.expectToBe(z, 2);
         return [0, 1];
     }
   }
@@ -29411,16 +29807,16 @@ var PylosState = class _PylosState extends GameState {
         }
       }
     }
-    return new import_lib164.Set(freeToMove);
+    return new import_lib167.Set(freeToMove);
   }
 };
 
 // src/app/games/pylos/PylosRules.ts
 var PylosRules = class _PylosRules extends Rules {
-  static singleton = import_lib165.MGPOptional.empty();
+  static singleton = import_lib168.MGPOptional.empty();
   static get() {
     if (_PylosRules.singleton.isAbsent()) {
-      _PylosRules.singleton = import_lib165.MGPOptional.of(new _PylosRules());
+      _PylosRules.singleton = import_lib168.MGPOptional.of(new _PylosRules());
     }
     return _PylosRules.singleton.get();
   }
@@ -29490,14 +29886,14 @@ var PylosRules = class _PylosRules extends Rules {
     return false;
   }
   static getPossibleCaptures(state) {
-    let possibleCapturesSets = new import_lib165.Set();
+    let possibleCapturesSets = new import_lib168.Set();
     const freeToMoveFirsts = state.getFreeToMoves();
     for (const freeToMoveFirst of freeToMoveFirsts) {
-      possibleCapturesSets = possibleCapturesSets.addElement(new import_lib165.Set([freeToMoveFirst]));
+      possibleCapturesSets = possibleCapturesSets.addElement(new import_lib168.Set([freeToMoveFirst]));
       const secondState = state.removePieceAt(freeToMoveFirst);
       const freeToMoveThens = secondState.getFreeToMoves();
       for (const freeToMoveThen of freeToMoveThens) {
-        const captures = new import_lib165.Set([freeToMoveFirst, freeToMoveThen]);
+        const captures = new import_lib168.Set([freeToMoveFirst, freeToMoveThen]);
         possibleCapturesSets = possibleCapturesSets.addElement(captures);
       }
     }
@@ -29539,7 +29935,7 @@ var PylosRules = class _PylosRules extends Rules {
     if (capturesLegality.isFailure()) {
       return capturesLegality;
     }
-    return import_lib165.MGPValidation.SUCCESS;
+    return import_lib168.MGPValidation.SUCCESS;
   }
   isLegalStartingCoord(move, initialState3) {
     const opponent = initialState3.getCurrentOpponent();
@@ -29547,49 +29943,49 @@ var PylosRules = class _PylosRules extends Rules {
       const startingCoord = move.startingCoord.get();
       const startingPiece = initialState3.getPieceAt(startingCoord);
       if (startingPiece === opponent) {
-        return import_lib165.MGPFallible.failure(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
+        return import_lib168.MGPFallible.failure(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
       } else if (startingPiece.isNone()) {
-        return import_lib165.MGPFallible.failure(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_EMPTY());
+        return import_lib168.MGPFallible.failure(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_EMPTY());
       }
       const supportedPieces = startingCoord.getHigherCoords().filter((coord) => initialState3.getPieceAt(coord).isPlayer());
       if (supportedPieces.length === 0) {
         const stateWithLeftStartingCoord = initialState3.removePieceAt(move.startingCoord.get());
-        return import_lib165.MGPFallible.success(stateWithLeftStartingCoord);
+        return import_lib168.MGPFallible.success(stateWithLeftStartingCoord);
       } else {
-        return import_lib165.MGPFallible.failure(PylosFailure.CANNOT_MOVE_SUPPORTING_PIECE());
+        return import_lib168.MGPFallible.failure(PylosFailure.CANNOT_MOVE_SUPPORTING_PIECE());
       }
     }
-    return import_lib165.MGPFallible.success(initialState3);
+    return import_lib168.MGPFallible.success(initialState3);
   }
   isLegalLandingCoord(move, stateAfterClimbStart) {
     if (stateAfterClimbStart.getPieceAt(move.landingCoord).isPlayer()) {
-      return import_lib165.MGPFallible.failure(RulesFailure.MUST_LAND_ON_EMPTY_SPACE());
+      return import_lib168.MGPFallible.failure(RulesFailure.MUST_LAND_ON_EMPTY_SPACE());
     }
     if (stateAfterClimbStart.isLandable(move.landingCoord)) {
-      return import_lib165.MGPFallible.success(stateAfterClimbStart.dropCurrentPlayersPieceAt(move.landingCoord));
+      return import_lib168.MGPFallible.success(stateAfterClimbStart.dropCurrentPlayersPieceAt(move.landingCoord));
     } else {
-      return import_lib165.MGPFallible.failure(PylosFailure.SHOULD_HAVE_SUPPORTING_PIECES());
+      return import_lib168.MGPFallible.failure(PylosFailure.SHOULD_HAVE_SUPPORTING_PIECES());
     }
   }
   isLegalCaptures(move, postMoveState) {
     if (move.firstCapture.isAbsent()) {
-      return import_lib165.MGPValidation.SUCCESS;
+      return import_lib168.MGPValidation.SUCCESS;
     }
     if (_PylosRules.canCapture(postMoveState, move.landingCoord) === false) {
-      return import_lib165.MGPValidation.failure(PylosFailure.CANNOT_CAPTURE());
+      return import_lib168.MGPValidation.failure(PylosFailure.CANNOT_CAPTURE());
     }
     if (_PylosRules.isValidCapture(postMoveState, move, move.firstCapture.get())) {
       const afterFirstCapture = postMoveState.removePieceAt(move.firstCapture.get());
       if (move.secondCapture.isAbsent()) {
-        return import_lib165.MGPValidation.SUCCESS;
+        return import_lib168.MGPValidation.SUCCESS;
       }
       if (_PylosRules.isValidCapture(afterFirstCapture, move, move.secondCapture.get())) {
-        return import_lib165.MGPValidation.SUCCESS;
+        return import_lib168.MGPValidation.SUCCESS;
       } else {
-        return import_lib165.MGPValidation.failure(PylosFailure.INVALID_SECOND_CAPTURE());
+        return import_lib168.MGPValidation.failure(PylosFailure.INVALID_SECOND_CAPTURE());
       }
     } else {
-      return import_lib165.MGPValidation.failure(PylosFailure.INVALID_FIRST_CAPTURE());
+      return import_lib168.MGPValidation.failure(PylosFailure.INVALID_FIRST_CAPTURE());
     }
   }
   getGameStatus(node) {
@@ -29598,10 +29994,10 @@ var PylosRules = class _PylosRules extends Rules {
 };
 
 // src/app/games/pylos/PylosTutorial.ts
-var import_lib166 = __toESM(require_dist());
-var _19 = PlayerOrNone.NONE;
-var O16 = PlayerOrNone.ZERO;
-var X16 = PlayerOrNone.ONE;
+var import_lib169 = __toESM(require_dist());
+var _20 = PlayerOrNone.NONE;
+var O17 = PlayerOrNone.ZERO;
+var X17 = PlayerOrNone.ONE;
 var PylosTutorial = class extends Tutorial {
   tutorial = [
     TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`At Pylos, the goal is to be the last to play.
@@ -29622,22 +30018,22 @@ var PylosTutorial = class extends Tutorial {
         </ol><br/>
         You're playing Dark, go ahead and climb!`, new PylosState([
       [
-        [O16, X16, _19, _19],
-        [X16, O16, _19, _19],
-        [_19, _19, _19, _19],
-        [_19, _19, _19, O16]
+        [O17, X17, _20, _20],
+        [X17, O17, _20, _20],
+        [_20, _20, _20, _20],
+        [_20, _20, _20, O17]
       ],
       [
-        [_19, _19, _19],
-        [_19, _19, _19],
-        [_19, _19, _19]
+        [_20, _20, _20],
+        [_20, _20, _20],
+        [_20, _20, _20]
       ],
       [
-        [_19, _19],
-        [_19, _19]
+        [_20, _20],
+        [_20, _20]
       ],
       [
-        [_19]
+        [_20]
       ]
     ], 0), [PylosMove.ofClimb(new PylosCoord(3, 3, 0), new PylosCoord(0, 0, 1), [])], $localize`Congratulations!<br/>
         Some important notes:
@@ -29653,22 +30049,22 @@ var PylosTutorial = class extends Tutorial {
         A chosen piece can be the piece you just placed.<br/><br/>
         You're playing Dark. Form a square, click on one of the four pieces, then click on the V symbol on the bottom right to finalize your move.`, new PylosState([
       [
-        [O16, O16, _19, _19],
-        [_19, O16, _19, _19],
-        [_19, _19, _19, _19],
-        [_19, _19, _19, _19]
+        [O17, O17, _20, _20],
+        [_20, O17, _20, _20],
+        [_20, _20, _20, _20],
+        [_20, _20, _20, _20]
       ],
       [
-        [_19, _19, _19],
-        [_19, _19, _19],
-        [_19, _19, _19]
+        [_20, _20, _20],
+        [_20, _20, _20],
+        [_20, _20, _20]
       ],
       [
-        [_19, _19],
-        [_19, _19]
+        [_20, _20],
+        [_20, _20]
       ],
       [
-        [_19]
+        [_20]
       ]
     ], 0), [
       PylosMove.ofDrop(new PylosCoord(0, 1, 0), [new PylosCoord(0, 0, 0)]),
@@ -29678,37 +30074,37 @@ var PylosTutorial = class extends Tutorial {
     ], $localize`Congratulations, you have saved up one piece. Note, you can cancel your selection by clicking again on the piece.`, TutorialStepMessage.FAILED_TRY_AGAIN()),
     TutorialStep.fromPredicate($localize`Square` + " (2/2)", $localize`You're playing Dark.<br/><br/>Do like in the previous step, but this time click on two different pieces before validating.`, new PylosState([
       [
-        [O16, O16, _19, _19],
-        [_19, O16, _19, _19],
-        [_19, _19, _19, _19],
-        [_19, _19, _19, _19]
+        [O17, O17, _20, _20],
+        [_20, O17, _20, _20],
+        [_20, _20, _20, _20],
+        [_20, _20, _20, _20]
       ],
       [
-        [_19, _19, _19],
-        [_19, _19, _19],
-        [_19, _19, _19]
+        [_20, _20, _20],
+        [_20, _20, _20],
+        [_20, _20, _20]
       ],
       [
-        [_19, _19],
-        [_19, _19]
+        [_20, _20],
+        [_20, _20]
       ],
       [
-        [_19]
+        [_20]
       ]
     ], 0), PylosMove.ofDrop(new PylosCoord(0, 1, 0), [new PylosCoord(0, 0, 0), new PylosCoord(1, 0, 0)]), (move, _previous, _result) => {
       if (move.secondCapture.isPresent()) {
-        return import_lib166.MGPValidation.SUCCESS;
+        return import_lib169.MGPValidation.SUCCESS;
       }
       if (move.firstCapture.isPresent()) {
-        return import_lib166.MGPValidation.failure($localize`Failed, you only captured one piece.`);
+        return import_lib169.MGPValidation.failure($localize`Failed, you only captured one piece.`);
       }
-      return import_lib166.MGPValidation.failure(TutorialStepMessage.YOU_DID_NOT_CAPTURE_ANY_PIECE());
+      return import_lib169.MGPValidation.failure(TutorialStepMessage.YOU_DID_NOT_CAPTURE_ANY_PIECE());
     }, $localize`Congratulations, you have saved up two pieces.`)
   ];
 };
 
 // src/app/games/pylos/pylos.component.ts
-var import_lib168 = __toESM(require_dist());
+var import_lib171 = __toESM(require_dist());
 
 // src/app/games/pylos/PylosHeuristic.ts
 var PylosHeuristic = class extends PlayerMetricHeuristic {
@@ -29719,7 +30115,7 @@ var PylosHeuristic = class extends PlayerMetricHeuristic {
 };
 
 // src/app/games/pylos/PylosMoveGenerator.ts
-var import_lib167 = __toESM(require_dist());
+var import_lib170 = __toESM(require_dist());
 var PylosMoveGenerator = class extends MoveGenerator {
   getListMoves(node, _config) {
     const state = node.gameState;
@@ -29730,7 +30126,7 @@ var PylosMoveGenerator = class extends MoveGenerator {
     const moves = climbings.concat(drops);
     for (const move of moves) {
       const postMoveState = state.applyLegalMove(move, false);
-      let possibleCaptures = new import_lib167.Set();
+      let possibleCaptures = new import_lib170.Set();
       if (PylosRules.canCapture(postMoveState, move.landingCoord)) {
         possibleCaptures = PylosRules.getPossibleCaptures(postMoveState);
       } else {
@@ -29794,7 +30190,7 @@ var PylosMinimax = class extends Minimax {
 
 // src/app/games/pylos/pylos.component.ts
 var _c014 = () => [0, 1, 2];
-var _forTrack022 = ($index, $item) => $item.toString();
+var _forTrack023 = ($index, $item) => $item.toString();
 function PylosComponent_For_3_For_2_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
@@ -30004,16 +30400,16 @@ var PylosComponent = class _PylosComponent extends GameComponent {
   pieceRowHeight = this.SPACE_SIZE / 2;
   boardHeight = this.boardWidth + 2 * this.pieceRowHeight;
   constructedState;
-  lastLandingCoord = import_lib168.MGPOptional.empty();
-  lastStartingCoord = import_lib168.MGPOptional.empty();
-  lastFirstCapture = import_lib168.MGPOptional.empty();
-  lastSecondCapture = import_lib168.MGPOptional.empty();
-  highCapture = import_lib168.MGPOptional.empty();
-  capturables = new import_lib168.Set();
-  chosenStartingCoord = import_lib168.MGPOptional.empty();
-  chosenLandingCoord = import_lib168.MGPOptional.empty();
-  chosenFirstCapture = import_lib168.MGPOptional.empty();
-  chosenSecondCapture = import_lib168.MGPOptional.empty();
+  lastLandingCoord = import_lib171.MGPOptional.empty();
+  lastStartingCoord = import_lib171.MGPOptional.empty();
+  lastFirstCapture = import_lib171.MGPOptional.empty();
+  lastSecondCapture = import_lib171.MGPOptional.empty();
+  highCapture = import_lib171.MGPOptional.empty();
+  capturables = new import_lib171.Set();
+  chosenStartingCoord = import_lib171.MGPOptional.empty();
+  chosenLandingCoord = import_lib171.MGPOptional.empty();
+  chosenFirstCapture = import_lib171.MGPOptional.empty();
+  chosenSecondCapture = import_lib171.MGPOptional.empty();
   captured = [];
   lastMoved = [];
   remainingPieces = PlayerNumberMap.of(15, 15);
@@ -30086,36 +30482,36 @@ var PylosComponent = class _PylosComponent extends GameComponent {
   }
   onClimbClick(clickedCoord) {
     return __async(this, null, function* () {
-      this.chosenStartingCoord = import_lib168.MGPOptional.of(clickedCoord);
+      this.chosenStartingCoord = import_lib171.MGPOptional.of(clickedCoord);
       this.constructedState = this.constructedState.removePieceAt(clickedCoord);
-      return import_lib168.MGPValidation.SUCCESS;
+      return import_lib171.MGPValidation.SUCCESS;
     });
   }
   onCaptureClick(clickedCoord) {
     return __async(this, null, function* () {
       if (this.chosenFirstCapture.equalsValue(clickedCoord)) {
-        this.chosenFirstCapture = import_lib168.MGPOptional.empty();
+        this.chosenFirstCapture = import_lib171.MGPOptional.empty();
         this.constructedState = this.constructedState.dropCurrentPlayersPieceAt(clickedCoord);
         this.updateCapturableList();
-        return import_lib168.MGPValidation.SUCCESS;
+        return import_lib171.MGPValidation.SUCCESS;
       }
       if (this.chosenSecondCapture.equalsValue(clickedCoord)) {
-        this.chosenSecondCapture = import_lib168.MGPOptional.empty();
+        this.chosenSecondCapture = import_lib171.MGPOptional.empty();
         this.constructedState = this.constructedState.dropCurrentPlayersPieceAt(clickedCoord);
         this.updateCapturableList();
-        return import_lib168.MGPValidation.SUCCESS;
+        return import_lib171.MGPValidation.SUCCESS;
       }
       if (this.chosenFirstCapture.isAbsent()) {
-        this.chosenFirstCapture = import_lib168.MGPOptional.of(clickedCoord);
+        this.chosenFirstCapture = import_lib171.MGPOptional.of(clickedCoord);
         this.constructedState = this.constructedState.removePieceAt(clickedCoord);
         this.updateCapturableList();
-        return import_lib168.MGPValidation.SUCCESS;
+        return import_lib171.MGPValidation.SUCCESS;
       }
       if (this.chosenSecondCapture.isAbsent()) {
-        this.chosenSecondCapture = import_lib168.MGPOptional.of(clickedCoord);
+        this.chosenSecondCapture = import_lib171.MGPOptional.of(clickedCoord);
         this.constructedState = this.constructedState.removePieceAt(clickedCoord);
         this.updateCapturableList();
-        return import_lib168.MGPValidation.SUCCESS;
+        return import_lib171.MGPValidation.SUCCESS;
       }
       return this.cancelMove(PylosMoveFailure.MUST_CAPTURE_MAXIMUM_TWO_PIECES());
     });
@@ -30137,7 +30533,7 @@ var PylosComponent = class _PylosComponent extends GameComponent {
         return this.cancelMove(clickValidity.getReason());
       }
       if (this.chosenFirstCapture.isAbsent() && this.chosenSecondCapture.isAbsent()) {
-        return import_lib168.MGPValidation.SUCCESS;
+        return import_lib171.MGPValidation.SUCCESS;
       }
       if (this.chosenFirstCapture.isPresent() && this.chosenSecondCapture.isAbsent()) {
         return this.concludeMoveWithCapture([this.chosenFirstCapture.get()]);
@@ -30161,11 +30557,11 @@ var PylosComponent = class _PylosComponent extends GameComponent {
   }
   cancelMoveAttempt() {
     this.constructedState = this.state;
-    this.chosenStartingCoord = import_lib168.MGPOptional.empty();
-    this.chosenLandingCoord = import_lib168.MGPOptional.empty();
-    this.chosenFirstCapture = import_lib168.MGPOptional.empty();
-    this.chosenSecondCapture = import_lib168.MGPOptional.empty();
-    this.capturables = new import_lib168.Set();
+    this.chosenStartingCoord = import_lib171.MGPOptional.empty();
+    this.chosenLandingCoord = import_lib171.MGPOptional.empty();
+    this.chosenFirstCapture = import_lib171.MGPOptional.empty();
+    this.chosenSecondCapture = import_lib171.MGPOptional.empty();
+    this.capturables = new import_lib171.Set();
   }
   onDrop(x2, y, z) {
     return __async(this, null, function* () {
@@ -30175,12 +30571,12 @@ var PylosComponent = class _PylosComponent extends GameComponent {
       }
       const clickedCoord = new PylosCoord(x2, y, z);
       if (PylosRules.canCapture(this.constructedState, clickedCoord)) {
-        this.chosenLandingCoord = import_lib168.MGPOptional.of(clickedCoord);
+        this.chosenLandingCoord = import_lib171.MGPOptional.of(clickedCoord);
         this.constructedState = this.constructedState.dropCurrentPlayersPieceAt(clickedCoord);
         this.updateCapturableList();
-        return import_lib168.MGPValidation.SUCCESS;
+        return import_lib171.MGPValidation.SUCCESS;
       } else {
-        this.chosenLandingCoord = import_lib168.MGPOptional.of(clickedCoord);
+        this.chosenLandingCoord = import_lib171.MGPOptional.of(clickedCoord);
         return this.concludeMoveWithCapture([]);
       }
     });
@@ -30267,7 +30663,7 @@ var PylosComponent = class _PylosComponent extends GameComponent {
     });
   }
   updateScores() {
-    this.scores = import_lib168.MGPOptional.of(this.remainingPieces);
+    this.scores = import_lib171.MGPOptional.of(this.remainingPieces);
   }
   getScoreName() {
     return ScoreName.REMAINING_PIECES;
@@ -30275,7 +30671,7 @@ var PylosComponent = class _PylosComponent extends GameComponent {
   showLastMove(move) {
     return __async(this, null, function* () {
       this.lastStartingCoord = move.startingCoord;
-      this.lastLandingCoord = import_lib168.MGPOptional.of(move.landingCoord);
+      this.lastLandingCoord = import_lib171.MGPOptional.of(move.landingCoord);
       this.lastFirstCapture = move.firstCapture;
       this.lastSecondCapture = move.secondCapture;
       if (this.lastFirstCapture.isPresent() && this.mustDrawCoord(this.lastFirstCapture.get()) === false) {
@@ -30292,11 +30688,11 @@ var PylosComponent = class _PylosComponent extends GameComponent {
     });
   }
   hideLastMove() {
-    this.lastStartingCoord = import_lib168.MGPOptional.empty();
-    this.lastLandingCoord = import_lib168.MGPOptional.empty();
-    this.lastFirstCapture = import_lib168.MGPOptional.empty();
-    this.lastSecondCapture = import_lib168.MGPOptional.empty();
-    this.highCapture = import_lib168.MGPOptional.empty();
+    this.lastStartingCoord = import_lib171.MGPOptional.empty();
+    this.lastLandingCoord = import_lib171.MGPOptional.empty();
+    this.lastFirstCapture = import_lib171.MGPOptional.empty();
+    this.lastSecondCapture = import_lib171.MGPOptional.empty();
+    this.highCapture = import_lib171.MGPOptional.empty();
     this.lastMoved = [];
     this.captured = [];
   }
@@ -30331,7 +30727,7 @@ var PylosComponent = class _PylosComponent extends GameComponent {
       \u0275\u0275repeaterCreate(7, PylosComponent_For_8_Template, 3, 0, ":svg:g", null, \u0275\u0275repeaterTrackByIdentity);
       \u0275\u0275conditionalCreate(9, PylosComponent_Conditional_9_Template, 1, 8, ":svg:rect", 3);
       \u0275\u0275conditionalCreate(10, PylosComponent_Conditional_10_Template, 3, 5, ":svg:g", 4);
-      \u0275\u0275repeaterCreate(11, PylosComponent_For_12_Template, 3, 13, ":svg:g", 5, _forTrack022);
+      \u0275\u0275repeaterCreate(11, PylosComponent_For_12_Template, 3, 13, ":svg:g", 5, _forTrack023);
       \u0275\u0275elementEnd()();
     }
     if (rf & 2) {
@@ -30472,10 +30868,10 @@ var PylosComponent = class _PylosComponent extends GameComponent {
 })();
 
 // src/app/games/quarto/QuartoRules.ts
-var import_lib171 = __toESM(require_dist());
+var import_lib174 = __toESM(require_dist());
 
 // src/app/jscaip/AI/AlignmentHeuristic.ts
-var import_lib169 = __toESM(require_dist());
+var import_lib172 = __toESM(require_dist());
 var AlignmentStatus = class _AlignmentStatus {
   name;
   // There's no particular alignment
@@ -30492,7 +30888,7 @@ var AlignmentStatus = class _AlignmentStatus {
     if (this === _AlignmentStatus.NOTHING) {
       return BoardValue.of(0);
     } else {
-      import_lib169.Utils.assert(this === _AlignmentStatus.PRE_VICTORY, "alignment status can only be pre-victory or default");
+      import_lib172.Utils.assert(this === _AlignmentStatus.PRE_VICTORY, "alignment status can only be pre-victory or default");
       const player = Player.of(turn % 2);
       return BoardValue.of(player.getPreVictory());
     }
@@ -30503,8 +30899,8 @@ var AlignmentHeuristic = class extends Heuristic {
     this.startSearchingVictorySources();
     const boardInfo = {
       status: AlignmentStatus.NOTHING,
-      victory: import_lib169.MGPOptional.empty(),
-      preVictory: import_lib169.MGPOptional.empty(),
+      victory: import_lib172.MGPOptional.empty(),
+      preVictory: import_lib172.MGPOptional.empty(),
       sum: 0
     };
     while (this.hasNextVictorySource()) {
@@ -30536,7 +30932,7 @@ var QuartoFailure = class {
 };
 
 // src/app/games/quarto/QuartoPiece.ts
-var import_lib170 = __toESM(require_dist());
+var import_lib173 = __toESM(require_dist());
 var QuartoPiece = class _QuartoPiece {
   value;
   static AAAA = new _QuartoPiece(0);
@@ -30574,7 +30970,7 @@ var QuartoPiece = class _QuartoPiece {
     _QuartoPiece.BBBA,
     _QuartoPiece.BBBB
   ];
-  static encoder = import_lib170.Encoder.fromFunctions((p) => p.value, _QuartoPiece.ofInt);
+  static encoder = import_lib173.Encoder.fromFunctions((p) => p.value, _QuartoPiece.ofInt);
   static ofInt(piece) {
     if (0 <= piece && piece <= 15) {
       return _QuartoPiece.pieces[piece];
@@ -30635,12 +31031,12 @@ var QuartoState = class _QuartoState extends GameStateWithTable {
 
 // src/app/games/quarto/QuartoRules.ts
 var QuartoCriterion = class _QuartoCriterion {
-  subCriterion = [import_lib171.MGPOptional.empty(), import_lib171.MGPOptional.empty(), import_lib171.MGPOptional.empty(), import_lib171.MGPOptional.empty()];
+  subCriterion = [import_lib174.MGPOptional.empty(), import_lib174.MGPOptional.empty(), import_lib174.MGPOptional.empty(), import_lib174.MGPOptional.empty()];
   constructor(piece) {
-    this.subCriterion[0] = import_lib171.MGPOptional.of((piece.value & 8) === 8);
-    this.subCriterion[1] = import_lib171.MGPOptional.of((piece.value & 4) === 4);
-    this.subCriterion[2] = import_lib171.MGPOptional.of((piece.value & 2) === 2);
-    this.subCriterion[3] = import_lib171.MGPOptional.of((piece.value & 1) === 1);
+    this.subCriterion[0] = import_lib174.MGPOptional.of((piece.value & 8) === 8);
+    this.subCriterion[1] = import_lib174.MGPOptional.of((piece.value & 4) === 4);
+    this.subCriterion[2] = import_lib174.MGPOptional.of((piece.value & 2) === 2);
+    this.subCriterion[3] = import_lib174.MGPOptional.of((piece.value & 1) === 1);
   }
   /**
    * Merge with another criterion.
@@ -30651,7 +31047,7 @@ var QuartoCriterion = class _QuartoCriterion {
     let nonNull = 4;
     for (let i2 = 0; i2 < 4; i2++) {
       if (this.subCriterion[i2].equals(other.subCriterion[i2]) === false) {
-        this.subCriterion[i2] = import_lib171.MGPOptional.empty();
+        this.subCriterion[i2] = import_lib174.MGPOptional.empty();
       }
       if (this.subCriterion[i2].isAbsent()) {
         nonNull--;
@@ -30790,7 +31186,7 @@ var SquareVictoryPattern = class _SquareVictoryPattern extends VictoryPattern {
   }
 };
 var QuartoRules = class _QuartoRules extends ConfigurableRules {
-  static singleton = import_lib171.MGPOptional.empty();
+  static singleton = import_lib174.MGPOptional.empty();
   static RULES_CONFIG_DESCRIPTION = new RulesConfigDescription({
     name: () => $localize`Quarto`,
     config: {
@@ -30800,14 +31196,14 @@ var QuartoRules = class _QuartoRules extends ConfigurableRules {
   });
   static get() {
     if (_QuartoRules.singleton.isAbsent()) {
-      _QuartoRules.singleton = import_lib171.MGPOptional.of(new _QuartoRules());
+      _QuartoRules.singleton = import_lib174.MGPOptional.of(new _QuartoRules());
     }
     return _QuartoRules.singleton.get();
   }
   getRulesConfigDescription() {
-    return import_lib171.MGPOptional.of(_QuartoRules.RULES_CONFIG_DESCRIPTION);
+    return import_lib174.MGPOptional.of(_QuartoRules.RULES_CONFIG_DESCRIPTION);
   }
-  getInitialState(_31) {
+  getInitialState(_32) {
     const board = TableUtils.create(4, 4, QuartoPiece.EMPTY);
     return new QuartoState(board, 0, QuartoPiece.AAAA);
   }
@@ -30821,21 +31217,21 @@ var QuartoRules = class _QuartoRules extends ConfigurableRules {
     const board = state.getCopiedBoard();
     const pieceInHand = state.pieceInHand;
     if (this.isOccupied(board[y][x2])) {
-      return import_lib171.MGPValidation.failure(RulesFailure.MUST_LAND_ON_EMPTY_SPACE());
+      return import_lib174.MGPValidation.failure(RulesFailure.MUST_LAND_ON_EMPTY_SPACE());
     }
     if (pieceToGive === QuartoPiece.EMPTY) {
       if (state.turn === 15) {
-        return import_lib171.MGPValidation.SUCCESS;
+        return import_lib174.MGPValidation.SUCCESS;
       }
-      return import_lib171.MGPValidation.failure(QuartoFailure.MUST_GIVE_A_PIECE());
+      return import_lib174.MGPValidation.failure(QuartoFailure.MUST_GIVE_A_PIECE());
     }
     if (QuartoState.isAlreadyOnBoard(pieceToGive, board)) {
-      return import_lib171.MGPValidation.failure(QuartoFailure.PIECE_ALREADY_ON_BOARD());
+      return import_lib174.MGPValidation.failure(QuartoFailure.PIECE_ALREADY_ON_BOARD());
     }
     if (pieceInHand === pieceToGive) {
-      return import_lib171.MGPValidation.failure(QuartoFailure.CANNOT_GIVE_PIECE_IN_HAND());
+      return import_lib174.MGPValidation.failure(QuartoFailure.CANNOT_GIVE_PIECE_IN_HAND());
     }
-    return import_lib171.MGPValidation.SUCCESS;
+    return import_lib174.MGPValidation.SUCCESS;
   }
   applyLegalMove(move, state, _config, _info) {
     const newBoard = state.getCopiedBoard();
@@ -30906,24 +31302,24 @@ var QuartoRules = class _QuartoRules extends ConfigurableRules {
     return { boardStatus, isUpdated };
   }
   getPatternInfos(pattern, state, boardStatus) {
-    let sensitiveCoord = import_lib171.MGPOptional.empty();
-    let commonCriterion = import_lib171.MGPOptional.empty();
+    let sensitiveCoord = import_lib174.MGPOptional.empty();
+    let commonCriterion = import_lib174.MGPOptional.empty();
     const coords = pattern.getCoords();
     for (const coord of coords) {
       const c = state.getPieceAt(coord);
       if (c === QuartoPiece.EMPTY) {
         if (sensitiveCoord.isAbsent()) {
-          sensitiveCoord = import_lib171.MGPOptional.of(coord);
+          sensitiveCoord = import_lib174.MGPOptional.of(coord);
         } else {
           return {
-            sensitiveCoord: import_lib171.MGPOptional.of(coord),
+            sensitiveCoord: import_lib174.MGPOptional.of(coord),
             commonCriterion,
-            boardStatus: import_lib171.MGPOptional.of(boardStatus)
+            boardStatus: import_lib174.MGPOptional.of(boardStatus)
           };
         }
       } else {
         if (commonCriterion.isAbsent()) {
-          commonCriterion = import_lib171.MGPOptional.of(new QuartoCriterion(c));
+          commonCriterion = import_lib174.MGPOptional.of(new QuartoCriterion(c));
           Debug.display("QuartoRules", "getPatternInfos", "set commonCrit to " + commonCriterion.toString());
         } else {
           commonCriterion.get().mergeWithQuartoPiece(c);
@@ -30931,7 +31327,7 @@ var QuartoRules = class _QuartoRules extends ConfigurableRules {
         }
       }
     }
-    return { commonCriterion, sensitiveCoord, boardStatus: import_lib171.MGPOptional.empty() };
+    return { commonCriterion, sensitiveCoord, boardStatus: import_lib174.MGPOptional.empty() };
   }
   getGameStatus(node, config) {
     const state = node.gameState;
@@ -30999,18 +31395,18 @@ var QuartoRules = class _QuartoRules extends ConfigurableRules {
         return pattern.getCoords();
       }
     }
-    return new import_lib171.Set();
+    return new import_lib174.Set();
   }
 };
 
 // src/app/games/quarto/QuartoTutorial.ts
-var import_lib173 = __toESM(require_dist());
+var import_lib176 = __toESM(require_dist());
 
 // src/app/games/quarto/QuartoMove.ts
-var import_lib172 = __toESM(require_dist());
+var import_lib175 = __toESM(require_dist());
 var QuartoMove = class _QuartoMove extends MoveCoord {
   piece;
-  static encoder = import_lib172.Encoder.tuple([Coord.encoder, QuartoPiece.encoder], (m2) => [m2.coord, m2.piece], (fields) => new _QuartoMove(fields[0].x, fields[0].y, fields[1]));
+  static encoder = import_lib175.Encoder.tuple([Coord.encoder, QuartoPiece.encoder], (m2) => [m2.coord, m2.piece], (fields) => new _QuartoMove(fields[0].x, fields[0].y, fields[1]));
   constructor(x2, y, piece) {
     super(x2, y);
     this.piece = piece;
@@ -31070,16 +31466,16 @@ var QuartoTutorial = class extends Tutorial {
       [____, ____, ____, ____]
     ], 7, AAAA), new QuartoMove(1, 1, AABB), (move) => {
       if (move.coord.equals(new Coord(1, 1))) {
-        return import_lib173.MGPValidation.SUCCESS;
+        return import_lib176.MGPValidation.SUCCESS;
       } else {
-        return import_lib173.MGPValidation.failure($localize`Wrong, you could have won by making a square.`);
+        return import_lib176.MGPValidation.failure($localize`Wrong, you could have won by making a square.`);
       }
     }, $localize`Well done!`)
   ];
 };
 
 // src/app/games/quarto/quarto.component.ts
-var import_lib174 = __toESM(require_dist());
+var import_lib177 = __toESM(require_dist());
 
 // src/app/games/quarto/QuartoHeuristic.ts
 var QuartoHeuristic = class extends Heuristic {
@@ -31137,7 +31533,7 @@ var QuartoMinimax = class extends Minimax {
 };
 
 // src/app/games/quarto/quarto.component.ts
-var _forTrack023 = ($index, $item) => $item.coord.toString();
+var _forTrack024 = ($index, $item) => $item.coord.toString();
 var _forTrack111 = ($index, $item) => $item.toString();
 function QuartoComponent_For_3_Conditional_2_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
@@ -31460,13 +31856,13 @@ function QuartoComponent_For_14_Template(rf, ctx) {
 var QuartoComponent = class _QuartoComponent extends RectangularGameComponent {
   EMPTY = QuartoPiece.EMPTY;
   QuartoPiece = QuartoPiece;
-  chosen = import_lib174.MGPOptional.empty();
-  lastMove = import_lib174.MGPOptional.empty();
+  chosen = import_lib177.MGPOptional.empty();
+  lastMove = import_lib177.MGPOptional.empty();
   // the piece that the current user must place on the board
   pieceInHand = QuartoPiece.EMPTY;
   // the piece that the user wants to give to the opponent
-  pieceToGive = import_lib174.MGPOptional.empty();
-  victoriousCoords = new import_lib174.Set();
+  pieceToGive = import_lib177.MGPOptional.empty();
+  victoriousCoords = new import_lib177.Set();
   constructor() {
     super();
     this.setRulesAndNode("Quarto");
@@ -31501,7 +31897,7 @@ var QuartoComponent = class _QuartoComponent extends RectangularGameComponent {
           const chosenMove = new QuartoMove(clicked.x, clicked.y, QuartoPiece.EMPTY);
           return this.chooseMove(chosenMove);
         } else if (this.pieceToGive.isAbsent()) {
-          return import_lib174.MGPValidation.SUCCESS;
+          return import_lib177.MGPValidation.SUCCESS;
         } else {
           const chosenMove = new QuartoMove(clicked.x, clicked.y, this.pieceToGive.get());
           return this.chooseMove(chosenMove);
@@ -31520,9 +31916,9 @@ var QuartoComponent = class _QuartoComponent extends RectangularGameComponent {
       if (this.pieceToGive.equalsValue(QuartoPiece.ofInt(givenPiece))) {
         return this.cancelMove();
       }
-      this.pieceToGive = import_lib174.MGPOptional.of(QuartoPiece.ofInt(givenPiece));
+      this.pieceToGive = import_lib177.MGPOptional.of(QuartoPiece.ofInt(givenPiece));
       if (this.chosen.isAbsent()) {
-        return import_lib174.MGPValidation.SUCCESS;
+        return import_lib177.MGPValidation.SUCCESS;
       } else {
         const chosen = this.chosen.get();
         const chosenMove = new QuartoMove(chosen.x, chosen.y, this.pieceToGive.get());
@@ -31532,18 +31928,18 @@ var QuartoComponent = class _QuartoComponent extends RectangularGameComponent {
   }
   showLastMove(move) {
     return __async(this, null, function* () {
-      this.lastMove = import_lib174.MGPOptional.of(move.coord);
+      this.lastMove = import_lib177.MGPOptional.of(move.coord);
     });
   }
   hideLastMove() {
-    this.lastMove = import_lib174.MGPOptional.empty();
+    this.lastMove = import_lib177.MGPOptional.empty();
   }
   cancelMoveAttempt() {
-    this.pieceToGive = import_lib174.MGPOptional.empty();
-    this.chosen = import_lib174.MGPOptional.empty();
+    this.pieceToGive = import_lib177.MGPOptional.empty();
+    this.chosen = import_lib177.MGPOptional.empty();
   }
   showPieceInHandOnBoard(coord) {
-    this.chosen = import_lib174.MGPOptional.of(coord);
+    this.chosen = import_lib177.MGPOptional.of(coord);
   }
   isRemaining(piece) {
     return QuartoState.isGivable(QuartoPiece.ofInt(piece), this.board, this.pieceInHand);
@@ -31581,7 +31977,7 @@ var QuartoComponent = class _QuartoComponent extends RectangularGameComponent {
     if (rf & 1) {
       \u0275\u0275namespaceSVG();
       \u0275\u0275elementStart(0, "svg", 0)(1, "g", 1);
-      \u0275\u0275repeaterCreate(2, QuartoComponent_For_3_Template, 3, 8, ":svg:g", null, _forTrack023);
+      \u0275\u0275repeaterCreate(2, QuartoComponent_For_3_Template, 3, 8, ":svg:g", null, _forTrack024);
       \u0275\u0275conditionalCreate(4, QuartoComponent_Conditional_4_Template, 1, 7, ":svg:rect", 2);
       \u0275\u0275conditionalCreate(5, QuartoComponent_Conditional_5_Template, 5, 8, ":svg:g", 3);
       \u0275\u0275repeaterCreate(6, QuartoComponent_For_7_Template, 2, 6, ":svg:g", null, _forTrack111);
@@ -31807,10 +32203,10 @@ var QuartoComponent = class _QuartoComponent extends RectangularGameComponent {
 })();
 
 // src/app/games/quebec-castles/QuebecCastlesRules.ts
-var import_lib176 = __toESM(require_dist());
+var import_lib179 = __toESM(require_dist());
 
 // src/app/games/quebec-castles/QuebecCastlesMove.ts
-var import_lib175 = __toESM(require_dist());
+var import_lib178 = __toESM(require_dist());
 var QuebecCastlesTranslation = class _QuebecCastlesTranslation extends MoveCoordToCoord {
   static of(start, end) {
     return new _QuebecCastlesTranslation(start, end);
@@ -31831,9 +32227,9 @@ var QuebecCastlesTranslation = class _QuebecCastlesTranslation extends MoveCoord
 };
 var QuebecCastlesDrop = class _QuebecCastlesDrop extends Move {
   coords;
-  static encoder = import_lib175.Encoder.tuple([import_lib175.Encoder.list(Coord.encoder)], (move) => [move.coords.toList()], (value) => _QuebecCastlesDrop.of(value[0]));
+  static encoder = import_lib178.Encoder.tuple([import_lib178.Encoder.list(Coord.encoder)], (move) => [move.coords.toList()], (value) => _QuebecCastlesDrop.of(value[0]));
   static of(coords) {
-    const asSet = new import_lib175.Set(coords);
+    const asSet = new import_lib178.Set(coords);
     return new _QuebecCastlesDrop(asSet);
   }
   constructor(coords) {
@@ -31869,7 +32265,7 @@ var QuebecCastlesMove;
     return QuebecCastlesTranslation.of(start, end);
   }
   QuebecCastlesMove2.translation = translation;
-  QuebecCastlesMove2.encoder = import_lib175.Encoder.disjunction([
+  QuebecCastlesMove2.encoder = import_lib178.Encoder.disjunction([
     QuebecCastlesMove2.isTranslation,
     QuebecCastlesMove2.isDrop
   ], [
@@ -31925,7 +32321,7 @@ var DropModes = {
   "BY_BATCH": () => $localize`By batch`
 };
 var QuebecCastlesRules = class _QuebecCastlesRules extends ConfigurableRules {
-  static singleton = import_lib176.MGPOptional.empty();
+  static singleton = import_lib179.MGPOptional.empty();
   static RULES_CONFIG_DESCRIPTION = new RulesConfigDescription({
     name: () => $localize`Quebec Castles`,
     config: {
@@ -31952,9 +32348,9 @@ var QuebecCastlesRules = class _QuebecCastlesRules extends ConfigurableRules {
       height = config.height;
     }
     if (config.linesForTerritory < height / 2) {
-      return import_lib176.MGPValidation.SUCCESS;
+      return import_lib179.MGPValidation.SUCCESS;
     } else {
-      return import_lib176.MGPValidation.failure(QuebecCastlesFailure.TOO_MANY_LINES_FOR_TERRITORY());
+      return import_lib179.MGPValidation.failure(QuebecCastlesFailure.TOO_MANY_LINES_FOR_TERRITORY());
     }
   }
   static enoughPlaceForInvaders(config) {
@@ -31965,7 +32361,7 @@ var QuebecCastlesRules = class _QuebecCastlesRules extends ConfigurableRules {
   }
   static get() {
     if (_QuebecCastlesRules.singleton.isAbsent()) {
-      _QuebecCastlesRules.singleton = import_lib176.MGPOptional.of(new _QuebecCastlesRules());
+      _QuebecCastlesRules.singleton = import_lib179.MGPOptional.of(new _QuebecCastlesRules());
     }
     return _QuebecCastlesRules.singleton.get();
   }
@@ -31974,13 +32370,13 @@ var QuebecCastlesRules = class _QuebecCastlesRules extends ConfigurableRules {
     if (spaceForPiece < numberOfPiece) {
       const line = config.linesForTerritory;
       const failure = player === Player.ZERO ? QuebecCastlesFailure.CANNOT_PUT_THAT_MANY_PIECE_IN_THERE_FOR_INVADER(spaceForPiece, line) : QuebecCastlesFailure.CANNOT_PUT_THAT_MANY_PIECE_IN_THERE_FOR_DEFENDER(spaceForPiece, line);
-      return import_lib176.MGPValidation.failure(failure);
+      return import_lib179.MGPValidation.failure(failure);
     } else {
-      return import_lib176.MGPValidation.SUCCESS;
+      return import_lib179.MGPValidation.SUCCESS;
     }
   }
   getRulesConfigDescription() {
-    return import_lib176.MGPOptional.of(_QuebecCastlesRules.RULES_CONFIG_DESCRIPTION);
+    return import_lib179.MGPOptional.of(_QuebecCastlesRules.RULES_CONFIG_DESCRIPTION);
   }
   getInitialState(optionalConfig) {
     const config = optionalConfig.get();
@@ -31994,11 +32390,11 @@ var QuebecCastlesRules = class _QuebecCastlesRules extends ConfigurableRules {
   }
   getCastles(config) {
     if (config.playersPlaceCastle) {
-      const empty = import_lib176.MGPOptional.empty();
+      const empty = import_lib179.MGPOptional.empty();
       return PlayerMap.ofValues(empty, empty);
     } else {
-      const upperLeft = import_lib176.MGPOptional.of(new Coord(0, 0));
-      const bottomRight = import_lib176.MGPOptional.of(new Coord(config.width - 1, config.height - 1));
+      const upperLeft = import_lib179.MGPOptional.of(new Coord(0, 0));
+      const bottomRight = import_lib179.MGPOptional.of(new Coord(config.width - 1, config.height - 1));
       return PlayerMap.ofValues(bottomRight, upperLeft);
     }
   }
@@ -32125,7 +32521,7 @@ var QuebecCastlesRules = class _QuebecCastlesRules extends ConfigurableRules {
     if (totalPieceDropped === totalPieceToDrop) {
       return 0;
     }
-    import_lib176.Utils.assert(state.turn < totalPieceToDrop, "getExpectedDropsThisTurnForPieceByPiece should not be called after drop phase");
+    import_lib179.Utils.assert(state.turn < totalPieceToDrop, "getExpectedDropsThisTurnForPieceByPiece should not be called after drop phase");
     let turnOfLastDrop = Math.min(config.defenders, config.invaders) * 2;
     if (config.playersPlaceCastle) {
       turnOfLastDrop += 2;
@@ -32158,7 +32554,7 @@ var QuebecCastlesRules = class _QuebecCastlesRules extends ConfigurableRules {
   }
   isLegalDrop(move, state, config) {
     if (QuebecCastlesMove.isTranslation(move)) {
-      return import_lib176.MGPValidation.failure(QuebecCastlesFailure.CANNOT_MOVE_IN_DROP_PHASE());
+      return import_lib179.MGPValidation.failure(QuebecCastlesFailure.CANNOT_MOVE_IN_DROP_PHASE());
     }
     if (this.mustPlaceCastle(state, config)) {
       return this.isLegalCastlePlacement(move, state, config);
@@ -32173,7 +32569,7 @@ var QuebecCastlesRules = class _QuebecCastlesRules extends ConfigurableRules {
     if (move.coords.size() === 1) {
       return this.getDropLegality(move.coords.getAnyElement().get(), state, config, false);
     } else {
-      return import_lib176.MGPValidation.failure(QuebecCastlesFailure.PLACE_ONLY_ONE_CASTLE());
+      return import_lib179.MGPValidation.failure(QuebecCastlesFailure.PLACE_ONLY_ONE_CASTLE());
     }
   }
   isLegalPieceDrop(move, state, config) {
@@ -32184,20 +32580,20 @@ var QuebecCastlesRules = class _QuebecCastlesRules extends ConfigurableRules {
         const playerTotal = this.getNumberOfPieces(player, config);
         const remainToDrop = playerTotal - playerCount;
         if (move.coords.size() !== remainToDrop) {
-          return import_lib176.MGPFallible.failure(QuebecCastlesFailure.MUST_DROP_ALL_YOUR_REMAINING_PIECES());
+          return import_lib179.MGPFallible.failure(QuebecCastlesFailure.MUST_DROP_ALL_YOUR_REMAINING_PIECES());
         }
       } else {
         if (move.coords.size() > 1) {
-          return import_lib176.MGPFallible.failure(QuebecCastlesFailure.MUST_DROP_ONE_BY_ONE());
+          return import_lib179.MGPFallible.failure(QuebecCastlesFailure.MUST_DROP_ONE_BY_ONE());
         }
       }
     } else if (config.dropMode === "BY_BATCH") {
       const numberToDrop = this.getNumberOfPieces(state.getCurrentPlayer(), config);
       if (move.coords.size() > numberToDrop) {
-        return import_lib176.MGPFallible.failure(QuebecCastlesFailure.CANNOT_DROP_THAT_MANY_PIECES());
+        return import_lib179.MGPFallible.failure(QuebecCastlesFailure.CANNOT_DROP_THAT_MANY_PIECES());
       }
       if (move.coords.size() < numberToDrop) {
-        return import_lib176.MGPFallible.failure(QuebecCastlesFailure.MUST_DROP_ALL_YOUR_PIECES());
+        return import_lib179.MGPFallible.failure(QuebecCastlesFailure.MUST_DROP_ALL_YOUR_PIECES());
       }
     }
     for (const coord of move.coords) {
@@ -32206,7 +32602,7 @@ var QuebecCastlesRules = class _QuebecCastlesRules extends ConfigurableRules {
         return dropLegality;
       }
     }
-    return import_lib176.MGPValidation.SUCCESS;
+    return import_lib179.MGPValidation.SUCCESS;
   }
   getNumberOfPieces(player, config) {
     return player === Player.ZERO ? config.defenders : config.invaders;
@@ -32219,20 +32615,20 @@ var QuebecCastlesRules = class _QuebecCastlesRules extends ConfigurableRules {
   }
   getDropLegality(coord, state, config, isCastle) {
     if (state.isOnBoard(coord) === false) {
-      return import_lib176.MGPValidation.failure(CoordFailure.OUT_OF_RANGE(coord));
+      return import_lib179.MGPValidation.failure(CoordFailure.OUT_OF_RANGE(coord));
     }
     const landingSquare = state.getPieceAt(coord);
     if (landingSquare.isPlayer()) {
-      return import_lib176.MGPValidation.failure(RulesFailure.MUST_CLICK_ON_EMPTY_SPACE());
+      return import_lib179.MGPValidation.failure(RulesFailure.MUST_CLICK_ON_EMPTY_SPACE());
     }
     const player = state.getCurrentPlayer();
     if (state.castles.get(player).equalsValue(coord) && isCastle === false) {
-      return import_lib176.MGPValidation.failure(QuebecCastlesFailure.CANNOT_LAND_OR_DROP_IN_YOUR_CASTLE());
+      return import_lib179.MGPValidation.failure(QuebecCastlesFailure.CANNOT_LAND_OR_DROP_IN_YOUR_CASTLE());
     }
     if (this.isDropInPlayerTerritory(coord, player, config)) {
-      return import_lib176.MGPValidation.SUCCESS;
+      return import_lib179.MGPValidation.SUCCESS;
     } else {
-      return import_lib176.MGPValidation.failure(QuebecCastlesFailure.MUST_DROP_IN_YOUR_TERRITORY());
+      return import_lib179.MGPValidation.failure(QuebecCastlesFailure.MUST_DROP_IN_YOUR_TERRITORY());
     }
   }
   getValidDropCoords(player, config) {
@@ -32284,7 +32680,7 @@ var QuebecCastlesRules = class _QuebecCastlesRules extends ConfigurableRules {
   }
   isLegalTranslation(move, state) {
     if (QuebecCastlesMove.isDrop(move)) {
-      return import_lib176.MGPValidation.failure(QuebecCastlesFailure.CANNOT_DROP_IN_MOVE_PHASE());
+      return import_lib179.MGPValidation.failure(QuebecCastlesFailure.CANNOT_DROP_IN_MOVE_PHASE());
     }
     const startValidity = this.getStartValidity(state, move.getStart());
     if (startValidity.isFailure()) {
@@ -32298,57 +32694,57 @@ var QuebecCastlesRules = class _QuebecCastlesRules extends ConfigurableRules {
     if (middleValidity.isFailure()) {
       return middleValidity;
     }
-    return import_lib176.MGPValidation.SUCCESS;
+    return import_lib179.MGPValidation.SUCCESS;
   }
   getStartValidity(state, start) {
     if (state.isOnBoard(start) === false) {
-      return import_lib176.MGPValidation.failure(CoordFailure.OUT_OF_RANGE(start));
+      return import_lib179.MGPValidation.failure(CoordFailure.OUT_OF_RANGE(start));
     }
     const startPiece = state.getPieceAt(start);
     if (startPiece.isNone()) {
-      return import_lib176.MGPValidation.failure(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_EMPTY());
+      return import_lib179.MGPValidation.failure(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_EMPTY());
     }
     if (startPiece === state.getCurrentOpponent()) {
-      return import_lib176.MGPValidation.failure(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
+      return import_lib179.MGPValidation.failure(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
     }
-    return import_lib176.MGPValidation.SUCCESS;
+    return import_lib179.MGPValidation.SUCCESS;
   }
   getLandingValidity(state, landing) {
     if (state.isOnBoard(landing) === false) {
-      return import_lib176.MGPValidation.failure(CoordFailure.OUT_OF_RANGE(landing));
+      return import_lib179.MGPValidation.failure(CoordFailure.OUT_OF_RANGE(landing));
     }
     const landingSquare = state.getPieceAt(landing);
     const currentPlayer = state.getCurrentPlayer();
     if (landingSquare.isPlayer() && landingSquare.equals(currentPlayer)) {
-      return import_lib176.MGPValidation.failure(RulesFailure.CANNOT_SELF_CAPTURE());
+      return import_lib179.MGPValidation.failure(RulesFailure.CANNOT_SELF_CAPTURE());
     }
     const playerCastle = state.castles.get(currentPlayer).get();
     if (landing.equals(playerCastle)) {
-      return import_lib176.MGPValidation.failure(QuebecCastlesFailure.CANNOT_LAND_OR_DROP_IN_YOUR_CASTLE());
+      return import_lib179.MGPValidation.failure(QuebecCastlesFailure.CANNOT_LAND_OR_DROP_IN_YOUR_CASTLE());
     }
-    return import_lib176.MGPValidation.SUCCESS;
+    return import_lib179.MGPValidation.SUCCESS;
   }
   getMiddleValidity(state, move) {
     const direction = move.getDirection();
     if (direction.isFailure()) {
-      return import_lib176.MGPValidation.failure(DirectionFailure.DIRECTION_MUST_BE_LINEAR());
+      return import_lib179.MGPValidation.failure(DirectionFailure.DIRECTION_MUST_BE_LINEAR());
     }
     const distance = move.getDistance();
     if (state.getCurrentPlayer() === Player.ZERO) {
       if (distance !== this.getPlayerStepSize(Player.ZERO)) {
-        return import_lib176.MGPValidation.failure(QuebecCastlesFailure.INVALID_DEFENDER_DISTANCE(distance));
+        return import_lib179.MGPValidation.failure(QuebecCastlesFailure.INVALID_DEFENDER_DISTANCE(distance));
       }
     } else {
       if (distance !== this.getPlayerStepSize(Player.ONE)) {
-        return import_lib176.MGPValidation.failure(QuebecCastlesFailure.INVALID_INVADER_DISTANCE(distance));
+        return import_lib179.MGPValidation.failure(QuebecCastlesFailure.INVALID_INVADER_DISTANCE(distance));
       }
       const middle = move.getJumpedOverCoords();
       const middlePiece = state.getPieceAt(middle[0]);
       if (middlePiece !== PlayerOrNone.NONE) {
-        return import_lib176.MGPValidation.failure(RulesFailure.SOMETHING_IN_THE_WAY());
+        return import_lib179.MGPValidation.failure(RulesFailure.SOMETHING_IN_THE_WAY());
       }
     }
-    return import_lib176.MGPValidation.SUCCESS;
+    return import_lib179.MGPValidation.SUCCESS;
   }
   applyLegalMove(move, state, config) {
     if (this.isDropPhase(state, config.get())) {
@@ -32363,9 +32759,9 @@ var QuebecCastlesRules = class _QuebecCastlesRules extends ConfigurableRules {
     if (this.mustPlaceCastle(state, config)) {
       const castles = PlayerMap.ofValues(state.castles.get(Player.ZERO), state.castles.get(Player.ONE));
       const castleCoord = move.coords.getAnyElement().get();
-      castles.put(currentPlayer, import_lib176.MGPOptional.of(castleCoord));
+      castles.put(currentPlayer, import_lib179.MGPOptional.of(castleCoord));
       if (config.dropMode === "AUTO") {
-        const adaptedDefaultConfig = import_lib176.MGPOptional.of(__spreadProps(__spreadValues({}, this.getDefaultRulesConfig().get()), {
+        const adaptedDefaultConfig = import_lib179.MGPOptional.of(__spreadProps(__spreadValues({}, this.getDefaultRulesConfig().get()), {
           width: config.width,
           height: config.height,
           isRhombic: config.isRhombic
@@ -32465,23 +32861,23 @@ var QuebecCastlesRules = class _QuebecCastlesRules extends ConfigurableRules {
 };
 
 // src/app/games/quebec-castles/QuebecCastlesTutorial.ts
-var import_lib177 = __toESM(require_dist());
-var defaultConfig16 = QuebecCastlesRules.get().getDefaultRulesConfig();
-var rectangularWidthHeightConfig = import_lib177.MGPOptional.of(__spreadProps(__spreadValues({}, defaultConfig16.get()), {
+var import_lib180 = __toESM(require_dist());
+var defaultConfig17 = QuebecCastlesRules.get().getDefaultRulesConfig();
+var rectangularWidthHeightConfig = import_lib180.MGPOptional.of(__spreadProps(__spreadValues({}, defaultConfig17.get()), {
   height: 12,
   width: 14,
   isRhombic: false
 }));
-var playersPlaceCastleConfig = import_lib177.MGPOptional.of(__spreadProps(__spreadValues({}, defaultConfig16.get()), {
+var playersPlaceCastleConfig = import_lib180.MGPOptional.of(__spreadProps(__spreadValues({}, defaultConfig17.get()), {
   playersPlaceCastle: true
 }));
-var dropByBatchConfig = import_lib177.MGPOptional.of(__spreadProps(__spreadValues({}, defaultConfig16.get()), {
+var dropByBatchConfig = import_lib180.MGPOptional.of(__spreadProps(__spreadValues({}, defaultConfig17.get()), {
   dropMode: "BY_BATCH"
 }));
-var dropPieceByPieceConfig = import_lib177.MGPOptional.of(__spreadProps(__spreadValues({}, defaultConfig16.get()), {
+var dropPieceByPieceConfig = import_lib180.MGPOptional.of(__spreadProps(__spreadValues({}, defaultConfig17.get()), {
   dropMode: "PIECE_BY_PIECE"
 }));
-var numberOfPieceAndTerritorySizeConfig = import_lib177.MGPOptional.of(__spreadProps(__spreadValues({}, defaultConfig16.get()), {
+var numberOfPieceAndTerritorySizeConfig = import_lib180.MGPOptional.of(__spreadProps(__spreadValues({}, defaultConfig17.get()), {
   linesForTerritory: 3,
   dropMode: "PIECE_BY_PIECE",
   defenders: 2,
@@ -32489,9 +32885,9 @@ var numberOfPieceAndTerritorySizeConfig = import_lib177.MGPOptional.of(__spreadP
 }));
 var QuebecCastlesTutorial = class extends Tutorial {
   tutorial = [
-    TutorialStep.informational(TutorialStepMessage.INITIAL_BOARD_AND_OBJECT_OF_THE_GAME(), $localize`Quebec Castles is the first board game invented by the EveryBoard Team.<br/>The goal of the game is to capture all the pieces of the opponent, or to step on the opponent's castle. The castles are on the corners by default.`, QuebecCastlesRules.get().getInitialState(defaultConfig16)),
-    TutorialStep.anyMove($localize`Defender's move`, $localize`The defenders have the dark pieces, they play first by selecting one of their pieces and moving it on a neighboring square.<br/><br/>You're playing Dark, move a defender piece.`, QuebecCastlesRules.get().getInitialState(defaultConfig16), QuebecCastlesMove.translation(new Coord(7, 7), new Coord(6, 6)), TutorialStepMessage.CONGRATULATIONS()),
-    TutorialStep.anyMove($localize`Invader's move`, $localize`The invaders have the light pieces, they play second by selecting one of their piece and moving them two step in a straight line. A piece cannot jump over another piece.<br/><br/>Move an invader piece.`, QuebecCastlesRules.get().getInitialState(defaultConfig16).incrementTurn(), QuebecCastlesMove.translation(new Coord(2, 2), new Coord(4, 4)), TutorialStepMessage.CONGRATULATIONS_YOU_KNOW_EVERYTHING()),
+    TutorialStep.informational(TutorialStepMessage.INITIAL_BOARD_AND_OBJECT_OF_THE_GAME(), $localize`Quebec Castles is the first board game invented by the EveryBoard Team.<br/>The goal of the game is to capture all the pieces of the opponent, or to step on the opponent's castle. The castles are on the corners by default.`, QuebecCastlesRules.get().getInitialState(defaultConfig17)),
+    TutorialStep.anyMove($localize`Defender's move`, $localize`The defenders have the dark pieces, they play first by selecting one of their pieces and moving it on a neighboring square.<br/><br/>You're playing Dark, move a defender piece.`, QuebecCastlesRules.get().getInitialState(defaultConfig17), QuebecCastlesMove.translation(new Coord(7, 7), new Coord(6, 6)), TutorialStepMessage.CONGRATULATIONS()),
+    TutorialStep.anyMove($localize`Invader's move`, $localize`The invaders have the light pieces, they play second by selecting one of their piece and moving them two step in a straight line. A piece cannot jump over another piece.<br/><br/>Move an invader piece.`, QuebecCastlesRules.get().getInitialState(defaultConfig17).incrementTurn(), QuebecCastlesMove.translation(new Coord(2, 2), new Coord(4, 4)), TutorialStepMessage.CONGRATULATIONS_YOU_KNOW_EVERYTHING()),
     // 5.a configurations alternatives: rectangulaire & width & height
     TutorialStep.informational($localize`Custom config: rhombic, width, height`, $localize`You have the option to change the shape of the board, if it's not rhombic, it's rectangular. You also can change the size`, QuebecCastlesRules.get().getInitialState(rectangularWidthHeightConfig), rectangularWidthHeightConfig),
     TutorialStep.anyMove($localize`Custom config: place castle yourself`, $localize`You have the option to decide yourself where you place the castle. If you don't change anything else the piece placement will be automatically done right after.<br/><br/>You're playing Dark/Defender, place your castle.`, QuebecCastlesRules.get().getInitialState(playersPlaceCastleConfig), QuebecCastlesMove.drop([new Coord(7, 7)]), TutorialStepMessage.CONGRATULATIONS(), playersPlaceCastleConfig),
@@ -32512,7 +32908,7 @@ var QuebecCastlesTutorial = class extends Tutorial {
 };
 
 // src/app/games/quebec-castles/quebec-castles.component.ts
-var import_lib178 = __toESM(require_dist());
+var import_lib181 = __toESM(require_dist());
 
 // src/app/games/quebec-castles/QuebecCastlesMoveGenerator.ts
 var QuebecCastlesMoveGenerator = class extends MoveGenerator {
@@ -32576,7 +32972,7 @@ var QuebecCastlesMinimax = class extends Minimax {
 };
 
 // src/app/games/quebec-castles/quebec-castles.component.ts
-var _forTrack024 = ($index, $item) => $item.coord.toString();
+var _forTrack025 = ($index, $item) => $item.coord.toString();
 function QuebecCastlesComponent_For_3_For_3_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
@@ -32718,14 +33114,14 @@ function QuebecCastlesComponent_Conditional_4_Template(rf, ctx) {
 }
 var QuebecCastlesComponent = class _QuebecCastlesComponent extends RectangularGameComponent {
   // Last Move
-  leftSquare = import_lib178.MGPOptional.empty();
-  landingSquare = import_lib178.MGPOptional.empty();
+  leftSquare = import_lib181.MGPOptional.empty();
+  landingSquare = import_lib181.MGPOptional.empty();
   isCaptured = false;
   lastDropped = [];
   // Current Move Attempt
-  dropped = new import_lib178.Set();
-  possibleLanding = new import_lib178.Set();
-  selected = import_lib178.MGPOptional.empty();
+  dropped = new import_lib181.Set();
+  possibleLanding = new import_lib181.Set();
+  selected = import_lib181.MGPOptional.empty();
   // Board
   constructedState;
   missingPieces;
@@ -32745,7 +33141,7 @@ var QuebecCastlesComponent = class _QuebecCastlesComponent extends RectangularGa
     ];
     this.encoder = QuebecCastlesMove.encoder;
     this.hasAsymmetricBoard = true;
-    this.scores = import_lib178.MGPOptional.of(PlayerNumberMap.of(0, 0));
+    this.scores = import_lib181.MGPOptional.of(PlayerNumberMap.of(0, 0));
   }
   getViewBox() {
     let viewBox = this.getBasicViewBox();
@@ -32816,7 +33212,7 @@ var QuebecCastlesComponent = class _QuebecCastlesComponent extends RectangularGa
         if (this.dropped.contains(coord)) {
           return this.onDrop(coord, config);
         } else {
-          return import_lib178.MGPValidation.SUCCESS;
+          return import_lib181.MGPValidation.SUCCESS;
         }
       }
       if (this.rules.isDropPhase(this.constructedState, config)) {
@@ -32828,7 +33224,7 @@ var QuebecCastlesComponent = class _QuebecCastlesComponent extends RectangularGa
   }
   onDrop(coord, config) {
     return __async(this, null, function* () {
-      import_lib178.Utils.assert(config.dropMode !== "AUTO" || config.playersPlaceCastle, 'enterred "onDrop" on a non-dropping-config');
+      import_lib181.Utils.assert(config.dropMode !== "AUTO" || config.playersPlaceCastle, 'enterred "onDrop" on a non-dropping-config');
       const expectedDropThisTurn = this.rules.getExpectedDropsThisTurn(this.getState(), this.getConfig().get());
       if (expectedDropThisTurn === 1) {
         const chosenMove = QuebecCastlesDrop.of([coord]);
@@ -32847,7 +33243,7 @@ var QuebecCastlesComponent = class _QuebecCastlesComponent extends RectangularGa
             }
           }
         }
-        return import_lib178.MGPValidation.SUCCESS;
+        return import_lib181.MGPValidation.SUCCESS;
       }
     });
   }
@@ -32865,7 +33261,7 @@ var QuebecCastlesComponent = class _QuebecCastlesComponent extends RectangularGa
         } else if (state.getPieceAt(coord).equals(currentPlayer)) {
           this.cancelMoveAttempt();
           this.selectedCoord(coord);
-          return import_lib178.MGPValidation.SUCCESS;
+          return import_lib181.MGPValidation.SUCCESS;
         } else {
           return this.chooseMove(QuebecCastlesTranslation.of(this.selected.get(), coord));
         }
@@ -32878,15 +33274,15 @@ var QuebecCastlesComponent = class _QuebecCastlesComponent extends RectangularGa
           return this.cancelMove(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_EMPTY());
         } else {
           this.selectedCoord(coord);
-          return import_lib178.MGPValidation.SUCCESS;
+          return import_lib181.MGPValidation.SUCCESS;
         }
       }
     });
   }
   selectedCoord(coord) {
-    this.selected = import_lib178.MGPOptional.of(coord);
+    this.selected = import_lib181.MGPOptional.of(coord);
     const possibleLanding = this.rules.getPossibleMovesFor(coord, this.getState()).map((move) => move.getEnd());
-    this.possibleLanding = new import_lib178.Set(possibleLanding);
+    this.possibleLanding = new import_lib181.Set(possibleLanding);
   }
   validateGroupDrop() {
     return __async(this, null, function* () {
@@ -32909,8 +33305,8 @@ var QuebecCastlesComponent = class _QuebecCastlesComponent extends RectangularGa
   showLastMove(move) {
     return __async(this, null, function* () {
       if (move instanceof QuebecCastlesTranslation) {
-        this.leftSquare = import_lib178.MGPOptional.of(move.getStart());
-        this.landingSquare = import_lib178.MGPOptional.of(move.getEnd());
+        this.leftSquare = import_lib181.MGPOptional.of(move.getStart());
+        this.landingSquare = import_lib181.MGPOptional.of(move.getEnd());
         this.isCaptured = this.getPreviousState().getPieceAt(move.getEnd()).isPlayer();
       } else {
         this.lastDropped = move.coords.toList();
@@ -32919,15 +33315,15 @@ var QuebecCastlesComponent = class _QuebecCastlesComponent extends RectangularGa
     });
   }
   hideLastMove() {
-    this.leftSquare = import_lib178.MGPOptional.empty();
-    this.landingSquare = import_lib178.MGPOptional.empty();
+    this.leftSquare = import_lib181.MGPOptional.empty();
+    this.landingSquare = import_lib181.MGPOptional.empty();
     this.lastDropped = [];
     this.isCaptured = false;
   }
   cancelMoveAttempt() {
-    this.dropped = new import_lib178.Set();
-    this.possibleLanding = new import_lib178.Set();
-    this.selected = import_lib178.MGPOptional.empty();
+    this.dropped = new import_lib181.Set();
+    this.possibleLanding = new import_lib181.Set();
+    this.selected = import_lib181.MGPOptional.empty();
   }
   getSquareClasses(coord) {
     const classes = [];
@@ -33044,7 +33440,7 @@ var QuebecCastlesComponent = class _QuebecCastlesComponent extends RectangularGa
     if (rf & 1) {
       \u0275\u0275namespaceSVG();
       \u0275\u0275elementStart(0, "svg", 0)(1, "g", 1);
-      \u0275\u0275repeaterCreate(2, QuebecCastlesComponent_For_3_Template, 6, 12, ":svg:g", 2, _forTrack024);
+      \u0275\u0275repeaterCreate(2, QuebecCastlesComponent_For_3_Template, 6, 12, ":svg:g", 2, _forTrack025);
       \u0275\u0275elementEnd();
       \u0275\u0275conditionalCreate(4, QuebecCastlesComponent_Conditional_4_Template, 3, 1, ":svg:g");
       \u0275\u0275elementEnd();
@@ -33071,7 +33467,7 @@ var QuebecCastlesComponent = class _QuebecCastlesComponent extends RectangularGa
 })();
 
 // src/app/games/quixo/QuixoRules.ts
-var import_lib179 = __toESM(require_dist());
+var import_lib182 = __toESM(require_dist());
 
 // src/app/games/quixo/QuixoFailure.ts
 var QuixoFailure = class {
@@ -33097,7 +33493,7 @@ var QuixoState = class _QuixoState extends PlayerOrNoneGameStateWithTable {
 
 // src/app/games/quixo/QuixoRules.ts
 var QuixoRules = class _QuixoRules extends ConfigurableRules {
-  static singleton = import_lib179.MGPOptional.empty();
+  static singleton = import_lib182.MGPOptional.empty();
   static RULES_CONFIG_DESCRIPTION = new RulesConfigDescription({
     name: () => $localize`Quixo`,
     config: {
@@ -33105,7 +33501,7 @@ var QuixoRules = class _QuixoRules extends ConfigurableRules {
       height: new NumberConfig(5, RulesConfigDescriptionLocalizable.HEIGHT, MGPValidators.range(1, 99))
     }
   });
-  static QUIXO_HELPER = new NInARowHelper(import_lib179.Utils.identity, 5);
+  static QUIXO_HELPER = new NInARowHelper(import_lib182.Utils.identity, 5);
   static getVerticalCoords(node) {
     const currentOpponent = node.gameState.getCurrentOpponent();
     const verticalCoords = [];
@@ -33135,16 +33531,16 @@ var QuixoRules = class _QuixoRules extends ConfigurableRules {
     return horizontalCenterCoords;
   }
   static getLinesSums(state) {
-    const sums = PlayerMap.ofValues(new import_lib179.MGPMap([
-      { key: "columns", value: new import_lib179.NumberMap() },
-      { key: "rows", value: new import_lib179.NumberMap() },
-      { key: "ascendingDiagonal", value: new import_lib179.NumberMap() },
-      { key: "descendingDiagonal", value: new import_lib179.NumberMap() }
-    ]), new import_lib179.MGPMap([
-      { key: "columns", value: new import_lib179.NumberMap() },
-      { key: "rows", value: new import_lib179.NumberMap() },
-      { key: "ascendingDiagonal", value: new import_lib179.NumberMap() },
-      { key: "descendingDiagonal", value: new import_lib179.NumberMap() }
+    const sums = PlayerMap.ofValues(new import_lib182.MGPMap([
+      { key: "columns", value: new import_lib182.NumberMap() },
+      { key: "rows", value: new import_lib182.NumberMap() },
+      { key: "ascendingDiagonal", value: new import_lib182.NumberMap() },
+      { key: "descendingDiagonal", value: new import_lib182.NumberMap() }
+    ]), new import_lib182.MGPMap([
+      { key: "columns", value: new import_lib182.NumberMap() },
+      { key: "rows", value: new import_lib182.NumberMap() },
+      { key: "ascendingDiagonal", value: new import_lib182.NumberMap() },
+      { key: "descendingDiagonal", value: new import_lib182.NumberMap() }
     ]));
     for (const coordAndContent of state.getPlayerCoordsAndContent()) {
       const content = coordAndContent.content;
@@ -33185,12 +33581,12 @@ var QuixoRules = class _QuixoRules extends ConfigurableRules {
   }
   static get() {
     if (_QuixoRules.singleton.isAbsent()) {
-      _QuixoRules.singleton = import_lib179.MGPOptional.of(new _QuixoRules());
+      _QuixoRules.singleton = import_lib182.MGPOptional.of(new _QuixoRules());
     }
     return _QuixoRules.singleton.get();
   }
   getRulesConfigDescription() {
-    return import_lib179.MGPOptional.of(_QuixoRules.RULES_CONFIG_DESCRIPTION);
+    return import_lib182.MGPOptional.of(_QuixoRules.RULES_CONFIG_DESCRIPTION);
   }
   getInitialState(config) {
     const initialBoard = TableUtils.create(config.get().width, config.get().height, PlayerOrNone.NONE);
@@ -33209,20 +33605,20 @@ var QuixoRules = class _QuixoRules extends ConfigurableRules {
     return possibleDirections;
   }
   isValidCoord(state, coord) {
-    import_lib179.Utils.assert(state.isOnBoard(coord), "Invalid coord for QuixoMove: " + coord.toString() + " is outside the board.");
+    import_lib182.Utils.assert(state.isOnBoard(coord), "Invalid coord for QuixoMove: " + coord.toString() + " is outside the board.");
     if (coord.x !== 0 && coord.x !== state.getWidth() - 1 && coord.y !== 0 && coord.y !== state.getHeight() - 1) {
-      return import_lib179.MGPValidation.failure(QuixoFailure.NO_INSIDE_CLICK());
+      return import_lib182.MGPValidation.failure(QuixoFailure.NO_INSIDE_CLICK());
     }
-    return import_lib179.MGPValidation.SUCCESS;
+    return import_lib182.MGPValidation.SUCCESS;
   }
   assertDirectionValidity(move, state) {
     const x2 = move.coord.x;
     const y = move.coord.y;
     const direction = move.direction;
-    import_lib179.Utils.assert(x2 !== state.getWidth() - 1 || direction !== Orthogonal.RIGHT, `Invalid direction: piece on the right side can't be moved to the right.`);
-    import_lib179.Utils.assert(y !== state.getHeight() - 1 || direction !== Orthogonal.DOWN, `Invalid direction: piece on the bottom side can't be moved down.`);
-    import_lib179.Utils.assert(x2 !== 0 || direction !== Orthogonal.LEFT, `Invalid direction: piece on the left side can't be moved to the left.`);
-    import_lib179.Utils.assert(y !== 0 || direction !== Orthogonal.UP, `Invalid direction: piece on the top side can't be moved up.`);
+    import_lib182.Utils.assert(x2 !== state.getWidth() - 1 || direction !== Orthogonal.RIGHT, `Invalid direction: piece on the right side can't be moved to the right.`);
+    import_lib182.Utils.assert(y !== state.getHeight() - 1 || direction !== Orthogonal.DOWN, `Invalid direction: piece on the bottom side can't be moved down.`);
+    import_lib182.Utils.assert(x2 !== 0 || direction !== Orthogonal.LEFT, `Invalid direction: piece on the left side can't be moved to the left.`);
+    import_lib182.Utils.assert(y !== 0 || direction !== Orthogonal.UP, `Invalid direction: piece on the top side can't be moved up.`);
   }
   applyLegalMove(move, state, _config, _info) {
     return state.applyLegalMove(move);
@@ -33234,16 +33630,16 @@ var QuixoRules = class _QuixoRules extends ConfigurableRules {
     }
     this.assertDirectionValidity(move, state);
     if (state.getPieceAt(move.coord) === state.getCurrentOpponent()) {
-      return import_lib179.MGPValidation.failure(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
+      return import_lib182.MGPValidation.failure(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
     } else {
-      return import_lib179.MGPValidation.SUCCESS;
+      return import_lib182.MGPValidation.SUCCESS;
     }
   }
   getGameStatus(node) {
     const state = node.gameState;
     const victoriousCoord = _QuixoRules.QUIXO_HELPER.getVictoriousCoord(state);
     const unreducedWinners = victoriousCoord.map((coord) => state.getPieceAt(coord));
-    const winners = new import_lib179.Set(unreducedWinners);
+    const winners = new import_lib182.Set(unreducedWinners);
     if (winners.size() === 0) {
       return GameStatus.ONGOING;
     } else if (winners.size() === 1) {
@@ -33255,10 +33651,10 @@ var QuixoRules = class _QuixoRules extends ConfigurableRules {
 };
 
 // src/app/games/quixo/QuixoMove.ts
-var import_lib180 = __toESM(require_dist());
+var import_lib183 = __toESM(require_dist());
 var QuixoMove = class _QuixoMove extends MoveCoord {
   direction;
-  static encoder = import_lib180.Encoder.tuple([Coord.encoder, Orthogonal.encoder], (m2) => [m2.coord, m2.direction], (fields) => new _QuixoMove(fields[0].x, fields[0].y, fields[1]));
+  static encoder = import_lib183.Encoder.tuple([Coord.encoder, Orthogonal.encoder], (m2) => [m2.coord, m2.direction], (fields) => new _QuixoMove(fields[0].x, fields[0].y, fields[1]));
   constructor(x2, y, direction) {
     super(x2, y);
     this.direction = direction;
@@ -33276,16 +33672,16 @@ var QuixoMove = class _QuixoMove extends MoveCoord {
 };
 
 // src/app/games/quixo/QuixoTutorial.ts
-var _20 = PlayerOrNone.NONE;
-var O17 = PlayerOrNone.ZERO;
-var X17 = PlayerOrNone.ONE;
-var defaultConfig17 = QuixoRules.get().getDefaultRulesConfig();
+var _21 = PlayerOrNone.NONE;
+var O18 = PlayerOrNone.ZERO;
+var X18 = PlayerOrNone.ONE;
+var defaultConfig18 = QuixoRules.get().getDefaultRulesConfig();
 var QuixoTutorial = class extends Tutorial {
   tutorial = [
     TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`At Quixo, the goal is to align 5 of your pieces.
         The first player plays with dark pieces, the second with light pieces.
         The board is made of 25 spaces spread over a 5x5 square.
-        Every piece has a neutral side, a light side, and a dark side.`, QuixoRules.get().getInitialState(defaultConfig17)),
+        Every piece has a neutral side, a light side, and a dark side.`, QuixoRules.get().getInitialState(defaultConfig18)),
     TutorialStep.fromMove($localize`What a move looks like (without animation)`, $localize`When it is your turn:
         <ol>
             <li>Click on one of your pieces or on a neutral one. You cannot choose a piece of the opponent.
@@ -33296,11 +33692,11 @@ var QuixoTutorial = class extends Tutorial {
         Once on the other side, all pieces will move by one space in the opposing direction.
         Afterwards, if the piece was neutral, it will become yours and takes your color.<br/><br/>
         For example, take the bottom right neutral piece, and move it to the left (you're playing Light).`, new QuixoState([
-      [_20, _20, _20, _20, _20],
-      [_20, _20, _20, _20, _20],
-      [_20, _20, _20, _20, _20],
-      [_20, _20, _20, _20, _20],
-      [O17, O17, O17, O17, _20]
+      [_21, _21, _21, _21, _21],
+      [_21, _21, _21, _21, _21],
+      [_21, _21, _21, _21, _21],
+      [_21, _21, _21, _21, _21],
+      [O18, O18, O18, O18, _21]
     ], 1), [new QuixoMove(4, 4, Orthogonal.LEFT)], $localize`See how the four dark pieces have been moved one space to the right.
         The neutral piece has been move 4 pieces to the left and has become light.`, TutorialStepMessage.FAILED_TRY_AGAIN()),
     TutorialStep.fromMove($localize`Victory`, $localize`You already know everything you need in order to play, but there is one last particularity.
@@ -33309,17 +33705,17 @@ var QuixoTutorial = class extends Tutorial {
         If you create both, you lose too!<br/><br/>
         You can win with this board, try it.
         You're playing Light.`, new QuixoState([
-      [_20, X17, _20, X17, X17],
-      [_20, O17, O17, _20, O17],
-      [X17, X17, X17, O17, X17],
-      [O17, _20, O17, X17, X17],
-      [X17, O17, _20, X17, O17]
+      [_21, X18, _21, X18, X18],
+      [_21, O18, O18, _21, O18],
+      [X18, X18, X18, O18, X18],
+      [O18, _21, O18, X18, X18],
+      [X18, O18, _21, X18, O18]
     ], 31), [new QuixoMove(3, 0, Orthogonal.DOWN)], TutorialStepMessage.CONGRATULATIONS_YOU_WON(), TutorialStepMessage.FAILED_TRY_AGAIN())
   ];
 };
 
 // src/app/games/quixo/quixo.component.ts
-var import_lib181 = __toESM(require_dist());
+var import_lib184 = __toESM(require_dist());
 
 // src/app/games/quixo/QuixoHeuristic.ts
 var QuixoHeuristic = class extends PlayerMetricHeuristic {
@@ -33359,7 +33755,7 @@ var QuixoMinimax = class extends Minimax {
 };
 
 // src/app/games/quixo/quixo.component.ts
-var _forTrack025 = ($index, $item) => $item.toString();
+var _forTrack026 = ($index, $item) => $item.toString();
 function QuixoComponent_For_4_For_2_Template(rf, ctx) {
   if (rf & 1) {
     const _r1 = \u0275\u0275getCurrentView();
@@ -33418,7 +33814,7 @@ function QuixoComponent_Conditional_5_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
     \u0275\u0275elementStart(0, "g");
-    \u0275\u0275repeaterCreate(1, QuixoComponent_Conditional_5_For_2_Template, 1, 3, ":svg:use", 3, _forTrack025);
+    \u0275\u0275repeaterCreate(1, QuixoComponent_Conditional_5_For_2_Template, 1, 3, ":svg:use", 3, _forTrack026);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -33430,7 +33826,7 @@ function QuixoComponent_Conditional_5_Template(rf, ctx) {
 var QuixoComponent = class _QuixoComponent extends RectangularGameComponent {
   QuixoState = QuixoState;
   lastMoveCoords = [];
-  chosenCoord = import_lib181.MGPOptional.empty();
+  chosenCoord = import_lib184.MGPOptional.empty();
   chosenDirection;
   victoriousCoords = [];
   constructor() {
@@ -33462,7 +33858,7 @@ var QuixoComponent = class _QuixoComponent extends RectangularGameComponent {
     });
   }
   cancelMoveAttempt() {
-    this.chosenCoord = import_lib181.MGPOptional.empty();
+    this.chosenCoord = import_lib184.MGPOptional.empty();
   }
   getPieceClasses(x2, y) {
     const coord = new Coord(x2, y);
@@ -33497,8 +33893,8 @@ var QuixoComponent = class _QuixoComponent extends RectangularGameComponent {
         if (this.chosenCoord.equalsValue(clickedCoord)) {
           return this.cancelMove();
         } else {
-          this.chosenCoord = import_lib181.MGPOptional.of(clickedCoord);
-          return import_lib181.MGPValidation.SUCCESS;
+          this.chosenCoord = import_lib184.MGPOptional.of(clickedCoord);
+          return import_lib184.MGPValidation.SUCCESS;
         }
       }
     });
@@ -33573,7 +33969,7 @@ var QuixoComponent = class _QuixoComponent extends RectangularGameComponent {
 })();
 
 // src/app/games/reversi/ReversiRules.ts
-var import_lib182 = __toESM(require_dist());
+var import_lib185 = __toESM(require_dist());
 
 // src/app/games/reversi/ReversiFailure.ts
 var ReversiFailure = class {
@@ -33620,7 +34016,7 @@ var ReversiState = class extends PlayerOrNoneGameStateWithTable {
 };
 
 // src/app/games/reversi/ReversiRules.ts
-var __decorate13 = function(decorators, target, key, desc) {
+var __decorate14 = function(decorators, target, key, desc) {
   var c = arguments.length, r2 = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d2;
   if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r2 = Reflect.decorate(decorators, target, key, desc);
   else for (var i2 = decorators.length - 1; i2 >= 0; i2--) if (d2 = decorators[i2]) r2 = (c < 3 ? d2(r2) : c > 3 ? d2(target, key, r2) : d2(target, key)) || r2;
@@ -33639,12 +34035,12 @@ var _a6;
 var ReversiRules = (_a6 = class extends ConfigurableRules {
   static get() {
     if (ReversiRules_1.singleton.isAbsent()) {
-      ReversiRules_1.singleton = import_lib182.MGPOptional.of(new ReversiRules_1());
+      ReversiRules_1.singleton = import_lib185.MGPOptional.of(new ReversiRules_1());
     }
     return ReversiRules_1.singleton.get();
   }
   getRulesConfigDescription() {
-    return import_lib182.MGPOptional.of(ReversiRules_1.RULES_CONFIG_DESCRIPTION);
+    return import_lib185.MGPOptional.of(ReversiRules_1.RULES_CONFIG_DESCRIPTION);
   }
   getInitialState(optionalConfig) {
     const config = optionalConfig.get();
@@ -33745,7 +34141,7 @@ var ReversiRules = (_a6 = class extends ConfigurableRules {
           const result = this.getAllSwitcheds(move, player, state);
           if (result.length > 0) {
             for (const switched of result) {
-              import_lib182.Utils.assert(player !== state.getPieceAt(switched), switched + "was already switched!");
+              import_lib185.Utils.assert(player !== state.getPieceAt(switched), switched + "was already switched!");
               nextBoard[switched.y][switched.x] = player;
             }
             nextBoard[coord.y][coord.x] = player;
@@ -33762,82 +34158,82 @@ var ReversiRules = (_a6 = class extends ConfigurableRules {
   isLegal(move, state, config) {
     if (move.equals(ReversiMove.PASS)) {
       if (this.playerCanOnlyPass(state, config)) {
-        return import_lib182.MGPFallible.success([]);
+        return import_lib185.MGPFallible.success([]);
       } else {
-        return import_lib182.MGPFallible.failure(RulesFailure.CANNOT_PASS());
+        return import_lib185.MGPFallible.failure(RulesFailure.CANNOT_PASS());
       }
     }
     if (state.getPieceAt(move.coord).isPlayer()) {
-      return import_lib182.MGPFallible.failure(RulesFailure.MUST_CLICK_ON_EMPTY_SPACE());
+      return import_lib185.MGPFallible.failure(RulesFailure.MUST_CLICK_ON_EMPTY_SPACE());
     }
     const switched = this.getAllSwitcheds(move, state.getCurrentPlayer(), state);
     if (switched.length === 0) {
-      return import_lib182.MGPFallible.failure(ReversiFailure.NO_ELEMENT_SWITCHED());
+      return import_lib185.MGPFallible.failure(ReversiFailure.NO_ELEMENT_SWITCHED());
     } else {
-      return import_lib182.MGPFallible.success(switched);
+      return import_lib185.MGPFallible.success(switched);
     }
   }
-}, ReversiRules_1 = _a6, __publicField(_a6, "singleton", import_lib182.MGPOptional.empty()), __publicField(_a6, "RULES_CONFIG_DESCRIPTION", new RulesConfigDescription({
+}, ReversiRules_1 = _a6, __publicField(_a6, "singleton", import_lib185.MGPOptional.empty()), __publicField(_a6, "RULES_CONFIG_DESCRIPTION", new RulesConfigDescription({
   name: () => $localize`Reversi`,
   config: {
     width: new NumberConfig(8, RulesConfigDescriptionLocalizable.WIDTH, MGPValidators.range(3, 99)),
     height: new NumberConfig(8, RulesConfigDescriptionLocalizable.HEIGHT, MGPValidators.range(3, 99))
   }
 })), _a6);
-ReversiRules = ReversiRules_1 = __decorate13([
+ReversiRules = ReversiRules_1 = __decorate14([
   Debug.log
 ], ReversiRules);
 
 // src/app/games/reversi/ReversiTutorial.ts
-var _21 = PlayerOrNone.NONE;
-var O18 = PlayerOrNone.ZERO;
-var X18 = PlayerOrNone.ONE;
-var defaultConfig18 = ReversiRules.get().getDefaultRulesConfig();
+var _22 = PlayerOrNone.NONE;
+var O19 = PlayerOrNone.ZERO;
+var X19 = PlayerOrNone.ONE;
+var defaultConfig19 = ReversiRules.get().getDefaultRulesConfig();
 var ReversiTutorial = class extends Tutorial {
   tutorial = [
     TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`At Reversi, the pieces are double sided: one dark side for the first player, one light side for the second player.
         When one piece is flipped, its owner changes.
         The player owning the most pieces at the end of the game wins.
         Here, Dark has 28 points and Light has 36, hence Light wins.`, new ReversiState([
-      [O18, O18, O18, O18, O18, O18, O18, O18],
-      [O18, X18, X18, X18, X18, X18, X18, O18],
-      [O18, X18, X18, X18, X18, X18, X18, O18],
-      [O18, X18, X18, X18, X18, X18, X18, O18],
-      [O18, X18, X18, X18, X18, X18, X18, O18],
-      [O18, X18, X18, X18, X18, X18, X18, O18],
-      [O18, X18, X18, X18, X18, X18, X18, O18],
-      [O18, O18, O18, O18, O18, O18, O18, O18]
+      [O19, O19, O19, O19, O19, O19, O19, O19],
+      [O19, X19, X19, X19, X19, X19, X19, O19],
+      [O19, X19, X19, X19, X19, X19, X19, O19],
+      [O19, X19, X19, X19, X19, X19, X19, O19],
+      [O19, X19, X19, X19, X19, X19, X19, O19],
+      [O19, X19, X19, X19, X19, X19, X19, O19],
+      [O19, X19, X19, X19, X19, X19, X19, O19],
+      [O19, O19, O19, O19, O19, O19, O19, O19]
     ], 60)),
     TutorialStep.anyMove($localize`Captures` + " (1/2)", $localize`At the beginning of the game, pieces are placed as shown here.
         For a move to be legal, it must sandwich at least one piece of the opponent between the piece you're putting and another of your pieces.<br/><br/>
         Do any move by clicking to put your piece
-        Dark plays first.`, ReversiRules.get().getInitialState(defaultConfig18), new ReversiMove(2, 4), TutorialStepMessage.CONGRATULATIONS()),
+        Dark plays first.`, ReversiRules.get().getInitialState(defaultConfig19), new ReversiMove(2, 4), TutorialStepMessage.CONGRATULATIONS()),
     TutorialStep.fromMove($localize`Captures` + " (2/2)", $localize`A move can also capture a bigger line, and more than one line at a time<br/><br/>You're playing Light here. Play on the bottom left to see a capture.`, new ReversiState([
-      [_21, _21, _21, _21, _21, _21, _21, _21],
-      [_21, _21, _21, _21, _21, _21, _21, _21],
-      [_21, _21, _21, _21, _21, _21, _21, _21],
-      [_21, _21, _21, _21, X18, _21, _21, _21],
-      [_21, _21, _21, O18, _21, _21, _21, _21],
-      [_21, _21, O18, _21, _21, _21, _21, _21],
-      [O18, O18, _21, _21, _21, _21, _21, _21],
-      [_21, O18, X18, O18, X18, O18, _21, _21]
+      [_22, _22, _22, _22, _22, _22, _22, _22],
+      [_22, _22, _22, _22, _22, _22, _22, _22],
+      [_22, _22, _22, _22, _22, _22, _22, _22],
+      [_22, _22, _22, _22, X19, _22, _22, _22],
+      [_22, _22, _22, O19, _22, _22, _22, _22],
+      [_22, _22, O19, _22, _22, _22, _22, _22],
+      [O19, O19, _22, _22, _22, _22, _22, _22],
+      [_22, O19, X19, O19, X19, O19, _22, _22]
     ], 1), [new ReversiMove(0, 7)], TutorialStepMessage.CONGRATULATIONS(), $localize`Lower and more to the left, please.`),
     TutorialStep.informational($localize`Passing a turn`, $localize`If, during its turn, a player has no move that would allow that player to flip a piece, that player must pass
         Moreover, if the next player could not play neither, the game ends before the board is full, and points are counted in the usual way.`, new ReversiState([
-      [X18, O18, O18, O18, O18, O18, X18, O18],
-      [O18, X18, X18, X18, X18, X18, X18, O18],
-      [O18, X18, X18, X18, X18, X18, X18, O18],
-      [O18, X18, X18, X18, X18, X18, X18, O18],
-      [O18, X18, X18, X18, X18, X18, X18, O18],
-      [O18, X18, X18, X18, X18, X18, X18, O18],
-      [X18, X18, X18, X18, X18, X18, _21, _21],
-      [O18, O18, O18, O18, O18, O18, _21, _21]
+      [X19, O19, O19, O19, O19, O19, X19, O19],
+      [O19, X19, X19, X19, X19, X19, X19, O19],
+      [O19, X19, X19, X19, X19, X19, X19, O19],
+      [O19, X19, X19, X19, X19, X19, X19, O19],
+      [O19, X19, X19, X19, X19, X19, X19, O19],
+      [O19, X19, X19, X19, X19, X19, X19, O19],
+      [X19, X19, X19, X19, X19, X19, _22, _22],
+      [O19, O19, O19, O19, O19, O19, _22, _22]
     ], 60))
   ];
 };
 
 // src/app/games/reversi/reversi.component.ts
-var import_lib183 = __toESM(require_dist());
+var import_lib186 = __toESM(require_dist());
 
 // src/app/games/reversi/ReversiHeuristic.ts
 var ReversiHeuristic = class extends PlayerMetricHeuristic {
@@ -33927,7 +34323,7 @@ function ReversiComponent_For_2_Template(rf, ctx) {
   }
 }
 var ReversiComponent = class _ReversiComponent extends RectangularGameComponent {
-  lastMove = import_lib183.MGPOptional.empty();
+  lastMove = import_lib186.MGPOptional.empty();
   capturedCoords = [];
   constructor() {
     super();
@@ -33937,7 +34333,7 @@ var ReversiComponent = class _ReversiComponent extends RectangularGameComponent 
       new MCTS($localize`MCTS`, new ReversiMoveGenerator(), this.rules)
     ];
     this.encoder = ReversiMove.encoder;
-    this.scores = import_lib183.MGPOptional.of(PlayerNumberMap.of(2, 2));
+    this.scores = import_lib186.MGPOptional.of(PlayerNumberMap.of(2, 2));
   }
   onClick(x2, y) {
     return __async(this, null, function* () {
@@ -33953,13 +34349,13 @@ var ReversiComponent = class _ReversiComponent extends RectangularGameComponent 
     return __async(this, null, function* () {
       const state = this.getState();
       this.board = state.getCopiedBoard();
-      this.scores = import_lib183.MGPOptional.of(state.countScore());
+      this.scores = import_lib186.MGPOptional.of(state.countScore());
       this.canPass = this.rules.playerCanOnlyPass(state, this.config);
     });
   }
   showLastMove(move) {
     return __async(this, null, function* () {
-      this.lastMove = import_lib183.MGPOptional.of(move.coord);
+      this.lastMove = import_lib186.MGPOptional.of(move.coord);
       const player = this.getState().getCurrentPlayer();
       const opponent = this.getState().getCurrentOpponent();
       for (const dir of Ordinal.ORDINALS) {
@@ -33973,7 +34369,7 @@ var ReversiComponent = class _ReversiComponent extends RectangularGameComponent 
   }
   hideLastMove() {
     this.capturedCoords = [];
-    this.lastMove = import_lib183.MGPOptional.empty();
+    this.lastMove = import_lib186.MGPOptional.empty();
   }
   getRectClasses(x2, y) {
     const coord = new Coord(x2, y);
@@ -33990,7 +34386,7 @@ var ReversiComponent = class _ReversiComponent extends RectangularGameComponent 
   }
   pass() {
     return __async(this, null, function* () {
-      import_lib183.Utils.assert(this.canPass, "ReversiComponent: pass() can only be called if canPass is true");
+      import_lib186.Utils.assert(this.canPass, "ReversiComponent: pass() can only be called if canPass is true");
       return this.onClick(ReversiMove.PASS.coord.x, ReversiMove.PASS.coord.y);
     });
   }
@@ -34022,7 +34418,7 @@ var ReversiComponent = class _ReversiComponent extends RectangularGameComponent 
 })();
 
 // src/app/games/sahara/SaharaRules.ts
-var import_lib184 = __toESM(require_dist());
+var import_lib187 = __toESM(require_dist());
 
 // src/app/games/sahara/SaharaFailure.ts
 var SaharaFailure = class {
@@ -34039,7 +34435,7 @@ var SaharaState = class extends FourStatePieceTriangularGameState {
 };
 
 // src/app/games/sahara/SaharaRules.ts
-var __decorate14 = function(decorators, target, key, desc) {
+var __decorate15 = function(decorators, target, key, desc) {
   var c = arguments.length, r2 = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d2;
   if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r2 = Reflect.decorate(decorators, target, key, desc);
   else for (var i2 = decorators.length - 1; i2 >= 0; i2--) if (d2 = decorators[i2]) r2 = (c < 3 ? d2(r2) : c > 3 ? d2(target, key, r2) : d2(target, key)) || r2;
@@ -34050,17 +34446,17 @@ var _a7;
 var SaharaRules = (_a7 = class extends Rules {
   static get() {
     if (SaharaRules_1.singleton.isAbsent()) {
-      SaharaRules_1.singleton = import_lib184.MGPOptional.of(new SaharaRules_1());
+      SaharaRules_1.singleton = import_lib187.MGPOptional.of(new SaharaRules_1());
     }
     return SaharaRules_1.singleton.get();
   }
   getInitialState() {
     const size = 3;
-    const N9 = FourStatePiece.UNREACHABLE;
-    const O26 = FourStatePiece.ZERO;
-    const X26 = FourStatePiece.ONE;
-    const _31 = FourStatePiece.EMPTY;
-    const board = HexagonalUtils.createBoard(size, N9, _31);
+    const N10 = FourStatePiece.UNREACHABLE;
+    const O27 = FourStatePiece.ZERO;
+    const X27 = FourStatePiece.ONE;
+    const _32 = FourStatePiece.EMPTY;
+    const board = HexagonalUtils.createBoard(size, N10, _32);
     const start = (size + 1) % 2;
     const xEnd = 4 * size - (2 - start);
     const yEnd = size * 2 - 1;
@@ -34068,18 +34464,18 @@ var SaharaRules = (_a7 = class extends Rules {
     const second = first + 1;
     const third = first + 2 * size - 1;
     const fourth = third + 1;
-    board[0][first] = O26;
-    board[0][second] = X26;
-    board[0][third] = O26;
-    board[0][fourth] = X26;
-    board[first - start][start] = X26;
-    board[second - start][start] = O26;
-    board[first - start][xEnd] = O26;
-    board[second - start][xEnd] = X26;
-    board[yEnd][first] = O26;
-    board[yEnd][second] = X26;
-    board[yEnd][third] = O26;
-    board[yEnd][fourth] = X26;
+    board[0][first] = O27;
+    board[0][second] = X27;
+    board[0][third] = O27;
+    board[0][fourth] = X27;
+    board[first - start][start] = X27;
+    board[second - start][start] = O27;
+    board[first - start][xEnd] = O27;
+    board[second - start][xEnd] = X27;
+    board[yEnd][first] = O27;
+    board[yEnd][second] = X27;
+    board[yEnd][third] = O27;
+    board[yEnd][fourth] = X27;
     return new SaharaState(board, 0);
   }
   getStartingCoords(state, player) {
@@ -34093,7 +34489,7 @@ var SaharaRules = (_a7 = class extends Rules {
   }
   getBoardValueByPiece(state, player) {
     const playersPiece = this.getStartingCoords(state, player);
-    const playerFreedoms = new import_lib184.MGPMap();
+    const playerFreedoms = new import_lib187.MGPMap();
     for (const piece of playersPiece) {
       const freedoms = TriangularGameState.getEmptyNeighbors(state.board, piece, FourStatePiece.EMPTY).length;
       playerFreedoms.set(piece, freedoms);
@@ -34108,7 +34504,7 @@ var SaharaRules = (_a7 = class extends Rules {
   getBoardValuesFor(state, player) {
     const playerFreedomsMap = this.getBoardValueByPiece(state, player);
     const playerFreedomsValue = playerFreedomsMap.getValueList();
-    import_lib184.ArrayUtils.sortByDescending(playerFreedomsValue, (value) => -value);
+    import_lib187.ArrayUtils.sortByDescending(playerFreedomsValue, (value) => -value);
     return playerFreedomsValue;
   }
   applyLegalMove(move, state, _config, _info) {
@@ -34125,30 +34521,30 @@ var SaharaRules = (_a7 = class extends Rules {
     }
     const movedPawn = state.getPieceAt(move.getStart());
     if (movedPawn.is(state.getCurrentPlayer()) === false) {
-      return import_lib184.MGPValidation.failure(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
+      return import_lib187.MGPValidation.failure(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
     }
     const landingSpace = state.getPieceAt(move.getEnd());
     if (landingSpace !== FourStatePiece.EMPTY) {
-      return import_lib184.MGPValidation.failure(RulesFailure.MUST_LAND_ON_EMPTY_SPACE());
+      return import_lib187.MGPValidation.failure(RulesFailure.MUST_LAND_ON_EMPTY_SPACE());
     }
     const commonNeighbor = TriangularCheckerBoard.getCommonNeighbor(move.getStart(), move.getEnd());
     if (commonNeighbor.isPresent()) {
       if (state.getPieceAt(commonNeighbor.get()) === FourStatePiece.EMPTY) {
-        return import_lib184.MGPValidation.SUCCESS;
+        return import_lib187.MGPValidation.SUCCESS;
       } else {
-        return import_lib184.MGPValidation.failure(SaharaFailure.CAN_ONLY_REBOUND_ON_EMPTY_SPACE());
+        return import_lib187.MGPValidation.failure(SaharaFailure.CAN_ONLY_REBOUND_ON_EMPTY_SPACE());
       }
     } else {
-      return import_lib184.MGPValidation.SUCCESS;
+      return import_lib187.MGPValidation.SUCCESS;
     }
   }
   getCoordsValidity(move, state) {
     if (state.isNotOnBoard(move.getStart())) {
-      return import_lib184.MGPValidation.failure(CoordFailure.OUT_OF_RANGE(move.getStart()));
+      return import_lib187.MGPValidation.failure(CoordFailure.OUT_OF_RANGE(move.getStart()));
     } else if (state.isNotOnBoard(move.getEnd())) {
-      return import_lib184.MGPValidation.failure(CoordFailure.OUT_OF_RANGE(move.getEnd()));
+      return import_lib187.MGPValidation.failure(CoordFailure.OUT_OF_RANGE(move.getEnd()));
     } else {
-      return import_lib184.MGPValidation.SUCCESS;
+      return import_lib187.MGPValidation.SUCCESS;
     }
   }
   getGameStatus(node) {
@@ -34193,45 +34589,45 @@ var SaharaRules = (_a7 = class extends Rules {
     }
     return GameStatus.ONGOING;
   }
-}, SaharaRules_1 = _a7, __publicField(_a7, "singleton", import_lib184.MGPOptional.empty()), _a7);
-SaharaRules = SaharaRules_1 = __decorate14([
+}, SaharaRules_1 = _a7, __publicField(_a7, "singleton", import_lib187.MGPOptional.empty()), _a7);
+SaharaRules = SaharaRules_1 = __decorate15([
   Debug.log
 ], SaharaRules);
 
 // src/app/games/sahara/SaharaTutorial.ts
-var import_lib186 = __toESM(require_dist());
+var import_lib189 = __toESM(require_dist());
 
 // src/app/games/sahara/SaharaMove.ts
-var import_lib185 = __toESM(require_dist());
+var import_lib188 = __toESM(require_dist());
 var SaharaMove = class _SaharaMove extends MoveCoordToCoord {
   static encoder = MoveWithTwoCoords.getFallibleEncoder(_SaharaMove.from);
   static checkDistanceAndLocation(start, end) {
     const distance = start.getOrthogonalDistance(end);
     if (distance === 0) {
-      return import_lib185.MGPValidation.failure(RulesFailure.MOVE_CANNOT_BE_STATIC());
+      return import_lib188.MGPValidation.failure(RulesFailure.MOVE_CANNOT_BE_STATIC());
     } else if (distance === 1) {
       const fakeNeighbors = TriangularCheckerBoard.getFakeNeighbors(start);
       if (end.equals(fakeNeighbors)) {
-        return import_lib185.MGPValidation.failure(SaharaFailure.THOSE_TWO_SPACES_ARE_NOT_NEIGHBORS());
+        return import_lib188.MGPValidation.failure(SaharaFailure.THOSE_TWO_SPACES_ARE_NOT_NEIGHBORS());
       }
     } else if (distance === 2) {
       if (TriangularCheckerBoard.isSpaceDark(start)) {
-        return import_lib185.MGPValidation.failure(SaharaFailure.CAN_ONLY_REBOUND_ON_BLACK());
+        return import_lib188.MGPValidation.failure(SaharaFailure.CAN_ONLY_REBOUND_ON_BLACK());
       }
       if (start.x === end.x) {
-        return import_lib185.MGPValidation.failure(SaharaFailure.THOSE_TWO_SPACES_HAVE_NO_COMMON_NEIGHBOR());
+        return import_lib188.MGPValidation.failure(SaharaFailure.THOSE_TWO_SPACES_HAVE_NO_COMMON_NEIGHBOR());
       }
     } else {
-      return import_lib185.MGPValidation.failure($localize`You can move one or two spaces, not ${distance}.`);
+      return import_lib188.MGPValidation.failure($localize`You can move one or two spaces, not ${distance}.`);
     }
-    return import_lib185.MGPValidation.SUCCESS;
+    return import_lib188.MGPValidation.SUCCESS;
   }
   static from(start, end) {
     const validity = _SaharaMove.checkDistanceAndLocation(start, end);
     if (validity.isFailure()) {
       return validity.toOtherFallible();
     } else {
-      return import_lib185.MGPFallible.success(new _SaharaMove(start, end));
+      return import_lib188.MGPFallible.success(new _SaharaMove(start, end));
     }
   }
   constructor(start, end) {
@@ -34248,21 +34644,21 @@ var SaharaMove = class _SaharaMove extends MoveCoordToCoord {
 };
 
 // src/app/games/sahara/SaharaTutorial.ts
-var N7 = FourStatePiece.UNREACHABLE;
-var O19 = FourStatePiece.ZERO;
-var X19 = FourStatePiece.ONE;
-var _22 = FourStatePiece.EMPTY;
+var N8 = FourStatePiece.UNREACHABLE;
+var O20 = FourStatePiece.ZERO;
+var X20 = FourStatePiece.ONE;
+var _23 = FourStatePiece.EMPTY;
 var SaharaTutorial = class extends Tutorial {
   tutorial = [
     TutorialStep.informational($localize`Initial board`, $localize`Sâhârâ is played on a board where each space is a triangle.
         Each player has six pyramids.`, SaharaRules.get().getInitialState()),
     TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`At Sâhârâ, the object of the game is to immobilize one of the opponent's pyramids. To do so, you have to occupy all neighboring space of that pyramid. Here, Light has lost because its leftmost pyramid is immobilized.`, new SaharaState([
-      [N7, N7, _22, _22, X19, _22, _22, O19, X19, N7, N7],
-      [N7, _22, _22, _22, _22, _22, _22, _22, _22, _22, N7],
-      [X19, O19, _22, _22, _22, _22, _22, _22, _22, _22, O19],
-      [O19, _22, _22, _22, _22, _22, _22, _22, _22, _22, X19],
-      [N7, _22, _22, _22, _22, _22, _22, _22, _22, _22, N7],
-      [N7, N7, X19, O19, _22, _22, _22, X19, O19, N7, N7]
+      [N8, N8, _23, _23, X20, _23, _23, O20, X20, N8, N8],
+      [N8, _23, _23, _23, _23, _23, _23, _23, _23, _23, N8],
+      [X20, O20, _23, _23, _23, _23, _23, _23, _23, _23, O20],
+      [O20, _23, _23, _23, _23, _23, _23, _23, _23, _23, X20],
+      [N8, _23, _23, _23, _23, _23, _23, _23, _23, _23, N8],
+      [N8, N8, X20, O20, _23, _23, _23, X20, O20, N8, N8]
     ], 3)),
     TutorialStep.fromPredicate($localize`Simple step`, $localize`To immobilize your opponent, you have to move your pyramids.
         When a pyramid shares its vertices with light spaces, it can move on these spaces (we call this a simple step).
@@ -34273,9 +34669,9 @@ var SaharaTutorial = class extends Tutorial {
         </ol><br/>
         You're playing Dark, do any simple step.`, SaharaRules.get().getInitialState(), SaharaMove.from(new Coord(2, 0), new Coord(2, 1)).get(), (move, _previous, _result) => {
       if (move.isSimpleStep()) {
-        return import_lib186.MGPValidation.SUCCESS;
+        return import_lib189.MGPValidation.SUCCESS;
       } else {
-        return import_lib186.MGPValidation.failure($localize`You have made a double step, which is good but it is the next exercise!`);
+        return import_lib189.MGPValidation.failure($localize`You have made a double step, which is good but it is the next exercise!`);
       }
     }, TutorialStepMessage.CONGRATULATIONS()),
     TutorialStep.fromPredicate($localize`Double step`, $localize`When a pyramid shares its vertices with dark spaces, it can move one or two steps.
@@ -34287,19 +34683,19 @@ var SaharaTutorial = class extends Tutorial {
         </ol><br/>
         You're playing Dark, do a double step.`, SaharaRules.get().getInitialState(), SaharaMove.from(new Coord(7, 0), new Coord(5, 0)).get(), (move, _previous, _result) => {
       if (move.isSimpleStep()) {
-        return import_lib186.MGPValidation.failure($localize`Failed! You have made a single step.`);
+        return import_lib189.MGPValidation.failure($localize`Failed! You have made a single step.`);
       } else {
-        return import_lib186.MGPValidation.SUCCESS;
+        return import_lib189.MGPValidation.SUCCESS;
       }
     }, TutorialStepMessage.CONGRATULATIONS())
   ];
 };
 
 // src/app/games/sahara/sahara.component.ts
-var import_lib188 = __toESM(require_dist());
+var import_lib191 = __toESM(require_dist());
 
 // src/app/games/sahara/SaharaMobilityHeuristic.ts
-var import_lib187 = __toESM(require_dist());
+var import_lib190 = __toESM(require_dist());
 var SaharaMobilityHeuristic = class extends PlayerMetricHeuristic {
   rules;
   constructor(rules) {
@@ -34323,7 +34719,7 @@ var SaharaMobilityHeuristic = class extends PlayerMetricHeuristic {
         mobilities.push(this.countMovesToClosestAlly(state, coord));
       }
     }
-    import_lib187.ArrayUtils.sortByDescending(mobilities, (mobility) => mobility);
+    import_lib190.ArrayUtils.sortByDescending(mobilities, (mobility) => mobility);
     return mobilities;
   }
   countMovesToClosestAlly(state, coord) {
@@ -34451,7 +34847,7 @@ var SaharaMobilityMinimax = class extends Minimax {
 };
 
 // src/app/games/sahara/sahara.component.ts
-var _forTrack026 = ($index, $item) => $item.toString();
+var _forTrack027 = ($index, $item) => $item.toString();
 function SaharaComponent_For_2_For_2_Conditional_1_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
@@ -34592,7 +34988,7 @@ function SaharaComponent_Conditional_3_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
     \u0275\u0275elementContainerStart(0);
-    \u0275\u0275repeaterCreate(1, SaharaComponent_Conditional_3_For_2_Template, 1, 5, ":svg:polygon", 6, _forTrack026);
+    \u0275\u0275repeaterCreate(1, SaharaComponent_Conditional_3_For_2_Template, 1, 5, ":svg:polygon", 6, _forTrack027);
     \u0275\u0275conditionalCreate(3, SaharaComponent_Conditional_3_Conditional_3_Template, 1, 5, ":svg:polygon", 6);
     \u0275\u0275elementContainerEnd();
   }
@@ -34629,9 +35025,9 @@ function SaharaComponent_Conditional_4_Template(rf, ctx) {
   }
 }
 var SaharaComponent = class _SaharaComponent extends TriangularGameComponent {
-  lastCoord = import_lib188.MGPOptional.empty();
-  lastMoved = import_lib188.MGPOptional.empty();
-  chosenCoord = import_lib188.MGPOptional.empty();
+  lastCoord = import_lib191.MGPOptional.empty();
+  lastMoved = import_lib191.MGPOptional.empty();
+  chosenCoord = import_lib191.MGPOptional.empty();
   possibleLandings = [];
   constructor() {
     super();
@@ -34646,17 +35042,17 @@ var SaharaComponent = class _SaharaComponent extends TriangularGameComponent {
   }
   showLastMove(move) {
     return __async(this, null, function* () {
-      this.lastCoord = import_lib188.MGPOptional.of(move.getStart());
-      this.lastMoved = import_lib188.MGPOptional.of(move.getEnd());
+      this.lastCoord = import_lib191.MGPOptional.of(move.getStart());
+      this.lastMoved = import_lib191.MGPOptional.of(move.getEnd());
     });
   }
   hideLastMove() {
-    this.lastCoord = import_lib188.MGPOptional.empty();
-    this.lastMoved = import_lib188.MGPOptional.empty();
+    this.lastCoord = import_lib191.MGPOptional.empty();
+    this.lastMoved = import_lib191.MGPOptional.empty();
   }
   cancelMoveAttempt() {
     this.possibleLandings = [];
-    this.chosenCoord = import_lib188.MGPOptional.empty();
+    this.chosenCoord = import_lib191.MGPOptional.empty();
   }
   onClick(x2, y) {
     return __async(this, null, function* () {
@@ -34682,14 +35078,14 @@ var SaharaComponent = class _SaharaComponent extends TriangularGameComponent {
       } else if (this.board[y][x2].is(Player.ofTurn(this.getTurn()))) {
         const coord = new Coord(x2, y);
         this.selectPiece(coord);
-        return import_lib188.MGPValidation.SUCCESS;
+        return import_lib191.MGPValidation.SUCCESS;
       } else {
         return this.cancelMove(SaharaFailure.MUST_CHOOSE_OWN_PYRAMID());
       }
     });
   }
   selectPiece(coord) {
-    this.chosenCoord = import_lib188.MGPOptional.of(coord);
+    this.chosenCoord = import_lib191.MGPOptional.of(coord);
     this.possibleLandings = this.rules.getLegalLandingCoords(this.getState(), coord);
   }
   chooseLandingCoord(x2, y) {
@@ -34741,7 +35137,7 @@ var SaharaComponent = class _SaharaComponent extends TriangularGameComponent {
 })();
 
 // src/app/games/siam/SiamRules.ts
-var import_lib191 = __toESM(require_dist());
+var import_lib194 = __toESM(require_dist());
 
 // src/app/games/siam/SiamFailure.ts
 var SiamFailure = class {
@@ -34754,16 +35150,16 @@ var SiamFailure = class {
 };
 
 // src/app/games/siam/SiamMove.ts
-var import_lib189 = __toESM(require_dist());
+var import_lib192 = __toESM(require_dist());
 var SiamMove = class _SiamMove extends MoveCoord {
   direction;
   landingOrientation;
-  static encoder = import_lib189.Encoder.tuple([
-    import_lib189.Encoder.identity(),
+  static encoder = import_lib192.Encoder.tuple([
+    import_lib192.Encoder.identity(),
     // x
-    import_lib189.Encoder.identity(),
+    import_lib192.Encoder.identity(),
     // y
-    import_lib189.MGPOptional.getEncoder(Orthogonal.encoder),
+    import_lib192.MGPOptional.getEncoder(Orthogonal.encoder),
     // direction
     Orthogonal.encoder
     // orientation
@@ -34795,21 +35191,21 @@ var SiamMove = class _SiamMove extends MoveCoord {
 };
 
 // src/app/games/siam/SiamPiece.ts
-var import_lib190 = __toESM(require_dist());
+var import_lib193 = __toESM(require_dist());
 var SiamPiece = class _SiamPiece {
   value;
   owner;
   direction;
-  static EMPTY = new _SiamPiece(0, PlayerOrNone.NONE, import_lib190.MGPOptional.empty());
-  static LIGHT_UP = new _SiamPiece(1, PlayerOrNone.ONE, import_lib190.MGPOptional.of(Orthogonal.UP));
-  static LIGHT_RIGHT = new _SiamPiece(2, PlayerOrNone.ONE, import_lib190.MGPOptional.of(Orthogonal.RIGHT));
-  static LIGHT_DOWN = new _SiamPiece(3, PlayerOrNone.ONE, import_lib190.MGPOptional.of(Orthogonal.DOWN));
-  static LIGHT_LEFT = new _SiamPiece(4, PlayerOrNone.ONE, import_lib190.MGPOptional.of(Orthogonal.LEFT));
-  static DARK_UP = new _SiamPiece(5, PlayerOrNone.ZERO, import_lib190.MGPOptional.of(Orthogonal.UP));
-  static DARK_RIGHT = new _SiamPiece(6, PlayerOrNone.ZERO, import_lib190.MGPOptional.of(Orthogonal.RIGHT));
-  static DARK_DOWN = new _SiamPiece(7, PlayerOrNone.ZERO, import_lib190.MGPOptional.of(Orthogonal.DOWN));
-  static DARK_LEFT = new _SiamPiece(8, PlayerOrNone.ZERO, import_lib190.MGPOptional.of(Orthogonal.LEFT));
-  static MOUNTAIN = new _SiamPiece(9, PlayerOrNone.NONE, import_lib190.MGPOptional.empty());
+  static EMPTY = new _SiamPiece(0, PlayerOrNone.NONE, import_lib193.MGPOptional.empty());
+  static LIGHT_UP = new _SiamPiece(1, PlayerOrNone.ONE, import_lib193.MGPOptional.of(Orthogonal.UP));
+  static LIGHT_RIGHT = new _SiamPiece(2, PlayerOrNone.ONE, import_lib193.MGPOptional.of(Orthogonal.RIGHT));
+  static LIGHT_DOWN = new _SiamPiece(3, PlayerOrNone.ONE, import_lib193.MGPOptional.of(Orthogonal.DOWN));
+  static LIGHT_LEFT = new _SiamPiece(4, PlayerOrNone.ONE, import_lib193.MGPOptional.of(Orthogonal.LEFT));
+  static DARK_UP = new _SiamPiece(5, PlayerOrNone.ZERO, import_lib193.MGPOptional.of(Orthogonal.UP));
+  static DARK_RIGHT = new _SiamPiece(6, PlayerOrNone.ZERO, import_lib193.MGPOptional.of(Orthogonal.RIGHT));
+  static DARK_DOWN = new _SiamPiece(7, PlayerOrNone.ZERO, import_lib193.MGPOptional.of(Orthogonal.DOWN));
+  static DARK_LEFT = new _SiamPiece(8, PlayerOrNone.ZERO, import_lib193.MGPOptional.of(Orthogonal.LEFT));
+  static MOUNTAIN = new _SiamPiece(9, PlayerOrNone.NONE, import_lib193.MGPOptional.empty());
   static decode(value) {
     switch (value) {
       case 0:
@@ -34900,7 +35296,7 @@ var SiamPiece = class _SiamPiece {
       case _SiamPiece.DARK_LEFT:
         return "DARK_LEFT";
       default:
-        import_lib190.Utils.expectToBe(this, _SiamPiece.MOUNTAIN);
+        import_lib193.Utils.expectToBe(this, _SiamPiece.MOUNTAIN);
         return "MOUNTAIN";
     }
   }
@@ -34924,7 +35320,7 @@ var SiamState = class extends GameStateWithTable {
 };
 
 // src/app/games/siam/SiamRules.ts
-var __decorate15 = function(decorators, target, key, desc) {
+var __decorate16 = function(decorators, target, key, desc) {
   var c = arguments.length, r2 = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d2;
   if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r2 = Reflect.decorate(decorators, target, key, desc);
   else for (var i2 = decorators.length - 1; i2 >= 0; i2--) if (d2 = decorators[i2]) r2 = (c < 3 ? d2(r2) : c > 3 ? d2(target, key, r2) : d2(target, key)) || r2;
@@ -34943,12 +35339,12 @@ var _a8;
 var SiamRules = (_a8 = class extends ConfigurableRules {
   static get() {
     if (SiamRules_1.singleton.isAbsent()) {
-      SiamRules_1.singleton = import_lib191.MGPOptional.of(new SiamRules_1());
+      SiamRules_1.singleton = import_lib194.MGPOptional.of(new SiamRules_1());
     }
     return SiamRules_1.singleton.get();
   }
   getRulesConfigDescription() {
-    return import_lib191.MGPOptional.of(SiamRules_1.RULES_CONFIG_DESCRIPTION);
+    return import_lib194.MGPOptional.of(SiamRules_1.RULES_CONFIG_DESCRIPTION);
   }
   getInitialState(optionalConfig) {
     const config = optionalConfig.get();
@@ -34973,20 +35369,20 @@ var SiamRules = (_a8 = class extends ConfigurableRules {
     const startedOutside = state.isNotOnBoard(move.coord);
     if (move.isRotation()) {
       if (startedOutside) {
-        return import_lib191.MGPFallible.failure($localize`You cannot rotate piece outside the board: ${move.toString()}`);
+        return import_lib194.MGPFallible.failure($localize`You cannot rotate piece outside the board: ${move.toString()}`);
       }
     } else {
       const finishedOutside = state.isNotOnBoard(move.coord.getNext(move.direction.get()));
       if (finishedOutside) {
         if (startedOutside) {
-          return import_lib191.MGPFallible.failure($localize`SiamMove should end or start on the board: ${move.toString()}`);
+          return import_lib194.MGPFallible.failure($localize`SiamMove should end or start on the board: ${move.toString()}`);
         }
         if (move.direction.get() !== move.landingOrientation) {
-          return import_lib191.MGPFallible.failure($localize`SiamMove should have moveDirection and landingOrientation matching when a piece goes out of the board: ${move.toString()}`);
+          return import_lib194.MGPFallible.failure($localize`SiamMove should have moveDirection and landingOrientation matching when a piece goes out of the board: ${move.toString()}`);
         }
       }
     }
-    return import_lib191.MGPValidation.SUCCESS;
+    return import_lib194.MGPValidation.SUCCESS;
   }
   isInsertion(move, state) {
     return move.coord.x === -1 || move.coord.x === state.getWidth() || move.coord.y === -1 || move.coord.y === state.getHeight();
@@ -34999,9 +35395,9 @@ var SiamRules = (_a8 = class extends ConfigurableRules {
     if (this.isInsertion(move, state) === false) {
       const movedPiece = state.getPieceAt(move.coord);
       if (movedPiece === SiamPiece.EMPTY) {
-        return import_lib191.MGPFallible.failure(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_EMPTY());
+        return import_lib194.MGPFallible.failure(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_EMPTY());
       } else if (movedPiece.belongsTo(state.getCurrentOpponent())) {
-        return import_lib191.MGPFallible.failure(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
+        return import_lib194.MGPFallible.failure(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
       }
     }
     if (move.isRotation()) {
@@ -35011,7 +35407,7 @@ var SiamRules = (_a8 = class extends ConfigurableRules {
       if (this.isInsertion(move, state)) {
         const insertionInfo = this.isLegalInsertion(move.coord, state, optionalConfig.get());
         if (insertionInfo.legal.isFailure()) {
-          return import_lib191.MGPFallible.failure(insertionInfo.legal.getReason());
+          return import_lib194.MGPFallible.failure(insertionInfo.legal.getReason());
         }
         movingPiece = insertionInfo.insertedPiece;
       } else {
@@ -35023,7 +35419,7 @@ var SiamRules = (_a8 = class extends ConfigurableRules {
   isLegalInsertion(coord, state, config) {
     const numberOnBoard = state.countCurrentPlayerPawn();
     const currentPlayer = state.getCurrentPlayer();
-    const legal = numberOnBoard < config.numberOfPiece ? import_lib191.MGPValidation.SUCCESS : import_lib191.MGPValidation.failure(SiamFailure.NO_REMAINING_PIECE_TO_INSERT());
+    const legal = numberOnBoard < config.numberOfPiece ? import_lib194.MGPValidation.SUCCESS : import_lib194.MGPValidation.failure(SiamFailure.NO_REMAINING_PIECE_TO_INSERT());
     const insertedPiece = this.getInsertedPiece(coord, currentPlayer, state.getWidth());
     return { insertedPiece, legal };
   }
@@ -35037,15 +35433,15 @@ var SiamRules = (_a8 = class extends ConfigurableRules {
     return SiamPiece.of(Orthogonal.UP, player);
   }
   isLegalForwarding(move, state, firstPiece) {
-    import_lib191.Utils.assert(firstPiece !== SiamPiece.MOUNTAIN && firstPiece !== SiamPiece.EMPTY, "forwarding must be done with player piece");
+    import_lib194.Utils.assert(firstPiece !== SiamPiece.MOUNTAIN && firstPiece !== SiamPiece.EMPTY, "forwarding must be done with player piece");
     const movedPieces = [];
     let movingPiece = SiamPiece.of(move.landingOrientation, state.getCurrentPlayer());
     const pushingDir = move.direction.get();
     let landingCoord = move.coord.getNext(pushingDir);
     if (state.hasInequalPieceAt(landingCoord, SiamPiece.EMPTY) && this.isStraight(firstPiece, move) === false) {
-      return import_lib191.MGPFallible.failure(SiamFailure.ILLEGAL_PUSH());
+      return import_lib194.MGPFallible.failure(SiamFailure.ILLEGAL_PUSH());
     }
-    let currentDirection = import_lib191.MGPOptional.of(pushingDir);
+    let currentDirection = import_lib194.MGPOptional.of(pushingDir);
     const resistingDir = pushingDir.getOpposite();
     let totalForce = 0;
     const resultingBoard = state.getCopiedBoard();
@@ -35076,9 +35472,9 @@ var SiamRules = (_a8 = class extends ConfigurableRules {
         totalForce--;
     }
     if (totalForce <= 0) {
-      return import_lib191.MGPFallible.failure(SiamFailure.NOT_ENOUGH_FORCE_TO_PUSH());
+      return import_lib194.MGPFallible.failure(SiamFailure.NOT_ENOUGH_FORCE_TO_PUSH());
     }
-    return import_lib191.MGPFallible.success(new SiamLegalityInformation(resultingBoard, movedPieces));
+    return import_lib194.MGPFallible.success(new SiamLegalityInformation(resultingBoard, movedPieces));
   }
   isStraight(piece, move) {
     const pieceDirection = piece.getDirection();
@@ -35089,11 +35485,11 @@ var SiamRules = (_a8 = class extends ConfigurableRules {
     const currentPiece = state.getPieceAt(coord);
     const currentPlayer = state.getCurrentPlayer();
     if (currentPiece.getDirection() === rotation.landingOrientation) {
-      return import_lib191.MGPFallible.failure(SiamFailure.MUST_MOVE_OR_ROTATE());
+      return import_lib194.MGPFallible.failure(SiamFailure.MUST_MOVE_OR_ROTATE());
     }
     const resultingBoard = state.getCopiedBoard();
     resultingBoard[coord.y][coord.x] = SiamPiece.of(rotation.landingOrientation, currentPlayer);
-    return import_lib191.MGPFallible.success(new SiamLegalityInformation(resultingBoard, [coord]));
+    return import_lib194.MGPFallible.success(new SiamLegalityInformation(resultingBoard, [coord]));
   }
   applyLegalMove(_move, state, _config, info) {
     const newBoard = TableUtils.copy(info.resultingBoard);
@@ -35217,7 +35613,7 @@ var SiamRules = (_a8 = class extends ConfigurableRules {
         coord: fallingCoord,
         distance: 1
       },
-      almostPusher: import_lib191.MGPOptional.empty(),
+      almostPusher: import_lib194.MGPOptional.empty(),
       pusherFound: false,
       mountainEncountered: false,
       missingForce: 0
@@ -35239,13 +35635,13 @@ var SiamRules = (_a8 = class extends ConfigurableRules {
     if (state.isNotOnBoard(lineInfo.closestPusher.coord)) {
       lineInfo.missingForce -= 1;
       if (state.countCurrentPlayerPawn() === config.numberOfPiece) {
-        return import_lib191.MGPOptional.empty();
+        return import_lib194.MGPOptional.empty();
       }
     }
     if (lineInfo.missingForce > 0) {
-      return import_lib191.MGPOptional.empty();
+      return import_lib194.MGPOptional.empty();
     }
-    return import_lib191.MGPOptional.of(lineInfo.closestPusher);
+    return import_lib194.MGPOptional.of(lineInfo.closestPusher);
   }
   updateLineInfo(state, lineInfo, direction) {
     const currentPiece = state.getPieceAt(lineInfo.closestPusher.coord);
@@ -35273,7 +35669,7 @@ var SiamRules = (_a8 = class extends ConfigurableRules {
         }
       } else {
         if (lineInfo.mountainEncountered) {
-          lineInfo.almostPusher = import_lib191.MGPOptional.of(lineInfo.closestPusher.coord);
+          lineInfo.almostPusher = import_lib194.MGPOptional.of(lineInfo.closestPusher.coord);
           if (lineInfo.previousPiece !== SiamPiece.EMPTY) {
             lineInfo.closestPusher.distance++;
           }
@@ -35310,9 +35706,9 @@ var SiamRules = (_a8 = class extends ConfigurableRules {
       const entrance = new Coord(x2, y).getPrevious(direction);
       if (state.isNotOnBoard(entrance)) {
         for (const orientation of Orthogonal.ORTHOGONALS) {
-          const move = SiamMove.of(entrance.x, entrance.y, import_lib191.MGPOptional.of(direction), orientation);
-          import_lib191.Utils.assert(this.getMoveValidity(move, state).isSuccess(), "SiamRules.getInsertionsAt should only construct valid insertions");
-          const legality = this.isLegal(move, state, import_lib191.MGPOptional.of(config));
+          const move = SiamMove.of(entrance.x, entrance.y, import_lib194.MGPOptional.of(direction), orientation);
+          import_lib194.Utils.assert(this.getMoveValidity(move, state).isSuccess(), "SiamRules.getInsertionsAt should only construct valid insertions");
+          const legality = this.isLegal(move, state, import_lib194.MGPOptional.of(config));
           if (legality.isSuccess()) {
             moves.push(move);
           }
@@ -35347,7 +35743,7 @@ var SiamRules = (_a8 = class extends ConfigurableRules {
     const currentOrientation = piece.getDirection();
     for (const direction of Orthogonal.ORTHOGONALS) {
       if (direction !== currentOrientation) {
-        const newMove = SiamMove.of(coord.x, coord.y, import_lib191.MGPOptional.empty(), direction);
+        const newMove = SiamMove.of(coord.x, coord.y, import_lib194.MGPOptional.empty(), direction);
         moves.push(newMove);
       }
     }
@@ -35364,7 +35760,7 @@ var SiamRules = (_a8 = class extends ConfigurableRules {
       orientations = [direction];
     }
     for (const orientation of orientations) {
-      const move = SiamMove.of(start.x, start.y, import_lib191.MGPOptional.of(direction), orientation);
+      const move = SiamMove.of(start.x, start.y, import_lib194.MGPOptional.of(direction), orientation);
       const legality = this.isLegalForwarding(move, state, piece);
       if (legality.isSuccess()) {
         moves.push(move);
@@ -35381,7 +35777,7 @@ var SiamRules = (_a8 = class extends ConfigurableRules {
       return GameStatus.ONGOING;
     }
   }
-}, SiamRules_1 = _a8, __publicField(_a8, "singleton", import_lib191.MGPOptional.empty()), __publicField(_a8, "RULES_CONFIG_DESCRIPTION", new RulesConfigDescription({
+}, SiamRules_1 = _a8, __publicField(_a8, "singleton", import_lib194.MGPOptional.empty()), __publicField(_a8, "RULES_CONFIG_DESCRIPTION", new RulesConfigDescription({
   name: () => $localize`Siam`,
   config: {
     // minimum 3 so that there are spaces around the mountain
@@ -35392,13 +35788,13 @@ var SiamRules = (_a8 = class extends ConfigurableRules {
     numberOfBonusMountain: new NumberConfig(2, () => $localize`Number of bonus mountains`, MGPValidators.range(0, 98))
   }
 })), _a8);
-SiamRules = SiamRules_1 = __decorate15([
+SiamRules = SiamRules_1 = __decorate16([
   Debug.log
 ], SiamRules);
 
 // src/app/games/siam/SiamTutorial.ts
-var import_lib192 = __toESM(require_dist());
-var _23 = SiamPiece.EMPTY;
+var import_lib195 = __toESM(require_dist());
+var _24 = SiamPiece.EMPTY;
 var M = SiamPiece.MOUNTAIN;
 var U2 = SiamPiece.LIGHT_UP;
 var L = SiamPiece.LIGHT_LEFT;
@@ -35408,51 +35804,51 @@ var u = SiamPiece.DARK_UP;
 var l = SiamPiece.DARK_LEFT;
 var r = SiamPiece.DARK_RIGHT;
 var d = SiamPiece.DARK_DOWN;
-var defaultConfig19 = SiamRules.get().getDefaultRulesConfig();
+var defaultConfig20 = SiamRules.get().getDefaultRulesConfig();
 var SiamTutorial = class extends Tutorial {
   tutorial = [
-    TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`The goal at Siam is to be the first to push a mountain out of the board. The initial board contains three mountains, and no pieces are initially on the board. During its turn, a player can do one of the following actions:<ol><li>Put a new piece on the board.</li><li>Change the orientation of one of its piece</li><li>Move one of its piece and optionally reorient it.</li><li>Take one of its pieces out of the board.</li></ol>`, SiamRules.get().getInitialState(defaultConfig19)),
-    TutorialStep.anyMove($localize`Inserting a piece`, $localize`Each player has 5 pieces in total. As long as you have remaining pieces next to the board, you can insert new pieces. To do so:<ol><li>Click on one of your pieces from your reserve, next to board.</li><li>Click on one of the highlighted squares to select a landing for your piece.</li><li>Select an orientation for your piece by clicking on one of the arrows that appear on top of the board.</li></ol><br/>You're playing Dark, insert a piece on the board.`, SiamRules.get().getInitialState(defaultConfig19), SiamMove.of(2, -1, import_lib192.MGPOptional.of(Orthogonal.DOWN), Orthogonal.DOWN), TutorialStepMessage.CONGRATULATIONS()),
+    TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`The goal at Siam is to be the first to push a mountain out of the board. The initial board contains three mountains, and no pieces are initially on the board. During its turn, a player can do one of the following actions:<ol><li>Put a new piece on the board.</li><li>Change the orientation of one of its piece</li><li>Move one of its piece and optionally reorient it.</li><li>Take one of its pieces out of the board.</li></ol>`, SiamRules.get().getInitialState(defaultConfig20)),
+    TutorialStep.anyMove($localize`Inserting a piece`, $localize`Each player has 5 pieces in total. As long as you have remaining pieces next to the board, you can insert new pieces. To do so:<ol><li>Click on one of your pieces from your reserve, next to board.</li><li>Click on one of the highlighted squares to select a landing for your piece.</li><li>Select an orientation for your piece by clicking on one of the arrows that appear on top of the board.</li></ol><br/>You're playing Dark, insert a piece on the board.`, SiamRules.get().getInitialState(defaultConfig20), SiamMove.of(2, -1, import_lib195.MGPOptional.of(Orthogonal.DOWN), Orthogonal.DOWN), TutorialStepMessage.CONGRATULATIONS()),
     TutorialStep.fromMove($localize`Moving a piece`, $localize`We will distinguish here "moving" and "pushing". A move is made from a piece's square to an empty neighboring square, horizontally or vertically. You can also move a piece out of the board. To move a piece:<ol><li>Click on it.</li><li>Click on the square on which you want the piece to move. You can also click a second time on your piece to change its orientation without moving it.</li><li>Select the orientation of your piece by clicking one one of the arrows that appear on top of the board.</li></ol><br/>You're playing Dark. Try to move your piece that is already on the board one square upwards and to orient it to the left.`, new SiamState([
-      [_23, _23, _23, _23, _23],
-      [_23, _23, _23, _23, _23],
-      [_23, M, M, M, _23],
-      [_23, _23, _23, _23, _23],
-      [_23, _23, u, _23, _23]
-    ], 0), [SiamMove.of(2, 4, import_lib192.MGPOptional.of(Orthogonal.UP), Orthogonal.LEFT)], $localize`Congratulations, you made a side-slip!`, TutorialStepMessage.FAILED_TRY_AGAIN()),
+      [_24, _24, _24, _24, _24],
+      [_24, _24, _24, _24, _24],
+      [_24, M, M, M, _24],
+      [_24, _24, _24, _24, _24],
+      [_24, _24, u, _24, _24]
+    ], 0), [SiamMove.of(2, 4, import_lib195.MGPOptional.of(Orthogonal.UP), Orthogonal.LEFT)], $localize`Congratulations, you made a side-slip!`, TutorialStepMessage.FAILED_TRY_AGAIN()),
     TutorialStep.fromMove($localize`Moving a piece out of the board`, $localize`To move a piece out of the board, you do not have to pick an orientation after the move.<br/><br/> You're playing Dark, get that piece out of the board!`, new SiamState([
-      [_23, _23, _23, _23, _23],
-      [_23, _23, _23, _23, _23],
-      [_23, M, M, M, _23],
-      [_23, _23, _23, _23, _23],
-      [_23, _23, u, _23, _23]
-    ], 0), [SiamMove.of(2, 4, import_lib192.MGPOptional.of(Orthogonal.DOWN), Orthogonal.DOWN)], $localize`Congratulations, even if in this context it was not a useful move.`, $localize`Failed, the piece is still on the board.`),
+      [_24, _24, _24, _24, _24],
+      [_24, _24, _24, _24, _24],
+      [_24, M, M, M, _24],
+      [_24, _24, _24, _24, _24],
+      [_24, _24, u, _24, _24]
+    ], 0), [SiamMove.of(2, 4, import_lib195.MGPOptional.of(Orthogonal.DOWN), Orthogonal.DOWN)], $localize`Congratulations, even if in this context it was not a useful move.`, $localize`Failed, the piece is still on the board.`),
     TutorialStep.fromMove($localize`Pushing` + " (1/2)", $localize`When the landing square of your move is occupied, we use the term "push". In order to push player pieces, the following conditions must hold:<ol><li>Your piece must already be oriented in the direction of the push.</li><li>Along the line that you are pushing, the number of pieces (yours or your opponent's) that are oriented in the same way as the push should be strictly greater than the number of pieces oriented in the opposite way.</li></ol>Look closely at the board. On the first row, you cannot push as there is exactly one piece in the opposite direction. On the second row, you can push because there are two pieces against one.<br/><br/>You're playing Dark. Vertically, you can push using your piece in the center, as there is no resistance on that axis. Do it.`, new SiamState([
-      [_23, r, L, _23, _23],
-      [r, R, L, _23, _23],
-      [_23, _23, u, _23, _23],
-      [_23, _23, _23, _23, _23],
-      [_23, _23, _23, _23, _23]
-    ], 0), [SiamMove.of(2, 2, import_lib192.MGPOptional.of(Orthogonal.UP), Orthogonal.UP)], TutorialStepMessage.CONGRATULATIONS(), TutorialStepMessage.FAILED_TRY_AGAIN()),
+      [_24, r, L, _24, _24],
+      [r, R, L, _24, _24],
+      [_24, _24, u, _24, _24],
+      [_24, _24, _24, _24, _24],
+      [_24, _24, _24, _24, _24]
+    ], 0), [SiamMove.of(2, 2, import_lib195.MGPOptional.of(Orthogonal.UP), Orthogonal.UP)], TutorialStepMessage.CONGRATULATIONS(), TutorialStepMessage.FAILED_TRY_AGAIN()),
     TutorialStep.fromMove($localize`Pushing` + " (2/2)", $localize`To be able to push a mountain, you need at least one pusher per mountain. Each resistant (pieces in the opposite way) cancel the force of one pusher. In short, if there is no mountain, you need strictly more pushers than resistants. If there is a mountain, you need at least as much pushers than there are resistants and mountains. On the following board, as Dark, you can push the mountain on the first row. On the second and third row, because of the resisting forces, you cannot push. On the fourth row, you can push as there is one more pusher than resistant pieces.<br/><br/>You're playing Dark, push on the fourth row it.`, new SiamState([
-      [_23, _23, r, M, _23],
-      [_23, _23, r, M, l],
-      [_23, r, M, M, _23],
-      [_23, r, R, L, M],
-      [_23, _23, _23, _23, _23]
-    ], 0), [SiamMove.of(1, 3, import_lib192.MGPOptional.of(Orthogonal.RIGHT), Orthogonal.RIGHT)], $localize`Congratulations! Note that this move made you lose the game, you will see why in the next step.`, TutorialStepMessage.FAILED_TRY_AGAIN()),
+      [_24, _24, r, M, _24],
+      [_24, _24, r, M, l],
+      [_24, r, M, M, _24],
+      [_24, r, R, L, M],
+      [_24, _24, _24, _24, _24]
+    ], 0), [SiamMove.of(1, 3, import_lib195.MGPOptional.of(Orthogonal.RIGHT), Orthogonal.RIGHT)], $localize`Congratulations! Note that this move made you lose the game, you will see why in the next step.`, TutorialStepMessage.FAILED_TRY_AGAIN()),
     TutorialStep.fromMove($localize`Victory`, $localize`The game ends when a mountain is pushed out of the board. If you pushed it and nobody is in front of you, you're the winner. However, if you were pushing an opponent oriented in the same direction as you, your opponent will win because that piece is closer to the mountain. However, if that opponent is closer to the mountain but not oriented toward it, victory will be yours.<br/><br/>Here, playing Dark, you can push a mountain off the board and either win, or lose. Choose correctly!`, new SiamState([
-      [_23, _23, _23, _23, _23],
-      [_23, _23, _23, _23, _23],
-      [M, U2, l, _23, d],
-      [_23, _23, _23, _23, D],
-      [_23, _23, _23, _23, M]
-    ], 0), [SiamMove.of(2, 2, import_lib192.MGPOptional.of(Orthogonal.LEFT), Orthogonal.LEFT)], TutorialStepMessage.CONGRATULATIONS_YOU_WON(), $localize`Failed, you lost.`)
+      [_24, _24, _24, _24, _24],
+      [_24, _24, _24, _24, _24],
+      [M, U2, l, _24, d],
+      [_24, _24, _24, _24, D],
+      [_24, _24, _24, _24, M]
+    ], 0), [SiamMove.of(2, 2, import_lib195.MGPOptional.of(Orthogonal.LEFT), Orthogonal.LEFT)], TutorialStepMessage.CONGRATULATIONS_YOU_WON(), $localize`Failed, you lost.`)
   ];
 };
 
 // src/app/games/siam/siam.component.ts
-var import_lib193 = __toESM(require_dist());
+var import_lib196 = __toESM(require_dist());
 
 // src/app/games/siam/SiamHeuristic.ts
 var SiamHeuristic = class extends Heuristic {
@@ -35602,7 +35998,7 @@ var SiamOrientationArrowComponent = class _SiamOrientationArrowComponent extends
 })();
 
 // src/app/games/siam/siam.component.ts
-var __decorate16 = function(decorators, target, key, desc) {
+var __decorate17 = function(decorators, target, key, desc) {
   var c = arguments.length, r2 = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d2;
   if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r2 = Reflect.decorate(decorators, target, key, desc);
   else for (var i2 = decorators.length - 1; i2 >= 0; i2--) if (d2 = decorators[i2]) r2 = (c < 3 ? d2(r2) : c > 3 ? d2(target, key, r2) : d2(target, key)) || r2;
@@ -35848,10 +36244,10 @@ function SiamComponent_For_14_Template(rf, ctx) {
 }
 var SiamComponent = class SiamComponent2 extends RectangularGameComponent {
   SiamState = SiamState;
-  lastMove = import_lib193.MGPOptional.empty();
+  lastMove = import_lib196.MGPOptional.empty();
   movedPieces = [];
-  selectedPiece = import_lib193.MGPOptional.empty();
-  selectedLanding = import_lib193.MGPOptional.empty();
+  selectedPiece = import_lib196.MGPOptional.empty();
+  selectedLanding = import_lib196.MGPOptional.empty();
   orientations = [];
   clickableCoords = new CoordSet();
   indicatorArrows = [];
@@ -35876,20 +36272,20 @@ var SiamComponent = class SiamComponent2 extends RectangularGameComponent {
   }
   showLastMove(move) {
     return __async(this, null, function* () {
-      this.lastMove = import_lib193.MGPOptional.of(move);
+      this.lastMove = import_lib196.MGPOptional.of(move);
       const previousGameState = this.getPreviousState();
       const config = this.getConfig();
       this.movedPieces = this.rules.isLegal(this.lastMove.get(), previousGameState, config).get().moved;
     });
   }
   hideLastMove() {
-    this.lastMove = import_lib193.MGPOptional.empty();
+    this.lastMove = import_lib196.MGPOptional.empty();
     this.movedPieces = [];
   }
   cancelMoveAttempt() {
     this.insertingPiece = false;
-    this.selectedPiece = import_lib193.MGPOptional.empty();
-    this.selectedLanding = import_lib193.MGPOptional.empty();
+    this.selectedPiece = import_lib196.MGPOptional.empty();
+    this.selectedLanding = import_lib196.MGPOptional.empty();
     this.orientations = [];
     this.clickableCoords = new CoordSet();
     this.indicatorArrows = [];
@@ -35912,7 +36308,7 @@ var SiamComponent = class SiamComponent2 extends RectangularGameComponent {
         const target = move.coord.getNext(move.direction.get());
         if (this.board[target.y][target.x] !== SiamPiece.EMPTY) {
           const arrow = {
-            source: import_lib193.MGPOptional.empty(),
+            source: import_lib196.MGPOptional.empty(),
             target,
             direction: move.direction.get(),
             move
@@ -35922,7 +36318,7 @@ var SiamComponent = class SiamComponent2 extends RectangularGameComponent {
         this.clickableCoords = this.clickableCoords.addElement(target);
       }
       this.insertingPiece = true;
-      return import_lib193.MGPValidation.SUCCESS;
+      return import_lib196.MGPValidation.SUCCESS;
     });
   }
   selectOrientation(move) {
@@ -35949,14 +36345,14 @@ var SiamComponent = class SiamComponent2 extends RectangularGameComponent {
         if (this.selectedLanding.isPresent()) {
           return this.cancelMove();
         } else if (this.selectedPiece.isPresent()) {
-          this.selectedLanding = import_lib193.MGPOptional.of(clickedCoord);
+          this.selectedLanding = import_lib196.MGPOptional.of(clickedCoord);
           const moves = SiamRules.get().getMovesBetween(this.getState(), this.getState().getPieceAt(this.selectedPiece.get()), this.selectedPiece.get(), clickedCoord);
           if (moves.length === 0) {
             return this.changeMoveDestinationClick(clickedCoord);
           }
           return this.performMoveOrShowOrientationArrows(moves);
         } else {
-          import_lib193.Utils.assert(this.getState().isOnBoard(clickedCoord), "SiamComponent: user clicked outside of board when it should not be possible");
+          import_lib196.Utils.assert(this.getState().isOnBoard(clickedCoord), "SiamComponent: user clicked outside of board when it should not be possible");
           const clickedPiece = this.board[y][x2];
           if (clickedPiece.getOwner().isNone()) {
             return this.cancelMove(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_EMPTY());
@@ -35973,9 +36369,9 @@ var SiamComponent = class SiamComponent2 extends RectangularGameComponent {
     return __async(this, null, function* () {
       if (this.selectedLanding.isPresent()) {
         yield this.cancelMove(SiamFailure.MUST_SELECT_ORIENTATION());
-        return import_lib193.MGPValidation.SUCCESS;
+        return import_lib196.MGPValidation.SUCCESS;
       }
-      this.selectedLanding = import_lib193.MGPOptional.of(clickedCoord);
+      this.selectedLanding = import_lib196.MGPOptional.of(clickedCoord);
       const config = this.getConfig().get();
       const insertions = SiamRules.get().getInsertionsAt(this.getState(), clickedCoord.x, clickedCoord.y, config);
       if (insertions.length === 0) {
@@ -35997,21 +36393,21 @@ var SiamComponent = class SiamComponent2 extends RectangularGameComponent {
   }
   performMoveOrShowOrientationArrows(availableMoves) {
     return __async(this, null, function* () {
-      import_lib193.Utils.assert(availableMoves.length > 0, "SiamComponent.performMoveOrShowOrientationArrows expects at least one move");
+      import_lib196.Utils.assert(availableMoves.length > 0, "SiamComponent.performMoveOrShowOrientationArrows expects at least one move");
       if (availableMoves.length === 1) {
         return this.chooseMove(availableMoves[0]);
       } else {
         this.clickableCoords = new CoordSet();
         this.indicatorArrows = [];
         this.orientations = availableMoves;
-        return import_lib193.MGPValidation.SUCCESS;
+        return import_lib196.MGPValidation.SUCCESS;
       }
     });
   }
   selectPiece(clickedCoord, clickedPiece) {
     this.cancelMoveAttempt();
     const state = this.getState();
-    this.selectedPiece = import_lib193.MGPOptional.of(clickedCoord);
+    this.selectedPiece = import_lib196.MGPOptional.of(clickedCoord);
     const moves = SiamRules.get().getMovesFrom(state, clickedPiece, clickedCoord.x, clickedCoord.y);
     for (const move of moves) {
       if (move.direction.isPresent()) {
@@ -36019,7 +36415,7 @@ var SiamComponent = class SiamComponent2 extends RectangularGameComponent {
         this.clickableCoords = this.clickableCoords.addElement(target);
         if (state.hasInequalPieceAt(target, SiamPiece.EMPTY)) {
           const arrow = {
-            source: import_lib193.MGPOptional.of({
+            source: import_lib196.MGPOptional.of({
               coord: clickedCoord,
               piece: clickedPiece
             }),
@@ -36033,7 +36429,7 @@ var SiamComponent = class SiamComponent2 extends RectangularGameComponent {
         this.clickableCoords = this.clickableCoords.addElement(move.coord);
       }
     }
-    return import_lib193.MGPValidation.SUCCESS;
+    return import_lib196.MGPValidation.SUCCESS;
   }
   clickArrow(arrow) {
     return __async(this, null, function* () {
@@ -36159,7 +36555,7 @@ var SiamComponent = class SiamComponent2 extends RectangularGameComponent {
     }
   }, dependencies: [NgClass, SiamOrientationArrowComponent], styles: ["\n\n.base[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke[_ngcontent-%COMP%] {\n  stroke-width: 0;\n}\n.base.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n}\n.base-no-stroke[_ngcontent-%COMP%] {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n}\n.white-background[_ngcontent-%COMP%] {\n  fill: white;\n}\n.background[_ngcontent-%COMP%] {\n  fill: var(--spaces-fill);\n}\n.transparent[_ngcontent-%COMP%] {\n  opacity: 0;\n}\n.background2[_ngcontent-%COMP%] {\n  fill: var(--alt-background-fill);\n}\n.background3[_ngcontent-%COMP%] {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill[_ngcontent-%COMP%] {\n  fill: var(--player0);\n}\n.player0-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--player0-alternate);\n}\n.player0-stroke[_ngcontent-%COMP%] {\n  stroke: var(--player0);\n}\n.player1-fill[_ngcontent-%COMP%] {\n  fill: var(--player1);\n}\n.player1-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--player1-alternate);\n}\n.player1-stroke[_ngcontent-%COMP%] {\n  stroke: var(--player1);\n}\n.nonplayer-fill[_ngcontent-%COMP%] {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill[_ngcontent-%COMP%] {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke[_ngcontent-%COMP%] {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke[_ngcontent-%COMP%] {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill[_ngcontent-%COMP%] {\n  fill: var(--pre-captured);\n}\n.captured-fill[_ngcontent-%COMP%] {\n  fill: var(--captured);\n}\n.captured-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--alt-captured);\n}\n.captured-stroke[_ngcontent-%COMP%] {\n  stroke: var(--captured);\n}\n.moved-fill[_ngcontent-%COMP%] {\n  fill: var(--moved);\n}\n.moved-stroke[_ngcontent-%COMP%] {\n  stroke: var(--moved);\n}\n.indicator[_ngcontent-%COMP%] {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill[_ngcontent-%COMP%] {\n  fill: var(--indicator);\n}\n.selectable-stroke[_ngcontent-%COMP%] {\n  stroke: var(--selectable);\n}\n.selectable[_ngcontent-%COMP%]    > .base-no-stroke[_ngcontent-%COMP%] {\n  fill: var(--selectable);\n}\n.last-move-stroke[_ngcontent-%COMP%] {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--last-move);\n}\n.last-move-fill[_ngcontent-%COMP%] {\n  fill: var(--last-move);\n}\n.victory-fill[_ngcontent-%COMP%] {\n  fill: var(--victory);\n}\n.victory-stroke[_ngcontent-%COMP%] {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--victory);\n}\n.defeat-fill[_ngcontent-%COMP%] {\n  fill: var(--defeat);\n}\n.defeat-stroke[_ngcontent-%COMP%] {\n  stroke: var(--defeat);\n}\n.selected-fill[_ngcontent-%COMP%] {\n  fill: var(--selected);\n}\n.selected-stroke[_ngcontent-%COMP%] {\n  stroke: var(--selected);\n}\n.clickable-stroke[_ngcontent-%COMP%] {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover[_ngcontent-%COMP%]:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke[_ngcontent-%COMP%] {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill[_ngcontent-%COMP%] {\n  fill: var(--capturable);\n}\n.capturable-stroke[_ngcontent-%COMP%]:hover {\n  stroke-width: 8;\n}\n.no-fill[_ngcontent-%COMP%] {\n  fill: none;\n}\n.no-stroke[_ngcontent-%COMP%] {\n  stroke: none;\n}\n.small-stroke[_ngcontent-%COMP%] {\n  stroke-width: 2;\n}\n.mid-small-stroke[_ngcontent-%COMP%] {\n  stroke-width: 3;\n}\n.mid-stroke[_ngcontent-%COMP%] {\n  stroke-width: 5;\n}\n.big-stroke[_ngcontent-%COMP%] {\n  stroke-width: 8;\n}\n.huge-stroke[_ngcontent-%COMP%] {\n  stroke-width: 12;\n}\n.semi-transparent[_ngcontent-%COMP%] {\n  opacity: 0.5;\n}\n.territory-opacity[_ngcontent-%COMP%] {\n  fill-opacity: 0.7;\n}\n.round[_ngcontent-%COMP%] {\n  stroke-linecap: round;\n}\n.text-giant[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big[_ngcontent-%COMP%] {\n  font: 50px sans-serif;\n}\n.backgrounded-text[_ngcontent-%COMP%] {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus[_ngcontent-%COMP%] {\n  font: 38px sans-serif;\n}\n.text-medium[_ngcontent-%COMP%] {\n  font: 35px sans-serif;\n}\n.text-small-plus[_ngcontent-%COMP%] {\n  font: 28px sans-serif;\n}\n.text-small[_ngcontent-%COMP%] {\n  font: 25px sans-serif;\n}\n.text-bold[_ngcontent-%COMP%] {\n  font-weight: bold;\n}\n.text-center[_ngcontent-%COMP%] {\n  text-anchor: middle;\n}\n.black-fill[_ngcontent-%COMP%] {\n  fill: black;\n}\n.darker[_ngcontent-%COMP%] {\n  filter: brightness(80%);\n}\n.lighter[_ngcontent-%COMP%] {\n  filter: brightness(110%);\n}\nsvg[_ngcontent-%COMP%] {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator[_ngcontent-%COMP%] {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */"] });
 };
-SiamComponent = __decorate16([
+SiamComponent = __decorate17([
   Debug.log
 ], SiamComponent);
 (() => {
@@ -36173,7 +36569,7 @@ SiamComponent = __decorate16([
 })();
 
 // src/app/games/six/SixRules.ts
-var import_lib195 = __toESM(require_dist());
+var import_lib198 = __toESM(require_dist());
 
 // src/app/games/six/SixFailure.ts
 var SixFailure = class {
@@ -36187,7 +36583,7 @@ var SixFailure = class {
 };
 
 // src/app/games/six/SixState.ts
-var import_lib194 = __toESM(require_dist());
+var import_lib197 = __toESM(require_dist());
 var SixState = class _SixState extends OpenHexagonalGameState {
   /**
     * @param board the representation of the board
@@ -36197,7 +36593,7 @@ var SixState = class _SixState extends OpenHexagonalGameState {
     * @returns the state created from that board
    */
   static ofRepresentation(board, turn, origin = new Vector(0, 0)) {
-    const pieces = new import_lib194.ReversibleMap();
+    const pieces = new import_lib197.ReversibleMap();
     for (let y = 0; y < board.length; y++) {
       for (let x2 = 0; x2 < board[0].length; x2++) {
         if (board[y][x2] !== PlayerOrNone.NONE) {
@@ -36224,12 +36620,12 @@ var SixState = class _SixState extends OpenHexagonalGameState {
   }
   isIllegalLandingZone(landing, start) {
     if (this.pieces.containsKey(landing)) {
-      return import_lib194.MGPValidation.failure(RulesFailure.MUST_LAND_ON_EMPTY_SPACE());
+      return import_lib197.MGPValidation.failure(RulesFailure.MUST_LAND_ON_EMPTY_SPACE());
     }
     if (this.isCoordConnected(landing, start)) {
-      return import_lib194.MGPValidation.SUCCESS;
+      return import_lib197.MGPValidation.SUCCESS;
     } else {
-      return import_lib194.MGPValidation.failure(SixFailure.MUST_DROP_NEXT_TO_OTHER_PIECE());
+      return import_lib197.MGPValidation.failure(SixFailure.MUST_DROP_NEXT_TO_OTHER_PIECE());
     }
   }
   isCoordConnected(coord, except) {
@@ -36255,7 +36651,7 @@ var SixState = class _SixState extends OpenHexagonalGameState {
   applyLegalTranslation(move, kept) {
     const stateAfterMove = this.movePiece(move);
     if (kept.size() > 0) {
-      const newPieces = new import_lib194.ReversibleMap();
+      const newPieces = new import_lib197.ReversibleMap();
       for (const coord of kept) {
         newPieces.set(coord, stateAfterMove.getPieceAt(coord));
       }
@@ -36278,7 +36674,7 @@ var SixState = class _SixState extends OpenHexagonalGameState {
   switchPiece(coord) {
     const newPieces = this.pieces.getCopy();
     const oldPiece = this.getPieceAt(coord);
-    import_lib194.Utils.assert(oldPiece.isPlayer(), "Cannot switch piece if there is no piece!", { coord: coord.toString() });
+    import_lib197.Utils.assert(oldPiece.isPlayer(), "Cannot switch piece if there is no piece!", { coord: coord.toString() });
     newPieces.replace(coord, oldPiece.getOpponent());
     return new _SixState(newPieces, this.turn);
   }
@@ -36288,7 +36684,7 @@ var SixState = class _SixState extends OpenHexagonalGameState {
 };
 
 // src/app/games/six/SixRules.ts
-var __decorate17 = function(decorators, target, key, desc) {
+var __decorate18 = function(decorators, target, key, desc) {
   var c = arguments.length, r2 = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d2;
   if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r2 = Reflect.decorate(decorators, target, key, desc);
   else for (var i2 = decorators.length - 1; i2 >= 0; i2--) if (d2 = decorators[i2]) r2 = (c < 3 ? d2(r2) : c > 3 ? d2(target, key, r2) : d2(target, key)) || r2;
@@ -36300,12 +36696,12 @@ var SixRules = (_a9 = class extends ConfigurableRules {
   currentVictorySource;
   static get() {
     if (SixRules_1.singleton.isAbsent()) {
-      SixRules_1.singleton = import_lib195.MGPOptional.of(new SixRules_1());
+      SixRules_1.singleton = import_lib198.MGPOptional.of(new SixRules_1());
     }
     return SixRules_1.singleton.get();
   }
   getRulesConfigDescription() {
-    return import_lib195.MGPOptional.of(SixRules_1.RULES_CONFIG_DESCRIPTION);
+    return import_lib198.MGPOptional.of(SixRules_1.RULES_CONFIG_DESCRIPTION);
   }
   getInitialState() {
     const board = [[Player.ZERO], [Player.ONE]];
@@ -36347,19 +36743,19 @@ var SixRules = (_a9 = class extends ConfigurableRules {
   }
   isLegalDrop(move, state) {
     if (move.isDrop() === false) {
-      return import_lib195.MGPFallible.failure(SixFailure.CANNOT_MOVE_YET());
+      return import_lib198.MGPFallible.failure(SixFailure.CANNOT_MOVE_YET());
     }
-    return import_lib195.MGPFallible.success(new CoordSet(state.getPieceCoords()));
+    return import_lib198.MGPFallible.success(new CoordSet(state.getPieceCoords()));
   }
   isLegalPhaseTwoMove(move, state) {
     if (move.isDrop()) {
-      return import_lib195.MGPFallible.failure(SixFailure.CAN_NO_LONGER_DROP());
+      return import_lib198.MGPFallible.failure(SixFailure.CAN_NO_LONGER_DROP());
     }
     const pieceOwner = state.getPieceAt(move.start.get());
     if (pieceOwner.isNone()) {
-      return import_lib195.MGPFallible.failure(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_EMPTY());
+      return import_lib198.MGPFallible.failure(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_EMPTY());
     } else if (pieceOwner === state.getCurrentOpponent()) {
-      return import_lib195.MGPFallible.failure(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
+      return import_lib198.MGPFallible.failure(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
     }
     const stateAfterMove = state.movePiece(move);
     const groupsAfterMove = stateAfterMove.getGroups();
@@ -36367,15 +36763,15 @@ var SixRules = (_a9 = class extends ConfigurableRules {
       const biggerGroups = this.getLargestGroups(groupsAfterMove);
       if (biggerGroups.size() === 1) {
         if (move.keep.isPresent()) {
-          return import_lib195.MGPFallible.failure(SixFailure.CANNOT_CHOOSE_TO_KEEP());
+          return import_lib198.MGPFallible.failure(SixFailure.CANNOT_CHOOSE_TO_KEEP());
         } else {
-          return import_lib195.MGPFallible.success(biggerGroups.getAnyElement().get());
+          return import_lib198.MGPFallible.success(biggerGroups.getAnyElement().get());
         }
       } else {
         return this.moveKeepBiggerGroup(move.keep, biggerGroups, stateAfterMove);
       }
     } else {
-      return import_lib195.MGPFallible.success(new CoordSet());
+      return import_lib198.MGPFallible.success(new CoordSet());
     }
   }
   isSplit(groups) {
@@ -36383,12 +36779,12 @@ var SixRules = (_a9 = class extends ConfigurableRules {
   }
   getLargestGroups(groups) {
     let biggerSize = 0;
-    let biggerGroups = new import_lib195.Set();
+    let biggerGroups = new import_lib198.Set();
     for (const group of groups) {
       const groupSize = group.size();
       if (groupSize > biggerSize) {
         biggerSize = groupSize;
-        biggerGroups = new import_lib195.Set([group]);
+        biggerGroups = new import_lib198.Set([group]);
       } else if (groupSize === biggerSize) {
         biggerGroups = biggerGroups.addElement(group);
       }
@@ -36397,18 +36793,18 @@ var SixRules = (_a9 = class extends ConfigurableRules {
   }
   moveKeepBiggerGroup(keep, biggerGroups, state) {
     if (keep.isAbsent()) {
-      return import_lib195.MGPFallible.failure(SixFailure.MUST_CUT());
+      return import_lib198.MGPFallible.failure(SixFailure.MUST_CUT());
     }
     if (state.getPieces().get(keep.get()).isAbsent()) {
-      return import_lib195.MGPFallible.failure(SixFailure.CANNOT_KEEP_EMPTY_COORD());
+      return import_lib198.MGPFallible.failure(SixFailure.CANNOT_KEEP_EMPTY_COORD());
     }
     const keptCoord = keep.get();
     for (const subGroup of biggerGroups) {
       if (subGroup.contains(keptCoord)) {
-        return import_lib195.MGPFallible.success(subGroup);
+        return import_lib198.MGPFallible.success(subGroup);
       }
     }
-    return import_lib195.MGPFallible.failure(SixFailure.MUST_CAPTURE_BIGGEST_GROUPS());
+    return import_lib198.MGPFallible.failure(SixFailure.MUST_CAPTURE_BIGGEST_GROUPS());
   }
   getGameStatus(node, config) {
     const state = node.gameState;
@@ -36584,45 +36980,45 @@ var SixRules = (_a9 = class extends ConfigurableRules {
     }
     return victory;
   }
-}, SixRules_1 = _a9, __publicField(_a9, "singleton", import_lib195.MGPOptional.empty()), __publicField(_a9, "RULES_CONFIG_DESCRIPTION", new RulesConfigDescription({
+}, SixRules_1 = _a9, __publicField(_a9, "singleton", import_lib198.MGPOptional.empty()), __publicField(_a9, "RULES_CONFIG_DESCRIPTION", new RulesConfigDescription({
   name: () => $localize`Six`,
   config: {
     piecesPerPlayer: new NumberConfig(20, () => $localize`Number of pieces to drop per player`, MGPValidators.range(5, 99))
   }
 })), _a9);
-SixRules = SixRules_1 = __decorate17([
+SixRules = SixRules_1 = __decorate18([
   Debug.log
 ], SixRules);
 
 // src/app/games/six/SixTutorial.ts
-var import_lib197 = __toESM(require_dist());
+var import_lib200 = __toESM(require_dist());
 
 // src/app/games/six/SixMove.ts
-var import_lib196 = __toESM(require_dist());
+var import_lib199 = __toESM(require_dist());
 var SixMove = class _SixMove extends Move {
   start;
   landing;
   keep;
-  static encoder = import_lib196.Encoder.tuple([import_lib196.MGPOptional.getEncoder(Coord.encoder), Coord.encoder, import_lib196.MGPOptional.getEncoder(Coord.encoder)], (move) => [move.start, move.landing, move.keep], (fields) => _SixMove.of(fields[0], fields[1], fields[2]));
+  static encoder = import_lib199.Encoder.tuple([import_lib199.MGPOptional.getEncoder(Coord.encoder), Coord.encoder, import_lib199.MGPOptional.getEncoder(Coord.encoder)], (move) => [move.start, move.landing, move.keep], (fields) => _SixMove.of(fields[0], fields[1], fields[2]));
   static of(start, landing, keep) {
     return new _SixMove(start, landing, keep);
   }
   static ofDrop(landing) {
-    return new _SixMove(import_lib196.MGPOptional.empty(), landing, import_lib196.MGPOptional.empty());
+    return new _SixMove(import_lib199.MGPOptional.empty(), landing, import_lib199.MGPOptional.empty());
   }
   static ofTranslation(start, landing) {
-    return new _SixMove(import_lib196.MGPOptional.of(start), landing, import_lib196.MGPOptional.empty());
+    return new _SixMove(import_lib199.MGPOptional.of(start), landing, import_lib199.MGPOptional.empty());
   }
   static ofCut(start, landing, keep) {
-    return new _SixMove(import_lib196.MGPOptional.of(start), landing, import_lib196.MGPOptional.of(keep));
+    return new _SixMove(import_lib199.MGPOptional.of(start), landing, import_lib199.MGPOptional.of(keep));
   }
   constructor(start, landing, keep) {
     super();
     this.start = start;
     this.landing = landing;
     this.keep = keep;
-    import_lib196.Utils.assert(start.equalsValue(landing) === false, "Translation cannot be static!");
-    import_lib196.Utils.assert(start.isAbsent() || start.equals(keep) === false, "Cannot keep starting coord, since it will always be empty after move!");
+    import_lib199.Utils.assert(start.equalsValue(landing) === false, "Translation cannot be static!");
+    import_lib199.Utils.assert(start.isAbsent() || start.equals(keep) === false, "Cannot keep starting coord, since it will always be empty after move!");
   }
   isDrop() {
     return this.start.isAbsent();
@@ -36651,9 +37047,9 @@ var SixMove = class _SixMove extends Move {
 };
 
 // src/app/games/six/SixTutorial.ts
-var _24 = PlayerOrNone.NONE;
-var O20 = Player.ZERO;
-var X20 = Player.ONE;
+var _25 = PlayerOrNone.NONE;
+var O21 = Player.ZERO;
+var X21 = Player.ONE;
 var SixTutorialMessages = class {
   static MOVEMENT_NOT_DISCONNECTING = () => $localize`This move does not disconnect your opponent's pieces. Try again with another piece.`;
   static MOVEMENT_SELF_DISCONNECTING = () => $localize`You lost one of your pieces during this move. There is a way to disconnect an opponent's piece without losing any of yours, try again!`;
@@ -36663,99 +37059,99 @@ var SixTutorial = class extends Tutorial {
     TutorialStep.informational($localize`Six`, $localize`Six is a game without board, where pieces are placed on the side of each other, in a contiguous block. Each player has 21 pieces, with one for each player already on the board. The object of the game is to form one of the three winning shapes with your pieces.`, SixRules.get().getInitialState()),
     TutorialStep.fromMove($localize`Victory (line)`, $localize`On this board, by putting your piece at the right place, you can align six of your pieces and win the game<br/><br/>
         Find the victory. You're playing Dark.`, SixState.ofRepresentation([
-      [O20, X20, X20, X20, X20, O20],
-      [_24, O20, X20, _24, O20, _24],
-      [X20, X20, O20, _24, _24, _24],
-      [_24, _24, O20, _24, _24, _24],
-      [_24, O20, _24, _24, _24, _24],
-      [O20, _24, _24, _24, _24, _24]
+      [O21, X21, X21, X21, X21, O21],
+      [_25, O21, X21, _25, O21, _25],
+      [X21, X21, O21, _25, _25, _25],
+      [_25, _25, O21, _25, _25, _25],
+      [_25, O21, _25, _25, _25, _25],
+      [O21, _25, _25, _25, _25, _25]
     ], 0), [SixMove.ofDrop(new Coord(3, 2))], TutorialStepMessage.CONGRATULATIONS(), TutorialStepMessage.FAILED_TRY_AGAIN()),
     TutorialStep.fromMove($localize`Victory (circle)`, $localize`On this board, by putting your piece at the right place, you can form a circle with six of your pieces and win the game.<br/><br/>
         Find the victory. You're playing Dark.`, SixState.ofRepresentation([
-      [_24, _24, _24, X20, _24, _24],
-      [_24, _24, X20, X20, O20, O20],
-      [_24, X20, _24, O20, X20, _24],
-      [X20, O20, O20, O20, O20, X20]
+      [_25, _25, _25, X21, _25, _25],
+      [_25, _25, X21, X21, O21, O21],
+      [_25, X21, _25, O21, X21, _25],
+      [X21, O21, O21, O21, O21, X21]
     ], 0), [SixMove.ofDrop(new Coord(5, 2))], $localize`Congratulations! Note that if a piece is inside the circle, it does not change anything.`, TutorialStepMessage.FAILED_TRY_AGAIN()),
     TutorialStep.fromMove($localize`Victory (triangle)`, $localize`On this board, by putting your piece at the right place, you can form a triangle with six of your pieces and win the game.<br/><br/>
         Find the victory. You're playing Dark.`, SixState.ofRepresentation([
-      [_24, _24, _24, X20, _24, _24],
-      [_24, O20, X20, O20, O20, O20],
-      [_24, O20, _24, O20, O20, _24],
-      [X20, X20, X20, _24, X20, _24]
+      [_25, _25, _25, X21, _25, _25],
+      [_25, O21, X21, O21, O21, O21],
+      [_25, O21, _25, O21, O21, _25],
+      [X21, X21, X21, _25, X21, _25]
     ], 0), [SixMove.ofDrop(new Coord(3, 3))], TutorialStepMessage.CONGRATULATIONS(), TutorialStepMessage.FAILED_TRY_AGAIN()),
     TutorialStep.fromPredicate($localize`Second phase`, $localize`After 40 turns, your pieces have all been placed and we move on to the second phase of the game.
         You now have to move your pieces, paying attention not to remove a piece that was preventing the opponent's victory.
         From now on, if after move, on or more pieces are disconnected from the largest group of pieces, these will be taken out of the game.<br/><br/>
         You're playing Dark. Make a move that disconnects one of your opponent's pieces.`, SixState.ofRepresentation([
-      [_24, _24, _24, _24, _24, _24, _24, X20, _24],
-      [_24, _24, _24, _24, _24, _24, O20, _24, _24],
-      [_24, _24, _24, _24, O20, O20, O20, _24, _24],
-      [_24, _24, _24, _24, X20, X20, _24, X20, O20],
-      [_24, O20, X20, X20, O20, O20, X20, _24, _24],
-      [O20, O20, O20, O20, X20, X20, X20, O20, _24],
-      [X20, X20, O20, _24, X20, X20, O20, _24, _24],
-      [_24, O20, _24, O20, O20, _24, _24, _24, _24],
-      [X20, X20, X20, X20, _24, _24, _24, _24, _24],
-      [_24, O20, _24, X20, _24, _24, _24, _24, _24]
+      [_25, _25, _25, _25, _25, _25, _25, X21, _25],
+      [_25, _25, _25, _25, _25, _25, O21, _25, _25],
+      [_25, _25, _25, _25, O21, O21, O21, _25, _25],
+      [_25, _25, _25, _25, X21, X21, _25, X21, O21],
+      [_25, O21, X21, X21, O21, O21, X21, _25, _25],
+      [O21, O21, O21, O21, X21, X21, X21, O21, _25],
+      [X21, X21, O21, _25, X21, X21, O21, _25, _25],
+      [_25, O21, _25, O21, O21, _25, _25, _25, _25],
+      [X21, X21, X21, X21, _25, _25, _25, _25, _25],
+      [_25, O21, _25, X21, _25, _25, _25, _25, _25]
     ], 40), SixMove.ofTranslation(new Coord(6, 1), new Coord(5, 1)), (_move, _previousState, resultingState) => {
       const pieces = resultingState.countPiecesOnBoard();
       if (pieces.get(Player.ZERO) === 19) {
         if (pieces.get(Player.ONE) === 18) {
-          return import_lib197.MGPValidation.SUCCESS;
+          return import_lib200.MGPValidation.SUCCESS;
         } else {
-          return import_lib197.MGPValidation.failure(SixTutorialMessages.MOVEMENT_NOT_DISCONNECTING());
+          return import_lib200.MGPValidation.failure(SixTutorialMessages.MOVEMENT_NOT_DISCONNECTING());
         }
       } else {
-        return import_lib197.MGPValidation.failure(SixTutorialMessages.MOVEMENT_SELF_DISCONNECTING());
+        return import_lib200.MGPValidation.failure(SixTutorialMessages.MOVEMENT_SELF_DISCONNECTING());
       }
     }, $localize`Congratulations, your opponent now has one piece less and you're closer to victory!`),
     TutorialStep.fromPredicate($localize`Victory by disconnection`, $localize`During the second phase of the game, on top of normal victories (line, circle, triangle), you can win by disconnection.
         If at any time, at least one player does not have enough pieces to win (less than 6), the game ends.
         The one with the most pieces wins. In case they both have the same number of pieces, it's a draw.<br/><br/>
         Here, you're playing Dark and you can win. Do it!`, SixState.ofRepresentation([
-      [_24, _24, _24, _24, _24, X20],
-      [_24, _24, _24, _24, O20, X20],
-      [_24, _24, _24, X20, O20, O20],
-      [_24, _24, O20, _24, X20, O20],
-      [X20, X20, _24, _24, _24, O20],
-      [O20, X20, _24, _24, _24, _24],
-      [O20, _24, _24, _24, _24, _24]
+      [_25, _25, _25, _25, _25, X21],
+      [_25, _25, _25, _25, O21, X21],
+      [_25, _25, _25, X21, O21, O21],
+      [_25, _25, O21, _25, X21, O21],
+      [X21, X21, _25, _25, _25, O21],
+      [O21, X21, _25, _25, _25, _25],
+      [O21, _25, _25, _25, _25, _25]
     ], 40), SixMove.ofTranslation(new Coord(2, 3), new Coord(3, 3)), (move, _previousState, _resultingState) => {
       if (move.start.equalsValue(new Coord(2, 3))) {
-        return import_lib197.MGPValidation.SUCCESS;
+        return import_lib200.MGPValidation.SUCCESS;
       } else {
-        return import_lib197.MGPValidation.failure(SixTutorialMessages.MOVEMENT_NOT_DISCONNECTING());
+        return import_lib200.MGPValidation.failure(SixTutorialMessages.MOVEMENT_NOT_DISCONNECTING());
       }
     }, TutorialStepMessage.CONGRATULATIONS_YOU_WON()),
     TutorialStep.fromPredicate($localize`Special disconnection`, $localize`During a disconnection, two or more groups could have the same size,
         in which case you will have to click on the group you wish to keep.<br/><br/>
         You're playing Dark, play such a move!`, SixState.ofRepresentation([
-      [_24, _24, _24, _24, _24, X20],
-      [_24, _24, _24, _24, O20, X20],
-      [_24, _24, _24, X20, O20, O20],
-      [O20, _24, O20, _24, _24, X20],
-      [X20, X20, _24, _24, _24, _24],
-      [O20, O20, _24, _24, _24, _24],
-      [O20, _24, _24, _24, _24, _24]
+      [_25, _25, _25, _25, _25, X21],
+      [_25, _25, _25, _25, O21, X21],
+      [_25, _25, _25, X21, O21, O21],
+      [O21, _25, O21, _25, _25, X21],
+      [X21, X21, _25, _25, _25, _25],
+      [O21, O21, _25, _25, _25, _25],
+      [O21, _25, _25, _25, _25, _25]
     ], 40), SixMove.ofCut(new Coord(2, 3), new Coord(2, 5), new Coord(2, 5)), (move, _previousState, resultingState) => {
       if (move.keep.isAbsent()) {
-        return import_lib197.MGPValidation.failure($localize`This move has not cut the board in two equal halves.`);
+        return import_lib200.MGPValidation.failure($localize`This move has not cut the board in two equal halves.`);
       }
       if (resultingState.getPieceAt(move.landing).isNone()) {
-        return import_lib197.MGPValidation.failure($localize`Failed. You did cut the board in two but you kept the half where you're in minority. Therefore, you lost! Try again.`);
+        return import_lib200.MGPValidation.failure($localize`Failed. You did cut the board in two but you kept the half where you're in minority. Therefore, you lost! Try again.`);
       } else {
-        return import_lib197.MGPValidation.SUCCESS;
+        return import_lib200.MGPValidation.SUCCESS;
       }
     }, TutorialStepMessage.CONGRATULATIONS_YOU_WON())
   ];
 };
 
 // src/app/games/six/six.component.ts
-var import_lib200 = __toESM(require_dist());
+var import_lib203 = __toESM(require_dist());
 
 // src/app/games/six/SixHeuristic.ts
-var import_lib198 = __toESM(require_dist());
+var import_lib201 = __toESM(require_dist());
 var SixHeuristic = class extends AlignmentHeuristic {
   VERBOSE = false;
   currentVictorySource;
@@ -36766,8 +37162,8 @@ var SixHeuristic = class extends AlignmentHeuristic {
     const victoryValue = previousPlayer.getVictoryValue();
     let shapeInfo = {
       status: AlignmentStatus.NOTHING,
-      victory: import_lib198.MGPOptional.empty(),
-      preVictory: import_lib198.MGPOptional.empty(),
+      victory: import_lib201.MGPOptional.empty(),
+      preVictory: import_lib201.MGPOptional.empty(),
       sum: 0
     };
     if (move.isPresent()) {
@@ -36848,8 +37244,8 @@ var SixHeuristic = class extends AlignmentHeuristic {
       if (testedPiece !== previousPlayer) {
         return {
           status: AlignmentStatus.PRE_VICTORY,
-          victory: import_lib198.MGPOptional.empty(),
-          preVictory: import_lib198.MGPOptional.empty(),
+          victory: import_lib201.MGPOptional.empty(),
+          preVictory: import_lib201.MGPOptional.empty(),
           sum: 0
         };
       }
@@ -36860,8 +37256,8 @@ var SixHeuristic = class extends AlignmentHeuristic {
     }
     return {
       status: AlignmentStatus.VICTORY,
-      victory: import_lib198.MGPOptional.of(testedCoords),
-      preVictory: import_lib198.MGPOptional.empty(),
+      victory: import_lib201.MGPOptional.of(testedCoords),
+      preVictory: import_lib201.MGPOptional.empty(),
       sum: 0
     };
   }
@@ -36879,8 +37275,8 @@ var SixHeuristic = class extends AlignmentHeuristic {
         if (twoDirectionCovered) {
           return {
             status: AlignmentStatus.PRE_VICTORY,
-            victory: import_lib198.MGPOptional.empty(),
-            preVictory: import_lib198.MGPOptional.empty(),
+            victory: import_lib201.MGPOptional.empty(),
+            preVictory: import_lib201.MGPOptional.empty(),
             sum: 0
           };
         } else {
@@ -36893,8 +37289,8 @@ var SixHeuristic = class extends AlignmentHeuristic {
     }
     return {
       status: AlignmentStatus.VICTORY,
-      victory: import_lib198.MGPOptional.of(victory),
-      preVictory: import_lib198.MGPOptional.empty(),
+      victory: import_lib201.MGPOptional.of(victory),
+      preVictory: import_lib201.MGPOptional.empty(),
       sum: 0
     };
   }
@@ -36908,8 +37304,8 @@ var SixHeuristic = class extends AlignmentHeuristic {
       if (testedPiece !== previousPlayer) {
         return {
           status: AlignmentStatus.PRE_VICTORY,
-          victory: import_lib198.MGPOptional.empty(),
-          preVictory: import_lib198.MGPOptional.empty(),
+          victory: import_lib201.MGPOptional.empty(),
+          preVictory: import_lib201.MGPOptional.empty(),
           sum: 0
         };
       }
@@ -36922,8 +37318,8 @@ var SixHeuristic = class extends AlignmentHeuristic {
     }
     return {
       status: AlignmentStatus.VICTORY,
-      victory: import_lib198.MGPOptional.of(testedCoords),
-      preVictory: import_lib198.MGPOptional.empty(),
+      victory: import_lib201.MGPOptional.of(testedCoords),
+      preVictory: import_lib201.MGPOptional.empty(),
       sum: 0
     };
   }
@@ -36937,8 +37333,8 @@ var SixHeuristic = class extends AlignmentHeuristic {
       if (testedPiece !== previousPlayer) {
         return {
           status: AlignmentStatus.PRE_VICTORY,
-          victory: import_lib198.MGPOptional.empty(),
-          preVictory: import_lib198.MGPOptional.empty(),
+          victory: import_lib201.MGPOptional.empty(),
+          preVictory: import_lib201.MGPOptional.empty(),
           sum: 0
         };
       }
@@ -36951,8 +37347,8 @@ var SixHeuristic = class extends AlignmentHeuristic {
     }
     return {
       status: AlignmentStatus.VICTORY,
-      victory: import_lib198.MGPOptional.of(testedCoords),
-      preVictory: import_lib198.MGPOptional.empty(),
+      victory: import_lib201.MGPOptional.of(testedCoords),
+      preVictory: import_lib201.MGPOptional.empty(),
       sum: 0
     };
   }
@@ -36975,7 +37371,7 @@ var SixHeuristic = class extends AlignmentHeuristic {
     const testedCoords = [lastDrop];
     let testCoord = lastDrop.getNext(initialDirection, 1);
     let subSum = 0;
-    let lastEmpty = import_lib198.MGPOptional.empty();
+    let lastEmpty = import_lib201.MGPOptional.empty();
     while (testedCoords.length < 6) {
       const testedPiece = state.getPieceAt(testCoord);
       if (testedPiece === previousOpponent) {
@@ -36986,7 +37382,7 @@ var SixHeuristic = class extends AlignmentHeuristic {
       const dir = HexaDirection.factory.all[dirIndex];
       if (testedPiece.isNone()) {
         subSum += 0.16;
-        lastEmpty = import_lib198.MGPOptional.of(testCoord);
+        lastEmpty = import_lib201.MGPOptional.of(testCoord);
       } else {
         subSum++;
       }
@@ -37000,8 +37396,8 @@ var SixHeuristic = class extends AlignmentHeuristic {
       if (preVictory.isPresent() && preVictory.equals(lastEmpty) === false) {
         return {
           status: AlignmentStatus.PRE_VICTORY,
-          victory: import_lib198.MGPOptional.empty(),
-          preVictory: import_lib198.MGPOptional.empty(),
+          victory: import_lib201.MGPOptional.empty(),
+          preVictory: import_lib201.MGPOptional.empty(),
           sum: 0
         };
       } else {
@@ -37010,14 +37406,14 @@ var SixHeuristic = class extends AlignmentHeuristic {
     } else if (subSum === 5) {
       return {
         status: AlignmentStatus.VICTORY,
-        victory: import_lib198.MGPOptional.of(testedCoords),
-        preVictory: import_lib198.MGPOptional.empty(),
+        victory: import_lib201.MGPOptional.of(testedCoords),
+        preVictory: import_lib201.MGPOptional.empty(),
         sum: 0
       };
     }
     return {
       status: boardInfo.status,
-      victory: import_lib198.MGPOptional.empty(),
+      victory: import_lib201.MGPOptional.empty(),
       preVictory,
       sum: boardInfo.sum + subSum
     };
@@ -37027,7 +37423,7 @@ var SixHeuristic = class extends AlignmentHeuristic {
     let testedCoord = lastDrop.getPrevious(dir, 5);
     let testedCoords = [];
     let encountered = [];
-    let lastEmpty = import_lib198.MGPOptional.empty();
+    let lastEmpty = import_lib201.MGPOptional.empty();
     for (let i2 = 0; i2 < 6; i2++) {
       const empty = this.updateEncounterAndReturnLastEmpty(state, testedCoord, encountered);
       if (empty.isPresent()) {
@@ -37044,7 +37440,7 @@ var SixHeuristic = class extends AlignmentHeuristic {
       const subSum = encountered.reduce((a3, b5) => a3 + b5);
       if (subSum === 5.16 && status === AlignmentStatus.NOTHING) {
         if (preVictory.isPresent()) {
-          import_lib198.Utils.assert(preVictory.equals(lastEmpty) === false, "Impossible to have point aligned with different line to a same point");
+          import_lib201.Utils.assert(preVictory.equals(lastEmpty) === false, "Impossible to have point aligned with different line to a same point");
           status = AlignmentStatus.PRE_VICTORY;
         } else {
           preVictory = lastEmpty;
@@ -37063,7 +37459,7 @@ var SixHeuristic = class extends AlignmentHeuristic {
     }
     const newBoardInfo = {
       status,
-      victory: import_lib198.MGPOptional.of(testedCoords),
+      victory: import_lib201.MGPOptional.of(testedCoords),
       preVictory,
       sum: finalSubSum
     };
@@ -37074,13 +37470,13 @@ var SixHeuristic = class extends AlignmentHeuristic {
     switch (state.getPieceAt(testedCoord)) {
       case previousOpponent:
         encountered.push(-7);
-        return import_lib198.MGPOptional.empty();
+        return import_lib201.MGPOptional.empty();
       case PlayerOrNone.NONE:
         encountered.push(0.16);
-        return import_lib198.MGPOptional.of(testedCoord);
+        return import_lib201.MGPOptional.of(testedCoord);
       default:
         encountered.push(1);
-        return import_lib198.MGPOptional.empty();
+        return import_lib201.MGPOptional.empty();
     }
   }
   getBoardInfoForTriangleCorner(index, lastDrop, state, boardInfo) {
@@ -37089,7 +37485,7 @@ var SixHeuristic = class extends AlignmentHeuristic {
     const testedCoords = [lastDrop];
     let testCoord = lastDrop.getNext(edgeDirection, 1);
     let subSum = 0;
-    let lastEmpty = import_lib198.MGPOptional.empty();
+    let lastEmpty = import_lib201.MGPOptional.empty();
     while (testedCoords.length < 6) {
       const testedPiece = state.getPieceAt(testCoord);
       if (testedPiece === previousOpponent) {
@@ -37097,7 +37493,7 @@ var SixHeuristic = class extends AlignmentHeuristic {
       }
       if (testedPiece.isNone()) {
         subSum += 0.16;
-        lastEmpty = import_lib198.MGPOptional.of(testCoord);
+        lastEmpty = import_lib201.MGPOptional.of(testCoord);
       } else {
         subSum++;
       }
@@ -37116,7 +37512,7 @@ var SixHeuristic = class extends AlignmentHeuristic {
     const testedCoords = [lastDrop];
     let testCoord = lastDrop.getNext(edgeDirection, 1);
     let subSum = 0;
-    let lastEmpty = import_lib198.MGPOptional.empty();
+    let lastEmpty = import_lib201.MGPOptional.empty();
     while (testedCoords.length < 6) {
       const testedPiece = state.getPieceAt(testCoord);
       if (testedPiece === previousOpponent) {
@@ -37124,7 +37520,7 @@ var SixHeuristic = class extends AlignmentHeuristic {
       }
       if (testedPiece.isNone()) {
         subSum += 0.16;
-        lastEmpty = import_lib198.MGPOptional.of(testCoord);
+        lastEmpty = import_lib201.MGPOptional.of(testCoord);
       } else {
         subSum++;
       }
@@ -37140,8 +37536,8 @@ var SixHeuristic = class extends AlignmentHeuristic {
 };
 
 // src/app/games/six/SixMoveGenerator.ts
-var import_lib199 = __toESM(require_dist());
-var __decorate18 = function(decorators, target, key, desc) {
+var import_lib202 = __toESM(require_dist());
+var __decorate19 = function(decorators, target, key, desc) {
   var c = arguments.length, r2 = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d2;
   if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r2 = Reflect.decorate(decorators, target, key, desc);
   else for (var i2 = decorators.length - 1; i2 >= 0; i2--) if (d2 = decorators[i2]) r2 = (c < 3 ? d2(r2) : c > 3 ? d2(target, key, r2) : d2(target, key)) || r2;
@@ -37173,7 +37569,7 @@ var SixMoveGenerator = class SixMoveGenerator2 extends MoveGenerator {
     for (const start of starts) {
       for (const landing of landings) {
         const move = SixMove.ofTranslation(start, landing);
-        if (state.isCoordConnected(landing, import_lib199.MGPOptional.of(start))) {
+        if (state.isCoordConnected(landing, import_lib202.MGPOptional.of(start))) {
           const stateAfterMove = state.movePiece(move);
           const groupsAfterMove = stateAfterMove.getGroups();
           if (this.rules.isSplit(groupsAfterMove)) {
@@ -37204,7 +37600,7 @@ var SixMoveGenerator = class SixMoveGenerator2 extends MoveGenerator {
     return drops;
   }
 };
-SixMoveGenerator = __decorate18([
+SixMoveGenerator = __decorate19([
   Debug.log
 ], SixMoveGenerator);
 
@@ -37256,7 +37652,7 @@ var SixMinimax = class extends Minimax {
 };
 
 // src/app/games/six/six.component.ts
-var _forTrack027 = ($index, $item) => $item.toString();
+var _forTrack028 = ($index, $item) => $item.toString();
 var _forTrack112 = ($index, $item) => $item.coord.toString();
 function SixComponent_For_2_Template(rf, ctx) {
   if (rf & 1) {
@@ -37415,7 +37811,7 @@ function SixComponent_For_14_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
     \u0275\u0275elementStart(0, "g", 8);
-    \u0275\u0275repeaterCreate(1, SixComponent_For_14_For_2_Template, 1, 5, ":svg:polygon", 14, _forTrack027);
+    \u0275\u0275repeaterCreate(1, SixComponent_For_14_For_2_Template, 1, 5, ":svg:polygon", 14, _forTrack028);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -37430,10 +37826,10 @@ var SixComponent = class _SixComponent extends HexagonalGameComponent {
   cuttableGroups = [];
   victoryCoords;
   neighbors;
-  leftCoord = import_lib200.MGPOptional.empty();
-  lastDrop = import_lib200.MGPOptional.empty();
-  selectedPiece = import_lib200.MGPOptional.empty();
-  chosenLanding = import_lib200.MGPOptional.empty();
+  leftCoord = import_lib203.MGPOptional.empty();
+  lastDrop = import_lib203.MGPOptional.empty();
+  selectedPiece = import_lib203.MGPOptional.empty();
+  chosenLanding = import_lib203.MGPOptional.empty();
   nextClickShouldSelectGroup = false;
   constructor() {
     super();
@@ -37455,8 +37851,8 @@ var SixComponent = class _SixComponent extends HexagonalGameComponent {
   }
   cancelMoveAttempt() {
     return __async(this, null, function* () {
-      this.selectedPiece = import_lib200.MGPOptional.empty();
-      this.chosenLanding = import_lib200.MGPOptional.empty();
+      this.selectedPiece = import_lib203.MGPOptional.empty();
+      this.chosenLanding = import_lib203.MGPOptional.empty();
       this.cuttableGroups = [];
       this.nextClickShouldSelectGroup = false;
       this.resetPiecesAndNeighbors();
@@ -37471,9 +37867,9 @@ var SixComponent = class _SixComponent extends HexagonalGameComponent {
   getScores() {
     const state = this.getState();
     if (this.rules.isInDropPhase(state, this.getConfig())) {
-      return import_lib200.MGPOptional.of(state.countPiecesToDrop(this.getConfig().get()));
+      return import_lib203.MGPOptional.of(state.countPiecesToDrop(this.getConfig().get()));
     } else {
-      return import_lib200.MGPOptional.of(state.countPiecesOnBoard());
+      return import_lib203.MGPOptional.of(state.countPiecesOnBoard());
     }
   }
   resetPiecesAndNeighbors() {
@@ -37482,8 +37878,8 @@ var SixComponent = class _SixComponent extends HexagonalGameComponent {
     this.neighbors = this.getEmptyNeighbors();
   }
   hideLastMove() {
-    this.leftCoord = import_lib200.MGPOptional.empty();
-    this.lastDrop = import_lib200.MGPOptional.empty();
+    this.leftCoord = import_lib203.MGPOptional.empty();
+    this.lastDrop = import_lib203.MGPOptional.empty();
     this.victoryCoords = [];
     this.disconnectedCoords = [];
   }
@@ -37494,11 +37890,11 @@ var SixComponent = class _SixComponent extends HexagonalGameComponent {
   }
   showLastMove(move) {
     return __async(this, null, function* () {
-      this.lastDrop = import_lib200.MGPOptional.of(move.landing);
+      this.lastDrop = import_lib203.MGPOptional.of(move.landing);
       if (move.isDrop() === false) {
-        this.leftCoord = import_lib200.MGPOptional.of(move.start.get());
+        this.leftCoord = import_lib203.MGPOptional.of(move.start.get());
       } else {
-        this.leftCoord = import_lib200.MGPOptional.empty();
+        this.leftCoord = import_lib203.MGPOptional.empty();
       }
       const state = this.getState();
       if (this.rules.getGameStatus(this.node, this.getConfig()).isEndGame) {
@@ -37558,8 +37954,8 @@ var SixComponent = class _SixComponent extends HexagonalGameComponent {
         } else if (this.selectedPiece.equalsValue(piece)) {
           return this.cancelMove();
         } else {
-          this.selectedPiece = import_lib200.MGPOptional.of(piece);
-          return import_lib200.MGPValidation.SUCCESS;
+          this.selectedPiece = import_lib203.MGPOptional.of(piece);
+          return import_lib203.MGPValidation.SUCCESS;
         }
       } else {
         const cuttingMove = SixMove.ofCut(this.selectedPiece.get(), this.chosenLanding.get(), piece);
@@ -37587,11 +37983,11 @@ var SixComponent = class _SixComponent extends HexagonalGameComponent {
           const movement = SixMove.ofTranslation(this.selectedPiece.get(), neighbor);
           const legality = this.rules.isLegalPhaseTwoMove(movement, this.state);
           if (this.neededCutting(legality)) {
-            this.chosenLanding = import_lib200.MGPOptional.of(neighbor);
+            this.chosenLanding = import_lib203.MGPOptional.of(neighbor);
             this.moveVirtuallyPiece();
             this.showCuttable();
             this.nextClickShouldSelectGroup = true;
-            return import_lib200.MGPValidation.SUCCESS;
+            return import_lib203.MGPValidation.SUCCESS;
           } else {
             return this.chooseMove(movement);
           }
@@ -37631,14 +38027,14 @@ var SixComponent = class _SixComponent extends HexagonalGameComponent {
     if (rf & 1) {
       \u0275\u0275namespaceSVG();
       \u0275\u0275elementStart(0, "svg", 0);
-      \u0275\u0275repeaterCreate(1, SixComponent_For_2_Template, 1, 6, ":svg:polygon", 1, _forTrack027);
-      \u0275\u0275repeaterCreate(3, SixComponent_For_4_Template, 1, 5, ":svg:polygon", 2, _forTrack027);
+      \u0275\u0275repeaterCreate(1, SixComponent_For_2_Template, 1, 6, ":svg:polygon", 1, _forTrack028);
+      \u0275\u0275repeaterCreate(3, SixComponent_For_4_Template, 1, 5, ":svg:polygon", 2, _forTrack028);
       \u0275\u0275conditionalCreate(5, SixComponent_Conditional_5_Template, 1, 6, ":svg:polygon", 1);
       \u0275\u0275conditionalCreate(6, SixComponent_Conditional_6_Template, 1, 5, ":svg:polygon", 3);
       \u0275\u0275repeaterCreate(7, SixComponent_For_8_Template, 1, 6, ":svg:polygon", 4, _forTrack112);
       \u0275\u0275conditionalCreate(9, SixComponent_Conditional_9_Template, 1, 5, ":svg:polygon", 5);
       \u0275\u0275conditionalCreate(10, SixComponent_Conditional_10_Template, 1, 6, ":svg:polygon", 6);
-      \u0275\u0275repeaterCreate(11, SixComponent_For_12_Template, 1, 5, ":svg:polygon", 7, _forTrack027);
+      \u0275\u0275repeaterCreate(11, SixComponent_For_12_Template, 1, 5, ":svg:polygon", 7, _forTrack028);
       \u0275\u0275repeaterCreate(13, SixComponent_For_14_Template, 3, 0, ":svg:g", 8, \u0275\u0275repeaterTrackByIndex);
       \u0275\u0275elementEnd();
     }
@@ -37676,7 +38072,7 @@ var SixComponent = class _SixComponent extends HexagonalGameComponent {
 })();
 
 // src/app/games/squarz/SquarzRules.ts
-var import_lib202 = __toESM(require_dist());
+var import_lib205 = __toESM(require_dist());
 
 // src/app/games/squarz/SquarzFailure.ts
 var SquarzFailure = class {
@@ -37684,15 +38080,15 @@ var SquarzFailure = class {
 };
 
 // src/app/games/squarz/SquarzMove.ts
-var import_lib201 = __toESM(require_dist());
+var import_lib204 = __toESM(require_dist());
 var SquarzMove = class _SquarzMove extends MoveCoordToCoord {
   static encoder = MoveWithTwoCoords.getFallibleEncoder(_SquarzMove.from);
   static from(start, end) {
     const distance = start.getDistanceToward(end);
     if (distance === 0) {
-      return import_lib201.MGPFallible.failure(RulesFailure.MOVE_CANNOT_BE_STATIC());
+      return import_lib204.MGPFallible.failure(RulesFailure.MOVE_CANNOT_BE_STATIC());
     } else {
-      return import_lib201.MGPFallible.success(new _SquarzMove(start, end));
+      return import_lib204.MGPFallible.success(new _SquarzMove(start, end));
     }
   }
   isDuplication() {
@@ -37750,10 +38146,10 @@ var SquarzState = class _SquarzState extends PlayerOrNoneGameStateWithTable {
 
 // src/app/games/squarz/SquarzRules.ts
 var SquarzRules = class _SquarzRules extends ConfigurableRules {
-  static singleton = import_lib202.MGPOptional.empty();
+  static singleton = import_lib205.MGPOptional.empty();
   static get() {
     if (_SquarzRules.singleton.isAbsent()) {
-      _SquarzRules.singleton = import_lib202.MGPOptional.of(new _SquarzRules());
+      _SquarzRules.singleton = import_lib205.MGPOptional.of(new _SquarzRules());
     }
     return _SquarzRules.singleton.get();
   }
@@ -37766,7 +38162,7 @@ var SquarzRules = class _SquarzRules extends ConfigurableRules {
     }
   });
   getRulesConfigDescription() {
-    return import_lib202.MGPOptional.of(_SquarzRules.RULES_CONFIG_DESCRIPTION);
+    return import_lib205.MGPOptional.of(_SquarzRules.RULES_CONFIG_DESCRIPTION);
   }
   getInitialState(optionalConfig) {
     const config = optionalConfig.get();
@@ -37783,21 +38179,21 @@ var SquarzRules = class _SquarzRules extends ConfigurableRules {
     const distance = move.getDistance();
     const jumpSize = config.get().jumpSize;
     if (jumpSize < distance) {
-      return import_lib202.MGPValidation.failure(SquarzFailure.MAX_DISTANCE_IS_N(jumpSize));
+      return import_lib205.MGPValidation.failure(SquarzFailure.MAX_DISTANCE_IS_N(jumpSize));
     }
     const start = state.getPieceAt(move.getStart());
     const opponent = state.getCurrentOpponent();
     if (start === opponent) {
-      return import_lib202.MGPValidation.failure(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
+      return import_lib205.MGPValidation.failure(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
     }
     if (start.isNone()) {
-      return import_lib202.MGPValidation.failure(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_EMPTY());
+      return import_lib205.MGPValidation.failure(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_EMPTY());
     }
     const landing = state.getPieceAt(move.getEnd());
     if (landing.isNone()) {
-      return import_lib202.MGPValidation.SUCCESS;
+      return import_lib205.MGPValidation.SUCCESS;
     } else {
-      return import_lib202.MGPValidation.failure(RulesFailure.MUST_LAND_ON_EMPTY_SPACE());
+      return import_lib205.MGPValidation.failure(RulesFailure.MUST_LAND_ON_EMPTY_SPACE());
     }
   }
   applyLegalMove(move, state) {
@@ -37862,84 +38258,84 @@ var SquarzRules = class _SquarzRules extends ConfigurableRules {
 };
 
 // src/app/games/squarz/SquarzTutorial.ts
-var import_lib203 = __toESM(require_dist());
-var defaultConfig20 = SquarzRules.get().getDefaultRulesConfig();
-var initialState2 = SquarzRules.get().getInitialState(defaultConfig20);
-var _25 = PlayerOrNone.NONE;
-var O21 = PlayerOrNone.ZERO;
-var X21 = PlayerOrNone.ONE;
+var import_lib206 = __toESM(require_dist());
+var defaultConfig21 = SquarzRules.get().getDefaultRulesConfig();
+var initialState2 = SquarzRules.get().getInitialState(defaultConfig21);
+var _26 = PlayerOrNone.NONE;
+var O23 = PlayerOrNone.ZERO;
+var X23 = PlayerOrNone.ONE;
 var SquarzTutorial = class extends Tutorial {
   tutorial = [
     TutorialStep.informational($localize`Squarz`, $localize`Squarz is board control game. Here is the initial state. The goal is to have the most pieces at the end of the game.`, initialState2),
     TutorialStep.fromPredicate($localize`Duplication`, $localize`One of the two kinds of move you can do is the duplication. When you do one, you create a new piece. To do this, select one of your pieces, and click on one of its neighboring space.<br/><br/>You're playing Dark, make a duplication.`, initialState2, SquarzMove.from(new Coord(0, 0), new Coord(1, 1)).get(), (move, _state) => {
       if (move.isDuplication()) {
-        return import_lib203.MGPValidation.SUCCESS;
+        return import_lib206.MGPValidation.SUCCESS;
       } else {
-        return import_lib203.MGPValidation.failure($localize`This was a jump, try to do a duplication.`);
+        return import_lib206.MGPValidation.failure($localize`This was a jump, try to do a duplication.`);
       }
     }, TutorialStepMessage.CONGRATULATIONS()),
     TutorialStep.fromPredicate($localize`Jumps`, $localize`The second type of move you can do is the jump. When you do one, your piece leaves its original space and jumps two spaces further. To do this, select one of your pieces, and click on its landing space two spaces further.<br/><br/>You're playing Light, make a jump.`, new SquarzState([
-      [O21, _25, _25, _25, _25, _25, _25, X21],
-      [_25, O21, _25, _25, _25, _25, _25, _25],
-      [_25, _25, _25, _25, _25, _25, _25, _25],
-      [_25, _25, _25, _25, _25, _25, _25, _25],
-      [_25, _25, _25, _25, _25, _25, _25, _25],
-      [_25, _25, _25, _25, _25, _25, _25, _25],
-      [_25, _25, _25, _25, _25, _25, _25, _25],
-      [X21, _25, _25, _25, _25, _25, _25, O21]
+      [O23, _26, _26, _26, _26, _26, _26, X23],
+      [_26, O23, _26, _26, _26, _26, _26, _26],
+      [_26, _26, _26, _26, _26, _26, _26, _26],
+      [_26, _26, _26, _26, _26, _26, _26, _26],
+      [_26, _26, _26, _26, _26, _26, _26, _26],
+      [_26, _26, _26, _26, _26, _26, _26, _26],
+      [_26, _26, _26, _26, _26, _26, _26, _26],
+      [X23, _26, _26, _26, _26, _26, _26, O23]
     ], 1), SquarzMove.from(new Coord(7, 0), new Coord(5, 2)).get(), (move, _state) => {
       if (move.isDuplication()) {
-        return import_lib203.MGPValidation.failure($localize`This was a duplication, try a jump now.`);
+        return import_lib206.MGPValidation.failure($localize`This was a duplication, try a jump now.`);
       } else {
-        return import_lib203.MGPValidation.SUCCESS;
+        return import_lib206.MGPValidation.SUCCESS;
       }
     }, TutorialStepMessage.CONGRATULATIONS()).withPreviousMove(SquarzMove.from(new Coord(0, 0), new Coord(1, 1)).get(), initialState2),
     TutorialStep.fromPredicate($localize`Captures`, $localize`When one of your pieces lands on a square, its adjacent opponent pieces become yours. This is called a capture.<br/><br/>You're playing Light, do a capture!`, new SquarzState([
-      [O21, _25, _25, _25, _25, _25, _25, X21],
-      [_25, _25, _25, _25, _25, _25, _25, _25],
-      [_25, _25, _25, _25, _25, _25, _25, _25],
-      [_25, _25, _25, O21, _25, _25, _25, _25],
-      [_25, _25, _25, _25, _25, _25, _25, _25],
-      [_25, _25, X21, _25, _25, _25, _25, _25],
-      [_25, _25, _25, _25, _25, _25, _25, _25],
-      [_25, _25, _25, _25, _25, _25, _25, O21]
+      [O23, _26, _26, _26, _26, _26, _26, X23],
+      [_26, _26, _26, _26, _26, _26, _26, _26],
+      [_26, _26, _26, _26, _26, _26, _26, _26],
+      [_26, _26, _26, O23, _26, _26, _26, _26],
+      [_26, _26, _26, _26, _26, _26, _26, _26],
+      [_26, _26, X23, _26, _26, _26, _26, _26],
+      [_26, _26, _26, _26, _26, _26, _26, _26],
+      [_26, _26, _26, _26, _26, _26, _26, O23]
     ], 3), SquarzMove.from(new Coord(2, 5), new Coord(3, 4)).get(), (_move, _state, resultingState) => {
       if (resultingState.getPieceAtXY(3, 3) === Player.ONE) {
-        return import_lib203.MGPValidation.SUCCESS;
+        return import_lib206.MGPValidation.SUCCESS;
       } else {
-        return import_lib203.MGPValidation.failure(TutorialStepMessage.YOU_DID_NOT_CAPTURE_ANY_PIECE());
+        return import_lib206.MGPValidation.failure(TutorialStepMessage.YOU_DID_NOT_CAPTURE_ANY_PIECE());
       }
     }, TutorialStepMessage.CONGRATULATIONS()).withPreviousMove(SquarzMove.from(new Coord(1, 1), new Coord(3, 3)).get(), initialState2),
     TutorialStep.fromPredicate($localize`End of the game`, $localize`When one player can no longer play, the game ends, and the player with the most pieces wins. Here, you can do a final move and win.<br/><br/>You're playing Light, do it.`, new SquarzState([
-      [X21, X21, X21, X21, X21, X21, X21, X21],
-      [O21, O21, O21, O21, O21, O21, O21, O21],
-      [O21, O21, O21, O21, O21, O21, O21, O21],
-      [O21, O21, O21, O21, O21, O21, O21, O21],
-      [X21, X21, X21, _25, X21, X21, X21, X21],
-      [X21, X21, X21, X21, X21, X21, X21, X21],
-      [X21, X21, X21, X21, X21, X21, X21, X21],
-      [O21, O21, O21, O21, O21, O21, O21, O21]
+      [X23, X23, X23, X23, X23, X23, X23, X23],
+      [O23, O23, O23, O23, O23, O23, O23, O23],
+      [O23, O23, O23, O23, O23, O23, O23, O23],
+      [O23, O23, O23, O23, O23, O23, O23, O23],
+      [X23, X23, X23, _26, X23, X23, X23, X23],
+      [X23, X23, X23, X23, X23, X23, X23, X23],
+      [X23, X23, X23, X23, X23, X23, X23, X23],
+      [O23, O23, O23, O23, O23, O23, O23, O23]
     ], 3), SquarzMove.from(new Coord(2, 5), new Coord(3, 4)).get(), (move, _state, _resultingState) => {
       if (move.isDuplication()) {
-        return import_lib203.MGPValidation.SUCCESS;
+        return import_lib206.MGPValidation.SUCCESS;
       } else {
-        return import_lib203.MGPValidation.failure($localize`Bad choice, by making this move you allowed the opponent to win.<br/><br/>Try again!`);
+        return import_lib206.MGPValidation.failure($localize`Bad choice, by making this move you allowed the opponent to win.<br/><br/>Try again!`);
       }
     }, TutorialStepMessage.CONGRATULATIONS_YOU_WON()).withPreviousMove(SquarzMove.from(new Coord(3, 1), new Coord(3, 2)).get(), new SquarzState([
-      [X21, X21, X21, X21, X21, X21, X21, X21],
-      [O21, O21, O21, O21, O21, O21, O21, O21],
-      [O21, O21, O21, _25, O21, O21, O21, O21],
-      [O21, O21, O21, O21, O21, O21, O21, O21],
-      [X21, X21, X21, _25, X21, X21, X21, X21],
-      [X21, X21, X21, X21, X21, X21, X21, X21],
-      [X21, X21, X21, X21, X21, X21, X21, X21],
-      [O21, O21, O21, O21, O21, O21, O21, O21]
+      [X23, X23, X23, X23, X23, X23, X23, X23],
+      [O23, O23, O23, O23, O23, O23, O23, O23],
+      [O23, O23, O23, _26, O23, O23, O23, O23],
+      [O23, O23, O23, O23, O23, O23, O23, O23],
+      [X23, X23, X23, _26, X23, X23, X23, X23],
+      [X23, X23, X23, X23, X23, X23, X23, X23],
+      [X23, X23, X23, X23, X23, X23, X23, X23],
+      [O23, O23, O23, O23, O23, O23, O23, O23]
     ], 2))
   ];
 };
 
 // src/app/games/squarz/squarz.component.ts
-var import_lib205 = __toESM(require_dist());
+var import_lib208 = __toESM(require_dist());
 
 // src/app/games/squarz/SquarzHeuristic.ts
 var SquarzHeuristic = class extends PlayerMetricHeuristic {
@@ -37949,7 +38345,7 @@ var SquarzHeuristic = class extends PlayerMetricHeuristic {
 };
 
 // src/app/games/squarz/SquarzMoveGenerator.ts
-var import_lib204 = __toESM(require_dist());
+var import_lib207 = __toESM(require_dist());
 var SquarzMoveGenerator = class extends MoveGenerator {
   rules;
   constructor(rules) {
@@ -37959,7 +38355,7 @@ var SquarzMoveGenerator = class extends MoveGenerator {
   getListMoves(node, config) {
     const player = node.gameState.getCurrentPlayer();
     const jumps = [];
-    const duplicationMap = new import_lib204.MGPMap();
+    const duplicationMap = new import_lib207.MGPMap();
     for (const coordAndContent of node.gameState.getCoordsAndContents()) {
       if (coordAndContent.content.equals(player)) {
         const coordMoves = this.rules.getPossiblesMoves(node.gameState, coordAndContent.coord, config);
@@ -37991,7 +38387,7 @@ var SquarzMinimax = class extends Minimax {
 };
 
 // src/app/games/squarz/squarz.component.ts
-var _forTrack028 = ($index, $item) => $item.toString();
+var _forTrack029 = ($index, $item) => $item.toString();
 function SquarzComponent_For_2_For_2_Conditional_2_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
@@ -38069,7 +38465,7 @@ var SquarzComponent = class _SquarzComponent extends RectangularGameComponent {
   movedPieces = [];
   captured = [];
   moves = [];
-  selected = import_lib205.MGPOptional.empty();
+  selected = import_lib208.MGPOptional.empty();
   constructor() {
     super();
     this.setRulesAndNode("Squarz");
@@ -38078,13 +38474,13 @@ var SquarzComponent = class _SquarzComponent extends RectangularGameComponent {
       new MCTS($localize`MCTS`, new SquarzMoveGenerator(this.rules), this.rules)
     ];
     this.encoder = SquarzMove.encoder;
-    this.scores = import_lib205.MGPOptional.of(PlayerNumberMap.of(0, 0));
+    this.scores = import_lib208.MGPOptional.of(PlayerNumberMap.of(0, 0));
   }
   updateBoard(_triggerAnimation) {
     return __async(this, null, function* () {
       const state = this.getState();
       this.board = state.getCopiedBoard();
-      this.scores = import_lib205.MGPOptional.of(this.getState().getScores());
+      this.scores = import_lib208.MGPOptional.of(this.getState().getScores());
     });
   }
   showLastMove(move) {
@@ -38113,7 +38509,7 @@ var SquarzComponent = class _SquarzComponent extends RectangularGameComponent {
     this.captured = [];
   }
   cancelMoveAttempt() {
-    this.selected = import_lib205.MGPOptional.empty();
+    this.selected = import_lib208.MGPOptional.empty();
     this.moves = [];
   }
   onClick(x2, y) {
@@ -38125,7 +38521,7 @@ var SquarzComponent = class _SquarzComponent extends RectangularGameComponent {
       const clicked = new Coord(x2, y);
       if (this.selected.equalsValue(clicked)) {
         yield this.cancelMove();
-        return import_lib205.MGPValidation.SUCCESS;
+        return import_lib208.MGPValidation.SUCCESS;
       }
       if (this.selected.isAbsent() || this.pieceBelongsToCurrentPlayer(clicked)) {
         return this.choosePiece(clicked);
@@ -38147,9 +38543,9 @@ var SquarzComponent = class _SquarzComponent extends RectangularGameComponent {
       if (this.pieceBelongsToCurrentPlayer(coord) === false) {
         return this.cancelMove(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
       }
-      this.selected = import_lib205.MGPOptional.of(coord);
+      this.selected = import_lib208.MGPOptional.of(coord);
       this.showIndicators();
-      return import_lib205.MGPValidation.SUCCESS;
+      return import_lib208.MGPValidation.SUCCESS;
     });
   }
   showIndicators() {
@@ -38193,7 +38589,7 @@ var SquarzComponent = class _SquarzComponent extends RectangularGameComponent {
       \u0275\u0275namespaceSVG();
       \u0275\u0275elementStart(0, "svg", 0);
       \u0275\u0275repeaterCreate(1, SquarzComponent_For_2_Template, 3, 0, ":svg:g", null, \u0275\u0275repeaterTrackByIndex);
-      \u0275\u0275repeaterCreate(3, SquarzComponent_For_4_Template, 1, 6, ":svg:rect", null, _forTrack028);
+      \u0275\u0275repeaterCreate(3, SquarzComponent_For_4_Template, 1, 6, ":svg:rect", null, _forTrack029);
       \u0275\u0275elementEnd();
     }
     if (rf & 2) {
@@ -38254,7 +38650,7 @@ var SquarzComponent = class _SquarzComponent extends RectangularGameComponent {
 })();
 
 // src/app/games/tafl/brandhub/BrandhubRules.ts
-var import_lib209 = __toESM(require_dist());
+var import_lib212 = __toESM(require_dist());
 
 // src/app/games/tafl/TaflPawn.ts
 var TaflPawn = class _TaflPawn {
@@ -38281,7 +38677,7 @@ var TaflPawn = class _TaflPawn {
 };
 
 // src/app/games/tafl/TaflRules.ts
-var import_lib206 = __toESM(require_dist());
+var import_lib209 = __toESM(require_dist());
 
 // src/app/jscaip/RelativePlayer.ts
 var RelativePlayer = class _RelativePlayer {
@@ -38360,29 +38756,29 @@ var TaflRules = class extends ConfigurableRules {
     const player = state.getCurrentPlayer();
     const validity = this.getMoveValidity(player, move, state, config);
     if (validity.isFailure()) {
-      return import_lib206.MGPValidation.failure(validity.getReason());
+      return import_lib209.MGPValidation.failure(validity.getReason());
     }
-    return import_lib206.MGPValidation.SUCCESS;
+    return import_lib209.MGPValidation.SUCCESS;
   }
   getMoveValidity(player, move, state, config) {
     const owner = state.getRelativeOwner(player, move.getStart());
     if (owner === RelativePlayer.NONE) {
-      return import_lib206.MGPValidation.failure(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_EMPTY());
+      return import_lib209.MGPValidation.failure(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_EMPTY());
     }
     if (owner === RelativePlayer.OPPONENT) {
-      return import_lib206.MGPValidation.failure(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
+      return import_lib209.MGPValidation.failure(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
     }
     const landingCoordOwner = state.getRelativeOwner(player, move.getEnd());
     if (landingCoordOwner !== RelativePlayer.NONE) {
-      return import_lib206.MGPValidation.failure(TaflFailure.LANDING_ON_OCCUPIED_SQUARE());
+      return import_lib209.MGPValidation.failure(TaflFailure.LANDING_ON_OCCUPIED_SQUARE());
     }
     if (this.isThrone(state, move.getEnd())) {
       if (state.getPieceAt(move.getStart()).isKing()) {
         if (state.isCentralThrone(move.getEnd()) && config.canReturnToCastle === false) {
-          return import_lib206.MGPValidation.failure(TaflFailure.THRONE_IS_LEFT_FOR_GOOD());
+          return import_lib209.MGPValidation.failure(TaflFailure.THRONE_IS_LEFT_FOR_GOOD());
         }
       } else {
-        return import_lib206.MGPValidation.failure(TaflFailure.SOLDIERS_CANNOT_SIT_ON_THRONE());
+        return import_lib209.MGPValidation.failure(TaflFailure.SOLDIERS_CANNOT_SIT_ON_THRONE());
       }
     }
     const dir = move.getStart().getDirectionToward(move.getEnd()).get();
@@ -38390,11 +38786,11 @@ var TaflRules = class extends ConfigurableRules {
     let inspectedCoord = move.getStart().getNext(dir);
     for (let i2 = 1; i2 < dist; i2++) {
       if (state.getPieceAt(inspectedCoord) !== TaflPawn.UNOCCUPIED) {
-        return import_lib206.MGPValidation.failure(RulesFailure.SOMETHING_IN_THE_WAY());
+        return import_lib209.MGPValidation.failure(RulesFailure.SOMETHING_IN_THE_WAY());
       }
       inspectedCoord = inspectedCoord.getNext(dir);
     }
-    return import_lib206.MGPValidation.SUCCESS;
+    return import_lib209.MGPValidation.SUCCESS;
   }
   isThrone(state, coord) {
     if (state.isExternalThrone(coord)) {
@@ -38406,11 +38802,11 @@ var TaflRules = class extends ConfigurableRules {
   tryCapture(player, landingPawn, d2, state, config) {
     const threatened = landingPawn.getNext(d2);
     if (state.isNotOnBoard(threatened)) {
-      return import_lib206.MGPOptional.empty();
+      return import_lib209.MGPOptional.empty();
     }
     const threatenedPawnOwner = state.getRelativeOwner(player, threatened);
     if (threatenedPawnOwner !== RelativePlayer.OPPONENT) {
-      return import_lib206.MGPOptional.empty();
+      return import_lib209.MGPOptional.empty();
     }
     if (state.getPieceAt(threatened).isKing()) {
       return this.captureKing(player, landingPawn, d2, state, config);
@@ -38429,7 +38825,7 @@ var TaflRules = class extends ConfigurableRules {
     if (back === RelativePlayer.PLAYER) {
       return this.captureKingWithAtLeastASandwich(state, kingCoord, left, leftCoord, right, rightCoord, config);
     }
-    return import_lib206.MGPOptional.empty();
+    return import_lib209.MGPOptional.empty();
   }
   getSurroundings(c, d2, player, state) {
     const backCoord = c.getNext(d2);
@@ -38455,24 +38851,24 @@ var TaflRules = class extends ConfigurableRules {
     let nbInvaders = left === RelativePlayer.PLAYER ? 1 : 0;
     nbInvaders += right === RelativePlayer.PLAYER ? 1 : 0;
     if (nbInvaders === 2 && config.edgesAreKingsEnnemy) {
-      return import_lib206.MGPOptional.of(kingCoord);
+      return import_lib209.MGPOptional.of(kingCoord);
     }
-    return import_lib206.MGPOptional.empty();
+    return import_lib209.MGPOptional.empty();
   }
   captureKingAgainstThrone(state, backCoord, kingCoord, left, right, config) {
     if (state.isExternalThrone(backCoord) === true) {
       if (config.kingFarFromHomeCanBeSandwiched) {
-        return import_lib206.MGPOptional.of(kingCoord);
+        return import_lib209.MGPOptional.of(kingCoord);
       }
     } else {
       const kingHasOpponentOnItsLeft = left === RelativePlayer.PLAYER;
       const kingHasOpponentOnItsRight = right === RelativePlayer.PLAYER;
       const kingHasThreeOpponentAround = kingHasOpponentOnItsLeft || kingHasOpponentOnItsRight;
       if (config.centralThroneCanSurroundKing && kingHasThreeOpponentAround) {
-        return import_lib206.MGPOptional.of(kingCoord);
+        return import_lib209.MGPOptional.of(kingCoord);
       }
     }
-    return import_lib206.MGPOptional.empty();
+    return import_lib209.MGPOptional.empty();
   }
   capturePawn(player, coord, direction, state) {
     const threatenedPieceCoord = coord.getNext(direction);
@@ -38484,21 +38880,21 @@ var TaflRules = class extends ConfigurableRules {
     if (back === RelativePlayer.NONE) {
       if (this.isThrone(state, backCoord) === false) {
         Debug.display("TaflRules", "capturePawn", "cannot capture a piece without an ally; " + threatenedPieceCoord + "threatened by " + player + `'s piece in ` + coord + " coming from this direction (" + direction.x + ", " + direction.y + ")cannot capture a piece without an ally behind");
-        return import_lib206.MGPOptional.empty();
+        return import_lib209.MGPOptional.empty();
       }
       Debug.display("TaflRules", "capturePawn", "piece captured by 1 opponent and 1 throne; " + threatenedPieceCoord + "threatened by " + player + `'s piece in ` + coord + " coming from this direction (" + direction.x + ", " + direction.y + ")");
-      return import_lib206.MGPOptional.of(threatenedPieceCoord);
+      return import_lib209.MGPOptional.of(threatenedPieceCoord);
     }
     if (back === RelativePlayer.PLAYER) {
       Debug.display("TaflRules", "capturePawn", "piece captured by 2 opponents; " + threatenedPieceCoord + "threatened by " + player + `'s piece in ` + coord + " coming from this direction (" + direction.x + ", " + direction.y + ")");
-      return import_lib206.MGPOptional.of(threatenedPieceCoord);
+      return import_lib209.MGPOptional.of(threatenedPieceCoord);
     }
     Debug.display("TaflRules", "capturePawn", "no captures; " + threatenedPieceCoord + "threatened by " + player + `'s piece in ` + coord + " coming from this direction (" + direction.x + ", " + direction.y + ")");
-    return import_lib206.MGPOptional.empty();
+    return import_lib209.MGPOptional.empty();
   }
   captureKingWithAtLeastASandwich(state, kingCoord, left, leftCoord, right, rightCoord, config) {
     if (this.kingTouchCentralThrone(state, kingCoord) === false && config.kingFarFromHomeCanBeSandwiched) {
-      return import_lib206.MGPOptional.of(kingCoord);
+      return import_lib209.MGPOptional.of(kingCoord);
     }
     const throneCanSurrond = config.centralThroneCanSurroundKing;
     const leftIsThrone = this.isThrone(state, leftCoord);
@@ -38506,9 +38902,9 @@ var TaflRules = class extends ConfigurableRules {
     const rightIsThrone = this.isThrone(state, rightCoord);
     const rightCanSurround = right === RelativePlayer.PLAYER || rightIsThrone && throneCanSurrond;
     if (leftCanSurround && rightCanSurround) {
-      return import_lib206.MGPOptional.of(kingCoord);
+      return import_lib209.MGPOptional.of(kingCoord);
     }
-    return import_lib206.MGPOptional.empty();
+    return import_lib209.MGPOptional.empty();
   }
   kingTouchCentralThrone(state, kingCoord) {
     const centralThrone = state.getCentralThrone();
@@ -38543,34 +38939,34 @@ var TaflRules = class extends ConfigurableRules {
     const optionalKingCoord = this.getKingCoord(state);
     if (optionalKingCoord.isAbsent()) {
       Debug.display("TaflRules", "getWinner", "The king is dead, victory to invader");
-      return import_lib206.MGPOptional.of(this.getInvader(config));
+      return import_lib209.MGPOptional.of(this.getInvader(config));
     }
     const kingCoord = optionalKingCoord.get();
     if (state.isExternalThrone(kingCoord) === true) {
       Debug.display("TaflRules", "getWinner", "The king escape, victory to defender");
-      return import_lib206.MGPOptional.of(this.getDefender(config));
+      return import_lib209.MGPOptional.of(this.getDefender(config));
     }
     if (this.isPlayerImmobilized(Player.ZERO, state, config)) {
       Debug.display("TaflRules", "getWinner", "Zero has no move, victory to one");
-      return import_lib206.MGPOptional.of(Player.ONE);
+      return import_lib209.MGPOptional.of(Player.ONE);
     }
     if (this.isPlayerImmobilized(Player.ONE, state, config)) {
       Debug.display("TaflRules", "getWinner", "One has no move, victory to zero");
-      return import_lib206.MGPOptional.of(Player.ZERO);
+      return import_lib209.MGPOptional.of(Player.ZERO);
     }
     Debug.display("TaflRules", "getWinner", "no victory");
-    return import_lib206.MGPOptional.empty();
+    return import_lib209.MGPOptional.empty();
   }
   getKingCoord(state) {
     const size = state.getSize();
     for (let y = 0; y < size; y++) {
       for (let x2 = 0; x2 < size; x2++) {
         if (state.getPieceAtXY(x2, y).isKing()) {
-          return import_lib206.MGPOptional.of(new Coord(x2, y));
+          return import_lib209.MGPOptional.of(new Coord(x2, y));
         }
       }
     }
-    return import_lib206.MGPOptional.empty();
+    return import_lib209.MGPOptional.empty();
   }
   getInvader(config) {
     return config.invaderStarts ? Player.ZERO : Player.ONE;
@@ -38633,23 +39029,23 @@ var TaflRules = class extends ConfigurableRules {
 };
 
 // src/app/games/tafl/brandhub/BrandhubMove.ts
-var import_lib208 = __toESM(require_dist());
+var import_lib211 = __toESM(require_dist());
 
 // src/app/games/tafl/TaflMove.ts
-var import_lib207 = __toESM(require_dist());
+var import_lib210 = __toESM(require_dist());
 var TaflMove = class extends MoveCoordToCoord {
   static isValidDirection(start, end) {
     const dir = start.getDirectionToward(end);
     if (dir.isFailure() || dir.get().isDiagonal()) {
-      return import_lib207.MGPValidation.failure(TaflFailure.MOVE_MUST_BE_ORTHOGONAL());
+      return import_lib210.MGPValidation.failure(TaflFailure.MOVE_MUST_BE_ORTHOGONAL());
     }
-    return import_lib207.MGPValidation.SUCCESS;
+    return import_lib210.MGPValidation.SUCCESS;
   }
   constructor(start, end) {
     super(start, end);
     const maximalDistance = this.getMaximalDistance();
-    import_lib207.Utils.assert(start.isInRange(maximalDistance, maximalDistance), "Starting coord of TaflMove must be on the board, not at " + start.toString() + ".");
-    import_lib207.Utils.assert(end.isInRange(maximalDistance, maximalDistance), "Landing coord of TaflMove must be on the board, not at " + end.toString() + ".");
+    import_lib210.Utils.assert(start.isInRange(maximalDistance, maximalDistance), "Starting coord of TaflMove must be on the board, not at " + start.toString() + ".");
+    import_lib210.Utils.assert(end.isInRange(maximalDistance, maximalDistance), "Landing coord of TaflMove must be on the board, not at " + end.toString() + ".");
   }
   toString() {
     return "TaflMove(" + this.getStart() + "->" + this.getEnd() + ")";
@@ -38664,7 +39060,7 @@ var BrandhubMove = class _BrandhubMove extends TaflMove {
     if (validity.isFailure()) {
       return validity.toOtherFallible();
     } else {
-      return import_lib208.MGPFallible.success(new _BrandhubMove(start, end));
+      return import_lib211.MGPFallible.success(new _BrandhubMove(start, end));
     }
   }
   getMaximalDistance() {
@@ -38674,7 +39070,7 @@ var BrandhubMove = class _BrandhubMove extends TaflMove {
 
 // src/app/games/tafl/brandhub/BrandhubRules.ts
 var BrandhubRules = class _BrandhubRules extends TaflRules {
-  static singleton = import_lib209.MGPOptional.empty();
+  static singleton = import_lib212.MGPOptional.empty();
   static RULES_CONFIG_DESCRIPTION = new RulesConfigDescription({
     name: () => $localize`Brandhub`,
     config: {
@@ -38687,7 +39083,7 @@ var BrandhubRules = class _BrandhubRules extends TaflRules {
   });
   static get() {
     if (_BrandhubRules.singleton.isAbsent()) {
-      _BrandhubRules.singleton = import_lib209.MGPOptional.of(new _BrandhubRules());
+      _BrandhubRules.singleton = import_lib212.MGPOptional.of(new _BrandhubRules());
     }
     return _BrandhubRules.singleton.get();
   }
@@ -38695,7 +39091,7 @@ var BrandhubRules = class _BrandhubRules extends TaflRules {
     super(BrandhubMove.from);
   }
   getInitialState(config) {
-    const _31 = TaflPawn.UNOCCUPIED;
+    const _32 = TaflPawn.UNOCCUPIED;
     let I = TaflPawn.PLAYER_ZERO_PAWN;
     let D2 = TaflPawn.PLAYER_ONE_PAWN;
     let K = TaflPawn.PLAYER_ONE_KING;
@@ -38705,92 +39101,92 @@ var BrandhubRules = class _BrandhubRules extends TaflRules {
       K = TaflPawn.PLAYER_ZERO_KING;
     }
     const board = [
-      [_31, _31, _31, I, _31, _31, _31],
-      [_31, _31, _31, I, _31, _31, _31],
-      [_31, _31, _31, D2, _31, _31, _31],
+      [_32, _32, _32, I, _32, _32, _32],
+      [_32, _32, _32, I, _32, _32, _32],
+      [_32, _32, _32, D2, _32, _32, _32],
       [I, I, D2, K, D2, I, I],
-      [_31, _31, _31, D2, _31, _31, _31],
-      [_31, _31, _31, I, _31, _31, _31],
-      [_31, _31, _31, I, _31, _31, _31]
+      [_32, _32, _32, D2, _32, _32, _32],
+      [_32, _32, _32, I, _32, _32, _32],
+      [_32, _32, _32, I, _32, _32, _32]
     ];
     return new TaflState(board, 0);
   }
   getRulesConfigDescription() {
-    return import_lib209.MGPOptional.of(_BrandhubRules.RULES_CONFIG_DESCRIPTION);
+    return import_lib212.MGPOptional.of(_BrandhubRules.RULES_CONFIG_DESCRIPTION);
   }
 };
 
 // src/app/games/tafl/brandhub/BrandhubTutorial.ts
-var _26 = TaflPawn.UNOCCUPIED;
-var O23 = TaflPawn.PLAYER_ZERO_PAWN;
-var X23 = TaflPawn.PLAYER_ONE_PAWN;
+var _27 = TaflPawn.UNOCCUPIED;
+var O24 = TaflPawn.PLAYER_ZERO_PAWN;
+var X24 = TaflPawn.PLAYER_ONE_PAWN;
 var A5 = TaflPawn.PLAYER_ONE_KING;
-var defaultConfig21 = BrandhubRules.get().getDefaultRulesConfig();
+var defaultConfig22 = BrandhubRules.get().getDefaultRulesConfig();
 var BrandhubTutorial = class extends Tutorial {
   tutorial = [
-    TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`Brandhub is the Irish version of the Tafl, Tafl being a family of viking strategy game. The object of the game is different for each player. The attacker plays first. Their pieces (dark) are close to the edges. Their goal is to capture the king, which is in the center of the board. The defender plays second. Their pieces (light) are in the middle. Their goal is to move the king on one of the 4 thrones in the corners. Note that the square in which the king starts, in the center of the board, is also a throne.`, BrandhubRules.get().getInitialState(defaultConfig21)),
-    TutorialStep.anyMove($localize`Moving`, $localize`All pieces move the same way. Similarly to a rook in chess, a piece can move: <ol><li>By as many squares as you want.</li><li>Without going over another piece or stopping on another piece.</li><li>Horizontally or vertically.</li><li>Only the king can land on a corner throne.</li><li>Once the king left his central throne, no piece can land on it, but all can pass over it.</li></ol>To move a piece, click on it and then on its landing square.<br/><br/>You're playing Dark, do the first move.`, BrandhubRules.get().getInitialState(defaultConfig21), BrandhubMove.from(new Coord(3, 1), new Coord(1, 1)).get(), TutorialStepMessage.CONGRATULATIONS()),
+    TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`Brandhub is the Irish version of the Tafl, Tafl being a family of viking strategy game. The object of the game is different for each player. The attacker plays first. Their pieces (dark) are close to the edges. Their goal is to capture the king, which is in the center of the board. The defender plays second. Their pieces (light) are in the middle. Their goal is to move the king on one of the 4 thrones in the corners. Note that the square in which the king starts, in the center of the board, is also a throne.`, BrandhubRules.get().getInitialState(defaultConfig22)),
+    TutorialStep.anyMove($localize`Moving`, $localize`All pieces move the same way. Similarly to a rook in chess, a piece can move: <ol><li>By as many squares as you want.</li><li>Without going over another piece or stopping on another piece.</li><li>Horizontally or vertically.</li><li>Only the king can land on a corner throne.</li><li>Once the king left his central throne, no piece can land on it, but all can pass over it.</li></ol>To move a piece, click on it and then on its landing square.<br/><br/>You're playing Dark, do the first move.`, BrandhubRules.get().getInitialState(defaultConfig22), BrandhubMove.from(new Coord(3, 1), new Coord(1, 1)).get(), TutorialStepMessage.CONGRATULATIONS()),
     TutorialStep.fromMove($localize`Capturing a soldier` + " (1/2)", $localize`All pieces, attackers and defenders, except the king, are soldiers. To capture them, they have to be sandwiched between two of your pieces. By getting too close, an attacker's soldier is in danger.<br/><br/>You're playing Light. Capture the soldier.`, new TaflState([
-      [_26, _26, _26, O23, _26, _26, _26],
-      [_26, _26, _26, O23, _26, _26, _26],
-      [O23, _26, _26, X23, _26, _26, _26],
-      [_26, _26, X23, A5, X23, O23, O23],
-      [_26, _26, O23, _26, _26, _26, _26],
-      [_26, _26, _26, X23, _26, O23, _26],
-      [_26, _26, _26, O23, _26, _26, _26]
+      [_27, _27, _27, O24, _27, _27, _27],
+      [_27, _27, _27, O24, _27, _27, _27],
+      [O24, _27, _27, X24, _27, _27, _27],
+      [_27, _27, X24, A5, X24, O24, O24],
+      [_27, _27, O24, _27, _27, _27, _27],
+      [_27, _27, _27, X24, _27, O24, _27],
+      [_27, _27, _27, O24, _27, _27, _27]
     ], 1), [
       BrandhubMove.from(new Coord(3, 5), new Coord(2, 5)).get()
     ], $localize`Congratulations, that will teach him a lesson!`, $localize`Failed, you missed an opportunity to capture a piece of the opponent.`),
     TutorialStep.fromMove($localize`Capturing a soldier` + " (2/2)", $localize`A second way to capture a soldier is to sandwich it against an empty throne. The king has moved and endangered one of its soldiers.<br/><br/>You're playing Dark. Capture the soldier.`, new TaflState([
-      [_26, _26, _26, O23, _26, _26, _26],
-      [_26, _26, O23, _26, _26, _26, _26],
-      [_26, _26, _26, X23, _26, _26, _26],
-      [O23, X23, _26, _26, X23, O23, O23],
-      [_26, X23, _26, _26, _26, _26, _26],
-      [_26, O23, _26, A5, _26, O23, _26],
-      [_26, _26, _26, O23, _26, _26, _26]
+      [_27, _27, _27, O24, _27, _27, _27],
+      [_27, _27, O24, _27, _27, _27, _27],
+      [_27, _27, _27, X24, _27, _27, _27],
+      [O24, X24, _27, _27, X24, O24, O24],
+      [_27, X24, _27, _27, _27, _27, _27],
+      [_27, O24, _27, A5, _27, O24, _27],
+      [_27, _27, _27, O24, _27, _27, _27]
     ], 12), [
       BrandhubMove.from(new Coord(2, 1), new Coord(3, 1)).get(),
       BrandhubMove.from(new Coord(3, 0), new Coord(3, 1)).get()
     ], $localize`Congratulations, one less defender. But keep an eye on the king, it is the most important.`, $localize`Failed, you did not do the expected move.`),
     TutorialStep.fromMove($localize`Capturing the king on his throne`, $localize`To capture the king when he sits on his throne, the four squares neighbor to the king (horizontally and vertically) must be occupied by your soldiers.<br/><br/>You're playing Dark. Capture the king.`, new TaflState([
-      [_26, _26, _26, _26, _26, _26, _26],
-      [_26, _26, _26, X23, _26, _26, _26],
-      [_26, _26, _26, O23, _26, _26, _26],
-      [_26, O23, _26, A5, O23, _26, _26],
-      [_26, _26, _26, O23, _26, _26, _26],
-      [_26, X23, _26, _26, _26, _26, _26],
-      [_26, _26, _26, _26, _26, _26, _26]
+      [_27, _27, _27, _27, _27, _27, _27],
+      [_27, _27, _27, X24, _27, _27, _27],
+      [_27, _27, _27, O24, _27, _27, _27],
+      [_27, O24, _27, A5, O24, _27, _27],
+      [_27, _27, _27, O24, _27, _27, _27],
+      [_27, X24, _27, _27, _27, _27, _27],
+      [_27, _27, _27, _27, _27, _27, _27]
     ], 72), [BrandhubMove.from(new Coord(1, 3), new Coord(2, 3)).get()], TutorialStepMessage.CONGRATULATIONS_YOU_WON(), $localize`Failed, you let the king run away.`),
     TutorialStep.fromMove($localize`Capturing the king next to his throne`, $localize`Another way to capture the king is to use three soldier plus the central throne to surround the king on four sides.<br/><br/>You're playing Dark. Capture the king.`, new TaflState([
-      [_26, _26, O23, _26, _26, _26, _26],
-      [_26, _26, _26, O23, _26, _26, _26],
-      [_26, _26, _26, A5, O23, _26, _26],
-      [_26, O23, X23, _26, X23, _26, _26],
-      [_26, _26, _26, O23, _26, _26, _26],
-      [_26, _26, _26, _26, _26, _26, _26],
-      [_26, _26, _26, _26, _26, _26, _26]
+      [_27, _27, O24, _27, _27, _27, _27],
+      [_27, _27, _27, O24, _27, _27, _27],
+      [_27, _27, _27, A5, O24, _27, _27],
+      [_27, O24, X24, _27, X24, _27, _27],
+      [_27, _27, _27, O24, _27, _27, _27],
+      [_27, _27, _27, _27, _27, _27, _27],
+      [_27, _27, _27, _27, _27, _27, _27]
     ], 72), [BrandhubMove.from(new Coord(2, 0), new Coord(2, 2)).get()], $localize`The king is dead, long live the king. Congratulations, you won.`, TutorialStepMessage.FAILED_TRY_AGAIN()),
     TutorialStep.fromMove($localize`Capturing the king far from his throne`, $localize`When the king is not on his central throne nor next to it, he can be captured like a soldier.<br/><br/>You're playing Dark. Capture the king.`, new TaflState([
-      [_26, _26, _26, _26, _26, _26, _26],
-      [_26, _26, _26, _26, _26, _26, _26],
-      [_26, O23, _26, O23, _26, _26, _26],
-      [O23, _26, _26, _26, X23, _26, _26],
-      [_26, _26, _26, X23, _26, _26, _26],
-      [_26, _26, _26, _26, _26, _26, _26],
-      [_26, A5, _26, O23, _26, _26, _26]
+      [_27, _27, _27, _27, _27, _27, _27],
+      [_27, _27, _27, _27, _27, _27, _27],
+      [_27, O24, _27, O24, _27, _27, _27],
+      [O24, _27, _27, _27, X24, _27, _27],
+      [_27, _27, _27, X24, _27, _27, _27],
+      [_27, _27, _27, _27, _27, _27, _27],
+      [_27, A5, _27, O24, _27, _27, _27]
     ], 72), [BrandhubMove.from(new Coord(3, 6), new Coord(2, 6)).get()], $localize`The king is dead, long live the king. Congratulations, you won.`, TutorialStepMessage.FAILED_TRY_AGAIN())
   ];
 };
 
 // src/app/games/tafl/tafl.component.ts
-var import_lib213 = __toESM(require_dist());
+var import_lib216 = __toESM(require_dist());
 
 // src/app/games/tafl/TaflEscapeThenPieceThenControlHeuristic.ts
-var import_lib211 = __toESM(require_dist());
+var import_lib214 = __toESM(require_dist());
 
 // src/app/games/tafl/TaflPieceAndInfluenceHeuristic.ts
-var import_lib210 = __toESM(require_dist());
+var import_lib213 = __toESM(require_dist());
 
 // src/app/games/tafl/TaflPieceHeuristic.ts
 var TaflPieceHeuristic = class extends PlayerMetricHeuristic {
@@ -38870,19 +39266,19 @@ var TaflPieceAndInfluenceHeuristic = class extends TaflPieceHeuristic {
         }
       }
     }
-    const map = new import_lib210.MGPMap([
+    const map = new import_lib213.MGPMap([
       { key: Player.ZERO, value: new CoordSet(zeroPieces) },
       { key: Player.ONE, value: new CoordSet(onePieces) }
     ]);
     return map;
   }
   getThreatMap(node, pieces) {
-    const threatMap = new import_lib210.MGPMap();
+    const threatMap = new import_lib213.MGPMap();
     for (const player of Player.PLAYERS) {
       for (const piece of pieces.get(player).get()) {
         const threats = this.getThreats(piece, node.gameState);
         if (this.isThreatReal(piece, node.gameState, threats)) {
-          threatMap.set(piece, new import_lib210.Set(threats));
+          threatMap.set(piece, new import_lib213.Set(threats));
         }
       }
     }
@@ -38890,7 +39286,7 @@ var TaflPieceAndInfluenceHeuristic = class extends TaflPieceHeuristic {
   }
   getThreats(coord, state) {
     const owner = state.getAbsoluteOwner(coord);
-    import_lib210.Utils.assert(owner.isPlayer(), "TaflPieceAndInfluenceMinimax.getThreats should be called with an occupied coordinate");
+    import_lib213.Utils.assert(owner.isPlayer(), "TaflPieceAndInfluenceMinimax.getThreats should be called with an occupied coordinate");
     const threatenerPlayer = owner.getOpponent();
     const threats = [];
     for (const dir of Orthogonal.ORTHOGONALS) {
@@ -38946,7 +39342,7 @@ var TaflPieceAndInfluenceHeuristic = class extends TaflPieceHeuristic {
     }
   }
   filterThreatMap(threatMap, state) {
-    const filteredThreatMap = new import_lib210.MGPMap();
+    const filteredThreatMap = new import_lib213.MGPMap();
     const threateneds = threatMap.getKeyList();
     const threatenedPlayerPieces = threateneds.filter((coord) => {
       return state.getAbsoluteOwner(coord) === state.getCurrentPlayer();
@@ -38971,7 +39367,7 @@ var TaflPieceAndInfluenceHeuristic = class extends TaflPieceHeuristic {
         }
       }
       if (newThreatSet.length > 0) {
-        filteredThreatMap.set(threatenedPiece, new import_lib210.Set(newThreatSet));
+        filteredThreatMap.set(threatenedPiece, new import_lib213.Set(newThreatSet));
       }
     }
     for (const threatenedOpponentPiece of threatenedOpponentPieces) {
@@ -39061,10 +39457,10 @@ var TaflEscapeThenPieceThenControlHeuristic = class extends TaflPieceAndControlH
   _getStepForEscape(state, step, previousGen, handledCoords) {
     const nextGen = this.getNextGen(state, previousGen, handledCoords);
     if (nextGen.length === 0) {
-      return import_lib211.MGPOptional.empty();
+      return import_lib214.MGPOptional.empty();
     }
     if (nextGen.some((coord) => state.isExternalThrone(coord))) {
-      return import_lib211.MGPOptional.of(step);
+      return import_lib214.MGPOptional.of(step);
     } else {
       step++;
       handledCoords.push(...nextGen);
@@ -39089,8 +39485,8 @@ var TaflEscapeThenPieceThenControlHeuristic = class extends TaflPieceAndControlH
 };
 
 // src/app/games/tafl/TaflMoveGenerator.ts
-var import_lib212 = __toESM(require_dist());
-var __decorate19 = function(decorators, target, key, desc) {
+var import_lib215 = __toESM(require_dist());
+var __decorate20 = function(decorators, target, key, desc) {
   var c = arguments.length, r2 = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d2;
   if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r2 = Reflect.decorate(decorators, target, key, desc);
   else for (var i2 = decorators.length - 1; i2 >= 0; i2--) if (d2 = decorators[i2]) r2 = (c < 3 ? d2(r2) : c > 3 ? d2(target, key, r2) : d2(target, key)) || r2;
@@ -39112,11 +39508,11 @@ var TaflMoveGenerator = class TaflMoveGenerator2 extends MoveGenerator {
     const king = this.rules.getKingCoord(state).get();
     const invader = this.rules.getInvader(config);
     if (state.getCurrentPlayer() === invader) {
-      import_lib212.ArrayUtils.sortByDescending(listMoves, (move) => {
+      import_lib215.ArrayUtils.sortByDescending(listMoves, (move) => {
         return -move.getEnd().getOrthogonalDistance(king);
       });
     } else {
-      import_lib212.ArrayUtils.sortByDescending(listMoves, (move) => {
+      import_lib215.ArrayUtils.sortByDescending(listMoves, (move) => {
         if (move.getStart().equals(king)) {
           if (state.isExternalThrone(move.getEnd()) === true) {
             return 2;
@@ -39131,7 +39527,7 @@ var TaflMoveGenerator = class TaflMoveGenerator2 extends MoveGenerator {
     return listMoves;
   }
 };
-TaflMoveGenerator = __decorate19([
+TaflMoveGenerator = __decorate20([
   Debug.log
 ], TaflMoveGenerator);
 
@@ -39170,7 +39566,7 @@ var TaflComponent = class extends RectangularGameComponent {
   EMPTY = TaflPawn.UNOCCUPIED;
   capturedCoords = [];
   passedByCoords = [];
-  chosen = import_lib213.MGPOptional.empty();
+  chosen = import_lib216.MGPOptional.empty();
   constructor(generateMove) {
     super();
     this.generateMove = generateMove;
@@ -39186,7 +39582,7 @@ var TaflComponent = class extends RectangularGameComponent {
     const state = this.getState();
     const scoreZero = this.rules.getPlayerListPawns(Player.ZERO, state).length;
     const scoreOne = this.rules.getPlayerListPawns(Player.ONE, state).length;
-    this.scores = import_lib213.MGPOptional.of(PlayerNumberMap.of(scoreZero, scoreOne));
+    this.scores = import_lib216.MGPOptional.of(PlayerNumberMap.of(scoreZero, scoreOne));
   }
   getScoreName() {
     return ScoreName.REMAINING_PIECES;
@@ -39269,9 +39665,9 @@ var TaflComponent = class extends RectangularGameComponent {
       if (this.pieceBelongsToCurrentPlayer(coord) === false) {
         return this.cancelMove(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
       }
-      this.chosen = import_lib213.MGPOptional.of(coord);
+      this.chosen = import_lib216.MGPOptional.of(coord);
       this.updateViewInfo();
-      return import_lib213.MGPValidation.SUCCESS;
+      return import_lib216.MGPValidation.SUCCESS;
     });
   }
   pieceBelongsToCurrentPlayer(coord) {
@@ -39280,7 +39676,7 @@ var TaflComponent = class extends RectangularGameComponent {
     return state.getRelativeOwner(player, coord) === RelativePlayer.PLAYER;
   }
   cancelMoveAttempt() {
-    this.chosen = import_lib213.MGPOptional.empty();
+    this.chosen = import_lib216.MGPOptional.empty();
     this.updateViewInfo();
   }
   isThrone(x2, y) {
@@ -39354,7 +39750,7 @@ var TaflComponent = class extends RectangularGameComponent {
 };
 
 // src/app/games/tafl/brandhub/brandhub.component.ts
-var _forTrack029 = ($index, $item) => $item.toString();
+var _forTrack030 = ($index, $item) => $item.toString();
 function BrandhubComponent_For_2_For_2_Conditional_2_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
@@ -39553,7 +39949,7 @@ var BrandhubComponent = class _BrandhubComponent extends TaflComponent {
       \u0275\u0275namespaceSVG();
       \u0275\u0275elementStart(0, "svg", 0);
       \u0275\u0275repeaterCreate(1, BrandhubComponent_For_2_Template, 3, 0, ":svg:g", null, \u0275\u0275repeaterTrackByIndex);
-      \u0275\u0275repeaterCreate(3, BrandhubComponent_For_4_Template, 2, 7, ":svg:g", null, _forTrack029);
+      \u0275\u0275repeaterCreate(3, BrandhubComponent_For_4_Template, 2, 7, ":svg:g", null, _forTrack030);
       \u0275\u0275elementEnd();
     }
     if (rf & 2) {
@@ -39576,10 +39972,10 @@ var BrandhubComponent = class _BrandhubComponent extends TaflComponent {
 })();
 
 // src/app/games/tafl/hnefatafl/HnefataflRules.ts
-var import_lib215 = __toESM(require_dist());
+var import_lib218 = __toESM(require_dist());
 
 // src/app/games/tafl/hnefatafl/HnefataflMove.ts
-var import_lib214 = __toESM(require_dist());
+var import_lib217 = __toESM(require_dist());
 var HnefataflMove = class _HnefataflMove extends TaflMove {
   static encoder = MoveWithTwoCoords.getFallibleEncoder(_HnefataflMove.from);
   static from(start, end) {
@@ -39587,7 +39983,7 @@ var HnefataflMove = class _HnefataflMove extends TaflMove {
     if (validity.isFailure()) {
       return validity.toOtherFallible();
     } else {
-      return import_lib214.MGPFallible.success(new _HnefataflMove(start, end));
+      return import_lib217.MGPFallible.success(new _HnefataflMove(start, end));
     }
   }
   getMaximalDistance() {
@@ -39597,7 +39993,7 @@ var HnefataflMove = class _HnefataflMove extends TaflMove {
 
 // src/app/games/tafl/hnefatafl/HnefataflRules.ts
 var HnefataflRules = class _HnefataflRules extends TaflRules {
-  static singleton = import_lib215.MGPOptional.empty();
+  static singleton = import_lib218.MGPOptional.empty();
   static RULES_CONFIG_DESCRIPTION = new RulesConfigDescription({
     name: () => $localize`Hnefatafl`,
     config: {
@@ -39610,7 +40006,7 @@ var HnefataflRules = class _HnefataflRules extends TaflRules {
   });
   static get() {
     if (_HnefataflRules.singleton.isAbsent()) {
-      _HnefataflRules.singleton = import_lib215.MGPOptional.of(new _HnefataflRules());
+      _HnefataflRules.singleton = import_lib218.MGPOptional.of(new _HnefataflRules());
     }
     return _HnefataflRules.singleton.get();
   }
@@ -39618,7 +40014,7 @@ var HnefataflRules = class _HnefataflRules extends TaflRules {
     super(HnefataflMove.from);
   }
   getInitialState(config) {
-    const _31 = TaflPawn.UNOCCUPIED;
+    const _32 = TaflPawn.UNOCCUPIED;
     let I = TaflPawn.PLAYER_ZERO_PAWN;
     let D2 = TaflPawn.PLAYER_ONE_PAWN;
     let K = TaflPawn.PLAYER_ONE_KING;
@@ -39628,95 +40024,95 @@ var HnefataflRules = class _HnefataflRules extends TaflRules {
       K = TaflPawn.PLAYER_ZERO_KING;
     }
     const board = [
-      [_31, _31, _31, I, I, I, I, I, _31, _31, _31],
-      [_31, _31, _31, _31, _31, I, _31, _31, _31, _31, _31],
-      [_31, _31, _31, _31, _31, _31, _31, _31, _31, _31, _31],
-      [I, _31, _31, _31, _31, D2, _31, _31, _31, _31, I],
-      [I, _31, _31, _31, D2, D2, D2, _31, _31, _31, I],
-      [I, I, _31, D2, D2, K, D2, D2, _31, I, I],
-      [I, _31, _31, _31, D2, D2, D2, _31, _31, _31, I],
-      [I, _31, _31, _31, _31, D2, _31, _31, _31, _31, I],
-      [_31, _31, _31, _31, _31, _31, _31, _31, _31, _31, _31],
-      [_31, _31, _31, _31, _31, I, _31, _31, _31, _31, _31],
-      [_31, _31, _31, I, I, I, I, I, _31, _31, _31]
+      [_32, _32, _32, I, I, I, I, I, _32, _32, _32],
+      [_32, _32, _32, _32, _32, I, _32, _32, _32, _32, _32],
+      [_32, _32, _32, _32, _32, _32, _32, _32, _32, _32, _32],
+      [I, _32, _32, _32, _32, D2, _32, _32, _32, _32, I],
+      [I, _32, _32, _32, D2, D2, D2, _32, _32, _32, I],
+      [I, I, _32, D2, D2, K, D2, D2, _32, I, I],
+      [I, _32, _32, _32, D2, D2, D2, _32, _32, _32, I],
+      [I, _32, _32, _32, _32, D2, _32, _32, _32, _32, I],
+      [_32, _32, _32, _32, _32, _32, _32, _32, _32, _32, _32],
+      [_32, _32, _32, _32, _32, I, _32, _32, _32, _32, _32],
+      [_32, _32, _32, I, I, I, I, I, _32, _32, _32]
     ];
     return new TaflState(board, 0);
   }
   getRulesConfigDescription() {
-    return import_lib215.MGPOptional.of(_HnefataflRules.RULES_CONFIG_DESCRIPTION);
+    return import_lib218.MGPOptional.of(_HnefataflRules.RULES_CONFIG_DESCRIPTION);
   }
 };
 
 // src/app/games/tafl/hnefatafl/HnefataflTutorial.ts
-var _27 = TaflPawn.UNOCCUPIED;
-var O24 = TaflPawn.PLAYER_ZERO_PAWN;
-var X24 = TaflPawn.PLAYER_ONE_PAWN;
+var _28 = TaflPawn.UNOCCUPIED;
+var O25 = TaflPawn.PLAYER_ZERO_PAWN;
+var X25 = TaflPawn.PLAYER_ONE_PAWN;
 var A6 = TaflPawn.PLAYER_ONE_KING;
-var defaultConfig22 = HnefataflRules.get().getDefaultRulesConfig();
+var defaultConfig23 = HnefataflRules.get().getDefaultRulesConfig();
 var HnefataflTutorial = class extends Tutorial {
   tutorial = [
-    TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`Hnefatafl is a strategy game that was played by the vikings, it's part of a larger family of games called Tafl. The object of the game is different for each player. The attacker plays first. Their pieces (dark) are close to the edges. Their goal is to capture the king, which is in the center of the board. The defender plays second. Their pieces (light) are in the middle. Their goal is to move the king on one of the 4 thrones in the corners. Note that the square in which the king starts, in the center of the board, is also a throne.`, HnefataflRules.get().getInitialState(defaultConfig22)),
-    TutorialStep.anyMove($localize`Moving`, $localize`All pieces move the same way. Similarly to a rook in chess, a piece can move:<ol><li>By as many squares as you want.</li><li>Without going over another piece or stopping on another piece.</li><li>Horizontally or vertically.</li><li>Only the king can land on a throne.</li></ol>To move a piece, click on it and then on its landing square.<br/><br/>You're playing Dark, do the first move.`, HnefataflRules.get().getInitialState(defaultConfig22), HnefataflMove.from(new Coord(5, 1), new Coord(1, 1)).get(), TutorialStepMessage.CONGRATULATIONS()),
+    TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`Hnefatafl is a strategy game that was played by the vikings, it's part of a larger family of games called Tafl. The object of the game is different for each player. The attacker plays first. Their pieces (dark) are close to the edges. Their goal is to capture the king, which is in the center of the board. The defender plays second. Their pieces (light) are in the middle. Their goal is to move the king on one of the 4 thrones in the corners. Note that the square in which the king starts, in the center of the board, is also a throne.`, HnefataflRules.get().getInitialState(defaultConfig23)),
+    TutorialStep.anyMove($localize`Moving`, $localize`All pieces move the same way. Similarly to a rook in chess, a piece can move:<ol><li>By as many squares as you want.</li><li>Without going over another piece or stopping on another piece.</li><li>Horizontally or vertically.</li><li>Only the king can land on a throne.</li></ol>To move a piece, click on it and then on its landing square.<br/><br/>You're playing Dark, do the first move.`, HnefataflRules.get().getInitialState(defaultConfig23), HnefataflMove.from(new Coord(5, 1), new Coord(1, 1)).get(), TutorialStepMessage.CONGRATULATIONS()),
     TutorialStep.fromMove($localize`Capturing a soldier` + " (1/2)", $localize`All pieces, attackers and defenders, except the king, are soldiers. To capture them, they have to be sandwiched between two of your pieces. By getting too close, an attacker's soldier is in danger.<br/><br/>You're playing Light. Capture the soldier.`, new TaflState([
-      [_27, _27, _27, _27, O24, O24, O24, O24, _27, _27, _27],
-      [_27, _27, _27, _27, _27, O24, _27, _27, _27, _27, _27],
-      [_27, _27, _27, _27, _27, _27, _27, _27, _27, _27, _27],
-      [O24, _27, _27, _27, _27, X24, _27, _27, _27, _27, O24],
-      [O24, _27, _27, O24, X24, X24, X24, _27, _27, _27, O24],
-      [O24, O24, _27, X24, X24, A6, X24, X24, _27, O24, O24],
-      [O24, _27, _27, _27, X24, X24, X24, _27, _27, _27, O24],
-      [O24, _27, _27, _27, _27, X24, _27, _27, _27, _27, O24],
-      [_27, _27, _27, _27, _27, _27, _27, _27, _27, _27, _27],
-      [_27, _27, _27, _27, _27, O24, _27, _27, _27, _27, _27],
-      [_27, _27, _27, O24, O24, O24, O24, O24, _27, _27, _27]
-    ], 1), [HnefataflMove.from(new Coord(5, 3), new Coord(3, 3)).get()], $localize`Congratulations, that will teach him a lesson!`, $localize`Failed, you missed an opportunity to capture a piece of the opponent.`).withPreviousMove(HnefataflMove.from(new Coord(3, 0), new Coord(3, 4)).get(), HnefataflRules.get().getInitialState(defaultConfig22)),
+      [_28, _28, _28, _28, O25, O25, O25, O25, _28, _28, _28],
+      [_28, _28, _28, _28, _28, O25, _28, _28, _28, _28, _28],
+      [_28, _28, _28, _28, _28, _28, _28, _28, _28, _28, _28],
+      [O25, _28, _28, _28, _28, X25, _28, _28, _28, _28, O25],
+      [O25, _28, _28, O25, X25, X25, X25, _28, _28, _28, O25],
+      [O25, O25, _28, X25, X25, A6, X25, X25, _28, O25, O25],
+      [O25, _28, _28, _28, X25, X25, X25, _28, _28, _28, O25],
+      [O25, _28, _28, _28, _28, X25, _28, _28, _28, _28, O25],
+      [_28, _28, _28, _28, _28, _28, _28, _28, _28, _28, _28],
+      [_28, _28, _28, _28, _28, O25, _28, _28, _28, _28, _28],
+      [_28, _28, _28, O25, O25, O25, O25, O25, _28, _28, _28]
+    ], 1), [HnefataflMove.from(new Coord(5, 3), new Coord(3, 3)).get()], $localize`Congratulations, that will teach him a lesson!`, $localize`Failed, you missed an opportunity to capture a piece of the opponent.`).withPreviousMove(HnefataflMove.from(new Coord(3, 0), new Coord(3, 4)).get(), HnefataflRules.get().getInitialState(defaultConfig23)),
     TutorialStep.fromMove($localize`Capturing a soldier` + " (2/2)", $localize`A second way to capture a soldier is to sandwich it against an empty throne. The king has moved and endangered one of its soldiers.<br/><br/>You're playing Dark. Capture the soldier.`, new TaflState([
-      [_27, _27, _27, O24, O24, O24, O24, O24, _27, _27, _27],
-      [_27, X24, _27, _27, _27, O24, _27, _27, _27, _27, _27],
-      [_27, _27, _27, _27, _27, _27, _27, _27, _27, _27, _27],
-      [_27, _27, _27, _27, _27, X24, _27, _27, _27, _27, O24],
-      [O24, _27, _27, _27, _27, X24, X24, _27, _27, _27, O24],
-      [O24, O24, A6, _27, X24, _27, X24, X24, _27, _27, O24],
-      [_27, _27, O24, _27, _27, X24, X24, _27, _27, _27, O24],
-      [O24, _27, _27, _27, _27, X24, _27, _27, _27, _27, _27],
-      [_27, _27, _27, _27, _27, _27, _27, _27, _27, _27, _27],
-      [_27, O24, _27, _27, _27, _27, _27, _27, _27, _27, _27],
-      [_27, _27, _27, O24, O24, O24, O24, _27, O24, _27, _27]
+      [_28, _28, _28, O25, O25, O25, O25, O25, _28, _28, _28],
+      [_28, X25, _28, _28, _28, O25, _28, _28, _28, _28, _28],
+      [_28, _28, _28, _28, _28, _28, _28, _28, _28, _28, _28],
+      [_28, _28, _28, _28, _28, X25, _28, _28, _28, _28, O25],
+      [O25, _28, _28, _28, _28, X25, X25, _28, _28, _28, O25],
+      [O25, O25, A6, _28, X25, _28, X25, X25, _28, _28, O25],
+      [_28, _28, O25, _28, _28, X25, X25, _28, _28, _28, O25],
+      [O25, _28, _28, _28, _28, X25, _28, _28, _28, _28, _28],
+      [_28, _28, _28, _28, _28, _28, _28, _28, _28, _28, _28],
+      [_28, O25, _28, _28, _28, _28, _28, _28, _28, _28, _28],
+      [_28, _28, _28, O25, O25, O25, O25, _28, O25, _28, _28]
     ], 12), [
       HnefataflMove.from(new Coord(3, 0), new Coord(3, 5)).get(),
       HnefataflMove.from(new Coord(3, 10), new Coord(3, 5)).get()
     ], $localize`Congratulations, one less defender. But keep an eye on the king, it is the most important.`, $localize`Failed, you did not do the expected move.`),
     TutorialStep.fromMove($localize`Capturing the king` + " (1/2)", $localize`To capture the king, two soldiers are not enough. For the first solution, the four squares neighbor to the king (horizontally and vertically) must be occupied by your soldiers. This also works if the king is on the throne.<br/><br/>You're playing Dark, capture the king.`, new TaflState([
-      [_27, _27, _27, _27, _27, _27, _27, _27, _27, _27, _27],
-      [_27, _27, _27, _27, _27, _27, _27, _27, _27, _27, _27],
-      [_27, _27, _27, _27, _27, _27, _27, _27, _27, _27, _27],
-      [_27, O24, _27, _27, _27, _27, _27, _27, _27, _27, _27],
-      [O24, A6, _27, O24, _27, _27, _27, _27, _27, _27, _27],
-      [_27, O24, _27, _27, _27, _27, _27, _27, _27, _27, _27],
-      [_27, _27, _27, _27, _27, _27, _27, _27, _27, _27, _27],
-      [_27, _27, _27, _27, _27, _27, _27, _27, _27, _27, _27],
-      [_27, _27, _27, _27, _27, _27, _27, _27, _27, _27, _27],
-      [_27, _27, _27, _27, _27, _27, _27, _27, _27, _27, _27],
-      [_27, _27, _27, _27, _27, _27, _27, _27, _27, _27, _27]
+      [_28, _28, _28, _28, _28, _28, _28, _28, _28, _28, _28],
+      [_28, _28, _28, _28, _28, _28, _28, _28, _28, _28, _28],
+      [_28, _28, _28, _28, _28, _28, _28, _28, _28, _28, _28],
+      [_28, O25, _28, _28, _28, _28, _28, _28, _28, _28, _28],
+      [O25, A6, _28, O25, _28, _28, _28, _28, _28, _28, _28],
+      [_28, O25, _28, _28, _28, _28, _28, _28, _28, _28, _28],
+      [_28, _28, _28, _28, _28, _28, _28, _28, _28, _28, _28],
+      [_28, _28, _28, _28, _28, _28, _28, _28, _28, _28, _28],
+      [_28, _28, _28, _28, _28, _28, _28, _28, _28, _28, _28],
+      [_28, _28, _28, _28, _28, _28, _28, _28, _28, _28, _28],
+      [_28, _28, _28, _28, _28, _28, _28, _28, _28, _28, _28]
     ], 72), [HnefataflMove.from(new Coord(3, 4), new Coord(2, 4)).get()], TutorialStepMessage.CONGRATULATIONS_YOU_WON(), $localize`Failed, you let the king run away.`),
     TutorialStep.fromMove($localize`Capturing the king` + " (2/2)", $localize`Another way to capture the king is to immobilize it against an edge of the board. Note that the king cannot be captured next to a throne.<br/><br/>You're playing Dark, capture the king.`, new TaflState([
-      [_27, _27, O24, A6, O24, _27, _27, _27, _27, _27, _27],
-      [_27, _27, _27, _27, _27, _27, X24, _27, _27, _27, _27],
-      [_27, _27, _27, _27, _27, _27, _27, _27, _27, _27, _27],
-      [_27, _27, _27, O24, _27, _27, _27, _27, _27, _27, _27],
-      [_27, _27, _27, _27, _27, _27, _27, _27, _27, _27, _27],
-      [_27, _27, _27, _27, _27, _27, _27, _27, _27, _27, _27],
-      [_27, _27, _27, _27, _27, _27, _27, _27, _27, _27, _27],
-      [_27, _27, _27, _27, _27, _27, _27, _27, _27, _27, _27],
-      [_27, _27, _27, _27, _27, _27, _27, _27, _27, _27, _27],
-      [_27, _27, _27, _27, _27, _27, _27, _27, _27, _27, _27],
-      [_27, _27, _27, _27, _27, _27, _27, _27, _27, _27, _27]
+      [_28, _28, O25, A6, O25, _28, _28, _28, _28, _28, _28],
+      [_28, _28, _28, _28, _28, _28, X25, _28, _28, _28, _28],
+      [_28, _28, _28, _28, _28, _28, _28, _28, _28, _28, _28],
+      [_28, _28, _28, O25, _28, _28, _28, _28, _28, _28, _28],
+      [_28, _28, _28, _28, _28, _28, _28, _28, _28, _28, _28],
+      [_28, _28, _28, _28, _28, _28, _28, _28, _28, _28, _28],
+      [_28, _28, _28, _28, _28, _28, _28, _28, _28, _28, _28],
+      [_28, _28, _28, _28, _28, _28, _28, _28, _28, _28, _28],
+      [_28, _28, _28, _28, _28, _28, _28, _28, _28, _28, _28],
+      [_28, _28, _28, _28, _28, _28, _28, _28, _28, _28, _28],
+      [_28, _28, _28, _28, _28, _28, _28, _28, _28, _28, _28]
     ], 72), [HnefataflMove.from(new Coord(3, 3), new Coord(3, 1)).get()], $localize`The king is dead, long live the king. Congratulations, you won.`, TutorialStepMessage.FAILED_TRY_AGAIN())
   ];
 };
 
 // src/app/games/tafl/hnefatafl/hnefatafl.component.ts
-var _forTrack030 = ($index, $item) => $item.toString();
+var _forTrack031 = ($index, $item) => $item.toString();
 function HnefataflComponent_For_2_For_2_Conditional_2_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
@@ -39915,7 +40311,7 @@ var HnefataflComponent = class _HnefataflComponent extends TaflComponent {
       \u0275\u0275namespaceSVG();
       \u0275\u0275elementStart(0, "svg", 0);
       \u0275\u0275repeaterCreate(1, HnefataflComponent_For_2_Template, 3, 0, ":svg:g", null, \u0275\u0275repeaterTrackByIndex);
-      \u0275\u0275repeaterCreate(3, HnefataflComponent_For_4_Template, 2, 7, ":svg:g", null, _forTrack030);
+      \u0275\u0275repeaterCreate(3, HnefataflComponent_For_4_Template, 2, 7, ":svg:g", null, _forTrack031);
       \u0275\u0275elementEnd();
     }
     if (rf & 2) {
@@ -39938,10 +40334,10 @@ var HnefataflComponent = class _HnefataflComponent extends TaflComponent {
 })();
 
 // src/app/games/tafl/tablut/TablutRules.ts
-var import_lib217 = __toESM(require_dist());
+var import_lib220 = __toESM(require_dist());
 
 // src/app/games/tafl/tablut/TablutMove.ts
-var import_lib216 = __toESM(require_dist());
+var import_lib219 = __toESM(require_dist());
 var TablutMove = class _TablutMove extends TaflMove {
   static encoder = MoveWithTwoCoords.getFallibleEncoder(_TablutMove.from);
   static from(start, end) {
@@ -39949,7 +40345,7 @@ var TablutMove = class _TablutMove extends TaflMove {
     if (validity.isFailure()) {
       return validity.toOtherFallible();
     } else {
-      return import_lib216.MGPFallible.success(new _TablutMove(start, end));
+      return import_lib219.MGPFallible.success(new _TablutMove(start, end));
     }
   }
   getMaximalDistance() {
@@ -39959,7 +40355,7 @@ var TablutMove = class _TablutMove extends TaflMove {
 
 // src/app/games/tafl/tablut/TablutRules.ts
 var TablutRules = class _TablutRules extends TaflRules {
-  static singleton = import_lib217.MGPOptional.empty();
+  static singleton = import_lib220.MGPOptional.empty();
   static RULES_CONFIG_DESCRIPTION = new RulesConfigDescription({
     name: () => $localize`Tablut`,
     config: {
@@ -39972,7 +40368,7 @@ var TablutRules = class _TablutRules extends TaflRules {
   });
   static get() {
     if (_TablutRules.singleton.isAbsent()) {
-      _TablutRules.singleton = import_lib217.MGPOptional.of(new _TablutRules());
+      _TablutRules.singleton = import_lib220.MGPOptional.of(new _TablutRules());
     }
     return _TablutRules.singleton.get();
   }
@@ -39980,7 +40376,7 @@ var TablutRules = class _TablutRules extends TaflRules {
     super(TablutMove.from);
   }
   getInitialState(config) {
-    const _31 = TaflPawn.UNOCCUPIED;
+    const _32 = TaflPawn.UNOCCUPIED;
     let I = TaflPawn.PLAYER_ZERO_PAWN;
     let D2 = TaflPawn.PLAYER_ONE_PAWN;
     let K = TaflPawn.PLAYER_ONE_KING;
@@ -39990,85 +40386,85 @@ var TablutRules = class _TablutRules extends TaflRules {
       K = TaflPawn.PLAYER_ZERO_KING;
     }
     const board = [
-      [_31, _31, _31, I, I, I, _31, _31, _31],
-      [_31, _31, _31, _31, I, _31, _31, _31, _31],
-      [_31, _31, _31, _31, D2, _31, _31, _31, _31],
-      [I, _31, _31, _31, D2, _31, _31, _31, I],
+      [_32, _32, _32, I, I, I, _32, _32, _32],
+      [_32, _32, _32, _32, I, _32, _32, _32, _32],
+      [_32, _32, _32, _32, D2, _32, _32, _32, _32],
+      [I, _32, _32, _32, D2, _32, _32, _32, I],
       [I, I, D2, D2, K, D2, D2, I, I],
-      [I, _31, _31, _31, D2, _31, _31, _31, I],
-      [_31, _31, _31, _31, D2, _31, _31, _31, _31],
-      [_31, _31, _31, _31, I, _31, _31, _31, _31],
-      [_31, _31, _31, I, I, I, _31, _31, _31]
+      [I, _32, _32, _32, D2, _32, _32, _32, I],
+      [_32, _32, _32, _32, D2, _32, _32, _32, _32],
+      [_32, _32, _32, _32, I, _32, _32, _32, _32],
+      [_32, _32, _32, I, I, I, _32, _32, _32]
     ];
     return new TaflState(board, 0);
   }
   getRulesConfigDescription() {
-    return import_lib217.MGPOptional.of(_TablutRules.RULES_CONFIG_DESCRIPTION);
+    return import_lib220.MGPOptional.of(_TablutRules.RULES_CONFIG_DESCRIPTION);
   }
 };
 
 // src/app/games/tafl/tablut/TablutTutorial.ts
-var _28 = TaflPawn.UNOCCUPIED;
+var _29 = TaflPawn.UNOCCUPIED;
 var x = TaflPawn.PLAYER_ZERO_PAWN;
 var i = TaflPawn.PLAYER_ONE_PAWN;
 var A7 = TaflPawn.PLAYER_ONE_KING;
-var defaultConfig23 = TablutRules.get().getDefaultRulesConfig();
+var defaultConfig24 = TablutRules.get().getDefaultRulesConfig();
 var TablutTutorial = class extends Tutorial {
   tutorial = [
-    TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`Tablut is the lapland version of the Tafl, Tafl being a family of viking strategy game. The object of the game is different for each player. The attacker plays first. Its pieces (dark) are close to the edges. Its goal is to capture the king, which is in the center of the board. The defender plays second. Its pieces (light) are in the middle. Its goal is to move the king on one of the 4 thrones in the corners. Note that the square in which the king starts, in the center of the board, is also a throne.`, TablutRules.get().getInitialState(defaultConfig23)),
-    TutorialStep.anyMove($localize`Moving`, $localize`All pieces move the same way. Similarly to a rook in chess, a piece can move:<ol><li>By as many squares as you want.</li><li>Without going over another piece or stopping on another piece.</li><li>Horizontally or vertically.</li><li>Only the king can land on a throne.</li></ol>To move a piece, click on it and then on its landing square.<br/><br/>You're playing Dark, do the first move.`, TablutRules.get().getInitialState(defaultConfig23), TablutMove.from(new Coord(4, 1), new Coord(1, 1)).get(), TutorialStepMessage.CONGRATULATIONS()),
+    TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`Tablut is the lapland version of the Tafl, Tafl being a family of viking strategy game. The object of the game is different for each player. The attacker plays first. Its pieces (dark) are close to the edges. Its goal is to capture the king, which is in the center of the board. The defender plays second. Its pieces (light) are in the middle. Its goal is to move the king on one of the 4 thrones in the corners. Note that the square in which the king starts, in the center of the board, is also a throne.`, TablutRules.get().getInitialState(defaultConfig24)),
+    TutorialStep.anyMove($localize`Moving`, $localize`All pieces move the same way. Similarly to a rook in chess, a piece can move:<ol><li>By as many squares as you want.</li><li>Without going over another piece or stopping on another piece.</li><li>Horizontally or vertically.</li><li>Only the king can land on a throne.</li></ol>To move a piece, click on it and then on its landing square.<br/><br/>You're playing Dark, do the first move.`, TablutRules.get().getInitialState(defaultConfig24), TablutMove.from(new Coord(4, 1), new Coord(1, 1)).get(), TutorialStepMessage.CONGRATULATIONS()),
     TutorialStep.fromMove($localize`Capturing a soldier` + " (1/2)", $localize`All pieces, attackers and defenders, except the king, are soldiers. To capture them, they have to be sandwiched between two of your pieces. By getting too close, an attacker's soldier is in danger.<br/><br/>You're playing Light. Capture the soldier.`, new TaflState([
-      [_28, _28, _28, x, x, x, _28, _28, _28],
-      [_28, _28, _28, _28, x, _28, _28, _28, _28],
-      [_28, _28, _28, _28, i, _28, _28, _28, _28],
-      [_28, _28, _28, x, i, _28, _28, _28, x],
+      [_29, _29, _29, x, x, x, _29, _29, _29],
+      [_29, _29, _29, _29, x, _29, _29, _29, _29],
+      [_29, _29, _29, _29, i, _29, _29, _29, _29],
+      [_29, _29, _29, x, i, _29, _29, _29, x],
       [x, x, i, i, A7, i, i, x, x],
-      [_28, _28, _28, _28, i, _28, _28, _28, x],
-      [_28, _28, _28, _28, i, _28, _28, _28, _28],
-      [_28, _28, _28, _28, x, _28, _28, _28, _28],
-      [_28, _28, _28, x, x, x, _28, _28, _28]
+      [_29, _29, _29, _29, i, _29, _29, _29, x],
+      [_29, _29, _29, _29, i, _29, _29, _29, _29],
+      [_29, _29, _29, _29, x, _29, _29, _29, _29],
+      [_29, _29, _29, x, x, x, _29, _29, _29]
     ], 1), [
       TablutMove.from(new Coord(2, 4), new Coord(2, 3)).get(),
       TablutMove.from(new Coord(4, 2), new Coord(3, 2)).get()
     ], $localize`Congratulations, that will teach him a lesson!`, $localize`Failed, you missed an opportunity to capture a piece of the opponent.`),
     TutorialStep.fromMove($localize`Capturing a soldier` + " (2/2)", $localize`A second way to capture a soldier is to sandwich it against an empty throne. The king has moved and endangered one of its soldiers.<br/><br/>You're playing Dark. Capture the soldier.`, new TaflState([
-      [_28, _28, _28, x, x, x, _28, _28, _28],
-      [_28, _28, _28, _28, x, _28, _28, _28, _28],
-      [_28, _28, _28, _28, i, _28, _28, _28, _28],
-      [_28, _28, i, _28, A7, _28, i, _28, x],
-      [x, x, _28, i, _28, i, i, x, x],
-      [_28, _28, _28, _28, i, _28, _28, _28, x],
-      [_28, _28, _28, _28, i, _28, _28, _28, _28],
-      [_28, _28, _28, _28, x, _28, _28, _28, _28],
-      [_28, _28, _28, x, x, x, _28, _28, _28]
+      [_29, _29, _29, x, x, x, _29, _29, _29],
+      [_29, _29, _29, _29, x, _29, _29, _29, _29],
+      [_29, _29, _29, _29, i, _29, _29, _29, _29],
+      [_29, _29, i, _29, A7, _29, i, _29, x],
+      [x, x, _29, i, _29, i, i, x, x],
+      [_29, _29, _29, _29, i, _29, _29, _29, x],
+      [_29, _29, _29, _29, i, _29, _29, _29, _29],
+      [_29, _29, _29, _29, x, _29, _29, _29, _29],
+      [_29, _29, _29, x, x, x, _29, _29, _29]
     ], 12), [TablutMove.from(new Coord(1, 4), new Coord(2, 4)).get()], $localize`Congratulations, one less defender. But keep an eye on the king, it is the most important.`, $localize`Failed, you did not do the expected move.`),
     TutorialStep.fromMove($localize`Capturing the king` + " (1/2)", $localize`To capture the king, two soldiers are not enough. For the first solution, the four squares neighbor to the king (horizontally and vertically) must be occupied by your soldiers. This also works if the king is on the throne.<br/><br/>You're playing Dark, capture the king.`, new TaflState([
-      [_28, _28, _28, _28, _28, _28, _28, _28, _28],
-      [_28, _28, _28, _28, _28, _28, _28, _28, _28],
-      [_28, _28, _28, _28, _28, _28, _28, _28, _28],
-      [_28, x, _28, _28, _28, _28, _28, _28, _28],
-      [x, A7, _28, x, _28, _28, _28, _28, _28],
-      [_28, x, _28, _28, _28, _28, _28, _28, _28],
-      [_28, _28, _28, _28, _28, _28, _28, _28, _28],
-      [_28, _28, _28, _28, _28, _28, _28, _28, _28],
-      [_28, _28, _28, _28, _28, _28, _28, _28, _28]
+      [_29, _29, _29, _29, _29, _29, _29, _29, _29],
+      [_29, _29, _29, _29, _29, _29, _29, _29, _29],
+      [_29, _29, _29, _29, _29, _29, _29, _29, _29],
+      [_29, x, _29, _29, _29, _29, _29, _29, _29],
+      [x, A7, _29, x, _29, _29, _29, _29, _29],
+      [_29, x, _29, _29, _29, _29, _29, _29, _29],
+      [_29, _29, _29, _29, _29, _29, _29, _29, _29],
+      [_29, _29, _29, _29, _29, _29, _29, _29, _29],
+      [_29, _29, _29, _29, _29, _29, _29, _29, _29]
     ], 72), [TablutMove.from(new Coord(3, 4), new Coord(2, 4)).get()], TutorialStepMessage.CONGRATULATIONS_YOU_WON(), $localize`Failed, you let the king run away.`),
     TutorialStep.fromMove($localize`Capturing the king` + " (2/2)", $localize`Another way to capture the king is to immobilize it against an edge of the board. Note that the king cannot be captured next to a throne.<br/><br/>You're playing Dark, capture the king.`, new TaflState([
-      [_28, _28, x, A7, x, _28, _28, _28, _28],
-      [_28, _28, _28, _28, _28, _28, _28, _28, _28],
-      [_28, _28, _28, _28, _28, _28, _28, _28, _28],
-      [_28, _28, _28, x, _28, _28, _28, _28, _28],
-      [_28, _28, _28, _28, _28, _28, _28, _28, _28],
-      [_28, _28, _28, _28, _28, _28, _28, _28, _28],
-      [_28, _28, _28, _28, _28, _28, _28, _28, _28],
-      [_28, _28, _28, _28, _28, _28, _28, _28, _28],
-      [_28, _28, _28, _28, _28, _28, _28, _28, _28]
+      [_29, _29, x, A7, x, _29, _29, _29, _29],
+      [_29, _29, _29, _29, _29, _29, _29, _29, _29],
+      [_29, _29, _29, _29, _29, _29, _29, _29, _29],
+      [_29, _29, _29, x, _29, _29, _29, _29, _29],
+      [_29, _29, _29, _29, _29, _29, _29, _29, _29],
+      [_29, _29, _29, _29, _29, _29, _29, _29, _29],
+      [_29, _29, _29, _29, _29, _29, _29, _29, _29],
+      [_29, _29, _29, _29, _29, _29, _29, _29, _29],
+      [_29, _29, _29, _29, _29, _29, _29, _29, _29]
     ], 72), [TablutMove.from(new Coord(3, 3), new Coord(3, 1)).get()], $localize`The king is dead, long live the king. Congratulations, you won.`, TutorialStepMessage.FAILED_TRY_AGAIN())
   ];
 };
 
 // src/app/games/tafl/tablut/tablut.component.ts
-var _forTrack031 = ($index, $item) => $item.toString();
+var _forTrack032 = ($index, $item) => $item.toString();
 function TablutComponent_For_2_For_2_Conditional_2_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
@@ -40267,7 +40663,7 @@ var TablutComponent = class _TablutComponent extends TaflComponent {
       \u0275\u0275namespaceSVG();
       \u0275\u0275elementStart(0, "svg", 0);
       \u0275\u0275repeaterCreate(1, TablutComponent_For_2_Template, 3, 0, ":svg:g", null, \u0275\u0275repeaterTrackByIndex);
-      \u0275\u0275repeaterCreate(3, TablutComponent_For_4_Template, 2, 7, ":svg:g", null, _forTrack031);
+      \u0275\u0275repeaterCreate(3, TablutComponent_For_4_Template, 2, 7, ":svg:g", null, _forTrack032);
       \u0275\u0275elementEnd();
     }
     if (rf & 2) {
@@ -40290,10 +40686,10 @@ var TablutComponent = class _TablutComponent extends TaflComponent {
 })();
 
 // src/app/games/teeko/TeekoRules.ts
-var import_lib219 = __toESM(require_dist());
+var import_lib222 = __toESM(require_dist());
 
 // src/app/games/teeko/TeekoMove.ts
-var import_lib218 = __toESM(require_dist());
+var import_lib221 = __toESM(require_dist());
 var TeekoDropMove = class _TeekoDropMove extends MoveCoord {
   static encoder = MoveCoord.getEncoder(_TeekoDropMove.from);
   static from(coord) {
@@ -40314,9 +40710,9 @@ var TeekoTranslationMove = class _TeekoTranslationMove extends MoveCoordToCoord 
   static encoder = MoveCoordToCoord.getFallibleEncoder(_TeekoTranslationMove.from);
   static from(start, end) {
     if (start.equals(end)) {
-      return import_lib218.MGPFallible.failure(RulesFailure.MOVE_CANNOT_BE_STATIC());
+      return import_lib221.MGPFallible.failure(RulesFailure.MOVE_CANNOT_BE_STATIC());
     } else {
-      return import_lib218.MGPFallible.success(new _TeekoTranslationMove(start, end));
+      return import_lib221.MGPFallible.success(new _TeekoTranslationMove(start, end));
     }
   }
   toString() {
@@ -40332,7 +40728,7 @@ var TeekoTranslationMove = class _TeekoTranslationMove extends MoveCoordToCoord 
 };
 var TeekoMove;
 (function(TeekoMove2) {
-  TeekoMove2.encoder = import_lib218.Encoder.disjunction([
+  TeekoMove2.encoder = import_lib221.Encoder.disjunction([
     (move) => move instanceof TeekoDropMove,
     (move) => move instanceof TeekoTranslationMove
   ], [
@@ -40351,10 +40747,10 @@ var TeekoState = class extends PlayerOrNoneGameStateWithTable {
 
 // src/app/games/teeko/TeekoRules.ts
 var TeekoRules = class _TeekoRules extends ConfigurableRules {
-  static singleton = import_lib219.MGPOptional.empty();
+  static singleton = import_lib222.MGPOptional.empty();
   static get() {
     if (_TeekoRules.singleton.isAbsent()) {
-      _TeekoRules.singleton = import_lib219.MGPOptional.of(new _TeekoRules());
+      _TeekoRules.singleton = import_lib222.MGPOptional.of(new _TeekoRules());
     }
     return _TeekoRules.singleton.get();
   }
@@ -40369,9 +40765,9 @@ var TeekoRules = class _TeekoRules extends ConfigurableRules {
       teleport: true
     }
   }]);
-  static TEEKO_HELPER = new NInARowHelper(import_lib219.Utils.identity, 4);
+  static TEEKO_HELPER = new NInARowHelper(import_lib222.Utils.identity, 4);
   getRulesConfigDescription() {
-    return import_lib219.MGPOptional.of(_TeekoRules.RULES_CONFIG_DESCRIPTION);
+    return import_lib222.MGPOptional.of(_TeekoRules.RULES_CONFIG_DESCRIPTION);
   }
   getInitialState() {
     const board = TableUtils.create(TeekoState.WIDTH, TeekoState.WIDTH, PlayerOrNone.NONE);
@@ -40379,44 +40775,44 @@ var TeekoRules = class _TeekoRules extends ConfigurableRules {
   }
   isLegal(move, state, optionalConfig) {
     if (state.isInDropPhase()) {
-      import_lib219.Utils.assert(move instanceof TeekoDropMove, "Cannot translate in dropping phase !");
+      import_lib222.Utils.assert(move instanceof TeekoDropMove, "Cannot translate in dropping phase !");
       return this.isLegalDrop(move, state);
     } else {
-      import_lib219.Utils.assert(move instanceof TeekoTranslationMove, "Cannot drop in translation phase !");
+      import_lib222.Utils.assert(move instanceof TeekoTranslationMove, "Cannot drop in translation phase !");
       return this.isLegalTranslation(move, state, optionalConfig.get());
     }
   }
   isLegalDrop(move, state) {
     if (state.isNotOnBoard(move.coord)) {
-      return import_lib219.MGPValidation.failure(CoordFailure.OUT_OF_RANGE(move.coord));
+      return import_lib222.MGPValidation.failure(CoordFailure.OUT_OF_RANGE(move.coord));
     }
     if (state.getPieceAt(move.coord).isPlayer()) {
-      return import_lib219.MGPValidation.failure(RulesFailure.MUST_LAND_ON_EMPTY_SPACE());
+      return import_lib222.MGPValidation.failure(RulesFailure.MUST_LAND_ON_EMPTY_SPACE());
     }
-    return import_lib219.MGPValidation.SUCCESS;
+    return import_lib222.MGPValidation.SUCCESS;
   }
   isLegalTranslation(move, state, config) {
     if (state.isNotOnBoard(move.getStart())) {
-      return import_lib219.MGPValidation.failure(CoordFailure.OUT_OF_RANGE(move.getStart()));
+      return import_lib222.MGPValidation.failure(CoordFailure.OUT_OF_RANGE(move.getStart()));
     }
     if (state.isNotOnBoard(move.getEnd())) {
-      return import_lib219.MGPValidation.failure(CoordFailure.OUT_OF_RANGE(move.getEnd()));
+      return import_lib222.MGPValidation.failure(CoordFailure.OUT_OF_RANGE(move.getEnd()));
     }
     const translatedPiece = state.getPieceAt(move.getStart());
     if (translatedPiece === state.getCurrentOpponent()) {
-      return import_lib219.MGPValidation.failure(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
+      return import_lib222.MGPValidation.failure(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
     } else if (translatedPiece.isNone()) {
-      return import_lib219.MGPValidation.failure(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_EMPTY());
+      return import_lib222.MGPValidation.failure(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_EMPTY());
     }
     if (state.getPieceAt(move.getEnd()).isPlayer()) {
-      return import_lib219.MGPValidation.failure(RulesFailure.MUST_LAND_ON_EMPTY_SPACE());
+      return import_lib222.MGPValidation.failure(RulesFailure.MUST_LAND_ON_EMPTY_SPACE());
     }
     if (config.teleport === false) {
       if (move.getStart().isNeighborWith(move.getEnd()) === false) {
-        return import_lib219.MGPValidation.failure(RulesFailure.MUST_MOVE_ON_NEIGHBOR());
+        return import_lib222.MGPValidation.failure(RulesFailure.MUST_MOVE_ON_NEIGHBOR());
       }
     }
-    return import_lib219.MGPValidation.SUCCESS;
+    return import_lib222.MGPValidation.SUCCESS;
   }
   applyLegalMove(move, state, _config, _info) {
     if (move instanceof TeekoDropMove) {
@@ -40467,9 +40863,9 @@ var TeekoRules = class _TeekoRules extends ConfigurableRules {
           state.getPieceAt(downLeft),
           state.getPieceAt(downRight)
         ];
-        const neutralCount = import_lib219.ArrayUtils.count(pieces, PlayerOrNone.NONE);
-        const zeroCount = import_lib219.ArrayUtils.count(pieces, PlayerOrNone.ZERO);
-        const oneCount = import_lib219.ArrayUtils.count(pieces, PlayerOrNone.ONE);
+        const neutralCount = import_lib222.ArrayUtils.count(pieces, PlayerOrNone.NONE);
+        const zeroCount = import_lib222.ArrayUtils.count(pieces, PlayerOrNone.ZERO);
+        const oneCount = import_lib222.ArrayUtils.count(pieces, PlayerOrNone.ONE);
         if (neutralCount < 4) {
           if (zeroCount === 4 || oneCount === 4) {
             victoriousCoords.push(upLeft, upRight, downLeft, downRight);
@@ -40494,26 +40890,26 @@ var TeekoRules = class _TeekoRules extends ConfigurableRules {
 };
 
 // src/app/games/teeko/TeekoTutorial.ts
-var _29 = PlayerOrNone.NONE;
-var O25 = PlayerOrNone.ZERO;
-var X25 = PlayerOrNone.ONE;
+var _30 = PlayerOrNone.NONE;
+var O26 = PlayerOrNone.ZERO;
+var X26 = PlayerOrNone.ONE;
 var TeekoTutorial = class extends Tutorial {
   tutorial = [
     TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`The object of the game is to align your 4 pieces, or to form a square with them.`, TeekoRules.get().getInitialState()),
     TutorialStep.anyMove($localize`Dropping a piece`, $localize`During your first four turns, you must drop one piece on any empty space of the board. There is no other restriction.<br/><br/>You're playing Dark, put a piece on the board.`, TeekoRules.get().getInitialState(), TeekoDropMove.from(new Coord(2, 2)), TutorialStepMessage.CONGRATULATIONS()),
     TutorialStep.anyMove($localize`Moving a piece`, $localize`Once all of your four pieces are placed on the board, you must now move one of your piece to an empty neighboring space, orthogonally or diagonally. The goal remains to be the first to create a line or a square.<br/><br/>You're playing Dark, move a piece.`, new TeekoState([
-      [O25, X25, _29, _29, _29],
-      [O25, O25, _29, _29, _29],
-      [X25, X25, _29, _29, _29],
-      [X25, O25, _29, _29, _29],
-      [_29, _29, _29, _29, _29]
+      [O26, X26, _30, _30, _30],
+      [O26, O26, _30, _30, _30],
+      [X26, X26, _30, _30, _30],
+      [X26, O26, _30, _30, _30],
+      [_30, _30, _30, _30, _30]
     ], 8), TeekoTranslationMove.from(new Coord(1, 3), new Coord(2, 2)).get(), TutorialStepMessage.CONGRATULATIONS()),
     TutorialStep.fromMove($localize`Victory`, $localize`In this board, you can win by creating a square.<br/><br/>You are playing Dark, win.`, new TeekoState([
-      [X25, _29, _29, _29, _29],
-      [X25, O25, _29, O25, _29],
-      [_29, O25, O25, X25, _29],
-      [_29, X25, _29, _29, _29],
-      [_29, _29, _29, _29, _29]
+      [X26, _30, _30, _30, _30],
+      [X26, O26, _30, O26, _30],
+      [_30, O26, O26, X26, _30],
+      [_30, X26, _30, _30, _30],
+      [_30, _30, _30, _30, _30]
     ], 8), [
       TeekoTranslationMove.from(new Coord(3, 1), new Coord(2, 1)).get()
     ], $localize`Congratulations, you won! Remember that you can also win by creating a line.`, TutorialStepMessage.FAILED_TRY_AGAIN())
@@ -40521,7 +40917,7 @@ var TeekoTutorial = class extends Tutorial {
 };
 
 // src/app/games/teeko/teeko.component.ts
-var import_lib220 = __toESM(require_dist());
+var import_lib223 = __toESM(require_dist());
 
 // src/app/games/teeko/TeekoHeuristic.ts
 var TeekoHeuristic = class extends Heuristic {
@@ -40652,8 +41048,8 @@ function TeekoComponent_For_2_Template(rf, ctx) {
   }
 }
 var TeekoComponent = class _TeekoComponent extends RectangularGameComponent {
-  selected = import_lib220.MGPOptional.empty();
-  last = import_lib220.MGPOptional.empty();
+  selected = import_lib223.MGPOptional.empty();
+  last = import_lib223.MGPOptional.empty();
   moved = [];
   victory = [];
   constructor() {
@@ -40672,7 +41068,7 @@ var TeekoComponent = class _TeekoComponent extends RectangularGameComponent {
   }
   showLastMove(move) {
     return __async(this, null, function* () {
-      this.last = import_lib220.MGPOptional.of(this.rules.getLastCoord(move));
+      this.last = import_lib223.MGPOptional.of(this.rules.getLastCoord(move));
       if (move instanceof TeekoTranslationMove) {
         this.moved = [move.getStart(), move.getEnd()];
       } else {
@@ -40683,13 +41079,13 @@ var TeekoComponent = class _TeekoComponent extends RectangularGameComponent {
   }
   hideLastMove() {
     return __async(this, null, function* () {
-      this.last = import_lib220.MGPOptional.empty();
+      this.last = import_lib223.MGPOptional.empty();
       this.moved = [];
       this.victory = [];
     });
   }
   cancelMoveAttempt() {
-    this.selected = import_lib220.MGPOptional.empty();
+    this.selected = import_lib223.MGPOptional.empty();
   }
   onClick(x2, y) {
     return __async(this, null, function* () {
@@ -40713,8 +41109,8 @@ var TeekoComponent = class _TeekoComponent extends RectangularGameComponent {
           const currentPlayer = this.getState().getCurrentPlayer();
           const clickedPiece = this.getState().getPieceAt(clickedCoord);
           if (clickedPiece === currentPlayer) {
-            this.selected = import_lib220.MGPOptional.of(clickedCoord);
-            return import_lib220.MGPValidation.SUCCESS;
+            this.selected = import_lib223.MGPOptional.of(clickedCoord);
+            return import_lib223.MGPValidation.SUCCESS;
           } else if (clickedPiece.isNone()) {
             return this.cancelMove(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_EMPTY());
           } else {
@@ -40773,7 +41169,7 @@ var TeekoComponent = class _TeekoComponent extends RectangularGameComponent {
 })();
 
 // src/app/games/trexo/TrexoRules.ts
-var import_lib223 = __toESM(require_dist());
+var import_lib226 = __toESM(require_dist());
 
 // src/app/games/trexo/TrexoFailure.ts
 var TrexoFailure = class {
@@ -40784,10 +41180,10 @@ var TrexoFailure = class {
 };
 
 // src/app/games/trexo/TrexoMove.ts
-var import_lib222 = __toESM(require_dist());
+var import_lib225 = __toESM(require_dist());
 
 // src/app/games/trexo/TrexoState.ts
-var import_lib221 = __toESM(require_dist());
+var import_lib224 = __toESM(require_dist());
 var TrexoPiece = class {
   owner;
   tileId;
@@ -40805,7 +41201,7 @@ var TrexoPieceStack = class _TrexoPieceStack {
   static of(pieces) {
     let previousTurn = -1;
     for (const piece of pieces) {
-      import_lib221.Utils.assert(previousTurn < piece.tileId, "TrexoPieceStack: dropped turn should be ascending");
+      import_lib224.Utils.assert(previousTurn < piece.tileId, "TrexoPieceStack: dropped turn should be ascending");
       previousTurn = piece.tileId;
     }
     return new _TrexoPieceStack(pieces);
@@ -40838,7 +41234,7 @@ var TrexoPieceStack = class _TrexoPieceStack {
     return _TrexoPieceStack.of(this.pieces.concat(piece));
   }
   getPieceAt(z) {
-    import_lib221.Utils.assert(z < this.pieces.length, "no element " + z + "in piece!");
+    import_lib224.Utils.assert(z < this.pieces.length, "no element " + z + "in piece!");
     return this.pieces[z];
   }
   isGround() {
@@ -40856,9 +41252,9 @@ var TrexoState = class _TrexoState extends GameStateWithTable {
     return coord.isInRange(_TrexoState.SIZE, _TrexoState.SIZE);
   }
   static of(board, turn) {
-    import_lib221.Utils.assert(board.length === _TrexoState.SIZE, "Invalid board dimensions");
+    import_lib224.Utils.assert(board.length === _TrexoState.SIZE, "Invalid board dimensions");
     for (const lines of board) {
-      import_lib221.Utils.assert(lines.length === _TrexoState.SIZE, "Invalid board dimensions");
+      import_lib224.Utils.assert(lines.length === _TrexoState.SIZE, "Invalid board dimensions");
     }
     return new _TrexoState(board, turn);
   }
@@ -40888,13 +41284,13 @@ var TrexoState = class _TrexoState extends GameStateWithTable {
 var TrexoMove = class _TrexoMove extends MoveWithTwoCoords {
   static encoder = MoveWithTwoCoords.getFallibleEncoder(_TrexoMove.from);
   static from(zero2, one2) {
-    import_lib222.Utils.assert(TrexoState.isOnBoard(zero2), `${zero2.toString()} is out of the TrexoBoard!`);
-    import_lib222.Utils.assert(TrexoState.isOnBoard(one2), `${one2.toString()} is out of the TrexoBoard!`);
+    import_lib225.Utils.assert(TrexoState.isOnBoard(zero2), `${zero2.toString()} is out of the TrexoBoard!`);
+    import_lib225.Utils.assert(TrexoState.isOnBoard(one2), `${one2.toString()} is out of the TrexoBoard!`);
     const distance = zero2.getOrthogonalDistance(one2);
     if (distance === 1) {
-      return import_lib222.MGPFallible.success(new _TrexoMove(zero2, one2));
+      return import_lib225.MGPFallible.success(new _TrexoMove(zero2, one2));
     } else {
-      return import_lib222.MGPFallible.failure(TrexoFailure.NON_NEIGHBORING_SPACES());
+      return import_lib225.MGPFallible.failure(TrexoFailure.NON_NEIGHBORING_SPACES());
     }
   }
   constructor(first, second) {
@@ -40916,10 +41312,10 @@ var TrexoMove = class _TrexoMove extends MoveWithTwoCoords {
 
 // src/app/games/trexo/TrexoRules.ts
 var TrexoRules = class _TrexoRules extends Rules {
-  static instance = import_lib223.MGPOptional.empty();
+  static instance = import_lib226.MGPOptional.empty();
   static get() {
     if (_TrexoRules.instance.isAbsent()) {
-      _TrexoRules.instance = import_lib223.MGPOptional.of(new _TrexoRules());
+      _TrexoRules.instance = import_lib226.MGPOptional.of(new _TrexoRules());
     }
     return _TrexoRules.instance.get();
   }
@@ -40963,12 +41359,12 @@ var TrexoRules = class _TrexoRules extends Rules {
   }
   isLegal(move, state) {
     if (this.isUnevenGround(move, state)) {
-      return import_lib223.MGPValidation.failure(TrexoFailure.CANNOT_DROP_PIECE_ON_UNEVEN_GROUNDS());
+      return import_lib226.MGPValidation.failure(TrexoFailure.CANNOT_DROP_PIECE_ON_UNEVEN_GROUNDS());
     }
     if (this.landsOnOnlyOnePiece(move, state)) {
-      return import_lib223.MGPValidation.failure(TrexoFailure.CANNOT_DROP_ON_ONLY_ONE_PIECE());
+      return import_lib226.MGPValidation.failure(TrexoFailure.CANNOT_DROP_ON_ONLY_ONE_PIECE());
     }
-    return import_lib223.MGPValidation.SUCCESS;
+    return import_lib226.MGPValidation.SUCCESS;
   }
   isUnevenGround(move, state) {
     const zero2 = state.getPieceAt(move.getZero());
@@ -41043,7 +41439,7 @@ var TrexoRules = class _TrexoRules extends Rules {
 };
 
 // src/app/games/trexo/TrexoTutorial.ts
-var import_lib224 = __toESM(require_dist());
+var import_lib227 = __toESM(require_dist());
 var ______ = TrexoPieceStack.EMPTY;
 var ONE__0 = TrexoPieceStack.of([new TrexoPiece(Player.ONE, 0)]);
 var ZERO_0 = TrexoPieceStack.of([new TrexoPiece(Player.ZERO, 0)]);
@@ -41096,19 +41492,19 @@ var TrexoTutorial = class extends Tutorial {
       [______, ______, ______, ______, ______, ______, ______, ______, ______, ______],
       [______, ______, ______, ______, ______, ______, ______, ______, ______, ______],
       [______, ______, ______, ______, ______, ______, ______, ______, ______, ______]
-    ], 7), TrexoMove.from(new Coord(2, 0), new Coord(2, 1)).get(), (lastMove, _31, resultingState) => {
+    ], 7), TrexoMove.from(new Coord(2, 0), new Coord(2, 1)).get(), (lastMove, _32, resultingState) => {
       const moveScore = TrexoRules.TREXO_HELPER.getSquareScore(resultingState, lastMove.getOne());
       if (moveScore === Number.POSITIVE_INFINITY) {
-        return import_lib224.MGPValidation.SUCCESS;
+        return import_lib227.MGPValidation.SUCCESS;
       } else {
-        return import_lib224.MGPValidation.failure(TutorialStepMessage.FAILED_TRY_AGAIN());
+        return import_lib227.MGPValidation.failure(TutorialStepMessage.FAILED_TRY_AGAIN());
       }
     }, TutorialStepMessage.CONGRATULATIONS_YOU_WON())
   ];
 };
 
 // src/app/games/trexo/trexo.component.ts
-var import_lib226 = __toESM(require_dist());
+var import_lib229 = __toESM(require_dist());
 
 // src/app/games/trexo/TrexoAlignmentHeuristic.ts
 var TrexoAlignmentHeuristic = class extends Heuristic {
@@ -41142,7 +41538,7 @@ var TrexoAlignmentMinimax = class extends Minimax {
 };
 
 // src/app/games/trexo/trexo-half-piece.component.ts
-var import_lib225 = __toESM(require_dist());
+var import_lib228 = __toESM(require_dist());
 var _c016 = ["app-trexo-half-piece", ""];
 function TrexoHalfPieceComponent_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
@@ -41415,7 +41811,7 @@ var TrexoHalfPieceComponent = class _TrexoHalfPieceComponent extends BaseGameCom
     return this.mapCoordToPoints(coords);
   }
   getOtherCoord() {
-    import_lib225.Utils.assert(this.move() != null, "Move should be set before calling getOtherCoord");
+    import_lib228.Utils.assert(this.move() != null, "Move should be set before calling getOtherCoord");
     const move = this.move();
     if (move.getZero().equals(this.coord())) {
       return move.getOne();
@@ -41674,7 +42070,7 @@ var TrexoComponent = class _TrexoComponent extends ParallelogramGameComponent {
   static INITIAL_PIECE_ON_BOARD = {
     isDroppedPiece: false,
     isPossibleClick: false,
-    move: import_lib226.MGPOptional.empty()
+    move: import_lib229.MGPOptional.empty()
   };
   static modeMap = {
     "2D": {
@@ -41699,7 +42095,7 @@ var TrexoComponent = class _TrexoComponent extends ParallelogramGameComponent {
   chosenMode = "3D";
   victoryCoords = [];
   lastMoved = [];
-  droppedPiece = import_lib226.MGPOptional.empty();
+  droppedPiece = import_lib229.MGPOptional.empty();
   possibleNextClicks = [];
   possibleMoves = [];
   pieceOnBoard = [];
@@ -41827,12 +42223,12 @@ var TrexoComponent = class _TrexoComponent extends ParallelogramGameComponent {
     moveByCoord[height][move.getZero().y][move.getZero().x] = {
       isDroppedPiece: false,
       isPossibleClick: false,
-      move: import_lib226.MGPOptional.of(move)
+      move: import_lib229.MGPOptional.of(move)
     };
     moveByCoord[height][move.getOne().y][move.getOne().x] = {
       isDroppedPiece: false,
       isPossibleClick: false,
-      move: import_lib226.MGPOptional.of(move)
+      move: import_lib229.MGPOptional.of(move)
     };
   }
   onClick(x2, y) {
@@ -41877,26 +42273,26 @@ var TrexoComponent = class _TrexoComponent extends ParallelogramGameComponent {
           this.pieceOnBoard.push(TableUtils.create(TrexoState.SIZE, TrexoState.SIZE, _TrexoComponent.INITIAL_PIECE_ON_BOARD));
         }
         this.showDroppedPieceAndIndicators(clicked, pieceHeight);
-        return import_lib226.MGPValidation.SUCCESS;
+        return import_lib229.MGPValidation.SUCCESS;
       } else {
         return this.cancelMove(TrexoFailure.NO_WAY_TO_DROP_IT_HERE());
       }
     });
   }
   showDroppedPieceAndIndicators(dropped, pieceHeight) {
-    this.droppedPiece = import_lib226.MGPOptional.of(dropped);
+    this.droppedPiece = import_lib229.MGPOptional.of(dropped);
     this.possibleNextClicks = this.getPossibleNextClicks(dropped);
     for (const possibleNextClick of this.possibleNextClicks) {
       this.pieceOnBoard[pieceHeight][possibleNextClick.y][possibleNextClick.x] = {
         isDroppedPiece: false,
         isPossibleClick: true,
-        move: import_lib226.MGPOptional.empty()
+        move: import_lib229.MGPOptional.empty()
       };
     }
     this.pieceOnBoard[pieceHeight][dropped.y][dropped.x] = {
       isDroppedPiece: true,
       isPossibleClick: false,
-      move: import_lib226.MGPOptional.empty()
+      move: import_lib229.MGPOptional.empty()
     };
   }
   getPossibleNextClicks(coord) {
@@ -41907,7 +42303,7 @@ var TrexoComponent = class _TrexoComponent extends ParallelogramGameComponent {
   }
   cancelMoveAttempt() {
     return __async(this, null, function* () {
-      this.droppedPiece = import_lib226.MGPOptional.empty();
+      this.droppedPiece = import_lib229.MGPOptional.empty();
       this.possibleNextClicks = [];
       yield this.updateBoard(false);
     });
@@ -42067,7 +42463,7 @@ var TrexoComponent = class _TrexoComponent extends ParallelogramGameComponent {
 })();
 
 // src/app/games/yinsh/YinshRules.ts
-var import_lib229 = __toESM(require_dist());
+var import_lib232 = __toESM(require_dist());
 
 // src/app/games/yinsh/YinshFailure.ts
 var YinshFailure = class {
@@ -42085,10 +42481,10 @@ var YinshFailure = class {
 };
 
 // src/app/games/yinsh/YinshMove.ts
-var import_lib227 = __toESM(require_dist());
+var import_lib230 = __toESM(require_dist());
 var YinshCapture = class _YinshCapture extends GipfCapture {
-  static encoder = import_lib227.Encoder.tuple([import_lib227.Encoder.list(Coord.encoder), import_lib227.MGPOptional.getEncoder(Coord.encoder)], (capture) => [capture.capturedSpaces, capture.ringTaken], (fields) => new _YinshCapture(fields[0], fields[1]));
-  static of(start, end, ringTaken = import_lib227.MGPOptional.empty()) {
+  static encoder = import_lib230.Encoder.tuple([import_lib230.Encoder.list(Coord.encoder), import_lib230.MGPOptional.getEncoder(Coord.encoder)], (capture) => [capture.capturedSpaces, capture.ringTaken], (fields) => new _YinshCapture(fields[0], fields[1]));
+  static of(start, end, ringTaken = import_lib230.MGPOptional.empty()) {
     const coords = [];
     const dir = HexaDirection.factory.fromMove(start, end).get();
     for (let cur = start; cur.equals(end) === false; cur = cur.getNext(dir)) {
@@ -42098,7 +42494,7 @@ var YinshCapture = class _YinshCapture extends GipfCapture {
     return new _YinshCapture(coords, ringTaken);
   }
   ringTaken;
-  constructor(captured, ringTaken = import_lib227.MGPOptional.empty()) {
+  constructor(captured, ringTaken = import_lib230.MGPOptional.empty()) {
     super(captured);
     if (captured.length !== 5) {
       throw new Error("YinshCapture must capture exactly 5 pieces");
@@ -42106,7 +42502,7 @@ var YinshCapture = class _YinshCapture extends GipfCapture {
     this.ringTaken = ringTaken;
   }
   setRingTaken(ringTaken) {
-    return new _YinshCapture(this.capturedSpaces, import_lib227.MGPOptional.of(ringTaken));
+    return new _YinshCapture(this.capturedSpaces, import_lib230.MGPOptional.of(ringTaken));
   }
   equals(other) {
     if (super.equals(other) === false)
@@ -42121,11 +42517,11 @@ var YinshMove = class _YinshMove extends Move {
   start;
   end;
   finalCaptures;
-  static encoder = import_lib227.Encoder.tuple([
-    import_lib227.Encoder.list(YinshCapture.encoder),
+  static encoder = import_lib230.Encoder.tuple([
+    import_lib230.Encoder.list(YinshCapture.encoder),
     Coord.encoder,
-    import_lib227.MGPOptional.getEncoder(Coord.encoder),
-    import_lib227.Encoder.list(YinshCapture.encoder)
+    import_lib230.MGPOptional.getEncoder(Coord.encoder),
+    import_lib230.Encoder.list(YinshCapture.encoder)
   ], (move) => [move.initialCaptures, move.start, move.end, move.finalCaptures], (fields) => new _YinshMove(fields[0], fields[1], fields[2], fields[3]));
   constructor(initialCaptures, start, end, finalCaptures) {
     super();
@@ -42144,9 +42540,9 @@ var YinshMove = class _YinshMove extends Move {
       return false;
     if (this.end.equals(other.end) === false)
       return false;
-    if (import_lib227.ArrayUtils.equals(this.initialCaptures, other.initialCaptures) === false)
+    if (import_lib230.ArrayUtils.equals(this.initialCaptures, other.initialCaptures) === false)
       return false;
-    if (import_lib227.ArrayUtils.equals(this.finalCaptures, other.finalCaptures) === false)
+    if (import_lib230.ArrayUtils.equals(this.finalCaptures, other.finalCaptures) === false)
       return false;
     return true;
   }
@@ -42159,11 +42555,11 @@ var YinshMove = class _YinshMove extends Move {
 };
 
 // src/app/games/yinsh/YinshPiece.ts
-var import_lib228 = __toESM(require_dist());
+var import_lib231 = __toESM(require_dist());
 var YinshPiece = class _YinshPiece {
   player;
   isRing;
-  static encoder = import_lib228.Encoder.tuple([PlayerOrNone.encoder, import_lib228.Encoder.identity()], (piece) => [piece.player, piece.isRing], (fields) => _YinshPiece.of(fields[0], fields[1]));
+  static encoder = import_lib231.Encoder.tuple([PlayerOrNone.encoder, import_lib231.Encoder.identity()], (piece) => [piece.player, piece.isRing], (fields) => _YinshPiece.of(fields[0], fields[1]));
   static UNREACHABLE = new _YinshPiece(PlayerOrNone.NONE, false);
   static EMPTY = new _YinshPiece(PlayerOrNone.NONE, false);
   static MARKER_ZERO = new _YinshPiece(Player.ZERO, false);
@@ -42192,8 +42588,8 @@ var YinshPiece = class _YinshPiece {
     return this === piece;
   }
   flip() {
-    import_lib228.Utils.assert(this.isRing === false, "cannot flip a ring (it should never happen)");
-    import_lib228.Utils.assert(this.player.isPlayer(), "cannot flip a non-player piece");
+    import_lib231.Utils.assert(this.isRing === false, "cannot flip a ring (it should never happen)");
+    import_lib231.Utils.assert(this.player.isPlayer(), "cannot flip a non-player piece");
     const player = this.player;
     return _YinshPiece.of(player.getOpponent(), this.isRing);
   }
@@ -42210,7 +42606,7 @@ var YinshPiece = class _YinshPiece {
       case _YinshPiece.RING_ZERO:
         return "RING_ZERO";
       default:
-        import_lib228.Utils.expectToBe(this, _YinshPiece.RING_ONE);
+        import_lib231.Utils.expectToBe(this, _YinshPiece.RING_ONE);
         return "RING_ONE";
     }
   }
@@ -42277,28 +42673,28 @@ var YinshState = class _YinshState extends HexagonalGameState {
 
 // src/app/games/yinsh/YinshRules.ts
 var YinshRules = class _YinshRules extends Rules {
-  static singleton = import_lib229.MGPOptional.empty();
+  static singleton = import_lib232.MGPOptional.empty();
   static get() {
     if (_YinshRules.singleton.isAbsent()) {
-      _YinshRules.singleton = import_lib229.MGPOptional.of(new _YinshRules());
+      _YinshRules.singleton = import_lib232.MGPOptional.of(new _YinshRules());
     }
     return _YinshRules.singleton.get();
   }
   getInitialState() {
-    const _31 = YinshPiece.EMPTY;
-    const N9 = YinshPiece.UNREACHABLE;
+    const _32 = YinshPiece.EMPTY;
+    const N10 = YinshPiece.UNREACHABLE;
     const board = [
-      [N9, N9, N9, N9, N9, N9, _31, _31, _31, _31, N9],
-      [N9, N9, N9, N9, _31, _31, _31, _31, _31, _31, _31],
-      [N9, N9, N9, _31, _31, _31, _31, _31, _31, _31, _31],
-      [N9, N9, _31, _31, _31, _31, _31, _31, _31, _31, _31],
-      [N9, _31, _31, _31, _31, _31, _31, _31, _31, _31, _31],
-      [N9, _31, _31, _31, _31, _31, _31, _31, _31, _31, N9],
-      [_31, _31, _31, _31, _31, _31, _31, _31, _31, _31, N9],
-      [_31, _31, _31, _31, _31, _31, _31, _31, _31, N9, N9],
-      [_31, _31, _31, _31, _31, _31, _31, _31, N9, N9, N9],
-      [_31, _31, _31, _31, _31, _31, _31, N9, N9, N9, N9],
-      [N9, _31, _31, _31, _31, N9, N9, N9, N9, N9, N9]
+      [N10, N10, N10, N10, N10, N10, _32, _32, _32, _32, N10],
+      [N10, N10, N10, N10, _32, _32, _32, _32, _32, _32, _32],
+      [N10, N10, N10, _32, _32, _32, _32, _32, _32, _32, _32],
+      [N10, N10, _32, _32, _32, _32, _32, _32, _32, _32, _32],
+      [N10, _32, _32, _32, _32, _32, _32, _32, _32, _32, _32],
+      [N10, _32, _32, _32, _32, _32, _32, _32, _32, _32, N10],
+      [_32, _32, _32, _32, _32, _32, _32, _32, _32, _32, N10],
+      [_32, _32, _32, _32, _32, _32, _32, _32, _32, N10, N10],
+      [_32, _32, _32, _32, _32, _32, _32, _32, N10, N10, N10],
+      [_32, _32, _32, _32, _32, _32, _32, N10, N10, N10, N10],
+      [N10, _32, _32, _32, _32, N10, N10, N10, N10, N10, N10]
     ];
     return new YinshState(board, PlayerNumberMap.of(5, 5), 0);
   }
@@ -42333,9 +42729,9 @@ var YinshRules = class _YinshRules extends Rules {
   ringSelectionValidity(state, coord) {
     const player = state.getCurrentPlayer();
     if (state.getPieceAt(coord) === YinshPiece.RINGS.get(player)) {
-      return import_lib229.MGPValidation.SUCCESS;
+      return import_lib232.MGPValidation.SUCCESS;
     } else {
-      return import_lib229.MGPValidation.failure(YinshFailure.CAPTURE_SHOULD_TAKE_RING());
+      return import_lib232.MGPValidation.failure(YinshFailure.CAPTURE_SHOULD_TAKE_RING());
     }
   }
   applyRingMoveAndFlip(start, end, state) {
@@ -42356,7 +42752,7 @@ var YinshRules = class _YinshRules extends Rules {
       return this.initialPlacementValidity(state, move.start);
     }
     if (state.isInitialPlacementPhase()) {
-      return import_lib229.MGPFallible.failure(YinshFailure.NO_MARKERS_IN_INITIAL_PHASE());
+      return import_lib232.MGPFallible.failure(YinshFailure.NO_MARKERS_IN_INITIAL_PHASE());
     }
     const initialCapturesValidity = this.capturesValidity(state, move.initialCaptures);
     if (initialCapturesValidity.isFailure()) {
@@ -42377,28 +42773,28 @@ var YinshRules = class _YinshRules extends Rules {
     if (noMoreCapturesValidity.isFailure()) {
       return noMoreCapturesValidity.toOtherFallible();
     }
-    return import_lib229.MGPFallible.success(stateAfterFinalCaptures);
+    return import_lib232.MGPFallible.success(stateAfterFinalCaptures);
   }
   initialPlacementValidity(state, coord) {
     if (state.isInitialPlacementPhase() === false) {
-      return import_lib229.MGPFallible.failure(YinshFailure.PLACEMENT_AFTER_INITIAL_PHASE());
+      return import_lib232.MGPFallible.failure(YinshFailure.PLACEMENT_AFTER_INITIAL_PHASE());
     }
     if (state.getPieceAt(coord) !== YinshPiece.EMPTY) {
-      return import_lib229.MGPFallible.failure(RulesFailure.MUST_CLICK_ON_EMPTY_SPACE());
+      return import_lib232.MGPFallible.failure(RulesFailure.MUST_CLICK_ON_EMPTY_SPACE());
     }
     const player = state.getCurrentPlayer();
     const sideRings = state.sideRings.getCopy();
     sideRings.add(player, -1);
     const newBoard = state.setAt(coord, YinshPiece.of(player, true)).board;
     const newState = new YinshState(newBoard, sideRings, state.turn);
-    return import_lib229.MGPFallible.success(newState);
+    return import_lib232.MGPFallible.success(newState);
   }
   moveStartValidity(state, start) {
     const player = state.getCurrentPlayer();
     if (state.getPieceAt(start) === YinshPiece.RINGS.get(player)) {
-      return import_lib229.MGPValidation.SUCCESS;
+      return import_lib232.MGPValidation.SUCCESS;
     } else {
-      return import_lib229.MGPValidation.failure(YinshFailure.SHOULD_SELECT_PLAYER_RING());
+      return import_lib232.MGPValidation.failure(YinshFailure.SHOULD_SELECT_PLAYER_RING());
     }
   }
   moveValidity(state, start, end) {
@@ -42407,11 +42803,11 @@ var YinshRules = class _YinshRules extends Rules {
       return moveStartValidity;
     }
     if (state.getPieceAt(end) !== YinshPiece.EMPTY) {
-      return import_lib229.MGPValidation.failure(YinshFailure.SHOULD_END_MOVE_ON_EMPTY_SPACE());
+      return import_lib232.MGPValidation.failure(YinshFailure.SHOULD_END_MOVE_ON_EMPTY_SPACE());
     }
     const directionOptional = HexaDirection.factory.fromMove(start, end);
     if (directionOptional.isFailure()) {
-      return import_lib229.MGPValidation.failure(YinshFailure.MOVE_DIRECTION_INVALID());
+      return import_lib232.MGPValidation.failure(YinshFailure.MOVE_DIRECTION_INVALID());
     }
     const direction = directionOptional.get();
     let markersPassed = false;
@@ -42419,15 +42815,15 @@ var YinshRules = class _YinshRules extends Rules {
       const piece = state.getPieceAt(cur);
       if (piece === YinshPiece.EMPTY) {
         if (markersPassed) {
-          return import_lib229.MGPValidation.failure(YinshFailure.MOVE_SHOULD_END_AT_FIRST_EMPTY_SPACE_AFTER_MARKERS());
+          return import_lib232.MGPValidation.failure(YinshFailure.MOVE_SHOULD_END_AT_FIRST_EMPTY_SPACE_AFTER_MARKERS());
         }
       } else if (piece.isRing) {
-        return import_lib229.MGPValidation.failure(YinshFailure.MOVE_SHOULD_NOT_PASS_ABOVE_RING());
+        return import_lib232.MGPValidation.failure(YinshFailure.MOVE_SHOULD_NOT_PASS_ABOVE_RING());
       } else {
         markersPassed = true;
       }
     }
-    return import_lib229.MGPValidation.SUCCESS;
+    return import_lib232.MGPValidation.SUCCESS;
   }
   capturesValidity(state, captures) {
     let updatedState = state;
@@ -42438,27 +42834,27 @@ var YinshRules = class _YinshRules extends Rules {
       }
       updatedState = this.applyCapture(capture, updatedState);
     }
-    return import_lib229.MGPValidation.SUCCESS;
+    return import_lib232.MGPValidation.SUCCESS;
   }
   captureValidity(state, capture) {
     const player = state.getCurrentPlayer();
     for (const coord of capture.capturedSpaces) {
       if (state.getPieceAt(coord) !== YinshPiece.MARKERS.get(player)) {
-        return import_lib229.MGPValidation.failure(YinshFailure.CAN_ONLY_CAPTURE_YOUR_MARKERS());
+        return import_lib232.MGPValidation.failure(YinshFailure.CAN_ONLY_CAPTURE_YOUR_MARKERS());
       }
     }
     if (state.getPieceAt(capture.ringTaken.get()) !== YinshPiece.RINGS.get(player)) {
-      return import_lib229.MGPValidation.failure(YinshFailure.CAPTURE_SHOULD_TAKE_RING());
+      return import_lib232.MGPValidation.failure(YinshFailure.CAPTURE_SHOULD_TAKE_RING());
     }
-    return import_lib229.MGPValidation.SUCCESS;
+    return import_lib232.MGPValidation.SUCCESS;
   }
   noMoreCapturesValidity(state) {
     const player = state.getCurrentPlayer();
     const linePortions = this.getLinePortionsWithAtLeastFivePiecesOfPlayer(state, player);
     if (linePortions.length === 0) {
-      return import_lib229.MGPValidation.SUCCESS;
+      return import_lib232.MGPValidation.SUCCESS;
     } else {
-      return import_lib229.MGPValidation.failure(YinshFailure.MISSING_CAPTURES());
+      return import_lib232.MGPValidation.failure(YinshFailure.MISSING_CAPTURES());
     }
   }
   getLinePortionsWithAtLeastFivePiecesOfPlayer(state, player) {
@@ -42492,9 +42888,9 @@ var YinshRules = class _YinshRules extends Rules {
       }
     }
     if (5 <= consecutives) {
-      return import_lib229.MGPOptional.of({ start, end: cur, dir });
+      return import_lib232.MGPOptional.of({ start, end: cur, dir });
     }
-    return import_lib229.MGPOptional.empty();
+    return import_lib232.MGPOptional.empty();
   }
   getPossibleCaptures(state) {
     const player = state.getCurrentPlayer();
@@ -42541,9 +42937,9 @@ var YinshRules = class _YinshRules extends Rules {
 };
 
 // src/app/games/yinsh/YinshTutorial.ts
-var import_lib230 = __toESM(require_dist());
-var _30 = YinshPiece.EMPTY;
-var N8 = YinshPiece.UNREACHABLE;
+var import_lib233 = __toESM(require_dist());
+var _31 = YinshPiece.EMPTY;
+var N9 = YinshPiece.UNREACHABLE;
 var a2 = YinshPiece.MARKER_ZERO;
 var A8 = YinshPiece.RING_ZERO;
 var b4 = YinshPiece.MARKER_ONE;
@@ -42555,22 +42951,22 @@ var YinshTutorialMessages = class {
 var YinshTutorial = class extends Tutorial {
   tutorial = [
     TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`The goal at Yinsh is to capture three rings in total. The rings taken are shown on the top left for Dark, and on the bottom right for Light. Here, Dark won the game. Note that on the board you have two types of pieces for each player: rings (empty circles) and markers (full circles).`, new YinshState([
-      [N8, N8, N8, N8, N8, N8, _30, _30, _30, _30, N8],
-      [N8, N8, N8, N8, _30, _30, _30, _30, _30, _30, _30],
-      [N8, N8, N8, a2, B6, _30, _30, _30, _30, _30, _30],
-      [N8, N8, _30, a2, _30, B6, _30, b4, _30, _30, _30],
-      [N8, _30, A8, b4, _30, _30, B6, a2, _30, _30, _30],
-      [N8, _30, _30, a2, b4, _30, _30, _30, _30, _30, N8],
-      [_30, _30, _30, a2, _30, _30, _30, B6, _30, _30, N8],
-      [_30, _30, _30, b4, a2, A8, _30, _30, _30, N8, N8],
-      [_30, _30, _30, _30, _30, _30, _30, _30, N8, N8, N8],
-      [_30, _30, _30, _30, _30, _30, _30, N8, N8, N8, N8],
-      [N8, _30, _30, _30, _30, N8, N8, N8, N8, N8, N8]
+      [N9, N9, N9, N9, N9, N9, _31, _31, _31, _31, N9],
+      [N9, N9, N9, N9, _31, _31, _31, _31, _31, _31, _31],
+      [N9, N9, N9, a2, B6, _31, _31, _31, _31, _31, _31],
+      [N9, N9, _31, a2, _31, B6, _31, b4, _31, _31, _31],
+      [N9, _31, A8, b4, _31, _31, B6, a2, _31, _31, _31],
+      [N9, _31, _31, a2, b4, _31, _31, _31, _31, _31, N9],
+      [_31, _31, _31, a2, _31, _31, _31, B6, _31, _31, N9],
+      [_31, _31, _31, b4, a2, A8, _31, _31, _31, N9, N9],
+      [_31, _31, _31, _31, _31, _31, _31, _31, N9, N9, N9],
+      [_31, _31, _31, _31, _31, _31, _31, N9, N9, N9, N9],
+      [N9, _31, _31, _31, _31, N9, N9, N9, N9, N9, N9]
     ], PlayerNumberMap.of(3, 1), 20)),
     TutorialStep.anyMove($localize`Initial board and placement phase`, $localize`The initial board is empty.
         At the beginning of the game, each player puts one of its ring on the board at their turn.
         This phase stops when all rings have been placed on the board.<br/><br/>
-        You're playing Dark, put one of your ring on the board by clicking the space where you want to place it.`, new YinshState(YinshRules.get().getInitialState().board, PlayerNumberMap.of(5, 5), 0), new YinshMove([], new Coord(5, 5), import_lib230.MGPOptional.empty(), []), TutorialStepMessage.CONGRATULATIONS()),
+        You're playing Dark, put one of your ring on the board by clicking the space where you want to place it.`, new YinshState(YinshRules.get().getInitialState().board, PlayerNumberMap.of(5, 5), 0), new YinshMove([], new Coord(5, 5), import_lib233.MGPOptional.empty(), []), TutorialStepMessage.CONGRATULATIONS()),
     TutorialStep.anyMove($localize`Putting a marker`, $localize`Once the initial phase is done and all rings are on the board, you need to place markers on the board.
         To do so, put a marker in a ring by clicking on that ring.
         Then, the ring must be moved in a straight line, in any direction.
@@ -42578,75 +42974,75 @@ var YinshTutorial = class extends Tutorial {
         If it goes over a group of markers, your move must stop at the first empty space after that group.
         All markers in the group are then flipped and their color change.<br/><br/>
         You're playing Dark, do a move.`, new YinshState([
-      [N8, N8, N8, N8, N8, N8, _30, _30, _30, _30, N8],
-      [N8, N8, N8, N8, _30, _30, _30, _30, _30, _30, _30],
-      [N8, N8, N8, B6, _30, _30, _30, _30, _30, _30, _30],
-      [N8, N8, B6, _30, _30, B6, _30, _30, _30, _30, _30],
-      [N8, _30, A8, b4, _30, _30, B6, _30, _30, _30, _30],
-      [N8, _30, _30, b4, _30, _30, _30, _30, _30, _30, N8],
-      [_30, _30, _30, _30, A8, _30, _30, B6, _30, _30, N8],
-      [_30, _30, _30, _30, _30, A8, _30, _30, _30, N8, N8],
-      [_30, _30, _30, A8, _30, _30, _30, N8, N8, N8, N8],
-      [_30, _30, _30, _30, _30, _30, _30, N8, N8, N8, N8],
-      [N8, _30, _30, _30, _30, N8, N8, N8, N8, N8, N8]
-    ], PlayerNumberMap.of(0, 0), 20), new YinshMove([], new Coord(2, 4), import_lib230.MGPOptional.of(new Coord(4, 4)), []), TutorialStepMessage.CONGRATULATIONS()),
+      [N9, N9, N9, N9, N9, N9, _31, _31, _31, _31, N9],
+      [N9, N9, N9, N9, _31, _31, _31, _31, _31, _31, _31],
+      [N9, N9, N9, B6, _31, _31, _31, _31, _31, _31, _31],
+      [N9, N9, B6, _31, _31, B6, _31, _31, _31, _31, _31],
+      [N9, _31, A8, b4, _31, _31, B6, _31, _31, _31, _31],
+      [N9, _31, _31, b4, _31, _31, _31, _31, _31, _31, N9],
+      [_31, _31, _31, _31, A8, _31, _31, B6, _31, _31, N9],
+      [_31, _31, _31, _31, _31, A8, _31, _31, _31, N9, N9],
+      [_31, _31, _31, A8, _31, _31, _31, N9, N9, N9, N9],
+      [_31, _31, _31, _31, _31, _31, _31, N9, N9, N9, N9],
+      [N9, _31, _31, _31, _31, N9, N9, N9, N9, N9, N9]
+    ], PlayerNumberMap.of(0, 0), 20), new YinshMove([], new Coord(2, 4), import_lib233.MGPOptional.of(new Coord(4, 4)), []), TutorialStepMessage.CONGRATULATIONS()),
     TutorialStep.fromPredicate($localize`Getting a ring by aligning 5 markers`, $localize`Finally, the last mechanic you need is to be able to get a ring from the board in order to gain points.
         To do so, you need to align 5 markers of your color.
         You can then get these markers by clicking on them, and then get one of your ring by clicking on it.
         You will then have one more point.
         You must capture when you can.<br/><br/>
         You're playing Dark, perform a capture!`, new YinshState([
-      [N8, N8, N8, N8, N8, N8, _30, _30, _30, _30, N8],
-      [N8, N8, N8, N8, _30, _30, _30, _30, _30, _30, _30],
-      [N8, N8, N8, B6, _30, _30, _30, _30, _30, _30, _30],
-      [N8, N8, B6, _30, _30, B6, _30, _30, _30, _30, _30],
-      [N8, _30, a2, a2, A8, b4, b4, _30, _30, _30, _30],
-      [N8, _30, _30, B6, _30, _30, _30, _30, _30, _30, N8],
-      [_30, _30, _30, _30, A8, _30, _30, B6, _30, _30, N8],
-      [_30, _30, _30, _30, _30, A8, _30, _30, _30, N8, N8],
-      [_30, _30, _30, A8, _30, _30, _30, A8, N8, N8, N8],
-      [_30, _30, _30, _30, _30, _30, _30, N8, N8, N8, N8],
-      [N8, _30, _30, _30, _30, N8, N8, N8, N8, N8, N8]
-    ], PlayerNumberMap.of(0, 0), 20), new YinshMove([], new Coord(4, 4), import_lib230.MGPOptional.of(new Coord(7, 4)), [YinshCapture.of(new Coord(2, 4), new Coord(6, 4), import_lib230.MGPOptional.of(new Coord(7, 4)))]), (_move, _previous, result) => {
+      [N9, N9, N9, N9, N9, N9, _31, _31, _31, _31, N9],
+      [N9, N9, N9, N9, _31, _31, _31, _31, _31, _31, _31],
+      [N9, N9, N9, B6, _31, _31, _31, _31, _31, _31, _31],
+      [N9, N9, B6, _31, _31, B6, _31, _31, _31, _31, _31],
+      [N9, _31, a2, a2, A8, b4, b4, _31, _31, _31, _31],
+      [N9, _31, _31, B6, _31, _31, _31, _31, _31, _31, N9],
+      [_31, _31, _31, _31, A8, _31, _31, B6, _31, _31, N9],
+      [_31, _31, _31, _31, _31, A8, _31, _31, _31, N9, N9],
+      [_31, _31, _31, A8, _31, _31, _31, A8, N9, N9, N9],
+      [_31, _31, _31, _31, _31, _31, _31, N9, N9, N9, N9],
+      [N9, _31, _31, _31, _31, N9, N9, N9, N9, N9, N9]
+    ], PlayerNumberMap.of(0, 0), 20), new YinshMove([], new Coord(4, 4), import_lib233.MGPOptional.of(new Coord(7, 4)), [YinshCapture.of(new Coord(2, 4), new Coord(6, 4), import_lib233.MGPOptional.of(new Coord(7, 4)))]), (_move, _previous, result) => {
       if (result.sideRings.get(Player.ZERO) === 1) {
-        return import_lib230.MGPValidation.SUCCESS;
+        return import_lib233.MGPValidation.SUCCESS;
       } else {
-        return import_lib230.MGPValidation.failure(YinshTutorialMessages.MUST_ALIGN_FIVE());
+        return import_lib233.MGPValidation.failure(YinshTutorialMessages.MUST_ALIGN_FIVE());
       }
     }, TutorialStepMessage.CONGRATULATIONS()),
     TutorialStep.fromPredicate($localize`Compound captures`, $localize`During a turn, you could have to choose between multiple captures,
         or you could even capture multiple times!
         During the capture selection, if you see that the marker you clicked belongs to two captures, you have to click on a second marker to avoid any ambiguity.<br/><br/>
         Here, playing Dark, you can capture two rings, do it!`, new YinshState([
-      [N8, N8, N8, N8, N8, N8, _30, _30, _30, _30, N8],
-      [N8, N8, N8, N8, A8, _30, _30, B6, B6, A8, _30],
-      [N8, N8, N8, A8, _30, _30, b4, B6, _30, A8, _30],
-      [N8, N8, _30, A8, _30, _30, _30, _30, _30, B6, _30],
-      [N8, _30, _30, _30, _30, a2, _30, _30, B6, _30, _30],
-      [N8, _30, _30, _30, a2, a2, _30, b4, _30, _30, N8],
-      [_30, _30, _30, a2, _30, a2, _30, _30, _30, _30, N8],
-      [_30, _30, a2, _30, _30, a2, _30, _30, _30, N8, N8],
-      [_30, a2, _30, _30, _30, a2, _30, _30, N8, N8, N8],
-      [_30, _30, _30, _30, _30, a2, _30, N8, N8, N8, N8],
-      [N8, _30, _30, _30, _30, N8, N8, N8, N8, N8, N8]
+      [N9, N9, N9, N9, N9, N9, _31, _31, _31, _31, N9],
+      [N9, N9, N9, N9, A8, _31, _31, B6, B6, A8, _31],
+      [N9, N9, N9, A8, _31, _31, b4, B6, _31, A8, _31],
+      [N9, N9, _31, A8, _31, _31, _31, _31, _31, B6, _31],
+      [N9, _31, _31, _31, _31, a2, _31, _31, B6, _31, _31],
+      [N9, _31, _31, _31, a2, a2, _31, b4, _31, _31, N9],
+      [_31, _31, _31, a2, _31, a2, _31, _31, _31, _31, N9],
+      [_31, _31, a2, _31, _31, a2, _31, _31, _31, N9, N9],
+      [_31, a2, _31, _31, _31, a2, _31, _31, N9, N9, N9],
+      [_31, _31, _31, _31, _31, a2, _31, N9, N9, N9, N9],
+      [N9, _31, _31, _31, _31, N9, N9, N9, N9, N9, N9]
     ], PlayerNumberMap.of(0, 0), 10), new YinshMove([
-      YinshCapture.of(new Coord(5, 4), new Coord(1, 8), import_lib230.MGPOptional.of(new Coord(3, 2))),
-      YinshCapture.of(new Coord(5, 9), new Coord(5, 5), import_lib230.MGPOptional.of(new Coord(3, 3)))
-    ], new Coord(4, 1), import_lib230.MGPOptional.of(new Coord(4, 2)), []), (_move, _previous, result) => {
+      YinshCapture.of(new Coord(5, 4), new Coord(1, 8), import_lib233.MGPOptional.of(new Coord(3, 2))),
+      YinshCapture.of(new Coord(5, 9), new Coord(5, 5), import_lib233.MGPOptional.of(new Coord(3, 3)))
+    ], new Coord(4, 1), import_lib233.MGPOptional.of(new Coord(4, 2)), []), (_move, _previous, result) => {
       if (result.sideRings.get(Player.ZERO) === 2) {
-        return import_lib230.MGPValidation.SUCCESS;
+        return import_lib233.MGPValidation.SUCCESS;
       } else {
-        return import_lib230.MGPValidation.failure(YinshTutorialMessages.MUST_CAPTURE_TWO());
+        return import_lib233.MGPValidation.failure(YinshTutorialMessages.MUST_CAPTURE_TWO());
       }
     }, TutorialStepMessage.CONGRATULATIONS())
   ];
 };
 
 // src/app/games/yinsh/yinsh.component.ts
-var import_lib232 = __toESM(require_dist());
+var import_lib235 = __toESM(require_dist());
 
 // src/app/games/yinsh/YinshMoveGenerator.ts
-var import_lib231 = __toESM(require_dist());
+var import_lib234 = __toESM(require_dist());
 var YinshMoveGenerator = class extends MoveGenerator {
   getListMoves(node, _config) {
     const moves = [];
@@ -42654,7 +43050,7 @@ var YinshMoveGenerator = class extends MoveGenerator {
     if (state.isInitialPlacementPhase()) {
       for (const { coord, content } of state.getCoordsAndContents()) {
         if (content === YinshPiece.EMPTY) {
-          moves.push(new YinshMove([], coord, import_lib231.MGPOptional.empty(), []));
+          moves.push(new YinshMove([], coord, import_lib234.MGPOptional.empty(), []));
         }
       }
     } else {
@@ -42664,7 +43060,7 @@ var YinshMoveGenerator = class extends MoveGenerator {
         this.getRingMoves(stateAfterCapture).forEach((ringMove) => {
           const stateAfterRingMove = rules.applyRingMoveAndFlip(ringMove.start, ringMove.end, stateAfterCapture);
           this.getPossibleCaptureCombinations(stateAfterRingMove).forEach((finalCaptures) => {
-            const move = new YinshMove(initialCaptures, ringMove.start, import_lib231.MGPOptional.of(ringMove.end), finalCaptures);
+            const move = new YinshMove(initialCaptures, ringMove.start, import_lib234.MGPOptional.of(ringMove.end), finalCaptures);
             moves.push(move);
           });
         });
@@ -42677,9 +43073,9 @@ var YinshMoveGenerator = class extends MoveGenerator {
     const possibleCaptures = rules.getPossibleCaptures(state);
     const ringCoords = this.getRingCoords(state);
     return GipfProjectHelper.getPossibleCaptureCombinationsFromPossibleCaptures(possibleCaptures).map((captureCombination) => {
-      return import_lib231.Combinatorics.getCombinations(ringCoords, captureCombination.length).map((ringsTaken) => {
+      return import_lib234.Combinatorics.getCombinations(ringCoords, captureCombination.length).map((ringsTaken) => {
         return captureCombination.map((capture, index) => {
-          return new YinshCapture(capture.capturedSpaces, import_lib231.MGPOptional.of(ringsTaken[index]));
+          return new YinshCapture(capture.capturedSpaces, import_lib234.MGPOptional.of(ringsTaken[index]));
         });
       });
     }).reduce((accumulator, captures) => {
@@ -42724,7 +43120,7 @@ var YinshScoreMinimax = class extends Minimax {
 
 // src/app/games/yinsh/yinsh.component.ts
 var _c018 = () => [];
-var _forTrack032 = ($index, $item) => $item.toString();
+var _forTrack033 = ($index, $item) => $item.toString();
 function YinshComponent_For_2_For_2_Conditional_1_Conditional_3_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
@@ -42861,7 +43257,7 @@ function YinshComponent_Conditional_5_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
     \u0275\u0275elementStart(0, "g");
-    \u0275\u0275repeaterCreate(1, YinshComponent_Conditional_5_For_2_Template, 1, 5, ":svg:polygon", 11, _forTrack032);
+    \u0275\u0275repeaterCreate(1, YinshComponent_Conditional_5_For_2_Template, 1, 5, ":svg:polygon", 11, _forTrack033);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -42939,11 +43335,11 @@ var YinshComponent = class _YinshComponent extends HexagonalGameComponent {
   possibleCaptures = [];
   initialCaptures = [];
   finalCaptures = [];
-  currentCapture = import_lib232.MGPOptional.empty();
+  currentCapture = import_lib235.MGPOptional.empty();
   selectedCoords = new CoordSet();
   selectedRings = new CoordSet();
-  moveStart = import_lib232.MGPOptional.empty();
-  moveEnd = import_lib232.MGPOptional.empty();
+  moveStart = import_lib235.MGPOptional.empty();
+  moveEnd = import_lib235.MGPOptional.empty();
   currentlyMoved = [];
   // Last move variables
   lastMoved = [];
@@ -42966,7 +43362,7 @@ var YinshComponent = class _YinshComponent extends HexagonalGameComponent {
       new MCTS($localize`MCTS`, new YinshMoveGenerator(), this.rules)
     ];
     this.encoder = YinshMove.encoder;
-    this.scores = import_lib232.MGPOptional.of(PlayerNumberMap.of(0, 0));
+    this.scores = import_lib235.MGPOptional.of(PlayerNumberMap.of(0, 0));
     this.hexaLayout = new HexaLayout(_YinshComponent.RING_OUTER_SIZE * 1.5, new Coord(_YinshComponent.RING_OUTER_SIZE * 2, 0), FlatHexaOrientation.INSTANCE);
     this.constructedState = this.getState();
   }
@@ -42975,7 +43371,7 @@ var YinshComponent = class _YinshComponent extends HexagonalGameComponent {
       const state = this.getState();
       this.constructedState = state;
       this.hexaBoard = this.constructedState.board;
-      this.scores = import_lib232.MGPOptional.of(state.countScores());
+      this.scores = import_lib235.MGPOptional.of(state.countScores());
       this.moveToInitialCaptureOrMovePhase();
     });
   }
@@ -43103,9 +43499,9 @@ var YinshComponent = class _YinshComponent extends HexagonalGameComponent {
     this.finalCaptures = [];
     this.selectedCoords = new CoordSet();
     this.selectedRings = new CoordSet();
-    this.currentCapture = import_lib232.MGPOptional.empty();
-    this.moveStart = import_lib232.MGPOptional.empty();
-    this.moveEnd = import_lib232.MGPOptional.empty();
+    this.currentCapture = import_lib235.MGPOptional.empty();
+    this.moveStart = import_lib235.MGPOptional.empty();
+    this.moveEnd = import_lib235.MGPOptional.empty();
     this.currentlyMoved = [];
     this.removed = [];
     this.moveToInitialCaptureOrMovePhase();
@@ -43136,7 +43532,7 @@ var YinshComponent = class _YinshComponent extends HexagonalGameComponent {
       this.movePhase = "INITIAL_CAPTURE_SELECT_FIRST";
     }
     this.updateViewInfo();
-    return import_lib232.MGPValidation.SUCCESS;
+    return import_lib235.MGPValidation.SUCCESS;
   }
   onClick(x2, y) {
     return __async(this, null, function* () {
@@ -43177,7 +43573,7 @@ var YinshComponent = class _YinshComponent extends HexagonalGameComponent {
       } else {
         this.selectCapture(captures[0]);
       }
-      return import_lib232.MGPValidation.SUCCESS;
+      return import_lib235.MGPValidation.SUCCESS;
     });
   }
   moveToCaptureSelectLast(possibleCaptures) {
@@ -43189,7 +43585,7 @@ var YinshComponent = class _YinshComponent extends HexagonalGameComponent {
     if (this.movePhase === "INITIAL_CAPTURE_SELECT_FIRST") {
       this.movePhase = "INITIAL_CAPTURE_SELECT_LAST";
     } else {
-      import_lib232.Utils.expectToBe(this.movePhase, "FINAL_CAPTURE_SELECT_FIRST", "moveToCaptureSelectLast did not expect to be called in movePhase" + this.movePhase);
+      import_lib235.Utils.expectToBe(this.movePhase, "FINAL_CAPTURE_SELECT_FIRST", "moveToCaptureSelectLast did not expect to be called in movePhase" + this.movePhase);
       this.movePhase = "FINAL_CAPTURE_SELECT_LAST";
     }
   }
@@ -43211,17 +43607,17 @@ var YinshComponent = class _YinshComponent extends HexagonalGameComponent {
     });
   }
   selectCapture(capture) {
-    this.currentCapture = import_lib232.MGPOptional.of(capture);
+    this.currentCapture = import_lib235.MGPOptional.of(capture);
     this.constructedState = new YinshState(this.rules.applyCaptureWithoutTakingRing(this.constructedState, capture), this.constructedState.sideRings, this.constructedState.turn);
     if (this.movePhase === "INITIAL_CAPTURE_SELECT_FIRST" || this.movePhase === "INITIAL_CAPTURE_SELECT_LAST") {
       this.movePhase = "INITIAL_CAPTURE_SELECT_RING";
     } else {
       const message = "selectCapture did not expect to be called in movePhase " + this.movePhase;
-      import_lib232.Utils.assert(this.movePhase === "FINAL_CAPTURE_SELECT_FIRST" || this.movePhase === "FINAL_CAPTURE_SELECT_LAST", message);
+      import_lib235.Utils.assert(this.movePhase === "FINAL_CAPTURE_SELECT_FIRST" || this.movePhase === "FINAL_CAPTURE_SELECT_LAST", message);
       this.movePhase = "FINAL_CAPTURE_SELECT_RING";
     }
     this.updateViewInfo();
-    return import_lib232.MGPValidation.SUCCESS;
+    return import_lib235.MGPValidation.SUCCESS;
   }
   markCapture(capture) {
     this.selectedCoords = this.selectedCoords.unionList(capture.capturedSpaces);
@@ -43237,7 +43633,7 @@ var YinshComponent = class _YinshComponent extends HexagonalGameComponent {
       }
       this.constructedState = this.rules.takeRing(this.constructedState, coord);
       const capture = this.currentCapture.get().setRingTaken(coord);
-      this.currentCapture = import_lib232.MGPOptional.empty();
+      this.currentCapture = import_lib235.MGPOptional.empty();
       this.possibleCaptures = this.rules.getPossibleCaptures(this.constructedState);
       switch (this.movePhase) {
         case "INITIAL_CAPTURE_SELECT_RING":
@@ -43247,17 +43643,17 @@ var YinshComponent = class _YinshComponent extends HexagonalGameComponent {
           } else {
             this.movePhase = "INITIAL_CAPTURE_SELECT_FIRST";
             this.updateViewInfo();
-            return import_lib232.MGPValidation.SUCCESS;
+            return import_lib235.MGPValidation.SUCCESS;
           }
         default:
-          import_lib232.Utils.expectToBe(this.movePhase, "FINAL_CAPTURE_SELECT_RING");
+          import_lib235.Utils.expectToBe(this.movePhase, "FINAL_CAPTURE_SELECT_RING");
           this.finalCaptures.push(capture);
           if (this.possibleCaptures.length === 0) {
             return this.tryMove();
           } else {
             this.movePhase = "FINAL_CAPTURE_SELECT_FIRST";
             this.updateViewInfo();
-            return import_lib232.MGPValidation.SUCCESS;
+            return import_lib235.MGPValidation.SUCCESS;
           }
       }
     });
@@ -43265,7 +43661,7 @@ var YinshComponent = class _YinshComponent extends HexagonalGameComponent {
   moveToMovePhase() {
     this.movePhase = "MOVE_START";
     this.updateViewInfo();
-    return import_lib232.MGPValidation.SUCCESS;
+    return import_lib235.MGPValidation.SUCCESS;
   }
   tryMove() {
     return __async(this, null, function* () {
@@ -43281,18 +43677,18 @@ var YinshComponent = class _YinshComponent extends HexagonalGameComponent {
         if (validity.isFailure()) {
           return this.cancelMove(validity.getReason());
         }
-        this.moveStart = import_lib232.MGPOptional.of(coord);
+        this.moveStart = import_lib235.MGPOptional.of(coord);
         return this.tryMove();
       } else {
         const validity = this.rules.moveStartValidity(this.constructedState, coord);
         if (validity.isFailure()) {
           return this.cancelMove(validity.getReason());
         }
-        this.moveStart = import_lib232.MGPOptional.of(coord);
+        this.moveStart = import_lib235.MGPOptional.of(coord);
         this.movePhase = "MOVE_END";
         this.updateViewInfo();
       }
-      return import_lib232.MGPValidation.SUCCESS;
+      return import_lib235.MGPValidation.SUCCESS;
     });
   }
   selectMoveEnd(coord) {
@@ -43309,7 +43705,7 @@ var YinshComponent = class _YinshComponent extends HexagonalGameComponent {
       if (validity.isFailure()) {
         return this.cancelMove(validity.getReason());
       }
-      this.moveEnd = import_lib232.MGPOptional.of(coord);
+      this.moveEnd = import_lib235.MGPOptional.of(coord);
       this.currentlyMoved = this.coordsBetween(this.moveStart.get(), coord);
       this.constructedState = this.rules.applyRingMoveAndFlip(this.moveStart.get(), coord, this.constructedState);
       this.updateViewInfo();
@@ -43324,7 +43720,7 @@ var YinshComponent = class _YinshComponent extends HexagonalGameComponent {
       } else {
         this.movePhase = "FINAL_CAPTURE_SELECT_FIRST";
         this.updateViewInfo();
-        return import_lib232.MGPValidation.SUCCESS;
+        return import_lib235.MGPValidation.SUCCESS;
       }
     });
   }
@@ -43336,9 +43732,9 @@ var YinshComponent = class _YinshComponent extends HexagonalGameComponent {
       \u0275\u0275namespaceSVG();
       \u0275\u0275elementStart(0, "svg", 0);
       \u0275\u0275repeaterCreate(1, YinshComponent_For_2_Template, 3, 0, ":svg:g", null, \u0275\u0275repeaterTrackByIndex);
-      \u0275\u0275repeaterCreate(3, YinshComponent_For_4_Template, 1, 5, ":svg:polygon", 1, _forTrack032);
+      \u0275\u0275repeaterCreate(3, YinshComponent_For_4_Template, 1, 5, ":svg:polygon", 1, _forTrack033);
       \u0275\u0275conditionalCreate(5, YinshComponent_Conditional_5_Template, 3, 0, ":svg:g");
-      \u0275\u0275repeaterCreate(6, YinshComponent_For_7_Template, 1, 8, ":svg:rect", 2, _forTrack032);
+      \u0275\u0275repeaterCreate(6, YinshComponent_For_7_Template, 1, 8, ":svg:rect", 2, _forTrack033);
       \u0275\u0275repeaterCreate(8, YinshComponent_For_9_Template, 3, 2, ":svg:g", null, \u0275\u0275repeaterTrackByIdentity);
       \u0275\u0275elementEnd();
     }
@@ -43467,7 +43863,7 @@ var YinshComponent = class _YinshComponent extends HexagonalGameComponent {
 })();
 
 // src/app/components/normal-component/pick-game/pick-game.component.ts
-var _forTrack033 = ($index, $item) => $item.name;
+var _forTrack034 = ($index, $item) => $item.name;
 function PickGameComponent_For_3_Template(rf, ctx) {
   if (rf & 1) {
     const _r1 = \u0275\u0275getCurrentView();
@@ -43507,6 +43903,7 @@ var GameDescription = class {
   static EPAMINONDAS = () => $localize`An antiquity-war inspired game. Be the first to pierce your opponent's lines!`;
   static GIPF = () => $localize`A hexagonal game of alignment. Insert your pieces on the board to capture your opponent's pieces!`;
   static GO = () => $localize`The oldest strategy game still practiced widely. A territory control game.`;
+  static HEXAGONAL_GO = () => $localize`A version of Go on a hexagonal board!`;
   static HEXODIA = () => $localize`A hexagonal alignment game with weird "diagonals"!`;
   static HIVE = () => $localize`You are in charge of a hive full of insects. Use the abilities of your insects to block the opponent's queen in order to win!`;
   static INTERNATIONAL_CHECKERS = () => $localize`The famous checkers game (international version)`;
@@ -43638,17 +44035,19 @@ var GameInfo = class _GameInfo {
       // 39:                             * Martin
       new _GameInfo($localize`International Checkers`, "InternationalCheckers", InternationalCheckersComponent, new InternationalCheckersTutorial(), InternationalCheckersRules.get(), /* @__PURE__ */ new Date("2025-02-03"), GameDescription.INTERNATIONAL_CHECKERS()),
       // 40:                             * Martin
-      new _GameInfo($localize`Quebec Castles`, "QuebecCastles", QuebecCastlesComponent, new QuebecCastlesTutorial(), QuebecCastlesRules.get(), /* @__PURE__ */ new Date("2025-09-29"), GameDescription.QUEBEC_CASTLES())
+      new _GameInfo($localize`Quebec Castles`, "QuebecCastles", QuebecCastlesComponent, new QuebecCastlesTutorial(), QuebecCastlesRules.get(), /* @__PURE__ */ new Date("2025-09-29"), GameDescription.QUEBEC_CASTLES()),
       // 41:                             * Martin
+      new _GameInfo($localize`Hexagonal Go`, "HexagonalGo", HexagonalGoComponent, new HexagonalGoTutorial(), HexagonalGoRules.get(), /* @__PURE__ */ new Date("2026-02-14"), GameDescription.HEXAGONAL_GO())
+      // 42:                             * Martin
     ].sort((a3, b5) => a3.name.localeCompare(b5.name));
   }
   static getByUrlName(urlName) {
     const games = _GameInfo.getAllGames().filter((gameInfo) => gameInfo.urlName === urlName);
-    import_lib233.Utils.assert(games.length <= 1, `There should only be one game matching $urlName!`);
+    import_lib236.Utils.assert(games.length <= 1, `There should only be one game matching $urlName!`);
     if (games.length === 0) {
-      return import_lib233.MGPOptional.empty();
+      return import_lib236.MGPOptional.empty();
     } else {
-      return import_lib233.MGPOptional.of(games[0]);
+      return import_lib236.MGPOptional.of(games[0]);
     }
   }
   static getStateProvider(urlName) {
@@ -43674,9 +44073,9 @@ var GameInfo = class _GameInfo {
   getRulesConfig() {
     const description = this.getRulesConfigDescription();
     if (description.isPresent()) {
-      return import_lib233.MGPOptional.of(description.get().getDefaultConfig().config);
+      return import_lib236.MGPOptional.of(description.get().getDefaultConfig().config);
     } else {
-      return import_lib233.MGPOptional.empty();
+      return import_lib236.MGPOptional.empty();
     }
   }
 };
@@ -43715,7 +44114,7 @@ var PickGameComponent = class _PickGameComponent {
       });
       \u0275\u0275elementEnd();
       \u0275\u0275elementStart(1, "div", 1);
-      \u0275\u0275repeaterCreate(2, PickGameComponent_For_3_Template, 8, 6, "div", 2, _forTrack033);
+      \u0275\u0275repeaterCreate(2, PickGameComponent_For_3_Template, 8, 6, "div", 2, _forTrack034);
       \u0275\u0275elementEnd();
     }
     if (rf & 2) {
@@ -43731,7 +44130,7 @@ var PickGameComponent = class _PickGameComponent {
   }], null, { pickGame: [{ type: Output, args: ["pickGame"] }] });
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(PickGameComponent, { className: "PickGameComponent", filePath: "src/app/components/normal-component/pick-game/pick-game.component.ts", lineNumber: 348 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(PickGameComponent, { className: "PickGameComponent", filePath: "src/app/components/normal-component/pick-game/pick-game.component.ts", lineNumber: 355 });
 })();
 
 export {
@@ -43758,4 +44157,4 @@ bulma-toast/dist/bulma-toast.min.js:
    * Released under the MIT License.
    *)
 */
-//# sourceMappingURL=chunk-T3FXKB4S.js.map
+//# sourceMappingURL=chunk-IXDCTIGK.js.map

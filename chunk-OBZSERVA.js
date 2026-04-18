@@ -1,6 +1,6 @@
 import {
   BackendService
-} from "./chunk-CWDFFHLY.js";
+} from "./chunk-EGSFCPXZ.js";
 import {
   Debug
 } from "./chunk-6Q2SZNEY.js";
@@ -57,4 +57,4 @@ ChatService = __decorate([
 export {
   ChatService
 };
-//# sourceMappingURL=chunk-APOIY6RG.js.map
+//# sourceMappingURL=chunk-OBZSERVA.js.map

@@ -1,6 +1,6 @@
 import {
   PickGameComponent
-} from "./chunk-T3FXKB4S.js";
+} from "./chunk-IXDCTIGK.js";
 import "./chunk-YOYRPYWO.js";
 import {
   Router
@@ -54,4 +54,4 @@ var TutorialGameCreationComponent = class _TutorialGameCreationComponent {
 export {
   TutorialGameCreationComponent
 };
-//# sourceMappingURL=tutorial-game-creation.component-OXJJBQ6N.js.map
+//# sourceMappingURL=tutorial-game-creation.component-USVXPB2A.js.map
