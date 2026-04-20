@@ -1,32 +1,32 @@
 import {
   ConfigRoomService
-} from "./chunk-T4ERD35V.js";
+} from "./chunk-K2ZHVJ7L.js";
 import {
   GameService
-} from "./chunk-GIHBEDM5.js";
+} from "./chunk-RXUADF4H.js";
 import {
   ChatService
-} from "./chunk-OBZSERVA.js";
+} from "./chunk-Z3SBNPY3.js";
 import {
   CurrentGameService
-} from "./chunk-U2BAKW67.js";
+} from "./chunk-OSPTF3GE.js";
 import {
   environment
-} from "./chunk-EGSFCPXZ.js";
+} from "./chunk-RMNTZPT6.js";
 import {
   GameInfo,
   MessageDisplayer
-} from "./chunk-IXDCTIGK.js";
+} from "./chunk-7YJCR4E3.js";
 import {
   LocaleUtils,
   ThemeService
-} from "./chunk-YOYRPYWO.js";
+} from "./chunk-7JWLDCZD.js";
 import {
   FaIconComponent,
   FontAwesomeModule,
   faCog,
   faSpinner
-} from "./chunk-BLR7XPE6.js";
+} from "./chunk-DTAE6QI4.js";
 import {
   BrowserModule,
   DomRendererFactory2,
@@ -35,7 +35,7 @@ import {
   RouterOutlet,
   bootstrapApplication,
   provideRouter
-} from "./chunk-3SNUTSIQ.js";
+} from "./chunk-GUMZAMYX.js";
 import {
   ConnectedUserService,
   FirestoreDAO,
@@ -46,20 +46,21 @@ import {
   getFirestore,
   initializeApp,
   serverTimestamp
-} from "./chunk-6DPJ5FZV.js";
-import "./chunk-VPL3GBHU.js";
-import "./chunk-6Q2SZNEY.js";
+} from "./chunk-MKTESROA.js";
+import "./chunk-HWRS2N2S.js";
+import "./chunk-ASNDRGRI.js";
 import {
   FormsModule,
   ReactiveFormsModule
-} from "./chunk-VXIRSHDN.js";
+} from "./chunk-OJTN7ELL.js";
 import {
-  require_dist
-} from "./chunk-3D6AYEPT.js";
+  MGPOptional,
+  MGPValidation
+} from "./chunk-VWERQGBR.js";
 import {
   NgClass,
   registerLocaleData
-} from "./chunk-62WCQMZP.js";
+} from "./chunk-XUYKWQYA.js";
 import {
   ANIMATION_MODULE_TYPE,
   Component,
@@ -75,7 +76,6 @@ import {
   __async,
   __objRest,
   __spreadValues,
-  __toESM,
   enableProdMode,
   importProvidersFrom,
   inject,
@@ -110,7 +110,7 @@ import {
   ɵɵrestoreView,
   ɵɵtext,
   ɵɵtextInterpolate
-} from "./chunk-FIMNEZBT.js";
+} from "./chunk-YYRXZMOY.js";
 
 // node_modules/@angular/common/locales/fr.js
 var u = void 0;
@@ -5027,7 +5027,6 @@ var faTwitter = {
 };
 
 // src/app/components/normal-component/header/header.component.ts
-var import_lib = __toESM(require_dist());
 var _c0 = () => ["/"];
 var _c1 = () => ["/play"];
 var _c2 = () => ["/lobby"];
@@ -5167,13 +5166,13 @@ var HeaderComponent = class _HeaderComponent {
   connectedUserService = inject(ConnectedUserService);
   currentGameService = inject(CurrentGameService);
   loading = true;
-  username = import_lib.MGPOptional.empty();
+  username = MGPOptional.empty();
   faCog = faCog;
   faSpinner = faSpinner;
   userSubscription = new Subscription();
   currentGameSubscription = new Subscription();
   showMenu = false;
-  currentGame = import_lib.MGPOptional.empty();
+  currentGame = MGPOptional.empty();
   ngOnInit() {
     this.userSubscription = this.connectedUserService.subscribeToUser((user) => {
       this.loading = false;
@@ -5522,9 +5521,6 @@ var HeaderComponent = class _HeaderComponent {
   (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(HeaderComponent, { className: "HeaderComponent", filePath: "src/app/components/normal-component/header/header.component.ts", lineNumber: 20 });
 })();
 
-// src/app/services/ErrorLoggerService.ts
-var import_lib2 = __toESM(require_dist());
-
 // src/app/dao/ErrorDAO.ts
 var ErrorDAO = class _ErrorDAO extends FirestoreDAO {
   constructor() {
@@ -5546,7 +5542,7 @@ var ErrorDAO = class _ErrorDAO extends FirestoreDAO {
 
 // src/app/services/ErrorLoggerService.ts
 var ErrorLoggerService = class _ErrorLoggerService {
-  static singleton = import_lib2.MGPOptional.empty();
+  static singleton = MGPOptional.empty();
   errorDAO = inject(ErrorDAO);
   router = inject(Router);
   messageDisplayer = inject(MessageDisplayer);
@@ -5555,10 +5551,10 @@ var ErrorLoggerService = class _ErrorLoggerService {
       throw new Error(`${component}: ${message} (extra data: ${JSON.stringify(data)})`);
     }
     this.singleton.get().logError(component, message, data);
-    return import_lib2.MGPValidation.failure(component + ": " + message);
+    return MGPValidation.failure(component + ": " + message);
   }
   constructor() {
-    _ErrorLoggerService.singleton = import_lib2.MGPOptional.of(this);
+    _ErrorLoggerService.singleton = MGPOptional.of(this);
   }
   findErrors(component, route, message, data) {
     if (data === void 0) {
@@ -5741,11 +5737,10 @@ var ConnectedButNotVerifiedGuard = class _ConnectedButNotVerifiedGuard extends A
 })();
 
 // src/app/guard/exclusive-online-game-guard.ts
-var import_lib3 = __toESM(require_dist());
 var ExclusiveOnlineGameGuard = class _ExclusiveOnlineGameGuard {
   currentGameService = inject(CurrentGameService);
   router = inject(Router);
-  currentGameSubscription = import_lib3.MGPOptional.empty();
+  currentGameSubscription = MGPOptional.empty();
   canActivate(route) {
     return __async(this, null, function* () {
       const currentGame = yield this.currentGameService.getCurrentGame();
@@ -5840,26 +5835,26 @@ var VerifiedAccountGuard = class _VerifiedAccountGuard extends AccountGuard {
 
 // src/app/app.routes.ts
 var routes = [
-  { path: "login", loadComponent: () => import("./login.component-GOTZBLLB.js").then((m) => m.LoginComponent) },
-  { path: "lobby", loadComponent: () => import("./lobby.component-ZUAENWDJ.js").then((m) => m.LobbyComponent), canActivate: [VerifiedAccountGuard] },
-  { path: "account", loadComponent: () => import("./account.component-AFKYQAP5.js").then((m) => m.AccountComponent), canActivate: [VerifiedAccountGuard] },
-  { path: "settings", loadComponent: () => import("./settings.component-S2M2WQWG.js").then((m) => m.SettingsComponent) },
-  { path: "register", loadComponent: () => import("./register.component-NNR2GMZM.js").then((m) => m.RegisterComponent), canActivate: [NotConnectedGuard] },
-  { path: "reset-password", loadComponent: () => import("./reset-password.component-UQVZAGTZ.js").then((m) => m.ResetPasswordComponent) },
-  { path: "notFound/:message", loadComponent: () => import("./not-found.component-AW7I36R5.js").then((m) => m.NotFoundComponent) },
-  { path: "nextGameLoading", loadComponent: () => import("./next-game-loading.component-UFXDAMXA.js").then((m) => m.NextGameLoadingComponent), canActivate: [VerifiedAccountGuard] },
-  { path: "verify-account", loadComponent: () => import("./verify-account.component-W4HKEQUS.js").then((m) => m.VerifyAccountComponent), canActivate: [ConnectedButNotVerifiedGuard] },
-  { path: "play", loadComponent: () => import("./online-game-selection.component-2G5HI2UZ.js").then((m) => m.OnlineGameSelectionComponent), canActivate: [ExclusiveOnlineGameGuard, VerifiedAccountGuard] },
-  { path: "play/:game", loadComponent: () => import("./online-game-creation.component-ER5C37V2.js").then((m) => m.OnlineGameCreationComponent), canActivate: [ExclusiveOnlineGameGuard, VerifiedAccountGuard] },
-  { path: "play/:game/:id", loadComponent: () => import("./online-game-wrapper.component-7D6EPOHJ.js").then((m) => m.OnlineGameWrapperComponent), canActivate: [ExclusiveOnlineGameGuard, VerifiedAccountGuard] },
-  { path: "local", loadComponent: () => import("./local-game-creation.component-DBJJHMMW.js").then((m) => m.LocalGameCreationComponent) },
-  { path: "local/:game/config", loadComponent: () => import("./local-game-configuration.component-ACZRK4BM.js").then((m) => m.LocalGameConfigurationComponent) },
-  { path: "local/:game", loadComponent: () => import("./local-game-wrapper.component-MZ4L7OGG.js").then((m) => m.LocalGameWrapperComponent) },
-  { path: "tutorial", loadComponent: () => import("./tutorial-game-creation.component-USVXPB2A.js").then((m) => m.TutorialGameCreationComponent) },
-  { path: "tutorial/:game", loadComponent: () => import("./tutorial-game-wrapper.component-DZNUQIIP.js").then((m) => m.TutorialGameWrapperComponent) },
-  { path: "", loadComponent: () => import("./welcome.component-2PGJPHW6.js").then((m) => m.WelcomeComponent) },
-  { path: "demo", loadComponent: () => import("./demo-page.component-3H5QH2OQ.js").then((m) => m.DemoPageComponent) },
-  { path: "**", loadComponent: () => import("./not-found.component-AW7I36R5.js").then((m) => m.NotFoundComponent) }
+  { path: "login", loadComponent: () => import("./login.component-C7Q6HXP7.js").then((m) => m.LoginComponent) },
+  { path: "lobby", loadComponent: () => import("./lobby.component-KFDTZIPL.js").then((m) => m.LobbyComponent), canActivate: [VerifiedAccountGuard] },
+  { path: "account", loadComponent: () => import("./account.component-XBER6R2H.js").then((m) => m.AccountComponent), canActivate: [VerifiedAccountGuard] },
+  { path: "settings", loadComponent: () => import("./settings.component-5KS6VZGW.js").then((m) => m.SettingsComponent) },
+  { path: "register", loadComponent: () => import("./register.component-A3UKWLBO.js").then((m) => m.RegisterComponent), canActivate: [NotConnectedGuard] },
+  { path: "reset-password", loadComponent: () => import("./reset-password.component-3CMQFIFP.js").then((m) => m.ResetPasswordComponent) },
+  { path: "notFound/:message", loadComponent: () => import("./not-found.component-J6BF3XXQ.js").then((m) => m.NotFoundComponent) },
+  { path: "nextGameLoading", loadComponent: () => import("./next-game-loading.component-N2ZJU4LE.js").then((m) => m.NextGameLoadingComponent), canActivate: [VerifiedAccountGuard] },
+  { path: "verify-account", loadComponent: () => import("./verify-account.component-WN2WERTV.js").then((m) => m.VerifyAccountComponent), canActivate: [ConnectedButNotVerifiedGuard] },
+  { path: "play", loadComponent: () => import("./online-game-selection.component-MZ72VMND.js").then((m) => m.OnlineGameSelectionComponent), canActivate: [ExclusiveOnlineGameGuard, VerifiedAccountGuard] },
+  { path: "play/:game", loadComponent: () => import("./online-game-creation.component-F5J7Y2DB.js").then((m) => m.OnlineGameCreationComponent), canActivate: [ExclusiveOnlineGameGuard, VerifiedAccountGuard] },
+  { path: "play/:game/:id", loadComponent: () => import("./online-game-wrapper.component-I5LLQ7CF.js").then((m) => m.OnlineGameWrapperComponent), canActivate: [ExclusiveOnlineGameGuard, VerifiedAccountGuard] },
+  { path: "local", loadComponent: () => import("./local-game-creation.component-CQHBLOL7.js").then((m) => m.LocalGameCreationComponent) },
+  { path: "local/:game/config", loadComponent: () => import("./local-game-configuration.component-CRHFMUNO.js").then((m) => m.LocalGameConfigurationComponent) },
+  { path: "local/:game", loadComponent: () => import("./local-game-wrapper.component-I3I3P7Z7.js").then((m) => m.LocalGameWrapperComponent) },
+  { path: "tutorial", loadComponent: () => import("./tutorial-game-creation.component-LHMOMSFK.js").then((m) => m.TutorialGameCreationComponent) },
+  { path: "tutorial/:game", loadComponent: () => import("./tutorial-game-wrapper.component-GCWMUPV7.js").then((m) => m.TutorialGameWrapperComponent) },
+  { path: "", loadComponent: () => import("./welcome.component-SAUGNLJS.js").then((m) => m.WelcomeComponent) },
+  { path: "demo", loadComponent: () => import("./demo-page.component-XKBG3MBY.js").then((m) => m.DemoPageComponent) },
+  { path: "**", loadComponent: () => import("./not-found.component-J6BF3XXQ.js").then((m) => m.NotFoundComponent) }
 ];
 function initializeFirebase() {
   initializeApp(environment.firebaseConfig);
@@ -5933,7 +5928,7 @@ if (runtimeTranslations && locale !== "en") {
 @angular/animations/fesm2022/browser.mjs:
 @angular/platform-browser/fesm2022/animations.mjs:
   (**
-   * @license Angular v20.3.18
+   * @license Angular v20.3.19
    * (c) 2010-2025 Google LLC. https://angular.dev/
    * License: MIT
    *)
