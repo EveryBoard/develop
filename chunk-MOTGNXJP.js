@@ -16201,7 +16201,7 @@ var GoPiece = class _GoPiece {
   static DARK_TERRITORY = new _GoPiece(Player.ZERO, "territory");
   static LIGHT_TERRITORY = new _GoPiece(Player.ONE, "territory");
   static UNREACHABLE = new _GoPiece(PlayerOrNone.NONE, "unreachable");
-  // For Trigo
+  // For Triangular Go and Hexagonal Go
   static isReachable(piece) {
     return piece.isReachable();
   }
@@ -17564,7 +17564,7 @@ var N4 = GoPiece.UNREACHABLE;
 var defaultConfig9 = HexagonalGoRules.get().getDefaultRulesConfig();
 var HexagonalGoTutorial = class extends Tutorial {
   tutorial = [
-    TutorialStep.informational($localize`Preliminary information`, $localize`The game of HexagonalGo is a hexagonal adaptation of the game of Go. Go is present on Everyboard, you can go learn it <a href="/tutorial/Go">here</a>. This tutorial will only review the small differences that this experimental adaptation induced.`, HexagonalGoRules.get().getInitialState(defaultConfig9)),
+    TutorialStep.informational($localize`Preliminary information`, $localize`The game of Hexagonal Go is a hexagonal adaptation of the game of Go. Go is present on Everyboard, you can go learn it <a href="/tutorial/Go">here</a>. This tutorial will only review the small differences that this experimental adaptation induced.`, HexagonalGoRules.get().getInitialState(defaultConfig9)),
     TutorialStep.informational($localize`Freedom` + " (1/4)", $localize`Since the board is hexagonal, pieces have three freedom in the corners.`, new GoState([
       [N4, N4, N4, N4, N4, N4, _11, _11, _11, _11, _11, _11, _11],
       [N4, N4, N4, N4, N4, _11, _11, _11, _11, _11, _11, _11, _11],
@@ -17876,8 +17876,8 @@ HexagonalGoComponent = __decorate10([
   (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(HexagonalGoComponent, { className: "HexagonalGoComponent", filePath: "src/app/games/gos/hexagonal-go/hexagonal-go.component.ts", lineNumber: 33 });
 })();
 
-// src/app/games/gos/trigo/TrigoRules.ts
-var TrigoRules = class _TrigoRules extends AbstractGoRules {
+// src/app/games/gos/triangular-go/TriangularGoRules.ts
+var TriangularGoRules = class _TriangularGoRules extends AbstractGoRules {
   static singleton = MGPOptional.empty();
   static RULES_CONFIG_DESCRIPTION = new RulesConfigDescription({
     name: () => $localize`Standard`,
@@ -17887,10 +17887,10 @@ var TrigoRules = class _TrigoRules extends AbstractGoRules {
     }
   });
   static get() {
-    if (_TrigoRules.singleton.isAbsent()) {
-      _TrigoRules.singleton = MGPOptional.of(new _TrigoRules());
+    if (_TriangularGoRules.singleton.isAbsent()) {
+      _TriangularGoRules.singleton = MGPOptional.of(new _TriangularGoRules());
     }
-    return _TrigoRules.singleton.get();
+    return _TriangularGoRules.singleton.get();
   }
   constructor() {
     super(false);
@@ -17907,22 +17907,22 @@ var TrigoRules = class _TrigoRules extends AbstractGoRules {
     return new GoState(board, PlayerNumberMap.of(0, 0), 0, MGPOptional.empty(), GoPhase.PLAYING);
   }
   getRulesConfigDescription() {
-    return MGPOptional.of(_TrigoRules.RULES_CONFIG_DESCRIPTION);
+    return MGPOptional.of(_TriangularGoRules.RULES_CONFIG_DESCRIPTION);
   }
   getGoGroupDataFactory() {
     return new TriangularGoGroupDataFactory();
   }
 };
 
-// src/app/games/gos/trigo/TrigoTutorial.ts
+// src/app/games/gos/triangular-go/TriangularGoTutorial.ts
 var X10 = GoPiece.LIGHT;
 var O11 = GoPiece.DARK;
 var _12 = GoPiece.EMPTY;
 var N5 = GoPiece.UNREACHABLE;
-var defaultConfig10 = TrigoRules.get().getDefaultRulesConfig();
-var TrigoTutorial = class extends Tutorial {
+var defaultConfig10 = TriangularGoRules.get().getDefaultRulesConfig();
+var TriangularGoTutorial = class extends Tutorial {
   tutorial = [
-    TutorialStep.informational($localize`Preliminary information`, $localize`The game of Trigo is a triangular adaptation of the game of Go. Go is present on Everyboard, you can go learn it <a href="/tutorial/Go">here</a>. This tutorial will only review the small differences that this experimental adaptation induced.`, TrigoRules.get().getInitialState(defaultConfig10)),
+    TutorialStep.informational($localize`Preliminary information`, $localize`The game of Triangular Go is a triangular adaptation of the game of Go. Go is present on Everyboard, you can go learn it <a href="/tutorial/Go">here</a>. This tutorial will only review the small differences that this experimental adaptation induced.`, TriangularGoRules.get().getInitialState(defaultConfig10)),
     TutorialStep.informational($localize`Freedom` + " (1/4)", $localize`Since the board is triangular, pieces have only one freedom in the corners.`, new GoState([
       [N5, N5, N5, N5, N5, N5, _12, N5, N5, N5, N5, N5, N5],
       [N5, N5, N5, N5, N5, _12, _12, _12, N5, N5, N5, N5, N5],
@@ -17962,28 +17962,28 @@ var TrigoTutorial = class extends Tutorial {
   ];
 };
 
-// src/app/games/gos/trigo/TrigoHeuristic.ts
-var TrigoHeuristic = class extends AbstractGoHeuristic {
+// src/app/games/gos/triangular-go/TriangularGoHeuristic.ts
+var TriangularGoHeuristic = class extends AbstractGoHeuristic {
   constructor() {
-    super(TrigoRules.get());
+    super(TriangularGoRules.get());
   }
 };
 
-// src/app/games/gos/trigo/TrigoMoveGenerator.ts
-var TrigoMoveGenerator = class extends AbstractGoMoveGenerator {
+// src/app/games/gos/triangular-go/TriangularGoMoveGenerator.ts
+var TriangularGoMoveGenerator = class extends AbstractGoMoveGenerator {
   constructor() {
-    super(TrigoRules.get());
+    super(TriangularGoRules.get());
   }
 };
 
-// src/app/games/gos/trigo/TrigoMinimax.ts
-var TrigoMinimax = class extends AbstractGoMinimax {
+// src/app/games/gos/triangular-go/TriangularGoMinimax.ts
+var TriangularGoMinimax = class extends AbstractGoMinimax {
   constructor() {
-    super(TrigoRules.get(), new TrigoMoveGenerator(), new TrigoHeuristic());
+    super(TriangularGoRules.get(), new TriangularGoMoveGenerator(), new TriangularGoHeuristic());
   }
 };
 
-// src/app/games/gos/trigo/trigo.component.ts
+// src/app/games/gos/triangular-go/triangular-go.component.ts
 var __decorate11 = function(decorators, target, key, desc) {
   var c = arguments.length, r2 = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d2;
   if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r2 = Reflect.decorate(decorators, target, key, desc);
@@ -17991,7 +17991,7 @@ var __decorate11 = function(decorators, target, key, desc) {
   return c > 3 && r2 && Object.defineProperty(target, key, r2), r2;
 };
 var _forTrack015 = ($index, $item) => $item.coord.toString();
-function TrigoComponent_For_2_Conditional_1_Template(rf, ctx) {
+function TriangularGoComponent_For_2_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
     \u0275\u0275element(0, "polygon", 5);
@@ -18003,7 +18003,7 @@ function TrigoComponent_For_2_Conditional_1_Template(rf, ctx) {
     \u0275\u0275attribute("points", ctx_r2.getTrianglePointsAt(coordAndContent_r2.coord));
   }
 }
-function TrigoComponent_For_2_Conditional_2_Conditional_1_Template(rf, ctx) {
+function TriangularGoComponent_For_2_Conditional_2_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
     \u0275\u0275element(0, "line", 7);
@@ -18013,7 +18013,7 @@ function TrigoComponent_For_2_Conditional_2_Conditional_1_Template(rf, ctx) {
     \u0275\u0275attribute("x1", 25)("y1", 50)("x2", ctx_r2.SPACE_SIZE)("y2", ctx_r2.SPACE_SIZE);
   }
 }
-function TrigoComponent_For_2_Conditional_2_Conditional_2_Template(rf, ctx) {
+function TriangularGoComponent_For_2_Conditional_2_Conditional_2_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
     \u0275\u0275element(0, "line", 7);
@@ -18022,12 +18022,12 @@ function TrigoComponent_For_2_Conditional_2_Conditional_2_Template(rf, ctx) {
     \u0275\u0275attribute("x1", 0)("y1", 0)("x2", 75)("y2", 50);
   }
 }
-function TrigoComponent_For_2_Conditional_2_Template(rf, ctx) {
+function TriangularGoComponent_For_2_Conditional_2_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
     \u0275\u0275elementStart(0, "g", 1);
-    \u0275\u0275conditionalCreate(1, TrigoComponent_For_2_Conditional_2_Conditional_1_Template, 1, 4, ":svg:line", 7);
-    \u0275\u0275conditionalCreate(2, TrigoComponent_For_2_Conditional_2_Conditional_2_Template, 1, 4, ":svg:line", 7);
+    \u0275\u0275conditionalCreate(1, TriangularGoComponent_For_2_Conditional_2_Conditional_1_Template, 1, 4, ":svg:line", 7);
+    \u0275\u0275conditionalCreate(2, TriangularGoComponent_For_2_Conditional_2_Conditional_2_Template, 1, 4, ":svg:line", 7);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -18040,7 +18040,7 @@ function TrigoComponent_For_2_Conditional_2_Template(rf, ctx) {
     \u0275\u0275conditional(ctx_r2.isDownward(coordAndContent_r2.coord) ? 2 : -1);
   }
 }
-function TrigoComponent_For_2_Conditional_3_Template(rf, ctx) {
+function TriangularGoComponent_For_2_Conditional_3_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
     \u0275\u0275element(0, "polygon", 6);
@@ -18052,19 +18052,19 @@ function TrigoComponent_For_2_Conditional_3_Template(rf, ctx) {
     \u0275\u0275attribute("points", ctx_r2.getTrianglePointsAt(coordAndContent_r2.coord))("transform", ctx_r2.getTerritoryTriangleTransform(coordAndContent_r2.coord));
   }
 }
-function TrigoComponent_For_2_Template(rf, ctx) {
+function TriangularGoComponent_For_2_Template(rf, ctx) {
   if (rf & 1) {
     const _r1 = \u0275\u0275getCurrentView();
     \u0275\u0275namespaceSVG();
     \u0275\u0275elementStart(0, "g", 4);
-    \u0275\u0275listener("click", function TrigoComponent_For_2_Template_g_click_0_listener() {
+    \u0275\u0275listener("click", function TriangularGoComponent_For_2_Template_g_click_0_listener() {
       const coordAndContent_r2 = \u0275\u0275restoreView(_r1).$implicit;
       const ctx_r2 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r2.onClick(coordAndContent_r2.coord));
     });
-    \u0275\u0275conditionalCreate(1, TrigoComponent_For_2_Conditional_1_Template, 1, 5, ":svg:polygon", 5);
-    \u0275\u0275conditionalCreate(2, TrigoComponent_For_2_Conditional_2_Template, 3, 5, ":svg:g", 1);
-    \u0275\u0275conditionalCreate(3, TrigoComponent_For_2_Conditional_3_Template, 1, 6, ":svg:polygon", 6);
+    \u0275\u0275conditionalCreate(1, TriangularGoComponent_For_2_Conditional_1_Template, 1, 5, ":svg:polygon", 5);
+    \u0275\u0275conditionalCreate(2, TriangularGoComponent_For_2_Conditional_2_Template, 3, 5, ":svg:g", 1);
+    \u0275\u0275conditionalCreate(3, TriangularGoComponent_For_2_Conditional_3_Template, 1, 6, ":svg:polygon", 6);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -18080,7 +18080,7 @@ function TrigoComponent_For_2_Template(rf, ctx) {
     \u0275\u0275conditional(coordAndContent_r2.content.isTerritory() ? 3 : -1);
   }
 }
-function TrigoComponent_Conditional_3_Template(rf, ctx) {
+function TriangularGoComponent_Conditional_3_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
     \u0275\u0275element(0, "rect", 2);
@@ -18091,7 +18091,7 @@ function TrigoComponent_Conditional_3_Template(rf, ctx) {
     \u0275\u0275attribute("transform", ctx_r2.getKoTranslationAt(ctx_r2.ko.get()))("width", ctx_r2.SPACE_SIZE * 0.25)("height", ctx_r2.SPACE_SIZE * 0.25)("x", ctx_r2.SPACE_SIZE * 0.375)("y", ctx_r2.SPACE_SIZE * 0.25);
   }
 }
-function TrigoComponent_Conditional_4_Template(rf, ctx) {
+function TriangularGoComponent_Conditional_4_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
     \u0275\u0275element(0, "polygon", 3);
@@ -18102,7 +18102,7 @@ function TrigoComponent_Conditional_4_Template(rf, ctx) {
     \u0275\u0275attribute("transform", ctx_r2.getTriangleTranslationAt(ctx_r2.last.get()))("points", ctx_r2.getTrianglePointsAt(ctx_r2.last.get()));
   }
 }
-var TrigoComponent = class TrigoComponent2 extends TriangularGameComponent {
+var TriangularGoComponent = class TriangularGoComponent2 extends TriangularGameComponent {
   boardInfo;
   ko = MGPOptional.empty();
   last = MGPOptional.empty();
@@ -18110,10 +18110,10 @@ var TrigoComponent = class TrigoComponent2 extends TriangularGameComponent {
   GoPiece = GoPiece;
   constructor() {
     super();
-    this.setRulesAndNode("Trigo");
+    this.setRulesAndNode("TriangularGo");
     this.availableAIs = [
-      new TrigoMinimax(),
-      new MCTS($localize`MCTS`, new TrigoMoveGenerator(), this.rules)
+      new TriangularGoMinimax(),
+      new MCTS($localize`MCTS`, new TriangularGoMoveGenerator(), this.rules)
     ];
     this.encoder = GoMove.encoder;
     this.canPass = true;
@@ -18186,7 +18186,7 @@ var TrigoComponent = class TrigoComponent2 extends TriangularGameComponent {
       if (phase.isPlaying() || phase.isPassed()) {
         return this.onClick(GoMove.PASS.coord);
       }
-      Utils.assert(phase.isCounting() || phase.isAccept(), "TrigoComponent: pass() must be called only in playing, passed, counting, or accept phases");
+      Utils.assert(phase.isCounting() || phase.isAccept(), "TriangularGoComponent: pass() must be called only in playing, passed, counting, or accept phases");
       return this.onClick(GoMove.ACCEPT.coord);
     });
   }
@@ -18227,16 +18227,16 @@ var TrigoComponent = class TrigoComponent2 extends TriangularGameComponent {
       return this.getTriangleTranslationCoord(koCoord);
     }
   }
-  static \u0275fac = function TrigoComponent_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || TrigoComponent2)();
+  static \u0275fac = function TriangularGoComponent_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || TriangularGoComponent2)();
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: TrigoComponent2, selectors: [["app-trigo"]], features: [\u0275\u0275InheritDefinitionFeature], decls: 5, vars: 3, consts: [["xmlns", "http://www.w3.org/2000/svg", "preserveAspectRatio", "xMidYMid meet", 1, "board"], [3, "id"], [1, "captured-stroke", "mid-stroke", "no-fill", 3, "id"], [1, "last-move-stroke", "big-stroke", "no-fill", 3, "id", "ngClass"], [3, "click", "id"], [1, "base", "mid-stroke", 3, "id", "ngClass"], [3, "id", "ngClass"], [1, "base", "no-fill", "captured-stroke"]], template: function TrigoComponent_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: TriangularGoComponent2, selectors: [["app-triangular-go"]], features: [\u0275\u0275InheritDefinitionFeature], decls: 5, vars: 3, consts: [["xmlns", "http://www.w3.org/2000/svg", "preserveAspectRatio", "xMidYMid meet", 1, "board"], [3, "id"], [1, "captured-stroke", "mid-stroke", "no-fill", 3, "id"], [1, "last-move-stroke", "big-stroke", "no-fill", 3, "id", "ngClass"], [3, "click", "id"], [1, "base", "mid-stroke", 3, "id", "ngClass"], [3, "id", "ngClass"], [1, "base", "no-fill", "captured-stroke"]], template: function TriangularGoComponent_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275namespaceSVG();
       \u0275\u0275elementStart(0, "svg", 0);
-      \u0275\u0275repeaterCreate(1, TrigoComponent_For_2_Template, 4, 7, ":svg:g", 1, _forTrack015);
-      \u0275\u0275conditionalCreate(3, TrigoComponent_Conditional_3_Template, 1, 8, ":svg:rect", 2);
-      \u0275\u0275conditionalCreate(4, TrigoComponent_Conditional_4_Template, 1, 6, ":svg:polygon", 3);
+      \u0275\u0275repeaterCreate(1, TriangularGoComponent_For_2_Template, 4, 7, ":svg:g", 1, _forTrack015);
+      \u0275\u0275conditionalCreate(3, TriangularGoComponent_Conditional_3_Template, 1, 8, ":svg:rect", 2);
+      \u0275\u0275conditionalCreate(4, TriangularGoComponent_Conditional_4_Template, 1, 6, ":svg:polygon", 3);
       \u0275\u0275elementEnd();
     }
     if (rf & 2) {
@@ -18250,17 +18250,17 @@ var TrigoComponent = class TrigoComponent2 extends TriangularGameComponent {
     }
   }, dependencies: [NgClass], styles: ["\n\n.base[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke[_ngcontent-%COMP%] {\n  stroke-width: 0;\n}\n.base.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n}\n.base-no-stroke[_ngcontent-%COMP%] {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n}\n.white-background[_ngcontent-%COMP%] {\n  fill: white;\n}\n.background[_ngcontent-%COMP%] {\n  fill: var(--spaces-fill);\n}\n.transparent[_ngcontent-%COMP%] {\n  opacity: 0;\n}\n.background2[_ngcontent-%COMP%] {\n  fill: var(--alt-background-fill);\n}\n.background3[_ngcontent-%COMP%] {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill[_ngcontent-%COMP%] {\n  fill: var(--player0);\n}\n.player0-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--player0-alternate);\n}\n.player0-stroke[_ngcontent-%COMP%] {\n  stroke: var(--player0);\n}\n.player1-fill[_ngcontent-%COMP%] {\n  fill: var(--player1);\n}\n.player1-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--player1-alternate);\n}\n.player1-stroke[_ngcontent-%COMP%] {\n  stroke: var(--player1);\n}\n.nonplayer-fill[_ngcontent-%COMP%] {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill[_ngcontent-%COMP%] {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke[_ngcontent-%COMP%] {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke[_ngcontent-%COMP%] {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill[_ngcontent-%COMP%] {\n  fill: var(--pre-captured);\n}\n.captured-fill[_ngcontent-%COMP%] {\n  fill: var(--captured);\n}\n.captured-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--alt-captured);\n}\n.captured-stroke[_ngcontent-%COMP%] {\n  stroke: var(--captured);\n}\n.moved-fill[_ngcontent-%COMP%] {\n  fill: var(--moved);\n}\n.moved-stroke[_ngcontent-%COMP%] {\n  stroke: var(--moved);\n}\n.indicator[_ngcontent-%COMP%] {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill[_ngcontent-%COMP%] {\n  fill: var(--indicator);\n}\n.selectable-stroke[_ngcontent-%COMP%] {\n  stroke: var(--selectable);\n}\n.selectable[_ngcontent-%COMP%]    > .base-no-stroke[_ngcontent-%COMP%] {\n  fill: var(--selectable);\n}\n.last-move-stroke[_ngcontent-%COMP%] {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--last-move);\n}\n.last-move-fill[_ngcontent-%COMP%] {\n  fill: var(--last-move);\n}\n.victory-fill[_ngcontent-%COMP%] {\n  fill: var(--victory);\n}\n.victory-stroke[_ngcontent-%COMP%] {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--victory);\n}\n.defeat-fill[_ngcontent-%COMP%] {\n  fill: var(--defeat);\n}\n.defeat-stroke[_ngcontent-%COMP%] {\n  stroke: var(--defeat);\n}\n.selected-fill[_ngcontent-%COMP%] {\n  fill: var(--selected);\n}\n.selected-stroke[_ngcontent-%COMP%] {\n  stroke: var(--selected);\n}\n.clickable-stroke[_ngcontent-%COMP%] {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover[_ngcontent-%COMP%]:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke[_ngcontent-%COMP%] {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill[_ngcontent-%COMP%] {\n  fill: var(--capturable);\n}\n.capturable-stroke[_ngcontent-%COMP%]:hover {\n  stroke-width: 8;\n}\n.no-fill[_ngcontent-%COMP%] {\n  fill: none;\n}\n.no-stroke[_ngcontent-%COMP%] {\n  stroke: none;\n}\n.small-stroke[_ngcontent-%COMP%] {\n  stroke-width: 2;\n}\n.mid-small-stroke[_ngcontent-%COMP%] {\n  stroke-width: 3;\n}\n.mid-stroke[_ngcontent-%COMP%] {\n  stroke-width: 5;\n}\n.big-stroke[_ngcontent-%COMP%] {\n  stroke-width: 8;\n}\n.huge-stroke[_ngcontent-%COMP%] {\n  stroke-width: 12;\n}\n.semi-transparent[_ngcontent-%COMP%] {\n  opacity: 0.5;\n}\n.territory-opacity[_ngcontent-%COMP%] {\n  fill-opacity: 0.7;\n}\n.round[_ngcontent-%COMP%] {\n  stroke-linecap: round;\n}\n.text-giant[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big[_ngcontent-%COMP%] {\n  font: 50px sans-serif;\n}\n.backgrounded-text[_ngcontent-%COMP%] {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus[_ngcontent-%COMP%] {\n  font: 38px sans-serif;\n}\n.text-medium[_ngcontent-%COMP%] {\n  font: 35px sans-serif;\n}\n.text-small-plus[_ngcontent-%COMP%] {\n  font: 28px sans-serif;\n}\n.text-small[_ngcontent-%COMP%] {\n  font: 25px sans-serif;\n}\n.text-bold[_ngcontent-%COMP%] {\n  font-weight: bold;\n}\n.text-center[_ngcontent-%COMP%] {\n  text-anchor: middle;\n}\n.black-fill[_ngcontent-%COMP%] {\n  fill: black;\n}\n.darker[_ngcontent-%COMP%] {\n  filter: brightness(80%);\n}\n.lighter[_ngcontent-%COMP%] {\n  filter: brightness(110%);\n}\nsvg[_ngcontent-%COMP%] {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator[_ngcontent-%COMP%] {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */"] });
 };
-TrigoComponent = __decorate11([
+TriangularGoComponent = __decorate11([
   Debug.log
-], TrigoComponent);
+], TriangularGoComponent);
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(TrigoComponent, [{
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(TriangularGoComponent, [{
     type: Component,
-    args: [{ selector: "app-trigo", imports: [NgClass], template: '<svg xmlns="http://www.w3.org/2000/svg"\n     class="board"\n     [attr.viewBox]="getViewBox().toSVGString()"\n     preserveAspectRatio="xMidYMid meet">\n    @for (coordAndContent of getState().getCoordsAndContents(); track coordAndContent.coord.toString()) {\n        <g id="click-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n           [attr.transform]="getTriangleTranslationAt(coordAndContent.coord)"\n           (click)="onClick(coordAndContent.coord)">\n            @if (coordAndContent.content.isReachable()) {\n                <polygon id="polygon-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n                         [attr.points]="getTrianglePointsAt(coordAndContent.coord)"\n                         [ngClass]="getPlayerClassAt(coordAndContent.coord)"\n                         class="base mid-stroke"/>\n            }\n            @if (coordAndContent.content.isDead()) {\n                <g id="dead-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}">\n                    @if (isUpward(coordAndContent.coord)) {\n                        <line [attr.x1]="25"\n                              [attr.y1]="50"\n                              [attr.x2]="SPACE_SIZE"\n                              [attr.y2]="SPACE_SIZE"\n                              class="base no-fill captured-stroke"/>\n                    }\n                    @if (isDownward(coordAndContent.coord)) {\n                        <line [attr.x1]="0"\n                              [attr.y1]="0"\n                              [attr.x2]="75"\n                              [attr.y2]="50"\n                              class="base no-fill captured-stroke"/>\n                    }\n                </g>\n            }\n            @if (coordAndContent.content.isTerritory()) {\n                <polygon id="territory-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n                         [attr.points]="getTrianglePointsAt(coordAndContent.coord)"\n                         [attr.transform]="getTerritoryTriangleTransform(coordAndContent.coord)"\n                         [ngClass]="getPlayerClass(coordAndContent.content.player)"/>\n            }\n        </g>\n    }\n\n    @if (ko.isPresent()) {\n        <rect id="ko-{{ ko.get().x }}-{{ ko.get().y }}"\n              [attr.transform]="getKoTranslationAt(ko.get())"\n              [attr.width]="SPACE_SIZE * 0.25"\n              [attr.height]="SPACE_SIZE * 0.25"\n              [attr.x]="SPACE_SIZE * 0.375"\n              [attr.y]="SPACE_SIZE * 0.25"\n              class="captured-stroke mid-stroke no-fill"/>\n    }\n\n    @if (last.isPresent() && getState().isOnBoard(last.get())) {\n        <polygon id="last-{{ last.get().x }}-{{ last.get().y }}"\n                 [attr.transform]="getTriangleTranslationAt(last.get())"\n                 [attr.points]="getTrianglePointsAt(last.get())"\n                 [ngClass]="getPlayerClassAt(last.get())"\n                 class="last-move-stroke big-stroke no-fill"/>\n    }\n\n</svg>\n', styles: ["/* src/app/components/game-components/game-component/game-component.scss */\n.base {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke {\n  stroke-width: 0;\n}\n.base.manual-stroke {\n  fill: var(--base-stroke);\n}\n.base-no-stroke {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text {\n  fill: var(--base-stroke);\n}\n.white-background {\n  fill: white;\n}\n.background {\n  fill: var(--spaces-fill);\n}\n.transparent {\n  opacity: 0;\n}\n.background2 {\n  fill: var(--alt-background-fill);\n}\n.background3 {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill {\n  fill: var(--player0);\n}\n.player0-alternate-fill {\n  fill: var(--player0-alternate);\n}\n.player0-stroke {\n  stroke: var(--player0);\n}\n.player1-fill {\n  fill: var(--player1);\n}\n.player1-alternate-fill {\n  fill: var(--player1-alternate);\n}\n.player1-stroke {\n  stroke: var(--player1);\n}\n.nonplayer-fill {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill {\n  fill: var(--pre-captured);\n}\n.captured-fill {\n  fill: var(--captured);\n}\n.captured-alternate-fill {\n  fill: var(--alt-captured);\n}\n.captured-stroke {\n  stroke: var(--captured);\n}\n.moved-fill {\n  fill: var(--moved);\n}\n.moved-stroke {\n  stroke: var(--moved);\n}\n.indicator {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill {\n  fill: var(--indicator);\n}\n.selectable-stroke {\n  stroke: var(--selectable);\n}\n.selectable > .base-no-stroke {\n  fill: var(--selectable);\n}\n.last-move-stroke {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke {\n  fill: var(--last-move);\n}\n.last-move-fill {\n  fill: var(--last-move);\n}\n.victory-fill {\n  fill: var(--victory);\n}\n.victory-stroke {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke {\n  fill: var(--victory);\n}\n.defeat-fill {\n  fill: var(--defeat);\n}\n.defeat-stroke {\n  stroke: var(--defeat);\n}\n.selected-fill {\n  fill: var(--selected);\n}\n.selected-stroke {\n  stroke: var(--selected);\n}\n.clickable-stroke {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill {\n  fill: var(--capturable);\n}\n.capturable-stroke:hover {\n  stroke-width: 8;\n}\n.no-fill {\n  fill: none;\n}\n.no-stroke {\n  stroke: none;\n}\n.small-stroke {\n  stroke-width: 2;\n}\n.mid-small-stroke {\n  stroke-width: 3;\n}\n.mid-stroke {\n  stroke-width: 5;\n}\n.big-stroke {\n  stroke-width: 8;\n}\n.huge-stroke {\n  stroke-width: 12;\n}\n.semi-transparent {\n  opacity: 0.5;\n}\n.territory-opacity {\n  fill-opacity: 0.7;\n}\n.round {\n  stroke-linecap: round;\n}\n.text-giant {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big {\n  font: 50px sans-serif;\n}\n.backgrounded-text {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus {\n  font: 38px sans-serif;\n}\n.text-medium {\n  font: 35px sans-serif;\n}\n.text-small-plus {\n  font: 28px sans-serif;\n}\n.text-small {\n  font: 25px sans-serif;\n}\n.text-bold {\n  font-weight: bold;\n}\n.text-center {\n  text-anchor: middle;\n}\n.black-fill {\n  fill: black;\n}\n.darker {\n  filter: brightness(80%);\n}\n.lighter {\n  filter: brightness(110%);\n}\nsvg {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */\n"] }]
+    args: [{ selector: "app-triangular-go", imports: [NgClass], template: '<svg xmlns="http://www.w3.org/2000/svg"\n     class="board"\n     [attr.viewBox]="getViewBox().toSVGString()"\n     preserveAspectRatio="xMidYMid meet">\n    @for (coordAndContent of getState().getCoordsAndContents(); track coordAndContent.coord.toString()) {\n        <g id="click-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n           [attr.transform]="getTriangleTranslationAt(coordAndContent.coord)"\n           (click)="onClick(coordAndContent.coord)">\n            @if (coordAndContent.content.isReachable()) {\n                <polygon id="polygon-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n                         [attr.points]="getTrianglePointsAt(coordAndContent.coord)"\n                         [ngClass]="getPlayerClassAt(coordAndContent.coord)"\n                         class="base mid-stroke"/>\n            }\n            @if (coordAndContent.content.isDead()) {\n                <g id="dead-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}">\n                    @if (isUpward(coordAndContent.coord)) {\n                        <line [attr.x1]="25"\n                              [attr.y1]="50"\n                              [attr.x2]="SPACE_SIZE"\n                              [attr.y2]="SPACE_SIZE"\n                              class="base no-fill captured-stroke"/>\n                    }\n                    @if (isDownward(coordAndContent.coord)) {\n                        <line [attr.x1]="0"\n                              [attr.y1]="0"\n                              [attr.x2]="75"\n                              [attr.y2]="50"\n                              class="base no-fill captured-stroke"/>\n                    }\n                </g>\n            }\n            @if (coordAndContent.content.isTerritory()) {\n                <polygon id="territory-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n                         [attr.points]="getTrianglePointsAt(coordAndContent.coord)"\n                         [attr.transform]="getTerritoryTriangleTransform(coordAndContent.coord)"\n                         [ngClass]="getPlayerClass(coordAndContent.content.player)"/>\n            }\n        </g>\n    }\n\n    @if (ko.isPresent()) {\n        <rect id="ko-{{ ko.get().x }}-{{ ko.get().y }}"\n              [attr.transform]="getKoTranslationAt(ko.get())"\n              [attr.width]="SPACE_SIZE * 0.25"\n              [attr.height]="SPACE_SIZE * 0.25"\n              [attr.x]="SPACE_SIZE * 0.375"\n              [attr.y]="SPACE_SIZE * 0.25"\n              class="captured-stroke mid-stroke no-fill"/>\n    }\n\n    @if (last.isPresent() && getState().isOnBoard(last.get())) {\n        <polygon id="last-{{ last.get().x }}-{{ last.get().y }}"\n                 [attr.transform]="getTriangleTranslationAt(last.get())"\n                 [attr.points]="getTrianglePointsAt(last.get())"\n                 [ngClass]="getPlayerClassAt(last.get())"\n                 class="last-move-stroke big-stroke no-fill"/>\n    }\n\n</svg>\n', styles: ["/* src/app/components/game-components/game-component/game-component.scss */\n.base {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke {\n  stroke-width: 0;\n}\n.base.manual-stroke {\n  fill: var(--base-stroke);\n}\n.base-no-stroke {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text {\n  fill: var(--base-stroke);\n}\n.white-background {\n  fill: white;\n}\n.background {\n  fill: var(--spaces-fill);\n}\n.transparent {\n  opacity: 0;\n}\n.background2 {\n  fill: var(--alt-background-fill);\n}\n.background3 {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill {\n  fill: var(--player0);\n}\n.player0-alternate-fill {\n  fill: var(--player0-alternate);\n}\n.player0-stroke {\n  stroke: var(--player0);\n}\n.player1-fill {\n  fill: var(--player1);\n}\n.player1-alternate-fill {\n  fill: var(--player1-alternate);\n}\n.player1-stroke {\n  stroke: var(--player1);\n}\n.nonplayer-fill {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill {\n  fill: var(--pre-captured);\n}\n.captured-fill {\n  fill: var(--captured);\n}\n.captured-alternate-fill {\n  fill: var(--alt-captured);\n}\n.captured-stroke {\n  stroke: var(--captured);\n}\n.moved-fill {\n  fill: var(--moved);\n}\n.moved-stroke {\n  stroke: var(--moved);\n}\n.indicator {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill {\n  fill: var(--indicator);\n}\n.selectable-stroke {\n  stroke: var(--selectable);\n}\n.selectable > .base-no-stroke {\n  fill: var(--selectable);\n}\n.last-move-stroke {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke {\n  fill: var(--last-move);\n}\n.last-move-fill {\n  fill: var(--last-move);\n}\n.victory-fill {\n  fill: var(--victory);\n}\n.victory-stroke {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke {\n  fill: var(--victory);\n}\n.defeat-fill {\n  fill: var(--defeat);\n}\n.defeat-stroke {\n  stroke: var(--defeat);\n}\n.selected-fill {\n  fill: var(--selected);\n}\n.selected-stroke {\n  stroke: var(--selected);\n}\n.clickable-stroke {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill {\n  fill: var(--capturable);\n}\n.capturable-stroke:hover {\n  stroke-width: 8;\n}\n.no-fill {\n  fill: none;\n}\n.no-stroke {\n  stroke: none;\n}\n.small-stroke {\n  stroke-width: 2;\n}\n.mid-small-stroke {\n  stroke-width: 3;\n}\n.mid-stroke {\n  stroke-width: 5;\n}\n.big-stroke {\n  stroke-width: 8;\n}\n.huge-stroke {\n  stroke-width: 12;\n}\n.semi-transparent {\n  opacity: 0.5;\n}\n.territory-opacity {\n  fill-opacity: 0.7;\n}\n.round {\n  stroke-linecap: round;\n}\n.text-giant {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big {\n  font: 50px sans-serif;\n}\n.backgrounded-text {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus {\n  font: 38px sans-serif;\n}\n.text-medium {\n  font: 35px sans-serif;\n}\n.text-small-plus {\n  font: 28px sans-serif;\n}\n.text-small {\n  font: 25px sans-serif;\n}\n.text-bold {\n  font-weight: bold;\n}\n.text-center {\n  text-anchor: middle;\n}\n.black-fill {\n  fill: black;\n}\n.darker {\n  filter: brightness(80%);\n}\n.lighter {\n  filter: brightness(110%);\n}\nsvg {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */\n"] }]
   }], () => [], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(TrigoComponent, { className: "TrigoComponent", filePath: "src/app/games/gos/trigo/trigo.component.ts", lineNumber: 33 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(TriangularGoComponent, { className: "TriangularGoComponent", filePath: "src/app/games/gos/triangular-go/triangular-go.component.ts", lineNumber: 33 });
 })();
 
 // src/app/jscaip/DodecaHexaDirection.ts
@@ -43466,7 +43466,7 @@ var GameDescription = class {
   static TABLUT = () => $localize`Lapland version of the Tafl game family! Invaders must capture the king, defender must make him escape!`;
   static TEEKO = () => $localize`Align your 4 pieces or form a square with them to win!`;
   static TREXO = () => $localize`Align 5 pieces of your color in a row, but beware, the pieces can be put on top of other pieces!`;
-  static TRI_GO = () => $localize`A version of Go on triangular spaces!`;
+  static TRIANGULAR_GO = () => $localize`A version of Go on triangular spaces!`;
   static YINSH = () => $localize`Align your pieces to score points, but beware, pieces can flip!`;
 };
 var GameInfo = class _GameInfo {
@@ -43568,7 +43568,7 @@ var GameInfo = class _GameInfo {
       // 37:                             * Martin
       new _GameInfo($localize`Hexodia`, "Hexodia", HexodiaComponent, new HexodiaTutorial(), HexodiaRules.get(), /* @__PURE__ */ new Date("2024-06-26"), GameDescription.HEXODIA()),
       // 38:                             * Martin
-      new _GameInfo($localize`Trigo`, "Trigo", TrigoComponent, new TrigoTutorial(), TrigoRules.get(), /* @__PURE__ */ new Date("2024-06-29"), GameDescription.TRI_GO()),
+      new _GameInfo($localize`Triangular Go`, "TriangularGo", TriangularGoComponent, new TriangularGoTutorial(), TriangularGoRules.get(), /* @__PURE__ */ new Date("2024-06-29"), GameDescription.TRIANGULAR_GO()),
       // 39:                             * Martin
       new _GameInfo($localize`International Checkers`, "InternationalCheckers", InternationalCheckersComponent, new InternationalCheckersTutorial(), InternationalCheckersRules.get(), /* @__PURE__ */ new Date("2025-02-03"), GameDescription.INTERNATIONAL_CHECKERS()),
       // 40:                             * Martin
@@ -43694,4 +43694,4 @@ bulma-toast/dist/bulma-toast.min.js:
    * Released under the MIT License.
    *)
 */
-//# sourceMappingURL=chunk-7YJCR4E3.js.map
+//# sourceMappingURL=chunk-MOTGNXJP.js.map
