@@ -1,10 +1,10 @@
 import {
   CurrentGameService
-} from "./chunk-24XW7XPN.js";
+} from "./chunk-WCIMUKNV.js";
 import {
   MessageDisplayer,
   PickGameComponent
-} from "./chunk-Y6RVREXG.js";
+} from "./chunk-5WT7EBG4.js";
 import {
   Router
 } from "./chunk-GUMZAMYX.js";
@@ -61,4 +61,4 @@ var OnlineGameSelectionComponent = class _OnlineGameSelectionComponent {
 export {
   OnlineGameSelectionComponent
 };
-//# sourceMappingURL=chunk-3XTCBFD3.js.map
+//# sourceMappingURL=chunk-PBW6OR7C.js.map
