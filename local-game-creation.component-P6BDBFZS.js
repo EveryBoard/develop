@@ -1,6 +1,6 @@
 import {
   PickGameComponent
-} from "./chunk-ZOIQRIBO.js";
+} from "./chunk-RF4KHUBP.js";
 import "./chunk-4HQW7IWY.js";
 import {
   Router
@@ -54,4 +54,4 @@ var LocalGameCreationComponent = class _LocalGameCreationComponent {
 export {
   LocalGameCreationComponent
 };
-//# sourceMappingURL=local-game-creation.component-CMLFIY5L.js.map
+//# sourceMappingURL=local-game-creation.component-P6BDBFZS.js.map

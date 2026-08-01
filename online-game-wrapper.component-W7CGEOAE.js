@@ -1,22 +1,22 @@
 import {
   DemoCardWrapperComponent
-} from "./chunk-6SGLEHRM.js";
-import "./chunk-X4VOAPBZ.js";
+} from "./chunk-HZDSVAMR.js";
+import "./chunk-F7TXPG54.js";
 import {
   RulesConfigurationComponent,
   ViewConfigComponent
-} from "./chunk-R4MSSGNV.js";
+} from "./chunk-KFBG3L4Y.js";
 import {
   BaseWrapperComponent,
   GameWrapper,
   GameWrapperMessages
-} from "./chunk-22MMNPSK.js";
+} from "./chunk-RCK4B5LT.js";
 import {
   ConfigRoomService
-} from "./chunk-NCEXPB54.js";
+} from "./chunk-JGGH5YOY.js";
 import {
   GameService
-} from "./chunk-5SVZURLS.js";
+} from "./chunk-4TBPWOZX.js";
 import {
   ChatComponent,
   EloComponent,
@@ -24,9 +24,9 @@ import {
   GameDuration,
   GameType,
   Status
-} from "./chunk-BF7KUSBL.js";
-import "./chunk-O4WH7Z6R.js";
-import "./chunk-YMNBSI7R.js";
+} from "./chunk-OICSQIPW.js";
+import "./chunk-NIZPGLSL.js";
+import "./chunk-GYLXIFRW.js";
 import {
   GameInfo,
   GameNode,
@@ -34,7 +34,7 @@ import {
   Player,
   PlayerNumberMap,
   PlayerOrNone
-} from "./chunk-ZOIQRIBO.js";
+} from "./chunk-RF4KHUBP.js";
 import "./chunk-4HQW7IWY.js";
 import {
   FaIconComponent,
@@ -3134,6 +3134,7 @@ var OnlineGameWrapperComponent = class OnlineGameWrapperComponent2 extends GameW
         this.moveSentButNotReceivedYet = false;
       } else {
         const move = this.gameComponent.encoder.decode(moveEvent.move);
+        this.gameComponent.hideLastMove();
         yield this.applyMove(move, this.isSynced);
       }
       yield this.setCurrentPlayerAccordingToCurrentTurn();
@@ -3440,7 +3441,10 @@ var OnlineGameWrapperComponent = class OnlineGameWrapperComponent2 extends GameW
     if (rf & 2) {
       \u0275\u0275queryAdvance(4);
     }
-  }, features: [\u0275\u0275ProvidersFeature([OGWCTimeManagerService, OGWCRequestManagerService]), \u0275\u0275InheritDefinitionFeature], decls: 1, vars: 1, consts: () => {
+  }, features: [\u0275\u0275ProvidersFeature([
+    OGWCTimeManagerService,
+    OGWCRequestManagerService
+  ]), \u0275\u0275InheritDefinitionFeature], decls: 1, vars: 1, consts: () => {
     let i18n_0;
     if (false) {
       const MSG_EXTERNAL_6130341002326455223$$SRC_APP_COMPONENTS_WRAPPER_COMPONENTS_ONLINE_GAME_WRAPPER_ONLINE_GAME_WRAPPER_COMPONENT_TS_0 = goog.getMsg("Turn n\xB0{$interpolation}", { "interpolation": "\uFFFD0\uFFFD" }, { original_code: { "interpolation": "{{ getTurn() + 1 }}" } });
@@ -3604,14 +3608,14 @@ var OnlineGameWrapperComponent = class OnlineGameWrapperComponent2 extends GameW
       \u0275\u0275conditional(ctx.getGameName().isPresent() ? 0 : -1);
     }
   }, dependencies: [
-    GameCreationComponent,
-    ViewConfigComponent,
-    TimerComponent,
-    FaIconComponent,
-    RouterLink,
-    NgClass,
     ChatComponent,
-    EloComponent
+    EloComponent,
+    FaIconComponent,
+    GameCreationComponent,
+    NgClass,
+    RouterLink,
+    TimerComponent,
+    ViewConfigComponent
   ], encapsulation: 2, changeDetection: 0 });
 };
 OnlineGameWrapperComponent = __decorate3([
@@ -3620,15 +3624,18 @@ OnlineGameWrapperComponent = __decorate3([
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(OnlineGameWrapperComponent, [{
     type: Component,
-    args: [{ selector: "app-online-game-wrapper", changeDetection: ChangeDetectionStrategy.OnPush, providers: [OGWCTimeManagerService, OGWCRequestManagerService], imports: [
-      GameCreationComponent,
-      ViewConfigComponent,
-      TimerComponent,
-      FaIconComponent,
-      RouterLink,
-      NgClass,
+    args: [{ selector: "app-online-game-wrapper", changeDetection: ChangeDetectionStrategy.OnPush, providers: [
+      OGWCTimeManagerService,
+      OGWCRequestManagerService
+    ], imports: [
       ChatComponent,
-      EloComponent
+      EloComponent,
+      FaIconComponent,
+      GameCreationComponent,
+      NgClass,
+      RouterLink,
+      TimerComponent,
+      ViewConfigComponent
     ], template: `@if (getGameName().isPresent()) {
     @if (gameStarted === false) {
         <app-game-creation id="gameCreation"
@@ -3895,10 +3902,10 @@ OnlineGameWrapperComponent = __decorate3([
   }], null, { timerZeroGame: [{ type: ViewChild, args: ["timerZeroGame", { isSignal: true }] }], timerOneGame: [{ type: ViewChild, args: ["timerOneGame", { isSignal: true }] }], timerZeroMove: [{ type: ViewChild, args: ["timerZeroMove", { isSignal: true }] }], timerOneMove: [{ type: ViewChild, args: ["timerOneMove", { isSignal: true }] }] });
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(OnlineGameWrapperComponent, { className: "OnlineGameWrapperComponent", filePath: "src/app/components/wrapper-components/online-game-wrapper/online-game-wrapper.component.ts", lineNumber: 50 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(OnlineGameWrapperComponent, { className: "OnlineGameWrapperComponent", filePath: "src/app/components/wrapper-components/online-game-wrapper/online-game-wrapper.component.ts", lineNumber: 61 });
 })();
 export {
   OnlineGameWrapperComponent,
   OnlineGameWrapperMessages
 };
-//# sourceMappingURL=online-game-wrapper.component-6C6ASXF2.js.map
+//# sourceMappingURL=online-game-wrapper.component-W7CGEOAE.js.map
