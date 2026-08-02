@@ -2806,7 +2806,6 @@ var MGPValidatorsFailure = class {
 
 // src/app/components/wrapper-components/rules-configuration/RulesConfigDescription.ts
 var RulesConfigDescriptionLocalizable = class {
-  static CUSTOM = () => $localize`Custom`;
   static WIDTH = () => $localize`Width`;
   static HEIGHT = () => $localize`Height`;
   static SIZE = () => $localize`Size`;
@@ -45790,7 +45789,6 @@ var PickGameComponent = class _PickGameComponent {
 
 export {
   MessageDisplayer,
-  RulesConfigDescriptionLocalizable,
   Player,
   PlayerOrNone,
   GameStatus,
@@ -45813,4 +45811,4 @@ bulma-toast/dist/bulma-toast.min.js:
    * Released under the MIT License.
    *)
 */
-//# sourceMappingURL=chunk-RF4KHUBP.js.map
+//# sourceMappingURL=chunk-PS6FUQ5F.js.map

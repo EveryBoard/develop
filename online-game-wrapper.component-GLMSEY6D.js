@@ -1,22 +1,22 @@
 import {
   DemoCardWrapperComponent
-} from "./chunk-HZDSVAMR.js";
-import "./chunk-F7TXPG54.js";
+} from "./chunk-J23FUBBI.js";
+import "./chunk-RHFGQPPY.js";
 import {
   RulesConfigurationComponent,
   ViewConfigComponent
-} from "./chunk-KFBG3L4Y.js";
+} from "./chunk-LTXJCVUB.js";
 import {
   BaseWrapperComponent,
   GameWrapper,
   GameWrapperMessages
-} from "./chunk-RCK4B5LT.js";
+} from "./chunk-ESSFHCRR.js";
 import {
   ConfigRoomService
-} from "./chunk-JGGH5YOY.js";
+} from "./chunk-RBGIXX7N.js";
 import {
   GameService
-} from "./chunk-4TBPWOZX.js";
+} from "./chunk-AJLM4FAA.js";
 import {
   ChatComponent,
   EloComponent,
@@ -24,9 +24,9 @@ import {
   GameDuration,
   GameType,
   Status
-} from "./chunk-OICSQIPW.js";
-import "./chunk-NIZPGLSL.js";
-import "./chunk-GYLXIFRW.js";
+} from "./chunk-25HXQ5ZO.js";
+import "./chunk-UVGIXBH4.js";
+import "./chunk-6YYLMVEQ.js";
 import {
   GameInfo,
   GameNode,
@@ -34,7 +34,7 @@ import {
   Player,
   PlayerNumberMap,
   PlayerOrNone
-} from "./chunk-RF4KHUBP.js";
+} from "./chunk-PS6FUQ5F.js";
 import "./chunk-4HQW7IWY.js";
 import {
   FaIconComponent,
@@ -90,7 +90,6 @@ import {
   __async,
   __publicField,
   __superGet,
-  forwardRef,
   inject,
   input,
   output,
@@ -619,50 +618,50 @@ var __decorate2 = function(decorators, target, key, desc) {
 function GameCreationComponent_Conditional_0_Conditional_1_Conditional_11_Template(rf, ctx) {
   if (rf & 1) {
     const _r2 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 49)(1, "div", 71)(2, "p");
-    \u0275\u0275i18n(3, 15);
+    \u0275\u0275elementStart(0, "div", 48)(1, "div", 70)(2, "p");
+    \u0275\u0275i18n(3, 14);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(4, "div", 65)(5, "div", 41)(6, "button", 72);
+    \u0275\u0275elementStart(4, "div", 64)(5, "div", 40)(6, "button", 71);
     \u0275\u0275listener("click", function GameCreationComponent_Conditional_0_Conditional_1_Conditional_11_Template_button_click_6_listener() {
       \u0275\u0275restoreView(_r2);
       const ctx_r2 = \u0275\u0275nextContext(3);
       return \u0275\u0275resetView(ctx_r2.goToLobby());
     });
-    \u0275\u0275i18n(7, 16);
+    \u0275\u0275i18n(7, 15);
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(8, "div", 41)(9, "button", 73);
+    \u0275\u0275elementStart(8, "div", 40)(9, "button", 72);
     \u0275\u0275listener("click", function GameCreationComponent_Conditional_0_Conditional_1_Conditional_11_Template_button_click_9_listener() {
       \u0275\u0275restoreView(_r2);
       const ctx_r2 = \u0275\u0275nextContext(3);
       return \u0275\u0275resetView(ctx_r2.playLocally());
     });
-    \u0275\u0275i18n(10, 17);
+    \u0275\u0275i18n(10, 16);
     \u0275\u0275elementEnd()()()()();
   }
 }
 function GameCreationComponent_Conditional_0_Conditional_1_Conditional_12_For_12_Conditional_6_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "button", 82);
-    \u0275\u0275i18n(1, 21);
+    \u0275\u0275elementStart(0, "button", 81);
+    \u0275\u0275i18n(1, 20);
     \u0275\u0275elementEnd();
   }
 }
 function GameCreationComponent_Conditional_0_Conditional_1_Conditional_12_For_12_Template(rf, ctx) {
   if (rf & 1) {
     const _r4 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "tr", 78);
+    \u0275\u0275elementStart(0, "tr", 77);
     \u0275\u0275listener("click", function GameCreationComponent_Conditional_0_Conditional_1_Conditional_12_For_12_Template_tr_click_0_listener() {
       const candidate_r5 = \u0275\u0275restoreView(_r4).$implicit;
       const ctx_r2 = \u0275\u0275nextContext(4);
       return \u0275\u0275resetView(ctx_r2.selectOpponent(candidate_r5.name));
     });
-    \u0275\u0275elementStart(1, "td", 79);
+    \u0275\u0275elementStart(1, "td", 78);
     \u0275\u0275text(2);
-    \u0275\u0275element(3, "app-elo", 80);
+    \u0275\u0275element(3, "app-elo", 79);
     \u0275\u0275text(4, ")");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(5, "td", 81);
-    \u0275\u0275conditionalCreate(6, GameCreationComponent_Conditional_0_Conditional_1_Conditional_12_For_12_Conditional_6_Template, 2, 0, "button", 82);
+    \u0275\u0275elementStart(5, "td", 80);
+    \u0275\u0275conditionalCreate(6, GameCreationComponent_Conditional_0_Conditional_1_Conditional_12_For_12_Conditional_6_Template, 2, 0, "button", 81);
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
@@ -682,16 +681,16 @@ function GameCreationComponent_Conditional_0_Conditional_1_Conditional_12_For_12
 function GameCreationComponent_Conditional_0_Conditional_1_Conditional_12_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementContainerStart(0);
-    \u0275\u0275i18n(1, 18);
+    \u0275\u0275i18n(1, 17);
     \u0275\u0275elementContainerEnd();
-    \u0275\u0275elementStart(2, "div", 74)(3, "table", 75)(4, "thead")(5, "tr")(6, "th", 76);
-    \u0275\u0275i18n(7, 19);
+    \u0275\u0275elementStart(2, "div", 73)(3, "table", 74)(4, "thead")(5, "tr")(6, "th", 75);
+    \u0275\u0275i18n(7, 18);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(8, "th", 76);
-    \u0275\u0275i18n(9, 20);
+    \u0275\u0275elementStart(8, "th", 75);
+    \u0275\u0275i18n(9, 19);
     \u0275\u0275elementEnd()()();
     \u0275\u0275elementStart(10, "tbody");
-    \u0275\u0275repeaterCreate(11, GameCreationComponent_Conditional_0_Conditional_1_Conditional_12_For_12_Template, 7, 7, "tr", 77, \u0275\u0275repeaterTrackByIdentity);
+    \u0275\u0275repeaterCreate(11, GameCreationComponent_Conditional_0_Conditional_1_Conditional_12_For_12_Template, 7, 7, "tr", 76, \u0275\u0275repeaterTrackByIdentity);
     \u0275\u0275elementEnd()()();
   }
   if (rf & 2) {
@@ -703,7 +702,7 @@ function GameCreationComponent_Conditional_0_Conditional_1_Conditional_12_Templa
 function GameCreationComponent_Conditional_0_Conditional_1_Conditional_22_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementContainerStart(0);
-    \u0275\u0275i18n(1, 22);
+    \u0275\u0275i18n(1, 21);
     \u0275\u0275elementContainerEnd();
   }
   if (rf & 2) {
@@ -716,31 +715,31 @@ function GameCreationComponent_Conditional_0_Conditional_1_Conditional_22_Templa
 function GameCreationComponent_Conditional_0_Conditional_1_Conditional_23_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementContainerStart(0);
-    \u0275\u0275i18n(1, 23);
+    \u0275\u0275i18n(1, 22);
     \u0275\u0275elementContainerEnd();
   }
 }
 function GameCreationComponent_Conditional_0_Conditional_1_Conditional_66_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 62)(1, "div", 46)(2, "label", 83);
+    \u0275\u0275elementStart(0, "div", 61)(1, "div", 45)(2, "label", 82);
     \u0275\u0275elementContainerStart(3);
-    \u0275\u0275i18n(4, 24);
+    \u0275\u0275i18n(4, 23);
     \u0275\u0275elementContainerEnd();
     \u0275\u0275elementStart(5, "output");
     \u0275\u0275text(6);
     \u0275\u0275pipe(7, "humanDuration");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(8, "div", 48);
-    \u0275\u0275element(9, "input", 84);
+    \u0275\u0275elementStart(8, "div", 47);
+    \u0275\u0275element(9, "input", 83);
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(10, "div", 46)(11, "label", 85);
-    \u0275\u0275i18nStart(12, 25);
+    \u0275\u0275elementStart(10, "div", 45)(11, "label", 84);
+    \u0275\u0275i18nStart(12, 24);
     \u0275\u0275element(13, "output");
     \u0275\u0275pipe(14, "humanDuration");
     \u0275\u0275i18nEnd();
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(15, "div", 48);
-    \u0275\u0275element(16, "input", 86);
+    \u0275\u0275elementStart(15, "div", 47);
+    \u0275\u0275element(16, "input", 85);
     \u0275\u0275elementEnd()()();
   }
   if (rf & 2) {
@@ -752,9 +751,9 @@ function GameCreationComponent_Conditional_0_Conditional_1_Conditional_66_Templa
     \u0275\u0275i18nApply(12);
   }
 }
-function GameCreationComponent_Conditional_0_Conditional_1_Conditional_82_Template(rf, ctx) {
+function GameCreationComponent_Conditional_0_Conditional_1_Conditional_81_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275element(0, "app-demo-card", 70);
+    \u0275\u0275element(0, "app-demo-card", 69);
   }
   if (rf & 2) {
     const ctx_r2 = \u0275\u0275nextContext(3);
@@ -764,32 +763,32 @@ function GameCreationComponent_Conditional_0_Conditional_1_Conditional_82_Templa
 function GameCreationComponent_Conditional_0_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
     const _r1 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 39)(1, "div", 41)(2, "div", 42)(3, "h1", 43);
-    \u0275\u0275i18n(4, 1);
+    \u0275\u0275elementStart(0, "div", 38)(1, "div", 40)(2, "div", 41)(3, "h1", 42);
+    \u0275\u0275i18n(4, 0);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(5, "form", 44)(6, "fieldset", 45)(7, "div", 46)(8, "label", 47);
-    \u0275\u0275i18n(9, 2);
+    \u0275\u0275elementStart(5, "form", 43)(6, "fieldset", 44)(7, "div", 45)(8, "label", 46);
+    \u0275\u0275i18n(9, 1);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(10, "div", 48);
-    \u0275\u0275conditionalCreate(11, GameCreationComponent_Conditional_0_Conditional_1_Conditional_11_Template, 11, 0, "div", 49)(12, GameCreationComponent_Conditional_0_Conditional_1_Conditional_12_Template, 13, 0);
+    \u0275\u0275elementStart(10, "div", 47);
+    \u0275\u0275conditionalCreate(11, GameCreationComponent_Conditional_0_Conditional_1_Conditional_11_Template, 11, 0, "div", 48)(12, GameCreationComponent_Conditional_0_Conditional_1_Conditional_12_Template, 13, 0);
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(13, "div", 50)(14, "div", 41)(15, "button", 51);
+    \u0275\u0275elementStart(13, "div", 49)(14, "div", 40)(15, "button", 50);
     \u0275\u0275listener("click", function GameCreationComponent_Conditional_0_Conditional_1_Template_button_click_15_listener() {
       \u0275\u0275restoreView(_r1);
       const ctx_r2 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r2.selectFirstPlayer(ctx_r2.FirstPlayer.RANDOM));
     });
-    \u0275\u0275i18n(16, 3);
+    \u0275\u0275i18n(16, 2);
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(17, "div", 41)(18, "button", 52);
+    \u0275\u0275elementStart(17, "div", 40)(18, "button", 51);
     \u0275\u0275listener("click", function GameCreationComponent_Conditional_0_Conditional_1_Template_button_click_18_listener() {
       \u0275\u0275restoreView(_r1);
       const ctx_r2 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r2.selectFirstPlayer(ctx_r2.FirstPlayer.CREATOR));
     });
-    \u0275\u0275i18n(19, 4);
+    \u0275\u0275i18n(19, 3);
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(20, "div", 41)(21, "button", 53);
+    \u0275\u0275elementStart(20, "div", 40)(21, "button", 52);
     \u0275\u0275listener("click", function GameCreationComponent_Conditional_0_Conditional_1_Template_button_click_21_listener() {
       \u0275\u0275restoreView(_r1);
       const ctx_r2 = \u0275\u0275nextContext(2);
@@ -797,18 +796,18 @@ function GameCreationComponent_Conditional_0_Conditional_1_Template(rf, ctx) {
     });
     \u0275\u0275conditionalCreate(22, GameCreationComponent_Conditional_0_Conditional_1_Conditional_22_Template, 2, 1, "ng-container")(23, GameCreationComponent_Conditional_0_Conditional_1_Conditional_23_Template, 2, 0, "ng-container");
     \u0275\u0275elementEnd()()();
-    \u0275\u0275elementStart(24, "div", 54)(25, "div", 41)(26, "div", 55);
+    \u0275\u0275elementStart(24, "div", 53)(25, "div", 40)(26, "div", 54);
     \u0275\u0275listener("click", function GameCreationComponent_Conditional_0_Conditional_1_Template_div_click_26_listener() {
       \u0275\u0275restoreView(_r1);
       const ctx_r2 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r2.selectGameType(ctx_r2.GameType.STANDARD));
     });
-    \u0275\u0275elementStart(27, "div", 56)(28, "span");
-    \u0275\u0275i18n(29, 5);
+    \u0275\u0275elementStart(27, "div", 55)(28, "span");
+    \u0275\u0275i18n(29, 4);
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(30, "div", 57)(31, "div", 58)(32, "div", 59)(33, "p");
+    \u0275\u0275elementStart(30, "div", 56)(31, "div", 57)(32, "div", 58)(33, "p");
     \u0275\u0275elementContainerStart(34);
-    \u0275\u0275i18n(35, 6);
+    \u0275\u0275i18n(35, 5);
     \u0275\u0275elementContainerEnd();
     \u0275\u0275elementStart(36, "strong");
     \u0275\u0275text(37);
@@ -816,24 +815,24 @@ function GameCreationComponent_Conditional_0_Conditional_1_Template(rf, ctx) {
     \u0275\u0275elementEnd();
     \u0275\u0275element(39, "br");
     \u0275\u0275elementContainerStart(40);
-    \u0275\u0275i18nStart(41, 7);
+    \u0275\u0275i18nStart(41, 6);
     \u0275\u0275element(42, "strong");
     \u0275\u0275pipe(43, "humanDuration");
     \u0275\u0275i18nEnd();
     \u0275\u0275elementContainerEnd();
     \u0275\u0275elementEnd()()()()()();
-    \u0275\u0275elementStart(44, "div", 41)(45, "div", 60);
+    \u0275\u0275elementStart(44, "div", 40)(45, "div", 59);
     \u0275\u0275listener("click", function GameCreationComponent_Conditional_0_Conditional_1_Template_div_click_45_listener() {
       \u0275\u0275restoreView(_r1);
       const ctx_r2 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r2.selectGameType(ctx_r2.GameType.BLITZ));
     });
-    \u0275\u0275elementStart(46, "div", 56)(47, "span");
-    \u0275\u0275i18n(48, 8);
+    \u0275\u0275elementStart(46, "div", 55)(47, "span");
+    \u0275\u0275i18n(48, 7);
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(49, "div", 57)(50, "div", 58)(51, "div", 59)(52, "p");
+    \u0275\u0275elementStart(49, "div", 56)(50, "div", 57)(51, "div", 58)(52, "p");
     \u0275\u0275elementContainerStart(53);
-    \u0275\u0275i18n(54, 9);
+    \u0275\u0275i18n(54, 8);
     \u0275\u0275elementContainerEnd();
     \u0275\u0275elementStart(55, "strong");
     \u0275\u0275text(56);
@@ -841,55 +840,55 @@ function GameCreationComponent_Conditional_0_Conditional_1_Template(rf, ctx) {
     \u0275\u0275elementEnd();
     \u0275\u0275element(58, "br");
     \u0275\u0275elementContainerStart(59);
-    \u0275\u0275i18nStart(60, 10);
+    \u0275\u0275i18nStart(60, 9);
     \u0275\u0275element(61, "strong");
     \u0275\u0275pipe(62, "humanDuration");
     \u0275\u0275i18nEnd();
     \u0275\u0275elementContainerEnd();
     \u0275\u0275elementEnd()()()()()();
-    \u0275\u0275elementStart(63, "div", 41)(64, "button", 61);
+    \u0275\u0275elementStart(63, "div", 40)(64, "button", 60);
     \u0275\u0275listener("click", function GameCreationComponent_Conditional_0_Conditional_1_Template_button_click_64_listener() {
       \u0275\u0275restoreView(_r1);
       const ctx_r2 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r2.selectGameType(ctx_r2.GameType.CUSTOM));
     });
-    \u0275\u0275i18n(65, 11);
+    \u0275\u0275i18n(65, 10);
     \u0275\u0275elementEnd()()();
-    \u0275\u0275conditionalCreate(66, GameCreationComponent_Conditional_0_Conditional_1_Conditional_66_Template, 17, 6, "div", 62);
+    \u0275\u0275conditionalCreate(66, GameCreationComponent_Conditional_0_Conditional_1_Conditional_66_Template, 17, 6, "div", 61);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(67, "div", 63)(68, "app-rules-configuration", 64, 0);
+    \u0275\u0275elementStart(67, "div", 62)(68, "app-rules-configuration", 63);
     \u0275\u0275listener("updateCallback", function GameCreationComponent_Conditional_0_Conditional_1_Template_app_rules_configuration_updateCallback_68_listener($event) {
       \u0275\u0275restoreView(_r1);
       const ctx_r2 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r2.onRulesConfigUpdate($event));
     });
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(70, "div", 65)(71, "div", 41)(72, "button", 66);
-    \u0275\u0275listener("click", function GameCreationComponent_Conditional_0_Conditional_1_Template_button_click_72_listener() {
+    \u0275\u0275elementStart(69, "div", 64)(70, "div", 40)(71, "button", 65);
+    \u0275\u0275listener("click", function GameCreationComponent_Conditional_0_Conditional_1_Template_button_click_71_listener() {
       \u0275\u0275restoreView(_r1);
       const ctx_r2 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r2.proposeConfig());
     });
-    \u0275\u0275i18n(73, 12);
+    \u0275\u0275i18n(72, 11);
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(74, "div", 41)(75, "button", 67);
-    \u0275\u0275listener("click", function GameCreationComponent_Conditional_0_Conditional_1_Template_button_click_75_listener() {
+    \u0275\u0275elementStart(73, "div", 40)(74, "button", 66);
+    \u0275\u0275listener("click", function GameCreationComponent_Conditional_0_Conditional_1_Template_button_click_74_listener() {
       \u0275\u0275restoreView(_r1);
       const ctx_r2 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r2.changeConfig());
     });
-    \u0275\u0275i18n(76, 13);
+    \u0275\u0275i18n(75, 12);
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(77, "div", 41)(78, "button", 68);
-    \u0275\u0275listener("click", function GameCreationComponent_Conditional_0_Conditional_1_Template_button_click_78_listener() {
+    \u0275\u0275elementStart(76, "div", 40)(77, "button", 67);
+    \u0275\u0275listener("click", function GameCreationComponent_Conditional_0_Conditional_1_Template_button_click_77_listener() {
       \u0275\u0275restoreView(_r1);
       const ctx_r2 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r2.cancelGameCreation());
     });
-    \u0275\u0275i18n(79, 14);
+    \u0275\u0275i18n(78, 13);
     \u0275\u0275elementEnd()()()()()();
-    \u0275\u0275elementStart(80, "div", 41)(81, "div", 69);
-    \u0275\u0275conditionalCreate(82, GameCreationComponent_Conditional_0_Conditional_1_Conditional_82_Template, 1, 1, "app-demo-card", 70);
+    \u0275\u0275elementStart(79, "div", 40)(80, "div", 68);
+    \u0275\u0275conditionalCreate(81, GameCreationComponent_Conditional_0_Conditional_1_Conditional_81_Template, 1, 1, "app-demo-card", 69);
     \u0275\u0275elementEnd()()();
   }
   if (rf & 2) {
@@ -914,38 +913,38 @@ function GameCreationComponent_Conditional_0_Conditional_1_Template(rf, ctx) {
     \u0275\u0275advance(4);
     \u0275\u0275property("ngClass", ctx_r2.viewInfo.gameTypeClasses[ctx_r2.GameType.STANDARD]);
     \u0275\u0275advance(11);
-    \u0275\u0275textInterpolate(\u0275\u0275pipeBind1(38, 21, ctx_r2.GameDuration.STANDARD_MOVE_DURATION));
+    \u0275\u0275textInterpolate(\u0275\u0275pipeBind1(38, 23, ctx_r2.GameDuration.STANDARD_MOVE_DURATION));
     \u0275\u0275advance(6);
-    \u0275\u0275i18nExp(\u0275\u0275pipeBind1(43, 23, ctx_r2.GameDuration.STANDARD_GAME_DURATION));
+    \u0275\u0275i18nExp(\u0275\u0275pipeBind1(43, 25, ctx_r2.GameDuration.STANDARD_GAME_DURATION));
     \u0275\u0275i18nApply(41);
     \u0275\u0275advance(2);
     \u0275\u0275property("ngClass", ctx_r2.viewInfo.gameTypeClasses[ctx_r2.GameType.BLITZ]);
     \u0275\u0275advance(11);
-    \u0275\u0275textInterpolate(\u0275\u0275pipeBind1(57, 25, ctx_r2.GameDuration.BLITZ_MOVE_DURATION));
+    \u0275\u0275textInterpolate(\u0275\u0275pipeBind1(57, 27, ctx_r2.GameDuration.BLITZ_MOVE_DURATION));
     \u0275\u0275advance(6);
-    \u0275\u0275i18nExp(\u0275\u0275pipeBind1(62, 27, ctx_r2.GameDuration.BLITZ_GAME_DURATION));
+    \u0275\u0275i18nExp(\u0275\u0275pipeBind1(62, 29, ctx_r2.GameDuration.BLITZ_GAME_DURATION));
     \u0275\u0275i18nApply(60);
     \u0275\u0275advance(2);
     \u0275\u0275property("ngClass", ctx_r2.viewInfo.gameTypeClasses[ctx_r2.GameType.CUSTOM]);
     \u0275\u0275advance(2);
     \u0275\u0275conditional(ctx_r2.viewInfo.showCustomTime ? 66 : -1);
     \u0275\u0275advance(2);
-    \u0275\u0275property("rulesConfigDescription", ctx_r2.rulesConfigDescription())("editable", ctx_r2.viewInfo.canEditConfig || false);
-    \u0275\u0275advance(4);
+    \u0275\u0275property("rulesConfigDescription", ctx_r2.rulesConfigDescription())("creatorMode", true)("rulesConfigToDisplay", ctx_r2.getRulesConfigToDisplay())("editable", ctx_r2.viewInfo.canEditConfig || false);
+    \u0275\u0275advance(3);
     \u0275\u0275property("disabled", !(ctx_r2.viewInfo.canProposeConfig && ctx_r2.rulesConfig.isPresent()));
     \u0275\u0275advance(3);
     \u0275\u0275property("disabled", ctx_r2.viewInfo.canReviewConfig === false);
     \u0275\u0275advance(7);
-    \u0275\u0275conditional(ctx_r2.getConfigDemo() !== void 0 ? 82 : -1);
+    \u0275\u0275conditional(ctx_r2.getConfigDemo() !== void 0 ? 81 : -1);
   }
 }
 function GameCreationComponent_Conditional_0_Conditional_2_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div")(1, "div", 42)(2, "p", 43);
-    \u0275\u0275i18n(3, 26);
+    \u0275\u0275elementStart(0, "div")(1, "div", 41)(2, "p", 42);
+    \u0275\u0275i18n(3, 25);
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(4, "p");
-    \u0275\u0275i18nStart(5, 27);
+    \u0275\u0275i18nStart(5, 26);
     \u0275\u0275element(6, "br");
     \u0275\u0275i18nEnd();
     \u0275\u0275elementEnd()()();
@@ -963,7 +962,7 @@ function GameCreationComponent_Conditional_0_Conditional_2_Conditional_1_Templat
 function GameCreationComponent_Conditional_0_Conditional_2_Conditional_2_Conditional_10_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span");
-    \u0275\u0275i18n(1, 33);
+    \u0275\u0275i18n(1, 32);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -976,20 +975,20 @@ function GameCreationComponent_Conditional_0_Conditional_2_Conditional_2_Conditi
 function GameCreationComponent_Conditional_0_Conditional_2_Conditional_2_Conditional_11_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span");
-    \u0275\u0275i18n(1, 34);
+    \u0275\u0275i18n(1, 33);
     \u0275\u0275elementEnd();
   }
 }
 function GameCreationComponent_Conditional_0_Conditional_2_Conditional_2_Conditional_12_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span");
-    \u0275\u0275i18n(1, 35);
+    \u0275\u0275i18n(1, 34);
     \u0275\u0275elementEnd();
   }
 }
-function GameCreationComponent_Conditional_0_Conditional_2_Conditional_2_Conditional_27_Template(rf, ctx) {
+function GameCreationComponent_Conditional_0_Conditional_2_Conditional_2_Conditional_26_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275element(0, "app-demo-card", 90);
+    \u0275\u0275element(0, "app-demo-card", 89);
   }
   if (rf & 2) {
     const ctx_r2 = \u0275\u0275nextContext(4);
@@ -999,11 +998,11 @@ function GameCreationComponent_Conditional_0_Conditional_2_Conditional_2_Conditi
 function GameCreationComponent_Conditional_0_Conditional_2_Conditional_2_Template(rf, ctx) {
   if (rf & 1) {
     const _r6 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 39)(1, "div", 41)(2, "div", 42)(3, "p", 43);
-    \u0275\u0275i18n(4, 28);
+    \u0275\u0275elementStart(0, "div", 38)(1, "div", 40)(2, "div", 41)(3, "p", 42);
+    \u0275\u0275i18n(4, 27);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(5, "div", 87)(6, "p");
-    \u0275\u0275i18n(7, 29);
+    \u0275\u0275elementStart(5, "div", 86)(6, "p");
+    \u0275\u0275i18n(7, 28);
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(8, "ul")(9, "li");
     \u0275\u0275conditionalCreate(10, GameCreationComponent_Conditional_0_Conditional_2_Conditional_2_Conditional_10_Template, 2, 1, "span");
@@ -1011,28 +1010,28 @@ function GameCreationComponent_Conditional_0_Conditional_2_Conditional_2_Templat
     \u0275\u0275conditionalCreate(12, GameCreationComponent_Conditional_0_Conditional_2_Conditional_2_Conditional_12_Template, 2, 0, "span");
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(13, "li");
-    \u0275\u0275i18nStart(14, 30);
+    \u0275\u0275i18nStart(14, 29);
     \u0275\u0275element(15, "strong");
     \u0275\u0275pipe(16, "humanDuration");
     \u0275\u0275i18nEnd();
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(17, "li");
-    \u0275\u0275i18nStart(18, 31);
+    \u0275\u0275i18nStart(18, 30);
     \u0275\u0275element(19, "strong");
     \u0275\u0275pipe(20, "humanDuration");
     \u0275\u0275i18nEnd();
     \u0275\u0275elementEnd()();
-    \u0275\u0275element(21, "app-rules-configuration", 88, 0);
-    \u0275\u0275elementStart(23, "button", 89);
-    \u0275\u0275listener("click", function GameCreationComponent_Conditional_0_Conditional_2_Conditional_2_Template_button_click_23_listener() {
+    \u0275\u0275element(21, "app-rules-configuration", 87);
+    \u0275\u0275elementStart(22, "button", 88);
+    \u0275\u0275listener("click", function GameCreationComponent_Conditional_0_Conditional_2_Conditional_2_Template_button_click_22_listener() {
       \u0275\u0275restoreView(_r6);
       const ctx_r2 = \u0275\u0275nextContext(3);
       return \u0275\u0275resetView(ctx_r2.acceptConfig());
     });
-    \u0275\u0275i18n(24, 32);
+    \u0275\u0275i18n(23, 31);
     \u0275\u0275elementEnd()()()();
-    \u0275\u0275elementStart(25, "div", 41)(26, "div", 42);
-    \u0275\u0275conditionalCreate(27, GameCreationComponent_Conditional_0_Conditional_2_Conditional_2_Conditional_27_Template, 1, 1, "app-demo-card", 90);
+    \u0275\u0275elementStart(24, "div", 40)(25, "div", 41);
+    \u0275\u0275conditionalCreate(26, GameCreationComponent_Conditional_0_Conditional_2_Conditional_2_Conditional_26_Template, 1, 1, "app-demo-card", 89);
     \u0275\u0275elementEnd()()();
   }
   if (rf & 2) {
@@ -1050,21 +1049,21 @@ function GameCreationComponent_Conditional_0_Conditional_2_Conditional_2_Templat
     \u0275\u0275advance();
     \u0275\u0275conditional(ctx_r2.viewInfo.firstPlayer === ctx_r2.FirstPlayer.RANDOM ? 12 : -1);
     \u0275\u0275advance(4);
-    \u0275\u0275i18nExp(\u0275\u0275pipeBind1(16, 12, ctx_r2.viewInfo.moveDuration || 0));
+    \u0275\u0275i18nExp(\u0275\u0275pipeBind1(16, 13, ctx_r2.viewInfo.moveDuration || 0));
     \u0275\u0275i18nApply(14);
     \u0275\u0275advance(4);
-    \u0275\u0275i18nExp(\u0275\u0275pipeBind1(20, 14, ctx_r2.viewInfo.gameDuration || 0));
+    \u0275\u0275i18nExp(\u0275\u0275pipeBind1(20, 15, ctx_r2.viewInfo.gameDuration || 0));
     \u0275\u0275i18nApply(18);
     \u0275\u0275advance();
-    \u0275\u0275property("rulesConfigDescription", ctx_r2.rulesConfigDescription())("editable", false)("rulesConfigToDisplay", ctx_r2.getRulesConfigToDisplay());
-    \u0275\u0275advance(6);
-    \u0275\u0275conditional(ctx_r2.getConfigDemo() !== void 0 ? 27 : -1);
+    \u0275\u0275property("rulesConfigDescription", ctx_r2.rulesConfigDescription())("creatorMode", false)("editable", false)("rulesConfigToDisplay", ctx_r2.getRulesConfigToDisplay());
+    \u0275\u0275advance(5);
+    \u0275\u0275conditional(ctx_r2.getConfigDemo() !== void 0 ? 26 : -1);
   }
 }
 function GameCreationComponent_Conditional_0_Conditional_2_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div");
-    \u0275\u0275conditionalCreate(1, GameCreationComponent_Conditional_0_Conditional_2_Conditional_1_Template, 7, 2, "div")(2, GameCreationComponent_Conditional_0_Conditional_2_Conditional_2_Template, 28, 16, "div", 39);
+    \u0275\u0275conditionalCreate(1, GameCreationComponent_Conditional_0_Conditional_2_Conditional_1_Template, 7, 2, "div")(2, GameCreationComponent_Conditional_0_Conditional_2_Conditional_2_Template, 27, 17, "div", 38);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -1076,7 +1075,7 @@ function GameCreationComponent_Conditional_0_Conditional_2_Template(rf, ctx) {
 function GameCreationComponent_Conditional_0_Conditional_3_Conditional_7_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementContainerStart(0);
-    \u0275\u0275i18n(1, 37);
+    \u0275\u0275i18n(1, 36);
     \u0275\u0275elementContainerEnd();
   }
   if (rf & 2) {
@@ -1089,7 +1088,7 @@ function GameCreationComponent_Conditional_0_Conditional_3_Conditional_7_Templat
 function GameCreationComponent_Conditional_0_Conditional_3_Conditional_8_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementContainerStart(0);
-    \u0275\u0275i18n(1, 38);
+    \u0275\u0275i18n(1, 37);
     \u0275\u0275elementContainerEnd();
   }
   if (rf & 2) {
@@ -1101,10 +1100,10 @@ function GameCreationComponent_Conditional_0_Conditional_3_Conditional_8_Templat
 }
 function GameCreationComponent_Conditional_0_Conditional_3_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 40)(1, "div", 91)(2, "div", 92)(3, "p");
-    \u0275\u0275i18n(4, 36);
+    \u0275\u0275elementStart(0, "div", 39)(1, "div", 90)(2, "div", 91)(3, "p");
+    \u0275\u0275i18n(4, 35);
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(5, "div", 71)(6, "p");
+    \u0275\u0275elementStart(5, "div", 70)(6, "p");
     \u0275\u0275conditionalCreate(7, GameCreationComponent_Conditional_0_Conditional_3_Conditional_7_Template, 2, 1, "ng-container")(8, GameCreationComponent_Conditional_0_Conditional_3_Conditional_8_Template, 2, 2, "ng-container");
     \u0275\u0275elementEnd()()()();
   }
@@ -1117,9 +1116,9 @@ function GameCreationComponent_Conditional_0_Conditional_3_Template(rf, ctx) {
 function GameCreationComponent_Conditional_0_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div");
-    \u0275\u0275conditionalCreate(1, GameCreationComponent_Conditional_0_Conditional_1_Template, 83, 29, "div", 39);
+    \u0275\u0275conditionalCreate(1, GameCreationComponent_Conditional_0_Conditional_1_Template, 82, 31, "div", 38);
     \u0275\u0275conditionalCreate(2, GameCreationComponent_Conditional_0_Conditional_2_Template, 3, 1, "div");
-    \u0275\u0275conditionalCreate(3, GameCreationComponent_Conditional_0_Conditional_3_Template, 9, 1, "div", 40);
+    \u0275\u0275conditionalCreate(3, GameCreationComponent_Conditional_0_Conditional_3_Template, 9, 1, "div", 39);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -1160,7 +1159,6 @@ var GameCreationComponent = class GameCreationComponent2 extends BaseWrapperComp
   rulesConfigDescription = input.required(...ngDevMode ? [{ debugName: "rulesConfigDescription" }] : []);
   // notify that the game has started, a thing evaluated with the configRoom doc game status
   gameStartNotification = output();
-  rulesConfigurationComponent = viewChild(RulesConfigurationComponent, ...ngDevMode ? [{ debugName: "rulesConfigurationComponent" }] : []);
   gameStarted = false;
   viewInfo = {
     userIsCreator: false,
@@ -1250,9 +1248,6 @@ var GameCreationComponent = class GameCreationComponent2 extends BaseWrapperComp
       const status = Utils.getNonNullable(this.currentConfigRoom).status;
       const configProposed = status === Status.CONFIG_PROPOSED;
       this.viewInfo.canProposeConfig = configProposed === false && opponent !== "";
-      if (this.rulesConfigurationComponent() != null) {
-        this.rulesConfigurationComponent().setEditable(configProposed === false);
-      }
     });
     this.getForm("gameType").valueChanges.pipe(takeUntil(this.ngUnsubscribe)).subscribe((gameType) => {
       this.viewInfo.gameTypeClasses[this.viewInfo.gameType] = [];
@@ -1485,14 +1480,7 @@ var GameCreationComponent = class GameCreationComponent2 extends BaseWrapperComp
       return (\u0275GameCreationComponent_BaseFactory || (\u0275GameCreationComponent_BaseFactory = \u0275\u0275getInheritedFactory(GameCreationComponent2)))(__ngFactoryType__ || GameCreationComponent2);
     };
   })();
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: GameCreationComponent2, selectors: [["app-game-creation"]], viewQuery: function GameCreationComponent_Query(rf, ctx) {
-    if (rf & 1) {
-      \u0275\u0275viewQuerySignal(ctx.rulesConfigurationComponent, RulesConfigurationComponent, 5);
-    }
-    if (rf & 2) {
-      \u0275\u0275queryAdvance();
-    }
-  }, inputs: { gameId: [1, "gameId"], rulesConfigDescription: [1, "rulesConfigDescription"] }, outputs: { gameStartNotification: "gameStartNotification" }, features: [\u0275\u0275InheritDefinitionFeature], decls: 1, vars: 1, consts: () => {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: GameCreationComponent2, selectors: [["app-game-creation"]], inputs: { gameId: [1, "gameId"], rulesConfigDescription: [1, "rulesConfigDescription"] }, outputs: { gameStartNotification: "gameStartNotification" }, features: [\u0275\u0275InheritDefinitionFeature], decls: 1, vars: 1, consts: () => {
     let i18n_0;
     if (false) {
       const MSG_EXTERNAL_776412486154662569$$SRC_APP_COMPONENTS_WRAPPER_COMPONENTS_GAME_CREATION_GAME_CREATION_COMPONENT_TS_0 = goog.getMsg("Creation of a game of {$interpolation} ", { "interpolation": "\uFFFD0\uFFFD" }, { original_code: { "interpolation": "{{ getGameName().getOrElse('') }}" } });
@@ -1759,7 +1747,7 @@ var GameCreationComponent = class GameCreationComponent2 extends BaseWrapperComp
     } else {
       i18n_37 = $localize`${"\uFFFD0\uFFFD"}:INTERPOLATION: has proposed a configuration to ${"\uFFFD1\uFFFD"}:INTERPOLATION_1:.`;
     }
-    return [["rulesConfigurationComponent", ""], i18n_0, i18n_1, i18n_2, i18n_3, i18n_4, i18n_5, i18n_6, i18n_7, i18n_8, i18n_9, i18n_10, i18n_11, i18n_12, i18n_13, i18n_14, i18n_15, i18n_16, i18n_17, i18n_18, i18n_19, i18n_20, i18n_21, i18n_22, i18n_23, i18n_24, i18n_25, i18n_26, i18n_27, i18n_28, i18n_29, i18n_30, i18n_31, i18n_32, i18n_33, i18n_34, i18n_35, i18n_36, i18n_37, [1, "columns", "is-vcentered", "is-align-items-stretch"], [1, "box"], [1, "column"], [1, "box", "is-fullheight"], [1, "title"], [3, "formGroup"], [3, "disabled"], [1, "field"], [1, "label"], [1, "control"], [1, "message"], [1, "columns", "is-gapless", "mb-2"], ["id", "firstPlayerRandom", 1, "button", "is-fullwidth", 3, "click", "ngClass"], ["id", "firstPlayerCreator", 1, "button", "is-fullwidth", 3, "click", "ngClass"], ["id", "firstPlayerOpponent", 1, "button", "is-fullwidth", 3, "click", "ngClass"], [1, "columns", "is-gapless"], ["id", "gameTypeStandard", 1, "button", "is-fullwidth", "dropdown", "is-hoverable", 3, "click", "ngClass"], [1, "dropdown-trigger"], ["role", "menu", 1, "dropdown-menu"], [1, "dropdown-content"], [1, "dropdown-item"], ["id", "gameTypeBlitz", 1, "button", "is-fullwidth", "dropdown", "is-hoverable", 3, "click", "ngClass"], ["id", "gameTypeCustom", 1, "button", "is-fullwidth", 3, "click", "ngClass"], ["id", "customTime"], [1, "mt-2"], ["id", "rulesConfigurationComponent", 3, "updateCallback", "rulesConfigDescription", "editable"], [1, "columns", "is-gapless", "mt-2"], ["id", "proposeConfig", 1, "button", "is-fullwidth", "is-success", 3, "click", "disabled"], ["id", "reviewConfig", 1, "button", "is-fullwidth", 3, "click", "disabled"], ["id", "cancel", 1, "button", "is-fullwidth", "is-danger", 3, "click"], [1, "is-fullheight"], ["id", "demoCard", 1, "box", "is-fullheight", 3, "demoNodeInfo"], [1, "message-body"], ["id", "go-to-lobby", 1, "button", "is-fullwidth", 3, "click"], ["id", "play-against-ai", 1, "button", "is-fullwidth", 3, "click"], ["id", "chooseOpponent", 1, "table-container", "mt-2"], [1, "table", "is-fullwidth", "is-hoverable", "is-striped"], ["scope", "col", 1, "th"], [3, "id", "ngClass"], [3, "click", "id", "ngClass"], [1, "td", 3, "id"], [3, "elo"], [1, "td"], [1, "button", "is-primary"], ["for", "moveDuration", 1, "label"], ["step", "10", "min", "10", "max", "300", "name", "moveDuration", "formControlName", "moveDuration", "type", "range", 1, "slider", "is-circle", "is-primary"], ["for", "gameDuration", 1, "label"], ["step", "10", "min", "10", "max", "3600", "name", "gameDuration", "formControlName", "gameDuration", "type", "range", 1, "slider", "is-circle", "is-primary"], [1, "content"], [3, "rulesConfigDescription", "editable", "rulesConfigToDisplay"], ["id", "acceptConfig", 1, "button", "is-primary", "is-fullwidth", "mt-2", 3, "click"], ["id", "demoCard", 3, "demoNodeInfo"], [1, "message", "is-primary"], [1, "message-header"]];
+    return [i18n_0, i18n_1, i18n_2, i18n_3, i18n_4, i18n_5, i18n_6, i18n_7, i18n_8, i18n_9, i18n_10, i18n_11, i18n_12, i18n_13, i18n_14, i18n_15, i18n_16, i18n_17, i18n_18, i18n_19, i18n_20, i18n_21, i18n_22, i18n_23, i18n_24, i18n_25, i18n_26, i18n_27, i18n_28, i18n_29, i18n_30, i18n_31, i18n_32, i18n_33, i18n_34, i18n_35, i18n_36, i18n_37, [1, "columns", "is-vcentered", "is-align-items-stretch"], [1, "box"], [1, "column"], [1, "box", "is-fullheight"], [1, "title"], [3, "formGroup"], [3, "disabled"], [1, "field"], [1, "label"], [1, "control"], [1, "message"], [1, "columns", "is-gapless", "mb-2"], ["id", "firstPlayerRandom", 1, "button", "is-fullwidth", 3, "click", "ngClass"], ["id", "firstPlayerCreator", 1, "button", "is-fullwidth", 3, "click", "ngClass"], ["id", "firstPlayerOpponent", 1, "button", "is-fullwidth", 3, "click", "ngClass"], [1, "columns", "is-gapless"], ["id", "gameTypeStandard", 1, "button", "is-fullwidth", "dropdown", "is-hoverable", 3, "click", "ngClass"], [1, "dropdown-trigger"], ["role", "menu", 1, "dropdown-menu"], [1, "dropdown-content"], [1, "dropdown-item"], ["id", "gameTypeBlitz", 1, "button", "is-fullwidth", "dropdown", "is-hoverable", 3, "click", "ngClass"], ["id", "gameTypeCustom", 1, "button", "is-fullwidth", 3, "click", "ngClass"], ["id", "customTime"], [1, "mt-2"], ["id", "rulesConfigurationComponent", 3, "updateCallback", "rulesConfigDescription", "creatorMode", "rulesConfigToDisplay", "editable"], [1, "columns", "is-gapless", "mt-2"], ["id", "proposeConfig", 1, "button", "is-fullwidth", "is-success", 3, "click", "disabled"], ["id", "reviewConfig", 1, "button", "is-fullwidth", 3, "click", "disabled"], ["id", "cancel", 1, "button", "is-fullwidth", "is-danger", 3, "click"], [1, "is-fullheight"], ["id", "demoCard", 1, "box", "is-fullheight", 3, "demoNodeInfo"], [1, "message-body"], ["id", "go-to-lobby", 1, "button", "is-fullwidth", 3, "click"], ["id", "play-against-ai", 1, "button", "is-fullwidth", 3, "click"], ["id", "chooseOpponent", 1, "table-container", "mt-2"], [1, "table", "is-fullwidth", "is-hoverable", "is-striped"], ["scope", "col", 1, "th"], [3, "id", "ngClass"], [3, "click", "id", "ngClass"], [1, "td", 3, "id"], [3, "elo"], [1, "td"], [1, "button", "is-primary"], ["for", "moveDuration", 1, "label"], ["step", "10", "min", "10", "max", "300", "name", "moveDuration", "formControlName", "moveDuration", "type", "range", 1, "slider", "is-circle", "is-primary"], ["for", "gameDuration", 1, "label"], ["step", "10", "min", "10", "max", "3600", "name", "gameDuration", "formControlName", "gameDuration", "type", "range", 1, "slider", "is-circle", "is-primary"], [1, "content"], [3, "rulesConfigDescription", "creatorMode", "editable", "rulesConfigToDisplay"], ["id", "acceptConfig", 1, "button", "is-primary", "is-fullwidth", "mt-2", 3, "click"], ["id", "demoCard", 3, "demoNodeInfo"], [1, "message", "is-primary"], [1, "message-header"]];
   }, template: function GameCreationComponent_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275conditionalCreate(0, GameCreationComponent_Conditional_0_Template, 4, 3, "div");
@@ -1983,9 +1971,10 @@ GameCreationComponent = __decorate2([
                                 }
                             </fieldset>
                             <div class="mt-2">
-                                <app-rules-configuration #rulesConfigurationComponent
-                                                         id="rulesConfigurationComponent"
+                                <app-rules-configuration id="rulesConfigurationComponent"
                                                          [rulesConfigDescription]="rulesConfigDescription()"
+                                                         [creatorMode]="true"
+                                                         [rulesConfigToDisplay]="getRulesConfigToDisplay()"
                                                          [editable]="viewInfo.canEditConfig || false"
                                                          (updateCallback)="onRulesConfigUpdate($event)">
                                 </app-rules-configuration>
@@ -2060,8 +2049,8 @@ GameCreationComponent = __decorate2([
                                         <li i18n>a turn lasts at most <strong>{{ (viewInfo.moveDuration || 0) | humanDuration }} </strong></li>
                                         <li i18n>the game lasts at most <strong>{{ (viewInfo.gameDuration || 0) | humanDuration }} per player</strong></li>
                                     </ul>
-                                    <app-rules-configuration #rulesConfigurationComponent
-                                                             [rulesConfigDescription]="rulesConfigDescription()"
+                                    <app-rules-configuration [rulesConfigDescription]="rulesConfigDescription()"
+                                                             [creatorMode]="false"
                                                              [editable]="false"
                                                              [rulesConfigToDisplay]="getRulesConfigToDisplay()">
                                     </app-rules-configuration>
@@ -2105,7 +2094,7 @@ GameCreationComponent = __decorate2([
     </div>
 }
 ` }]
-  }], null, { gameId: [{ type: Input, args: [{ isSignal: true, alias: "gameId", required: true }] }], rulesConfigDescription: [{ type: Input, args: [{ isSignal: true, alias: "rulesConfigDescription", required: true }] }], gameStartNotification: [{ type: Output, args: ["gameStartNotification"] }], rulesConfigurationComponent: [{ type: ViewChild, args: [forwardRef(() => RulesConfigurationComponent), { isSignal: true }] }] });
+  }], null, { gameId: [{ type: Input, args: [{ isSignal: true, alias: "gameId", required: true }] }], rulesConfigDescription: [{ type: Input, args: [{ isSignal: true, alias: "rulesConfigDescription", required: true }] }], gameStartNotification: [{ type: Output, args: ["gameStartNotification"] }] });
 })();
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(GameCreationComponent, { className: "GameCreationComponent", filePath: "src/app/components/wrapper-components/game-creation/game-creation.component.ts", lineNumber: 62 });
@@ -3911,4 +3900,4 @@ export {
   OnlineGameWrapperComponent,
   OnlineGameWrapperMessages
 };
-//# sourceMappingURL=online-game-wrapper.component-ECEI33LO.js.map
+//# sourceMappingURL=online-game-wrapper.component-GLMSEY6D.js.map

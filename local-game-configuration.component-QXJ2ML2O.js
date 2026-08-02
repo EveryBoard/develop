@@ -1,16 +1,16 @@
 import {
   DemoCardWrapperComponent
-} from "./chunk-HZDSVAMR.js";
-import "./chunk-F7TXPG54.js";
+} from "./chunk-J23FUBBI.js";
+import "./chunk-RHFGQPPY.js";
 import {
   RulesConfigurationComponent
-} from "./chunk-KFBG3L4Y.js";
+} from "./chunk-LTXJCVUB.js";
 import {
   BaseWrapperComponent
-} from "./chunk-RCK4B5LT.js";
+} from "./chunk-ESSFHCRR.js";
 import {
   GameNode
-} from "./chunk-RF4KHUBP.js";
+} from "./chunk-PS6FUQ5F.js";
 import "./chunk-4HQW7IWY.js";
 import "./chunk-5NDDVV6Y.js";
 import {
@@ -116,7 +116,7 @@ var LocalGameConfigurationComponent = class _LocalGameConfigurationComponent ext
       return (\u0275LocalGameConfigurationComponent_BaseFactory || (\u0275LocalGameConfigurationComponent_BaseFactory = \u0275\u0275getInheritedFactory(_LocalGameConfigurationComponent)))(__ngFactoryType__ || _LocalGameConfigurationComponent);
     };
   })();
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _LocalGameConfigurationComponent, selectors: [["app-local-game-configuration"]], features: [\u0275\u0275InheritDefinitionFeature], decls: 15, vars: 4, consts: () => {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _LocalGameConfigurationComponent, selectors: [["app-local-game-configuration"]], features: [\u0275\u0275InheritDefinitionFeature], decls: 15, vars: 5, consts: () => {
     let i18n_0;
     if (false) {
       const MSG_EXTERNAL_5171566373349249449$$SRC_APP_COMPONENTS_WRAPPER_COMPONENTS_LOCAL_GAME_CONFIGURATION_LOCAL_GAME_CONFIGURATION_COMPONENT_TS_0 = goog.getMsg("Start with this configuration");
@@ -124,7 +124,7 @@ var LocalGameConfigurationComponent = class _LocalGameConfigurationComponent ext
     } else {
       i18n_0 = $localize`Start with this configuration`;
     }
-    return [i18n_0, [1, "columns", "is-vcentered", "is-align-items-stretch"], [1, "column"], [1, "box", "is-fullheight"], [1, "title"], ["id", "rules-config-component", 3, "updateCallback", "rulesConfigDescription", "editable"], [1, "field", "is-horizontal"], [1, "field-body"], [1, "field"], [1, "control"], ["id", "start-game-with-config", 1, "button", "is-primary", "is-fullwidth", "mt-2", 3, "click"], ["id", "demo-card", 3, "demoNodeInfo"]];
+    return [i18n_0, [1, "columns", "is-vcentered", "is-align-items-stretch"], [1, "column"], [1, "box", "is-fullheight"], [1, "title"], ["id", "rules-config-component", 3, "updateCallback", "rulesConfigDescription", "creatorMode", "editable"], [1, "field", "is-horizontal"], [1, "field-body"], [1, "field"], [1, "control"], ["id", "start-game-with-config", 1, "button", "is-primary", "is-fullwidth", "mt-2", 3, "click"], ["id", "demo-card", 3, "demoNodeInfo"]];
   }, template: function LocalGameConfigurationComponent_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275elementStart(0, "div", 1)(1, "div", 2)(2, "div", 3)(3, "p", 4);
@@ -149,7 +149,7 @@ var LocalGameConfigurationComponent = class _LocalGameConfigurationComponent ext
       \u0275\u0275advance(4);
       \u0275\u0275textInterpolate(ctx.getGameName().getOrElse(""));
       \u0275\u0275advance();
-      \u0275\u0275property("rulesConfigDescription", ctx.getRulesConfigDescription())("editable", true);
+      \u0275\u0275property("rulesConfigDescription", ctx.getRulesConfigDescription())("creatorMode", true)("editable", true);
       \u0275\u0275advance(9);
       \u0275\u0275conditional(ctx.getConfigDemo() !== void 0 ? 14 : -1);
     }
@@ -165,6 +165,7 @@ var LocalGameConfigurationComponent = class _LocalGameConfigurationComponent ext
             <p class="title">{{ getGameName().getOrElse('') }}</p>
             <app-rules-configuration id="rules-config-component"
                                      [rulesConfigDescription]="getRulesConfigDescription()"
+                                     [creatorMode]="true"
                                      [editable]="true"
                                      (updateCallback)="updateConfig($event)">
             </app-rules-configuration>
@@ -203,4 +204,4 @@ var LocalGameConfigurationComponent = class _LocalGameConfigurationComponent ext
 export {
   LocalGameConfigurationComponent
 };
-//# sourceMappingURL=local-game-configuration.component-OBMCOUKL.js.map
+//# sourceMappingURL=local-game-configuration.component-QXJ2ML2O.js.map
