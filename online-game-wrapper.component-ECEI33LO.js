@@ -3112,6 +3112,9 @@ var OnlineGameWrapperComponent = class OnlineGameWrapperComponent2 extends GameW
           yield this.takeBackToPreviousPlayerTurn(accepter.getOpponent());
           break;
         case "Rematch":
+          if (this.isSynced === false) {
+            break;
+          }
           yield this.router.navigate(["/nextGameLoading"]);
           const urlName = this.getGameUrlName();
           yield this.router.navigate(["/play", urlName, reply.data]);
@@ -3908,4 +3911,4 @@ export {
   OnlineGameWrapperComponent,
   OnlineGameWrapperMessages
 };
-//# sourceMappingURL=online-game-wrapper.component-W7CGEOAE.js.map
+//# sourceMappingURL=online-game-wrapper.component-ECEI33LO.js.map

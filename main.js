@@ -5042,10 +5042,9 @@ function HeaderComponent_Conditional_30_Conditional_1_Template(rf, ctx) {
     \u0275\u0275elementContainerEnd();
   }
   if (rf & 2) {
-    let tmp_2_0;
     const ctx_r1 = \u0275\u0275nextContext(2);
     \u0275\u0275advance();
-    \u0275\u0275i18nExp(ctx_r1.getCurrentGameName())((tmp_2_0 = ctx_r1.currentGame.get().opponent) == null ? null : tmp_2_0.name);
+    \u0275\u0275i18nExp(ctx_r1.getCurrentGameName())(ctx_r1.currentGame.get().creator.name);
     \u0275\u0275i18nApply(1);
   }
 }
@@ -5266,8 +5265,8 @@ var HeaderComponent = class _HeaderComponent {
     }
     let i18n_8;
     if (false) {
-      const MSG_EXTERNAL_5876898605218614330$$SRC_APP_COMPONENTS_NORMAL_COMPONENT_HEADER_HEADER_COMPONENT_TS_8 = goog.getMsg("{$interpolation} by {$interpolation_1}", { "interpolation": "\uFFFD0\uFFFD", "interpolation_1": "\uFFFD1\uFFFD" }, { original_code: { "interpolation": "{{ getCurrentGameName() }}", "interpolation_1": "{{ currentGame.get().opponent?.name }}" } });
-      i18n_8 = MSG_EXTERNAL_5876898605218614330$$SRC_APP_COMPONENTS_NORMAL_COMPONENT_HEADER_HEADER_COMPONENT_TS_8;
+      const MSG_EXTERNAL_4449968195504791652$$SRC_APP_COMPONENTS_NORMAL_COMPONENT_HEADER_HEADER_COMPONENT_TS_8 = goog.getMsg("{$interpolation} by {$interpolation_1}", { "interpolation": "\uFFFD0\uFFFD", "interpolation_1": "\uFFFD1\uFFFD" }, { original_code: { "interpolation": "{{ getCurrentGameName() }}", "interpolation_1": "{{ currentGame.get().creator.name }}" } });
+      i18n_8 = MSG_EXTERNAL_4449968195504791652$$SRC_APP_COMPONENTS_NORMAL_COMPONENT_HEADER_HEADER_COMPONENT_TS_8;
     } else {
       i18n_8 = $localize`${"\uFFFD0\uFFFD"}:INTERPOLATION: by ${"\uFFFD1\uFFFD"}:INTERPOLATION_1:`;
     }
@@ -5460,7 +5459,7 @@ var HeaderComponent = class _HeaderComponent {
                    class="navbar-item"
                    (click)="navigateToPart()">
                     @if (currentGame.get().role === 'Observer' || currentGame.get().role === 'Candidate') {
-                        <ng-container i18n>{{ getCurrentGameName() }} by {{ currentGame.get().opponent?.name }}</ng-container>
+                        <ng-container i18n>{{ getCurrentGameName() }} by {{ currentGame.get().creator.name }}</ng-container>
                     } @else {
                         @if (currentGame.get().opponent) {
                             <ng-container i18n>{{ getCurrentGameName() }} against {{ currentGame.get().opponent?.name }}</ng-container>
@@ -5846,7 +5845,7 @@ var routes = [
   { path: "verify-account", loadComponent: () => import("./verify-account.component-OJDM2RWO.js").then((m) => m.VerifyAccountComponent), canActivate: [ConnectedButNotVerifiedGuard] },
   { path: "play", loadComponent: () => import("./online-game-selection.component-SN6EUH6E.js").then((m) => m.OnlineGameSelectionComponent), canActivate: [ExclusiveOnlineGameGuard, VerifiedAccountGuard] },
   { path: "play/:game", loadComponent: () => import("./online-game-creation.component-SCTVN2GX.js").then((m) => m.OnlineGameCreationComponent), canActivate: [ExclusiveOnlineGameGuard, VerifiedAccountGuard] },
-  { path: "play/:game/:id", loadComponent: () => import("./online-game-wrapper.component-W7CGEOAE.js").then((m) => m.OnlineGameWrapperComponent), canActivate: [ExclusiveOnlineGameGuard, VerifiedAccountGuard] },
+  { path: "play/:game/:id", loadComponent: () => import("./online-game-wrapper.component-ECEI33LO.js").then((m) => m.OnlineGameWrapperComponent), canActivate: [ExclusiveOnlineGameGuard, VerifiedAccountGuard] },
   { path: "local", loadComponent: () => import("./local-game-creation.component-P6BDBFZS.js").then((m) => m.LocalGameCreationComponent) },
   { path: "local/:game/config", loadComponent: () => import("./local-game-configuration.component-OBMCOUKL.js").then((m) => m.LocalGameConfigurationComponent) },
   { path: "local/:game", loadComponent: () => import("./local-game-wrapper.component-72GE5EOO.js").then((m) => m.LocalGameWrapperComponent) },
