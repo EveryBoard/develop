@@ -1,22 +1,22 @@
 import {
   DemoCardWrapperComponent
-} from "./chunk-J23FUBBI.js";
-import "./chunk-RHFGQPPY.js";
+} from "./chunk-YOTNFB6E.js";
+import "./chunk-QZB5EQS3.js";
 import {
   RulesConfigurationComponent,
   ViewConfigComponent
-} from "./chunk-LTXJCVUB.js";
+} from "./chunk-L2IIOOFF.js";
 import {
   BaseWrapperComponent,
   GameWrapper,
   GameWrapperMessages
-} from "./chunk-ESSFHCRR.js";
+} from "./chunk-Z2HYYOUN.js";
 import {
   ConfigRoomService
-} from "./chunk-RBGIXX7N.js";
+} from "./chunk-PCTBT2FN.js";
 import {
   GameService
-} from "./chunk-AJLM4FAA.js";
+} from "./chunk-LUIC4ATP.js";
 import {
   ChatComponent,
   EloComponent,
@@ -24,9 +24,9 @@ import {
   GameDuration,
   GameType,
   Status
-} from "./chunk-25HXQ5ZO.js";
-import "./chunk-UVGIXBH4.js";
-import "./chunk-6YYLMVEQ.js";
+} from "./chunk-G7ICF3QQ.js";
+import "./chunk-VGU4WPFN.js";
+import "./chunk-EMU3IHRO.js";
 import {
   GameInfo,
   GameNode,
@@ -34,7 +34,7 @@ import {
   Player,
   PlayerNumberMap,
   PlayerOrNone
-} from "./chunk-PS6FUQ5F.js";
+} from "./chunk-FA5F5MXA.js";
 import "./chunk-4HQW7IWY.js";
 import {
   FaIconComponent,
@@ -615,6 +615,7 @@ var __decorate2 = function(decorators, target, key, desc) {
   else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
   return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var _forTrack0 = ($index, $item) => $item.name;
 function GameCreationComponent_Conditional_0_Conditional_1_Conditional_11_Template(rf, ctx) {
   if (rf & 1) {
     const _r2 = \u0275\u0275getCurrentView();
@@ -690,7 +691,7 @@ function GameCreationComponent_Conditional_0_Conditional_1_Conditional_12_Templa
     \u0275\u0275i18n(9, 19);
     \u0275\u0275elementEnd()()();
     \u0275\u0275elementStart(10, "tbody");
-    \u0275\u0275repeaterCreate(11, GameCreationComponent_Conditional_0_Conditional_1_Conditional_12_For_12_Template, 7, 7, "tr", 76, \u0275\u0275repeaterTrackByIdentity);
+    \u0275\u0275repeaterCreate(11, GameCreationComponent_Conditional_0_Conditional_1_Conditional_12_For_12_Template, 7, 7, "tr", 76, _forTrack0);
     \u0275\u0275elementEnd()()();
   }
   if (rf & 2) {
@@ -1834,7 +1835,7 @@ GameCreationComponent = __decorate2([
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        @for (candidate of viewInfo.candidates; track candidate) {
+                                                        @for (candidate of viewInfo.candidates; track candidate.name) {
                                                             <tr id="presenceOf_{{ candidate.name }}"
                                                                 [ngClass]="viewInfo.candidateClasses[candidate.name]"
                                                                 (click)="selectOpponent(candidate.name)">
@@ -3900,4 +3901,4 @@ export {
   OnlineGameWrapperComponent,
   OnlineGameWrapperMessages
 };
-//# sourceMappingURL=online-game-wrapper.component-GLMSEY6D.js.map
+//# sourceMappingURL=online-game-wrapper.component-MPSIXWXD.js.map

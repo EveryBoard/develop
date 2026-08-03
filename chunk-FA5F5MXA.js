@@ -654,215 +654,11 @@ var Move = class {
   // For strict typing
 };
 
-// src/app/jscaip/AI/MCTS.ts
-var MCTS = class {
-  name;
-  moveGenerator;
-  rules;
-  // The exploration parameter influences the MCTS results.
-  // It is chosen "empirically". The generally recommended value from Wikipedia is Math.sqrt(2),
-  // but in our case it seems to work much better with a higher exploration parameter.
-  // A higher exploration parameter steers MCTS towards exploring more unexplored playouts, vs. exploring its wins.
-  explorationParameter = 80;
-  // The longest a game can be before we decide to stop simulating it
-  maxGameLength = 7 * 6;
-  // Set to the number of moves in connect 4
-  availableOptions = [];
-  // An id unique to this MCTS, used to store/retrieve cached value in nodes without clashing with other AIs
-  uniqueId;
-  constructor(name, moveGenerator, rules) {
-    this.name = name;
-    this.moveGenerator = moveGenerator;
-    this.rules = rules;
-    this.uniqueId = Math.random().toString(36).substring(2, 8);
-    for (let i2 = 1; i2 < 10; i2++) {
-      this.availableOptions.push({ name: `${i2 * i2} seconds`, maxSeconds: i2 * i2 });
-    }
-  }
-  /**
-   * Performs the search, given a node representing a board.
-   * The search is performed for at most `iterations` iterations.
-   */
-  chooseNextMove(root, options, config) {
-    Utils.assert(this.rules.getGameStatus(root, config).isEndGame === false, "cannot search from a finished game");
-    const player = root.gameState.getCurrentPlayer();
-    const startTime = Date.now();
-    const endTime = Date.now() + options.maxSeconds * 1e3;
-    let iterations = 0;
-    while (Date.now() < endTime) {
-      const expansionResult = this.expand(this.select({ node: root, path: [root] }, player), config);
-      const gameStatus = this.simulate(expansionResult.node, endTime, config);
-      this.backpropagate(expansionResult.path, this.score(expansionResult.node, config, gameStatus, player));
-      iterations++;
-    }
-    Debug.display("MCTS", "chooseNextMove", "root winRatio: " + this.winRatio(root));
-    Debug.display("MCTS", "chooseNextMove", "children winRatio: " + root.getChildren().map((n) => n.id + ": " + this.winRatio(n)));
-    const bestChildren = ArrayUtils.maximumsBy(root.getChildren(), (n) => this.winRatio(n));
-    const bestChild = ArrayUtils.getRandomElement(bestChildren);
-    const seconds = (Date.now() - startTime) / 1e3;
-    Debug.display("MCTS", "chooseNextMove", `Computed ${iterations} in ${seconds} (rate: ${iterations / seconds} it/s)`);
-    Debug.display("MCTS", "chooseNextMove", "Best child has a win ratio of: " + this.winRatio(bestChild));
-    return bestChild.previousMove.get();
-  }
-  /**
-   * Returns 1 for win, 0 for losses. Must return a result between 0 and 1 otherwise.
-   */
-  score(_node, _config, gameStatus, player) {
-    switch (gameStatus) {
-      case GameStatus.DRAW:
-      case GameStatus.ONGOING:
-        return 0.01;
-      // Prefer ongoing/draw to loss
-      default:
-        if (gameStatus.winner === player)
-          return 1;
-        else
-          return 0;
-    }
-  }
-  /**
-   * Computes the UCB value of a node.
-   * The UCB (Upper-Confidence-Bound) is a value used to select nodes to explore.
-   */
-  adversarialUcb(node, parentSimulations, player) {
-    const simulations = this.simulations(node);
-    if (parentSimulations === 0 || simulations === 0) {
-      return Number.POSITIVE_INFINITY;
-    }
-    const winRatio = this.wins(node) / simulations;
-    const exploitation = node.gameState.getPreviousPlayer() === player ? winRatio : 1 - winRatio;
-    return exploitation + this.explorationParameter * Math.sqrt(Math.log(parentSimulations) / simulations);
-  }
-  /**
-   * Computes the win ratio for this node, as how many simulations have been won.
-   */
-  winRatio(node) {
-    const simulations = this.simulations(node);
-    if (simulations === 0) {
-      return 1;
-    }
-    return this.wins(node) / simulations;
-  }
-  wins(node) {
-    return this.getCounterFromCache(node, "wins");
-  }
-  simulations(node) {
-    return this.getCounterFromCache(node, "simulations");
-  }
-  getCounterFromCache(node, name) {
-    const cachedValue = node.getCache(this.uniqueId + name);
-    if (cachedValue.isPresent()) {
-      return cachedValue.get();
-    } else {
-      node.setCache(this.uniqueId + name, 0);
-      return 0;
-    }
-  }
-  /**
-   * Selects the node that we will consider in this iteration.
-   * This takes the first unexplored node it finds in a BFS fashion.
-   * @returns the selected node
-   */
-  select(nodeAndPath, player) {
-    const node = nodeAndPath.node;
-    Debug.display("MCTS", "select", "Exploring node: " + node.id);
-    if (node.hasChildren()) {
-      const simulations = this.simulations(node);
-      Debug.display("MCTS", "select", "UCB values: " + node.getChildren().map((n) => n.id + ": " + this.adversarialUcb(n, simulations, player)));
-      const bestChildren = ArrayUtils.maximumsBy(node.getChildren(), (n) => this.adversarialUcb(n, simulations, player));
-      const childToVisit = ArrayUtils.getRandomElement(bestChildren);
-      Debug.display("MCTS", "select", "selecting children " + childToVisit.id);
-      return this.select({ node: childToVisit, path: nodeAndPath.path.concat([childToVisit]) }, player);
-    } else {
-      Debug.display("MCTS", "select", "this is a leaf node, we select it");
-      return nodeAndPath;
-    }
-  }
-  /**
-   * Expands a node, i.e., creates children to explore if needed, or returns the node directly.
-   * @returns one of the created child, or the node itself if it is terminal
-   */
-  expand(nodeAndPath, config) {
-    if (this.rules.getGameStatus(nodeAndPath.node, config).isEndGame) {
-      return nodeAndPath;
-    }
-    const node = nodeAndPath.node;
-    const moves = this.moveGenerator.getListMoves(node, config);
-    Utils.assert(moves.length > 0, `${this.name}: move generator did not return any move on a non-finished game: ${this.moveGenerator.constructor.name}`);
-    for (const move of moves) {
-      node.addChild(this.play(node, move, config));
-    }
-    const pickedChild = ArrayUtils.getRandomElement(node.getChildren());
-    return { node: pickedChild, path: nodeAndPath.path.concat([pickedChild]) };
-  }
-  /**
-   * Simulate a game from the given node. Does not change anything in the node.
-   * @returns the game status at the end of the simulation
-   */
-  simulate(node, endTime, config) {
-    Debug.display("MCTS", "simulate", "simulate from node which has a last move of " + node.previousMove.get().toString());
-    let current = node;
-    let steps = 0;
-    while (steps < this.maxGameLength && Date.now() < endTime) {
-      const status = this.rules.getGameStatus(current, config);
-      if (status.isEndGame) {
-        Debug.display("MCTS", "simulate", `end game in ${steps} steps, winner is ${status.winner}`);
-        return status;
-      }
-      steps++;
-      current = this.playRandomStep(current, config);
-    }
-    return GameStatus.ONGOING;
-  }
-  /**
-   * Picks a random move and play it
-   * @returns the state after the move
-   */
-  playRandomStep(node, config) {
-    const moves = this.moveGenerator.getListMoves(node, config);
-    Utils.assert(moves.length > 0, "MoveGenerator gave empty list of moves for ongoing game to MCTS");
-    const move = ArrayUtils.getRandomElement(moves);
-    return this.play(node, move, config);
-  }
-  /**
-   * Plays a move.
-   * @returns the state after the move
-   */
-  play(node, move, config) {
-    const legality = this.rules.isLegal(move, node.gameState, config);
-    Utils.assert(legality.isSuccess(), "heuristic returned illegal move", { move: move.toString() });
-    const childState = this.rules.applyLegalMove(move, node.gameState, config, legality.get());
-    const childNode = new GameNode(childState, MGPOptional.of(node), MGPOptional.of(move));
-    return childNode;
-  }
-  /**
-   * Backpropagates the result of a simulation in a path from the simulated node to the root of the tree.
-   * @returns nothing, as it modifies the nodes directly
-   */
-  backpropagate(path, score) {
-    for (const node of path) {
-      this.addSimulationResult(node, score);
-      Debug.display("MCTS", "backpropagate", `backpropagate to node which now has ${this.wins(node) / this.simulations(node)}`);
-    }
-  }
-  addSimulationResult(node, score) {
-    const simulations = this.simulations(node) + 1;
-    const wins = this.wins(node) + score;
-    node.setCache(this.uniqueId + "wins", wins);
-    node.setCache(this.uniqueId + "simulations", simulations);
-  }
-  getInfo(node) {
-    const wins = this.getCounterFromCache(node, "wins");
-    const simulations = this.getCounterFromCache(node, "simulations");
-    return `wins/simulations=${wins}/${simulations}`;
-  }
-};
-
 // src/app/jscaip/AI/AI.ts
 var MoveGenerator = class {
 };
 var AIStats = class {
-  static aiTime = 0;
+  static aiTime = /* @__PURE__ */ new Map();
 };
 
 // node_modules/fuse.js/dist/fuse.mjs
@@ -1196,8 +992,8 @@ var FuseIndex = class {
   toJSON() {
     return {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      keys: this.keys.map((_a10) => {
-        var _b = _a10, {
+      keys: this.keys.map((_a11) => {
+        var _b = _a11, {
           getFn
         } = _b, key = __objRest(_b, [
           "getFn"
@@ -4649,7 +4445,10 @@ var GameComponent = class GameComponent2 extends BaseGameComponent {
   rules;
   node;
   config;
-  availableAIs;
+  aiConfig = {
+    minimax: [],
+    mcts: []
+  };
   canPass = false;
   scores = MGPOptional.empty();
   imagesLocation = "assets/images/";
@@ -5109,170 +4908,17 @@ var AbaloneMoveGenerator = class extends MoveGenerator {
   }
 };
 
-// src/app/jscaip/AI/Minimax.ts
+// src/app/jscaip/AI/Heuristic.ts
 var Heuristic = class {
 };
 var HeuristicWithBounds = class extends Heuristic {
 };
+
+// src/app/jscaip/AI/PlayerMetricHeuristic.ts
 var PlayerMetricHeuristic = class extends Heuristic {
   getBoardValue(node, config) {
     const metrics = this.getMetrics(node, config);
     return BoardValue.ofMultiple(metrics.get(Player.ZERO).get(), metrics.get(Player.ONE).get());
-  }
-};
-var PlayerMetricHeuristicWithBounds = class extends HeuristicWithBounds {
-  // Yes, this is duplicated from PlayerMetricHeuristic, because we don't have multiple inheritance
-  // and probably don't want to use mixins!
-  getBoardValue(node, config) {
-    const metrics = this.getMetrics(node, config);
-    return BoardValue.ofMultiple(metrics.get(Player.ZERO).get(), metrics.get(Player.ONE).get());
-  }
-};
-var DummyHeuristic = class extends PlayerMetricHeuristic {
-  getMetrics(_node, _config) {
-    return PlayerNumberTable.ofSingle(0, 0);
-  }
-};
-var Minimax = class {
-  name;
-  rules;
-  heuristic;
-  moveGenerator;
-  // States whether the minimax takes random moves from the list of best moves.
-  random = false;
-  // States whether alpha-beta pruning must be done. It probably is never useful to set it to false.
-  prune = true;
-  availableOptions = [];
-  constructor(name, rules, heuristic, moveGenerator) {
-    this.name = name;
-    this.rules = rules;
-    this.heuristic = heuristic;
-    this.moveGenerator = moveGenerator;
-    for (let i2 = 1; i2 < 10; i2++) {
-      this.availableOptions.push({ name: `Level ${i2}`, maxDepth: i2 });
-    }
-  }
-  toString() {
-    return this.name;
-  }
-  chooseNextMove(node, options, config) {
-    Utils.assert(this.rules.getGameStatus(node, config).isEndGame === false, "Minimax has been asked to choose a move from a finished game");
-    const boardValue = this.getExpectedExtremum(node, config);
-    let bestDescendant = this.alphaBeta(node, options.maxDepth, boardValue.toMinimum(), boardValue.toMaximum(), config);
-    while (bestDescendant.gameState.turn > node.gameState.turn + 1) {
-      bestDescendant = bestDescendant.parent.get();
-    }
-    return bestDescendant.previousMove.get();
-  }
-  alphaBeta(node, depth, alpha, beta, config) {
-    if (depth < 1) {
-      return node;
-    } else if (this.rules.getGameStatus(node, config).isEndGame) {
-      return node;
-    }
-    const possibleMoves = this.getPossibleMoves(node, config);
-    Utils.assert(possibleMoves.size() > 0, "Minimax " + this.name + " should give move, received none!");
-    const bestChildren = this.getBestChildren(node, possibleMoves, depth, alpha, beta, config);
-    const bestChild = this.getBestChildAmong(bestChildren);
-    const bestChildScore = this.getScore(bestChild, config);
-    this.setScore(node, bestChildScore);
-    return bestChild;
-  }
-  getPossibleMoves(node, config) {
-    const currentMoves = this.getMoves(node);
-    if (currentMoves.isAbsent()) {
-      const moves = this.moveGenerator.getListMoves(node, config);
-      this.setMoves(node, new Set2(moves));
-      return new Set2(moves);
-    } else {
-      return currentMoves.get();
-    }
-  }
-  getBestChildren(node, possibleMoves, depth, alpha, beta, config) {
-    let bestChildren = [];
-    const currentPlayer = node.gameState.getCurrentPlayer();
-    let extremumExpected = this.getExpectedExtremum(node, config);
-    const newValueIsBetter = currentPlayer === Player.ZERO ? BoardValue.isLessThan : BoardValue.isGreaterThan;
-    for (const move of possibleMoves) {
-      const child = this.getOrCreateChild(node, move, config);
-      const bestChildDescendant = this.alphaBeta(child, depth - 1, alpha, beta, config);
-      const bestChildValue = this.getScore(bestChildDescendant, config);
-      if (newValueIsBetter(bestChildValue, extremumExpected) || bestChildren.length === 0) {
-        extremumExpected = bestChildValue;
-        bestChildren = [bestChildDescendant];
-      } else if (bestChildValue.equals(extremumExpected)) {
-        bestChildren.push(bestChildDescendant);
-      }
-      if (this.prune && newValueIsBetter(extremumExpected, currentPlayer === Player.ZERO ? alpha : beta)) {
-        break;
-      }
-      if (currentPlayer === Player.ZERO) {
-        beta = BoardValue.min(extremumExpected, beta);
-      } else {
-        alpha = BoardValue.max(extremumExpected, alpha);
-      }
-    }
-    return bestChildren;
-  }
-  getExpectedExtremum(node, config) {
-    const childValue = this.getScore(node, config);
-    const currentPlayer = node.gameState.getCurrentPlayer();
-    if (currentPlayer === Player.ZERO) {
-      return childValue.toMaximum();
-    } else {
-      return childValue.toMinimum();
-    }
-  }
-  getBestChildAmong(bestChildren) {
-    if (this.random) {
-      return ArrayUtils.getRandomElement(bestChildren);
-    } else {
-      return bestChildren[0];
-    }
-  }
-  getOrCreateChild(node, move, config) {
-    const child = node.getChild(move);
-    if (child.isAbsent()) {
-      const legality = this.rules.isLegal(move, node.gameState, config);
-      const moveString = move.toString();
-      Utils.assert(legality.isSuccess(), 'The minimax "' + this.name + '" has proposed an illegal move at turn ' + node.gameState.turn + " (" + moveString + '), refusal reason: "' + legality.getReasonOr("") + '", this should not happen.');
-      const state = this.rules.applyLegalMove(move, node.gameState, config, legality.get());
-      const newChild = new GameNode(state, MGPOptional.of(node), MGPOptional.of(move));
-      node.addChild(newChild);
-      this.setScore(newChild, this.computeBoardValue(newChild, config));
-      return newChild;
-    }
-    return child.get();
-  }
-  setScore(node, score) {
-    node.setCache(this.name + "-score", score);
-  }
-  getScore(node, config) {
-    const score = node.getCache(this.name + "-score");
-    if (score.isPresent()) {
-      return score.get();
-    } else {
-      const boardValue = this.computeBoardValue(node, config);
-      this.setScore(node, boardValue);
-      return boardValue;
-    }
-  }
-  computeBoardValue(node, config) {
-    const gameStatus = this.rules.getGameStatus(node, config);
-    if (gameStatus.isEndGame) {
-      return gameStatus.toBoardValue();
-    } else {
-      return this.heuristic.getBoardValue(node, config);
-    }
-  }
-  setMoves(node, moves) {
-    node.setCache(this.name + "-moves", moves);
-  }
-  getMoves(node) {
-    return node.getCache(this.name + "-moves");
-  }
-  getInfo(node, config) {
-    return "BoardValue=" + this.heuristic.getBoardValue(node, config).metrics;
   }
 };
 
@@ -5280,13 +4926,6 @@ var Minimax = class {
 var AbaloneScoreHeuristic = class extends PlayerMetricHeuristic {
   getMetrics(node, _config) {
     return node.gameState.getScores().toTable();
-  }
-};
-
-// src/app/games/abalone/AbaloneScoreMinimax.ts
-var AbaloneScoreMinimax = class extends Minimax {
-  constructor() {
-    super($localize`Score`, AbaloneRules.get(), new AbaloneScoreHeuristic(), new AbaloneMoveGenerator());
   }
 };
 
@@ -5418,10 +5057,19 @@ var AbaloneComponent = class _AbaloneComponent extends HexagonalGameComponent {
   constructor() {
     super();
     this.setRulesAndNode("Abalone");
-    this.availableAIs = [
-      new AbaloneScoreMinimax(),
-      new MCTS($localize`MCTS`, new AbaloneMoveGenerator(), this.rules)
-    ];
+    this.aiConfig = {
+      minimax: [{
+        id: "Score",
+        name: $localize`Score`,
+        heuristic: () => new AbaloneScoreHeuristic(),
+        moveGenerator: () => new AbaloneMoveGenerator()
+      }],
+      mcts: [{
+        id: "default",
+        name: $localize`MCTS`,
+        moveGenerator: () => new AbaloneMoveGenerator()
+      }]
+    };
     this.encoder = AbaloneMove.encoder;
     this.scores = MGPOptional.of(PlayerNumberMap.of(0, 0));
     this.SPACE_SIZE = 30;
@@ -5789,7 +5437,7 @@ var AbaloneComponent = class _AbaloneComponent extends HexagonalGameComponent {
   }], () => [], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(AbaloneComponent, { className: "AbaloneComponent", filePath: "src/app/games/abalone/abalone.component.ts", lineNumber: 50 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(AbaloneComponent, { className: "AbaloneComponent", filePath: "src/app/games/abalone/abalone.component.ts", lineNumber: 49 });
 })();
 
 // src/app/games/apagos/ApagosFailure.ts
@@ -6171,13 +5819,6 @@ var ApagosMoveGenerator = class extends MoveGenerator {
   }
 };
 
-// src/app/games/apagos/ApagosFullBoardMinimax.ts
-var ApagosFullBoardMinimax = class extends Minimax {
-  constructor() {
-    super($localize`Full Board`, ApagosRules.get(), new ApagosFullBoardHeuristic(), new ApagosMoveGenerator());
-  }
-};
-
 // src/app/games/apagos/ApagosRightmostHeuristic.ts
 var ApagosRightmostHeuristic = class extends PlayerMetricHeuristic {
   getMetrics(node, _config) {
@@ -6189,13 +5830,6 @@ var ApagosRightmostHeuristic = class extends PlayerMetricHeuristic {
       result.add(levelThreeDominant, 0, 1);
     }
     return result;
-  }
-};
-
-// src/app/games/apagos/ApagosRightmostMinimax.ts
-var ApagosRightmostMinimax = class extends Minimax {
-  constructor() {
-    super($localize`Rightmost Focus`, ApagosRules.get(), new ApagosRightmostHeuristic(), new ApagosMoveGenerator());
   }
 };
 
@@ -6348,11 +5982,27 @@ var ApagosComponent = class _ApagosComponent extends GameComponent {
   constructor() {
     super();
     this.setRulesAndNode("Apagos");
-    this.availableAIs = [
-      new ApagosRightmostMinimax(),
-      new ApagosFullBoardMinimax(),
-      new MCTS($localize`MCTS`, new ApagosMoveGenerator(), this.rules)
-    ];
+    this.aiConfig = {
+      minimax: [
+        {
+          id: "Rightmost Focus",
+          name: $localize`Rightmost Focus`,
+          heuristic: () => new ApagosRightmostHeuristic(),
+          moveGenerator: () => new ApagosMoveGenerator()
+        },
+        {
+          id: "Full Board",
+          name: $localize`Full Board`,
+          heuristic: () => new ApagosFullBoardHeuristic(),
+          moveGenerator: () => new ApagosMoveGenerator()
+        }
+      ],
+      mcts: [{
+        id: "default",
+        name: $localize`Default`,
+        moveGenerator: () => new ApagosMoveGenerator()
+      }]
+    };
     this.encoder = ApagosMove.encoder;
     this.hasAsymmetricBoard = true;
   }
@@ -6674,7 +6324,7 @@ var ApagosComponent = class _ApagosComponent extends GameComponent {
   }], () => [], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(ApagosComponent, { className: "ApagosComponent", filePath: "src/app/games/apagos/apagos.component.ts", lineNumber: 40 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(ApagosComponent, { className: "ApagosComponent", filePath: "src/app/games/apagos/apagos.component.ts", lineNumber: 39 });
 })();
 
 // src/app/games/checkers/common/CheckersFailure.ts
@@ -7711,38 +7361,6 @@ var CheckersControlHeuristic = class extends PlayerMetricHeuristic {
   }
 };
 
-// src/app/games/checkers/common/CheckersMoveGenerator.ts
-var CheckersMoveGenerator = class extends MoveGenerator {
-  rules;
-  constructor(rules) {
-    super();
-    this.rules = rules;
-  }
-  getListMoves(node, config) {
-    const captures = this.getLegalCaptures(node.gameState, config);
-    if (captures.length > 0) {
-      return captures;
-    } else {
-      return this.rules.getSteps(node.gameState, config);
-    }
-  }
-  getLegalCaptures(state, config) {
-    const possibleCaptures = this.rules.getCompleteCaptures(state, config);
-    if (config.mustMakeMaximalCapture) {
-      return ArrayUtils.maximumsBy(possibleCaptures, (m2) => m2.coords.size());
-    } else {
-      return possibleCaptures;
-    }
-  }
-};
-
-// src/app/games/checkers/common/CheckersControlMinimax.ts
-var CheckersControlMinimax = class extends Minimax {
-  constructor(rules) {
-    super($localize`Control`, rules, new CheckersControlHeuristic(rules), new CheckersMoveGenerator(rules));
-  }
-};
-
 // src/app/games/checkers/common/CheckersControlPlusDominationHeuristic.ts
 var CheckersControlPlusDominationHeuristic = class extends CheckersControlHeuristic {
   getMetrics(node, config) {
@@ -7773,10 +7391,28 @@ var CheckersControlPlusDominationHeuristic = class extends CheckersControlHeuris
   }
 };
 
-// src/app/games/checkers/common/CheckersControlPlusDominationMinimax.ts
-var CheckersControlPlusDominationMinimax = class extends Minimax {
+// src/app/games/checkers/common/CheckersMoveGenerator.ts
+var CheckersMoveGenerator = class extends MoveGenerator {
+  rules;
   constructor(rules) {
-    super($localize`Control and Domination`, rules, new CheckersControlPlusDominationHeuristic(rules), new CheckersMoveGenerator(rules));
+    super();
+    this.rules = rules;
+  }
+  getListMoves(node, config) {
+    const captures = this.getLegalCaptures(node.gameState, config);
+    if (captures.length > 0) {
+      return captures;
+    } else {
+      return this.rules.getSteps(node.gameState, config);
+    }
+  }
+  getLegalCaptures(state, config) {
+    const possibleCaptures = this.rules.getCompleteCaptures(state, config);
+    if (config.mustMakeMaximalCapture) {
+      return ArrayUtils.maximumsBy(possibleCaptures, (m2) => m2.coords.size());
+    } else {
+      return possibleCaptures;
+    }
   }
 };
 
@@ -7784,13 +7420,6 @@ var CheckersControlPlusDominationMinimax = class extends Minimax {
 var CheckersScoreHeuristic = class extends PlayerMetricHeuristic {
   getMetrics(node, _config) {
     return node.gameState.getScores().get().toTable();
-  }
-};
-
-// src/app/games/checkers/common/CheckersScoreMinimax.ts
-var CheckersScoreMinimax = class extends Minimax {
-  constructor(rules, moveGenerator) {
-    super($localize`Score`, rules, new CheckersScoreHeuristic(), moveGenerator);
   }
 };
 
@@ -7840,12 +7469,35 @@ var CheckersComponent = class extends ParallelogramGameComponent {
   setRulesAndNode(urlName) {
     super.setRulesAndNode(urlName);
     this.moveGenerator = new CheckersMoveGenerator(this.rules);
-    this.availableAIs = [
-      new CheckersScoreMinimax(this.rules, this.moveGenerator),
-      new MCTS($localize`MCTS`, this.moveGenerator, this.rules),
-      new CheckersControlPlusDominationMinimax(this.rules),
-      new CheckersControlMinimax(this.rules)
-    ];
+    this.aiConfig = {
+      minimax: [
+        {
+          id: "Score",
+          name: $localize`Score`,
+          heuristic: () => new CheckersScoreHeuristic(),
+          moveGenerator: () => this.moveGenerator
+        },
+        {
+          id: "Control and Domination",
+          name: $localize`Control and Domination`,
+          heuristic: () => {
+            return new CheckersControlPlusDominationHeuristic(this.rules);
+          },
+          moveGenerator: () => this.moveGenerator
+        },
+        {
+          id: "Control",
+          name: $localize`Control`,
+          heuristic: () => new CheckersControlHeuristic(this.rules),
+          moveGenerator: () => this.moveGenerator
+        }
+      ],
+      mcts: [{
+        id: "default",
+        name: $localize`MCTS`,
+        moveGenerator: () => this.moveGenerator
+      }]
+    };
     this.encoder = CheckersMove.encoder;
     this.hasAsymmetricBoard = true;
   }
@@ -9393,36 +9045,6 @@ var CoerceoMoveGenerator = class extends MoveGenerator {
   }
 };
 
-// src/app/games/coerceo/CoerceoOrderedMoveGenerator.ts
-var CoerceoOrderedMoveGenerator = class extends CoerceoMoveGenerator {
-  getListMoves(node, config) {
-    const moves = super.getListMoves(node, config);
-    return this.putCaptureFirst(node, moves);
-  }
-  putCaptureFirst(node, moves) {
-    ArrayUtils.sortByDescending(moves, (move) => {
-      return this.moveCapturesList(node, move).length;
-    });
-    return moves;
-  }
-  moveCapturesList(node, move) {
-    if (CoerceoMove.isTileExchange(move)) {
-      return [move.coord];
-    } else {
-      const afterMovement = node.gameState.applyLegalMovement(move);
-      const afterTilesRemoved = afterMovement.removeTilesIfNeeded(move.getStart(), true);
-      return afterTilesRemoved.getCapturedNeighbors(move.getEnd());
-    }
-  }
-};
-
-// src/app/games/coerceo/CoerceoCapturesAndFreedomMinimax.ts
-var CoerceoCapturesAndFreedomMinimax = class extends Minimax {
-  constructor() {
-    super($localize`Captures > Freedom`, CoerceoRules.get(), new CoerceoCapturesAndFreedomHeuristic(), new CoerceoOrderedMoveGenerator());
-  }
-};
-
 // src/app/jscaip/PieceThreat.ts
 var PieceThreat = class {
   directThreats;
@@ -9606,13 +9228,6 @@ var CoerceoPiecesThreatsTilesHeuristic = class extends CoerceoHeuristic {
   }
 };
 
-// src/app/games/coerceo/CoerceoPiecesThreatsTilesMinimax.ts
-var CoerceoPiecesThreatsTilesMinimax = class extends Minimax {
-  constructor() {
-    super($localize`Pieces > Threats > Tiles`, CoerceoRules.get(), new CoerceoPiecesThreatsTilesHeuristic(), new CoerceoOrderedMoveGenerator());
-  }
-};
-
 // src/app/games/coerceo/CoerceoPiecesTilesFreedomHeuristic.ts
 var CoerceoPiecesTilesFreedomHeuristic = class extends CoerceoHeuristic {
   getMetrics(node, _config) {
@@ -9633,16 +9248,10 @@ var CoerceoPiecesTilesFreedomHeuristic = class extends CoerceoHeuristic {
   }
 };
 
-// src/app/games/coerceo/CoerceoPiecesTilesFreedomMinimax.ts
-var CoerceoPiecesTilesFreedomMinimax = class extends Minimax {
-  constructor() {
-    super($localize`Pieces > Tiles > Freedom`, CoerceoRules.get(), new CoerceoPiecesTilesFreedomHeuristic(), new CoerceoOrderedMoveGenerator());
-  }
-};
-
 // src/app/games/coerceo/coerceo.component.ts
 var _forTrack04 = ($index, $item) => $item.coord.toString();
-var _forTrack14 = ($index, $item) => $item.toString();
+var _forTrack14 = ($index, $item) => $item.getValue();
+var _forTrack22 = ($index, $item) => $item.toString();
 function CoerceoComponent_For_2_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
     const _r1 = \u0275\u0275getCurrentView();
@@ -9741,7 +9350,7 @@ function CoerceoComponent_Conditional_5_Template(rf, ctx) {
       return \u0275\u0275resetView(ctx_r2.onPyramidClick(ctx_r2.chosenCoord.get()));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275repeaterCreate(2, CoerceoComponent_Conditional_5_For_3_Template, 1, 5, ":svg:polygon", 6, _forTrack14);
+    \u0275\u0275repeaterCreate(2, CoerceoComponent_Conditional_5_For_3_Template, 1, 5, ":svg:polygon", 6, _forTrack22);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -9835,12 +9444,33 @@ var CoerceoComponent = class _CoerceoComponent extends TriangularGameComponent {
   constructor() {
     super();
     this.setRulesAndNode("Coerceo");
-    this.availableAIs = [
-      new CoerceoPiecesThreatsTilesMinimax(),
-      new CoerceoCapturesAndFreedomMinimax(),
-      new CoerceoPiecesTilesFreedomMinimax(),
-      new MCTS($localize`MCTS`, new CoerceoMoveGenerator(), this.rules)
-    ];
+    this.aiConfig = {
+      minimax: [
+        {
+          id: "Pieces > Threats > Tiles",
+          name: $localize`Pieces > Threats > Tiles`,
+          heuristic: () => new CoerceoPiecesThreatsTilesHeuristic(),
+          moveGenerator: () => new CoerceoMoveGenerator()
+        },
+        {
+          id: "Captures > Freedom",
+          name: $localize`Captures > Freedom`,
+          heuristic: () => new CoerceoCapturesAndFreedomHeuristic(),
+          moveGenerator: () => new CoerceoMoveGenerator()
+        },
+        {
+          id: "Pieces > Tiles > Freedom",
+          name: $localize`Pieces > Tiles > Freedom`,
+          heuristic: () => new CoerceoPiecesTilesFreedomHeuristic(),
+          moveGenerator: () => new CoerceoMoveGenerator()
+        }
+      ],
+      mcts: [{
+        id: "default",
+        name: $localize`MCTS`,
+        moveGenerator: () => new CoerceoMoveGenerator()
+      }]
+    };
     this.encoder = CoerceoMove.encoder;
     this.scores = MGPOptional.of(PlayerNumberMap.of(0, 0));
   }
@@ -10075,7 +9705,7 @@ var CoerceoComponent = class _CoerceoComponent extends TriangularGameComponent {
       \u0275\u0275repeaterCreate(1, CoerceoComponent_For_2_Template, 2, 1, ":svg:g", null, _forTrack04);
       \u0275\u0275repeaterCreate(3, CoerceoComponent_For_4_Template, 2, 1, ":svg:g", null, _forTrack04);
       \u0275\u0275conditionalCreate(5, CoerceoComponent_Conditional_5_Template, 4, 5, ":svg:g")(6, CoerceoComponent_Conditional_6_Template, 2, 2);
-      \u0275\u0275repeaterCreate(7, CoerceoComponent_For_8_Template, 2, 1, ":svg:g", null, \u0275\u0275repeaterTrackByIdentity);
+      \u0275\u0275repeaterCreate(7, CoerceoComponent_For_8_Template, 2, 1, ":svg:g", null, _forTrack14);
       \u0275\u0275elementEnd();
     }
     if (rf & 2) {
@@ -10153,7 +9783,7 @@ var CoerceoComponent = class _CoerceoComponent extends TriangularGameComponent {
                      class="base no-fill mid-stroke last-move-stroke"/>
         }
     }
-    @for (player of Player.PLAYERS; track player) {
+    @for (player of Player.PLAYERS; track player.getValue()) {
         <g>
             @if (mustShowTilesOf(player)) {
                 <g [id]="'tiles-count-' + player.toString()"
@@ -10176,7 +9806,7 @@ var CoerceoComponent = class _CoerceoComponent extends TriangularGameComponent {
   }], () => [], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(CoerceoComponent, { className: "CoerceoComponent", filePath: "src/app/games/coerceo/coerceo.component.ts", lineNumber: 30 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(CoerceoComponent, { className: "CoerceoComponent", filePath: "src/app/games/coerceo/coerceo.component.ts", lineNumber: 29 });
 })();
 
 // src/app/jscaip/NInARowHelper.ts
@@ -10781,13 +10411,6 @@ var ConnectSixMoveGenerator = class extends MoveGenerator {
   }
 };
 
-// src/app/games/connect-six/ConnectSixAlignmentMinimax.ts
-var ConnectSixAlignmentMinimax = class extends Minimax {
-  constructor() {
-    super($localize`Alignment`, ConnectSixRules.get(), new ConnectSixAlignmentHeuristic(), new ConnectSixMoveGenerator());
-  }
-};
-
 // src/app/games/connect-six/connect-six.component.ts
 function ConnectSixComponent_For_4_For_2_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
@@ -10853,10 +10476,19 @@ var ConnectSixComponent = class _ConnectSixComponent extends GobanGameComponent 
   constructor() {
     super();
     this.setRulesAndNode("ConnectSix");
-    this.availableAIs = [
-      new ConnectSixAlignmentMinimax(),
-      new MCTS($localize`MCTS`, new ConnectSixMoveGenerator(), this.rules)
-    ];
+    this.aiConfig = {
+      minimax: [{
+        id: "Alignment",
+        name: $localize`Alignment`,
+        heuristic: () => new ConnectSixAlignmentHeuristic(),
+        moveGenerator: () => new ConnectSixMoveGenerator()
+      }],
+      mcts: [{
+        id: "default",
+        name: $localize`MCTS`,
+        moveGenerator: () => new ConnectSixMoveGenerator()
+      }]
+    };
     this.encoder = ConnectSixMove.encoder;
   }
   updateBoard(_triggerAnimation) {
@@ -10964,7 +10596,7 @@ var ConnectSixComponent = class _ConnectSixComponent extends GobanGameComponent 
   }], () => [], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(ConnectSixComponent, { className: "ConnectSixComponent", filePath: "src/app/games/connect-six/connect-six.component.ts", lineNumber: 25 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(ConnectSixComponent, { className: "ConnectSixComponent", filePath: "src/app/games/connect-six/connect-six.component.ts", lineNumber: 24 });
 })();
 
 // src/app/games/conspirateurs/ConspirateursFailure.ts
@@ -11479,27 +11111,6 @@ var ConspirateursMoveGenerator = class extends MoveGenerator {
   }
 };
 
-// src/app/games/conspirateurs/ConspirateursOrderedMoveGenerator.ts
-var ConspirateursOrderedMoveGenerator = class extends ConspirateursMoveGenerator {
-  getListMoves(node, config) {
-    return this.sortByNumberOfJumps(super.getListMoves(node, config));
-  }
-  sortByNumberOfJumps(moves) {
-    return moves.sort((a3, b5) => {
-      const leftSize = ConspirateursMove.isDrop(a3) ? 1 : ConspirateursMove.isSimple(a3) ? 2 : a3.coords.length;
-      const rightSize = ConspirateursMove.isDrop(b5) ? 1 : ConspirateursMove.isSimple(b5) ? 2 : b5.coords.length;
-      return rightSize - leftSize;
-    });
-  }
-};
-
-// src/app/games/conspirateurs/ConspirateursJumpMinimax.ts
-var ConspirateursJumpMinimax = class extends Minimax {
-  constructor() {
-    super($localize`Jump`, ConspirateursRules.get(), new ConspirateursHeuristic(), new ConspirateursOrderedMoveGenerator());
-  }
-};
-
 // src/app/games/conspirateurs/conspirateurs.component.ts
 var _forTrack06 = ($index, $item) => $item.toString();
 function ConspirateursComponent_For_2_For_2_Conditional_2_Template(rf, ctx) {
@@ -11655,10 +11266,19 @@ var ConspirateursComponent = class _ConspirateursComponent extends GameComponent
   constructor() {
     super();
     this.setRulesAndNode("Conspirateurs");
-    this.availableAIs = [
-      new ConspirateursJumpMinimax(),
-      new MCTS($localize`MCTS`, new ConspirateursMoveGenerator(), this.rules)
-    ];
+    this.aiConfig = {
+      minimax: [{
+        id: "Jump",
+        name: $localize`Jump`,
+        heuristic: () => new ConspirateursHeuristic(),
+        moveGenerator: () => new ConspirateursMoveGenerator()
+      }],
+      mcts: [{
+        id: "default",
+        name: $localize`MCTS`,
+        moveGenerator: () => new ConspirateursMoveGenerator()
+      }]
+    };
     this.encoder = ConspirateursMove.encoder;
     this.PIECE_RADIUS = this.SPACE_SIZE / 2 - this.STROKE_WIDTH;
   }
@@ -11929,7 +11549,7 @@ var ConspirateursComponent = class _ConspirateursComponent extends GameComponent
   }], () => [], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(ConspirateursComponent, { className: "ConspirateursComponent", filePath: "src/app/games/conspirateurs/conspirateurs.component.ts", lineNumber: 44 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(ConspirateursComponent, { className: "ConspirateursComponent", filePath: "src/app/games/conspirateurs/conspirateurs.component.ts", lineNumber: 43 });
 })();
 
 // src/app/games/diaballik/DiaballikFailure.ts
@@ -12384,13 +12004,6 @@ var DiaballikDistanceHeuristic = class extends PlayerMetricHeuristic {
       }
     }
     return ballsCloseness;
-  }
-};
-
-// src/app/games/diaballik/DiaballikDistanceMinimax.ts
-var DiaballikDistanceMinimax = class extends Minimax {
-  constructor(name, moveGenerator) {
-    super(name, DiaballikRules.get(), new DiaballikDistanceHeuristic(), moveGenerator);
   }
 };
 
@@ -12859,16 +12472,56 @@ var DiaballikComponent = class _DiaballikComponent extends RectangularGameCompon
     this.WIDTH = this.getState().getWidth();
     this.HEIGHT = this.getState().getHeight();
     this.encoder = DiaballikMove.encoder;
-    this.availableAIs = [
-      new DiaballikDistanceMinimax($localize`AllMoves`, new DiaballikMoveGenerator(true)),
-      new MCTS($localize`MCTS`, this.moveGenerator, this.rules),
-      new MCTS($localize`MCTS (3 only)`, new DiaballikFilteredMoveGenerator(3, false), this.rules),
-      new MCTS($localize`MCTS (without dups)`, new DiaballikMoveGenerator(true), this.rules),
-      new MCTS($localize`MCTS (3, no dups)`, new DiaballikFilteredMoveGenerator(3, false), this.rules)
-    ];
-    for (let i2 = 1; i2 <= 3; i2++) {
-      this.availableAIs.push(new DiaballikDistanceMinimax($localize`Distance (${i2})`, new DiaballikFilteredMoveGenerator(i2)));
-    }
+    this.aiConfig = {
+      minimax: [
+        {
+          id: "AllMoves",
+          name: $localize`AllMoves`,
+          heuristic: () => new DiaballikDistanceHeuristic(),
+          moveGenerator: () => new DiaballikMoveGenerator(true)
+        },
+        {
+          id: "Distance (1)",
+          name: $localize`Distance (1)`,
+          heuristic: () => new DiaballikDistanceHeuristic(),
+          moveGenerator: () => new DiaballikFilteredMoveGenerator(1)
+        },
+        {
+          id: "Distance (2)",
+          name: $localize`Distance (2)`,
+          heuristic: () => new DiaballikDistanceHeuristic(),
+          moveGenerator: () => new DiaballikFilteredMoveGenerator(2)
+        },
+        {
+          id: "Distance (3)",
+          name: $localize`Distance (3)`,
+          heuristic: () => new DiaballikDistanceHeuristic(),
+          moveGenerator: () => new DiaballikFilteredMoveGenerator(3)
+        }
+      ],
+      mcts: [
+        {
+          id: "default",
+          name: $localize`MCTS`,
+          moveGenerator: () => this.moveGenerator
+        },
+        {
+          id: "3-only",
+          name: $localize`MCTS (3 only)`,
+          moveGenerator: () => new DiaballikFilteredMoveGenerator(3, false)
+        },
+        {
+          id: "without-dups",
+          name: $localize`MCTS (without dups)`,
+          moveGenerator: () => new DiaballikMoveGenerator(true)
+        },
+        {
+          id: "3-no-dups",
+          name: $localize`MCTS (3, no dups)`,
+          moveGenerator: () => new DiaballikFilteredMoveGenerator(3, false)
+        }
+      ]
+    };
   }
   updateBoard(_triggerAnimation) {
     return __async(this, null, function* () {
@@ -13291,7 +12944,7 @@ var DiaballikComponent = class _DiaballikComponent extends RectangularGameCompon
   }], () => [], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(DiaballikComponent, { className: "DiaballikComponent", filePath: "src/app/games/diaballik/diaballik.component.ts", lineNumber: 30 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(DiaballikComponent, { className: "DiaballikComponent", filePath: "src/app/games/diaballik/diaballik.component.ts", lineNumber: 29 });
 })();
 
 // src/app/games/diam/DiamFailure.ts
@@ -13627,6 +13280,13 @@ var DiamTutorial = class {
   ];
 };
 
+// src/app/jscaip/AI/DummyHeuristic.ts
+var DummyHeuristic = class extends PlayerMetricHeuristic {
+  getMetrics(_node, _config) {
+    return PlayerNumberTable.ofSingle(0, 0);
+  }
+};
+
 // src/app/games/diam/DiamMoveGenerator.ts
 var DiamMoveGenerator = class extends MoveGenerator {
   getListMoves(node, _config) {
@@ -13686,17 +13346,11 @@ var DiamMoveGenerator = class extends MoveGenerator {
   }
 };
 
-// src/app/games/diam/DiamDummyMinimax.ts
-var DiamDummyMinimax = class extends Minimax {
-  constructor() {
-    super($localize`Dummy`, DiamRules.get(), new DummyHeuristic(), new DiamMoveGenerator());
-  }
-};
-
 // src/app/games/diam/diam.component.ts
 var _c03 = () => [0, 1, 2, 3, 4, 5, 6, 7];
 var _c1 = () => [2, 1, 3, 0, 4, 7, 5, 6];
-var _forTrack08 = ($index, $item) => $item.y;
+var _forTrack08 = ($index, $item) => $item.getValue();
+var _forTrack15 = ($index, $item) => $item.y;
 function DiamComponent_For_6_Template(rf, ctx) {
   if (rf & 1) {
     const _r1 = \u0275\u0275getCurrentView();
@@ -13757,7 +13411,7 @@ function DiamComponent_For_8_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
     \u0275\u0275elementStart(0, "g");
-    \u0275\u0275repeaterCreate(1, DiamComponent_For_8_For_2_Template, 3, 9, ":svg:g", 7, _forTrack08);
+    \u0275\u0275repeaterCreate(1, DiamComponent_For_8_For_2_Template, 3, 9, ":svg:g", 7, _forTrack15);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -13850,10 +13504,19 @@ var DiamComponent = class _DiamComponent extends GameComponent {
   constructor() {
     super();
     this.setRulesAndNode("Diam");
-    this.availableAIs = [
-      new DiamDummyMinimax(),
-      new MCTS($localize`MCTS`, new DiamMoveGenerator(), this.rules)
-    ];
+    this.aiConfig = {
+      minimax: [{
+        id: "Dummy",
+        name: $localize`Dummy`,
+        heuristic: () => new DummyHeuristic(),
+        moveGenerator: () => new DiamMoveGenerator()
+      }],
+      mcts: [{
+        id: "default",
+        name: $localize`Default`,
+        moveGenerator: () => new DiamMoveGenerator()
+      }]
+    };
     this.encoder = DiamMoveEncoder;
   }
   onSpaceClick(x2) {
@@ -14152,7 +13815,7 @@ var DiamComponent = class _DiamComponent extends GameComponent {
       \u0275\u0275elementEnd()();
       \u0275\u0275repeaterCreate(5, DiamComponent_For_6_Template, 3, 8, ":svg:g", 4, \u0275\u0275repeaterTrackByIdentity);
       \u0275\u0275repeaterCreate(7, DiamComponent_For_8_Template, 3, 0, ":svg:g", null, \u0275\u0275repeaterTrackByIdentity);
-      \u0275\u0275repeaterCreate(9, DiamComponent_For_10_Template, 3, 0, ":svg:g", null, \u0275\u0275repeaterTrackByIdentity);
+      \u0275\u0275repeaterCreate(9, DiamComponent_For_10_Template, 3, 0, ":svg:g", null, _forTrack08);
       \u0275\u0275elementEnd();
     }
     if (rf & 2) {
@@ -14168,11 +13831,11 @@ var DiamComponent = class _DiamComponent extends GameComponent {
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(DiamComponent, [{
     type: Component,
-    args: [{ selector: "app-diam", imports: [NgClass], template: '<svg xmlns="http://www.w3.org/2000/svg"\n     class="board"\n     viewBox="-110 -120 800 710"\n     preserveAspectRatio="xMidYMid meet">\n    <defs>\n        <g id="piece">\n            <path d="M 0 15 v 35 A 40 15, 0, 0, 0, 80 50 v -35 A 40 15, 0, 0, 0, 0 15 Z"/>\n            <ellipse cx="40"\n                     cy="15"\n                     rx="40"\n                     ry="15"/>\n        </g>\n    </defs>\n    @for (x of [0, 1, 2, 3, 4, 5, 6, 7]; track x) {\n        <g id="board-space-{{ x }}">\n            <path id="click-{{ x }}"\n                  class="base mid-stroke"\n                  [ngClass]="viewInfo.boardInfo[x].spaceClasses"\n                  (click)="onSpaceClick(x)"\n                  [attr.d]="BOARD_PATHS[x]"/>\n            <path class="base mid-stroke high-brightness"\n                  [ngClass]="viewInfo.boardInfo[x].spaceClasses"\n                  (click)="onSpaceClick(x)"\n                  [attr.d]="DECORATION_PATHS[x]"/>\n        </g>\n    }\n    @for (x of [2, 1, 3, 0, 4, 7, 5, 6]; track x) {\n        <g><!-- This is the required order for drawing the piece because they could overlap otherwise -->\n            @for (piece of viewInfo.boardInfo[x].pieces; track piece.y) {\n                <g id="click-{{ x }}-{{ piece.y }}"\n                   pointer-events="fill"\n                   (click)="onPieceInGameClick(x, piece.y)"\n                   class="base no-fill mid-small-stroke"\n                   [ngClass]="piece.foregroundClasses">\n                    <use [attr.x]="piece.drawPosition.x"\n                         [attr.y]="piece.drawPosition.y"\n                         xlink:href="#piece"\n                         class="base mid-stroke"\n                         [ngClass]="piece.backgroundClasses"/>\n                    <use [attr.x]="piece.drawPosition.x"\n                         [attr.y]="piece.drawPosition.y"\n                         xlink:href="#piece"/>\n                </g>\n            }\n        </g>\n    }\n\n    @for (player of Player.PLAYERS; track player) {\n        <g>\n            @for (piece of viewInfo.remainingPieces.get(player).get(); track $index; let z = $index) {\n                <g (click)="onRemainingPieceClick(piece.actualPiece, z)"\n                   id="piece-{{ piece.actualPiece.owner.toString() }}-{{ piece.actualPiece.otherPieceType ? 1 : 0 }}-{{ z }}"\n                   class="base no-fill mid-small-stroke"\n                   [ngClass]="piece.foregroundClasses">\n                    <use [attr.x]="piece.drawPosition.x"\n                         [attr.y]="piece.drawPosition.y"\n                         xlink:href="#piece"\n                         class="base mid-stroke"\n                         [ngClass]="piece.backgroundClasses"/>\n                    <use [attr.x]="piece.drawPosition.x"\n                         [attr.y]="piece.drawPosition.y"\n                         xlink:href="#piece"/>\n                </g>\n            }\n        </g>\n    }\n</svg>\n', styles: ["/* src/app/components/game-components/game-component/game-component.scss */\n.base {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke {\n  stroke-width: 0;\n}\n.base.manual-stroke {\n  fill: var(--base-stroke);\n}\n.base-no-stroke {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text {\n  fill: var(--base-stroke);\n}\n.white-background {\n  fill: white;\n}\n.background {\n  fill: var(--spaces-fill);\n}\n.transparent {\n  opacity: 0;\n}\n.background2 {\n  fill: var(--alt-background-fill);\n}\n.background3 {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill {\n  fill: var(--player0);\n}\n.player0-alternate-fill {\n  fill: var(--player0-alternate);\n}\n.player0-stroke {\n  stroke: var(--player0);\n}\n.player1-fill {\n  fill: var(--player1);\n}\n.player1-alternate-fill {\n  fill: var(--player1-alternate);\n}\n.player1-stroke {\n  stroke: var(--player1);\n}\n.nonplayer-fill {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill {\n  fill: var(--pre-captured);\n}\n.captured-fill {\n  fill: var(--captured);\n}\n.captured-alternate-fill {\n  fill: var(--alt-captured);\n}\n.captured-stroke {\n  stroke: var(--captured);\n}\n.moved-fill {\n  fill: var(--moved);\n}\n.moved-stroke {\n  stroke: var(--moved);\n}\n.indicator {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill {\n  fill: var(--indicator);\n}\n.selectable-stroke {\n  stroke: var(--selectable);\n}\n.selectable > .base-no-stroke {\n  fill: var(--selectable);\n}\n.last-move-stroke {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke {\n  fill: var(--last-move);\n}\n.last-move-fill {\n  fill: var(--last-move);\n}\n.victory-fill {\n  fill: var(--victory);\n}\n.victory-stroke {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke {\n  fill: var(--victory);\n}\n.defeat-fill {\n  fill: var(--defeat);\n}\n.defeat-stroke {\n  stroke: var(--defeat);\n}\n.selected-fill {\n  fill: var(--selected);\n}\n.selected-stroke {\n  stroke: var(--selected);\n}\n.clickable-stroke {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill {\n  fill: var(--capturable);\n}\n.capturable-stroke:hover {\n  stroke-width: 8;\n}\n.no-fill {\n  fill: none;\n}\n.no-stroke {\n  stroke: none;\n}\n.small-stroke {\n  stroke-width: 2;\n}\n.mid-small-stroke {\n  stroke-width: 3;\n}\n.mid-stroke {\n  stroke-width: 5;\n}\n.big-stroke {\n  stroke-width: 8;\n}\n.huge-stroke {\n  stroke-width: 12;\n}\n.semi-transparent {\n  opacity: 0.5;\n}\n.territory-opacity {\n  fill-opacity: 0.7;\n}\n.round {\n  stroke-linecap: round;\n}\n.text-giant {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big {\n  font: 50px sans-serif;\n}\n.backgrounded-text {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus {\n  font: 38px sans-serif;\n}\n.text-medium {\n  font: 35px sans-serif;\n}\n.text-small-plus {\n  font: 28px sans-serif;\n}\n.text-small {\n  font: 25px sans-serif;\n}\n.text-bold {\n  font-weight: bold;\n}\n.text-center {\n  text-anchor: middle;\n}\n.black-fill {\n  fill: black;\n}\n.darker {\n  filter: brightness(80%);\n}\n.lighter {\n  filter: brightness(110%);\n}\nsvg {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */\n"] }]
+    args: [{ selector: "app-diam", imports: [NgClass], template: '<svg xmlns="http://www.w3.org/2000/svg"\n     class="board"\n     viewBox="-110 -120 800 710"\n     preserveAspectRatio="xMidYMid meet">\n    <defs>\n        <g id="piece">\n            <path d="M 0 15 v 35 A 40 15, 0, 0, 0, 80 50 v -35 A 40 15, 0, 0, 0, 0 15 Z"/>\n            <ellipse cx="40"\n                     cy="15"\n                     rx="40"\n                     ry="15"/>\n        </g>\n    </defs>\n    @for (x of [0, 1, 2, 3, 4, 5, 6, 7]; track x) {\n        <g id="board-space-{{ x }}">\n            <path id="click-{{ x }}"\n                  class="base mid-stroke"\n                  [ngClass]="viewInfo.boardInfo[x].spaceClasses"\n                  (click)="onSpaceClick(x)"\n                  [attr.d]="BOARD_PATHS[x]"/>\n            <path class="base mid-stroke high-brightness"\n                  [ngClass]="viewInfo.boardInfo[x].spaceClasses"\n                  (click)="onSpaceClick(x)"\n                  [attr.d]="DECORATION_PATHS[x]"/>\n        </g>\n    }\n    @for (x of [2, 1, 3, 0, 4, 7, 5, 6]; track x) {\n        <g><!-- This is the required order for drawing the piece because they could overlap otherwise -->\n            @for (piece of viewInfo.boardInfo[x].pieces; track piece.y) {\n                <g id="click-{{ x }}-{{ piece.y }}"\n                   pointer-events="fill"\n                   (click)="onPieceInGameClick(x, piece.y)"\n                   class="base no-fill mid-small-stroke"\n                   [ngClass]="piece.foregroundClasses">\n                    <use [attr.x]="piece.drawPosition.x"\n                         [attr.y]="piece.drawPosition.y"\n                         xlink:href="#piece"\n                         class="base mid-stroke"\n                         [ngClass]="piece.backgroundClasses"/>\n                    <use [attr.x]="piece.drawPosition.x"\n                         [attr.y]="piece.drawPosition.y"\n                         xlink:href="#piece"/>\n                </g>\n            }\n        </g>\n    }\n\n    @for (player of Player.PLAYERS; track player.getValue()) {\n        <g>\n            @for (piece of viewInfo.remainingPieces.get(player).get(); track $index; let z = $index) {\n                <g (click)="onRemainingPieceClick(piece.actualPiece, z)"\n                   id="piece-{{ piece.actualPiece.owner.toString() }}-{{ piece.actualPiece.otherPieceType ? 1 : 0 }}-{{ z }}"\n                   class="base no-fill mid-small-stroke"\n                   [ngClass]="piece.foregroundClasses">\n                    <use [attr.x]="piece.drawPosition.x"\n                         [attr.y]="piece.drawPosition.y"\n                         xlink:href="#piece"\n                         class="base mid-stroke"\n                         [ngClass]="piece.backgroundClasses"/>\n                    <use [attr.x]="piece.drawPosition.x"\n                         [attr.y]="piece.drawPosition.y"\n                         xlink:href="#piece"/>\n                </g>\n            }\n        </g>\n    }\n</svg>\n', styles: ["/* src/app/components/game-components/game-component/game-component.scss */\n.base {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke {\n  stroke-width: 0;\n}\n.base.manual-stroke {\n  fill: var(--base-stroke);\n}\n.base-no-stroke {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text {\n  fill: var(--base-stroke);\n}\n.white-background {\n  fill: white;\n}\n.background {\n  fill: var(--spaces-fill);\n}\n.transparent {\n  opacity: 0;\n}\n.background2 {\n  fill: var(--alt-background-fill);\n}\n.background3 {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill {\n  fill: var(--player0);\n}\n.player0-alternate-fill {\n  fill: var(--player0-alternate);\n}\n.player0-stroke {\n  stroke: var(--player0);\n}\n.player1-fill {\n  fill: var(--player1);\n}\n.player1-alternate-fill {\n  fill: var(--player1-alternate);\n}\n.player1-stroke {\n  stroke: var(--player1);\n}\n.nonplayer-fill {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill {\n  fill: var(--pre-captured);\n}\n.captured-fill {\n  fill: var(--captured);\n}\n.captured-alternate-fill {\n  fill: var(--alt-captured);\n}\n.captured-stroke {\n  stroke: var(--captured);\n}\n.moved-fill {\n  fill: var(--moved);\n}\n.moved-stroke {\n  stroke: var(--moved);\n}\n.indicator {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill {\n  fill: var(--indicator);\n}\n.selectable-stroke {\n  stroke: var(--selectable);\n}\n.selectable > .base-no-stroke {\n  fill: var(--selectable);\n}\n.last-move-stroke {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke {\n  fill: var(--last-move);\n}\n.last-move-fill {\n  fill: var(--last-move);\n}\n.victory-fill {\n  fill: var(--victory);\n}\n.victory-stroke {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke {\n  fill: var(--victory);\n}\n.defeat-fill {\n  fill: var(--defeat);\n}\n.defeat-stroke {\n  stroke: var(--defeat);\n}\n.selected-fill {\n  fill: var(--selected);\n}\n.selected-stroke {\n  stroke: var(--selected);\n}\n.clickable-stroke {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill {\n  fill: var(--capturable);\n}\n.capturable-stroke:hover {\n  stroke-width: 8;\n}\n.no-fill {\n  fill: none;\n}\n.no-stroke {\n  stroke: none;\n}\n.small-stroke {\n  stroke-width: 2;\n}\n.mid-small-stroke {\n  stroke-width: 3;\n}\n.mid-stroke {\n  stroke-width: 5;\n}\n.big-stroke {\n  stroke-width: 8;\n}\n.huge-stroke {\n  stroke-width: 12;\n}\n.semi-transparent {\n  opacity: 0.5;\n}\n.territory-opacity {\n  fill-opacity: 0.7;\n}\n.round {\n  stroke-linecap: round;\n}\n.text-giant {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big {\n  font: 50px sans-serif;\n}\n.backgrounded-text {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus {\n  font: 38px sans-serif;\n}\n.text-medium {\n  font: 35px sans-serif;\n}\n.text-small-plus {\n  font: 28px sans-serif;\n}\n.text-small {\n  font: 25px sans-serif;\n}\n.text-bold {\n  font-weight: bold;\n}\n.text-center {\n  text-anchor: middle;\n}\n.black-fill {\n  fill: black;\n}\n.darker {\n  filter: brightness(80%);\n}\n.lighter {\n  filter: brightness(110%);\n}\nsvg {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */\n"] }]
   }], () => [], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(DiamComponent, { className: "DiamComponent", filePath: "src/app/games/diam/diam.component.ts", lineNumber: 57 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(DiamComponent, { className: "DiamComponent", filePath: "src/app/games/diam/diam.component.ts", lineNumber: 56 });
 })();
 
 // src/app/jscaip/HexagonalUtils.ts
@@ -14792,52 +14455,6 @@ var DvonnTutorial = class extends Tutorial {
   ];
 };
 
-// src/app/jscaip/AI/MCTSWithHeuristic.ts
-var MCTSWithHeuristic = class extends MCTS {
-  heuristic;
-  constructor(name, moveGenerator, rules, heuristic) {
-    super(name, moveGenerator, rules);
-    this.heuristic = heuristic;
-  }
-  /**
-   * Return a score which is the average of all metrics
-   */
-  score(node, config, gameStatus, player) {
-    if (gameStatus === GameStatus.ONGOING) {
-      const boardValue = this.heuristic.getBoardValue(node, config);
-      const bounds = this.heuristic.getBounds(config);
-      Utils.assert(boardValue.metrics.length === bounds.player0Best.metrics.length && boardValue.metrics.length === bounds.player1Best.metrics.length, `MCTSWithHeuristic ${this.name}: metrics and bound values should have the same shape`);
-      let value = 0;
-      for (let i2 = 0; i2 < boardValue.metrics.length; i2++) {
-        const player0Best = bounds.player0Best.metrics[i2];
-        const metric = boardValue.metrics[i2];
-        const player1Best = bounds.player1Best.metrics[i2];
-        const isOutOfBounds = metric < player0Best || player1Best < metric;
-        const isPreVictory = BoardValue.isPreVictoryValue(metric);
-        if (isOutOfBounds && isPreVictory === false) {
-          console.warn(`MCTSWithHeuristic ${this.name} got a value outside its bounds: ${metric} is outside of [${player0Best}, ${player1Best}]`);
-        }
-        const boundedMetric = Math.max(player0Best, Math.min(metric, player1Best));
-        const denom = player1Best - player0Best;
-        if (denom === 0) {
-          value += 0.5;
-        } else {
-          value += (boundedMetric - player0Best) / denom;
-        }
-      }
-      value = value / boardValue.metrics.length;
-      Utils.assert(0 <= value && value <= 1, `MCTSWithHeuristic ${this.name} got a value outside of [0,1]`);
-      if (player === Player.ONE) {
-        return value;
-      } else {
-        return 1 - value;
-      }
-    } else {
-      return super.score(node, config, gameStatus, player);
-    }
-  }
-};
-
 // src/app/games/dvonn/DvonnMaxStacksHeuristic.ts
 var DvonnMaxStacksHeuristic = class extends PlayerMetricHeuristic {
   getMetrics(node, _config) {
@@ -14874,10 +14491,258 @@ var DvonnMoveGenerator = class extends MoveGenerator {
   }
 };
 
-// src/app/games/dvonn/DvonnMaxStacksMinimax.ts
-var DvonnMaxStacksMinimax = class extends Minimax {
-  constructor() {
-    super($localize`Stacks`, DvonnRules.get(), new DvonnMaxStacksHeuristic(), new DvonnMoveGenerator());
+// src/app/jscaip/AI/AbstractMinimax.ts
+var AbstractMinimax = class {
+  name;
+  rules;
+  heuristic;
+  moveGenerator;
+  hashOverride;
+  // States whether the minimax takes random moves from the list of best moves.
+  useRandomness = false;
+  // States whether alpha-beta pruning must be done. It probably is never useful to set it to false.
+  prune = true;
+  // States whether transposition tables should be used.
+  // It's rare you don't want this, as you get 1-2 level extra in the same duration.
+  useTranspositionTables = true;
+  // The options of this minimax. Usually filled in by the constructor.
+  availableOptions = [];
+  // Can be set dynamically to stop the search early and return the current best results
+  endSearchBy = MGPOptional.empty();
+  transpositionTable = /* @__PURE__ */ new Map();
+  constructor(name, rules, heuristic, moveGenerator, hashOverride) {
+    this.name = name;
+    this.rules = rules;
+    this.heuristic = heuristic;
+    this.moveGenerator = moveGenerator;
+    this.hashOverride = hashOverride;
+  }
+  toString() {
+    return this.name;
+  }
+  // Hash used for transposition tables
+  hash(state) {
+    if (this.hashOverride != null) {
+      return this.hashOverride(state);
+    }
+    return JSON.stringify(state);
+  }
+  configureFromConfig(config) {
+    this.useRandomness = config.useRandomness ?? this.useRandomness;
+    this.prune = config.prune ?? this.prune;
+    this.useTranspositionTables = config.useTranspositionTables ?? this.useTranspositionTables;
+  }
+  chooseNextMove(node, options, config) {
+    const start = performance.now();
+    try {
+      return this.doChooseNextMove(node, options, config);
+    } finally {
+      const duration = performance.now() - start;
+      const key = this.toString();
+      const previous = AIStats.aiTime.get(key) ?? 0;
+      AIStats.aiTime.set(key, previous + duration);
+    }
+  }
+  // Performs an alpha-beta search to find the best move from the given node
+  // @return empty when there is no best move (because the game or search has finished)
+  alphaBeta(node, depth, alpha, beta, config) {
+    if (depth < 1) {
+      return MGPOptional.empty();
+    } else if (this.rules.getGameStatus(node, config).isEndGame) {
+      return MGPOptional.empty();
+    }
+    let ttKey = "";
+    let ttEntry = void 0;
+    const alphaOrig = alpha;
+    const betaOrig = beta;
+    if (this.useTranspositionTables) {
+      ttKey = this.hash(node.gameState);
+      ttEntry = this.transpositionTable.get(ttKey);
+      if (ttEntry && ttEntry.depth >= depth) {
+        switch (ttEntry.bound) {
+          case "EXACT":
+            this.setScore(node, ttEntry.score);
+            return MGPOptional.of({ move: ttEntry.bestMove, score: ttEntry.score, complete: true });
+          case "LOWER":
+            alpha = BoardValue.max(alpha, ttEntry.score);
+            break;
+          case "UPPER":
+            beta = BoardValue.min(beta, ttEntry.score);
+            break;
+        }
+        if (BoardValue.isGreaterThan(alpha, beta) || alpha.equals(beta)) {
+          this.setScore(node, ttEntry.score);
+          return MGPOptional.of({ move: ttEntry.bestMove, score: ttEntry.score, complete: true });
+        }
+      }
+    }
+    let possibleMoves = this.getPossibleMoves(node, config);
+    Utils.assert(possibleMoves.size() > 0, "Minimax " + this.name + " should give move, received none!");
+    if (this.useTranspositionTables && ttEntry?.bestMove) {
+      Utils.assert(possibleMoves.contains(ttEntry.bestMove), "TT bestMove " + ttEntry.bestMove.toString() + " is not in possible moves for state " + this.hash(node.gameState));
+      possibleMoves.removeElement(ttEntry.bestMove);
+      possibleMoves = new Set2([ttEntry.bestMove, ...possibleMoves]);
+    }
+    const search2 = this.getBestMoves(node, possibleMoves, depth, alpha, beta, config);
+    const bestMove = this.getBestMoveAmong(search2.bestMoves);
+    Utils.assert(possibleMoves.contains(bestMove.move), "best child is not a possible move?!" + bestMove.move.toString());
+    this.setScore(node, bestMove.score);
+    if (this.useTranspositionTables && search2.complete) {
+      let bound;
+      if (BoardValue.isLessThan(bestMove.score, alphaOrig) || bestMove.score.equals(alphaOrig)) {
+        bound = "UPPER";
+      } else if (BoardValue.isGreaterThan(bestMove.score, betaOrig) || bestMove.score.equals(betaOrig)) {
+        bound = "LOWER";
+      } else {
+        bound = "EXACT";
+      }
+      this.transpositionTable.set(ttKey, {
+        depth,
+        score: bestMove.score,
+        bound,
+        bestMove: bestMove.move
+      });
+    }
+    return MGPOptional.of({
+      move: bestMove.move,
+      score: bestMove.score,
+      complete: search2.complete
+    });
+  }
+  getPossibleMoves(node, config) {
+    const currentMoves = this.getMoves(node);
+    if (currentMoves.isAbsent()) {
+      const moves = this.moveGenerator.getListMoves(node, config);
+      this.setMoves(node, new Set2(moves));
+      return new Set2(moves);
+    } else {
+      return currentMoves.get();
+    }
+  }
+  getBestMoves(node, possibleMoves, depth, alpha, beta, config) {
+    let bestMoves = [];
+    let complete = true;
+    const currentPlayer = node.gameState.getCurrentPlayer();
+    let extremumExpected = this.getExpectedExtremum(node, config);
+    const newValueIsBetter = currentPlayer === Player.ZERO ? BoardValue.isLessThan : BoardValue.isGreaterThan;
+    for (const move of possibleMoves) {
+      if (this.endSearchBy.isPresent() && Date.now() > this.endSearchBy.get() && bestMoves.length > 0) {
+        return { bestMoves, complete: false };
+      }
+      const child = this.getOrCreateChild(node, move, config);
+      const bestMoveOptional = this.alphaBeta(child, depth - 1, alpha, beta, config);
+      let bestMove;
+      if (bestMoveOptional.isAbsent()) {
+        bestMove = { move, score: this.getScore(child, config), complete: true };
+      } else {
+        bestMove = bestMoveOptional.get();
+        bestMove = {
+          move,
+          score: bestMove.score,
+          complete: bestMove.complete
+        };
+        complete = complete && bestMove.complete;
+      }
+      if (newValueIsBetter(bestMove.score, extremumExpected) || bestMoves.length === 0) {
+        extremumExpected = bestMove.score;
+        bestMoves = [bestMove];
+      } else if (bestMove.score.equals(extremumExpected)) {
+        bestMoves.push(bestMove);
+      }
+      if (this.prune && newValueIsBetter(extremumExpected, currentPlayer === Player.ZERO ? alpha : beta)) {
+        break;
+      }
+      if (currentPlayer === Player.ZERO) {
+        beta = BoardValue.min(extremumExpected, beta);
+      } else {
+        alpha = BoardValue.max(extremumExpected, alpha);
+      }
+    }
+    return { bestMoves, complete };
+  }
+  getExpectedExtremum(node, config) {
+    const childValue = this.getScore(node, config);
+    const currentPlayer = node.gameState.getCurrentPlayer();
+    if (currentPlayer === Player.ZERO) {
+      return childValue.toMaximum();
+    } else {
+      return childValue.toMinimum();
+    }
+  }
+  getBestMoveAmong(moves) {
+    Utils.assert(moves.length > 0, "getBestChildAmong expects at least one child");
+    if (this.useRandomness) {
+      return ArrayUtils.getRandomElement(moves);
+    } else {
+      return moves[0];
+    }
+  }
+  getOrCreateChild(node, move, config) {
+    const child = node.getChild(move);
+    if (child.isAbsent()) {
+      const legality = this.rules.isLegal(move, node.gameState, config);
+      const moveString = move.toString();
+      Utils.assert(legality.isSuccess(), 'The minimax "' + this.name + '" has proposed an illegal move at turn ' + node.gameState.turn + " (" + moveString + '), refusal reason: "' + legality.getReasonOr("") + '", this should not happen.');
+      const state = this.rules.applyLegalMove(move, node.gameState, config, legality.get());
+      const newChild = new GameNode(state, MGPOptional.of(node), MGPOptional.of(move));
+      node.addChild(newChild);
+      this.setScore(newChild, this.computeBoardValue(newChild, config));
+      return newChild;
+    }
+    return child.get();
+  }
+  setScore(node, score) {
+    node.setCache(this.name + "-score", score);
+  }
+  getScore(node, config) {
+    const score = node.getCache(this.name + "-score");
+    if (score.isPresent()) {
+      return score.get();
+    } else {
+      const boardValue = this.computeBoardValue(node, config);
+      this.setScore(node, boardValue);
+      return boardValue;
+    }
+  }
+  computeBoardValue(node, config) {
+    const gameStatus = this.rules.getGameStatus(node, config);
+    if (gameStatus.isEndGame) {
+      return gameStatus.toBoardValue();
+    } else {
+      return this.heuristic.getBoardValue(node, config);
+    }
+  }
+  setMoves(node, moves) {
+    node.setCache(this.name + "-moves", moves);
+  }
+  getMoves(node) {
+    return node.getCache(this.name + "-moves");
+  }
+  getInfo(node, config) {
+    return "BoardValue=" + this.heuristic.getBoardValue(node, config).metrics;
+  }
+};
+
+// src/app/jscaip/AI/Minimax.ts
+var PlayerMetricHeuristicWithBounds = class extends HeuristicWithBounds {
+  // Yes, this is duplicated from PlayerMetricHeuristic, because we don't have multiple inheritance
+  // and probably don't want to use mixins!
+  getBoardValue(node, config) {
+    const metrics = this.getMetrics(node, config);
+    return BoardValue.ofMultiple(metrics.get(Player.ZERO).get(), metrics.get(Player.ONE).get());
+  }
+};
+var Minimax = class extends AbstractMinimax {
+  constructor(name, rules, heuristic, moveGenerator, hash) {
+    super(name, rules, heuristic, moveGenerator, hash);
+    for (let i2 = 1; i2 < 10; i2++) {
+      this.availableOptions.push({ name: `Level ${i2}`, maxDepth: i2 });
+    }
+  }
+  doChooseNextMove(node, options, config) {
+    Utils.assert(this.rules.getGameStatus(node, config).isEndGame === false, "Minimax has been asked to choose a move from a finished game");
+    const boardValue = this.getExpectedExtremum(node, config);
+    return this.alphaBeta(node, options.maxDepth, boardValue.toMinimum(), boardValue.toMaximum(), config).get().move;
   }
 };
 
@@ -14896,16 +14761,9 @@ var DvonnScoreHeuristic = class extends PlayerMetricHeuristicWithBounds {
   }
 };
 
-// src/app/games/dvonn/DvonnScoreMinimax.ts
-var DvonnScoreMinimax = class extends Minimax {
-  constructor() {
-    super($localize`Score`, DvonnRules.get(), new DvonnScoreHeuristic(), new DvonnMoveGenerator());
-  }
-};
-
 // src/app/games/dvonn/dvonn.component.ts
 var _forTrack09 = ($index, $item) => $item.toString();
-var _forTrack15 = ($index, $item) => $item.coord.toString();
+var _forTrack16 = ($index, $item) => $item.coord.toString();
 function DvonnComponent_For_2_Conditional_4_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
@@ -15061,12 +14919,35 @@ var DvonnComponent = class _DvonnComponent extends HexagonalGameComponent {
   constructor() {
     super();
     this.setRulesAndNode("Dvonn");
-    this.availableAIs = [
-      new DvonnMaxStacksMinimax(),
-      new DvonnScoreMinimax(),
-      new MCTS($localize`MCTS`, new DvonnMoveGenerator(), this.rules),
-      new MCTSWithHeuristic($localize`MCTS Score`, new DvonnMoveGenerator(), this.rules, new DvonnScoreHeuristic())
-    ];
+    this.aiConfig = {
+      minimax: [
+        {
+          id: "Stacks",
+          name: $localize`Stacks`,
+          heuristic: () => new DvonnMaxStacksHeuristic(),
+          moveGenerator: () => new DvonnMoveGenerator()
+        },
+        {
+          id: "Score",
+          name: $localize`Score`,
+          heuristic: () => new DvonnScoreHeuristic(),
+          moveGenerator: () => new DvonnMoveGenerator()
+        }
+      ],
+      mcts: [
+        {
+          id: "default",
+          name: $localize`Default`,
+          moveGenerator: () => new DvonnMoveGenerator()
+        },
+        {
+          id: "Score",
+          name: $localize`Score`,
+          heuristic: () => new DvonnScoreHeuristic(),
+          moveGenerator: () => new DvonnMoveGenerator()
+        }
+      ]
+    };
     this.encoder = DvonnMove.encoder;
     this.scores = MGPOptional.of(DvonnRules.getScores(this.getState()));
     this.SPACE_SIZE = 30;
@@ -15217,7 +15098,7 @@ var DvonnComponent = class _DvonnComponent extends HexagonalGameComponent {
       \u0275\u0275namespaceSVG();
       \u0275\u0275elementStart(0, "svg", 0);
       \u0275\u0275repeaterCreate(1, DvonnComponent_For_2_Template, 7, 9, ":svg:g", null, _forTrack09);
-      \u0275\u0275repeaterCreate(3, DvonnComponent_For_4_Template, 4, 13, ":svg:g", 1, _forTrack15);
+      \u0275\u0275repeaterCreate(3, DvonnComponent_For_4_Template, 4, 13, ":svg:g", 1, _forTrack16);
       \u0275\u0275conditionalCreate(5, DvonnComponent_Conditional_5_Template, 3, 4, ":svg:ng-container");
       \u0275\u0275conditionalCreate(6, DvonnComponent_Conditional_6_Template, 1, 5, ":svg:polygon", 2);
       \u0275\u0275elementEnd();
@@ -15241,7 +15122,7 @@ var DvonnComponent = class _DvonnComponent extends HexagonalGameComponent {
   }], () => [], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(DvonnComponent, { className: "DvonnComponent", filePath: "src/app/games/dvonn/dvonn.component.ts", lineNumber: 29 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(DvonnComponent, { className: "DvonnComponent", filePath: "src/app/games/dvonn/dvonn.component.ts", lineNumber: 26 });
 })();
 
 // src/app/games/encapsule/EncapsuleFailure.ts
@@ -15713,15 +15594,9 @@ var EncapsuleMoveGenerator = class extends MoveGenerator {
   }
 };
 
-// src/app/games/encapsule/EncapsuleDummyMinimax.ts
-var EncapsuleDummyMinimax = class extends Minimax {
-  constructor() {
-    super($localize`Dummy`, EncapsuleRules.get(), new DummyHeuristic(), new EncapsuleMoveGenerator());
-  }
-};
-
 // src/app/games/encapsule/encapsule.component.ts
-var _forTrack010 = ($index, $item) => $item.toString();
+var _forTrack010 = ($index, $item) => $item.getValue();
+var _forTrack17 = ($index, $item) => $item.toString();
 function EncapsuleComponent_For_2_For_3_Template(rf, ctx) {
   if (rf & 1) {
     const _r1 = \u0275\u0275getCurrentView();
@@ -15872,10 +15747,19 @@ var EncapsuleComponent = class _EncapsuleComponent extends RectangularGameCompon
   constructor() {
     super();
     this.setRulesAndNode("Encapsule");
-    this.availableAIs = [
-      new EncapsuleDummyMinimax(),
-      new MCTS($localize`MCTS`, new EncapsuleMoveGenerator(), this.rules)
-    ];
+    this.aiConfig = {
+      minimax: [{
+        id: "Dummy",
+        name: $localize`Dummy`,
+        heuristic: () => new DummyHeuristic(),
+        moveGenerator: () => new EncapsuleMoveGenerator()
+      }],
+      mcts: [{
+        id: "default",
+        name: $localize`MCTS`,
+        moveGenerator: () => new EncapsuleMoveGenerator()
+      }]
+    };
     this.encoder = EncapsuleMove.encoder;
   }
   getViewBox() {
@@ -16109,11 +15993,11 @@ var EncapsuleComponent = class _EncapsuleComponent extends RectangularGameCompon
     if (rf & 1) {
       \u0275\u0275namespaceSVG();
       \u0275\u0275elementStart(0, "svg", 2);
-      \u0275\u0275repeaterCreate(1, EncapsuleComponent_For_2_Template, 4, 0, ":svg:g", null, \u0275\u0275repeaterTrackByIdentity);
+      \u0275\u0275repeaterCreate(1, EncapsuleComponent_For_2_Template, 4, 0, ":svg:g", null, _forTrack010);
       \u0275\u0275elementStart(3, "g", null, 0);
       \u0275\u0275repeaterCreate(5, EncapsuleComponent_For_6_Template, 3, 0, ":svg:g", null, \u0275\u0275repeaterTrackByIndex);
       \u0275\u0275conditionalCreate(7, EncapsuleComponent_Conditional_7_Template, 1, 7, ":svg:rect", 3);
-      \u0275\u0275repeaterCreate(8, EncapsuleComponent_For_9_Template, 1, 7, ":svg:rect", 4, _forTrack010);
+      \u0275\u0275repeaterCreate(8, EncapsuleComponent_For_9_Template, 1, 7, ":svg:rect", 4, _forTrack17);
       \u0275\u0275elementEnd()();
     }
     if (rf & 2) {
@@ -16132,11 +16016,11 @@ var EncapsuleComponent = class _EncapsuleComponent extends RectangularGameCompon
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(EncapsuleComponent, [{
     type: Component,
-    args: [{ selector: "app-encapsule", imports: [NgClass, RingComponent], template: '<svg xmlns="http://www.w3.org/2000/svg"\n     class="board"\n     [attr.viewBox]="getViewBox().toSVGString()"\n     preserveAspectRatio="xMidYMid meet">\n    @for (player of Player.PLAYERS; track player) {\n        <g #remainingPieces>\n            @for (piece of getRemainingPiecesTypeOfPlayer(player); track $index; let pieceIdX = $index) {\n                <g id="remaining-piece-{{ piece.toString() }}"\n                   (click)="onPieceClick(piece)"\n                   [attr.transform]="getRemainingPieceTranslate(player, pieceIdX)">\n                    <g app-ring\n                       [outsideRadius]="pieceSizeToRadius.get(piece).get()"\n                       [width]="ringStrokeWidth / 2"\n                       [strokeWidth]="ringStrokeWidth / 4"\n                       [midRingClasses]="getSidePieceClasses(piece)"\n                       pointer-events="fill" />\n                    <text id="player-{{ player.toString() }}-pieces-{{ piece.toString() }}-count"\n                          class="backgrounded-text text-big"\n                          dominant-baseline="middle"\n                          dy="0.1em"\n                          text-anchor="middle"\n                          [attr.transform]="getRemainingPieceQuantityTransform(piece, pieceIdX)">{{ getRemainingPieceQuantity(piece) }}</text>\n                </g>\n            }\n        </g>\n    }\n    <g #boardDiv>\n        @for (line of board; track $index; let y = $index) {\n            <g>\n                @for (spaceContent of line; track $index; let x = $index) {\n                    <g>\n                        <rect id="click-{{ x }}-{{ y }}"\n                              (click)="onBoardClick(x, y)"\n                              [attr.x]="SPACE_SIZE * x"\n                              [attr.y]="SPACE_SIZE * y"\n                              [attr.width]="SPACE_SIZE"\n                              [attr.height]="SPACE_SIZE"\n                              [ngClass]="boardPieces[y][x].coordClasses"\n                              class="base"/>\n                        @for (pieceData of boardPieces[y][x].piecesData; track $index) {\n                            <g app-ring\n                               id="piece-{{ x }}-{{ y }}"\n                               (click)="onBoardClick(x, y)"\n                               [attr.transform]="pieceData.translate"\n                               [outsideRadius]="pieceData.radius"\n                               [width]="ringStrokeWidth / 2"\n                               [strokeWidth]="ringStrokeWidth / 4"\n                               [midRingClasses]="pieceData.classes" />\n                        }\n                    </g>\n                }\n            </g>\n        }\n        @if (chosenCoord.isPresent()) {\n            <rect id="chosen-{{ chosenCoord.get().x }}-{{ chosenCoord.get().y }}"\n                  (click)="onBoardClick(chosenCoord.get().x, chosenCoord.get().y)"\n                  [attr.x]="SPACE_SIZE * chosenCoord.get().x"\n                  [attr.y]="SPACE_SIZE * chosenCoord.get().y"\n                  [attr.width]="SPACE_SIZE"\n                  [attr.height]="SPACE_SIZE"\n                  class="base no-fill selected-stroke"\n                  pointer-events="fill"/>\n        }\n        @for (coord of victoryCoords; track coord.toString()) {\n            <rect id="victory-{{ coord.x }}-{{ coord.y }}"\n                  class="base no-fill victory-stroke mid-stroke"\n                  [attr.x]="SPACE_SIZE * coord.x"\n                  [attr.y]="SPACE_SIZE * coord.y"\n                  [attr.width]="SPACE_SIZE"\n                  [attr.height]="SPACE_SIZE"/>\n        }\n    </g>\n</svg>\n', styles: ["/* src/app/components/game-components/game-component/game-component.scss */\n.base {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke {\n  stroke-width: 0;\n}\n.base.manual-stroke {\n  fill: var(--base-stroke);\n}\n.base-no-stroke {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text {\n  fill: var(--base-stroke);\n}\n.white-background {\n  fill: white;\n}\n.background {\n  fill: var(--spaces-fill);\n}\n.transparent {\n  opacity: 0;\n}\n.background2 {\n  fill: var(--alt-background-fill);\n}\n.background3 {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill {\n  fill: var(--player0);\n}\n.player0-alternate-fill {\n  fill: var(--player0-alternate);\n}\n.player0-stroke {\n  stroke: var(--player0);\n}\n.player1-fill {\n  fill: var(--player1);\n}\n.player1-alternate-fill {\n  fill: var(--player1-alternate);\n}\n.player1-stroke {\n  stroke: var(--player1);\n}\n.nonplayer-fill {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill {\n  fill: var(--pre-captured);\n}\n.captured-fill {\n  fill: var(--captured);\n}\n.captured-alternate-fill {\n  fill: var(--alt-captured);\n}\n.captured-stroke {\n  stroke: var(--captured);\n}\n.moved-fill {\n  fill: var(--moved);\n}\n.moved-stroke {\n  stroke: var(--moved);\n}\n.indicator {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill {\n  fill: var(--indicator);\n}\n.selectable-stroke {\n  stroke: var(--selectable);\n}\n.selectable > .base-no-stroke {\n  fill: var(--selectable);\n}\n.last-move-stroke {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke {\n  fill: var(--last-move);\n}\n.last-move-fill {\n  fill: var(--last-move);\n}\n.victory-fill {\n  fill: var(--victory);\n}\n.victory-stroke {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke {\n  fill: var(--victory);\n}\n.defeat-fill {\n  fill: var(--defeat);\n}\n.defeat-stroke {\n  stroke: var(--defeat);\n}\n.selected-fill {\n  fill: var(--selected);\n}\n.selected-stroke {\n  stroke: var(--selected);\n}\n.clickable-stroke {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill {\n  fill: var(--capturable);\n}\n.capturable-stroke:hover {\n  stroke-width: 8;\n}\n.no-fill {\n  fill: none;\n}\n.no-stroke {\n  stroke: none;\n}\n.small-stroke {\n  stroke-width: 2;\n}\n.mid-small-stroke {\n  stroke-width: 3;\n}\n.mid-stroke {\n  stroke-width: 5;\n}\n.big-stroke {\n  stroke-width: 8;\n}\n.huge-stroke {\n  stroke-width: 12;\n}\n.semi-transparent {\n  opacity: 0.5;\n}\n.territory-opacity {\n  fill-opacity: 0.7;\n}\n.round {\n  stroke-linecap: round;\n}\n.text-giant {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big {\n  font: 50px sans-serif;\n}\n.backgrounded-text {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus {\n  font: 38px sans-serif;\n}\n.text-medium {\n  font: 35px sans-serif;\n}\n.text-small-plus {\n  font: 28px sans-serif;\n}\n.text-small {\n  font: 25px sans-serif;\n}\n.text-bold {\n  font-weight: bold;\n}\n.text-center {\n  text-anchor: middle;\n}\n.black-fill {\n  fill: black;\n}\n.darker {\n  filter: brightness(80%);\n}\n.lighter {\n  filter: brightness(110%);\n}\nsvg {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */\n"] }]
+    args: [{ selector: "app-encapsule", imports: [NgClass, RingComponent], template: '<svg xmlns="http://www.w3.org/2000/svg"\n     class="board"\n     [attr.viewBox]="getViewBox().toSVGString()"\n     preserveAspectRatio="xMidYMid meet">\n    @for (player of Player.PLAYERS; track player.getValue()) {\n        <g #remainingPieces>\n            @for (piece of getRemainingPiecesTypeOfPlayer(player); track $index; let pieceIdX = $index) {\n                <g id="remaining-piece-{{ piece.toString() }}"\n                   (click)="onPieceClick(piece)"\n                   [attr.transform]="getRemainingPieceTranslate(player, pieceIdX)">\n                    <g app-ring\n                       [outsideRadius]="pieceSizeToRadius.get(piece).get()"\n                       [width]="ringStrokeWidth / 2"\n                       [strokeWidth]="ringStrokeWidth / 4"\n                       [midRingClasses]="getSidePieceClasses(piece)"\n                       pointer-events="fill" />\n                    <text id="player-{{ player.toString() }}-pieces-{{ piece.toString() }}-count"\n                          class="backgrounded-text text-big"\n                          dominant-baseline="middle"\n                          dy="0.1em"\n                          text-anchor="middle"\n                          [attr.transform]="getRemainingPieceQuantityTransform(piece, pieceIdX)">{{ getRemainingPieceQuantity(piece) }}</text>\n                </g>\n            }\n        </g>\n    }\n    <g #boardDiv>\n        @for (line of board; track $index; let y = $index) {\n            <g>\n                @for (spaceContent of line; track $index; let x = $index) {\n                    <g>\n                        <rect id="click-{{ x }}-{{ y }}"\n                              (click)="onBoardClick(x, y)"\n                              [attr.x]="SPACE_SIZE * x"\n                              [attr.y]="SPACE_SIZE * y"\n                              [attr.width]="SPACE_SIZE"\n                              [attr.height]="SPACE_SIZE"\n                              [ngClass]="boardPieces[y][x].coordClasses"\n                              class="base"/>\n                        @for (pieceData of boardPieces[y][x].piecesData; track $index) {\n                            <g app-ring\n                               id="piece-{{ x }}-{{ y }}"\n                               (click)="onBoardClick(x, y)"\n                               [attr.transform]="pieceData.translate"\n                               [outsideRadius]="pieceData.radius"\n                               [width]="ringStrokeWidth / 2"\n                               [strokeWidth]="ringStrokeWidth / 4"\n                               [midRingClasses]="pieceData.classes" />\n                        }\n                    </g>\n                }\n            </g>\n        }\n        @if (chosenCoord.isPresent()) {\n            <rect id="chosen-{{ chosenCoord.get().x }}-{{ chosenCoord.get().y }}"\n                  (click)="onBoardClick(chosenCoord.get().x, chosenCoord.get().y)"\n                  [attr.x]="SPACE_SIZE * chosenCoord.get().x"\n                  [attr.y]="SPACE_SIZE * chosenCoord.get().y"\n                  [attr.width]="SPACE_SIZE"\n                  [attr.height]="SPACE_SIZE"\n                  class="base no-fill selected-stroke"\n                  pointer-events="fill"/>\n        }\n        @for (coord of victoryCoords; track coord.toString()) {\n            <rect id="victory-{{ coord.x }}-{{ coord.y }}"\n                  class="base no-fill victory-stroke mid-stroke"\n                  [attr.x]="SPACE_SIZE * coord.x"\n                  [attr.y]="SPACE_SIZE * coord.y"\n                  [attr.width]="SPACE_SIZE"\n                  [attr.height]="SPACE_SIZE"/>\n        }\n    </g>\n</svg>\n', styles: ["/* src/app/components/game-components/game-component/game-component.scss */\n.base {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke {\n  stroke-width: 0;\n}\n.base.manual-stroke {\n  fill: var(--base-stroke);\n}\n.base-no-stroke {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text {\n  fill: var(--base-stroke);\n}\n.white-background {\n  fill: white;\n}\n.background {\n  fill: var(--spaces-fill);\n}\n.transparent {\n  opacity: 0;\n}\n.background2 {\n  fill: var(--alt-background-fill);\n}\n.background3 {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill {\n  fill: var(--player0);\n}\n.player0-alternate-fill {\n  fill: var(--player0-alternate);\n}\n.player0-stroke {\n  stroke: var(--player0);\n}\n.player1-fill {\n  fill: var(--player1);\n}\n.player1-alternate-fill {\n  fill: var(--player1-alternate);\n}\n.player1-stroke {\n  stroke: var(--player1);\n}\n.nonplayer-fill {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill {\n  fill: var(--pre-captured);\n}\n.captured-fill {\n  fill: var(--captured);\n}\n.captured-alternate-fill {\n  fill: var(--alt-captured);\n}\n.captured-stroke {\n  stroke: var(--captured);\n}\n.moved-fill {\n  fill: var(--moved);\n}\n.moved-stroke {\n  stroke: var(--moved);\n}\n.indicator {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill {\n  fill: var(--indicator);\n}\n.selectable-stroke {\n  stroke: var(--selectable);\n}\n.selectable > .base-no-stroke {\n  fill: var(--selectable);\n}\n.last-move-stroke {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke {\n  fill: var(--last-move);\n}\n.last-move-fill {\n  fill: var(--last-move);\n}\n.victory-fill {\n  fill: var(--victory);\n}\n.victory-stroke {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke {\n  fill: var(--victory);\n}\n.defeat-fill {\n  fill: var(--defeat);\n}\n.defeat-stroke {\n  stroke: var(--defeat);\n}\n.selected-fill {\n  fill: var(--selected);\n}\n.selected-stroke {\n  stroke: var(--selected);\n}\n.clickable-stroke {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill {\n  fill: var(--capturable);\n}\n.capturable-stroke:hover {\n  stroke-width: 8;\n}\n.no-fill {\n  fill: none;\n}\n.no-stroke {\n  stroke: none;\n}\n.small-stroke {\n  stroke-width: 2;\n}\n.mid-small-stroke {\n  stroke-width: 3;\n}\n.mid-stroke {\n  stroke-width: 5;\n}\n.big-stroke {\n  stroke-width: 8;\n}\n.huge-stroke {\n  stroke-width: 12;\n}\n.semi-transparent {\n  opacity: 0.5;\n}\n.territory-opacity {\n  fill-opacity: 0.7;\n}\n.round {\n  stroke-linecap: round;\n}\n.text-giant {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big {\n  font: 50px sans-serif;\n}\n.backgrounded-text {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus {\n  font: 38px sans-serif;\n}\n.text-medium {\n  font: 35px sans-serif;\n}\n.text-small-plus {\n  font: 28px sans-serif;\n}\n.text-small {\n  font: 25px sans-serif;\n}\n.text-bold {\n  font-weight: bold;\n}\n.text-center {\n  text-anchor: middle;\n}\n.black-fill {\n  fill: black;\n}\n.darker {\n  filter: brightness(80%);\n}\n.lighter {\n  filter: brightness(110%);\n}\nsvg {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */\n"] }]
   }], () => [], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(EncapsuleComponent, { className: "EncapsuleComponent", filePath: "src/app/games/encapsule/encapsule.component.ts", lineNumber: 39 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(EncapsuleComponent, { className: "EncapsuleComponent", filePath: "src/app/games/encapsule/encapsule.component.ts", lineNumber: 38 });
 })();
 
 // src/app/games/epaminondas/EpaminondasFailure.ts
@@ -16613,13 +16497,6 @@ var EpaminondasPhalanxSizeAndFilterMoveGenerator = class extends EpaminondasMove
   }
 };
 
-// src/app/games/epaminondas/EpaminondasAttackMinimax.ts
-var EpaminondasAttackMinimax = class extends Minimax {
-  constructor() {
-    super($localize`Attack`, EpaminondasRules.get(), new EpaminondasAttackHeuristic(), new EpaminondasPhalanxSizeAndFilterMoveGenerator());
-  }
-};
-
 // src/app/games/epaminondas/EpaminondasPieceThenRowDominationThenAlignmentThenRowPresenceHeuristic.ts
 var EpaminondasPieceThenRowDominationThenAlignmentThenRowPresenceHeuristic = class extends EpaminondasHeuristic {
   getBoardValue(node, _config) {
@@ -16663,13 +16540,6 @@ var EpaminondasPieceThenRowDominationThenAlignmentThenRowPresenceHeuristic = cla
   }
 };
 
-// src/app/games/epaminondas/EpaminondasMinimax.ts
-var EpaminondasMinimax = class extends Minimax {
-  constructor() {
-    super($localize`Piece > Row Domination > Alignment > Row Presence`, EpaminondasRules.get(), new EpaminondasPieceThenRowDominationThenAlignmentThenRowPresenceHeuristic(), new EpaminondasPhalanxSizeAndFilterMoveGenerator());
-  }
-};
-
 // src/app/games/epaminondas/EpaminondasPositionalHeuristic.ts
 var EpaminondasPositionalHeuristic = class extends Heuristic {
   getBoardValue(node, _config) {
@@ -16707,13 +16577,6 @@ var EpaminondasPositionalHeuristic = class extends Heuristic {
       }
     }
     return total;
-  }
-};
-
-// src/app/games/epaminondas/EpaminondasPositionalMinimax.ts
-var EpaminondasPositionalMinimax = class extends Minimax {
-  constructor() {
-    super($localize`Positional`, EpaminondasRules.get(), new EpaminondasPositionalHeuristic(), new EpaminondasPhalanxSizeAndFilterMoveGenerator());
   }
 };
 
@@ -16814,12 +16677,41 @@ var EpaminondasComponent = class _EpaminondasComponent extends RectangularGameCo
   constructor() {
     super();
     this.setRulesAndNode("Epaminondas");
-    this.availableAIs = [
-      new EpaminondasMinimax(),
-      new EpaminondasPositionalMinimax(),
-      new EpaminondasAttackMinimax(),
-      new MCTS($localize`MCTS`, new EpaminondasMoveGenerator(), this.rules)
-    ];
+    this.aiConfig = {
+      minimax: [
+        {
+          id: "Piece > Row Domination > Alignment > Row Presence",
+          name: $localize`Piece > Row Domination > Alignment > Row Presence`,
+          heuristic: () => {
+            return new EpaminondasPieceThenRowDominationThenAlignmentThenRowPresenceHeuristic();
+          },
+          moveGenerator: () => {
+            return new EpaminondasPhalanxSizeAndFilterMoveGenerator();
+          }
+        },
+        {
+          id: "Positional",
+          name: $localize`Positional`,
+          heuristic: () => new EpaminondasPositionalHeuristic(),
+          moveGenerator: () => {
+            return new EpaminondasPhalanxSizeAndFilterMoveGenerator();
+          }
+        },
+        {
+          id: "Attack",
+          name: $localize`Attack`,
+          heuristic: () => new EpaminondasAttackHeuristic(),
+          moveGenerator: () => {
+            return new EpaminondasPhalanxSizeAndFilterMoveGenerator();
+          }
+        }
+      ],
+      mcts: [{
+        id: "default",
+        name: $localize`MCTS`,
+        moveGenerator: () => new EpaminondasMoveGenerator()
+      }]
+    };
     this.encoder = EpaminondasMove.encoder;
     this.hasAsymmetricBoard = true;
   }
@@ -17752,15 +17644,9 @@ var GipfScoreHeuristic = class extends PlayerMetricHeuristic {
   }
 };
 
-// src/app/games/gipf/GipfScoreMinimax.ts
-var GipfScoreMinimax = class extends Minimax {
-  constructor() {
-    super($localize`Score`, GipfRules.get(), new GipfScoreHeuristic(), new GipfMoveGenerator());
-  }
-};
-
 // src/app/games/gipf/gipf.component.ts
 var _forTrack012 = ($index, $item) => $item.toString();
+var _forTrack18 = ($index, $item) => $item.getValue();
 function GipfComponent_For_7_Conditional_2_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
@@ -17925,10 +17811,19 @@ var GipfComponent = class _GipfComponent extends HexagonalGameComponent {
   constructor() {
     super();
     this.setRulesAndNode("Gipf");
-    this.availableAIs = [
-      new GipfScoreMinimax(),
-      new MCTS($localize`MCTS`, new GipfMoveGenerator(), this.rules)
-    ];
+    this.aiConfig = {
+      minimax: [{
+        id: "Score",
+        name: $localize`Score`,
+        heuristic: () => new GipfScoreHeuristic(),
+        moveGenerator: () => new GipfMoveGenerator()
+      }],
+      mcts: [{
+        id: "default",
+        name: $localize`Default`,
+        moveGenerator: () => new GipfMoveGenerator()
+      }]
+    };
     this.encoder = GipfMove.encoder;
     this.hasAsymmetricBoard = true;
     this.scores = MGPOptional.of(PlayerNumberMap.of(0, 0));
@@ -18199,7 +18094,7 @@ var GipfComponent = class _GipfComponent extends HexagonalGameComponent {
       \u0275\u0275repeaterCreate(6, GipfComponent_For_7_Template, 4, 11, ":svg:g", 5, _forTrack012);
       \u0275\u0275repeaterCreate(8, GipfComponent_For_9_Template, 3, 0, ":svg:g", 6, \u0275\u0275repeaterTrackByIndex);
       \u0275\u0275repeaterCreate(10, GipfComponent_For_11_Template, 1, 4, ":svg:line", 7, \u0275\u0275repeaterTrackByIndex);
-      \u0275\u0275repeaterCreate(12, GipfComponent_For_13_Template, 5, 3, ":svg:g", null, \u0275\u0275repeaterTrackByIdentity);
+      \u0275\u0275repeaterCreate(12, GipfComponent_For_13_Template, 5, 3, ":svg:g", null, _forTrack18);
       \u0275\u0275conditionalCreate(14, GipfComponent_Conditional_14_Template, 1, 4, ":svg:line", 8);
       \u0275\u0275elementEnd();
     }
@@ -18221,11 +18116,11 @@ var GipfComponent = class _GipfComponent extends HexagonalGameComponent {
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(GipfComponent, [{
     type: Component,
-    args: [{ selector: "app-gipf", imports: [NgClass], template: '<svg xmlns="http://www.w3.org/2000/svg"\n     class="board"\n     [attr.viewBox]="getViewBox().toSVGString()"\n     [attr.transform]="rotation"\n     preserveAspectRatio="xMidYMid meet">\n\n    <defs>\n        <marker id="arrowhead"\n                markerWidth="10"\n                markerHeight="7"\n                refX="5"\n                refY="3.5"\n                orient="auto">\n            <polygon points="0 0, 10 3.5, 0 7"/>\n        </marker>\n        <marker id="arrowhead-moved"\n                markerWidth="10"\n                markerHeight="7"\n                refX="5"\n                refY="3.5"\n                orient="auto">\n            <polygon points="0 0, 10 3.5, 0 7"\n                     class="moved-fill moved-stroke"/>\n        </marker>\n    </defs>\n\n    @for (coord of getAllCoords(); track coord.toString()) {\n        <g (click)="onClick(coord)"\n           id="click-{{ coord.x }}-{{ coord.y }}"\n           [attr.transform]="getHexaCenterTranslationAt(coord)">\n            <polygon [attr.points]="getHexaPoints()"\n                     id="space-{{ coord.x }}-{{ coord.y }}"\n                     [ngClass]="getSpaceClass(coord)"\n                     class="base"\n                     stroke-linecap="round"/>\n            @if (isPlayerAt(coord)) {\n                <circle cx="0"\n                        cy="0"\n                        [attr.r]="SPACE_SIZE"\n                        [ngClass]="getPieceClass(coord)"\n                        class="base"/>\n            }\n            @if (isCapturedPiece(coord)) {\n                <circle id="dead-piece-{{ coord.x }}-{{ coord.y }}"\n                        cx="0"\n                        cy="0"\n                        [attr.r]="SPACE_SIZE"\n                        [ngClass]="getCapturedPieceClass(coord)"\n                        class="base semi-transparent"/>\n            }\n        </g>\n    }\n\n    @for (capture of possibleCaptures; track $index; let i = $index) {\n        <g pointer-events="fill"\n           class="capturable-stroke">\n            @for (coord of capture.capturedSpaces; track coord.toString()) {\n                <polygon [attr.points]="getHexaPoints()"\n                         [attr.transform]="getHexaCenterTranslationAt(coord)"\n                         (click)="onClick(coord)"\n                         class="no-fill"\n                         stroke-linecap="round"/>\n            }\n        </g>\n    }\n\n    @for (arrow of arrows; track $index) {\n        <line [attr.x1]="arrow.startCenter.x"\n              [attr.y1]="arrow.startCenter.y"\n              [attr.x2]="arrow.landingCenter.x"\n              [attr.y2]="arrow.landingCenter.y"\n              class="arrow click-delegator"\n              marker-end="url(#arrowhead)"/>\n    }\n\n    @for (player of Player.PLAYERS; track player) {\n        <g>\n            @for (p of getPlayerSidePieces(player); track $index) {\n                <g>\n                    <circle id="piece-{{ player.toString() }}-{{ p }}"\n                            [attr.cx]="getRemainingPieceCx(player, p)"\n                            [attr.cy]="getRemainingPieceCy(player)"\n                            [attr.r]="SPACE_SIZE * 0.5"\n                            [ngClass]="getPlayerClass(player)"\n                            class="base small-stroke"/>\n                </g>\n            }\n            <text [attr.x]="getRemainingPieceCx(player, getPlayerSidePieces(player).length - 1)"\n                  [attr.y]="getRemainingPieceCy(player) + 9"\n                  class="text-small text-center">{{ getPlayerSidePieces(player).length }}</text>\n        </g>\n    }\n\n    @if (inserted.isPresent()) {\n        <line [attr.x1]="inserted.get().startCenter.x"\n              [attr.y1]="inserted.get().startCenter.y"\n              [attr.x2]="inserted.get().landingCenter.x"\n              [attr.y2]="inserted.get().landingCenter.y"\n              class="arrow moved-stroke click-delegator"\n              marker-end="url(#arrowhead-moved)"/>\n    }\n\n</svg>\n', styles: ["/* src/app/components/game-components/game-component/game-component.scss */\n.base {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke {\n  stroke-width: 0;\n}\n.base.manual-stroke {\n  fill: var(--base-stroke);\n}\n.base-no-stroke {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text {\n  fill: var(--base-stroke);\n}\n.white-background {\n  fill: white;\n}\n.background {\n  fill: var(--spaces-fill);\n}\n.transparent {\n  opacity: 0;\n}\n.background2 {\n  fill: var(--alt-background-fill);\n}\n.background3 {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill {\n  fill: var(--player0);\n}\n.player0-alternate-fill {\n  fill: var(--player0-alternate);\n}\n.player0-stroke {\n  stroke: var(--player0);\n}\n.player1-fill {\n  fill: var(--player1);\n}\n.player1-alternate-fill {\n  fill: var(--player1-alternate);\n}\n.player1-stroke {\n  stroke: var(--player1);\n}\n.nonplayer-fill {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill {\n  fill: var(--pre-captured);\n}\n.captured-fill {\n  fill: var(--captured);\n}\n.captured-alternate-fill {\n  fill: var(--alt-captured);\n}\n.captured-stroke {\n  stroke: var(--captured);\n}\n.moved-fill {\n  fill: var(--moved);\n}\n.moved-stroke {\n  stroke: var(--moved);\n}\n.indicator {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill {\n  fill: var(--indicator);\n}\n.selectable-stroke {\n  stroke: var(--selectable);\n}\n.selectable > .base-no-stroke {\n  fill: var(--selectable);\n}\n.last-move-stroke {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke {\n  fill: var(--last-move);\n}\n.last-move-fill {\n  fill: var(--last-move);\n}\n.victory-fill {\n  fill: var(--victory);\n}\n.victory-stroke {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke {\n  fill: var(--victory);\n}\n.defeat-fill {\n  fill: var(--defeat);\n}\n.defeat-stroke {\n  stroke: var(--defeat);\n}\n.selected-fill {\n  fill: var(--selected);\n}\n.selected-stroke {\n  stroke: var(--selected);\n}\n.clickable-stroke {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill {\n  fill: var(--capturable);\n}\n.capturable-stroke:hover {\n  stroke-width: 8;\n}\n.no-fill {\n  fill: none;\n}\n.no-stroke {\n  stroke: none;\n}\n.small-stroke {\n  stroke-width: 2;\n}\n.mid-small-stroke {\n  stroke-width: 3;\n}\n.mid-stroke {\n  stroke-width: 5;\n}\n.big-stroke {\n  stroke-width: 8;\n}\n.huge-stroke {\n  stroke-width: 12;\n}\n.semi-transparent {\n  opacity: 0.5;\n}\n.territory-opacity {\n  fill-opacity: 0.7;\n}\n.round {\n  stroke-linecap: round;\n}\n.text-giant {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big {\n  font: 50px sans-serif;\n}\n.backgrounded-text {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus {\n  font: 38px sans-serif;\n}\n.text-medium {\n  font: 35px sans-serif;\n}\n.text-small-plus {\n  font: 28px sans-serif;\n}\n.text-small {\n  font: 25px sans-serif;\n}\n.text-bold {\n  font-weight: bold;\n}\n.text-center {\n  text-anchor: middle;\n}\n.black-fill {\n  fill: black;\n}\n.darker {\n  filter: brightness(80%);\n}\n.lighter {\n  filter: brightness(110%);\n}\nsvg {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */\n"] }]
+    args: [{ selector: "app-gipf", imports: [NgClass], template: '<svg xmlns="http://www.w3.org/2000/svg"\n     class="board"\n     [attr.viewBox]="getViewBox().toSVGString()"\n     [attr.transform]="rotation"\n     preserveAspectRatio="xMidYMid meet">\n\n    <defs>\n        <marker id="arrowhead"\n                markerWidth="10"\n                markerHeight="7"\n                refX="5"\n                refY="3.5"\n                orient="auto">\n            <polygon points="0 0, 10 3.5, 0 7"/>\n        </marker>\n        <marker id="arrowhead-moved"\n                markerWidth="10"\n                markerHeight="7"\n                refX="5"\n                refY="3.5"\n                orient="auto">\n            <polygon points="0 0, 10 3.5, 0 7"\n                     class="moved-fill moved-stroke"/>\n        </marker>\n    </defs>\n\n    @for (coord of getAllCoords(); track coord.toString()) {\n        <g (click)="onClick(coord)"\n           id="click-{{ coord.x }}-{{ coord.y }}"\n           [attr.transform]="getHexaCenterTranslationAt(coord)">\n            <polygon [attr.points]="getHexaPoints()"\n                     id="space-{{ coord.x }}-{{ coord.y }}"\n                     [ngClass]="getSpaceClass(coord)"\n                     class="base"\n                     stroke-linecap="round"/>\n            @if (isPlayerAt(coord)) {\n                <circle cx="0"\n                        cy="0"\n                        [attr.r]="SPACE_SIZE"\n                        [ngClass]="getPieceClass(coord)"\n                        class="base"/>\n            }\n            @if (isCapturedPiece(coord)) {\n                <circle id="dead-piece-{{ coord.x }}-{{ coord.y }}"\n                        cx="0"\n                        cy="0"\n                        [attr.r]="SPACE_SIZE"\n                        [ngClass]="getCapturedPieceClass(coord)"\n                        class="base semi-transparent"/>\n            }\n        </g>\n    }\n\n    @for (capture of possibleCaptures; track $index; let i = $index) {\n        <g pointer-events="fill"\n           class="capturable-stroke">\n            @for (coord of capture.capturedSpaces; track coord.toString()) {\n                <polygon [attr.points]="getHexaPoints()"\n                         [attr.transform]="getHexaCenterTranslationAt(coord)"\n                         (click)="onClick(coord)"\n                         class="no-fill"\n                         stroke-linecap="round"/>\n            }\n        </g>\n    }\n\n    @for (arrow of arrows; track $index) {\n        <line [attr.x1]="arrow.startCenter.x"\n              [attr.y1]="arrow.startCenter.y"\n              [attr.x2]="arrow.landingCenter.x"\n              [attr.y2]="arrow.landingCenter.y"\n              class="arrow click-delegator"\n              marker-end="url(#arrowhead)"/>\n    }\n\n    @for (player of Player.PLAYERS; track player.getValue()) {\n        <g>\n            @for (p of getPlayerSidePieces(player); track $index) {\n                <g>\n                    <circle id="piece-{{ player.toString() }}-{{ p }}"\n                            [attr.cx]="getRemainingPieceCx(player, p)"\n                            [attr.cy]="getRemainingPieceCy(player)"\n                            [attr.r]="SPACE_SIZE * 0.5"\n                            [ngClass]="getPlayerClass(player)"\n                            class="base small-stroke"/>\n                </g>\n            }\n            <text [attr.x]="getRemainingPieceCx(player, getPlayerSidePieces(player).length - 1)"\n                  [attr.y]="getRemainingPieceCy(player) + 9"\n                  class="text-small text-center">{{ getPlayerSidePieces(player).length }}</text>\n        </g>\n    }\n\n    @if (inserted.isPresent()) {\n        <line [attr.x1]="inserted.get().startCenter.x"\n              [attr.y1]="inserted.get().startCenter.y"\n              [attr.x2]="inserted.get().landingCenter.x"\n              [attr.y2]="inserted.get().landingCenter.y"\n              class="arrow moved-stroke click-delegator"\n              marker-end="url(#arrowhead-moved)"/>\n    }\n\n</svg>\n', styles: ["/* src/app/components/game-components/game-component/game-component.scss */\n.base {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke {\n  stroke-width: 0;\n}\n.base.manual-stroke {\n  fill: var(--base-stroke);\n}\n.base-no-stroke {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text {\n  fill: var(--base-stroke);\n}\n.white-background {\n  fill: white;\n}\n.background {\n  fill: var(--spaces-fill);\n}\n.transparent {\n  opacity: 0;\n}\n.background2 {\n  fill: var(--alt-background-fill);\n}\n.background3 {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill {\n  fill: var(--player0);\n}\n.player0-alternate-fill {\n  fill: var(--player0-alternate);\n}\n.player0-stroke {\n  stroke: var(--player0);\n}\n.player1-fill {\n  fill: var(--player1);\n}\n.player1-alternate-fill {\n  fill: var(--player1-alternate);\n}\n.player1-stroke {\n  stroke: var(--player1);\n}\n.nonplayer-fill {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill {\n  fill: var(--pre-captured);\n}\n.captured-fill {\n  fill: var(--captured);\n}\n.captured-alternate-fill {\n  fill: var(--alt-captured);\n}\n.captured-stroke {\n  stroke: var(--captured);\n}\n.moved-fill {\n  fill: var(--moved);\n}\n.moved-stroke {\n  stroke: var(--moved);\n}\n.indicator {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill {\n  fill: var(--indicator);\n}\n.selectable-stroke {\n  stroke: var(--selectable);\n}\n.selectable > .base-no-stroke {\n  fill: var(--selectable);\n}\n.last-move-stroke {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke {\n  fill: var(--last-move);\n}\n.last-move-fill {\n  fill: var(--last-move);\n}\n.victory-fill {\n  fill: var(--victory);\n}\n.victory-stroke {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke {\n  fill: var(--victory);\n}\n.defeat-fill {\n  fill: var(--defeat);\n}\n.defeat-stroke {\n  stroke: var(--defeat);\n}\n.selected-fill {\n  fill: var(--selected);\n}\n.selected-stroke {\n  stroke: var(--selected);\n}\n.clickable-stroke {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill {\n  fill: var(--capturable);\n}\n.capturable-stroke:hover {\n  stroke-width: 8;\n}\n.no-fill {\n  fill: none;\n}\n.no-stroke {\n  stroke: none;\n}\n.small-stroke {\n  stroke-width: 2;\n}\n.mid-small-stroke {\n  stroke-width: 3;\n}\n.mid-stroke {\n  stroke-width: 5;\n}\n.big-stroke {\n  stroke-width: 8;\n}\n.huge-stroke {\n  stroke-width: 12;\n}\n.semi-transparent {\n  opacity: 0.5;\n}\n.territory-opacity {\n  fill-opacity: 0.7;\n}\n.round {\n  stroke-linecap: round;\n}\n.text-giant {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big {\n  font: 50px sans-serif;\n}\n.backgrounded-text {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus {\n  font: 38px sans-serif;\n}\n.text-medium {\n  font: 35px sans-serif;\n}\n.text-small-plus {\n  font: 28px sans-serif;\n}\n.text-small {\n  font: 25px sans-serif;\n}\n.text-bold {\n  font-weight: bold;\n}\n.text-center {\n  text-anchor: middle;\n}\n.black-fill {\n  fill: black;\n}\n.darker {\n  filter: brightness(80%);\n}\n.lighter {\n  filter: brightness(110%);\n}\nsvg {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */\n"] }]
   }], () => [], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(GipfComponent, { className: "GipfComponent", filePath: "src/app/games/gipf/gipf.component.ts", lineNumber: 34 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(GipfComponent, { className: "GipfComponent", filePath: "src/app/games/gipf/gipf.component.ts", lineNumber: 33 });
 })();
 
 // src/app/games/gos/GoFailure.ts
@@ -18265,6 +18160,21 @@ var GoPhase = class _GoPhase {
   static ACCEPT = new _GoPhase();
   static FINISHED = new _GoPhase();
   constructor() {
+  }
+  toString() {
+    switch (this) {
+      case _GoPhase.PLAYING:
+        return "PLAYING";
+      case _GoPhase.PASSED:
+        return "PASSED";
+      case _GoPhase.COUNTING:
+        return "COUNTING";
+      case _GoPhase.ACCEPT:
+        return "ACCEPT";
+      case _GoPhase.FINISHED:
+        return "FINISHED";
+    }
+    return "";
   }
   isPlaying() {
     return this === _GoPhase.PLAYING;
@@ -19111,13 +19021,6 @@ var GoTutorial = class extends Tutorial {
   ];
 };
 
-// src/app/games/gos/AbstractGoMinimax.ts
-var AbstractGoMinimax = class extends Minimax {
-  constructor(rules, moveGenerator, heuristic) {
-    super($localize`Minimax`, rules, heuristic, moveGenerator);
-  }
-};
-
 // src/app/games/gos/AbstractGoHeuristic.ts
 var AbstractGoHeuristic = class extends PlayerMetricHeuristic {
   rules;
@@ -19262,13 +19165,6 @@ var GoMoveGenerator = class extends AbstractGoMoveGenerator {
   }
 };
 
-// src/app/games/gos/go/GoMinimax.ts
-var GoMinimax = class extends AbstractGoMinimax {
-  constructor() {
-    super(GoRules.get(), new GoMoveGenerator(), new GoHeuristic());
-  }
-};
-
 // src/app/games/gos/go/go.component.ts
 var __decorate9 = function(decorators, target, key, desc) {
   var c = arguments.length, r2 = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d2;
@@ -19276,8 +19172,9 @@ var __decorate9 = function(decorators, target, key, desc) {
   else for (var i2 = decorators.length - 1; i2 >= 0; i2--) if (d2 = decorators[i2]) r2 = (c < 3 ? d2(r2) : c > 3 ? d2(target, key, r2) : d2(target, key)) || r2;
   return c > 3 && r2 && Object.defineProperty(target, key, r2), r2;
 };
+var GoComponent_1;
 var _forTrack013 = ($index, $item) => $item.coord.toString();
-var _forTrack16 = ($index, $item) => $item.toString();
+var _forTrack19 = ($index, $item) => $item.toString();
 function GoComponent_For_4_Conditional_1_Conditional_2_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
@@ -19408,7 +19305,8 @@ function GoComponent_For_7_Template(rf, ctx) {
     \u0275\u0275attribute("transform", ctx_r2.getTranslationAt(capture_r7))("cx", ctx_r2.SPACE_SIZE * 0.5)("cy", ctx_r2.SPACE_SIZE * 0.5)("r", ctx_r2.SPACE_SIZE * 0.14);
   }
 }
-var GoComponent = class GoComponent2 extends GobanGameComponent {
+var _a5;
+var GoComponent = (_a5 = class extends GobanGameComponent {
   boardInfo;
   ko = MGPOptional.empty();
   last = MGPOptional.empty();
@@ -19417,13 +19315,33 @@ var GoComponent = class GoComponent2 extends GobanGameComponent {
   constructor() {
     super();
     this.setRulesAndNode("Go");
-    this.availableAIs = [
-      new GoMinimax(),
-      new MCTS($localize`MCTS`, new GoMoveGenerator(), this.rules)
-    ];
+    this.aiConfig = {
+      minimax: [{
+        id: "territory",
+        name: $localize`Territory`,
+        heuristic: () => new GoHeuristic(),
+        moveGenerator: () => new GoMoveGenerator(),
+        hash: GoComponent_1.hash
+      }],
+      mcts: [{
+        id: "default",
+        name: $localize`Default`,
+        moveGenerator: () => new GoMoveGenerator()
+      }]
+    };
     this.encoder = GoMove.encoder;
     this.canPass = true;
     this.scores = MGPOptional.of(PlayerNumberMap.of(0, 0));
+  }
+  static hash(state) {
+    let board = "";
+    for (const line of state.board) {
+      for (const cell of line) {
+        board += cell.toString();
+      }
+      board += "\n";
+    }
+    return `${state.turn % 2}-${state.phase.toString()}-${board}-${JSON.stringify(state.koCoord)}-${JSON.stringify(state.captured)}`;
   }
   showLastMove(move) {
     return __async(this, null, function* () {
@@ -19508,38 +19426,36 @@ var GoComponent = class GoComponent2 extends GobanGameComponent {
   isTerritory(coord) {
     return this.getState().isTerritory(coord);
   }
-  static \u0275fac = function GoComponent_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || GoComponent2)();
-  };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: GoComponent2, selectors: [["app-go"]], features: [\u0275\u0275InheritDefinitionFeature], decls: 8, vars: 4, consts: [["xmlns", "http://www.w3.org/2000/svg", "preserveAspectRatio", "xMidYMid meet", 1, "board"], ["app-blank-goban", "", 3, "clickCallBack", "width", "height"], ["id", "piece-ko-territory-markers-and-dead-stones"], [1, "captured-stroke", "mid-stroke", "no-fill", 3, "id"], [1, "captured-fill"], [1, "base", 3, "click", "ngClass"], [1, "base", "no-fill", "last-move-stroke"], [1, "base", "no-fill", "captured-stroke"], [1, "base", "no-fill", "captured-stroke", 3, "click"], [3, "click"], [1, "captured-fill", 3, "click"]], template: function GoComponent_Template(rf, ctx) {
-    if (rf & 1) {
-      \u0275\u0275namespaceSVG();
-      \u0275\u0275elementStart(0, "svg", 0)(1, "g", 1);
-      \u0275\u0275listener("clickCallBack", function GoComponent_Template_g_clickCallBack_1_listener($event) {
-        return ctx.onClick($event);
-      });
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(2, "g", 2);
-      \u0275\u0275repeaterCreate(3, GoComponent_For_4_Template, 3, 1, ":svg:g", null, _forTrack013);
-      \u0275\u0275elementEnd();
-      \u0275\u0275conditionalCreate(5, GoComponent_Conditional_5_Template, 1, 8, ":svg:rect", 3);
-      \u0275\u0275repeaterCreate(6, GoComponent_For_7_Template, 1, 4, ":svg:circle", 4, _forTrack16);
-      \u0275\u0275elementEnd();
-    }
-    if (rf & 2) {
-      \u0275\u0275attribute("viewBox", ctx.getViewBox().toSVGString());
-      \u0275\u0275advance();
-      \u0275\u0275property("width", ctx.getState().getWidth())("height", ctx.getState().getHeight());
-      \u0275\u0275advance(2);
-      \u0275\u0275repeater(ctx.getState().getCoordsAndContents());
-      \u0275\u0275advance(2);
-      \u0275\u0275conditional(ctx.ko.isPresent() ? 5 : -1);
-      \u0275\u0275advance();
-      \u0275\u0275repeater(ctx.captures);
-    }
-  }, dependencies: [BlankGobanComponent, NgClass], styles: ["\n\n.base[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke[_ngcontent-%COMP%] {\n  stroke-width: 0;\n}\n.base.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n}\n.base-no-stroke[_ngcontent-%COMP%] {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n}\n.white-background[_ngcontent-%COMP%] {\n  fill: white;\n}\n.background[_ngcontent-%COMP%] {\n  fill: var(--spaces-fill);\n}\n.transparent[_ngcontent-%COMP%] {\n  opacity: 0;\n}\n.background2[_ngcontent-%COMP%] {\n  fill: var(--alt-background-fill);\n}\n.background3[_ngcontent-%COMP%] {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill[_ngcontent-%COMP%] {\n  fill: var(--player0);\n}\n.player0-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--player0-alternate);\n}\n.player0-stroke[_ngcontent-%COMP%] {\n  stroke: var(--player0);\n}\n.player1-fill[_ngcontent-%COMP%] {\n  fill: var(--player1);\n}\n.player1-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--player1-alternate);\n}\n.player1-stroke[_ngcontent-%COMP%] {\n  stroke: var(--player1);\n}\n.nonplayer-fill[_ngcontent-%COMP%] {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill[_ngcontent-%COMP%] {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke[_ngcontent-%COMP%] {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke[_ngcontent-%COMP%] {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill[_ngcontent-%COMP%] {\n  fill: var(--pre-captured);\n}\n.captured-fill[_ngcontent-%COMP%] {\n  fill: var(--captured);\n}\n.captured-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--alt-captured);\n}\n.captured-stroke[_ngcontent-%COMP%] {\n  stroke: var(--captured);\n}\n.moved-fill[_ngcontent-%COMP%] {\n  fill: var(--moved);\n}\n.moved-stroke[_ngcontent-%COMP%] {\n  stroke: var(--moved);\n}\n.indicator[_ngcontent-%COMP%] {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill[_ngcontent-%COMP%] {\n  fill: var(--indicator);\n}\n.selectable-stroke[_ngcontent-%COMP%] {\n  stroke: var(--selectable);\n}\n.selectable[_ngcontent-%COMP%]    > .base-no-stroke[_ngcontent-%COMP%] {\n  fill: var(--selectable);\n}\n.last-move-stroke[_ngcontent-%COMP%] {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--last-move);\n}\n.last-move-fill[_ngcontent-%COMP%] {\n  fill: var(--last-move);\n}\n.victory-fill[_ngcontent-%COMP%] {\n  fill: var(--victory);\n}\n.victory-stroke[_ngcontent-%COMP%] {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--victory);\n}\n.defeat-fill[_ngcontent-%COMP%] {\n  fill: var(--defeat);\n}\n.defeat-stroke[_ngcontent-%COMP%] {\n  stroke: var(--defeat);\n}\n.selected-fill[_ngcontent-%COMP%] {\n  fill: var(--selected);\n}\n.selected-stroke[_ngcontent-%COMP%] {\n  stroke: var(--selected);\n}\n.clickable-stroke[_ngcontent-%COMP%] {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover[_ngcontent-%COMP%]:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke[_ngcontent-%COMP%] {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill[_ngcontent-%COMP%] {\n  fill: var(--capturable);\n}\n.capturable-stroke[_ngcontent-%COMP%]:hover {\n  stroke-width: 8;\n}\n.no-fill[_ngcontent-%COMP%] {\n  fill: none;\n}\n.no-stroke[_ngcontent-%COMP%] {\n  stroke: none;\n}\n.small-stroke[_ngcontent-%COMP%] {\n  stroke-width: 2;\n}\n.mid-small-stroke[_ngcontent-%COMP%] {\n  stroke-width: 3;\n}\n.mid-stroke[_ngcontent-%COMP%] {\n  stroke-width: 5;\n}\n.big-stroke[_ngcontent-%COMP%] {\n  stroke-width: 8;\n}\n.huge-stroke[_ngcontent-%COMP%] {\n  stroke-width: 12;\n}\n.semi-transparent[_ngcontent-%COMP%] {\n  opacity: 0.5;\n}\n.territory-opacity[_ngcontent-%COMP%] {\n  fill-opacity: 0.7;\n}\n.round[_ngcontent-%COMP%] {\n  stroke-linecap: round;\n}\n.text-giant[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big[_ngcontent-%COMP%] {\n  font: 50px sans-serif;\n}\n.backgrounded-text[_ngcontent-%COMP%] {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus[_ngcontent-%COMP%] {\n  font: 38px sans-serif;\n}\n.text-medium[_ngcontent-%COMP%] {\n  font: 35px sans-serif;\n}\n.text-small-plus[_ngcontent-%COMP%] {\n  font: 28px sans-serif;\n}\n.text-small[_ngcontent-%COMP%] {\n  font: 25px sans-serif;\n}\n.text-bold[_ngcontent-%COMP%] {\n  font-weight: bold;\n}\n.text-center[_ngcontent-%COMP%] {\n  text-anchor: middle;\n}\n.black-fill[_ngcontent-%COMP%] {\n  fill: black;\n}\n.darker[_ngcontent-%COMP%] {\n  filter: brightness(80%);\n}\n.lighter[_ngcontent-%COMP%] {\n  filter: brightness(110%);\n}\nsvg[_ngcontent-%COMP%] {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator[_ngcontent-%COMP%] {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */"] });
-};
-GoComponent = __decorate9([
+}, GoComponent_1 = _a5, __publicField(_a5, "\u0275fac", function GoComponent_Factory(__ngFactoryType__) {
+  return new (__ngFactoryType__ || _a5)();
+}), __publicField(_a5, "\u0275cmp", /* @__PURE__ */ \u0275\u0275defineComponent({ type: _a5, selectors: [["app-go"]], features: [\u0275\u0275InheritDefinitionFeature], decls: 8, vars: 4, consts: [["xmlns", "http://www.w3.org/2000/svg", "preserveAspectRatio", "xMidYMid meet", 1, "board"], ["app-blank-goban", "", 3, "clickCallBack", "width", "height"], ["id", "piece-ko-territory-markers-and-dead-stones"], [1, "captured-stroke", "mid-stroke", "no-fill", 3, "id"], [1, "captured-fill"], [1, "base", 3, "click", "ngClass"], [1, "base", "no-fill", "last-move-stroke"], [1, "base", "no-fill", "captured-stroke"], [1, "base", "no-fill", "captured-stroke", 3, "click"], [3, "click"], [1, "captured-fill", 3, "click"]], template: function GoComponent_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275namespaceSVG();
+    \u0275\u0275elementStart(0, "svg", 0)(1, "g", 1);
+    \u0275\u0275listener("clickCallBack", function GoComponent_Template_g_clickCallBack_1_listener($event) {
+      return ctx.onClick($event);
+    });
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(2, "g", 2);
+    \u0275\u0275repeaterCreate(3, GoComponent_For_4_Template, 3, 1, ":svg:g", null, _forTrack013);
+    \u0275\u0275elementEnd();
+    \u0275\u0275conditionalCreate(5, GoComponent_Conditional_5_Template, 1, 8, ":svg:rect", 3);
+    \u0275\u0275repeaterCreate(6, GoComponent_For_7_Template, 1, 4, ":svg:circle", 4, _forTrack19);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    \u0275\u0275attribute("viewBox", ctx.getViewBox().toSVGString());
+    \u0275\u0275advance();
+    \u0275\u0275property("width", ctx.getState().getWidth())("height", ctx.getState().getHeight());
+    \u0275\u0275advance(2);
+    \u0275\u0275repeater(ctx.getState().getCoordsAndContents());
+    \u0275\u0275advance(2);
+    \u0275\u0275conditional(ctx.ko.isPresent() ? 5 : -1);
+    \u0275\u0275advance();
+    \u0275\u0275repeater(ctx.captures);
+  }
+}, dependencies: [BlankGobanComponent, NgClass], styles: ["\n\n.base[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke[_ngcontent-%COMP%] {\n  stroke-width: 0;\n}\n.base.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n}\n.base-no-stroke[_ngcontent-%COMP%] {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n}\n.white-background[_ngcontent-%COMP%] {\n  fill: white;\n}\n.background[_ngcontent-%COMP%] {\n  fill: var(--spaces-fill);\n}\n.transparent[_ngcontent-%COMP%] {\n  opacity: 0;\n}\n.background2[_ngcontent-%COMP%] {\n  fill: var(--alt-background-fill);\n}\n.background3[_ngcontent-%COMP%] {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill[_ngcontent-%COMP%] {\n  fill: var(--player0);\n}\n.player0-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--player0-alternate);\n}\n.player0-stroke[_ngcontent-%COMP%] {\n  stroke: var(--player0);\n}\n.player1-fill[_ngcontent-%COMP%] {\n  fill: var(--player1);\n}\n.player1-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--player1-alternate);\n}\n.player1-stroke[_ngcontent-%COMP%] {\n  stroke: var(--player1);\n}\n.nonplayer-fill[_ngcontent-%COMP%] {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill[_ngcontent-%COMP%] {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke[_ngcontent-%COMP%] {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke[_ngcontent-%COMP%] {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill[_ngcontent-%COMP%] {\n  fill: var(--pre-captured);\n}\n.captured-fill[_ngcontent-%COMP%] {\n  fill: var(--captured);\n}\n.captured-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--alt-captured);\n}\n.captured-stroke[_ngcontent-%COMP%] {\n  stroke: var(--captured);\n}\n.moved-fill[_ngcontent-%COMP%] {\n  fill: var(--moved);\n}\n.moved-stroke[_ngcontent-%COMP%] {\n  stroke: var(--moved);\n}\n.indicator[_ngcontent-%COMP%] {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill[_ngcontent-%COMP%] {\n  fill: var(--indicator);\n}\n.selectable-stroke[_ngcontent-%COMP%] {\n  stroke: var(--selectable);\n}\n.selectable[_ngcontent-%COMP%]    > .base-no-stroke[_ngcontent-%COMP%] {\n  fill: var(--selectable);\n}\n.last-move-stroke[_ngcontent-%COMP%] {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--last-move);\n}\n.last-move-fill[_ngcontent-%COMP%] {\n  fill: var(--last-move);\n}\n.victory-fill[_ngcontent-%COMP%] {\n  fill: var(--victory);\n}\n.victory-stroke[_ngcontent-%COMP%] {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--victory);\n}\n.defeat-fill[_ngcontent-%COMP%] {\n  fill: var(--defeat);\n}\n.defeat-stroke[_ngcontent-%COMP%] {\n  stroke: var(--defeat);\n}\n.selected-fill[_ngcontent-%COMP%] {\n  fill: var(--selected);\n}\n.selected-stroke[_ngcontent-%COMP%] {\n  stroke: var(--selected);\n}\n.clickable-stroke[_ngcontent-%COMP%] {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover[_ngcontent-%COMP%]:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke[_ngcontent-%COMP%] {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill[_ngcontent-%COMP%] {\n  fill: var(--capturable);\n}\n.capturable-stroke[_ngcontent-%COMP%]:hover {\n  stroke-width: 8;\n}\n.no-fill[_ngcontent-%COMP%] {\n  fill: none;\n}\n.no-stroke[_ngcontent-%COMP%] {\n  stroke: none;\n}\n.small-stroke[_ngcontent-%COMP%] {\n  stroke-width: 2;\n}\n.mid-small-stroke[_ngcontent-%COMP%] {\n  stroke-width: 3;\n}\n.mid-stroke[_ngcontent-%COMP%] {\n  stroke-width: 5;\n}\n.big-stroke[_ngcontent-%COMP%] {\n  stroke-width: 8;\n}\n.huge-stroke[_ngcontent-%COMP%] {\n  stroke-width: 12;\n}\n.semi-transparent[_ngcontent-%COMP%] {\n  opacity: 0.5;\n}\n.territory-opacity[_ngcontent-%COMP%] {\n  fill-opacity: 0.7;\n}\n.round[_ngcontent-%COMP%] {\n  stroke-linecap: round;\n}\n.text-giant[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big[_ngcontent-%COMP%] {\n  font: 50px sans-serif;\n}\n.backgrounded-text[_ngcontent-%COMP%] {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus[_ngcontent-%COMP%] {\n  font: 38px sans-serif;\n}\n.text-medium[_ngcontent-%COMP%] {\n  font: 35px sans-serif;\n}\n.text-small-plus[_ngcontent-%COMP%] {\n  font: 28px sans-serif;\n}\n.text-small[_ngcontent-%COMP%] {\n  font: 25px sans-serif;\n}\n.text-bold[_ngcontent-%COMP%] {\n  font-weight: bold;\n}\n.text-center[_ngcontent-%COMP%] {\n  text-anchor: middle;\n}\n.black-fill[_ngcontent-%COMP%] {\n  fill: black;\n}\n.darker[_ngcontent-%COMP%] {\n  filter: brightness(80%);\n}\n.lighter[_ngcontent-%COMP%] {\n  filter: brightness(110%);\n}\nsvg[_ngcontent-%COMP%] {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator[_ngcontent-%COMP%] {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */"] })), _a5);
+GoComponent = GoComponent_1 = __decorate9([
   Debug.log
 ], GoComponent);
 (() => {
@@ -19614,7 +19530,7 @@ GoComponent = __decorate9([
   }], () => [], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(GoComponent, { className: "GoComponent", filePath: "src/app/games/gos/go/go.component.ts", lineNumber: 31 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(GoComponent, { className: "GoComponent", filePath: "src/app/games/gos/go/go.component.ts", lineNumber: 30 });
 })();
 
 // src/app/games/gos/hexagonal-go/HexagonalGoRules.ts
@@ -19744,13 +19660,6 @@ var HexagonalGoMoveGenerator = class extends AbstractGoMoveGenerator {
   }
 };
 
-// src/app/games/gos/hexagonal-go/HexagonalGoMinimax.ts
-var HexagonalGoMinimax = class extends AbstractGoMinimax {
-  constructor() {
-    super(HexagonalGoRules.get(), new HexagonalGoMoveGenerator(), new HexagonalGoHeuristic());
-  }
-};
-
 // src/app/games/gos/hexagonal-go/hexagonal-go.component.ts
 var __decorate10 = function(decorators, target, key, desc) {
   var c = arguments.length, r2 = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d2;
@@ -19758,7 +19667,7 @@ var __decorate10 = function(decorators, target, key, desc) {
   else for (var i2 = decorators.length - 1; i2 >= 0; i2--) if (d2 = decorators[i2]) r2 = (c < 3 ? d2(r2) : c > 3 ? d2(target, key, r2) : d2(target, key)) || r2;
   return c > 3 && r2 && Object.defineProperty(target, key, r2), r2;
 };
-var _forTrack014 = ($index, $item) => $item.toString();
+var _forTrack014 = ($index, $item) => $item.coord.toString();
 function HexagonalGoComponent_For_2_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
@@ -19847,10 +19756,19 @@ var HexagonalGoComponent = class HexagonalGoComponent2 extends HexagonalGameComp
   constructor() {
     super();
     this.setRulesAndNode("HexagonalGo");
-    this.availableAIs = [
-      new HexagonalGoMinimax(),
-      new MCTS($localize`MCTS`, new HexagonalGoMoveGenerator(), this.rules)
-    ];
+    this.aiConfig = {
+      minimax: [{
+        id: "Territory",
+        name: $localize`Territory`,
+        heuristic: () => new HexagonalGoHeuristic(),
+        moveGenerator: () => new HexagonalGoMoveGenerator()
+      }],
+      mcts: [{
+        id: "default",
+        name: $localize`MCTS`,
+        moveGenerator: () => new HexagonalGoMoveGenerator()
+      }]
+    };
     this.encoder = GoMove.encoder;
     this.canPass = true;
     this.scores = MGPOptional.of(PlayerNumberMap.of(0, 0));
@@ -19971,11 +19889,11 @@ HexagonalGoComponent = __decorate10([
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(HexagonalGoComponent, [{
     type: Component,
-    args: [{ selector: "app-hexagonal-go", imports: [NgClass], template: '<svg xmlns="http://www.w3.org/2000/svg"\n     class="board"\n     [attr.viewBox]="getViewBox().toSVGString()"\n     preserveAspectRatio="xMidYMid meet">\n    @for (coordAndContent of getState().getCoordsAndContents(); track coordAndContent.toString()) {\n        <g id="click-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n           [attr.transform]="getHexaCenterTranslationAt(coordAndContent.coord)"\n           (click)="onClick(coordAndContent.coord)">\n            @if (coordAndContent.content.isReachable()) {\n                <polygon id="polygon-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n                         [attr.points]="getHexaPoints()"\n                         [ngClass]="getPlayerClassAt(coordAndContent.coord)"\n                         class="base mid-stroke"/>\n            }\n            @if (coordAndContent.content.isDead()) {\n                <g id="dead-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}">\n                    <polygon [attr.points]="getHexaDiagonalPoints()"\n                             class="base no-fill captured-stroke"/>\n                    />\n                </g>\n            }\n            @if (coordAndContent.content.isTerritory()) {\n                <polygon id="territory-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n                         [attr.points]="getHexaPoints()"\n                         [attr.transform]="getTerritoryHexagonalTransform()"\n                         [ngClass]="getPlayerClass(coordAndContent.content.player)"/>\n            }\n        </g>\n    }\n\n    @if (last.isPresent() && getState().isOnBoard(last.get())) {\n        <polygon id="last-{{ last.get().x }}-{{ last.get().y }}"\n                 [attr.transform]="getHexaCenterTranslationAt(last.get())"\n                 [attr.points]="getHexaPoints()"\n                 [ngClass]="getPlayerClassAt(last.get())"\n                 class="last-move-stroke big-stroke no-fill"/>\n    }\n\n</svg>\n', styles: ["/* src/app/components/game-components/game-component/game-component.scss */\n.base {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke {\n  stroke-width: 0;\n}\n.base.manual-stroke {\n  fill: var(--base-stroke);\n}\n.base-no-stroke {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text {\n  fill: var(--base-stroke);\n}\n.white-background {\n  fill: white;\n}\n.background {\n  fill: var(--spaces-fill);\n}\n.transparent {\n  opacity: 0;\n}\n.background2 {\n  fill: var(--alt-background-fill);\n}\n.background3 {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill {\n  fill: var(--player0);\n}\n.player0-alternate-fill {\n  fill: var(--player0-alternate);\n}\n.player0-stroke {\n  stroke: var(--player0);\n}\n.player1-fill {\n  fill: var(--player1);\n}\n.player1-alternate-fill {\n  fill: var(--player1-alternate);\n}\n.player1-stroke {\n  stroke: var(--player1);\n}\n.nonplayer-fill {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill {\n  fill: var(--pre-captured);\n}\n.captured-fill {\n  fill: var(--captured);\n}\n.captured-alternate-fill {\n  fill: var(--alt-captured);\n}\n.captured-stroke {\n  stroke: var(--captured);\n}\n.moved-fill {\n  fill: var(--moved);\n}\n.moved-stroke {\n  stroke: var(--moved);\n}\n.indicator {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill {\n  fill: var(--indicator);\n}\n.selectable-stroke {\n  stroke: var(--selectable);\n}\n.selectable > .base-no-stroke {\n  fill: var(--selectable);\n}\n.last-move-stroke {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke {\n  fill: var(--last-move);\n}\n.last-move-fill {\n  fill: var(--last-move);\n}\n.victory-fill {\n  fill: var(--victory);\n}\n.victory-stroke {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke {\n  fill: var(--victory);\n}\n.defeat-fill {\n  fill: var(--defeat);\n}\n.defeat-stroke {\n  stroke: var(--defeat);\n}\n.selected-fill {\n  fill: var(--selected);\n}\n.selected-stroke {\n  stroke: var(--selected);\n}\n.clickable-stroke {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill {\n  fill: var(--capturable);\n}\n.capturable-stroke:hover {\n  stroke-width: 8;\n}\n.no-fill {\n  fill: none;\n}\n.no-stroke {\n  stroke: none;\n}\n.small-stroke {\n  stroke-width: 2;\n}\n.mid-small-stroke {\n  stroke-width: 3;\n}\n.mid-stroke {\n  stroke-width: 5;\n}\n.big-stroke {\n  stroke-width: 8;\n}\n.huge-stroke {\n  stroke-width: 12;\n}\n.semi-transparent {\n  opacity: 0.5;\n}\n.territory-opacity {\n  fill-opacity: 0.7;\n}\n.round {\n  stroke-linecap: round;\n}\n.text-giant {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big {\n  font: 50px sans-serif;\n}\n.backgrounded-text {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus {\n  font: 38px sans-serif;\n}\n.text-medium {\n  font: 35px sans-serif;\n}\n.text-small-plus {\n  font: 28px sans-serif;\n}\n.text-small {\n  font: 25px sans-serif;\n}\n.text-bold {\n  font-weight: bold;\n}\n.text-center {\n  text-anchor: middle;\n}\n.black-fill {\n  fill: black;\n}\n.darker {\n  filter: brightness(80%);\n}\n.lighter {\n  filter: brightness(110%);\n}\nsvg {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */\n"] }]
+    args: [{ selector: "app-hexagonal-go", imports: [NgClass], template: '<svg xmlns="http://www.w3.org/2000/svg"\n     class="board"\n     [attr.viewBox]="getViewBox().toSVGString()"\n     preserveAspectRatio="xMidYMid meet">\n    @for (coordAndContent of getState().getCoordsAndContents(); track coordAndContent.coord.toString()) {\n        <g id="click-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n           [attr.transform]="getHexaCenterTranslationAt(coordAndContent.coord)"\n           (click)="onClick(coordAndContent.coord)">\n            @if (coordAndContent.content.isReachable()) {\n                <polygon id="polygon-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n                         [attr.points]="getHexaPoints()"\n                         [ngClass]="getPlayerClassAt(coordAndContent.coord)"\n                         class="base mid-stroke"/>\n            }\n            @if (coordAndContent.content.isDead()) {\n                <g id="dead-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}">\n                    <polygon [attr.points]="getHexaDiagonalPoints()"\n                             class="base no-fill captured-stroke"/>\n                    />\n                </g>\n            }\n            @if (coordAndContent.content.isTerritory()) {\n                <polygon id="territory-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n                         [attr.points]="getHexaPoints()"\n                         [attr.transform]="getTerritoryHexagonalTransform()"\n                         [ngClass]="getPlayerClass(coordAndContent.content.player)"/>\n            }\n        </g>\n    }\n\n    @if (last.isPresent() && getState().isOnBoard(last.get())) {\n        <polygon id="last-{{ last.get().x }}-{{ last.get().y }}"\n                 [attr.transform]="getHexaCenterTranslationAt(last.get())"\n                 [attr.points]="getHexaPoints()"\n                 [ngClass]="getPlayerClassAt(last.get())"\n                 class="last-move-stroke big-stroke no-fill"/>\n    }\n\n</svg>\n', styles: ["/* src/app/components/game-components/game-component/game-component.scss */\n.base {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke {\n  stroke-width: 0;\n}\n.base.manual-stroke {\n  fill: var(--base-stroke);\n}\n.base-no-stroke {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text {\n  fill: var(--base-stroke);\n}\n.white-background {\n  fill: white;\n}\n.background {\n  fill: var(--spaces-fill);\n}\n.transparent {\n  opacity: 0;\n}\n.background2 {\n  fill: var(--alt-background-fill);\n}\n.background3 {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill {\n  fill: var(--player0);\n}\n.player0-alternate-fill {\n  fill: var(--player0-alternate);\n}\n.player0-stroke {\n  stroke: var(--player0);\n}\n.player1-fill {\n  fill: var(--player1);\n}\n.player1-alternate-fill {\n  fill: var(--player1-alternate);\n}\n.player1-stroke {\n  stroke: var(--player1);\n}\n.nonplayer-fill {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill {\n  fill: var(--pre-captured);\n}\n.captured-fill {\n  fill: var(--captured);\n}\n.captured-alternate-fill {\n  fill: var(--alt-captured);\n}\n.captured-stroke {\n  stroke: var(--captured);\n}\n.moved-fill {\n  fill: var(--moved);\n}\n.moved-stroke {\n  stroke: var(--moved);\n}\n.indicator {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill {\n  fill: var(--indicator);\n}\n.selectable-stroke {\n  stroke: var(--selectable);\n}\n.selectable > .base-no-stroke {\n  fill: var(--selectable);\n}\n.last-move-stroke {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke {\n  fill: var(--last-move);\n}\n.last-move-fill {\n  fill: var(--last-move);\n}\n.victory-fill {\n  fill: var(--victory);\n}\n.victory-stroke {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke {\n  fill: var(--victory);\n}\n.defeat-fill {\n  fill: var(--defeat);\n}\n.defeat-stroke {\n  stroke: var(--defeat);\n}\n.selected-fill {\n  fill: var(--selected);\n}\n.selected-stroke {\n  stroke: var(--selected);\n}\n.clickable-stroke {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill {\n  fill: var(--capturable);\n}\n.capturable-stroke:hover {\n  stroke-width: 8;\n}\n.no-fill {\n  fill: none;\n}\n.no-stroke {\n  stroke: none;\n}\n.small-stroke {\n  stroke-width: 2;\n}\n.mid-small-stroke {\n  stroke-width: 3;\n}\n.mid-stroke {\n  stroke-width: 5;\n}\n.big-stroke {\n  stroke-width: 8;\n}\n.huge-stroke {\n  stroke-width: 12;\n}\n.semi-transparent {\n  opacity: 0.5;\n}\n.territory-opacity {\n  fill-opacity: 0.7;\n}\n.round {\n  stroke-linecap: round;\n}\n.text-giant {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big {\n  font: 50px sans-serif;\n}\n.backgrounded-text {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus {\n  font: 38px sans-serif;\n}\n.text-medium {\n  font: 35px sans-serif;\n}\n.text-small-plus {\n  font: 28px sans-serif;\n}\n.text-small {\n  font: 25px sans-serif;\n}\n.text-bold {\n  font-weight: bold;\n}\n.text-center {\n  text-anchor: middle;\n}\n.black-fill {\n  fill: black;\n}\n.darker {\n  filter: brightness(80%);\n}\n.lighter {\n  filter: brightness(110%);\n}\nsvg {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */\n"] }]
   }], () => [], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(HexagonalGoComponent, { className: "HexagonalGoComponent", filePath: "src/app/games/gos/hexagonal-go/hexagonal-go.component.ts", lineNumber: 33 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(HexagonalGoComponent, { className: "HexagonalGoComponent", filePath: "src/app/games/gos/hexagonal-go/hexagonal-go.component.ts", lineNumber: 32 });
 })();
 
 // src/app/games/gos/triangular-go/TriangularGoRules.ts
@@ -20074,13 +19992,6 @@ var TriangularGoHeuristic = class extends AbstractGoHeuristic {
 var TriangularGoMoveGenerator = class extends AbstractGoMoveGenerator {
   constructor() {
     super(TriangularGoRules.get());
-  }
-};
-
-// src/app/games/gos/triangular-go/TriangularGoMinimax.ts
-var TriangularGoMinimax = class extends AbstractGoMinimax {
-  constructor() {
-    super(TriangularGoRules.get(), new TriangularGoMoveGenerator(), new TriangularGoHeuristic());
   }
 };
 
@@ -20212,10 +20123,19 @@ var TriangularGoComponent = class TriangularGoComponent2 extends TriangularGameC
   constructor() {
     super();
     this.setRulesAndNode("TriangularGo");
-    this.availableAIs = [
-      new TriangularGoMinimax(),
-      new MCTS($localize`MCTS`, new TriangularGoMoveGenerator(), this.rules)
-    ];
+    this.aiConfig = {
+      minimax: [{
+        id: "Territory",
+        name: $localize`Territory`,
+        heuristic: () => new TriangularGoHeuristic(),
+        moveGenerator: () => new TriangularGoMoveGenerator()
+      }],
+      mcts: [{
+        id: "default",
+        name: $localize`MCTS`,
+        moveGenerator: () => new TriangularGoMoveGenerator()
+      }]
+    };
     this.encoder = GoMove.encoder;
     this.canPass = true;
     this.scores = MGPOptional.of(PlayerNumberMap.of(0, 0));
@@ -20361,7 +20281,7 @@ TriangularGoComponent = __decorate11([
   }], () => [], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(TriangularGoComponent, { className: "TriangularGoComponent", filePath: "src/app/games/gos/triangular-go/triangular-go.component.ts", lineNumber: 33 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(TriangularGoComponent, { className: "TriangularGoComponent", filePath: "src/app/games/gos/triangular-go/triangular-go.component.ts", lineNumber: 32 });
 })();
 
 // src/app/jscaip/DodecaHexaDirection.ts
@@ -20757,17 +20677,10 @@ var HexodiaMoveGenerator = class extends MoveGenerator {
   }
 };
 
-// src/app/games/hexodia/HexodiaAlignmentMinimax.ts
-var HexodiaAlignmentMinimax = class extends Minimax {
-  constructor() {
-    super($localize`Alignment`, HexodiaRules.get(), new HexodiaAlignmentHeuristic(), new HexodiaMoveGenerator());
-  }
-};
-
 // src/app/games/hexodia/hexodia.component.ts
 var _c06 = (a0) => ["moved-stroke", a0];
 var _forTrack016 = ($index, $item) => $item.coord.toString();
-var _forTrack17 = ($index, $item) => $item.toString();
+var _forTrack110 = ($index, $item) => $item.toString();
 function HexodiaComponent_For_2_Conditional_1_Conditional_2_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
@@ -20848,10 +20761,19 @@ var HexodiaComponent = class _HexodiaComponent extends HexagonalGameComponent {
   constructor() {
     super();
     this.setRulesAndNode("Hexodia");
-    this.availableAIs = [
-      new HexodiaAlignmentMinimax(),
-      new MCTS($localize`MCTS`, new HexodiaMoveGenerator(), this.rules)
-    ];
+    this.aiConfig = {
+      minimax: [{
+        id: "Alignment",
+        name: $localize`Alignment`,
+        heuristic: () => new HexodiaAlignmentHeuristic(),
+        moveGenerator: () => new HexodiaMoveGenerator()
+      }],
+      mcts: [{
+        id: "default",
+        name: $localize`MCTS`,
+        moveGenerator: () => new HexodiaMoveGenerator()
+      }]
+    };
     this.encoder = HexodiaMove.encoder;
     this.SPACE_SIZE = 30;
     this.setHexaLayout();
@@ -20944,7 +20866,7 @@ var HexodiaComponent = class _HexodiaComponent extends HexagonalGameComponent {
       \u0275\u0275namespaceSVG();
       \u0275\u0275elementStart(0, "svg", 0);
       \u0275\u0275repeaterCreate(1, HexodiaComponent_For_2_Template, 2, 1, ":svg:g", null, _forTrack016);
-      \u0275\u0275repeaterCreate(3, HexodiaComponent_For_4_Template, 2, 8, ":svg:g", null, _forTrack17);
+      \u0275\u0275repeaterCreate(3, HexodiaComponent_For_4_Template, 2, 8, ":svg:g", null, _forTrack110);
       \u0275\u0275elementEnd();
     }
     if (rf & 2) {
@@ -21002,7 +20924,7 @@ var HexodiaComponent = class _HexodiaComponent extends HexagonalGameComponent {
   }], () => [], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(HexodiaComponent, { className: "HexodiaComponent", filePath: "src/app/games/hexodia/hexodia.component.ts", lineNumber: 28 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(HexodiaComponent, { className: "HexodiaComponent", filePath: "src/app/games/hexodia/hexodia.component.ts", lineNumber: 27 });
 })();
 
 // src/app/games/hive/HiveFailure.ts
@@ -21985,13 +21907,6 @@ var HiveMoveGenerator = class extends MoveGenerator {
   }
 };
 
-// src/app/games/hive/HiveMinimax.ts
-var HiveMinimax = class extends Minimax {
-  constructor() {
-    super($localize`Minimax`, HiveRules.get(), new HiveHeuristic(), new HiveMoveGenerator());
-  }
-};
-
 // src/app/games/hive/hive-piece.component.ts
 var _c07 = ["app-hive-piece", ""];
 function HivePieceComponent_Conditional_7_Template(rf, ctx) {
@@ -22440,10 +22355,19 @@ var HiveComponent = class _HiveComponent extends HexagonalGameComponent {
   constructor() {
     super();
     this.setRulesAndNode("Hive");
-    this.availableAIs = [
-      new HiveMinimax(),
-      new MCTS($localize`MCTS`, new HiveMoveGenerator(), this.rules)
-    ];
+    this.aiConfig = {
+      minimax: [{
+        id: "Mobility",
+        name: $localize`Mobility`,
+        heuristic: () => new HiveHeuristic(),
+        moveGenerator: () => new HiveMoveGenerator()
+      }],
+      mcts: [{
+        id: "default",
+        name: $localize`MCTS`,
+        moveGenerator: () => new HiveMoveGenerator()
+      }]
+    };
     this.encoder = HiveMove.encoder;
     this.SPACE_SIZE = 30;
     this.PIECE_HEIGHT = this.SPACE_SIZE / 3;
@@ -22921,7 +22845,7 @@ var HiveComponent = class _HiveComponent extends HexagonalGameComponent {
   }], () => [], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(HiveComponent, { className: "HiveComponent", filePath: "src/app/games/hive/hive.component.ts", lineNumber: 109 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(HiveComponent, { className: "HiveComponent", filePath: "src/app/games/hive/hive.component.ts", lineNumber: 108 });
 })();
 
 // src/app/games/kamisado/KamisadoColor.ts
@@ -23427,13 +23351,6 @@ var KamisadoMoveGenerator = class extends MoveGenerator {
   }
 };
 
-// src/app/games/kamisado/KamisadoMinimax.ts
-var KamisadoMinimax = class extends Minimax {
-  constructor() {
-    super($localize`Minimax`, KamisadoRules.get(), new KamisadoHeuristic(), new KamisadoMoveGenerator());
-  }
-};
-
 // src/app/games/kamisado/kamisado.component.ts
 function KamisadoComponent_For_2_For_2_Conditional_3_Template(rf, ctx) {
   if (rf & 1) {
@@ -23544,10 +23461,19 @@ var KamisadoComponent = class _KamisadoComponent extends RectangularGameComponen
   constructor() {
     super();
     this.setRulesAndNode("Kamisado");
-    this.availableAIs = [
-      new KamisadoMinimax(),
-      new MCTS($localize`MCTS`, new KamisadoMoveGenerator(), this.rules)
-    ];
+    this.aiConfig = {
+      minimax: [{
+        id: "Advancement",
+        name: $localize`Advancement`,
+        heuristic: () => new KamisadoHeuristic(),
+        moveGenerator: () => new KamisadoMoveGenerator()
+      }],
+      mcts: [{
+        id: "default",
+        name: $localize`MCTS`,
+        moveGenerator: () => new KamisadoMoveGenerator()
+      }]
+    };
     this.encoder = KamisadoMove.encoder;
     this.hasAsymmetricBoard = true;
   }
@@ -23678,7 +23604,7 @@ var KamisadoComponent = class _KamisadoComponent extends RectangularGameComponen
   }], () => [], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(KamisadoComponent, { className: "KamisadoComponent", filePath: "src/app/games/kamisado/kamisado.component.ts", lineNumber: 28 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(KamisadoComponent, { className: "KamisadoComponent", filePath: "src/app/games/kamisado/kamisado.component.ts", lineNumber: 27 });
 })();
 
 // src/app/games/lines-of-action/LinesOfActionFailure.ts
@@ -24024,13 +23950,6 @@ var LinesOfActionMoveGenerator = class extends MoveGenerator {
   }
 };
 
-// src/app/games/lines-of-action/LinesOfActionMinimax.ts
-var LinesOfActionMinimax = class extends Minimax {
-  constructor() {
-    super($localize`Minimax`, LinesOfActionRules.get(), new LinesOfActionHeuristic(), new LinesOfActionMoveGenerator());
-  }
-};
-
 // src/app/games/lines-of-action/lines-of-action.component.ts
 var _forTrack018 = ($index, $item) => $item.toString();
 function LinesOfActionComponent_For_2_For_2_Conditional_3_Template(rf, ctx) {
@@ -24116,10 +24035,19 @@ var LinesOfActionComponent = class _LinesOfActionComponent extends RectangularGa
   constructor() {
     super();
     this.setRulesAndNode("LinesOfAction");
-    this.availableAIs = [
-      new LinesOfActionMinimax(),
-      new MCTS($localize`MCTS`, new LinesOfActionMoveGenerator(), this.rules)
-    ];
+    this.aiConfig = {
+      minimax: [{
+        id: "Groups",
+        name: $localize`Groups`,
+        heuristic: () => new LinesOfActionHeuristic(),
+        moveGenerator: () => new LinesOfActionMoveGenerator()
+      }],
+      mcts: [{
+        id: "default",
+        name: $localize`MCTS`,
+        moveGenerator: () => new LinesOfActionMoveGenerator()
+      }]
+    };
     this.encoder = LinesOfActionMove.encoder;
   }
   onClick(x2, y) {
@@ -24235,7 +24163,7 @@ var LinesOfActionComponent = class _LinesOfActionComponent extends RectangularGa
   }], () => [], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(LinesOfActionComponent, { className: "LinesOfActionComponent", filePath: "src/app/games/lines-of-action/lines-of-action.component.ts", lineNumber: 25 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(LinesOfActionComponent, { className: "LinesOfActionComponent", filePath: "src/app/games/lines-of-action/lines-of-action.component.ts", lineNumber: 24 });
 })();
 
 // src/app/games/lodestone/LodestoneFailure.ts
@@ -25039,13 +24967,6 @@ var LodestoneScoreHeuristic = class extends PlayerMetricHeuristic {
   }
 };
 
-// src/app/games/lodestone/LodestoneScoreMinimax.ts
-var LodestoneScoreMinimax = class extends Minimax {
-  constructor() {
-    super($localize`Score`, LodestoneRules.get(), new LodestoneScoreHeuristic(), new LodestoneMoveGenerator());
-  }
-};
-
 // src/app/games/lodestone/lodestone-lodestone.component.ts
 var _c08 = ["app-lodestone-lodestone", ""];
 var _c12 = () => [0, 1, 2, 3];
@@ -25434,10 +25355,19 @@ var LodestoneComponent = class _LodestoneComponent extends GameComponent {
   constructor() {
     super();
     this.setRulesAndNode("Lodestone");
-    this.availableAIs = [
-      new LodestoneScoreMinimax(),
-      new MCTS($localize`MCTS`, new LodestoneMoveGenerator(), this.rules)
-    ];
+    this.aiConfig = {
+      minimax: [{
+        id: "Score",
+        name: $localize`Score`,
+        heuristic: () => new LodestoneScoreHeuristic(),
+        moveGenerator: () => new LodestoneMoveGenerator()
+      }],
+      mcts: [{
+        id: "default",
+        name: $localize`MCTS`,
+        moveGenerator: () => new LodestoneMoveGenerator()
+      }]
+    };
     this.encoder = LodestoneMove.encoder;
     this.PIECE_RADIUS = (this.SPACE_SIZE - 2 * this.STROKE_WIDTH) * 0.5;
     this.displayedState = this.getState();
@@ -26066,7 +25996,7 @@ var LodestoneComponent = class _LodestoneComponent extends GameComponent {
   }], () => [], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(LodestoneComponent, { className: "LodestoneComponent", filePath: "src/app/games/lodestone/lodestone.component.ts", lineNumber: 72 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(LodestoneComponent, { className: "LodestoneComponent", filePath: "src/app/games/lodestone/lodestone.component.ts", lineNumber: 71 });
 })();
 
 // src/app/games/mancala/common/MancalaFailure.ts
@@ -26655,13 +26585,6 @@ var MancalaScoreHeuristic = class extends PlayerMetricHeuristicWithBounds {
   }
 };
 
-// src/app/games/mancala/common/MancalaScoreMinimax.ts
-var MancalaScoreMinimax = class extends Minimax {
-  constructor(rules, moveGenerator) {
-    super($localize`Score`, rules, new MancalaScoreHeuristic(), moveGenerator);
-  }
-};
-
 // src/app/games/mancala/common/MancalaComponent.ts
 var MancalaComponent = class _MancalaComponent extends RectangularGameComponent {
   static TIMEOUT_BETWEEN_SEEDS = 100;
@@ -26995,12 +26918,29 @@ var MancalaComponent = class _MancalaComponent extends RectangularGameComponent 
     this.board = this.constructedState.board;
     this.cdr.detectChanges();
   }
-  createAIs(moveGenerator) {
-    return [
-      new MancalaScoreMinimax(this.rules, moveGenerator),
-      new MCTS($localize`MCTS`, moveGenerator, this.rules),
-      new MCTSWithHeuristic($localize`MCTS with heuristic`, moveGenerator, this.rules, new MancalaScoreHeuristic())
-    ];
+  createAIConfig(moveGenerator) {
+    return {
+      minimax: [{
+        id: "score",
+        name: $localize`Score`,
+        heuristic: () => new MancalaScoreHeuristic(),
+        moveGenerator: () => moveGenerator,
+        hash: (state) => `${state.turn % 2}-${JSON.stringify(state.board)}-${JSON.stringify(state.scores)}`
+      }],
+      mcts: [
+        {
+          id: "default",
+          name: $localize`Default`,
+          moveGenerator: () => moveGenerator
+        },
+        {
+          id: "Score",
+          name: $localize`Score`,
+          moveGenerator: () => moveGenerator,
+          heuristic: () => new MancalaScoreHeuristic()
+        }
+      ]
+    };
   }
   /**
    * Used to create or update this.currentMove
@@ -27194,7 +27134,7 @@ var AwaleComponent = class _AwaleComponent extends MancalaComponent {
   constructor() {
     super();
     this.setRulesAndNode("Awale");
-    this.availableAIs = this.createAIs(new AwaleMoveGenerator());
+    this.aiConfig = this.createAIConfig(new AwaleMoveGenerator());
     this.encoder = MancalaMove.encoder;
   }
   static \u0275fac = function AwaleComponent_Factory(__ngFactoryType__) {
@@ -27412,7 +27352,7 @@ var BaAwaComponent = class _BaAwaComponent extends MancalaComponent {
   constructor() {
     super();
     this.setRulesAndNode("BaAwa");
-    this.availableAIs = this.createAIs(new BaAwaMoveGenerator());
+    this.aiConfig = this.createAIConfig(new BaAwaMoveGenerator());
     this.encoder = MancalaMove.encoder;
   }
   static \u0275fac = function BaAwaComponent_Factory(__ngFactoryType__) {
@@ -27613,7 +27553,7 @@ var KalahComponent = class _KalahComponent extends MancalaComponent {
   constructor() {
     super();
     this.setRulesAndNode("Kalah");
-    this.availableAIs = this.createAIs(new KalahMoveGenerator());
+    this.aiConfig = this.createAIConfig(new KalahMoveGenerator());
     this.encoder = MancalaMove.encoder;
   }
   static \u0275fac = function KalahComponent_Factory(__ngFactoryType__) {
@@ -28347,13 +28287,6 @@ var MartianChessScoreHeuristic = class extends PlayerMetricHeuristic {
   }
 };
 
-// src/app/games/martian-chess/MartianChessScoreMinimax.ts
-var MartianChessScoreMinimax = class extends Minimax {
-  constructor() {
-    super($localize`Score`, MartianChessRules.get(), new MartianChessScoreHeuristic(), new MartianChessMoveGenerator());
-  }
-};
-
 // src/app/games/martian-chess/martian-chess-drone.component.ts
 var _c010 = ["app-martian-chess-drone", ""];
 function MartianChessDroneComponent_Conditional_0_Template(rf, ctx) {
@@ -28918,8 +28851,9 @@ var MartianChessQueenComponent = class _MartianChessQueenComponent {
 // src/app/games/martian-chess/martian-chess.component.ts
 var _c013 = (a0) => [a0];
 var _forTrack019 = ($index, $item) => $item.coord.toString();
-var _forTrack18 = ($index, $item) => $item.toString();
-var _forTrack22 = ($index, $item) => $item.name;
+var _forTrack111 = ($index, $item) => $item.getValue();
+var _forTrack23 = ($index, $item) => $item.toString();
+var _forTrack3 = ($index, $item) => $item.name;
 function MartianChessComponent_For_3_Conditional_2_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
@@ -29025,7 +28959,7 @@ function MartianChessComponent_Conditional_4_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
     \u0275\u0275elementStart(0, "g");
-    \u0275\u0275repeaterCreate(1, MartianChessComponent_Conditional_4_For_2_Template, 1, 8, ":svg:rect", 20, _forTrack18);
+    \u0275\u0275repeaterCreate(1, MartianChessComponent_Conditional_4_For_2_Template, 1, 8, ":svg:rect", 20, _forTrack23);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -29089,7 +29023,7 @@ function MartianChessComponent_Conditional_14_Template(rf, ctx) {
     \u0275\u0275namespaceSVG();
     \u0275\u0275elementStart(0, "g", 10);
     \u0275\u0275element(1, "rect", 22);
-    \u0275\u0275repeaterCreate(2, MartianChessComponent_Conditional_14_For_3_Template, 2, 7, ":svg:ng-container", null, _forTrack22);
+    \u0275\u0275repeaterCreate(2, MartianChessComponent_Conditional_14_For_3_Template, 2, 7, ":svg:ng-container", null, _forTrack3);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -29249,10 +29183,19 @@ var MartianChessComponent = class _MartianChessComponent extends RectangularGame
   constructor() {
     super();
     this.setRulesAndNode("MartianChess");
-    this.availableAIs = [
-      new MartianChessScoreMinimax(),
-      new MCTS($localize`MCTS`, new MartianChessMoveGenerator(), this.rules)
-    ];
+    this.aiConfig = {
+      minimax: [{
+        id: "Score",
+        name: $localize`Score`,
+        heuristic: () => new MartianChessScoreHeuristic(),
+        moveGenerator: () => new MartianChessMoveGenerator()
+      }],
+      mcts: [{
+        id: "default",
+        name: $localize`MCTS`,
+        moveGenerator: () => new MartianChessMoveGenerator()
+      }]
+    };
     this.encoder = MartianChessMove.encoder;
     this.hasAsymmetricBoard = true;
     this.scores = MGPOptional.of(PlayerNumberMap.of(0, 0));
@@ -29512,7 +29455,7 @@ var MartianChessComponent = class _MartianChessComponent extends RectangularGame
       \u0275\u0275conditionalCreate(14, MartianChessComponent_Conditional_14_Template, 4, 3, ":svg:g", 10);
       \u0275\u0275elementEnd();
       \u0275\u0275elementStart(15, "g", 11);
-      \u0275\u0275repeaterCreate(16, MartianChessComponent_For_17_Template, 4, 3, ":svg:g", null, \u0275\u0275repeaterTrackByIdentity);
+      \u0275\u0275repeaterCreate(16, MartianChessComponent_For_17_Template, 4, 3, ":svg:g", null, _forTrack111);
       \u0275\u0275elementEnd()();
     }
     if (rf & 2) {
@@ -29670,7 +29613,7 @@ var MartianChessComponent = class _MartianChessComponent extends RectangularGame
         }
     </g>
     <g id="captures">
-        @for (player of Player.PLAYERS; track player) {
+        @for (player of Player.PLAYERS; track player.getValue()) {
             <g>
                 <g id="capture-of-player-{{ player.toString() }}"
                    [attr.transform]="getCapturesTransformation(player)">
@@ -29715,7 +29658,7 @@ var MartianChessComponent = class _MartianChessComponent extends RectangularGame
   }], () => [], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(MartianChessComponent, { className: "MartianChessComponent", filePath: "src/app/games/martian-chess/martian-chess.component.ts", lineNumber: 57 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(MartianChessComponent, { className: "MartianChessComponent", filePath: "src/app/games/martian-chess/martian-chess.component.ts", lineNumber: 56 });
 })();
 
 // src/app/games/p4/P4Failure.ts
@@ -29735,8 +29678,8 @@ var __decorate12 = function(decorators, target, key, desc) {
   return c > 3 && r2 && Object.defineProperty(target, key, r2), r2;
 };
 var P4Rules_1;
-var _a5;
-var P4Rules = (_a5 = class extends ConfigurableRules {
+var _a6;
+var P4Rules = (_a6 = class extends ConfigurableRules {
   static get() {
     if (P4Rules_1.singleton.isAbsent()) {
       P4Rules_1.singleton = MGPOptional.of(new P4Rules_1());
@@ -29791,13 +29734,13 @@ var P4Rules = (_a5 = class extends ConfigurableRules {
     }
     return y - 1;
   }
-}, P4Rules_1 = _a5, __publicField(_a5, "singleton", MGPOptional.empty()), __publicField(_a5, "RULES_CONFIG_DESCRIPTION", new RulesConfigDescription({
+}, P4Rules_1 = _a6, __publicField(_a6, "singleton", MGPOptional.empty()), __publicField(_a6, "RULES_CONFIG_DESCRIPTION", new RulesConfigDescription({
   name: () => $localize`Four in a Row`,
   config: {
     width: new NumberConfig(7, RulesConfigDescriptionLocalizable.WIDTH, MGPValidators.range(1, 99)),
     height: new NumberConfig(6, RulesConfigDescriptionLocalizable.HEIGHT, MGPValidators.range(1, 99))
   }
-})), _a5);
+})), _a6);
 P4Rules = P4Rules_1 = __decorate12([
   Debug.log
 ], P4Rules);
@@ -29926,13 +29869,6 @@ var P4OrderedMoveGenerator = class extends P4MoveGenerator {
   }
 };
 
-// src/app/games/p4/P4Minimax.ts
-var P4Minimax = class extends Minimax {
-  constructor() {
-    super($localize`Minimax`, P4Rules.get(), new P4Heuristic(), new P4OrderedMoveGenerator());
-  }
-};
-
 // src/app/games/p4/p4.component.ts
 var _forTrack020 = ($index, $item) => $item.toString();
 function P4Component_For_2_For_2_Conditional_2_Template(rf, ctx) {
@@ -30017,12 +29953,49 @@ var P4Component = class _P4Component extends RectangularGameComponent {
   constructor() {
     super();
     this.setRulesAndNode("P4");
-    this.availableAIs = [
-      new P4Minimax(),
-      new MCTS($localize`MCTS`, new P4MoveGenerator(), this.rules),
-      new MCTSWithHeuristic($localize`MCTS with heuristic`, new P4MoveGenerator(), this.rules, new P4Heuristic())
-    ];
+    this.aiConfig = {
+      minimax: [
+        {
+          id: "alignment",
+          name: $localize`Alignment`,
+          heuristic: () => new P4Heuristic(),
+          moveGenerator: () => new P4OrderedMoveGenerator(),
+          hash: _P4Component.hash
+        }
+      ],
+      mcts: [
+        {
+          id: "default",
+          name: $localize`Default`,
+          moveGenerator: () => new P4MoveGenerator()
+        },
+        {
+          id: "alignment",
+          name: $localize`Alignment`,
+          heuristic: () => new P4Heuristic(),
+          moveGenerator: () => new P4OrderedMoveGenerator()
+        }
+      ]
+    };
     this.encoder = P4Move.encoder;
+  }
+  static hash(state) {
+    let result = "";
+    for (const line of state.board) {
+      for (const cell of line) {
+        switch (cell) {
+          case Player.ZERO:
+            result += "0";
+            break;
+          case Player.ONE:
+            result += "1";
+            break;
+          default:
+            result += "_";
+        }
+      }
+    }
+    return result;
   }
   onClick(x2, y) {
     return __async(this, null, function* () {
@@ -30085,7 +30058,7 @@ var P4Component = class _P4Component extends RectangularGameComponent {
   }], () => [], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(P4Component, { className: "P4Component", filePath: "src/app/games/p4/p4.component.ts", lineNumber: 25 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(P4Component, { className: "P4Component", filePath: "src/app/games/p4/p4.component.ts", lineNumber: 23 });
 })();
 
 // src/app/games/pentago/PentagoFailure.ts
@@ -30436,17 +30409,10 @@ var PentagoMoveGenerator = class _PentagoMoveGenerator extends MoveGenerator {
   }
 };
 
-// src/app/games/pentago/PentagoDummyMinimax.ts
-var PentagoDummyMinimax = class extends Minimax {
-  constructor() {
-    super($localize`Dummy`, PentagoRules.get(), new DummyHeuristic(), new PentagoMoveGenerator());
-  }
-};
-
 // src/app/games/pentago/pentago.component.ts
 var _c014 = (a0) => [0, a0];
 var _forTrack021 = ($index, $item) => $item.coord.toString();
-var _forTrack19 = ($index, $item) => $item.toString();
+var _forTrack112 = ($index, $item) => $item.toString();
 function PentagoComponent_For_8_For_2_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
@@ -30597,10 +30563,19 @@ var PentagoComponent = class _PentagoComponent extends RectangularGameComponent 
   constructor() {
     super();
     this.setRulesAndNode("Pentago");
-    this.availableAIs = [
-      new PentagoDummyMinimax(),
-      new MCTS($localize`MCTS`, new PentagoMoveGenerator(), this.rules)
-    ];
+    this.aiConfig = {
+      minimax: [{
+        id: "Dummy",
+        name: $localize`Dummy`,
+        heuristic: () => new DummyHeuristic(),
+        moveGenerator: () => new PentagoMoveGenerator()
+      }],
+      mcts: [{
+        id: "default",
+        name: $localize`Default`,
+        moveGenerator: () => new PentagoMoveGenerator()
+      }]
+    };
     this.encoder = PentagoMove.encoder;
     this.PIECE_SEPARATION = 4 * this.STROKE_WIDTH;
     const blockPadding = this.STROKE_WIDTH;
@@ -30810,7 +30785,7 @@ var PentagoComponent = class _PentagoComponent extends RectangularGameComponent 
       \u0275\u0275conditionalCreate(11, PentagoComponent_Conditional_11_Template, 1, 8, ":svg:circle", 4);
       \u0275\u0275repeaterCreate(12, PentagoComponent_For_13_Template, 2, 5, ":svg:ng-container", null, \u0275\u0275repeaterTrackByIndex);
       \u0275\u0275conditionalCreate(14, PentagoComponent_Conditional_14_Template, 1, 5, ":svg:path", 5);
-      \u0275\u0275repeaterCreate(15, PentagoComponent_For_16_Template, 1, 9, ":svg:circle", 6, _forTrack19);
+      \u0275\u0275repeaterCreate(15, PentagoComponent_For_16_Template, 1, 9, ":svg:circle", 6, _forTrack112);
       \u0275\u0275conditionalCreate(17, PentagoComponent_Conditional_17_Template, 3, 9, ":svg:g", 7);
       \u0275\u0275elementEnd();
     }
@@ -30958,7 +30933,7 @@ var PentagoComponent = class _PentagoComponent extends RectangularGameComponent 
   }], () => [], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(PentagoComponent, { className: "PentagoComponent", filePath: "src/app/games/pentago/pentago.component.ts", lineNumber: 33 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(PentagoComponent, { className: "PentagoComponent", filePath: "src/app/games/pentago/pentago.component.ts", lineNumber: 32 });
 })();
 
 // src/app/games/pente/PenteState.ts
@@ -31188,16 +31163,9 @@ var PenteMoveGenerator = class extends MoveGenerator {
   }
 };
 
-// src/app/games/pente/PenteAlignmentMinimax.ts
-var PenteAlignmentMinimax = class extends Minimax {
-  constructor() {
-    super($localize`Alignment`, PenteRules.get(), new PenteAlignmentHeuristic(), new PenteMoveGenerator());
-  }
-};
-
 // src/app/games/pente/pente.component.ts
 var _forTrack022 = ($index, $item) => $item.coord.toString();
-var _forTrack110 = ($index, $item) => $item.toString();
+var _forTrack113 = ($index, $item) => $item.toString();
 function PenteComponent_For_3_Template(rf, ctx) {
   if (rf & 1) {
     const _r1 = \u0275\u0275getCurrentView();
@@ -31243,10 +31211,19 @@ var PenteComponent = class _PenteComponent extends GobanGameComponent {
   constructor() {
     super();
     this.setRulesAndNode("Pente");
-    this.availableAIs = [
-      new PenteAlignmentMinimax(),
-      new MCTS($localize`MCTS`, new PenteMoveGenerator(), this.rules)
-    ];
+    this.aiConfig = {
+      minimax: [{
+        id: "Alignment",
+        name: $localize`Alignment`,
+        heuristic: () => new PenteAlignmentHeuristic(),
+        moveGenerator: () => new PenteMoveGenerator()
+      }],
+      mcts: [{
+        id: "default",
+        name: $localize`MCTS`,
+        moveGenerator: () => new PenteMoveGenerator()
+      }]
+    };
     this.encoder = PenteMove.encoder;
     this.scores = MGPOptional.of(PlayerNumberMap.of(0, 0));
   }
@@ -31307,7 +31284,7 @@ var PenteComponent = class _PenteComponent extends GobanGameComponent {
       });
       \u0275\u0275elementEnd();
       \u0275\u0275repeaterCreate(2, PenteComponent_For_3_Template, 1, 7, ":svg:circle", 2, _forTrack022);
-      \u0275\u0275repeaterCreate(4, PenteComponent_For_5_Template, 1, 6, ":svg:circle", 3, _forTrack110);
+      \u0275\u0275repeaterCreate(4, PenteComponent_For_5_Template, 1, 6, ":svg:circle", 3, _forTrack113);
       \u0275\u0275elementEnd();
     }
     if (rf & 2) {
@@ -31328,7 +31305,7 @@ var PenteComponent = class _PenteComponent extends GobanGameComponent {
   }], () => [], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(PenteComponent, { className: "PenteComponent", filePath: "src/app/games/pente/pente.component.ts", lineNumber: 27 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(PenteComponent, { className: "PenteComponent", filePath: "src/app/games/pente/pente.component.ts", lineNumber: 26 });
 })();
 
 // src/app/games/pylos/PylosCoord.ts
@@ -31924,56 +31901,10 @@ var PylosMoveGenerator = class extends MoveGenerator {
   }
 };
 
-// src/app/games/pylos/PylosOrderedMoveGenerator.ts
-var PylosOrderedMoveGenerator = class extends PylosMoveGenerator {
-  getListMoves(node, config) {
-    const moves = super.getListMoves(node, config);
-    return this.orderMoves(moves);
-  }
-  orderMoves(moves) {
-    return moves.sort((a3, b5) => {
-      const captureA = 12 * this.countStoneUsed(a3);
-      const captureB = 12 * this.countStoneUsed(b5);
-      const emplacementA = this.sumMoveEmplacementByValue(a3);
-      const emplacementB = this.sumMoveEmplacementByValue(b5);
-      return captureA + emplacementA - (captureB + emplacementB);
-    });
-  }
-  countStoneUsed(move) {
-    let stoneUsed = move.isClimb() ? 0 : 1;
-    if (move.firstCapture.isPresent()) {
-      stoneUsed -= 1;
-      if (move.secondCapture.isPresent()) {
-        stoneUsed -= 1;
-      }
-    }
-    return stoneUsed;
-  }
-  sumMoveEmplacementByValue(move) {
-    let value = move.landingCoord.z;
-    if (move.startingCoord.isPresent()) {
-      value += 3 - move.startingCoord.get().z;
-    }
-    if (move.firstCapture.isPresent()) {
-      value += 3 - move.firstCapture.get().z;
-      if (move.secondCapture.isPresent()) {
-        value += 3 - move.secondCapture.get().z;
-      }
-    }
-    return value;
-  }
-};
-
-// src/app/games/pylos/PylosMinimax.ts
-var PylosMinimax = class extends Minimax {
-  constructor() {
-    super($localize`Minimax`, PylosRules.get(), new PylosHeuristic(), new PylosOrderedMoveGenerator());
-  }
-};
-
 // src/app/games/pylos/pylos.component.ts
 var _c015 = () => [0, 1, 2];
-var _forTrack023 = ($index, $item) => $item.toString();
+var _forTrack023 = ($index, $item) => $item.getValue();
+var _forTrack114 = ($index, $item) => $item.toString();
 function PylosComponent_For_3_For_2_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
@@ -32199,10 +32130,19 @@ var PylosComponent = class _PylosComponent extends GameComponent {
   constructor() {
     super();
     this.setRulesAndNode("Pylos");
-    this.availableAIs = [
-      new PylosMinimax(),
-      new MCTS($localize`MCTS`, new PylosMoveGenerator(), this.rules)
-    ];
+    this.aiConfig = {
+      minimax: [{
+        id: "Reserve",
+        name: $localize`Reserve`,
+        heuristic: () => new PylosHeuristic(),
+        moveGenerator: () => new PylosMoveGenerator()
+      }],
+      mcts: [{
+        id: "default",
+        name: $localize`MCTS`,
+        moveGenerator: () => new PylosMoveGenerator()
+      }]
+    };
     this.encoder = PylosMove.encoder;
     this.hasAsymmetricBoard = true;
   }
@@ -32503,14 +32443,14 @@ var PylosComponent = class _PylosComponent extends GameComponent {
     if (rf & 1) {
       \u0275\u0275namespaceSVG();
       \u0275\u0275elementStart(0, "svg", 1)(1, "g");
-      \u0275\u0275repeaterCreate(2, PylosComponent_For_3_Template, 3, 0, ":svg:g", null, \u0275\u0275repeaterTrackByIdentity);
+      \u0275\u0275repeaterCreate(2, PylosComponent_For_3_Template, 3, 0, ":svg:g", null, _forTrack023);
       \u0275\u0275elementEnd();
       \u0275\u0275elementStart(4, "g", null, 0);
       \u0275\u0275element(6, "rect", 2);
       \u0275\u0275repeaterCreate(7, PylosComponent_For_8_Template, 3, 0, ":svg:g", null, \u0275\u0275repeaterTrackByIdentity);
       \u0275\u0275conditionalCreate(9, PylosComponent_Conditional_9_Template, 1, 8, ":svg:rect", 3);
       \u0275\u0275conditionalCreate(10, PylosComponent_Conditional_10_Template, 3, 5, ":svg:g", 4);
-      \u0275\u0275repeaterCreate(11, PylosComponent_For_12_Template, 3, 13, ":svg:g", 5, _forTrack023);
+      \u0275\u0275repeaterCreate(11, PylosComponent_For_12_Template, 3, 13, ":svg:g", 5, _forTrack114);
       \u0275\u0275elementEnd()();
     }
     if (rf & 2) {
@@ -32543,7 +32483,7 @@ var PylosComponent = class _PylosComponent extends GameComponent {
      preserveAspectRatio="xMidYMid meet">
 
     <g [attr.transform]="'rotate(' + (getPointOfView().getValue() * 180) + ' ' + (boardWidth / 2) + ' ' + (boardHeight / 2) + ')'">
-        @for (player of Player.PLAYERS; track player) {
+        @for (player of Player.PLAYERS; track player.getValue()) {
             <g>
                 @for (p of getPlayerSidePieces(player); track $index) {
                     <circle id="piece_{{ player.toString() }}_{{ p }}"
@@ -32647,7 +32587,7 @@ var PylosComponent = class _PylosComponent extends GameComponent {
   }], () => [], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(PylosComponent, { className: "PylosComponent", filePath: "src/app/games/pylos/pylos.component.ts", lineNumber: 26 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(PylosComponent, { className: "PylosComponent", filePath: "src/app/games/pylos/pylos.component.ts", lineNumber: 25 });
 })();
 
 // src/app/jscaip/AI/AlignmentHeuristic.ts
@@ -33295,16 +33235,9 @@ var QuartoMoveGenerator = class extends MoveGenerator {
   }
 };
 
-// src/app/games/quarto/QuartoMinimax.ts
-var QuartoMinimax = class extends Minimax {
-  constructor() {
-    super($localize`Minimax`, QuartoRules.get(), new QuartoHeuristic(), new QuartoMoveGenerator());
-  }
-};
-
 // src/app/games/quarto/quarto.component.ts
 var _forTrack024 = ($index, $item) => $item.coord.toString();
-var _forTrack111 = ($index, $item) => $item.toString();
+var _forTrack115 = ($index, $item) => $item.toString();
 function QuartoComponent_For_3_Conditional_2_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
@@ -33636,10 +33569,19 @@ var QuartoComponent = class _QuartoComponent extends RectangularGameComponent {
   constructor() {
     super();
     this.setRulesAndNode("Quarto");
-    this.availableAIs = [
-      new QuartoMinimax(),
-      new MCTS($localize`MCTS`, new QuartoMoveGenerator(), this.rules)
-    ];
+    this.aiConfig = {
+      minimax: [{
+        id: "Alignment",
+        name: $localize`Alignment`,
+        heuristic: () => new QuartoHeuristic(),
+        moveGenerator: () => new QuartoMoveGenerator()
+      }],
+      mcts: [{
+        id: "default",
+        name: $localize`Default`,
+        moveGenerator: () => new QuartoMoveGenerator()
+      }]
+    };
     this.encoder = QuartoMove.encoder;
     this.pieceInHand = this.getState().pieceInHand;
   }
@@ -33750,7 +33692,7 @@ var QuartoComponent = class _QuartoComponent extends RectangularGameComponent {
       \u0275\u0275repeaterCreate(2, QuartoComponent_For_3_Template, 3, 8, ":svg:g", null, _forTrack024);
       \u0275\u0275conditionalCreate(4, QuartoComponent_Conditional_4_Template, 1, 7, ":svg:rect", 2);
       \u0275\u0275conditionalCreate(5, QuartoComponent_Conditional_5_Template, 5, 8, ":svg:g", 3);
-      \u0275\u0275repeaterCreate(6, QuartoComponent_For_7_Template, 2, 6, ":svg:g", null, _forTrack111);
+      \u0275\u0275repeaterCreate(6, QuartoComponent_For_7_Template, 2, 6, ":svg:g", null, _forTrack115);
       \u0275\u0275elementStart(8, "g");
       \u0275\u0275element(9, "rect", 4);
       \u0275\u0275conditionalCreate(10, QuartoComponent_Conditional_10_Template, 4, 2, ":svg:g", 5);
@@ -33969,7 +33911,7 @@ var QuartoComponent = class _QuartoComponent extends RectangularGameComponent {
   }], () => [], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(QuartoComponent, { className: "QuartoComponent", filePath: "src/app/games/quarto/quarto.component.ts", lineNumber: 24 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(QuartoComponent, { className: "QuartoComponent", filePath: "src/app/games/quarto/quarto.component.ts", lineNumber: 23 });
 })();
 
 // src/app/games/quebec-castles/QuebecCastlesMove.ts
@@ -34721,16 +34663,9 @@ var QuebecCastlesMoveGenerator = class extends MoveGenerator {
   }
 };
 
-// src/app/games/quebec-castles/QuebecCastlesMinimax.ts
-var QuebecCastlesMinimax = class extends Minimax {
-  constructor() {
-    super("Dummy", QuebecCastlesRules.get(), new DummyHeuristic(), new QuebecCastlesMoveGenerator());
-    this.random = true;
-  }
-};
-
 // src/app/games/quebec-castles/quebec-castles.component.ts
 var _forTrack025 = ($index, $item) => $item.coord.toString();
+var _forTrack116 = ($index, $item) => $item.getValue();
 function QuebecCastlesComponent_For_3_For_3_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
@@ -34794,7 +34729,7 @@ function QuebecCastlesComponent_For_3_Template(rf, ctx) {
       return \u0275\u0275resetView(ctx_r2.onClick(coordAndContent_r2.coord));
     });
     \u0275\u0275element(1, "rect", 4);
-    \u0275\u0275repeaterCreate(2, QuebecCastlesComponent_For_3_For_3_Template, 2, 1, ":svg:ng-container", null, \u0275\u0275repeaterTrackByIdentity);
+    \u0275\u0275repeaterCreate(2, QuebecCastlesComponent_For_3_For_3_Template, 2, 1, ":svg:ng-container", null, _forTrack116);
     \u0275\u0275conditionalCreate(4, QuebecCastlesComponent_For_3_Conditional_4_Template, 1, 7, ":svg:circle", 5);
     \u0275\u0275conditionalCreate(5, QuebecCastlesComponent_For_3_Conditional_5_Template, 1, 7, ":svg:rect", 6);
     \u0275\u0275elementEnd();
@@ -34893,10 +34828,22 @@ var QuebecCastlesComponent = class _QuebecCastlesComponent extends RectangularGa
   constructor() {
     super();
     this.setRulesAndNode("QuebecCastles");
-    this.availableAIs = [
-      new QuebecCastlesMinimax(),
-      new MCTS($localize`MCTS`, new QuebecCastlesMoveGenerator(), this.rules)
-    ];
+    this.aiConfig = {
+      minimax: [{
+        id: "Dummy",
+        name: "Dummy",
+        heuristic: () => {
+          return new DummyHeuristic();
+        },
+        moveGenerator: () => new QuebecCastlesMoveGenerator(),
+        useRandomness: true
+      }],
+      mcts: [{
+        id: "default",
+        name: $localize`MCTS`,
+        moveGenerator: () => new QuebecCastlesMoveGenerator()
+      }]
+    };
     this.encoder = QuebecCastlesMove.encoder;
     this.hasAsymmetricBoard = true;
     this.scores = MGPOptional.of(PlayerNumberMap.of(0, 0));
@@ -35217,11 +35164,11 @@ var QuebecCastlesComponent = class _QuebecCastlesComponent extends RectangularGa
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(QuebecCastlesComponent, [{
     type: Component,
-    args: [{ selector: "app-quebec-castles", imports: [NgClass], template: '<svg xmlns="http://www.w3.org/2000/svg"\n     class="board"\n     [attr.viewBox]="getViewBox().toSVGString()"\n     preserveAspectRatio="xMidYMid meet">\n    <g id="quebec"\n       [attr.transform]="getBoardTransform()">\n        @for (coordAndContent of constructedState.getCoordsAndContents(); track coordAndContent.coord.toString()) {\n            <g id="click-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n               [attr.transform]="getTranslationAt(coordAndContent.coord)"\n               (click)="onClick(coordAndContent.coord)">\n                <rect id="square-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n                      x="0"\n                      y="0"\n                      [attr.width]="SPACE_SIZE"\n                      [attr.height]="SPACE_SIZE"\n                      [ngClass]="getSquareClasses(coordAndContent.coord)"\n                      class="base"/>\n                @for (player of Player.PLAYERS; track player) {\n                    <ng-container>\n                        @if (isPlayerCastle(player, coordAndContent.coord)) {\n                            <g id="castle-{{ player.toString() }}-{{ getState().castles.get(player).get().x }}-{{ getState().castles.get(player).get().y }}"\n                               style="pointer-events: none">\n                                <polyline points="0 0, 100 100, 50 50, 100 0, 0, 100, 50 50, 0 50, 100 50, 50 50, 50 0, 50 100, 50 50"\n                                          class="base-no-fill"/>\n                            </g>\n                        }\n                    </ng-container>\n                }\n                @if (coordAndContent.content !== PlayerOrNone.NONE) {\n                    <circle id="piece-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n                            [attr.r]="(SPACE_SIZE / 2) - STROKE_WIDTH"\n                            [attr.cx]="SPACE_SIZE / 2"\n                            [attr.cy]="SPACE_SIZE / 2"\n                            [ngClass]="getPieceClasses(coordAndContent.coord)"\n                            class="base"/>\n                }\n                @if (possibleLanding.contains(coordAndContent.coord)) {\n                    <rect id="landing-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n                          [attr.x]="SPACE_SIZE * 0.4"\n                          [attr.y]="SPACE_SIZE * 0.4"\n                          [attr.width]="SPACE_SIZE * 0.2"\n                          [attr.height]="SPACE_SIZE * 0.2"\n                          class="indicator"/>\n                }\n            </g>\n        }\n    </g>\n    @if (isPlayerDropping()) {\n        <g>\n            @if (getNumberOfAwaitedDrop() === 0) {\n                <g id="drop-validator"\n                   (click)="validateGroupDrop()"\n                   [attr.transform]="getGroupValidatorTransform()">\n                    <circle [attr.cx]="STROKE_WIDTH / 2"\n                            [attr.cy]="STROKE_WIDTH / 2"\n                            [attr.r]="SPACE_SIZE / 2"\n                            fill="red"\n                            class="base-no-fill mid-stroke"\n                            [ngClass]="getGroupDropValidationButtonClasses()"/>\n                    <polygon points="-32.5,-2.5 -32.5,12.5 -10,35 -2.5,35 35,-21.25 25,-21.275 -5,25 -32.5,-2.5"\n                             fill="green"\n                             class="base-no-fill mid-stroke"/>\n                </g>\n            } @else {\n                @for (i of ArrayUtils.range(getNumberOfAwaitedDrop()); track i) {\n                    <circle id="remaining-piece-{{ i }}"\n                            [attr.cx]="getRemainingCx(i)"\n                            [attr.cy]="getRemainingCy()"\n                            class="base"\n                            [ngClass]="getRemaininPieceClasses()"\n                            [attr.r]="SPACE_SIZE / 2"/>\n                }\n            }\n        </g>\n    }\n</svg>\n', styles: ["/* src/app/components/game-components/game-component/game-component.scss */\n.base {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke {\n  stroke-width: 0;\n}\n.base.manual-stroke {\n  fill: var(--base-stroke);\n}\n.base-no-stroke {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text {\n  fill: var(--base-stroke);\n}\n.white-background {\n  fill: white;\n}\n.background {\n  fill: var(--spaces-fill);\n}\n.transparent {\n  opacity: 0;\n}\n.background2 {\n  fill: var(--alt-background-fill);\n}\n.background3 {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill {\n  fill: var(--player0);\n}\n.player0-alternate-fill {\n  fill: var(--player0-alternate);\n}\n.player0-stroke {\n  stroke: var(--player0);\n}\n.player1-fill {\n  fill: var(--player1);\n}\n.player1-alternate-fill {\n  fill: var(--player1-alternate);\n}\n.player1-stroke {\n  stroke: var(--player1);\n}\n.nonplayer-fill {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill {\n  fill: var(--pre-captured);\n}\n.captured-fill {\n  fill: var(--captured);\n}\n.captured-alternate-fill {\n  fill: var(--alt-captured);\n}\n.captured-stroke {\n  stroke: var(--captured);\n}\n.moved-fill {\n  fill: var(--moved);\n}\n.moved-stroke {\n  stroke: var(--moved);\n}\n.indicator {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill {\n  fill: var(--indicator);\n}\n.selectable-stroke {\n  stroke: var(--selectable);\n}\n.selectable > .base-no-stroke {\n  fill: var(--selectable);\n}\n.last-move-stroke {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke {\n  fill: var(--last-move);\n}\n.last-move-fill {\n  fill: var(--last-move);\n}\n.victory-fill {\n  fill: var(--victory);\n}\n.victory-stroke {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke {\n  fill: var(--victory);\n}\n.defeat-fill {\n  fill: var(--defeat);\n}\n.defeat-stroke {\n  stroke: var(--defeat);\n}\n.selected-fill {\n  fill: var(--selected);\n}\n.selected-stroke {\n  stroke: var(--selected);\n}\n.clickable-stroke {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill {\n  fill: var(--capturable);\n}\n.capturable-stroke:hover {\n  stroke-width: 8;\n}\n.no-fill {\n  fill: none;\n}\n.no-stroke {\n  stroke: none;\n}\n.small-stroke {\n  stroke-width: 2;\n}\n.mid-small-stroke {\n  stroke-width: 3;\n}\n.mid-stroke {\n  stroke-width: 5;\n}\n.big-stroke {\n  stroke-width: 8;\n}\n.huge-stroke {\n  stroke-width: 12;\n}\n.semi-transparent {\n  opacity: 0.5;\n}\n.territory-opacity {\n  fill-opacity: 0.7;\n}\n.round {\n  stroke-linecap: round;\n}\n.text-giant {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big {\n  font: 50px sans-serif;\n}\n.backgrounded-text {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus {\n  font: 38px sans-serif;\n}\n.text-medium {\n  font: 35px sans-serif;\n}\n.text-small-plus {\n  font: 28px sans-serif;\n}\n.text-small {\n  font: 25px sans-serif;\n}\n.text-bold {\n  font-weight: bold;\n}\n.text-center {\n  text-anchor: middle;\n}\n.black-fill {\n  fill: black;\n}\n.darker {\n  filter: brightness(80%);\n}\n.lighter {\n  filter: brightness(110%);\n}\nsvg {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */\n"] }]
+    args: [{ selector: "app-quebec-castles", imports: [NgClass], template: '<svg xmlns="http://www.w3.org/2000/svg"\n     class="board"\n     [attr.viewBox]="getViewBox().toSVGString()"\n     preserveAspectRatio="xMidYMid meet">\n    <g id="quebec"\n       [attr.transform]="getBoardTransform()">\n        @for (coordAndContent of constructedState.getCoordsAndContents(); track coordAndContent.coord.toString()) {\n            <g id="click-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n               [attr.transform]="getTranslationAt(coordAndContent.coord)"\n               (click)="onClick(coordAndContent.coord)">\n                <rect id="square-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n                      x="0"\n                      y="0"\n                      [attr.width]="SPACE_SIZE"\n                      [attr.height]="SPACE_SIZE"\n                      [ngClass]="getSquareClasses(coordAndContent.coord)"\n                      class="base"/>\n                @for (player of Player.PLAYERS; track player.getValue()) {\n                    <ng-container>\n                        @if (isPlayerCastle(player, coordAndContent.coord)) {\n                            <g id="castle-{{ player.toString() }}-{{ getState().castles.get(player).get().x }}-{{ getState().castles.get(player).get().y }}"\n                               style="pointer-events: none">\n                                <polyline points="0 0, 100 100, 50 50, 100 0, 0, 100, 50 50, 0 50, 100 50, 50 50, 50 0, 50 100, 50 50"\n                                          class="base-no-fill"/>\n                            </g>\n                        }\n                    </ng-container>\n                }\n                @if (coordAndContent.content !== PlayerOrNone.NONE) {\n                    <circle id="piece-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n                            [attr.r]="(SPACE_SIZE / 2) - STROKE_WIDTH"\n                            [attr.cx]="SPACE_SIZE / 2"\n                            [attr.cy]="SPACE_SIZE / 2"\n                            [ngClass]="getPieceClasses(coordAndContent.coord)"\n                            class="base"/>\n                }\n                @if (possibleLanding.contains(coordAndContent.coord)) {\n                    <rect id="landing-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n                          [attr.x]="SPACE_SIZE * 0.4"\n                          [attr.y]="SPACE_SIZE * 0.4"\n                          [attr.width]="SPACE_SIZE * 0.2"\n                          [attr.height]="SPACE_SIZE * 0.2"\n                          class="indicator"/>\n                }\n            </g>\n        }\n    </g>\n    @if (isPlayerDropping()) {\n        <g>\n            @if (getNumberOfAwaitedDrop() === 0) {\n                <g id="drop-validator"\n                   (click)="validateGroupDrop()"\n                   [attr.transform]="getGroupValidatorTransform()">\n                    <circle [attr.cx]="STROKE_WIDTH / 2"\n                            [attr.cy]="STROKE_WIDTH / 2"\n                            [attr.r]="SPACE_SIZE / 2"\n                            fill="red"\n                            class="base-no-fill mid-stroke"\n                            [ngClass]="getGroupDropValidationButtonClasses()"/>\n                    <polygon points="-32.5,-2.5 -32.5,12.5 -10,35 -2.5,35 35,-21.25 25,-21.275 -5,25 -32.5,-2.5"\n                             fill="green"\n                             class="base-no-fill mid-stroke"/>\n                </g>\n            } @else {\n                @for (i of ArrayUtils.range(getNumberOfAwaitedDrop()); track i) {\n                    <circle id="remaining-piece-{{ i }}"\n                            [attr.cx]="getRemainingCx(i)"\n                            [attr.cy]="getRemainingCy()"\n                            class="base"\n                            [ngClass]="getRemaininPieceClasses()"\n                            [attr.r]="SPACE_SIZE / 2"/>\n                }\n            }\n        </g>\n    }\n</svg>\n', styles: ["/* src/app/components/game-components/game-component/game-component.scss */\n.base {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke {\n  stroke-width: 0;\n}\n.base.manual-stroke {\n  fill: var(--base-stroke);\n}\n.base-no-stroke {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text {\n  fill: var(--base-stroke);\n}\n.white-background {\n  fill: white;\n}\n.background {\n  fill: var(--spaces-fill);\n}\n.transparent {\n  opacity: 0;\n}\n.background2 {\n  fill: var(--alt-background-fill);\n}\n.background3 {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill {\n  fill: var(--player0);\n}\n.player0-alternate-fill {\n  fill: var(--player0-alternate);\n}\n.player0-stroke {\n  stroke: var(--player0);\n}\n.player1-fill {\n  fill: var(--player1);\n}\n.player1-alternate-fill {\n  fill: var(--player1-alternate);\n}\n.player1-stroke {\n  stroke: var(--player1);\n}\n.nonplayer-fill {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill {\n  fill: var(--pre-captured);\n}\n.captured-fill {\n  fill: var(--captured);\n}\n.captured-alternate-fill {\n  fill: var(--alt-captured);\n}\n.captured-stroke {\n  stroke: var(--captured);\n}\n.moved-fill {\n  fill: var(--moved);\n}\n.moved-stroke {\n  stroke: var(--moved);\n}\n.indicator {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill {\n  fill: var(--indicator);\n}\n.selectable-stroke {\n  stroke: var(--selectable);\n}\n.selectable > .base-no-stroke {\n  fill: var(--selectable);\n}\n.last-move-stroke {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke {\n  fill: var(--last-move);\n}\n.last-move-fill {\n  fill: var(--last-move);\n}\n.victory-fill {\n  fill: var(--victory);\n}\n.victory-stroke {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke {\n  fill: var(--victory);\n}\n.defeat-fill {\n  fill: var(--defeat);\n}\n.defeat-stroke {\n  stroke: var(--defeat);\n}\n.selected-fill {\n  fill: var(--selected);\n}\n.selected-stroke {\n  stroke: var(--selected);\n}\n.clickable-stroke {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill {\n  fill: var(--capturable);\n}\n.capturable-stroke:hover {\n  stroke-width: 8;\n}\n.no-fill {\n  fill: none;\n}\n.no-stroke {\n  stroke: none;\n}\n.small-stroke {\n  stroke-width: 2;\n}\n.mid-small-stroke {\n  stroke-width: 3;\n}\n.mid-stroke {\n  stroke-width: 5;\n}\n.big-stroke {\n  stroke-width: 8;\n}\n.huge-stroke {\n  stroke-width: 12;\n}\n.semi-transparent {\n  opacity: 0.5;\n}\n.territory-opacity {\n  fill-opacity: 0.7;\n}\n.round {\n  stroke-linecap: round;\n}\n.text-giant {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big {\n  font: 50px sans-serif;\n}\n.backgrounded-text {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus {\n  font: 38px sans-serif;\n}\n.text-medium {\n  font: 35px sans-serif;\n}\n.text-small-plus {\n  font: 28px sans-serif;\n}\n.text-small {\n  font: 25px sans-serif;\n}\n.text-bold {\n  font-weight: bold;\n}\n.text-center {\n  text-anchor: middle;\n}\n.black-fill {\n  fill: black;\n}\n.darker {\n  filter: brightness(80%);\n}\n.lighter {\n  filter: brightness(110%);\n}\nsvg {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */\n"] }]
   }], () => [], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(QuebecCastlesComponent, { className: "QuebecCastlesComponent", filePath: "src/app/games/quebec-castles/quebec-castles.component.ts", lineNumber: 26 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(QuebecCastlesComponent, { className: "QuebecCastlesComponent", filePath: "src/app/games/quebec-castles/quebec-castles.component.ts", lineNumber: 25 });
 })();
 
 // src/app/games/quixo/QuixoFailure.ts
@@ -35498,13 +35445,6 @@ var QuixoMoveGenerator = class extends MoveGenerator {
   }
 };
 
-// src/app/games/quixo/QuixoMinimax.ts
-var QuixoMinimax = class extends Minimax {
-  constructor() {
-    super($localize`Minimax`, QuixoRules.get(), new QuixoHeuristic(), new QuixoMoveGenerator());
-  }
-};
-
 // src/app/games/quixo/quixo.component.ts
 var _forTrack026 = ($index, $item) => $item.toString();
 function QuixoComponent_For_4_For_2_Template(rf, ctx) {
@@ -35583,10 +35523,19 @@ var QuixoComponent = class _QuixoComponent extends RectangularGameComponent {
   constructor() {
     super();
     this.setRulesAndNode("Quixo");
-    this.availableAIs = [
-      new QuixoMinimax(),
-      new MCTS($localize`MCTS`, new QuixoMoveGenerator(), this.rules)
-    ];
+    this.aiConfig = {
+      minimax: [{
+        id: "Piece Count",
+        name: $localize`Piece Count`,
+        heuristic: () => new QuixoHeuristic(),
+        moveGenerator: () => new QuixoMoveGenerator()
+      }],
+      mcts: [{
+        id: "default",
+        name: $localize`MCTS`,
+        moveGenerator: () => new QuixoMoveGenerator()
+      }]
+    };
     this.encoder = QuixoMove.encoder;
   }
   showLastMove(move) {
@@ -35716,7 +35665,7 @@ var QuixoComponent = class _QuixoComponent extends RectangularGameComponent {
   }], () => [], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(QuixoComponent, { className: "QuixoComponent", filePath: "src/app/games/quixo/quixo.component.ts", lineNumber: 25 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(QuixoComponent, { className: "QuixoComponent", filePath: "src/app/games/quixo/quixo.component.ts", lineNumber: 24 });
 })();
 
 // src/app/games/reversi/ReversiFailure.ts
@@ -35779,8 +35728,8 @@ var ReversiMoveWithSwitched = class {
     this.switched = switched;
   }
 };
-var _a6;
-var ReversiRules = (_a6 = class extends ConfigurableRules {
+var _a7;
+var ReversiRules = (_a7 = class extends ConfigurableRules {
   static get() {
     if (ReversiRules_1.singleton.isAbsent()) {
       ReversiRules_1.singleton = MGPOptional.of(new ReversiRules_1());
@@ -35920,13 +35869,13 @@ var ReversiRules = (_a6 = class extends ConfigurableRules {
       return MGPFallible.success(switched);
     }
   }
-}, ReversiRules_1 = _a6, __publicField(_a6, "singleton", MGPOptional.empty()), __publicField(_a6, "RULES_CONFIG_DESCRIPTION", new RulesConfigDescription({
+}, ReversiRules_1 = _a7, __publicField(_a7, "singleton", MGPOptional.empty()), __publicField(_a7, "RULES_CONFIG_DESCRIPTION", new RulesConfigDescription({
   name: () => $localize`Reversi`,
   config: {
     width: new NumberConfig(8, RulesConfigDescriptionLocalizable.WIDTH, MGPValidators.range(3, 99)),
     height: new NumberConfig(8, RulesConfigDescriptionLocalizable.HEIGHT, MGPValidators.range(3, 99))
   }
-})), _a6);
+})), _a7);
 ReversiRules = ReversiRules_1 = __decorate14([
   Debug.log
 ], ReversiRules);
@@ -36006,13 +35955,6 @@ var ReversiMoveGenerator = class extends MoveGenerator {
   }
 };
 
-// src/app/games/reversi/ReversiMinimax.ts
-var ReversiMinimax = class extends Minimax {
-  constructor() {
-    super($localize`Minimax`, ReversiRules.get(), new ReversiHeuristic(), new ReversiMoveGenerator());
-  }
-};
-
 // src/app/games/reversi/reversi.component.ts
 function ReversiComponent_For_2_For_2_Conditional_2_Template(rf, ctx) {
   if (rf & 1) {
@@ -36072,10 +36014,19 @@ var ReversiComponent = class _ReversiComponent extends RectangularGameComponent 
   constructor() {
     super();
     this.setRulesAndNode("Reversi");
-    this.availableAIs = [
-      new ReversiMinimax(),
-      new MCTS($localize`MCTS`, new ReversiMoveGenerator(), this.rules)
-    ];
+    this.aiConfig = {
+      minimax: [{
+        id: "Piece Count",
+        name: $localize`Piece Count`,
+        heuristic: () => new ReversiHeuristic(),
+        moveGenerator: () => new ReversiMoveGenerator()
+      }],
+      mcts: [{
+        id: "default",
+        name: $localize`Default`,
+        moveGenerator: () => new ReversiMoveGenerator()
+      }]
+    };
     this.encoder = ReversiMove.encoder;
     this.scores = MGPOptional.of(PlayerNumberMap.of(2, 2));
   }
@@ -36158,7 +36109,7 @@ var ReversiComponent = class _ReversiComponent extends RectangularGameComponent 
   }], () => [], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(ReversiComponent, { className: "ReversiComponent", filePath: "src/app/games/reversi/reversi.component.ts", lineNumber: 25 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(ReversiComponent, { className: "ReversiComponent", filePath: "src/app/games/reversi/reversi.component.ts", lineNumber: 24 });
 })();
 
 // src/app/games/sahara/SaharaFailure.ts
@@ -36183,8 +36134,8 @@ var __decorate15 = function(decorators, target, key, desc) {
   return c > 3 && r2 && Object.defineProperty(target, key, r2), r2;
 };
 var SaharaRules_1;
-var _a7;
-var SaharaRules = (_a7 = class extends Rules {
+var _a8;
+var SaharaRules = (_a8 = class extends Rules {
   static get() {
     if (SaharaRules_1.singleton.isAbsent()) {
       SaharaRules_1.singleton = MGPOptional.of(new SaharaRules_1());
@@ -36330,7 +36281,7 @@ var SaharaRules = (_a7 = class extends Rules {
     }
     return GameStatus.ONGOING;
   }
-}, SaharaRules_1 = _a7, __publicField(_a7, "singleton", MGPOptional.empty()), _a7);
+}, SaharaRules_1 = _a8, __publicField(_a8, "singleton", MGPOptional.empty()), _a8);
 SaharaRules = SaharaRules_1 = __decorate15([
   Debug.log
 ], SaharaRules);
@@ -36511,6 +36462,15 @@ var SaharaCapturedThenCapturedFreedomThenAllFreedomsHeuristic = class extends Sa
   }
 };
 
+// src/app/games/sahara/SaharaFreedomHeuristic.ts
+var SaharaFreedomHeuristic = class extends PlayerMetricHeuristic {
+  getMetrics(node, _config) {
+    const zeroFreedoms = SaharaRules.get().getBoardValuesFor(node.gameState, Player.ZERO);
+    const oneFreedoms = SaharaRules.get().getBoardValuesFor(node.gameState, Player.ONE);
+    return PlayerNumberTable.of(zeroFreedoms, oneFreedoms);
+  }
+};
+
 // src/app/games/sahara/SaharaMoveGenerator.ts
 var SaharaMoveGenerator = class extends MoveGenerator {
   getListMoves(node, _config) {
@@ -36544,38 +36504,6 @@ var SaharaMoveGenerator = class extends MoveGenerator {
       }
     }
     return moves;
-  }
-};
-
-// src/app/games/sahara/SaharaCapturedThenCapturedFreedomThenAllFreedomsMinimax.ts
-var SaharaCapturedThenCapturedFreedomThenAllFreedomsMinimax = class extends Minimax {
-  constructor() {
-    super($localize`Capture > Captured Freedom > All Freedoms`, SaharaRules.get(), new SaharaCapturedThenCapturedFreedomThenAllFreedomsHeuristic(SaharaRules.get()), new SaharaMoveGenerator());
-    this.random = true;
-  }
-};
-
-// src/app/games/sahara/SaharaFreedomHeuristic.ts
-var SaharaFreedomHeuristic = class extends PlayerMetricHeuristic {
-  getMetrics(node, _config) {
-    const zeroFreedoms = SaharaRules.get().getBoardValuesFor(node.gameState, Player.ZERO);
-    const oneFreedoms = SaharaRules.get().getBoardValuesFor(node.gameState, Player.ONE);
-    return PlayerNumberTable.of(zeroFreedoms, oneFreedoms);
-  }
-};
-
-// src/app/games/sahara/SaharaMinimax.ts
-var SaharaFreedomMinimax = class extends Minimax {
-  constructor() {
-    super($localize`Freedom`, SaharaRules.get(), new SaharaFreedomHeuristic(), new SaharaMoveGenerator());
-  }
-};
-
-// src/app/games/sahara/SaharaMobilityMinimax.ts
-var SaharaMobilityMinimax = class extends Minimax {
-  constructor() {
-    super($localize`Mobility`, SaharaRules.get(), new SaharaMobilityHeuristic(SaharaRules.get()), new SaharaMoveGenerator());
-    this.random = true;
   }
 };
 
@@ -36765,12 +36693,30 @@ var SaharaComponent = class _SaharaComponent extends TriangularGameComponent {
   constructor() {
     super();
     this.setRulesAndNode("Sahara");
-    this.availableAIs = [
-      new SaharaCapturedThenCapturedFreedomThenAllFreedomsMinimax(),
-      new SaharaFreedomMinimax(),
-      new SaharaMobilityMinimax(),
-      new MCTS($localize`MCTS`, new SaharaMoveGenerator(), this.rules)
-    ];
+    this.aiConfig = {
+      minimax: [{
+        id: "capture-freedom",
+        name: $localize`Capture > Captured Freedom > All Freedoms`,
+        heuristic: () => new SaharaCapturedThenCapturedFreedomThenAllFreedomsHeuristic(SaharaRules.get()),
+        moveGenerator: () => new SaharaMoveGenerator(),
+        useRandomness: true
+      }, {
+        id: "freedom",
+        name: $localize`Freedom`,
+        heuristic: () => new SaharaFreedomHeuristic(),
+        moveGenerator: () => new SaharaMoveGenerator()
+      }, {
+        id: "mobility",
+        name: $localize`Mobility`,
+        heuristic: () => new SaharaMobilityHeuristic(SaharaRules.get()),
+        moveGenerator: () => new SaharaMoveGenerator()
+      }],
+      mcts: [{
+        id: "default",
+        name: $localize`Default`,
+        moveGenerator: () => new SaharaMoveGenerator()
+      }]
+    };
     this.encoder = SaharaMove.encoder;
   }
   showLastMove(move) {
@@ -36866,7 +36812,7 @@ var SaharaComponent = class _SaharaComponent extends TriangularGameComponent {
   }], () => [], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(SaharaComponent, { className: "SaharaComponent", filePath: "src/app/games/sahara/sahara.component.ts", lineNumber: 27 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(SaharaComponent, { className: "SaharaComponent", filePath: "src/app/games/sahara/sahara.component.ts", lineNumber: 26 });
 })();
 
 // src/app/games/siam/SiamFailure.ts
@@ -37063,8 +37009,8 @@ var SiamLegalityInformation = class {
     this.moved = moved;
   }
 };
-var _a8;
-var SiamRules = (_a8 = class extends ConfigurableRules {
+var _a9;
+var SiamRules = (_a9 = class extends ConfigurableRules {
   static get() {
     if (SiamRules_1.singleton.isAbsent()) {
       SiamRules_1.singleton = MGPOptional.of(new SiamRules_1());
@@ -37504,7 +37450,7 @@ var SiamRules = (_a8 = class extends ConfigurableRules {
       return GameStatus.ONGOING;
     }
   }
-}, SiamRules_1 = _a8, __publicField(_a8, "singleton", MGPOptional.empty()), __publicField(_a8, "RULES_CONFIG_DESCRIPTION", new RulesConfigDescription({
+}, SiamRules_1 = _a9, __publicField(_a9, "singleton", MGPOptional.empty()), __publicField(_a9, "RULES_CONFIG_DESCRIPTION", new RulesConfigDescription({
   name: () => $localize`Siam`,
   config: {
     // minimum 3 so that there are spaces around the mountain
@@ -37514,7 +37460,7 @@ var SiamRules = (_a8 = class extends ConfigurableRules {
     // -1 on two ends because there will always be the first mountain
     numberOfBonusMountain: new NumberConfig(2, () => $localize`Number of bonus mountains`, MGPValidators.range(0, 98))
   }
-})), _a8);
+})), _a9);
 SiamRules = SiamRules_1 = __decorate16([
   Debug.log
 ], SiamRules);
@@ -37631,13 +37577,6 @@ var SiamMoveGenerator = class extends MoveGenerator {
       }
     }
     return moves;
-  }
-};
-
-// src/app/games/siam/SiamMinimax.ts
-var SiamMinimax = class extends Minimax {
-  constructor() {
-    super($localize`Minimax`, SiamRules.get(), new SiamHeuristic(), new SiamMoveGenerator());
   }
 };
 
@@ -37978,10 +37917,19 @@ var SiamComponent = class SiamComponent2 extends RectangularGameComponent {
   constructor() {
     super();
     this.setRulesAndNode("Siam");
-    this.availableAIs = [
-      new SiamMinimax(),
-      new MCTS($localize`MCTS`, new SiamMoveGenerator(), this.rules)
-    ];
+    this.aiConfig = {
+      minimax: [{
+        id: "Distance",
+        name: $localize`Distance`,
+        heuristic: () => new SiamHeuristic(),
+        moveGenerator: () => new SiamMoveGenerator()
+      }],
+      mcts: [{
+        id: "default",
+        name: $localize`MCTS`,
+        moveGenerator: () => new SiamMoveGenerator()
+      }]
+    };
     this.encoder = SiamMove.encoder;
   }
   getViewBox() {
@@ -38288,7 +38236,7 @@ SiamComponent = __decorate17([
   }], () => [], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(SiamComponent, { className: "SiamComponent", filePath: "src/app/games/siam/siam.component.ts", lineNumber: 39 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(SiamComponent, { className: "SiamComponent", filePath: "src/app/games/siam/siam.component.ts", lineNumber: 38 });
 })();
 
 // src/app/games/six/SixFailure.ts
@@ -38410,8 +38358,8 @@ var __decorate18 = function(decorators, target, key, desc) {
   return c > 3 && r2 && Object.defineProperty(target, key, r2), r2;
 };
 var SixRules_1;
-var _a9;
-var SixRules = (_a9 = class extends ConfigurableRules {
+var _a10;
+var SixRules = (_a10 = class extends ConfigurableRules {
   currentVictorySource;
   static get() {
     if (SixRules_1.singleton.isAbsent()) {
@@ -38699,12 +38647,12 @@ var SixRules = (_a9 = class extends ConfigurableRules {
     }
     return victory;
   }
-}, SixRules_1 = _a9, __publicField(_a9, "singleton", MGPOptional.empty()), __publicField(_a9, "RULES_CONFIG_DESCRIPTION", new RulesConfigDescription({
+}, SixRules_1 = _a10, __publicField(_a10, "singleton", MGPOptional.empty()), __publicField(_a10, "RULES_CONFIG_DESCRIPTION", new RulesConfigDescription({
   name: () => $localize`Six`,
   config: {
     piecesPerPlayer: new NumberConfig(20, () => $localize`Number of pieces to drop per player`, MGPValidators.range(5, 99))
   }
-})), _a9);
+})), _a10);
 SixRules = SixRules_1 = __decorate18([
   Debug.log
 ], SixRules);
@@ -39353,17 +39301,9 @@ var SixFilteredMoveGenerator = class extends SixMoveGenerator {
   }
 };
 
-// src/app/games/six/SixMinimax.ts
-var SixMinimax = class extends Minimax {
-  constructor() {
-    const rules = SixRules.get();
-    super($localize`Minimax`, rules, new SixHeuristic(), new SixFilteredMoveGenerator(rules));
-  }
-};
-
 // src/app/games/six/six.component.ts
 var _forTrack028 = ($index, $item) => $item.toString();
-var _forTrack112 = ($index, $item) => $item.coord.toString();
+var _forTrack117 = ($index, $item) => $item.coord.toString();
 function SixComponent_For_2_Template(rf, ctx) {
   if (rf & 1) {
     const _r1 = \u0275\u0275getCurrentView();
@@ -39544,10 +39484,19 @@ var SixComponent = class _SixComponent extends HexagonalGameComponent {
   constructor() {
     super();
     this.setRulesAndNode("Six");
-    this.availableAIs = [
-      new SixMinimax(),
-      new MCTS($localize`MCTS`, new SixMoveGenerator(this.rules), this.rules)
-    ];
+    this.aiConfig = {
+      minimax: [{
+        id: "Shape",
+        name: $localize`Shape`,
+        heuristic: () => new SixHeuristic(),
+        moveGenerator: () => new SixFilteredMoveGenerator(this.rules)
+      }],
+      mcts: [{
+        id: "default",
+        name: $localize`MCTS`,
+        moveGenerator: () => new SixMoveGenerator(this.rules)
+      }]
+    };
     this.encoder = SixMove.encoder;
     this.SPACE_SIZE = 30;
     this.hexaLayout = new HexaLayout(this.SPACE_SIZE * 1.5, new Coord(this.SPACE_SIZE * 2, 0), FlatHexaOrientation.INSTANCE);
@@ -39741,7 +39690,7 @@ var SixComponent = class _SixComponent extends HexagonalGameComponent {
       \u0275\u0275repeaterCreate(3, SixComponent_For_4_Template, 1, 5, ":svg:polygon", 2, _forTrack028);
       \u0275\u0275conditionalCreate(5, SixComponent_Conditional_5_Template, 1, 6, ":svg:polygon", 1);
       \u0275\u0275conditionalCreate(6, SixComponent_Conditional_6_Template, 1, 5, ":svg:polygon", 3);
-      \u0275\u0275repeaterCreate(7, SixComponent_For_8_Template, 1, 6, ":svg:polygon", 4, _forTrack112);
+      \u0275\u0275repeaterCreate(7, SixComponent_For_8_Template, 1, 6, ":svg:polygon", 4, _forTrack117);
       \u0275\u0275conditionalCreate(9, SixComponent_Conditional_9_Template, 1, 5, ":svg:polygon", 5);
       \u0275\u0275conditionalCreate(10, SixComponent_Conditional_10_Template, 1, 6, ":svg:polygon", 6);
       \u0275\u0275repeaterCreate(11, SixComponent_For_12_Template, 1, 5, ":svg:polygon", 7, _forTrack028);
@@ -40078,14 +40027,6 @@ var SquarzMoveGenerator = class extends MoveGenerator {
   }
 };
 
-// src/app/games/squarz/SquarzMinimax.ts
-var SquarzMinimax = class extends Minimax {
-  constructor() {
-    const rules = SquarzRules.get();
-    super("Score", rules, new SquarzHeuristic(), new SquarzMoveGenerator(rules));
-  }
-};
-
 // src/app/games/squarz/squarz.component.ts
 var _forTrack029 = ($index, $item) => $item.toString();
 function SquarzComponent_For_2_For_2_Conditional_2_Template(rf, ctx) {
@@ -40169,10 +40110,19 @@ var SquarzComponent = class _SquarzComponent extends RectangularGameComponent {
   constructor() {
     super();
     this.setRulesAndNode("Squarz");
-    this.availableAIs = [
-      new SquarzMinimax(),
-      new MCTS($localize`MCTS`, new SquarzMoveGenerator(this.rules), this.rules)
-    ];
+    this.aiConfig = {
+      minimax: [{
+        id: "Score",
+        name: "Score",
+        heuristic: () => new SquarzHeuristic(),
+        moveGenerator: () => new SquarzMoveGenerator(this.rules)
+      }],
+      mcts: [{
+        id: "default",
+        name: $localize`MCTS`,
+        moveGenerator: () => new SquarzMoveGenerator(this.rules)
+      }]
+    };
     this.encoder = SquarzMove.encoder;
     this.scores = MGPOptional.of(PlayerNumberMap.of(0, 0));
   }
@@ -40346,7 +40296,7 @@ var SquarzComponent = class _SquarzComponent extends RectangularGameComponent {
   }], () => [], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(SquarzComponent, { className: "SquarzComponent", filePath: "src/app/games/squarz/squarz.component.ts", lineNumber: 26 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(SquarzComponent, { className: "SquarzComponent", filePath: "src/app/games/squarz/squarz.component.ts", lineNumber: 25 });
 })();
 
 // src/app/games/tafl/TaflPawn.ts
@@ -40993,7 +40943,7 @@ var TaflPieceAndInfluenceHeuristic = class extends TaflPieceHeuristic {
   }
   getThreats(coord, state) {
     const owner = state.getAbsoluteOwner(coord);
-    Utils.assert(owner.isPlayer(), "TaflPieceAndInfluenceMinimax.getThreats should be called with an occupied coordinate");
+    Utils.assert(owner.isPlayer(), "TaflPieceAndInfluenceHeuristic.getThreats should be called with an occupied coordinate");
     const threatenerPlayer = owner.getOpponent();
     const threats = [];
     for (const dir of Orthogonal.ORTHOGONALS) {
@@ -41237,34 +41187,6 @@ TaflMoveGenerator = __decorate20([
   Debug.log
 ], TaflMoveGenerator);
 
-// src/app/games/tafl/TaflEscapeThenPieceThenControlMinimax.ts
-var TaflEscapeThenPieceThenControlMinimax = class extends Minimax {
-  constructor(rules) {
-    super($localize`Escape > Pieces > Control`, rules, new TaflEscapeThenPieceThenControlHeuristic(rules), new TaflMoveGenerator(rules));
-  }
-};
-
-// src/app/games/tafl/TaflPieceAndControlMinimax.ts
-var TaflPieceAndControlMinimax = class extends Minimax {
-  constructor(rules) {
-    super($localize`Pieces > Control`, rules, new TaflPieceAndControlHeuristic(rules), new TaflMoveGenerator(rules));
-  }
-};
-
-// src/app/games/tafl/TaflPieceAndInfluenceMinimax.ts
-var TaflPieceAndInfluenceMinimax = class extends Minimax {
-  constructor(rules) {
-    super($localize`Pieces > Influence`, rules, new TaflPieceAndInfluenceHeuristic(rules), new TaflMoveGenerator(rules));
-  }
-};
-
-// src/app/games/tafl/TaflPieceMinimax.ts
-var TaflPieceMinimax = class extends Minimax {
-  constructor(rules) {
-    super($localize`Pieces`, rules, new TaflPieceHeuristic(rules), new TaflMoveGenerator(rules));
-  }
-};
-
 // src/app/games/tafl/tafl.component.ts
 var TaflComponent = class extends RectangularGameComponent {
   generateMove;
@@ -41442,16 +41364,48 @@ var TaflComponent = class extends RectangularGameComponent {
   isKing(x2, y) {
     return this.board[y][x2].isKing();
   }
-  createAIs() {
-    const moveGenerator = new TaflMoveGenerator(this.rules);
-    return [
-      new TaflPieceMinimax(this.rules),
-      new TaflPieceAndInfluenceMinimax(this.rules),
-      new TaflPieceAndControlMinimax(this.rules),
-      new TaflEscapeThenPieceThenControlMinimax(this.rules),
-      new MCTS($localize`MCTS`, moveGenerator, this.rules),
-      new MCTSWithHeuristic($localize`MCTS with heuristic`, moveGenerator, this.rules, new TaflPieceHeuristic(this.rules))
-    ];
+  createAIConfig() {
+    return {
+      minimax: [
+        {
+          id: "Pieces",
+          name: $localize`Pieces`,
+          heuristic: () => new TaflPieceHeuristic(this.rules),
+          moveGenerator: () => new TaflMoveGenerator(this.rules)
+        },
+        {
+          id: "Pieces > Influence",
+          name: $localize`Pieces > Influence`,
+          heuristic: () => new TaflPieceAndInfluenceHeuristic(this.rules),
+          moveGenerator: () => new TaflMoveGenerator(this.rules)
+        },
+        {
+          id: "Pieces > Control",
+          name: $localize`Pieces > Control`,
+          heuristic: () => new TaflPieceAndControlHeuristic(this.rules),
+          moveGenerator: () => new TaflMoveGenerator(this.rules)
+        },
+        {
+          id: "Escape > Pieces > Control",
+          name: $localize`Escape > Pieces > Control`,
+          heuristic: () => new TaflEscapeThenPieceThenControlHeuristic(this.rules),
+          moveGenerator: () => new TaflMoveGenerator(this.rules)
+        }
+      ],
+      mcts: [
+        {
+          id: "default",
+          name: $localize`MCTS`,
+          moveGenerator: () => new TaflMoveGenerator(this.rules)
+        },
+        {
+          id: "Pieces",
+          name: $localize`Pieces`,
+          heuristic: () => new TaflPieceHeuristic(this.rules),
+          moveGenerator: () => new TaflMoveGenerator(this.rules)
+        }
+      ]
+    };
   }
 };
 
@@ -41644,7 +41598,7 @@ var BrandhubComponent = class _BrandhubComponent extends TaflComponent {
   constructor() {
     super(BrandhubMove.from);
     this.setRulesAndNode("Brandhub");
-    this.availableAIs = this.createAIs();
+    this.aiConfig = this.createAIConfig();
     this.encoder = BrandhubMove.encoder;
   }
   static \u0275fac = function BrandhubComponent_Factory(__ngFactoryType__) {
@@ -42002,7 +41956,7 @@ var HnefataflComponent = class _HnefataflComponent extends TaflComponent {
   constructor() {
     super(HnefataflMove.from);
     this.setRulesAndNode("Hnefatafl");
-    this.availableAIs = this.createAIs();
+    this.aiConfig = this.createAIConfig();
     this.encoder = HnefataflMove.encoder;
   }
   static \u0275fac = function HnefataflComponent_Factory(__ngFactoryType__) {
@@ -42350,7 +42304,7 @@ var TablutComponent = class _TablutComponent extends TaflComponent {
   constructor() {
     super(TablutMove.from);
     this.setRulesAndNode("Tablut");
-    this.availableAIs = this.createAIs();
+    this.aiConfig = this.createAIConfig();
     this.encoder = TablutMove.encoder;
   }
   static \u0275fac = function TablutComponent_Factory(__ngFactoryType__) {
@@ -42676,13 +42630,6 @@ var TeekoMoveGenerator = class extends MoveGenerator {
   }
 };
 
-// src/app/games/teeko/TeekoMinimax.ts
-var TeekoMinimax = class extends Minimax {
-  constructor() {
-    super($localize`Minimax`, TeekoRules.get(), new TeekoHeuristic(), new TeekoMoveGenerator());
-  }
-};
-
 // src/app/games/teeko/teeko.component.ts
 function TeekoComponent_For_2_For_2_Conditional_2_Template(rf, ctx) {
   if (rf & 1) {
@@ -42746,10 +42693,19 @@ var TeekoComponent = class _TeekoComponent extends RectangularGameComponent {
   constructor() {
     super();
     this.setRulesAndNode("Teeko");
-    this.availableAIs = [
-      new TeekoMinimax(),
-      new MCTS($localize`MCTS`, new TeekoMoveGenerator(), this.rules)
-    ];
+    this.aiConfig = {
+      minimax: [{
+        id: "Alignment",
+        name: $localize`Alignment`,
+        heuristic: () => new TeekoHeuristic(),
+        moveGenerator: () => new TeekoMoveGenerator()
+      }],
+      mcts: [{
+        id: "default",
+        name: $localize`Default`,
+        moveGenerator: () => new TeekoMoveGenerator()
+      }]
+    };
     this.encoder = TeekoMove.encoder;
   }
   updateBoard(_triggerAnimation) {
@@ -42856,7 +42812,7 @@ var TeekoComponent = class _TeekoComponent extends RectangularGameComponent {
   }], () => [], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(TeekoComponent, { className: "TeekoComponent", filePath: "src/app/games/teeko/teeko.component.ts", lineNumber: 25 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(TeekoComponent, { className: "TeekoComponent", filePath: "src/app/games/teeko/teeko.component.ts", lineNumber: 24 });
 })();
 
 // src/app/games/trexo/TrexoFailure.ts
@@ -43207,13 +43163,6 @@ var TrexoMoveGenerator = class extends MoveGenerator {
   rules = TrexoRules.get();
   getListMoves(node, _config) {
     return this.rules.getLegalMoves(node.gameState);
-  }
-};
-
-// src/app/games/trexo/TrexoAlignmentMinimax.ts
-var TrexoAlignmentMinimax = class extends Minimax {
-  constructor() {
-    super($localize`Alignment`, TrexoRules.get(), new TrexoAlignmentHeuristic(), new TrexoMoveGenerator());
   }
 };
 
@@ -43783,10 +43732,19 @@ var TrexoComponent = class _TrexoComponent extends ParallelogramGameComponent {
   constructor() {
     super();
     this.setRulesAndNode("Trexo");
-    this.availableAIs = [
-      new TrexoAlignmentMinimax(),
-      new MCTS($localize`MCTS`, new TrexoMoveGenerator(), this.rules)
-    ];
+    this.aiConfig = {
+      minimax: [{
+        id: "Alignment",
+        name: $localize`Alignment`,
+        heuristic: () => new TrexoAlignmentHeuristic(),
+        moveGenerator: () => new TrexoMoveGenerator()
+      }],
+      mcts: [{
+        id: "default",
+        name: $localize`MCTS`,
+        moveGenerator: () => new TrexoMoveGenerator()
+      }]
+    };
     this.encoder = TrexoMove.encoder;
     this.switchToMode("3D");
   }
@@ -44138,7 +44096,7 @@ var TrexoComponent = class _TrexoComponent extends ParallelogramGameComponent {
   }], () => [], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(TrexoComponent, { className: "TrexoComponent", filePath: "src/app/games/trexo/trexo.component.ts", lineNumber: 38 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(TrexoComponent, { className: "TrexoComponent", filePath: "src/app/games/trexo/trexo.component.ts", lineNumber: 37 });
 })();
 
 // src/app/games/yinsh/YinshFailure.ts
@@ -44780,16 +44738,10 @@ var YinshScoreHeuristic = class extends PlayerMetricHeuristic {
   }
 };
 
-// src/app/games/yinsh/YinshScoreMinimax.ts
-var YinshScoreMinimax = class extends Minimax {
-  constructor() {
-    super($localize`Score`, YinshRules.get(), new YinshScoreHeuristic(), new YinshMoveGenerator());
-  }
-};
-
 // src/app/games/yinsh/yinsh.component.ts
 var _c019 = () => [];
 var _forTrack033 = ($index, $item) => $item.toString();
+var _forTrack118 = ($index, $item) => $item.getValue();
 function YinshComponent_For_2_For_2_Conditional_1_Conditional_3_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
@@ -45010,10 +44962,19 @@ var YinshComponent = class _YinshComponent extends HexagonalGameComponent {
   constructor() {
     super();
     this.setRulesAndNode("Yinsh");
-    this.availableAIs = [
-      new YinshScoreMinimax(),
-      new MCTS($localize`MCTS`, new YinshMoveGenerator(), this.rules)
-    ];
+    this.aiConfig = {
+      minimax: [{
+        id: "Score",
+        name: $localize`Score`,
+        heuristic: () => new YinshScoreHeuristic(),
+        moveGenerator: () => new YinshMoveGenerator()
+      }],
+      mcts: [{
+        id: "default",
+        name: $localize`MCTS`,
+        moveGenerator: () => new YinshMoveGenerator()
+      }]
+    };
     this.encoder = YinshMove.encoder;
     this.scores = MGPOptional.of(PlayerNumberMap.of(0, 0));
     this.hexaLayout = new HexaLayout(_YinshComponent.RING_OUTER_SIZE * 1.5, new Coord(_YinshComponent.RING_OUTER_SIZE * 2, 0), FlatHexaOrientation.INSTANCE);
@@ -45395,7 +45356,7 @@ var YinshComponent = class _YinshComponent extends HexagonalGameComponent {
       \u0275\u0275repeaterCreate(3, YinshComponent_For_4_Template, 1, 5, ":svg:polygon", 1, _forTrack033);
       \u0275\u0275conditionalCreate(5, YinshComponent_Conditional_5_Template, 3, 0, ":svg:g");
       \u0275\u0275repeaterCreate(6, YinshComponent_For_7_Template, 1, 8, ":svg:rect", 2, _forTrack033);
-      \u0275\u0275repeaterCreate(8, YinshComponent_For_9_Template, 3, 2, ":svg:g", null, \u0275\u0275repeaterTrackByIdentity);
+      \u0275\u0275repeaterCreate(8, YinshComponent_For_9_Template, 3, 2, ":svg:g", null, _forTrack118);
       \u0275\u0275elementEnd();
     }
     if (rf & 2) {
@@ -45489,7 +45450,7 @@ var YinshComponent = class _YinshComponent extends HexagonalGameComponent {
               (click)="onClick(coord.x, coord.y)"
               class="indicator"/>
     }
-    @for (player of Player.PLAYERS; track player) {
+    @for (player of Player.PLAYERS; track player.getValue()) {
         <g [attr.transform]="'rotate(' + ((getPointOfView().getValue() + 1) * 180) + ' 532.5 780)'">
             @for (_ of [].constructor(viewInfo.sideRings.get(player)); track $index; let ring = $index) {
                 <g app-ring
@@ -45508,7 +45469,7 @@ var YinshComponent = class _YinshComponent extends HexagonalGameComponent {
   }], () => [], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(YinshComponent, { className: "YinshComponent", filePath: "src/app/games/yinsh/yinsh.component.ts", lineNumber: 42 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(YinshComponent, { className: "YinshComponent", filePath: "src/app/games/yinsh/yinsh.component.ts", lineNumber: 41 });
 })();
 
 // src/app/components/normal-component/pick-game/pick-game.component.ts
@@ -45791,14 +45752,16 @@ export {
   MessageDisplayer,
   Player,
   PlayerOrNone,
+  BoardValue,
   GameStatus,
   GameNodeStats,
   GameNode,
   PlayerNumberMap,
   Move,
   BaseComponent,
-  MCTS,
   AIStats,
+  AbstractMinimax,
+  Minimax,
   GameInfo,
   PickGameComponent
 };
@@ -45811,4 +45774,4 @@ bulma-toast/dist/bulma-toast.min.js:
    * Released under the MIT License.
    *)
 */
-//# sourceMappingURL=chunk-PS6FUQ5F.js.map
+//# sourceMappingURL=chunk-FA5F5MXA.js.map
