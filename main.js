@@ -5010,6 +5010,11 @@ var NoopAnimationsModule = class _NoopAnimationsModule {
 })();
 
 // node_modules/@fortawesome/free-brands-svg-icons/index.mjs
+var faDiscord = {
+  prefix: "fab",
+  iconName: "discord",
+  icon: [576, 512, [], "f392", "M492.5 69.8c-.2-.3-.4-.6-.8-.7-38.1-17.5-78.4-30-119.7-37.1-.4-.1-.8 0-1.1 .1s-.6 .4-.8 .8c-5.5 9.9-10.5 20.2-14.9 30.6-44.6-6.8-89.9-6.8-134.4 0-4.5-10.5-9.5-20.7-15.1-30.6-.2-.3-.5-.6-.8-.8s-.7-.2-1.1-.2c-41.3 7.1-81.6 19.6-119.7 37.1-.3 .1-.6 .4-.8 .7-76.2 113.8-97.1 224.9-86.9 334.5 0 .3 .1 .5 .2 .8s.3 .4 .5 .6c44.4 32.9 94 58 146.8 74.2 .4 .1 .8 .1 1.1 0s.7-.4 .9-.7c11.3-15.4 21.4-31.8 30-48.8 .1-.2 .2-.5 .2-.8s0-.5-.1-.8-.2-.5-.4-.6-.4-.3-.7-.4c-15.8-6.1-31.2-13.4-45.9-21.9-.3-.2-.5-.4-.7-.6s-.3-.6-.3-.9 0-.6 .2-.9 .3-.5 .6-.7c3.1-2.3 6.2-4.7 9.1-7.1 .3-.2 .6-.4 .9-.4s.7 0 1 .1c96.2 43.9 200.4 43.9 295.5 0 .3-.1 .7-.2 1-.2s.7 .2 .9 .4c2.9 2.4 6 4.9 9.1 7.2 .2 .2 .4 .4 .6 .7s.2 .6 .2 .9-.1 .6-.3 .9-.4 .5-.6 .6c-14.7 8.6-30 15.9-45.9 21.8-.2 .1-.5 .2-.7 .4s-.3 .4-.4 .7-.1 .5-.1 .8 .1 .5 .2 .8c8.8 17 18.8 33.3 30 48.8 .2 .3 .6 .6 .9 .7s.8 .1 1.1 0c52.9-16.2 102.6-41.3 147.1-74.2 .2-.2 .4-.4 .5-.6s.2-.5 .2-.8c12.3-126.8-20.5-236.9-86.9-334.5zm-302 267.7c-29 0-52.8-26.6-52.8-59.2s23.4-59.2 52.8-59.2c29.7 0 53.3 26.8 52.8 59.2 0 32.7-23.4 59.2-52.8 59.2zm195.4 0c-29 0-52.8-26.6-52.8-59.2s23.4-59.2 52.8-59.2c29.7 0 53.3 26.8 52.8 59.2 0 32.7-23.2 59.2-52.8 59.2z"]
+};
 var faGithub = {
   prefix: "fab",
   iconName: "github",
@@ -5019,11 +5024,6 @@ var faFacebook = {
   prefix: "fab",
   iconName: "facebook",
   icon: [512, 512, [62e3], "f09a", "M512 256C512 114.6 397.4 0 256 0S0 114.6 0 256C0 376 82.7 476.8 194.2 504.5l0-170.3-52.8 0 0-78.2 52.8 0 0-33.7c0-87.1 39.4-127.5 125-127.5 16.2 0 44.2 3.2 55.7 6.4l0 70.8c-6-.6-16.5-1-29.6-1-42 0-58.2 15.9-58.2 57.2l0 27.8 83.6 0-14.4 78.2-69.3 0 0 175.9C413.8 494.8 512 386.9 512 256z"]
-};
-var faTwitter = {
-  prefix: "fab",
-  iconName: "twitter",
-  icon: [512, 512, [], "f099", "M459.4 151.7c.3 4.5 .3 9.1 .3 13.6 0 138.7-105.6 298.6-298.6 298.6-59.5 0-114.7-17.2-161.1-47.1 8.4 1 16.6 1.3 25.3 1.3 49.1 0 94.2-16.6 130.3-44.8-46.1-1-84.8-31.2-98.1-72.8 6.5 1 13 1.6 19.8 1.6 9.4 0 18.8-1.3 27.6-3.6-48.1-9.7-84.1-52-84.1-103l0-1.3c14 7.8 30.2 12.7 47.4 13.3-28.3-18.8-46.8-51-46.8-87.4 0-19.5 5.2-37.4 14.3-53 51.7 63.7 129.3 105.3 216.4 109.8-1.6-7.8-2.6-15.9-2.6-24 0-57.8 46.8-104.9 104.9-104.9 30.2 0 57.5 12.7 76.7 33.1 23.7-4.5 46.5-13.3 66.6-25.3-7.8 24.4-24.4 44.8-46.1 57.8 21.1-2.3 41.6-8.1 60.4-16.2-14.3 20.8-32.2 39.3-52.6 54.3z"]
 };
 
 // src/app/components/normal-component/header/header.component.ts
@@ -5608,7 +5608,7 @@ var ErrorLoggerService = class _ErrorLoggerService {
 var AppComponent = class _AppComponent {
   _themeService = inject(ThemeService);
   _errorLoggerService = inject(ErrorLoggerService);
-  faTwitter = faTwitter;
+  faDiscord = faDiscord;
   faFacebook = faFacebook;
   faGithub = faGithub;
   static \u0275fac = function AppComponent_Factory(__ngFactoryType__) {
@@ -5622,7 +5622,7 @@ var AppComponent = class _AppComponent {
     } else {
       i18n_0 = $localize`If you like ${"\uFFFD#8\uFFFD"}:START_TAG_STRONG:EveryBoard${"\uFFFD/#8\uFFFD"}:CLOSE_TAG_STRONG:, follow us!`;
     }
-    return [i18n_0, [1, "container", "mt-2"], [1, "footer"], [1, "content", "has-text-centered"], ["href", "https://github.com/EveryBoard/EveryBoard"], [3, "icon"], ["href", "https://twitter.com/EveryBoardGames"], ["href", "https://facebook.com/EveryBoard"]];
+    return [i18n_0, [1, "container", "mt-2"], [1, "footer"], [1, "content", "has-text-centered"], ["href", "https://discord.gg/n4jsfsdmrZ"], [3, "icon"], ["href", "https://github.com/EveryBoard/EveryBoard"], ["href", "https://facebook.com/EveryBoard"]];
   }, template: function AppComponent_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275element(0, "app-header");
@@ -5649,9 +5649,9 @@ var AppComponent = class _AppComponent {
     }
     if (rf & 2) {
       \u0275\u0275advance(11);
-      \u0275\u0275property("icon", ctx.faGithub);
+      \u0275\u0275property("icon", ctx.faDiscord);
       \u0275\u0275advance(3);
-      \u0275\u0275property("icon", ctx.faTwitter);
+      \u0275\u0275property("icon", ctx.faGithub);
       \u0275\u0275advance(3);
       \u0275\u0275property("icon", ctx.faFacebook);
     }
@@ -5668,7 +5668,7 @@ var AppComponent = class _AppComponent {
       HeaderComponent,
       RouterOutlet,
       FaIconComponent
-    ], template: '<app-header></app-header>\n<main class="container mt-2">\n    <router-outlet></router-outlet>\n</main>\n<footer class="footer">\n    <div class="content has-text-centered">\n        <p>\n            <span i18n>If you like <strong>EveryBoard</strong>, follow us!</span>\n            &nbsp;\n            <a href="https://github.com/EveryBoard/EveryBoard"><fa-icon [icon]="faGithub"></fa-icon></a>&nbsp;\n            <a href="https://twitter.com/EveryBoardGames"><fa-icon [icon]="faTwitter"></fa-icon></a>&nbsp;\n            <a href="https://facebook.com/EveryBoard"><fa-icon [icon]="faFacebook"></fa-icon></a>\n        </p>\n    </div>\n</footer>\n' }]
+    ], template: '<app-header></app-header>\n<main class="container mt-2">\n    <router-outlet></router-outlet>\n</main>\n<footer class="footer">\n    <div class="content has-text-centered">\n        <p>\n            <span i18n>If you like <strong>EveryBoard</strong>, follow us!</span>\n            &nbsp;\n            <a href="https://discord.gg/n4jsfsdmrZ"><fa-icon [icon]="faDiscord"></fa-icon></a>&nbsp;\n            <a href="https://github.com/EveryBoard/EveryBoard"><fa-icon [icon]="faGithub"></fa-icon></a>&nbsp;\n            <a href="https://facebook.com/EveryBoard"><fa-icon [icon]="faFacebook"></fa-icon></a>\n        </p>\n    </div>\n</footer>\n' }]
   }], null, null);
 })();
 (() => {
