@@ -1,22 +1,22 @@
 import {
   ConfigRoomService
-} from "./chunk-PCTBT2FN.js";
+} from "./chunk-SKLNPGSJ.js";
 import {
   GameService
-} from "./chunk-LUIC4ATP.js";
+} from "./chunk-C6WQJ6RF.js";
 import {
   ChatService
-} from "./chunk-VGU4WPFN.js";
+} from "./chunk-ZHJ5BBCI.js";
 import {
   CurrentGameService
-} from "./chunk-IZDH2SLL.js";
+} from "./chunk-73TT2I2I.js";
 import {
   environment
-} from "./chunk-EMU3IHRO.js";
+} from "./chunk-R5IBC3UB.js";
 import {
   GameInfo,
   MessageDisplayer
-} from "./chunk-FA5F5MXA.js";
+} from "./chunk-EXUOEFTI.js";
 import {
   LocaleUtils,
   ThemeService
@@ -46,7 +46,7 @@ import {
   getFirestore,
   initializeApp,
   serverTimestamp
-} from "./chunk-OH7GNXKT.js";
+} from "./chunk-ZI37SBPR.js";
 import "./chunk-4D3V7D3R.js";
 import "./chunk-NCTOIZLG.js";
 import {
@@ -5834,25 +5834,25 @@ var VerifiedAccountGuard = class _VerifiedAccountGuard extends AccountGuard {
 
 // src/app/app.routes.ts
 var routes = [
-  { path: "login", loadComponent: () => import("./login.component-CSCG3774.js").then((m) => m.LoginComponent) },
-  { path: "lobby", loadComponent: () => import("./lobby.component-NDMIWSQR.js").then((m) => m.LobbyComponent), canActivate: [VerifiedAccountGuard] },
+  { path: "login", loadComponent: () => import("./login.component-RVT66GFX.js").then((m) => m.LoginComponent) },
+  { path: "lobby", loadComponent: () => import("./lobby.component-HQ6F2XUY.js").then((m) => m.LobbyComponent), canActivate: [VerifiedAccountGuard] },
   { path: "account", loadComponent: () => import("./account.component-5VGLWCOJ.js").then((m) => m.AccountComponent), canActivate: [VerifiedAccountGuard] },
-  { path: "settings", loadComponent: () => import("./settings.component-MY7SNZGO.js").then((m) => m.SettingsComponent) },
-  { path: "register", loadComponent: () => import("./register.component-AWEOAL2Z.js").then((m) => m.RegisterComponent), canActivate: [NotConnectedGuard] },
-  { path: "reset-password", loadComponent: () => import("./reset-password.component-QRX3K4QH.js").then((m) => m.ResetPasswordComponent) },
+  { path: "settings", loadComponent: () => import("./settings.component-EHURCP7E.js").then((m) => m.SettingsComponent) },
+  { path: "register", loadComponent: () => import("./register.component-MZ5KWQFN.js").then((m) => m.RegisterComponent), canActivate: [NotConnectedGuard] },
+  { path: "reset-password", loadComponent: () => import("./reset-password.component-VHEPXV52.js").then((m) => m.ResetPasswordComponent) },
   { path: "notFound/:message", loadComponent: () => import("./not-found.component-DRFNOVW2.js").then((m) => m.NotFoundComponent) },
   { path: "nextGameLoading", loadComponent: () => import("./next-game-loading.component-FU6YZEVR.js").then((m) => m.NextGameLoadingComponent), canActivate: [VerifiedAccountGuard] },
-  { path: "verify-account", loadComponent: () => import("./verify-account.component-OJDM2RWO.js").then((m) => m.VerifyAccountComponent), canActivate: [ConnectedButNotVerifiedGuard] },
-  { path: "play", loadComponent: () => import("./online-game-selection.component-HQLNFIO7.js").then((m) => m.OnlineGameSelectionComponent), canActivate: [ExclusiveOnlineGameGuard, VerifiedAccountGuard] },
-  { path: "play/:game", loadComponent: () => import("./online-game-creation.component-AZIYZ7HC.js").then((m) => m.OnlineGameCreationComponent), canActivate: [ExclusiveOnlineGameGuard, VerifiedAccountGuard] },
-  { path: "play/:game/:id", loadComponent: () => import("./online-game-wrapper.component-MPSIXWXD.js").then((m) => m.OnlineGameWrapperComponent), canActivate: [ExclusiveOnlineGameGuard, VerifiedAccountGuard] },
-  { path: "local", loadComponent: () => import("./local-game-creation.component-WIVU6JLX.js").then((m) => m.LocalGameCreationComponent) },
-  { path: "local/:game/config", loadComponent: () => import("./local-game-configuration.component-KMAZUFDK.js").then((m) => m.LocalGameConfigurationComponent) },
-  { path: "local/:game", loadComponent: () => import("./local-game-wrapper.component-HFQKXXRG.js").then((m) => m.LocalGameWrapperComponent) },
-  { path: "tutorial", loadComponent: () => import("./tutorial-game-creation.component-JC4ZFY5X.js").then((m) => m.TutorialGameCreationComponent) },
-  { path: "tutorial/:game", loadComponent: () => import("./tutorial-game-wrapper.component-B7A4ZXO7.js").then((m) => m.TutorialGameWrapperComponent) },
-  { path: "", loadComponent: () => import("./welcome.component-XD2GSLNZ.js").then((m) => m.WelcomeComponent) },
-  { path: "demo", loadComponent: () => import("./demo-page.component-TSI2BQG2.js").then((m) => m.DemoPageComponent) },
+  { path: "verify-account", loadComponent: () => import("./verify-account.component-3EI56XAJ.js").then((m) => m.VerifyAccountComponent), canActivate: [ConnectedButNotVerifiedGuard] },
+  { path: "play", loadComponent: () => import("./online-game-selection.component-UZ7HMMC3.js").then((m) => m.OnlineGameSelectionComponent), canActivate: [ExclusiveOnlineGameGuard, VerifiedAccountGuard] },
+  { path: "play/:game", loadComponent: () => import("./online-game-creation.component-QEZMYL35.js").then((m) => m.OnlineGameCreationComponent), canActivate: [ExclusiveOnlineGameGuard, VerifiedAccountGuard] },
+  { path: "play/:game/:id", loadComponent: () => import("./online-game-wrapper.component-DABGMRLP.js").then((m) => m.OnlineGameWrapperComponent), canActivate: [ExclusiveOnlineGameGuard, VerifiedAccountGuard] },
+  { path: "local", loadComponent: () => import("./local-game-creation.component-7ZVDDRQU.js").then((m) => m.LocalGameCreationComponent) },
+  { path: "local/:game/config", loadComponent: () => import("./local-game-configuration.component-JW5EXQXS.js").then((m) => m.LocalGameConfigurationComponent) },
+  { path: "local/:game", loadComponent: () => import("./local-game-wrapper.component-2F6DLLLE.js").then((m) => m.LocalGameWrapperComponent) },
+  { path: "tutorial", loadComponent: () => import("./tutorial-game-creation.component-PY252XNT.js").then((m) => m.TutorialGameCreationComponent) },
+  { path: "tutorial/:game", loadComponent: () => import("./tutorial-game-wrapper.component-RDLK5HDE.js").then((m) => m.TutorialGameWrapperComponent) },
+  { path: "", loadComponent: () => import("./welcome.component-DPWXSMEL.js").then((m) => m.WelcomeComponent) },
+  { path: "demo", loadComponent: () => import("./demo-page.component-YXSCAYA4.js").then((m) => m.DemoPageComponent) },
   { path: "**", loadComponent: () => import("./not-found.component-DRFNOVW2.js").then((m) => m.NotFoundComponent) }
 ];
 function initializeFirebase() {
