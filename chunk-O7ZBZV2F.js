@@ -4,7 +4,7 @@ import {
   MessageDisplayer,
   Player,
   PlayerOrNone
-} from "./chunk-EXUOEFTI.js";
+} from "./chunk-3LYA2N6H.js";
 import {
   ActivatedRoute,
   Router
@@ -305,4 +305,4 @@ export {
   GameWrapperMessages,
   GameWrapper
 };
-//# sourceMappingURL=chunk-5363MO2R.js.map
+//# sourceMappingURL=chunk-O7ZBZV2F.js.map

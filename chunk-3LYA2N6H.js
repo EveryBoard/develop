@@ -3631,7 +3631,7 @@ var GameStateWithTable = class extends GameState {
 };
 
 // src/app/jscaip/state/FourStatePieceGameStateWithTable.ts
-var FourStatePieceGameStateWithTable = class extends GameStateWithTable {
+var FourStatePieceGameStateWithTable = class _FourStatePieceGameStateWithTable extends GameStateWithTable {
   getPlayerCoordsAndContent() {
     return this.getCoordsAndContents().filter((value) => {
       return value.content.isPlayer();
@@ -3668,6 +3668,15 @@ var FourStatePieceGameStateWithTable = class extends GameStateWithTable {
     } else {
       return false;
     }
+  }
+  static of(oldState, newBoard) {
+    return new _FourStatePieceGameStateWithTable(newBoard, oldState.turn);
+  }
+  incrementTurn() {
+    return new _FourStatePieceGameStateWithTable(this.getCopiedBoard(), this.turn + 1);
+  }
+  setPieceAt(coord, value) {
+    return GameStateWithTable.setPieceAt(this, coord, value, _FourStatePieceGameStateWithTable.of);
   }
 };
 
@@ -20393,19 +20402,6 @@ var DodecaHexaDirection = class _DodecaHexaDirection extends Direction {
   }
 };
 
-// src/app/games/hexodia/HexodiaState.ts
-var HexodiaState = class _HexodiaState extends FourStatePieceGameStateWithTable {
-  static of(oldState, newBoard) {
-    return new _HexodiaState(newBoard, oldState.turn);
-  }
-  incrementTurn() {
-    return new _HexodiaState(this.getCopiedBoard(), this.turn + 1);
-  }
-  setPieceAt(coord, value) {
-    return GameStateWithTable.setPieceAt(this, coord, value, _HexodiaState.of);
-  }
-};
-
 // src/app/games/hexodia/HexodiaRules.ts
 var HexodiaRules = class _HexodiaRules extends ConfigurableRules {
   static singleton = MGPOptional.empty();
@@ -20453,7 +20449,7 @@ var HexodiaRules = class _HexodiaRules extends ConfigurableRules {
         }
       }
     }
-    return new HexodiaState(board, 0);
+    return new FourStatePieceGameStateWithTable(board, 0);
   }
   applyLegalMove(move, state) {
     const player = FourStatePiece.ofPlayer(state.getCurrentPlayer());
@@ -20461,7 +20457,7 @@ var HexodiaRules = class _HexodiaRules extends ConfigurableRules {
     for (const coord of move.coords) {
       newBoard[coord.y][coord.x] = player;
     }
-    return new HexodiaState(newBoard, state.turn + 1);
+    return new FourStatePieceGameStateWithTable(newBoard, state.turn + 1);
   }
   isLegal(move, state, config) {
     const numberOfDrops = move.coords.size();
@@ -20529,7 +20525,7 @@ var HexodiaTutorial = class extends Tutorial {
   tutorial = [
     TutorialStep.informational(TutorialStepMessage.INITIAL_BOARD_AND_OBJECT_OF_THE_GAME(), $localize`Hexodia is played on a hexagonal board, your goal is to be the first to align 6 of your pieces.`, initialState),
     TutorialStep.anyMove($localize`First turn`, $localize`At the first turn, the first player plays only one piece.<br/><br/>You're playing Dark, place your first piece by clicking on a space.`, initialState, HexodiaMove.of([new Coord(12, 12)]), TutorialStepMessage.CONGRATULATIONS()),
-    TutorialStep.fromMove($localize`Next turns`, $localize`On all following turns, the players play two pieces, until a victory or a draw is reached.<br/><br/>You're playing Light, do the winning move.`, new HexodiaState([
+    TutorialStep.fromMove($localize`Next turns`, $localize`On all following turns, the players play two pieces, until a victory or a draw is reached.<br/><br/>You're playing Light, do the winning move.`, new FourStatePieceGameStateWithTable([
       [N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13],
       [N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13],
       [N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13],
@@ -20556,7 +20552,7 @@ var HexodiaTutorial = class extends Tutorial {
       [_13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6],
       [_13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6]
     ], 21), [HexodiaMove.of([new Coord(10, 16), new Coord(11, 15)])], TutorialStepMessage.CONGRATULATIONS(), TutorialStepMessage.FAILED_TRY_AGAIN()),
-    TutorialStep.fromMove($localize`Hexagonal Diagonals`, $localize`But an unusual kind of diagonal also exist in Hexodia. Here, Dark has made alignment in each of those three direction, in only one a victory is still possible.<br/><br/>You're playing Dark, do the winning move.`, new HexodiaState([
+    TutorialStep.fromMove($localize`Hexagonal Diagonals`, $localize`But an unusual kind of diagonal also exist in Hexodia. Here, Dark has made alignment in each of those three direction, in only one a victory is still possible.<br/><br/>You're playing Dark, do the winning move.`, new FourStatePieceGameStateWithTable([
       [N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13],
       [N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13],
       [N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, _13, _13, _13, _13, _13, _13, _13, X11, _13, _13, _13, _13, _13, _13, _13],
@@ -20624,7 +20620,7 @@ var HexodiaMoveGenerator = class extends MoveGenerator {
     for (const firstCoord of availableFirstCoords) {
       const board = node.gameState.getCopiedBoard();
       board[firstCoord.y][firstCoord.x] = FourStatePiece.ofPlayer(node.gameState.getCurrentPlayer());
-      const stateAfterFirstDrops = new HexodiaState(board, node.gameState.turn);
+      const stateAfterFirstDrops = new FourStatePieceGameStateWithTable(board, node.gameState.turn);
       const availableSecondCoords = this.getAvailableCoords(stateAfterFirstDrops);
       for (const secondCoord of availableSecondCoords) {
         const newMove = HexodiaMove.of([firstCoord, secondCoord]);
@@ -45774,4 +45770,4 @@ bulma-toast/dist/bulma-toast.min.js:
    * Released under the MIT License.
    *)
 */
-//# sourceMappingURL=chunk-EXUOEFTI.js.map
+//# sourceMappingURL=chunk-3LYA2N6H.js.map
