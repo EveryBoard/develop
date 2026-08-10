@@ -5848,7 +5848,7 @@ var routes = [
   { path: "play/:game/:id", loadComponent: () => import("./online-game-wrapper.component-VRJKIW5E.js").then((m) => m.OnlineGameWrapperComponent), canActivate: [ExclusiveOnlineGameGuard, VerifiedAccountGuard] },
   { path: "local", loadComponent: () => import("./local-game-creation.component-IRO4WFRF.js").then((m) => m.LocalGameCreationComponent) },
   { path: "local/:game/config", loadComponent: () => import("./local-game-configuration.component-AMMRT6ME.js").then((m) => m.LocalGameConfigurationComponent) },
-  { path: "local/:game", loadComponent: () => import("./local-game-wrapper.component-J3SVMAE5.js").then((m) => m.LocalGameWrapperComponent) },
+  { path: "local/:game", loadComponent: () => import("./local-game-wrapper.component-J3QSULAR.js").then((m) => m.LocalGameWrapperComponent) },
   { path: "tutorial", loadComponent: () => import("./tutorial-game-creation.component-GGIMUM24.js").then((m) => m.TutorialGameCreationComponent) },
   { path: "tutorial/:game", loadComponent: () => import("./tutorial-game-wrapper.component-XH7FQJS5.js").then((m) => m.TutorialGameWrapperComponent) },
   { path: "", loadComponent: () => import("./welcome.component-PWSESIVL.js").then((m) => m.WelcomeComponent) },

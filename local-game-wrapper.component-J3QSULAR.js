@@ -760,6 +760,7 @@ var _a;
 var LocalGameWrapperComponent = (_a = class extends GameWrapper {
   cdr = inject(ChangeDetectorRef);
   aiInstances = new AIInstanceRegistry();
+  aiTimeout = MGPOptional.empty();
   aiProfiles = ["none", "none"];
   aiOptions = ["none", "none"];
   playerSelection = ["human", "human"];
@@ -952,21 +953,33 @@ var LocalGameWrapperComponent = (_a = class extends GameWrapper {
   }
   proposeAIToPlay() {
     return __async(this, null, function* () {
+      this.cancelPendingAIMove();
       const currentPlayerIsHuman = (yield this.hasSelectedAI()) === false;
       yield this.setInteractive(currentPlayerIsHuman);
+      this.cancelPendingAIMove();
       if (currentPlayerIsHuman === false) {
         const playingAI = this.getPlayingAI();
         if (playingAI.isPresent()) {
-          setTimeout(() => __async(this, null, function* () {
+          this.aiTimeout = MGPOptional.of(setTimeout(() => __async(this, null, function* () {
+            this.aiTimeout = MGPOptional.empty();
             const config = this.getConfig();
             const gameIsOngoing = this.gameComponent.rules.getGameStatus(this.gameComponent.node, config) === GameStatus.ONGOING;
             if (gameIsOngoing) {
               yield this.doAIMove(playingAI.get().ai, playingAI.get().options);
             }
-          }), LocalGameWrapperComponent_1.AI_TIMEOUT);
+          }), LocalGameWrapperComponent_1.AI_TIMEOUT));
         }
       }
     });
+  }
+  cancelPendingAIMove() {
+    if (this.aiTimeout.isPresent()) {
+      window.clearTimeout(this.aiTimeout.get());
+      this.aiTimeout = MGPOptional.empty();
+    }
+  }
+  ngOnDestroy() {
+    this.cancelPendingAIMove();
   }
   /**
    * @returns false if the game is finished
@@ -1432,4 +1445,4 @@ LocalGameWrapperComponent = LocalGameWrapperComponent_1 = __decorate([
 export {
   LocalGameWrapperComponent
 };
-//# sourceMappingURL=local-game-wrapper.component-J3SVMAE5.js.map
+//# sourceMappingURL=local-game-wrapper.component-J3QSULAR.js.map
