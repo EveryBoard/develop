@@ -1,22 +1,22 @@
 import {
   ConfigRoomService
-} from "./chunk-DLHGYF6H.js";
+} from "./chunk-ELIOAWD5.js";
 import {
   GameService
-} from "./chunk-YLZZ45NA.js";
+} from "./chunk-EJWFGNSI.js";
 import {
   ChatService
-} from "./chunk-YKEHTRUH.js";
+} from "./chunk-UGBQTEP4.js";
 import {
   CurrentGameService
-} from "./chunk-OZY4MEQV.js";
+} from "./chunk-V2RMD556.js";
 import {
   environment
-} from "./chunk-D5VDTO7G.js";
+} from "./chunk-B45PQAIF.js";
 import {
   GameInfo,
   MessageDisplayer
-} from "./chunk-3LYA2N6H.js";
+} from "./chunk-GRUSFYL3.js";
 import {
   LocaleUtils,
   ThemeService
@@ -46,9 +46,9 @@ import {
   getFirestore,
   initializeApp,
   serverTimestamp
-} from "./chunk-ZI37SBPR.js";
+} from "./chunk-RWYRC6Z5.js";
 import "./chunk-4D3V7D3R.js";
-import "./chunk-NCTOIZLG.js";
+import "./chunk-7IUA2OKB.js";
 import {
   FormsModule,
   ReactiveFormsModule
@@ -5834,25 +5834,25 @@ var VerifiedAccountGuard = class _VerifiedAccountGuard extends AccountGuard {
 
 // src/app/app.routes.ts
 var routes = [
-  { path: "login", loadComponent: () => import("./login.component-RVT66GFX.js").then((m) => m.LoginComponent) },
-  { path: "lobby", loadComponent: () => import("./lobby.component-Q26CPUQ5.js").then((m) => m.LobbyComponent), canActivate: [VerifiedAccountGuard] },
+  { path: "login", loadComponent: () => import("./login.component-HOZR3D44.js").then((m) => m.LoginComponent) },
+  { path: "lobby", loadComponent: () => import("./lobby.component-GSTMIJC2.js").then((m) => m.LobbyComponent), canActivate: [VerifiedAccountGuard] },
   { path: "account", loadComponent: () => import("./account.component-5VGLWCOJ.js").then((m) => m.AccountComponent), canActivate: [VerifiedAccountGuard] },
   { path: "settings", loadComponent: () => import("./settings.component-EHURCP7E.js").then((m) => m.SettingsComponent) },
-  { path: "register", loadComponent: () => import("./register.component-MZ5KWQFN.js").then((m) => m.RegisterComponent), canActivate: [NotConnectedGuard] },
-  { path: "reset-password", loadComponent: () => import("./reset-password.component-VHEPXV52.js").then((m) => m.ResetPasswordComponent) },
+  { path: "register", loadComponent: () => import("./register.component-R2KLLW3D.js").then((m) => m.RegisterComponent), canActivate: [NotConnectedGuard] },
+  { path: "reset-password", loadComponent: () => import("./reset-password.component-2DVYTNM5.js").then((m) => m.ResetPasswordComponent) },
   { path: "notFound/:message", loadComponent: () => import("./not-found.component-DRFNOVW2.js").then((m) => m.NotFoundComponent) },
   { path: "nextGameLoading", loadComponent: () => import("./next-game-loading.component-FU6YZEVR.js").then((m) => m.NextGameLoadingComponent), canActivate: [VerifiedAccountGuard] },
-  { path: "verify-account", loadComponent: () => import("./verify-account.component-3EI56XAJ.js").then((m) => m.VerifyAccountComponent), canActivate: [ConnectedButNotVerifiedGuard] },
-  { path: "play", loadComponent: () => import("./online-game-selection.component-M6O4UT5P.js").then((m) => m.OnlineGameSelectionComponent), canActivate: [ExclusiveOnlineGameGuard, VerifiedAccountGuard] },
-  { path: "play/:game", loadComponent: () => import("./online-game-creation.component-E5UJC6LZ.js").then((m) => m.OnlineGameCreationComponent), canActivate: [ExclusiveOnlineGameGuard, VerifiedAccountGuard] },
-  { path: "play/:game/:id", loadComponent: () => import("./online-game-wrapper.component-VRJKIW5E.js").then((m) => m.OnlineGameWrapperComponent), canActivate: [ExclusiveOnlineGameGuard, VerifiedAccountGuard] },
-  { path: "local", loadComponent: () => import("./local-game-creation.component-IRO4WFRF.js").then((m) => m.LocalGameCreationComponent) },
-  { path: "local/:game/config", loadComponent: () => import("./local-game-configuration.component-AMMRT6ME.js").then((m) => m.LocalGameConfigurationComponent) },
-  { path: "local/:game", loadComponent: () => import("./local-game-wrapper.component-J3QSULAR.js").then((m) => m.LocalGameWrapperComponent) },
-  { path: "tutorial", loadComponent: () => import("./tutorial-game-creation.component-GGIMUM24.js").then((m) => m.TutorialGameCreationComponent) },
-  { path: "tutorial/:game", loadComponent: () => import("./tutorial-game-wrapper.component-XH7FQJS5.js").then((m) => m.TutorialGameWrapperComponent) },
-  { path: "", loadComponent: () => import("./welcome.component-PWSESIVL.js").then((m) => m.WelcomeComponent) },
-  { path: "demo", loadComponent: () => import("./demo-page.component-J463PAWA.js").then((m) => m.DemoPageComponent) },
+  { path: "verify-account", loadComponent: () => import("./verify-account.component-UJ3OLS2E.js").then((m) => m.VerifyAccountComponent), canActivate: [ConnectedButNotVerifiedGuard] },
+  { path: "play", loadComponent: () => import("./online-game-selection.component-SI7CGMBA.js").then((m) => m.OnlineGameSelectionComponent), canActivate: [ExclusiveOnlineGameGuard, VerifiedAccountGuard] },
+  { path: "play/:game", loadComponent: () => import("./online-game-creation.component-7ENOAEX4.js").then((m) => m.OnlineGameCreationComponent), canActivate: [ExclusiveOnlineGameGuard, VerifiedAccountGuard] },
+  { path: "play/:game/:id", loadComponent: () => import("./online-game-wrapper.component-RFIL7MXS.js").then((m) => m.OnlineGameWrapperComponent), canActivate: [ExclusiveOnlineGameGuard, VerifiedAccountGuard] },
+  { path: "local", loadComponent: () => import("./local-game-creation.component-PBPC4K57.js").then((m) => m.LocalGameCreationComponent) },
+  { path: "local/:game/config", loadComponent: () => import("./local-game-configuration.component-MO3CJPDS.js").then((m) => m.LocalGameConfigurationComponent) },
+  { path: "local/:game", loadComponent: () => import("./local-game-wrapper.component-MHICI237.js").then((m) => m.LocalGameWrapperComponent) },
+  { path: "tutorial", loadComponent: () => import("./tutorial-game-creation.component-HRVMPJJF.js").then((m) => m.TutorialGameCreationComponent) },
+  { path: "tutorial/:game", loadComponent: () => import("./tutorial-game-wrapper.component-FQKJZYVP.js").then((m) => m.TutorialGameWrapperComponent) },
+  { path: "", loadComponent: () => import("./welcome.component-COGQD7JP.js").then((m) => m.WelcomeComponent) },
+  { path: "demo", loadComponent: () => import("./demo-page.component-FZYTUM4H.js").then((m) => m.DemoPageComponent) },
   { path: "**", loadComponent: () => import("./not-found.component-DRFNOVW2.js").then((m) => m.NotFoundComponent) }
 ];
 function initializeFirebase() {
