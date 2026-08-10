@@ -992,8 +992,8 @@ var FuseIndex = class {
   toJSON() {
     return {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      keys: this.keys.map((_a11) => {
-        var _b = _a11, {
+      keys: this.keys.map((_a10) => {
+        var _b = _a10, {
           getFn
         } = _b, key = __objRest(_b, [
           "getFn"
@@ -1656,7 +1656,7 @@ var ExtendedSearch = class {
     this.pattern = pattern;
     this.query = parseQuery(this.pattern, this.options);
   }
-  static condition(_32, options) {
+  static condition(_33, options) {
     return options.useExtendedSearch;
   }
   // Note: searchIn operates on a single text value and sets hasInverse on the
@@ -2486,7 +2486,7 @@ var Fuse = class {
   }
 };
 var TokenSearch = class {
-  static condition(_32, options) {
+  static condition(_33, options) {
     return options.useTokenSearch;
   }
   constructor(pattern, options) {
@@ -2609,6 +2609,7 @@ var RulesConfigDescriptionLocalizable = class {
   static NUMBER_OF_DROPS = () => $localize`Number of pieces dropped per turn`;
   static NUMBER_OF_EMPTY_ROWS = () => $localize`Number of empty rows`;
   static NUMBER_OF_PIECES_ROWS = () => $localize`Number of pieces rows`;
+  static TORIC = () => $localize`Toric`;
 };
 var ConfigLine = class {
   defaultValue;
@@ -2635,7 +2636,7 @@ var NumberConfig = class extends ConfigLine {
 var EnumConfig = class extends ConfigLine {
   possibleValues;
   validator;
-  constructor(value, title, possibleValues, validator = (_32) => MGPValidation.SUCCESS) {
+  constructor(value, title, possibleValues, validator = (_33) => MGPValidation.SUCCESS) {
     super(value, title);
     this.possibleValues = possibleValues;
     this.validator = validator;
@@ -3171,6 +3172,12 @@ var Coord = class _Coord extends Vector {
   getNext(dir, distance) {
     const combinedVector = this.combine(dir, distance);
     return new _Coord(combinedVector.x, combinedVector.y);
+  }
+  getNextToric(dir, boardWidth, boardHeight, distance) {
+    const combinedVector = this.combine(dir, distance);
+    const toricX = (combinedVector.x + boardWidth) % boardWidth;
+    const toricY = (combinedVector.y + boardHeight) % boardHeight;
+    return new _Coord(toricX, toricY);
   }
   getPrevious(dir, distance = 1) {
     return this.getNext(dir, -distance);
@@ -3722,20 +3729,20 @@ var AbaloneRules = class _AbaloneRules extends ConfigurableRules {
     return _AbaloneRules.RULES_CONFIG_DESCRIPTION;
   }
   getInitialState() {
-    const _32 = FourStatePiece.EMPTY;
+    const _33 = FourStatePiece.EMPTY;
     const N10 = FourStatePiece.UNREACHABLE;
-    const O27 = FourStatePiece.ZERO;
-    const X27 = FourStatePiece.ONE;
+    const O28 = FourStatePiece.ZERO;
+    const X28 = FourStatePiece.ONE;
     const board = [
-      [N10, N10, N10, N10, X27, X27, X27, X27, X27],
-      [N10, N10, N10, X27, X27, X27, X27, X27, X27],
-      [N10, N10, _32, _32, X27, X27, X27, _32, _32],
-      [N10, _32, _32, _32, _32, _32, _32, _32, _32],
-      [_32, _32, _32, _32, _32, _32, _32, _32, _32],
-      [_32, _32, _32, _32, _32, _32, _32, _32, N10],
-      [_32, _32, O27, O27, O27, _32, _32, N10, N10],
-      [O27, O27, O27, O27, O27, O27, N10, N10, N10],
-      [O27, O27, O27, O27, O27, N10, N10, N10, N10]
+      [N10, N10, N10, N10, X28, X28, X28, X28, X28],
+      [N10, N10, N10, X28, X28, X28, X28, X28, X28],
+      [N10, N10, _33, _33, X28, X28, X28, _33, _33],
+      [N10, _33, _33, _33, _33, _33, _33, _33, _33],
+      [_33, _33, _33, _33, _33, _33, _33, _33, _33],
+      [_33, _33, _33, _33, _33, _33, _33, _33, N10],
+      [_33, _33, O28, O28, O28, _33, _33, N10, N10],
+      [O28, O28, O28, O28, O28, O28, N10, N10, N10],
+      [O28, O28, O28, O28, O28, N10, N10, N10, N10]
     ];
     return new AbaloneState(board, 0);
   }
@@ -4602,9 +4609,9 @@ var GameComponent = class GameComponent2 extends BaseGameComponent {
   }
   setRulesAndNode(urlName) {
     const gameInfo = GameInfo.getByUrlName(urlName).get();
-    const defaultConfig25 = gameInfo.getRulesConfig();
+    const defaultConfig26 = gameInfo.getRulesConfig();
     this.rules = gameInfo.rules;
-    this.node = this.rules.getInitialNode(defaultConfig25);
+    this.node = this.rules.getInitialNode(defaultConfig26);
     this.tutorial = gameInfo.tutorial.tutorial;
   }
   getConfig() {
@@ -6672,9 +6679,9 @@ var AbstractCheckersRules = class extends ConfigurableRules {
   getInitialState(config) {
     const U3 = new CheckersStack([CheckersPiece.ZERO]);
     const V2 = new CheckersStack([CheckersPiece.ONE]);
-    const _32 = CheckersStack.EMPTY;
+    const _33 = CheckersStack.EMPTY;
     const height = config.emptyRows + 2 * config.playerRows;
-    const board = TableUtils.create(config.width, height, _32);
+    const board = TableUtils.create(config.width, height, _33);
     const occupiedSquare = config.occupyEvenSquare ? 0 : 1;
     for (let y = 0; y < height; y++) {
       for (let x2 = 0; x2 < config.width; x2++) {
@@ -8652,34 +8659,34 @@ var CoerceoRules = (_a3 = class extends ConfigurableRules {
     return CoerceoRules_1.singleton.get();
   }
   getInitialState(config) {
-    const _32 = FourStatePiece.EMPTY;
+    const _33 = FourStatePiece.EMPTY;
     const N10 = FourStatePiece.UNREACHABLE;
-    const O27 = FourStatePiece.ZERO;
-    const X27 = FourStatePiece.ONE;
+    const O28 = FourStatePiece.ZERO;
+    const X28 = FourStatePiece.ONE;
     let board;
     if (config.smallBoard) {
       board = [
         [N10, N10, N10, N10, N10, N10, N10, N10, N10],
-        [N10, N10, N10, O27, _32, O27, N10, N10, N10],
-        [_32, _32, O27, _32, _32, _32, O27, _32, _32],
-        [_32, _32, _32, O27, _32, O27, _32, _32, _32],
-        [_32, _32, _32, X27, _32, X27, _32, _32, _32],
-        [_32, _32, X27, _32, _32, _32, X27, _32, _32],
-        [N10, N10, N10, X27, _32, X27, N10, N10, N10],
+        [N10, N10, N10, O28, _33, O28, N10, N10, N10],
+        [_33, _33, O28, _33, _33, _33, O28, _33, _33],
+        [_33, _33, _33, O28, _33, O28, _33, _33, _33],
+        [_33, _33, _33, X28, _33, X28, _33, _33, _33],
+        [_33, _33, X28, _33, _33, _33, X28, _33, _33],
+        [N10, N10, N10, X28, _33, X28, N10, N10, N10],
         [N10, N10, N10, N10, N10, N10, N10, N10, N10]
       ];
     } else {
       board = [
-        [N10, N10, N10, N10, N10, N10, O27, _32, O27, N10, N10, N10, N10, N10, N10],
-        [N10, N10, N10, _32, _32, O27, _32, _32, _32, O27, _32, _32, N10, N10, N10],
-        [_32, X27, _32, X27, _32, _32, O27, _32, O27, _32, _32, X27, _32, X27, _32],
-        [X27, _32, _32, _32, X27, _32, _32, _32, _32, _32, X27, _32, _32, _32, X27],
-        [_32, X27, _32, X27, _32, _32, _32, _32, _32, _32, _32, X27, _32, X27, _32],
-        [_32, O27, _32, O27, _32, _32, _32, _32, _32, _32, _32, O27, _32, O27, _32],
-        [O27, _32, _32, _32, O27, _32, _32, _32, _32, _32, O27, _32, _32, _32, O27],
-        [_32, O27, _32, O27, _32, _32, X27, _32, X27, _32, _32, O27, _32, O27, _32],
-        [N10, N10, N10, _32, _32, X27, _32, _32, _32, X27, _32, _32, N10, N10, N10],
-        [N10, N10, N10, N10, N10, N10, X27, _32, X27, N10, N10, N10, N10, N10, N10]
+        [N10, N10, N10, N10, N10, N10, O28, _33, O28, N10, N10, N10, N10, N10, N10],
+        [N10, N10, N10, _33, _33, O28, _33, _33, _33, O28, _33, _33, N10, N10, N10],
+        [_33, X28, _33, X28, _33, _33, O28, _33, O28, _33, _33, X28, _33, X28, _33],
+        [X28, _33, _33, _33, X28, _33, _33, _33, _33, _33, X28, _33, _33, _33, X28],
+        [_33, X28, _33, X28, _33, _33, _33, _33, _33, _33, _33, X28, _33, X28, _33],
+        [_33, O28, _33, O28, _33, _33, _33, _33, _33, _33, _33, O28, _33, O28, _33],
+        [O28, _33, _33, _33, O28, _33, _33, _33, _33, _33, O28, _33, _33, _33, O28],
+        [_33, O28, _33, O28, _33, _33, X28, _33, X28, _33, _33, O28, _33, O28, _33],
+        [N10, N10, N10, _33, _33, X28, _33, _33, _33, X28, _33, _33, N10, N10, N10],
+        [N10, N10, N10, N10, N10, N10, X28, _33, X28, N10, N10, N10, N10, N10, N10]
       ];
     }
     return new CoerceoState(board, 0, PlayerNumberMap.of(0, 0), PlayerNumberMap.of(0, 0));
@@ -11799,19 +11806,19 @@ var DiaballikRules = class _DiaballikRules extends Rules {
     return _DiaballikRules.singleton.get();
   }
   getInitialState() {
-    const O27 = DiaballikPiece.ZERO;
+    const O28 = DiaballikPiece.ZERO;
     const \u022E2 = DiaballikPiece.ZERO_WITH_BALL;
-    const X27 = DiaballikPiece.ONE;
+    const X28 = DiaballikPiece.ONE;
     const \u1E8A2 = DiaballikPiece.ONE_WITH_BALL;
-    const _32 = DiaballikPiece.NONE;
+    const _33 = DiaballikPiece.NONE;
     const board = [
-      [X27, X27, X27, \u1E8A2, X27, X27, X27],
-      [_32, _32, _32, _32, _32, _32, _32],
-      [_32, _32, _32, _32, _32, _32, _32],
-      [_32, _32, _32, _32, _32, _32, _32],
-      [_32, _32, _32, _32, _32, _32, _32],
-      [_32, _32, _32, _32, _32, _32, _32],
-      [O27, O27, O27, \u022E2, O27, O27, O27]
+      [X28, X28, X28, \u1E8A2, X28, X28, X28],
+      [_33, _33, _33, _33, _33, _33, _33],
+      [_33, _33, _33, _33, _33, _33, _33],
+      [_33, _33, _33, _33, _33, _33, _33],
+      [_33, _33, _33, _33, _33, _33, _33],
+      [_33, _33, _33, _33, _33, _33, _33],
+      [O28, O28, O28, \u022E2, O28, O28, O28]
     ];
     return new DiaballikState(board, 0);
   }
@@ -13198,12 +13205,12 @@ var DiamRules = class _DiamRules extends Rules {
     return _DiamRules.singleton.get();
   }
   getInitialState() {
-    const _32 = DiamPiece.EMPTY;
+    const _33 = DiamPiece.EMPTY;
     const board = [
-      [_32, _32, _32, _32, _32, _32, _32, _32],
-      [_32, _32, _32, _32, _32, _32, _32, _32],
-      [_32, _32, _32, _32, _32, _32, _32, _32],
-      [_32, _32, _32, _32, _32, _32, _32, _32]
+      [_33, _33, _33, _33, _33, _33, _33, _33],
+      [_33, _33, _33, _33, _33, _33, _33, _33],
+      [_33, _33, _33, _33, _33, _33, _33, _33],
+      [_33, _33, _33, _33, _33, _33, _33, _33]
     ];
     return new DiamState(board, [4, 4, 4, 4], 0);
   }
@@ -14191,16 +14198,16 @@ var DvonnState = class _DvonnState extends HexagonalGameState {
    *     W D W B B W W W B
    */
   static balancedBoard() {
-    const _32 = DvonnPieceStack.UNREACHABLE;
-    const O27 = DvonnPieceStack.PLAYER_ZERO;
-    const X27 = DvonnPieceStack.PLAYER_ONE;
+    const _33 = DvonnPieceStack.UNREACHABLE;
+    const O28 = DvonnPieceStack.PLAYER_ZERO;
+    const X28 = DvonnPieceStack.PLAYER_ONE;
     const S3 = DvonnPieceStack.SOURCE;
     return [
-      [_32, _32, O27, X27, X27, X27, O27, O27, X27, S3, X27],
-      [_32, X27, X27, O27, O27, O27, X27, X27, O27, X27, X27],
-      [X27, X27, X27, X27, O27, S3, X27, O27, O27, O27, O27],
-      [O27, O27, X27, O27, O27, X27, X27, X27, O27, O27, _32],
-      [O27, S3, O27, X27, X27, O27, O27, O27, X27, _32, _32]
+      [_33, _33, O28, X28, X28, X28, O28, O28, X28, S3, X28],
+      [_33, X28, X28, O28, O28, O28, X28, X28, O28, X28, X28],
+      [X28, X28, X28, X28, O28, S3, X28, O28, O28, O28, O28],
+      [O28, O28, X28, O28, O28, X28, X28, X28, O28, O28, _33],
+      [O28, S3, O28, X28, X28, O28, O28, O28, X28, _33, _33]
     ];
   }
   static isOnBoard(coord) {
@@ -14787,6 +14794,12 @@ var AbstractMinimax = class {
 };
 
 // src/app/jscaip/AI/Minimax.ts
+var PlayerMetricHeuristic2 = class extends Heuristic {
+  getBoardValue(node, config) {
+    const metrics = this.getMetrics(node, config);
+    return BoardValue.ofMultiple(metrics.get(Player.ZERO).get(), metrics.get(Player.ONE).get());
+  }
+};
 var PlayerMetricHeuristicWithBounds = class extends HeuristicWithBounds {
   // Yes, this is duplicated from PlayerMetricHeuristic, because we don't have multiple inheritance
   // and probably don't want to use mixins!
@@ -15286,7 +15299,7 @@ var EncapsuleSpace = class _EncapsuleSpace {
     const occupiedCircles = this.getOccupiedCircles();
     return occupiedCircles.size() === 0;
   }
-  isEmptyKeyValue(_32, value) {
+  isEmptyKeyValue(_33, value) {
     return value.isPlayer();
   }
   toList() {
@@ -15367,8 +15380,8 @@ var EncapsuleRules = (_a4 = class extends ConfigurableRules {
     return EncapsuleRules_1.singleton.get();
   }
   getInitialState(config) {
-    const _32 = new EncapsuleSpace(new MGPMap());
-    const startingBoard = TableUtils.create(config.width, config.height, _32);
+    const _33 = new EncapsuleSpace(new MGPMap());
+    const startingBoard = TableUtils.create(config.width, config.height, _33);
     const initialPieces = this.getInitialEncapsulePieceMap(config);
     return new EncapsuleState(startingBoard, 0, initialPieces, config.nbOfSizes);
   }
@@ -16218,12 +16231,12 @@ var EpaminondasRules = class _EpaminondasRules extends ConfigurableRules {
     return MGPFallible.success(board);
   }
   getInitialState(config) {
-    const _32 = PlayerOrNone.NONE;
-    const O27 = PlayerOrNone.ZERO;
-    const X27 = PlayerOrNone.ONE;
-    const upperBoard = TableUtils.create(config.width, config.rowsOfSoldiers, X27);
-    const middleBoard = TableUtils.create(config.width, config.emptyRows, _32);
-    const lowerBoard = TableUtils.create(config.width, config.rowsOfSoldiers, O27);
+    const _33 = PlayerOrNone.NONE;
+    const O28 = PlayerOrNone.ZERO;
+    const X28 = PlayerOrNone.ONE;
+    const upperBoard = TableUtils.create(config.width, config.rowsOfSoldiers, X28);
+    const middleBoard = TableUtils.create(config.width, config.emptyRows, _33);
+    const lowerBoard = TableUtils.create(config.width, config.rowsOfSoldiers, O28);
     const board = upperBoard.concat(middleBoard).concat(lowerBoard);
     return new EpaminondasState(board, 0);
   }
@@ -17257,18 +17270,18 @@ var GipfRules = class _GipfRules extends Rules {
     return _GipfRules.singleton.get();
   }
   getInitialState() {
-    const _32 = FourStatePiece.EMPTY;
+    const _33 = FourStatePiece.EMPTY;
     const N10 = FourStatePiece.UNREACHABLE;
-    const O27 = FourStatePiece.ZERO;
-    const X27 = FourStatePiece.ONE;
+    const O28 = FourStatePiece.ZERO;
+    const X28 = FourStatePiece.ONE;
     const board = [
-      [N10, N10, N10, X27, _32, _32, O27],
-      [N10, N10, _32, _32, _32, _32, _32],
-      [N10, _32, _32, _32, _32, _32, _32],
-      [O27, _32, _32, _32, _32, _32, X27],
-      [_32, _32, _32, _32, _32, _32, N10],
-      [_32, _32, _32, _32, _32, N10, N10],
-      [X27, _32, _32, O27, N10, N10, N10]
+      [N10, N10, N10, X28, _33, _33, O28],
+      [N10, N10, _33, _33, _33, _33, _33],
+      [N10, _33, _33, _33, _33, _33, _33],
+      [O28, _33, _33, _33, _33, _33, X28],
+      [_33, _33, _33, _33, _33, _33, N10],
+      [_33, _33, _33, _33, _33, N10, N10],
+      [X28, _33, _33, O28, N10, N10, N10]
     ];
     return new GipfState(board, 0, PlayerNumberMap.of(12, 12), PlayerNumberMap.of(0, 0));
   }
@@ -18898,7 +18911,7 @@ var GoGroupDataFactory = class extends GroupDataFactory {
   }
 };
 var OrthogonalGoGroupDataFactory = class extends GoGroupDataFactory {
-  getDirections(_32) {
+  getDirections(_33) {
     return Orthogonal.ORTHOGONALS;
   }
 };
@@ -18908,7 +18921,7 @@ var TriangularGoGroupDataFactory = class extends GoGroupDataFactory {
   }
 };
 var HexagonalGoGroupDataFactory = class extends GoGroupDataFactory {
-  getDirections(_32) {
+  getDirections(_33) {
     return HexaDirection.factory.all;
   }
 };
@@ -22605,7 +22618,7 @@ var HiveComponent = class _HiveComponent extends HexagonalGameComponent {
         return 1.5;
     }
   }
-  selectRemaining(piece, _32) {
+  selectRemaining(piece, _33) {
     return __async(this, null, function* () {
       if (piece.owner === this.getCurrentOpponent()) {
         return this.cancelMove(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
@@ -22627,7 +22640,7 @@ var HiveComponent = class _HiveComponent extends HexagonalGameComponent {
       }
     });
   }
-  selectPiece(x2, y, _32) {
+  selectPiece(x2, y, _33) {
     return __async(this, null, function* () {
       return this.select(new Coord(x2, y));
     });
@@ -23012,15 +23025,15 @@ var KamisadoBoard = class _KamisadoBoard {
     return _KamisadoBoard.COLORS[y][x2];
   }
   static getInitialBoard() {
-    const _32 = KamisadoPiece.EMPTY;
+    const _33 = KamisadoPiece.EMPTY;
     return [
       [1, 2, 3, 4, 5, 6, 7, 8].map((value) => KamisadoPiece.of(Player.ONE, value)),
-      [_32, _32, _32, _32, _32, _32, _32, _32],
-      [_32, _32, _32, _32, _32, _32, _32, _32],
-      [_32, _32, _32, _32, _32, _32, _32, _32],
-      [_32, _32, _32, _32, _32, _32, _32, _32],
-      [_32, _32, _32, _32, _32, _32, _32, _32],
-      [_32, _32, _32, _32, _32, _32, _32, _32],
+      [_33, _33, _33, _33, _33, _33, _33, _33],
+      [_33, _33, _33, _33, _33, _33, _33, _33],
+      [_33, _33, _33, _33, _33, _33, _33, _33],
+      [_33, _33, _33, _33, _33, _33, _33, _33],
+      [_33, _33, _33, _33, _33, _33, _33, _33],
+      [_33, _33, _33, _33, _33, _33, _33, _33],
       [8, 7, 6, 5, 4, 3, 2, 1].map((value) => KamisadoPiece.of(Player.ZERO, value))
     ];
   }
@@ -23730,18 +23743,18 @@ var LinesOfActionRules = class _LinesOfActionRules extends Rules {
     return _LinesOfActionRules.singleton.get();
   }
   getInitialState() {
-    const _32 = PlayerOrNone.NONE;
-    const O27 = PlayerOrNone.ZERO;
-    const X27 = PlayerOrNone.ONE;
+    const _33 = PlayerOrNone.NONE;
+    const O28 = PlayerOrNone.ZERO;
+    const X28 = PlayerOrNone.ONE;
     const board = [
-      [_32, O27, O27, O27, O27, O27, O27, _32],
-      [X27, _32, _32, _32, _32, _32, _32, X27],
-      [X27, _32, _32, _32, _32, _32, _32, X27],
-      [X27, _32, _32, _32, _32, _32, _32, X27],
-      [X27, _32, _32, _32, _32, _32, _32, X27],
-      [X27, _32, _32, _32, _32, _32, _32, X27],
-      [X27, _32, _32, _32, _32, _32, _32, X27],
-      [_32, O27, O27, O27, O27, O27, O27, _32]
+      [_33, O28, O28, O28, O28, O28, O28, _33],
+      [X28, _33, _33, _33, _33, _33, _33, X28],
+      [X28, _33, _33, _33, _33, _33, _33, X28],
+      [X28, _33, _33, _33, _33, _33, _33, X28],
+      [X28, _33, _33, _33, _33, _33, _33, X28],
+      [X28, _33, _33, _33, _33, _33, _33, X28],
+      [X28, _33, _33, _33, _33, _33, _33, X28],
+      [_33, O28, O28, O28, O28, O28, O28, _33]
     ];
     return new LinesOfActionState(board, 0);
   }
@@ -24589,18 +24602,18 @@ var LodestoneRules = class _LodestoneRules extends Rules {
     return _LodestoneRules.singleton.get();
   }
   getInitialState() {
-    const _32 = LodestonePieceNone.EMPTY;
-    const O27 = LodestonePiecePlayer.ZERO;
-    const X27 = LodestonePiecePlayer.ONE;
+    const _33 = LodestonePieceNone.EMPTY;
+    const O28 = LodestonePiecePlayer.ZERO;
+    const X28 = LodestonePiecePlayer.ONE;
     const board = [
-      [_32, _32, O27, X27, O27, X27, _32, _32],
-      [_32, O27, X27, O27, X27, O27, X27, _32],
-      [O27, X27, O27, X27, O27, X27, O27, X27],
-      [X27, O27, X27, _32, _32, O27, X27, O27],
-      [O27, X27, O27, _32, _32, X27, O27, X27],
-      [X27, O27, X27, O27, X27, O27, X27, O27],
-      [_32, X27, O27, X27, O27, X27, O27, _32],
-      [_32, _32, X27, O27, X27, O27, _32, _32]
+      [_33, _33, O28, X28, O28, X28, _33, _33],
+      [_33, O28, X28, O28, X28, O28, X28, _33],
+      [O28, X28, O28, X28, O28, X28, O28, X28],
+      [X28, O28, X28, _33, _33, O28, X28, O28],
+      [O28, X28, O28, _33, _33, X28, O28, X28],
+      [X28, O28, X28, O28, X28, O28, X28, O28],
+      [_33, X28, O28, X28, O28, X28, O28, _33],
+      [_33, _33, X28, O28, X28, O28, _33, _33]
     ];
     const plates = LodestonePressurePlates.getInitialLodestonePressurePlates([5, 3]);
     return new LodestoneState(board, 0, new MGPMap(), plates);
@@ -26340,7 +26353,7 @@ var MancalaRules = class _MancalaRules extends ConfigurableRules {
     }
     return GameStatus.ONGOING;
   }
-  applyLegalMove(move, state, config, _32) {
+  applyLegalMove(move, state, config, _33) {
     const distributionsResult = this.distributeMove(move, state, config);
     const captureResult = this.applyCapture(distributionsResult, config);
     let resultingState = captureResult.resultingState;
@@ -26969,7 +26982,7 @@ var MancalaComponent = class _MancalaComponent extends RectangularGameComponent 
       }
     }
   }
-  onStoreClick(_32) {
+  onStoreClick(_33) {
     return __async(this, null, function* () {
       return this.cancelMove(MancalaFailure.MUST_DISTRIBUTE_YOUR_OWN_HOUSES());
     });
@@ -27909,19 +27922,19 @@ var MartianChessRules = class _MartianChessRules extends Rules {
     return _MartianChessRules.singleton.get();
   }
   getInitialState() {
-    const _32 = MartianChessPiece.EMPTY;
+    const _33 = MartianChessPiece.EMPTY;
     const A9 = MartianChessPiece.PAWN;
     const B7 = MartianChessPiece.DRONE;
     const C2 = MartianChessPiece.QUEEN;
     const board = [
-      [C2, C2, B7, _32],
-      [C2, B7, A9, _32],
-      [B7, A9, A9, _32],
-      [_32, _32, _32, _32],
-      [_32, _32, _32, _32],
-      [_32, A9, A9, B7],
-      [_32, A9, B7, C2],
-      [_32, B7, C2, C2]
+      [C2, C2, B7, _33],
+      [C2, B7, A9, _33],
+      [B7, A9, A9, _33],
+      [_33, _33, _33, _33],
+      [_33, _33, _33, _33],
+      [_33, A9, A9, B7],
+      [_33, A9, B7, C2],
+      [_33, B7, C2, C2]
     ];
     return new MartianChessState(board, 0, MGPOptional.empty());
   }
@@ -35766,12 +35779,12 @@ __decorate39([
   (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(QuixoComponent, { className: "QuixoComponent", filePath: "src/app/games/quixo/quixo.component.ts", lineNumber: 25 });
 })();
 
-// src/app/games/reversi/ReversiFailure.ts
+// src/app/games/reversis/common/ReversiFailure.ts
 var ReversiFailure = class {
   static NO_ELEMENT_SWITCHED = () => $localize`Your move should switch at least one piece.`;
 };
 
-// src/app/games/reversi/ReversiMove.ts
+// src/app/games/reversis/common/ReversiMove.ts
 var ReversiMove = class _ReversiMove extends MoveCoord {
   static encoder = MoveCoord.getEncoder(_ReversiMove.of);
   static PASS = new _ReversiMove(-1, -1);
@@ -35783,7 +35796,7 @@ var ReversiMove = class _ReversiMove extends MoveCoord {
   }
 };
 
-// src/app/games/reversi/ReversiState.ts
+// src/app/games/reversis/common/ReversiState.ts
 var ReversiState = class extends PlayerOrNoneGameStateWithTable {
   getNeighboringPawnLike(searchedValue, center) {
     let coord;
@@ -35810,14 +35823,13 @@ var ReversiState = class extends PlayerOrNoneGameStateWithTable {
   }
 };
 
-// src/app/games/reversi/ReversiRules.ts
+// src/app/games/reversis/common/AbstractReversiRules.ts
 var __decorate40 = function(decorators, target, key, desc) {
   var c = arguments.length, r2 = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d2;
   if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r2 = Reflect.decorate(decorators, target, key, desc);
   else for (var i2 = decorators.length - 1; i2 >= 0; i2--) if (d2 = decorators[i2]) r2 = (c < 3 ? d2(r2) : c > 3 ? d2(target, key, r2) : d2(target, key)) || r2;
   return c > 3 && r2 && Object.defineProperty(target, key, r2), r2;
 };
-var ReversiRules_1;
 var ReversiMoveWithSwitched = class {
   move;
   switched;
@@ -35826,16 +35838,25 @@ var ReversiMoveWithSwitched = class {
     this.switched = switched;
   }
 };
-var _a7;
-var ReversiRules = (_a7 = class extends ConfigurableRules {
-  static get() {
-    if (ReversiRules_1.singleton.isAbsent()) {
-      ReversiRules_1.singleton = MGPOptional.of(new ReversiRules_1());
-    }
-    return ReversiRules_1.singleton.get();
+var RectangularBoardMode = class {
+  getNextCoord(coord, direction, _33) {
+    return coord.getNext(direction);
   }
-  getRulesConfigDescription() {
-    return ReversiRules_1.RULES_CONFIG_DESCRIPTION;
+};
+var ToricBoardMode = class {
+  getNextCoord(coord, direction, state) {
+    return coord.getNextToric(direction, state.getWidth(), state.getHeight());
+  }
+};
+var AbstractReversiRules = class AbstractReversiRules2 extends ConfigurableRules {
+  toricBoardMode = new ToricBoardMode();
+  rectangularBoardMode = new RectangularBoardMode();
+  getBoardMode(config) {
+    if (config.toric) {
+      return this.toricBoardMode;
+    } else {
+      return this.rectangularBoardMode;
+    }
   }
   getInitialState(config) {
     const board = TableUtils.create(config.width, config.height, PlayerOrNone.NONE);
@@ -35846,7 +35867,7 @@ var ReversiRules = (_a7 = class extends ConfigurableRules {
     board[downRightCenter.y][downRightCenter.x - 1] = Player.ONE;
     return new ReversiState(board, 0);
   }
-  applyLegalMove(move, state, _config, info) {
+  applyLegalMove(move, state, _33, info) {
     const turn = state.turn;
     const player = state.getCurrentPlayer();
     const board = state.getCopiedBoard();
@@ -35861,13 +35882,14 @@ var ReversiRules = (_a7 = class extends ConfigurableRules {
     const resultingState = new ReversiState(board, turn + 1);
     return resultingState;
   }
-  getAllSwitcheds(move, player, state) {
+  getAllSwitchedCoords(move, player, state, config) {
     const switcheds = [];
     const opponent = player.getOpponent();
+    const boardMode = this.getBoardMode(config);
     for (const direction of Ordinal.ORDINALS) {
-      const firstSpace = move.coord.getNext(direction);
+      const firstSpace = boardMode.getNextCoord(move.coord, direction, state);
       if (state.hasPieceAt(firstSpace, opponent)) {
-        const switchedInDir = this.getSandwicheds(player, direction, firstSpace, state);
+        const switchedInDir = this.getSandwicheds(player, direction, firstSpace, state, config);
         for (const switched of switchedInDir) {
           switcheds.push(switched);
         }
@@ -35875,24 +35897,25 @@ var ReversiRules = (_a7 = class extends ConfigurableRules {
     }
     return switcheds;
   }
-  getSandwicheds(capturer, direction, start, state) {
+  getSandwicheds(capturer, direction, start, state, config) {
+    const boardMode = this.getBoardMode(config);
     const sandwichedsCoord = [start];
-    let testedCoord = start.getNext(direction);
-    while (state.isOnBoard(testedCoord)) {
+    let testedCoord = boardMode.getNextCoord(start, direction, state);
+    while (state.isOnBoard(testedCoord) && testedCoord.equals(start) === false) {
       const testedCoordContent = state.getPieceAt(testedCoord);
       if (testedCoordContent === capturer) {
         return sandwichedsCoord;
-      }
-      if (testedCoordContent.isNone()) {
+      } else if (testedCoordContent.isNone()) {
         return [];
+      } else {
+        sandwichedsCoord.push(testedCoord);
+        testedCoord = boardMode.getNextCoord(testedCoord, direction, state);
       }
-      sandwichedsCoord.push(testedCoord);
-      testedCoord = testedCoord.getNext(direction);
     }
     return [];
   }
   isGameEnded(state, config) {
-    return this.playerCanOnlyPass(state, config) && this.nextPlayerCantOnlyPass(state, config);
+    return this.playerCanOnlyPass(state, config) && this.nextPlayerCanOnlyPass(state, config);
   }
   getGameStatus(node, config) {
     const state = node.gameState;
@@ -35914,31 +35937,27 @@ var ReversiRules = (_a7 = class extends ConfigurableRules {
     const currentPlayerChoices = this.getListMoves(state, config);
     return currentPlayerChoices.length === 1 && currentPlayerChoices[0].move.equals(ReversiMove.PASS);
   }
-  nextPlayerCantOnlyPass(reversiState, config) {
+  nextPlayerCanOnlyPass(reversiState, config) {
     const nextBoard = reversiState.getCopiedBoard();
     const nextTurn = reversiState.turn + 1;
     const nextState = new ReversiState(nextBoard, nextTurn);
     return this.playerCanOnlyPass(nextState, config);
   }
-  getListMoves(state, _config) {
+  getListMoves(state, config) {
     const moves = [];
-    let nextBoard;
     const player = state.getCurrentPlayer();
     const opponent = state.getCurrentOpponent();
     for (const coordAndContent of state.getCoordsAndContents()) {
       const coord = coordAndContent.coord;
       if (state.getPieceAt(coord).isNone()) {
-        nextBoard = state.getCopiedBoard();
         const opponentNeighbors = state.getNeighboringPawnLike(opponent, coord);
         if (opponentNeighbors.length > 0) {
           const move = new ReversiMove(coord.x, coord.y);
-          const result = this.getAllSwitcheds(move, player, state);
+          const result = this.getAllSwitchedCoords(move, player, state, config);
           if (result.length > 0) {
             for (const switched of result) {
               Utils.assert(player !== state.getPieceAt(switched), switched + "was already switched!");
-              nextBoard[switched.y][switched.x] = player;
             }
-            nextBoard[coord.y][coord.x] = player;
             moves.push(new ReversiMoveWithSwitched(move, result.length));
           }
         }
@@ -35960,35 +35979,48 @@ var ReversiRules = (_a7 = class extends ConfigurableRules {
     if (state.getPieceAt(move.coord).isPlayer()) {
       return MGPFallible.failure(RulesFailure.MUST_CLICK_ON_EMPTY_SPACE());
     }
-    const switched = this.getAllSwitcheds(move, state.getCurrentPlayer(), state);
+    const switched = this.getAllSwitchedCoords(move, state.getCurrentPlayer(), state, config);
     if (switched.length === 0) {
       return MGPFallible.failure(ReversiFailure.NO_ELEMENT_SWITCHED());
     } else {
       return MGPFallible.success(switched);
     }
   }
-}, ReversiRules_1 = _a7, __publicField(_a7, "singleton", MGPOptional.empty()), __publicField(_a7, "RULES_CONFIG_DESCRIPTION", new RulesConfigDescription({
-  name: () => $localize`Reversi`,
-  config: {
-    width: new NumberConfig(8, RulesConfigDescriptionLocalizable.WIDTH, MGPValidators.range(3, 99)),
-    height: new NumberConfig(8, RulesConfigDescriptionLocalizable.HEIGHT, MGPValidators.range(3, 99))
-  }
-})), _a7);
-ReversiRules = ReversiRules_1 = __decorate40([
+};
+AbstractReversiRules = __decorate40([
   Debug.log
-], ReversiRules);
+], AbstractReversiRules);
 
-// src/app/games/reversi/ReversiTutorial.ts
+// src/app/games/reversis/reversi/ReversiRules.ts
+var ReversiRules = class _ReversiRules extends AbstractReversiRules {
+  static singleton = MGPOptional.empty();
+  static get() {
+    if (_ReversiRules.singleton.isAbsent()) {
+      _ReversiRules.singleton = MGPOptional.of(new _ReversiRules());
+    }
+    return _ReversiRules.singleton.get();
+  }
+  static RULES_CONFIG_DESCRIPTION = new RulesConfigDescription({
+    name: () => $localize`Reversi`,
+    config: {
+      width: new NumberConfig(8, RulesConfigDescriptionLocalizable.WIDTH, MGPValidators.range(3, 99)),
+      height: new NumberConfig(8, RulesConfigDescriptionLocalizable.HEIGHT, MGPValidators.range(3, 99)),
+      toric: new BooleanConfig(false, RulesConfigDescriptionLocalizable.TORIC)
+    }
+  });
+  getRulesConfigDescription() {
+    return _ReversiRules.RULES_CONFIG_DESCRIPTION;
+  }
+};
+
+// src/app/games/reversis/reversi/ReversiTutorial.ts
 var _22 = PlayerOrNone.NONE;
 var O19 = PlayerOrNone.ZERO;
 var X19 = PlayerOrNone.ONE;
 var defaultConfig19 = ReversiRules.get().getDefaultRulesConfig();
 var ReversiTutorial = class extends Tutorial {
   tutorial = [
-    TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`At Reversi, the pieces are double sided: one dark side for the first player, one light side for the second player.
-        When one piece is flipped, its owner changes.
-        The player owning the most pieces at the end of the game wins.
-        Here, Dark has 28 points and Light has 36, hence Light wins.`, new ReversiState([
+    TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`At Reversi, the pieces are double sided: one dark side for the first player, one light side for the second player. When one piece is flipped, its owner changes. The player owning the most pieces at the end of the game wins. Here, Dark has 28 points and Light has 36, hence Light wins.`, new ReversiState([
       [O19, O19, O19, O19, O19, O19, O19, O19],
       [O19, X19, X19, X19, X19, X19, X19, O19],
       [O19, X19, X19, X19, X19, X19, X19, O19],
@@ -35998,10 +36030,7 @@ var ReversiTutorial = class extends Tutorial {
       [O19, X19, X19, X19, X19, X19, X19, O19],
       [O19, O19, O19, O19, O19, O19, O19, O19]
     ], 60)),
-    TutorialStep.anyMove($localize`Captures` + " (1/2)", $localize`At the beginning of the game, pieces are placed as shown here.
-        For a move to be legal, it must sandwich at least one piece of the opponent between the piece you're putting and another of your pieces.<br/><br/>
-        Do any move by clicking to put your piece
-        Dark plays first.`, ReversiRules.get().getInitialState(defaultConfig19), new ReversiMove(2, 4), TutorialStepMessage.CONGRATULATIONS()),
+    TutorialStep.anyMove($localize`Captures` + " (1/2)", $localize`At the beginning of the game, pieces are placed as shown here. For a move to be legal, it must sandwich at least one piece of the opponent between the piece you're putting and another of your pieces.<br/><br/>Do any move by clicking to put your piece. Dark plays first.`, ReversiRules.get().getInitialState(defaultConfig19), new ReversiMove(2, 4), TutorialStepMessage.CONGRATULATIONS()),
     TutorialStep.fromMove($localize`Captures` + " (2/2)", $localize`A move can also capture a bigger line, and more than one line at a time<br/><br/>You're playing Light here. Play on the bottom left to see a capture.`, new ReversiState([
       [_22, _22, _22, _22, _22, _22, _22, _22],
       [_22, _22, _22, _22, _22, _22, _22, _22],
@@ -36012,8 +36041,7 @@ var ReversiTutorial = class extends Tutorial {
       [O19, O19, _22, _22, _22, _22, _22, _22],
       [_22, O19, X19, O19, X19, O19, _22, _22]
     ], 1), [new ReversiMove(0, 7)], TutorialStepMessage.CONGRATULATIONS(), $localize`Lower and more to the left, please.`),
-    TutorialStep.informational($localize`Passing a turn`, $localize`If, during its turn, a player has no move that would allow that player to flip a piece, that player must pass
-        Moreover, if the next player could not play neither, the game ends before the board is full, and points are counted in the usual way.`, new ReversiState([
+    TutorialStep.informational($localize`Passing a turn`, $localize`If, during its turn, a player has no move that would allow that player to flip a piece, that player must pass. Moreover, if the next player could not play neither, the game ends before the board is full, and points are counted in the usual way.`, new ReversiState([
       [X19, O19, O19, O19, O19, O19, X19, O19],
       [O19, X19, X19, X19, X19, X19, X19, O19],
       [O19, X19, X19, X19, X19, X19, X19, O19],
@@ -36026,8 +36054,8 @@ var ReversiTutorial = class extends Tutorial {
   ];
 };
 
-// src/app/games/reversi/ReversiHeuristic.ts
-var ReversiHeuristic = class extends PlayerMetricHeuristic {
+// src/app/games/reversis/common/ReversiHeuristic.ts
+var ReversiHeuristic = class extends PlayerMetricHeuristic2 {
   getMetrics(node, _config) {
     const state = node.gameState;
     const metrics = PlayerNumberTable.of([0], [0]);
@@ -36043,23 +36071,100 @@ var ReversiHeuristic = class extends PlayerMetricHeuristic {
   }
 };
 
-// src/app/games/reversi/ReversiMoveGenerator.ts
+// src/app/games/reversis/common/ReversiMoveGenerator.ts
 var ReversiMoveGenerator = class extends MoveGenerator {
+  rules;
+  constructor(rules) {
+    super();
+    this.rules = rules;
+  }
   getListMoves(node, config) {
-    const moves = ReversiRules.get().getListMoves(node.gameState, config);
+    const moves = this.rules.getListMoves(node.gameState, config);
     return moves.map((moveWithSwitched) => {
       return moveWithSwitched.move;
     });
   }
 };
 
-// src/app/games/reversi/reversi.component.ts
+// src/app/games/reversis/common/abstract-reversi.component.ts
 var __decorate41 = function(decorators, target, key, desc) {
   var c = arguments.length, r2 = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d2;
   if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r2 = Reflect.decorate(decorators, target, key, desc);
   else for (var i2 = decorators.length - 1; i2 >= 0; i2--) if (d2 = decorators[i2]) r2 = (c < 3 ? d2(r2) : c > 3 ? d2(target, key, r2) : d2(target, key)) || r2;
   return c > 3 && r2 && Object.defineProperty(target, key, r2), r2;
 };
+var AbstractReversiComponent = class extends RectangularGameComponent {
+  lastMove = MGPOptional.empty();
+  captured = [];
+  constructor(urlName) {
+    super();
+    this.setRulesAndNode(urlName);
+    this.aiConfig = {
+      minimax: [{
+        id: "Piece Count",
+        name: $localize`Piece Count`,
+        heuristic: () => new ReversiHeuristic(),
+        moveGenerator: () => new ReversiMoveGenerator(this.rules)
+      }],
+      mcts: [{
+        id: "default",
+        name: $localize`Default`,
+        moveGenerator: () => new ReversiMoveGenerator(this.rules)
+      }]
+    };
+    this.encoder = ReversiMove.encoder;
+    this.scores = MGPOptional.of(PlayerNumberMap.of(2, 2));
+  }
+  onClick(x2, y) {
+    return __async(this, null, function* () {
+      const chosenMove = new ReversiMove(x2, y);
+      return yield this.chooseMove(chosenMove);
+    });
+  }
+  updateBoard(_triggerAnimation) {
+    return __async(this, null, function* () {
+      const state = this.getState();
+      this.board = state.getCopiedBoard();
+      this.scores = MGPOptional.of(state.countScore());
+      this.canPass = this.rules.playerCanOnlyPass(state, this.getConfig());
+    });
+  }
+  showLastMove(move) {
+    return __async(this, null, function* () {
+      this.lastMove = MGPOptional.of(move.coord);
+      const player = this.getState().getCurrentOpponent();
+      this.captured = this.rules.getAllSwitchedCoords(move, player, this.getPreviousState(), this.getConfig());
+    });
+  }
+  hideLastMove() {
+    this.captured = [];
+    this.lastMove = MGPOptional.empty();
+  }
+  getRectClasses(x2, y) {
+    const coord = new Coord(x2, y);
+    if (this.captured.some((c) => c.equals(coord))) {
+      return ["captured-fill"];
+    } else if (this.lastMove.equalsValue(coord)) {
+      return ["moved-fill"];
+    } else {
+      return [];
+    }
+  }
+  getPieceClass(x2, y) {
+    return this.getPlayerClass(this.board[y][x2]);
+  }
+  pass() {
+    return __async(this, null, function* () {
+      Utils.assert(this.canPass, "ReversiComponent: pass() can only be called if canPass is true");
+      return this.onClick(ReversiMove.PASS.coord.x, ReversiMove.PASS.coord.y);
+    });
+  }
+};
+__decorate41([
+  ClickHandler((x2, y) => `#click-${x2}-${y}`)
+], AbstractReversiComponent.prototype, "onClick", null);
+
+// src/app/games/reversis/reversi/reversi.component.ts
 function ReversiComponent_For_2_For_2_Conditional_2_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
@@ -36112,78 +36217,9 @@ function ReversiComponent_For_2_Template(rf, ctx) {
     \u0275\u0275repeater(line_r5);
   }
 }
-var ReversiComponent = class _ReversiComponent extends RectangularGameComponent {
-  lastMove = MGPOptional.empty();
-  captured = [];
+var ReversiComponent = class _ReversiComponent extends AbstractReversiComponent {
   constructor() {
-    super();
-    this.setRulesAndNode("Reversi");
-    this.aiConfig = {
-      minimax: [{
-        id: "Piece Count",
-        name: $localize`Piece Count`,
-        heuristic: () => new ReversiHeuristic(),
-        moveGenerator: () => new ReversiMoveGenerator()
-      }],
-      mcts: [{
-        id: "default",
-        name: $localize`Default`,
-        moveGenerator: () => new ReversiMoveGenerator()
-      }]
-    };
-    this.encoder = ReversiMove.encoder;
-    this.scores = MGPOptional.of(PlayerNumberMap.of(2, 2));
-  }
-  onClick(x2, y) {
-    return __async(this, null, function* () {
-      const chosenMove = new ReversiMove(x2, y);
-      return yield this.chooseMove(chosenMove);
-    });
-  }
-  updateBoard(_triggerAnimation) {
-    return __async(this, null, function* () {
-      const state = this.getState();
-      this.board = state.getCopiedBoard();
-      this.scores = MGPOptional.of(state.countScore());
-      this.canPass = this.rules.playerCanOnlyPass(state, this.config);
-    });
-  }
-  showLastMove(move) {
-    return __async(this, null, function* () {
-      this.lastMove = MGPOptional.of(move.coord);
-      const player = this.getState().getCurrentPlayer();
-      const opponent = this.getState().getCurrentOpponent();
-      for (const dir of Ordinal.ORDINALS) {
-        let captured = move.coord.getNext(dir, 1);
-        while (this.getState().hasPieceAt(captured, opponent) && this.getPreviousState().getPieceAt(captured) === player) {
-          this.captured.push(captured);
-          captured = captured.getNext(dir, 1);
-        }
-      }
-    });
-  }
-  hideLastMove() {
-    this.captured = [];
-    this.lastMove = MGPOptional.empty();
-  }
-  getRectClasses(x2, y) {
-    const coord = new Coord(x2, y);
-    if (this.captured.some((c) => c.equals(coord))) {
-      return ["captured-fill"];
-    } else if (this.lastMove.equalsValue(coord)) {
-      return ["moved-fill"];
-    } else {
-      return [];
-    }
-  }
-  getPieceClass(x2, y) {
-    return this.getPlayerClass(this.board[y][x2]);
-  }
-  pass() {
-    return __async(this, null, function* () {
-      Utils.assert(this.canPass, "ReversiComponent: pass() can only be called if canPass is true");
-      return this.onClick(ReversiMove.PASS.coord.x, ReversiMove.PASS.coord.y);
-    });
+    super("Reversi");
   }
   static \u0275fac = function ReversiComponent_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _ReversiComponent)();
@@ -36202,17 +36238,162 @@ var ReversiComponent = class _ReversiComponent extends RectangularGameComponent 
     }
   }, dependencies: [NgClass], styles: ["\n\n.base[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke[_ngcontent-%COMP%] {\n  stroke-width: 0;\n}\n.base.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n}\n.base-no-stroke[_ngcontent-%COMP%] {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n}\n.white-background[_ngcontent-%COMP%] {\n  fill: white;\n}\n.background[_ngcontent-%COMP%] {\n  fill: var(--spaces-fill);\n}\n.transparent[_ngcontent-%COMP%] {\n  opacity: 0;\n}\n.background2[_ngcontent-%COMP%] {\n  fill: var(--alt-background-fill);\n}\n.background3[_ngcontent-%COMP%] {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill[_ngcontent-%COMP%] {\n  fill: var(--player0);\n}\n.player0-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--player0-alternate);\n}\n.player0-stroke[_ngcontent-%COMP%] {\n  stroke: var(--player0);\n}\n.player1-fill[_ngcontent-%COMP%] {\n  fill: var(--player1);\n}\n.player1-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--player1-alternate);\n}\n.player1-stroke[_ngcontent-%COMP%] {\n  stroke: var(--player1);\n}\n.nonplayer-fill[_ngcontent-%COMP%] {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill[_ngcontent-%COMP%] {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke[_ngcontent-%COMP%] {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke[_ngcontent-%COMP%] {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill[_ngcontent-%COMP%] {\n  fill: var(--pre-captured);\n}\n.captured-fill[_ngcontent-%COMP%] {\n  fill: var(--captured);\n}\n.captured-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--alt-captured);\n}\n.captured-stroke[_ngcontent-%COMP%] {\n  stroke: var(--captured);\n}\n.moved-fill[_ngcontent-%COMP%] {\n  fill: var(--moved);\n}\n.moved-stroke[_ngcontent-%COMP%] {\n  stroke: var(--moved);\n}\n.indicator[_ngcontent-%COMP%] {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill[_ngcontent-%COMP%] {\n  fill: var(--indicator);\n}\n.selectable-stroke[_ngcontent-%COMP%] {\n  stroke: var(--selectable);\n}\n.selectable[_ngcontent-%COMP%]    > .base-no-stroke[_ngcontent-%COMP%] {\n  fill: var(--selectable);\n}\n.last-move-stroke[_ngcontent-%COMP%] {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--last-move);\n}\n.last-move-fill[_ngcontent-%COMP%] {\n  fill: var(--last-move);\n}\n.victory-fill[_ngcontent-%COMP%] {\n  fill: var(--victory);\n}\n.victory-stroke[_ngcontent-%COMP%] {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--victory);\n}\n.defeat-fill[_ngcontent-%COMP%] {\n  fill: var(--defeat);\n}\n.defeat-stroke[_ngcontent-%COMP%] {\n  stroke: var(--defeat);\n}\n.selected-fill[_ngcontent-%COMP%] {\n  fill: var(--selected);\n}\n.selected-stroke[_ngcontent-%COMP%] {\n  stroke: var(--selected);\n}\n.clickable-stroke[_ngcontent-%COMP%] {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover[_ngcontent-%COMP%]:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke[_ngcontent-%COMP%] {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill[_ngcontent-%COMP%] {\n  fill: var(--capturable);\n}\n.capturable-stroke[_ngcontent-%COMP%]:hover {\n  stroke-width: 8;\n}\n.no-fill[_ngcontent-%COMP%] {\n  fill: none;\n}\n.no-stroke[_ngcontent-%COMP%] {\n  stroke: none;\n}\n.small-stroke[_ngcontent-%COMP%] {\n  stroke-width: 2;\n}\n.mid-small-stroke[_ngcontent-%COMP%] {\n  stroke-width: 3;\n}\n.mid-stroke[_ngcontent-%COMP%] {\n  stroke-width: 5;\n}\n.big-stroke[_ngcontent-%COMP%] {\n  stroke-width: 8;\n}\n.huge-stroke[_ngcontent-%COMP%] {\n  stroke-width: 12;\n}\n.semi-transparent[_ngcontent-%COMP%] {\n  opacity: 0.5;\n}\n.territory-opacity[_ngcontent-%COMP%] {\n  fill-opacity: 0.7;\n}\n.round[_ngcontent-%COMP%] {\n  stroke-linecap: round;\n}\n.text-giant[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big[_ngcontent-%COMP%] {\n  font: 50px sans-serif;\n}\n.backgrounded-text[_ngcontent-%COMP%] {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus[_ngcontent-%COMP%] {\n  font: 38px sans-serif;\n}\n.text-medium[_ngcontent-%COMP%] {\n  font: 35px sans-serif;\n}\n.text-small-plus[_ngcontent-%COMP%] {\n  font: 28px sans-serif;\n}\n.text-small[_ngcontent-%COMP%] {\n  font: 25px sans-serif;\n}\n.text-bold[_ngcontent-%COMP%] {\n  font-weight: bold;\n}\n.text-center[_ngcontent-%COMP%] {\n  text-anchor: middle;\n}\n.black-fill[_ngcontent-%COMP%] {\n  fill: black;\n}\n.darker[_ngcontent-%COMP%] {\n  filter: brightness(80%);\n}\n.lighter[_ngcontent-%COMP%] {\n  filter: brightness(110%);\n}\nsvg[_ngcontent-%COMP%] {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator[_ngcontent-%COMP%] {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */"] });
 };
-__decorate41([
-  ClickHandler((x2, y) => `#click-${x2}-${y}`)
-], ReversiComponent.prototype, "onClick", null);
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(ReversiComponent, [{
     type: Component,
     args: [{ selector: "app-reversi", imports: [NgClass], template: '<svg xmlns="http://www.w3.org/2000/svg"\n     class="board"\n     [attr.viewBox]="getViewBox().toSVGString()"\n     preserveAspectRatio="xMidYMid meet">\n    @for (line of board; track $index; let y = $index) {\n        <g>\n            @for (c of line; track $index; let x = $index) {\n                <g>\n                    <rect id="click-{{ x }}-{{ y }}"\n                          (click)="onClick(x, y)"\n                          [attr.x]="SPACE_SIZE * x"\n                          [attr.y]="SPACE_SIZE * y"\n                          [attr.width]="SPACE_SIZE"\n                          [attr.height]="SPACE_SIZE"\n                          [ngClass]="getRectClasses(x, y)"\n                          class="base"/>\n                    @if (board[y][x] !== PlayerOrNone.NONE) {\n                        <circle [attr.r]="(SPACE_SIZE / 2) - STROKE_WIDTH"\n                                [attr.cx]="(SPACE_SIZE * x) + (SPACE_SIZE / 2)"\n                                [attr.cy]="(SPACE_SIZE * y) + (SPACE_SIZE / 2)"\n                                [ngClass]="getPieceClass(x, y)"\n                                class="base"/>\n                    }\n                </g>\n            }\n        </g>\n    }\n</svg>\n', styles: ["/* src/app/components/game-components/game-component/game-component.scss */\n.base {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke {\n  stroke-width: 0;\n}\n.base.manual-stroke {\n  fill: var(--base-stroke);\n}\n.base-no-stroke {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text {\n  fill: var(--base-stroke);\n}\n.white-background {\n  fill: white;\n}\n.background {\n  fill: var(--spaces-fill);\n}\n.transparent {\n  opacity: 0;\n}\n.background2 {\n  fill: var(--alt-background-fill);\n}\n.background3 {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill {\n  fill: var(--player0);\n}\n.player0-alternate-fill {\n  fill: var(--player0-alternate);\n}\n.player0-stroke {\n  stroke: var(--player0);\n}\n.player1-fill {\n  fill: var(--player1);\n}\n.player1-alternate-fill {\n  fill: var(--player1-alternate);\n}\n.player1-stroke {\n  stroke: var(--player1);\n}\n.nonplayer-fill {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill {\n  fill: var(--pre-captured);\n}\n.captured-fill {\n  fill: var(--captured);\n}\n.captured-alternate-fill {\n  fill: var(--alt-captured);\n}\n.captured-stroke {\n  stroke: var(--captured);\n}\n.moved-fill {\n  fill: var(--moved);\n}\n.moved-stroke {\n  stroke: var(--moved);\n}\n.indicator {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill {\n  fill: var(--indicator);\n}\n.selectable-stroke {\n  stroke: var(--selectable);\n}\n.selectable > .base-no-stroke {\n  fill: var(--selectable);\n}\n.last-move-stroke {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke {\n  fill: var(--last-move);\n}\n.last-move-fill {\n  fill: var(--last-move);\n}\n.victory-fill {\n  fill: var(--victory);\n}\n.victory-stroke {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke {\n  fill: var(--victory);\n}\n.defeat-fill {\n  fill: var(--defeat);\n}\n.defeat-stroke {\n  stroke: var(--defeat);\n}\n.selected-fill {\n  fill: var(--selected);\n}\n.selected-stroke {\n  stroke: var(--selected);\n}\n.clickable-stroke {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill {\n  fill: var(--capturable);\n}\n.capturable-stroke:hover {\n  stroke-width: 8;\n}\n.no-fill {\n  fill: none;\n}\n.no-stroke {\n  stroke: none;\n}\n.small-stroke {\n  stroke-width: 2;\n}\n.mid-small-stroke {\n  stroke-width: 3;\n}\n.mid-stroke {\n  stroke-width: 5;\n}\n.big-stroke {\n  stroke-width: 8;\n}\n.huge-stroke {\n  stroke-width: 12;\n}\n.semi-transparent {\n  opacity: 0.5;\n}\n.territory-opacity {\n  fill-opacity: 0.7;\n}\n.round {\n  stroke-linecap: round;\n}\n.text-giant {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big {\n  font: 50px sans-serif;\n}\n.backgrounded-text {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus {\n  font: 38px sans-serif;\n}\n.text-medium {\n  font: 35px sans-serif;\n}\n.text-small-plus {\n  font: 28px sans-serif;\n}\n.text-small {\n  font: 25px sans-serif;\n}\n.text-bold {\n  font-weight: bold;\n}\n.text-center {\n  text-anchor: middle;\n}\n.black-fill {\n  fill: black;\n}\n.darker {\n  filter: brightness(80%);\n}\n.lighter {\n  filter: brightness(110%);\n}\nsvg {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */\n"] }]
-  }], () => [], { onClick: [] });
+  }], () => [], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(ReversiComponent, { className: "ReversiComponent", filePath: "src/app/games/reversi/reversi.component.ts", lineNumber: 25 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(ReversiComponent, { className: "ReversiComponent", filePath: "src/app/games/reversis/reversi/reversi.component.ts", lineNumber: 14 });
+})();
+
+// src/app/games/reversis/toric-reversi/ToricReversiRules.ts
+var ToricReversiRules = class _ToricReversiRules extends AbstractReversiRules {
+  static singleton = MGPOptional.empty();
+  static get() {
+    if (_ToricReversiRules.singleton.isAbsent()) {
+      _ToricReversiRules.singleton = MGPOptional.of(new _ToricReversiRules());
+    }
+    return _ToricReversiRules.singleton.get();
+  }
+  static RULES_CONFIG_DESCRIPTION = new RulesConfigDescription({
+    name: () => $localize`Toric Reversi`,
+    config: {
+      width: new NumberConfig(8, RulesConfigDescriptionLocalizable.WIDTH, MGPValidators.range(3, 99)),
+      height: new NumberConfig(8, RulesConfigDescriptionLocalizable.HEIGHT, MGPValidators.range(3, 99)),
+      toric: new BooleanConfig(true, RulesConfigDescriptionLocalizable.TORIC)
+    }
+  });
+  getRulesConfigDescription() {
+    return _ToricReversiRules.RULES_CONFIG_DESCRIPTION;
+  }
+};
+
+// src/app/games/reversis/toric-reversi/ToricReversiTutorial.ts
+var _23 = PlayerOrNone.NONE;
+var O20 = PlayerOrNone.ZERO;
+var X20 = PlayerOrNone.ONE;
+var defaultConfig20 = ToricReversiRules.get().getDefaultRulesConfig();
+var ToricReversiTutorial = class extends Tutorial {
+  tutorial = [
+    TutorialStep.informational($localize`Toric Reversi`, $localize`Toric Reversi is a variant of Reversi played on a toric board. If you are not familiar with the base rules of Reversi, check them out <a href="/tutorial/Reversi">here</a> before continuing. This tutorial only covers what changes with the toric board.`, ToricReversiRules.get().getInitialState(defaultConfig20)),
+    TutorialStep.fromMove($localize`Left-right connectivity`, $localize`On a toric board, the left edge is connected to the right edge. This means a line of pieces can wrap around horizontally. Here, you can capture the three light pieces by playing on the leftmost column, as the board wraps around to continue the line.<br/><br/>You are playing Dark. Do a capture.`, new ReversiState([
+      [_23, _23, _23, _23, _23, _23, _23, _23],
+      [_23, _23, _23, _23, _23, _23, _23, _23],
+      [_23, _23, _23, _23, _23, _23, _23, _23],
+      [_23, _23, _23, _23, O20, X20, X20, X20],
+      [_23, _23, _23, X20, _23, _23, _23, _23],
+      [_23, _23, _23, _23, _23, _23, _23, _23],
+      [_23, _23, _23, _23, _23, _23, _23, _23],
+      [_23, _23, _23, _23, _23, _23, _23, _23]
+    ], 2), [new ReversiMove(0, 3)], TutorialStepMessage.CONGRATULATIONS(), $localize`Look at the fourth row: there is a line of dark pieces that wraps around the left edge.`),
+    TutorialStep.fromMove($localize`Top-bottom connectivity`, $localize`The same applies vertically: the top edge is connected to the bottom edge. Find the move that captures by playing on the top row.`, new ReversiState([
+      [_23, _23, _23, _23, _23, _23, _23, _23],
+      [_23, _23, _23, _23, _23, _23, _23, _23],
+      [_23, _23, _23, _23, _23, _23, _23, _23],
+      [_23, _23, _23, X20, X20, _23, _23, _23],
+      [_23, _23, _23, X20, O20, _23, _23, _23],
+      [_23, _23, _23, O20, _23, _23, _23, _23],
+      [_23, _23, _23, O20, _23, _23, _23, _23],
+      [_23, _23, _23, O20, _23, _23, _23, _23]
+    ], 1), [new ReversiMove(3, 0)], TutorialStepMessage.CONGRATULATIONS(), $localize`Look at the fourth column: the dark piece at the bottom wraps around to the top.`),
+    TutorialStep.fromMove($localize`Diagonal wrapping`, $localize`Wrapping also works diagonally. A diagonal can cross both the horizontal and vertical edges at the same time. Here, a diagonal of light pieces wraps around a corner of the board. Can you find the capturing move?`, new ReversiState([
+      [_23, _23, _23, _23, _23, _23, _23, X20],
+      [_23, _23, _23, _23, _23, _23, X20, _23],
+      [_23, _23, _23, X20, _23, X20, _23, _23],
+      [_23, _23, _23, X20, X20, _23, _23, _23],
+      [_23, _23, _23, O20, _23, _23, _23, _23],
+      [_23, _23, _23, _23, _23, _23, _23, _23],
+      [_23, _23, _23, _23, _23, _23, _23, _23],
+      [_23, _23, _23, _23, _23, _23, _23, _23]
+    ], 2), [new ReversiMove(0, 7)], TutorialStepMessage.CONGRATULATIONS(), $localize`Follow the diagonal starting from the dark piece: it wraps around the right edge and continues on the left.`),
+    TutorialStep.informational($localize`Strategic implications`, $localize`On a standard Reversi board, corners and edges are powerful because pieces placed there cannot be flanked. On a toric board, there are no corners and no edges, every piece can potentially be captured from any direction. This completely changes the strategy: stability must be built differently, and no position is ever truly safe.`, ToricReversiRules.get().getInitialState(defaultConfig20))
+  ];
+};
+
+// src/app/games/reversis/toric-reversi/toric-reversi.component.ts
+function ToricReversiComponent_For_2_For_2_Conditional_2_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275namespaceSVG();
+    \u0275\u0275element(0, "circle", 2);
+  }
+  if (rf & 2) {
+    const \u0275$index_6_r2 = \u0275\u0275nextContext().$index;
+    const \u0275$index_3_r3 = \u0275\u0275nextContext().$index;
+    const ctx_r3 = \u0275\u0275nextContext();
+    \u0275\u0275property("ngClass", ctx_r3.getPieceClass(\u0275$index_6_r2, \u0275$index_3_r3));
+    \u0275\u0275attribute("r", ctx_r3.SPACE_SIZE / 2 - ctx_r3.STROKE_WIDTH)("cx", ctx_r3.SPACE_SIZE * \u0275$index_6_r2 + ctx_r3.SPACE_SIZE / 2)("cy", ctx_r3.SPACE_SIZE * \u0275$index_3_r3 + ctx_r3.SPACE_SIZE / 2);
+  }
+}
+function ToricReversiComponent_For_2_For_2_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r1 = \u0275\u0275getCurrentView();
+    \u0275\u0275namespaceSVG();
+    \u0275\u0275elementStart(0, "g")(1, "rect", 1);
+    \u0275\u0275listener("click", function ToricReversiComponent_For_2_For_2_Template_rect_click_1_listener() {
+      const \u0275$index_6_r2 = \u0275\u0275restoreView(_r1).$index;
+      const \u0275$index_3_r3 = \u0275\u0275nextContext().$index;
+      const ctx_r3 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r3.onClick(\u0275$index_6_r2, \u0275$index_3_r3));
+    });
+    \u0275\u0275elementEnd();
+    \u0275\u0275conditionalCreate(2, ToricReversiComponent_For_2_For_2_Conditional_2_Template, 1, 4, ":svg:circle", 2);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const \u0275$index_6_r2 = ctx.$index;
+    const \u0275$index_3_r3 = \u0275\u0275nextContext().$index;
+    const ctx_r3 = \u0275\u0275nextContext();
+    \u0275\u0275advance();
+    \u0275\u0275property("id", \u0275\u0275interpolate2("click-", \u0275$index_6_r2, "-", \u0275$index_3_r3))("ngClass", ctx_r3.getRectClasses(\u0275$index_6_r2, \u0275$index_3_r3));
+    \u0275\u0275attribute("x", ctx_r3.SPACE_SIZE * \u0275$index_6_r2)("y", ctx_r3.SPACE_SIZE * \u0275$index_3_r3)("width", ctx_r3.SPACE_SIZE)("height", ctx_r3.SPACE_SIZE);
+    \u0275\u0275advance();
+    \u0275\u0275conditional(ctx_r3.board[\u0275$index_3_r3][\u0275$index_6_r2] !== ctx_r3.PlayerOrNone.NONE ? 2 : -1);
+  }
+}
+function ToricReversiComponent_For_2_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275namespaceSVG();
+    \u0275\u0275elementStart(0, "g");
+    \u0275\u0275repeaterCreate(1, ToricReversiComponent_For_2_For_2_Template, 3, 9, ":svg:g", null, \u0275\u0275repeaterTrackByIndex);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const line_r5 = ctx.$implicit;
+    \u0275\u0275advance();
+    \u0275\u0275repeater(line_r5);
+  }
+}
+var ToricReversiComponent = class _ToricReversiComponent extends AbstractReversiComponent {
+  constructor() {
+    super("ToricReversi");
+  }
+  static \u0275fac = function ToricReversiComponent_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _ToricReversiComponent)();
+  };
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _ToricReversiComponent, selectors: [["app-toric-reversi"]], features: [\u0275\u0275InheritDefinitionFeature], decls: 3, vars: 1, consts: [["xmlns", "http://www.w3.org/2000/svg", "preserveAspectRatio", "xMidYMid meet", 1, "board"], [1, "base", 3, "click", "id", "ngClass"], [1, "base", 3, "ngClass"]], template: function ToricReversiComponent_Template(rf, ctx) {
+    if (rf & 1) {
+      \u0275\u0275namespaceSVG();
+      \u0275\u0275elementStart(0, "svg", 0);
+      \u0275\u0275repeaterCreate(1, ToricReversiComponent_For_2_Template, 3, 0, ":svg:g", null, \u0275\u0275repeaterTrackByIndex);
+      \u0275\u0275elementEnd();
+    }
+    if (rf & 2) {
+      \u0275\u0275attribute("viewBox", ctx.getViewBox().toSVGString());
+      \u0275\u0275advance();
+      \u0275\u0275repeater(ctx.board);
+    }
+  }, dependencies: [NgClass], styles: ["\n\n.base[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke[_ngcontent-%COMP%] {\n  stroke-width: 0;\n}\n.base.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n}\n.base-no-stroke[_ngcontent-%COMP%] {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n}\n.white-background[_ngcontent-%COMP%] {\n  fill: white;\n}\n.background[_ngcontent-%COMP%] {\n  fill: var(--spaces-fill);\n}\n.transparent[_ngcontent-%COMP%] {\n  opacity: 0;\n}\n.background2[_ngcontent-%COMP%] {\n  fill: var(--alt-background-fill);\n}\n.background3[_ngcontent-%COMP%] {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill[_ngcontent-%COMP%] {\n  fill: var(--player0);\n}\n.player0-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--player0-alternate);\n}\n.player0-stroke[_ngcontent-%COMP%] {\n  stroke: var(--player0);\n}\n.player1-fill[_ngcontent-%COMP%] {\n  fill: var(--player1);\n}\n.player1-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--player1-alternate);\n}\n.player1-stroke[_ngcontent-%COMP%] {\n  stroke: var(--player1);\n}\n.nonplayer-fill[_ngcontent-%COMP%] {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill[_ngcontent-%COMP%] {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke[_ngcontent-%COMP%] {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke[_ngcontent-%COMP%] {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill[_ngcontent-%COMP%] {\n  fill: var(--pre-captured);\n}\n.captured-fill[_ngcontent-%COMP%] {\n  fill: var(--captured);\n}\n.captured-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--alt-captured);\n}\n.captured-stroke[_ngcontent-%COMP%] {\n  stroke: var(--captured);\n}\n.moved-fill[_ngcontent-%COMP%] {\n  fill: var(--moved);\n}\n.moved-stroke[_ngcontent-%COMP%] {\n  stroke: var(--moved);\n}\n.indicator[_ngcontent-%COMP%] {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill[_ngcontent-%COMP%] {\n  fill: var(--indicator);\n}\n.selectable-stroke[_ngcontent-%COMP%] {\n  stroke: var(--selectable);\n}\n.selectable[_ngcontent-%COMP%]    > .base-no-stroke[_ngcontent-%COMP%] {\n  fill: var(--selectable);\n}\n.last-move-stroke[_ngcontent-%COMP%] {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--last-move);\n}\n.last-move-fill[_ngcontent-%COMP%] {\n  fill: var(--last-move);\n}\n.victory-fill[_ngcontent-%COMP%] {\n  fill: var(--victory);\n}\n.victory-stroke[_ngcontent-%COMP%] {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--victory);\n}\n.defeat-fill[_ngcontent-%COMP%] {\n  fill: var(--defeat);\n}\n.defeat-stroke[_ngcontent-%COMP%] {\n  stroke: var(--defeat);\n}\n.selected-fill[_ngcontent-%COMP%] {\n  fill: var(--selected);\n}\n.selected-stroke[_ngcontent-%COMP%] {\n  stroke: var(--selected);\n}\n.clickable-stroke[_ngcontent-%COMP%] {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover[_ngcontent-%COMP%]:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke[_ngcontent-%COMP%] {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill[_ngcontent-%COMP%] {\n  fill: var(--capturable);\n}\n.capturable-stroke[_ngcontent-%COMP%]:hover {\n  stroke-width: 8;\n}\n.no-fill[_ngcontent-%COMP%] {\n  fill: none;\n}\n.no-stroke[_ngcontent-%COMP%] {\n  stroke: none;\n}\n.small-stroke[_ngcontent-%COMP%] {\n  stroke-width: 2;\n}\n.mid-small-stroke[_ngcontent-%COMP%] {\n  stroke-width: 3;\n}\n.mid-stroke[_ngcontent-%COMP%] {\n  stroke-width: 5;\n}\n.big-stroke[_ngcontent-%COMP%] {\n  stroke-width: 8;\n}\n.huge-stroke[_ngcontent-%COMP%] {\n  stroke-width: 12;\n}\n.semi-transparent[_ngcontent-%COMP%] {\n  opacity: 0.5;\n}\n.territory-opacity[_ngcontent-%COMP%] {\n  fill-opacity: 0.7;\n}\n.round[_ngcontent-%COMP%] {\n  stroke-linecap: round;\n}\n.text-giant[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big[_ngcontent-%COMP%] {\n  font: 50px sans-serif;\n}\n.backgrounded-text[_ngcontent-%COMP%] {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus[_ngcontent-%COMP%] {\n  font: 38px sans-serif;\n}\n.text-medium[_ngcontent-%COMP%] {\n  font: 35px sans-serif;\n}\n.text-small-plus[_ngcontent-%COMP%] {\n  font: 28px sans-serif;\n}\n.text-small[_ngcontent-%COMP%] {\n  font: 25px sans-serif;\n}\n.text-bold[_ngcontent-%COMP%] {\n  font-weight: bold;\n}\n.text-center[_ngcontent-%COMP%] {\n  text-anchor: middle;\n}\n.black-fill[_ngcontent-%COMP%] {\n  fill: black;\n}\n.darker[_ngcontent-%COMP%] {\n  filter: brightness(80%);\n}\n.lighter[_ngcontent-%COMP%] {\n  filter: brightness(110%);\n}\nsvg[_ngcontent-%COMP%] {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator[_ngcontent-%COMP%] {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */"] });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(ToricReversiComponent, [{
+    type: Component,
+    args: [{ selector: "app-toric-reversi", imports: [NgClass], template: '<svg xmlns="http://www.w3.org/2000/svg"\n     class="board"\n     [attr.viewBox]="getViewBox().toSVGString()"\n     preserveAspectRatio="xMidYMid meet">\n    @for (line of board; track $index; let y = $index) {\n        <g>\n            @for (c of line; track $index; let x = $index) {\n                <g>\n                    <rect id="click-{{ x }}-{{ y }}"\n                          (click)="onClick(x, y)"\n                          [attr.x]="SPACE_SIZE * x"\n                          [attr.y]="SPACE_SIZE * y"\n                          [attr.width]="SPACE_SIZE"\n                          [attr.height]="SPACE_SIZE"\n                          [ngClass]="getRectClasses(x, y)"\n                          class="base"/>\n                    @if (board[y][x] !== PlayerOrNone.NONE) {\n                        <circle [attr.r]="(SPACE_SIZE / 2) - STROKE_WIDTH"\n                                [attr.cx]="(SPACE_SIZE * x) + (SPACE_SIZE / 2)"\n                                [attr.cy]="(SPACE_SIZE * y) + (SPACE_SIZE / 2)"\n                                [ngClass]="getPieceClass(x, y)"\n                                class="base"/>\n                    }\n                </g>\n            }\n        </g>\n    }\n</svg>\n', styles: ["/* src/app/components/game-components/game-component/game-component.scss */\n.base {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke {\n  stroke-width: 0;\n}\n.base.manual-stroke {\n  fill: var(--base-stroke);\n}\n.base-no-stroke {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text {\n  fill: var(--base-stroke);\n}\n.white-background {\n  fill: white;\n}\n.background {\n  fill: var(--spaces-fill);\n}\n.transparent {\n  opacity: 0;\n}\n.background2 {\n  fill: var(--alt-background-fill);\n}\n.background3 {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill {\n  fill: var(--player0);\n}\n.player0-alternate-fill {\n  fill: var(--player0-alternate);\n}\n.player0-stroke {\n  stroke: var(--player0);\n}\n.player1-fill {\n  fill: var(--player1);\n}\n.player1-alternate-fill {\n  fill: var(--player1-alternate);\n}\n.player1-stroke {\n  stroke: var(--player1);\n}\n.nonplayer-fill {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill {\n  fill: var(--pre-captured);\n}\n.captured-fill {\n  fill: var(--captured);\n}\n.captured-alternate-fill {\n  fill: var(--alt-captured);\n}\n.captured-stroke {\n  stroke: var(--captured);\n}\n.moved-fill {\n  fill: var(--moved);\n}\n.moved-stroke {\n  stroke: var(--moved);\n}\n.indicator {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill {\n  fill: var(--indicator);\n}\n.selectable-stroke {\n  stroke: var(--selectable);\n}\n.selectable > .base-no-stroke {\n  fill: var(--selectable);\n}\n.last-move-stroke {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke {\n  fill: var(--last-move);\n}\n.last-move-fill {\n  fill: var(--last-move);\n}\n.victory-fill {\n  fill: var(--victory);\n}\n.victory-stroke {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke {\n  fill: var(--victory);\n}\n.defeat-fill {\n  fill: var(--defeat);\n}\n.defeat-stroke {\n  stroke: var(--defeat);\n}\n.selected-fill {\n  fill: var(--selected);\n}\n.selected-stroke {\n  stroke: var(--selected);\n}\n.clickable-stroke {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill {\n  fill: var(--capturable);\n}\n.capturable-stroke:hover {\n  stroke-width: 8;\n}\n.no-fill {\n  fill: none;\n}\n.no-stroke {\n  stroke: none;\n}\n.small-stroke {\n  stroke-width: 2;\n}\n.mid-small-stroke {\n  stroke-width: 3;\n}\n.mid-stroke {\n  stroke-width: 5;\n}\n.big-stroke {\n  stroke-width: 8;\n}\n.huge-stroke {\n  stroke-width: 12;\n}\n.semi-transparent {\n  opacity: 0.5;\n}\n.territory-opacity {\n  fill-opacity: 0.7;\n}\n.round {\n  stroke-linecap: round;\n}\n.text-giant {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big {\n  font: 50px sans-serif;\n}\n.backgrounded-text {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus {\n  font: 38px sans-serif;\n}\n.text-medium {\n  font: 35px sans-serif;\n}\n.text-small-plus {\n  font: 28px sans-serif;\n}\n.text-small {\n  font: 25px sans-serif;\n}\n.text-bold {\n  font-weight: bold;\n}\n.text-center {\n  text-anchor: middle;\n}\n.black-fill {\n  fill: black;\n}\n.darker {\n  filter: brightness(80%);\n}\n.lighter {\n  filter: brightness(110%);\n}\nsvg {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */\n"] }]
+  }], () => [], null);
+})();
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(ToricReversiComponent, { className: "ToricReversiComponent", filePath: "src/app/games/reversis/toric-reversi/toric-reversi.component.ts", lineNumber: 14 });
 })();
 
 // src/app/games/sahara/SaharaFailure.ts
@@ -36237,8 +36418,8 @@ var __decorate42 = function(decorators, target, key, desc) {
   return c > 3 && r2 && Object.defineProperty(target, key, r2), r2;
 };
 var SaharaRules_1;
-var _a8;
-var SaharaRules = (_a8 = class extends Rules {
+var _a7;
+var SaharaRules = (_a7 = class extends Rules {
   static get() {
     if (SaharaRules_1.singleton.isAbsent()) {
       SaharaRules_1.singleton = MGPOptional.of(new SaharaRules_1());
@@ -36248,10 +36429,10 @@ var SaharaRules = (_a8 = class extends Rules {
   getInitialState() {
     const size = 3;
     const N10 = FourStatePiece.UNREACHABLE;
-    const O27 = FourStatePiece.ZERO;
-    const X27 = FourStatePiece.ONE;
-    const _32 = FourStatePiece.EMPTY;
-    const board = HexagonalUtils.createBoard(size, N10, _32);
+    const O28 = FourStatePiece.ZERO;
+    const X28 = FourStatePiece.ONE;
+    const _33 = FourStatePiece.EMPTY;
+    const board = HexagonalUtils.createBoard(size, N10, _33);
     const start = (size + 1) % 2;
     const xEnd = 4 * size - (2 - start);
     const yEnd = size * 2 - 1;
@@ -36259,18 +36440,18 @@ var SaharaRules = (_a8 = class extends Rules {
     const second = first + 1;
     const third = first + 2 * size - 1;
     const fourth = third + 1;
-    board[0][first] = O27;
-    board[0][second] = X27;
-    board[0][third] = O27;
-    board[0][fourth] = X27;
-    board[first - start][start] = X27;
-    board[second - start][start] = O27;
-    board[first - start][xEnd] = O27;
-    board[second - start][xEnd] = X27;
-    board[yEnd][first] = O27;
-    board[yEnd][second] = X27;
-    board[yEnd][third] = O27;
-    board[yEnd][fourth] = X27;
+    board[0][first] = O28;
+    board[0][second] = X28;
+    board[0][third] = O28;
+    board[0][fourth] = X28;
+    board[first - start][start] = X28;
+    board[second - start][start] = O28;
+    board[first - start][xEnd] = O28;
+    board[second - start][xEnd] = X28;
+    board[yEnd][first] = O28;
+    board[yEnd][second] = X28;
+    board[yEnd][third] = O28;
+    board[yEnd][fourth] = X28;
     return new SaharaState(board, 0);
   }
   getStartingCoords(state, player) {
@@ -36384,7 +36565,7 @@ var SaharaRules = (_a8 = class extends Rules {
     }
     return GameStatus.ONGOING;
   }
-}, SaharaRules_1 = _a8, __publicField(_a8, "singleton", MGPOptional.empty()), _a8);
+}, SaharaRules_1 = _a7, __publicField(_a7, "singleton", MGPOptional.empty()), _a7);
 SaharaRules = SaharaRules_1 = __decorate42([
   Debug.log
 ], SaharaRules);
@@ -36436,20 +36617,20 @@ var SaharaMove = class _SaharaMove extends MoveCoordToCoord {
 
 // src/app/games/sahara/SaharaTutorial.ts
 var N8 = FourStatePiece.UNREACHABLE;
-var O20 = FourStatePiece.ZERO;
-var X20 = FourStatePiece.ONE;
-var _23 = FourStatePiece.EMPTY;
+var O21 = FourStatePiece.ZERO;
+var X21 = FourStatePiece.ONE;
+var _24 = FourStatePiece.EMPTY;
 var SaharaTutorial = class extends Tutorial {
   tutorial = [
     TutorialStep.informational($localize`Initial board`, $localize`Sâhârâ is played on a board where each space is a triangle.
         Each player has six pyramids.`, SaharaRules.get().getInitialState()),
     TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`At Sâhârâ, the object of the game is to immobilize one of the opponent's pyramids. To do so, you have to occupy all neighboring space of that pyramid. Here, Light has lost because its leftmost pyramid is immobilized.`, new SaharaState([
-      [N8, N8, _23, _23, X20, _23, _23, O20, X20, N8, N8],
-      [N8, _23, _23, _23, _23, _23, _23, _23, _23, _23, N8],
-      [X20, O20, _23, _23, _23, _23, _23, _23, _23, _23, O20],
-      [O20, _23, _23, _23, _23, _23, _23, _23, _23, _23, X20],
-      [N8, _23, _23, _23, _23, _23, _23, _23, _23, _23, N8],
-      [N8, N8, X20, O20, _23, _23, _23, X20, O20, N8, N8]
+      [N8, N8, _24, _24, X21, _24, _24, O21, X21, N8, N8],
+      [N8, _24, _24, _24, _24, _24, _24, _24, _24, _24, N8],
+      [X21, O21, _24, _24, _24, _24, _24, _24, _24, _24, O21],
+      [O21, _24, _24, _24, _24, _24, _24, _24, _24, _24, X21],
+      [N8, _24, _24, _24, _24, _24, _24, _24, _24, _24, N8],
+      [N8, N8, X21, O21, _24, _24, _24, X21, O21, N8, N8]
     ], 3)),
     TutorialStep.fromPredicate($localize`Simple step`, $localize`To immobilize your opponent, you have to move your pyramids.
         When a pyramid shares its vertices with light spaces, it can move on these spaces (we call this a simple step).
@@ -37117,8 +37298,8 @@ var SiamLegalityInformation = class {
     this.moved = moved;
   }
 };
-var _a9;
-var SiamRules = (_a9 = class extends ConfigurableRules {
+var _a8;
+var SiamRules = (_a8 = class extends ConfigurableRules {
   static get() {
     if (SiamRules_1.singleton.isAbsent()) {
       SiamRules_1.singleton = MGPOptional.of(new SiamRules_1());
@@ -37558,7 +37739,7 @@ var SiamRules = (_a9 = class extends ConfigurableRules {
       return GameStatus.ONGOING;
     }
   }
-}, SiamRules_1 = _a9, __publicField(_a9, "singleton", MGPOptional.empty()), __publicField(_a9, "RULES_CONFIG_DESCRIPTION", new RulesConfigDescription({
+}, SiamRules_1 = _a8, __publicField(_a8, "singleton", MGPOptional.empty()), __publicField(_a8, "RULES_CONFIG_DESCRIPTION", new RulesConfigDescription({
   name: () => $localize`Siam`,
   config: {
     // minimum 3 so that there are spaces around the mountain
@@ -37568,13 +37749,13 @@ var SiamRules = (_a9 = class extends ConfigurableRules {
     // -1 on two ends because there will always be the first mountain
     numberOfBonusMountain: new NumberConfig(2, () => $localize`Number of bonus mountains`, MGPValidators.range(0, 98))
   }
-})), _a9);
+})), _a8);
 SiamRules = SiamRules_1 = __decorate44([
   Debug.log
 ], SiamRules);
 
 // src/app/games/siam/SiamTutorial.ts
-var _24 = SiamPiece.EMPTY;
+var _25 = SiamPiece.EMPTY;
 var M = SiamPiece.MOUNTAIN;
 var U2 = SiamPiece.LIGHT_UP;
 var L = SiamPiece.LIGHT_LEFT;
@@ -37584,45 +37765,45 @@ var u = SiamPiece.DARK_UP;
 var l = SiamPiece.DARK_LEFT;
 var r = SiamPiece.DARK_RIGHT;
 var d = SiamPiece.DARK_DOWN;
-var defaultConfig20 = SiamRules.get().getDefaultRulesConfig();
+var defaultConfig21 = SiamRules.get().getDefaultRulesConfig();
 var SiamTutorial = class extends Tutorial {
   tutorial = [
-    TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`The goal at Siam is to be the first to push a mountain out of the board. The initial board contains three mountains, and no pieces are initially on the board. During its turn, a player can do one of the following actions:<ol><li>Put a new piece on the board.</li><li>Change the orientation of one of its piece</li><li>Move one of its piece and optionally reorient it.</li><li>Take one of its pieces out of the board.</li></ol>`, SiamRules.get().getInitialState(defaultConfig20)),
-    TutorialStep.anyMove($localize`Inserting a piece`, $localize`Each player has 5 pieces in total. As long as you have remaining pieces next to the board, you can insert new pieces. To do so:<ol><li>Click on one of your pieces from your reserve, next to board.</li><li>Click on one of the highlighted squares to select a landing for your piece.</li><li>Select an orientation for your piece by clicking on one of the arrows that appear on top of the board.</li></ol><br/>You're playing Dark, insert a piece on the board.`, SiamRules.get().getInitialState(defaultConfig20), SiamMove.of(2, -1, MGPOptional.of(Orthogonal.DOWN), Orthogonal.DOWN), TutorialStepMessage.CONGRATULATIONS()),
+    TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`The goal at Siam is to be the first to push a mountain out of the board. The initial board contains three mountains, and no pieces are initially on the board. During its turn, a player can do one of the following actions:<ol><li>Put a new piece on the board.</li><li>Change the orientation of one of its piece</li><li>Move one of its piece and optionally reorient it.</li><li>Take one of its pieces out of the board.</li></ol>`, SiamRules.get().getInitialState(defaultConfig21)),
+    TutorialStep.anyMove($localize`Inserting a piece`, $localize`Each player has 5 pieces in total. As long as you have remaining pieces next to the board, you can insert new pieces. To do so:<ol><li>Click on one of your pieces from your reserve, next to board.</li><li>Click on one of the highlighted squares to select a landing for your piece.</li><li>Select an orientation for your piece by clicking on one of the arrows that appear on top of the board.</li></ol><br/>You're playing Dark, insert a piece on the board.`, SiamRules.get().getInitialState(defaultConfig21), SiamMove.of(2, -1, MGPOptional.of(Orthogonal.DOWN), Orthogonal.DOWN), TutorialStepMessage.CONGRATULATIONS()),
     TutorialStep.fromMove($localize`Moving a piece`, $localize`We will distinguish here "moving" and "pushing". A move is made from a piece's square to an empty neighboring square, horizontally or vertically. You can also move a piece out of the board. To move a piece:<ol><li>Click on it.</li><li>Click on the square on which you want the piece to move. You can also click a second time on your piece to change its orientation without moving it.</li><li>Select the orientation of your piece by clicking one one of the arrows that appear on top of the board.</li></ol><br/>You're playing Dark. Try to move your piece that is already on the board one square upwards and to orient it to the left.`, new SiamState([
-      [_24, _24, _24, _24, _24],
-      [_24, _24, _24, _24, _24],
-      [_24, M, M, M, _24],
-      [_24, _24, _24, _24, _24],
-      [_24, _24, u, _24, _24]
+      [_25, _25, _25, _25, _25],
+      [_25, _25, _25, _25, _25],
+      [_25, M, M, M, _25],
+      [_25, _25, _25, _25, _25],
+      [_25, _25, u, _25, _25]
     ], 0), [SiamMove.of(2, 4, MGPOptional.of(Orthogonal.UP), Orthogonal.LEFT)], $localize`Congratulations, you made a side-slip!`, TutorialStepMessage.FAILED_TRY_AGAIN()),
     TutorialStep.fromMove($localize`Moving a piece out of the board`, $localize`To move a piece out of the board, you do not have to pick an orientation after the move.<br/><br/> You're playing Dark, get that piece out of the board!`, new SiamState([
-      [_24, _24, _24, _24, _24],
-      [_24, _24, _24, _24, _24],
-      [_24, M, M, M, _24],
-      [_24, _24, _24, _24, _24],
-      [_24, _24, u, _24, _24]
+      [_25, _25, _25, _25, _25],
+      [_25, _25, _25, _25, _25],
+      [_25, M, M, M, _25],
+      [_25, _25, _25, _25, _25],
+      [_25, _25, u, _25, _25]
     ], 0), [SiamMove.of(2, 4, MGPOptional.of(Orthogonal.DOWN), Orthogonal.DOWN)], $localize`Congratulations, even if in this context it was not a useful move.`, $localize`Failed, the piece is still on the board.`),
     TutorialStep.fromMove($localize`Pushing` + " (1/2)", $localize`When the landing square of your move is occupied, we use the term "push". In order to push player pieces, the following conditions must hold:<ol><li>Your piece must already be oriented in the direction of the push.</li><li>Along the line that you are pushing, the number of pieces (yours or your opponent's) that are oriented in the same way as the push should be strictly greater than the number of pieces oriented in the opposite way.</li></ol>Look closely at the board. On the first row, you cannot push as there is exactly one piece in the opposite direction. On the second row, you can push because there are two pieces against one.<br/><br/>You're playing Dark. Vertically, you can push using your piece in the center, as there is no resistance on that axis. Do it.`, new SiamState([
-      [_24, r, L, _24, _24],
-      [r, R, L, _24, _24],
-      [_24, _24, u, _24, _24],
-      [_24, _24, _24, _24, _24],
-      [_24, _24, _24, _24, _24]
+      [_25, r, L, _25, _25],
+      [r, R, L, _25, _25],
+      [_25, _25, u, _25, _25],
+      [_25, _25, _25, _25, _25],
+      [_25, _25, _25, _25, _25]
     ], 0), [SiamMove.of(2, 2, MGPOptional.of(Orthogonal.UP), Orthogonal.UP)], TutorialStepMessage.CONGRATULATIONS(), TutorialStepMessage.FAILED_TRY_AGAIN()),
     TutorialStep.fromMove($localize`Pushing` + " (2/2)", $localize`To be able to push a mountain, you need at least one pusher per mountain. Each resistant (pieces in the opposite way) cancel the force of one pusher. In short, if there is no mountain, you need strictly more pushers than resistants. If there is a mountain, you need at least as much pushers than there are resistants and mountains. On the following board, as Dark, you can push the mountain on the first row. On the second and third row, because of the resisting forces, you cannot push. On the fourth row, you can push as there is one more pusher than resistant pieces.<br/><br/>You're playing Dark, push on the fourth row it.`, new SiamState([
-      [_24, _24, r, M, _24],
-      [_24, _24, r, M, l],
-      [_24, r, M, M, _24],
-      [_24, r, R, L, M],
-      [_24, _24, _24, _24, _24]
+      [_25, _25, r, M, _25],
+      [_25, _25, r, M, l],
+      [_25, r, M, M, _25],
+      [_25, r, R, L, M],
+      [_25, _25, _25, _25, _25]
     ], 0), [SiamMove.of(1, 3, MGPOptional.of(Orthogonal.RIGHT), Orthogonal.RIGHT)], $localize`Congratulations! Note that this move made you lose the game, you will see why in the next step.`, TutorialStepMessage.FAILED_TRY_AGAIN()),
     TutorialStep.fromMove($localize`Victory`, $localize`The game ends when a mountain is pushed out of the board. If you pushed it and nobody is in front of you, you're the winner. However, if you were pushing an opponent oriented in the same direction as you, your opponent will win because that piece is closer to the mountain. However, if that opponent is closer to the mountain but not oriented toward it, victory will be yours.<br/><br/>Here, playing Dark, you can push a mountain off the board and either win, or lose. Choose correctly!`, new SiamState([
-      [_24, _24, _24, _24, _24],
-      [_24, _24, _24, _24, _24],
-      [M, U2, l, _24, d],
-      [_24, _24, _24, _24, D],
-      [_24, _24, _24, _24, M]
+      [_25, _25, _25, _25, _25],
+      [_25, _25, _25, _25, _25],
+      [M, U2, l, _25, d],
+      [_25, _25, _25, _25, D],
+      [_25, _25, _25, _25, M]
     ], 0), [SiamMove.of(2, 2, MGPOptional.of(Orthogonal.LEFT), Orthogonal.LEFT)], TutorialStepMessage.CONGRATULATIONS_YOU_WON(), $localize`Failed, you lost.`)
   ];
 };
@@ -38465,8 +38646,8 @@ var __decorate46 = function(decorators, target, key, desc) {
   return c > 3 && r2 && Object.defineProperty(target, key, r2), r2;
 };
 var SixRules_1;
-var _a10;
-var SixRules = (_a10 = class extends ConfigurableRules {
+var _a9;
+var SixRules = (_a9 = class extends ConfigurableRules {
   currentVictorySource;
   static get() {
     if (SixRules_1.singleton.isAbsent()) {
@@ -38754,12 +38935,12 @@ var SixRules = (_a10 = class extends ConfigurableRules {
     }
     return victory;
   }
-}, SixRules_1 = _a10, __publicField(_a10, "singleton", MGPOptional.empty()), __publicField(_a10, "RULES_CONFIG_DESCRIPTION", new RulesConfigDescription({
+}, SixRules_1 = _a9, __publicField(_a9, "singleton", MGPOptional.empty()), __publicField(_a9, "RULES_CONFIG_DESCRIPTION", new RulesConfigDescription({
   name: () => $localize`Six`,
   config: {
     piecesPerPlayer: new NumberConfig(20, () => $localize`Number of pieces to drop per player`, MGPValidators.range(5, 99))
   }
-})), _a10);
+})), _a9);
 SixRules = SixRules_1 = __decorate46([
   Debug.log
 ], SixRules);
@@ -38817,9 +38998,9 @@ var SixMove = class _SixMove extends Move {
 };
 
 // src/app/games/six/SixTutorial.ts
-var _25 = PlayerOrNone.NONE;
-var O21 = Player.ZERO;
-var X21 = Player.ONE;
+var _26 = PlayerOrNone.NONE;
+var O23 = Player.ZERO;
+var X23 = Player.ONE;
 var SixTutorialMessages = class {
   static MOVEMENT_NOT_DISCONNECTING = () => $localize`This move does not disconnect your opponent's pieces. Try again with another piece.`;
   static MOVEMENT_SELF_DISCONNECTING = () => $localize`You lost one of your pieces during this move. There is a way to disconnect an opponent's piece without losing any of yours, try again!`;
@@ -38829,41 +39010,41 @@ var SixTutorial = class extends Tutorial {
     TutorialStep.informational($localize`Six`, $localize`Six is a game without board, where pieces are placed on the side of each other, in a contiguous block. Each player has 21 pieces, with one for each player already on the board. The object of the game is to form one of the three winning shapes with your pieces.`, SixRules.get().getInitialState()),
     TutorialStep.fromMove($localize`Victory (line)`, $localize`On this board, by putting your piece at the right place, you can align six of your pieces and win the game<br/><br/>
         Find the victory. You're playing Dark.`, SixState.ofRepresentation([
-      [O21, X21, X21, X21, X21, O21],
-      [_25, O21, X21, _25, O21, _25],
-      [X21, X21, O21, _25, _25, _25],
-      [_25, _25, O21, _25, _25, _25],
-      [_25, O21, _25, _25, _25, _25],
-      [O21, _25, _25, _25, _25, _25]
+      [O23, X23, X23, X23, X23, O23],
+      [_26, O23, X23, _26, O23, _26],
+      [X23, X23, O23, _26, _26, _26],
+      [_26, _26, O23, _26, _26, _26],
+      [_26, O23, _26, _26, _26, _26],
+      [O23, _26, _26, _26, _26, _26]
     ], 0), [SixMove.ofDrop(new Coord(3, 2))], TutorialStepMessage.CONGRATULATIONS(), TutorialStepMessage.FAILED_TRY_AGAIN()),
     TutorialStep.fromMove($localize`Victory (circle)`, $localize`On this board, by putting your piece at the right place, you can form a circle with six of your pieces and win the game.<br/><br/>
         Find the victory. You're playing Dark.`, SixState.ofRepresentation([
-      [_25, _25, _25, X21, _25, _25],
-      [_25, _25, X21, X21, O21, O21],
-      [_25, X21, _25, O21, X21, _25],
-      [X21, O21, O21, O21, O21, X21]
+      [_26, _26, _26, X23, _26, _26],
+      [_26, _26, X23, X23, O23, O23],
+      [_26, X23, _26, O23, X23, _26],
+      [X23, O23, O23, O23, O23, X23]
     ], 0), [SixMove.ofDrop(new Coord(5, 2))], $localize`Congratulations! Note that if a piece is inside the circle, it does not change anything.`, TutorialStepMessage.FAILED_TRY_AGAIN()),
     TutorialStep.fromMove($localize`Victory (triangle)`, $localize`On this board, by putting your piece at the right place, you can form a triangle with six of your pieces and win the game.<br/><br/>
         Find the victory. You're playing Dark.`, SixState.ofRepresentation([
-      [_25, _25, _25, X21, _25, _25],
-      [_25, O21, X21, O21, O21, O21],
-      [_25, O21, _25, O21, O21, _25],
-      [X21, X21, X21, _25, X21, _25]
+      [_26, _26, _26, X23, _26, _26],
+      [_26, O23, X23, O23, O23, O23],
+      [_26, O23, _26, O23, O23, _26],
+      [X23, X23, X23, _26, X23, _26]
     ], 0), [SixMove.ofDrop(new Coord(3, 3))], TutorialStepMessage.CONGRATULATIONS(), TutorialStepMessage.FAILED_TRY_AGAIN()),
     TutorialStep.fromPredicate($localize`Second phase`, $localize`After 40 turns, your pieces have all been placed and we move on to the second phase of the game.
         You now have to move your pieces, paying attention not to remove a piece that was preventing the opponent's victory.
         From now on, if after move, on or more pieces are disconnected from the largest group of pieces, these will be taken out of the game.<br/><br/>
         You're playing Dark. Make a move that disconnects one of your opponent's pieces.`, SixState.ofRepresentation([
-      [_25, _25, _25, _25, _25, _25, _25, X21, _25],
-      [_25, _25, _25, _25, _25, _25, O21, _25, _25],
-      [_25, _25, _25, _25, O21, O21, O21, _25, _25],
-      [_25, _25, _25, _25, X21, X21, _25, X21, O21],
-      [_25, O21, X21, X21, O21, O21, X21, _25, _25],
-      [O21, O21, O21, O21, X21, X21, X21, O21, _25],
-      [X21, X21, O21, _25, X21, X21, O21, _25, _25],
-      [_25, O21, _25, O21, O21, _25, _25, _25, _25],
-      [X21, X21, X21, X21, _25, _25, _25, _25, _25],
-      [_25, O21, _25, X21, _25, _25, _25, _25, _25]
+      [_26, _26, _26, _26, _26, _26, _26, X23, _26],
+      [_26, _26, _26, _26, _26, _26, O23, _26, _26],
+      [_26, _26, _26, _26, O23, O23, O23, _26, _26],
+      [_26, _26, _26, _26, X23, X23, _26, X23, O23],
+      [_26, O23, X23, X23, O23, O23, X23, _26, _26],
+      [O23, O23, O23, O23, X23, X23, X23, O23, _26],
+      [X23, X23, O23, _26, X23, X23, O23, _26, _26],
+      [_26, O23, _26, O23, O23, _26, _26, _26, _26],
+      [X23, X23, X23, X23, _26, _26, _26, _26, _26],
+      [_26, O23, _26, X23, _26, _26, _26, _26, _26]
     ], 40), SixMove.ofTranslation(new Coord(6, 1), new Coord(5, 1)), (_move, _previousState, resultingState) => {
       const pieces = resultingState.countPiecesOnBoard();
       if (pieces.get(Player.ZERO) === 19) {
@@ -38880,13 +39061,13 @@ var SixTutorial = class extends Tutorial {
         If at any time, at least one player does not have enough pieces to win (less than 6), the game ends.
         The one with the most pieces wins. In case they both have the same number of pieces, it's a draw.<br/><br/>
         Here, you're playing Dark and you can win. Do it!`, SixState.ofRepresentation([
-      [_25, _25, _25, _25, _25, X21],
-      [_25, _25, _25, _25, O21, X21],
-      [_25, _25, _25, X21, O21, O21],
-      [_25, _25, O21, _25, X21, O21],
-      [X21, X21, _25, _25, _25, O21],
-      [O21, X21, _25, _25, _25, _25],
-      [O21, _25, _25, _25, _25, _25]
+      [_26, _26, _26, _26, _26, X23],
+      [_26, _26, _26, _26, O23, X23],
+      [_26, _26, _26, X23, O23, O23],
+      [_26, _26, O23, _26, X23, O23],
+      [X23, X23, _26, _26, _26, O23],
+      [O23, X23, _26, _26, _26, _26],
+      [O23, _26, _26, _26, _26, _26]
     ], 40), SixMove.ofTranslation(new Coord(2, 3), new Coord(3, 3)), (move, _previousState, _resultingState) => {
       if (move.start.equalsValue(new Coord(2, 3))) {
         return MGPValidation.SUCCESS;
@@ -38897,13 +39078,13 @@ var SixTutorial = class extends Tutorial {
     TutorialStep.fromPredicate($localize`Special disconnection`, $localize`During a disconnection, two or more groups could have the same size,
         in which case you will have to click on the group you wish to keep.<br/><br/>
         You're playing Dark, play such a move!`, SixState.ofRepresentation([
-      [_25, _25, _25, _25, _25, X21],
-      [_25, _25, _25, _25, O21, X21],
-      [_25, _25, _25, X21, O21, O21],
-      [O21, _25, O21, _25, _25, X21],
-      [X21, X21, _25, _25, _25, _25],
-      [O21, O21, _25, _25, _25, _25],
-      [O21, _25, _25, _25, _25, _25]
+      [_26, _26, _26, _26, _26, X23],
+      [_26, _26, _26, _26, O23, X23],
+      [_26, _26, _26, X23, O23, O23],
+      [O23, _26, O23, _26, _26, X23],
+      [X23, X23, _26, _26, _26, _26],
+      [O23, O23, _26, _26, _26, _26],
+      [O23, _26, _26, _26, _26, _26]
     ], 40), SixMove.ofCut(new Coord(2, 3), new Coord(2, 5), new Coord(2, 5)), (move, _previousState, resultingState) => {
       if (move.keep.isAbsent()) {
         return MGPValidation.failure($localize`This move has not cut the board in two equal halves.`);
@@ -40023,11 +40204,11 @@ var SquarzRules = class _SquarzRules extends ConfigurableRules {
 };
 
 // src/app/games/squarz/SquarzTutorial.ts
-var defaultConfig21 = SquarzRules.get().getDefaultRulesConfig();
-var initialState2 = SquarzRules.get().getInitialState(defaultConfig21);
-var _26 = PlayerOrNone.NONE;
-var O23 = PlayerOrNone.ZERO;
-var X23 = PlayerOrNone.ONE;
+var defaultConfig22 = SquarzRules.get().getDefaultRulesConfig();
+var initialState2 = SquarzRules.get().getInitialState(defaultConfig22);
+var _27 = PlayerOrNone.NONE;
+var O24 = PlayerOrNone.ZERO;
+var X24 = PlayerOrNone.ONE;
 var SquarzTutorial = class extends Tutorial {
   tutorial = [
     TutorialStep.informational($localize`Squarz`, $localize`Squarz is board control game. Here is the initial state. The goal is to have the most pieces at the end of the game.`, initialState2),
@@ -40039,14 +40220,14 @@ var SquarzTutorial = class extends Tutorial {
       }
     }, TutorialStepMessage.CONGRATULATIONS()),
     TutorialStep.fromPredicate($localize`Jumps`, $localize`The second type of move you can do is the jump. When you do one, your piece leaves its original space and jumps two spaces further. To do this, select one of your pieces, and click on its landing space two spaces further.<br/><br/>You're playing Light, make a jump.`, new SquarzState([
-      [O23, _26, _26, _26, _26, _26, _26, X23],
-      [_26, O23, _26, _26, _26, _26, _26, _26],
-      [_26, _26, _26, _26, _26, _26, _26, _26],
-      [_26, _26, _26, _26, _26, _26, _26, _26],
-      [_26, _26, _26, _26, _26, _26, _26, _26],
-      [_26, _26, _26, _26, _26, _26, _26, _26],
-      [_26, _26, _26, _26, _26, _26, _26, _26],
-      [X23, _26, _26, _26, _26, _26, _26, O23]
+      [O24, _27, _27, _27, _27, _27, _27, X24],
+      [_27, O24, _27, _27, _27, _27, _27, _27],
+      [_27, _27, _27, _27, _27, _27, _27, _27],
+      [_27, _27, _27, _27, _27, _27, _27, _27],
+      [_27, _27, _27, _27, _27, _27, _27, _27],
+      [_27, _27, _27, _27, _27, _27, _27, _27],
+      [_27, _27, _27, _27, _27, _27, _27, _27],
+      [X24, _27, _27, _27, _27, _27, _27, O24]
     ], 1), SquarzMove.from(new Coord(7, 0), new Coord(5, 2)).get(), (move, _state) => {
       if (move.isDuplication()) {
         return MGPValidation.failure($localize`This was a duplication, try a jump now.`);
@@ -40055,14 +40236,14 @@ var SquarzTutorial = class extends Tutorial {
       }
     }, TutorialStepMessage.CONGRATULATIONS()).withPreviousMove(SquarzMove.from(new Coord(0, 0), new Coord(1, 1)).get(), initialState2),
     TutorialStep.fromPredicate($localize`Captures`, $localize`When one of your pieces lands on a square, its adjacent opponent pieces become yours. This is called a capture.<br/><br/>You're playing Light, do a capture!`, new SquarzState([
-      [O23, _26, _26, _26, _26, _26, _26, X23],
-      [_26, _26, _26, _26, _26, _26, _26, _26],
-      [_26, _26, _26, _26, _26, _26, _26, _26],
-      [_26, _26, _26, O23, _26, _26, _26, _26],
-      [_26, _26, _26, _26, _26, _26, _26, _26],
-      [_26, _26, X23, _26, _26, _26, _26, _26],
-      [_26, _26, _26, _26, _26, _26, _26, _26],
-      [_26, _26, _26, _26, _26, _26, _26, O23]
+      [O24, _27, _27, _27, _27, _27, _27, X24],
+      [_27, _27, _27, _27, _27, _27, _27, _27],
+      [_27, _27, _27, _27, _27, _27, _27, _27],
+      [_27, _27, _27, O24, _27, _27, _27, _27],
+      [_27, _27, _27, _27, _27, _27, _27, _27],
+      [_27, _27, X24, _27, _27, _27, _27, _27],
+      [_27, _27, _27, _27, _27, _27, _27, _27],
+      [_27, _27, _27, _27, _27, _27, _27, O24]
     ], 3), SquarzMove.from(new Coord(2, 5), new Coord(3, 4)).get(), (_move, _state, resultingState) => {
       if (resultingState.getPieceAtXY(3, 3) === Player.ONE) {
         return MGPValidation.SUCCESS;
@@ -40071,14 +40252,14 @@ var SquarzTutorial = class extends Tutorial {
       }
     }, TutorialStepMessage.CONGRATULATIONS()).withPreviousMove(SquarzMove.from(new Coord(1, 1), new Coord(3, 3)).get(), initialState2),
     TutorialStep.fromPredicate($localize`End of the game`, $localize`When one player can no longer play, the game ends, and the player with the most pieces wins. Here, you can do a final move and win.<br/><br/>You're playing Light, do it.`, new SquarzState([
-      [X23, X23, X23, X23, X23, X23, X23, X23],
-      [O23, O23, O23, O23, O23, O23, O23, O23],
-      [O23, O23, O23, O23, O23, O23, O23, O23],
-      [O23, O23, O23, O23, O23, O23, O23, O23],
-      [X23, X23, X23, _26, X23, X23, X23, X23],
-      [X23, X23, X23, X23, X23, X23, X23, X23],
-      [X23, X23, X23, X23, X23, X23, X23, X23],
-      [O23, O23, O23, O23, O23, O23, O23, O23]
+      [X24, X24, X24, X24, X24, X24, X24, X24],
+      [O24, O24, O24, O24, O24, O24, O24, O24],
+      [O24, O24, O24, O24, O24, O24, O24, O24],
+      [O24, O24, O24, O24, O24, O24, O24, O24],
+      [X24, X24, X24, _27, X24, X24, X24, X24],
+      [X24, X24, X24, X24, X24, X24, X24, X24],
+      [X24, X24, X24, X24, X24, X24, X24, X24],
+      [O24, O24, O24, O24, O24, O24, O24, O24]
     ], 3), SquarzMove.from(new Coord(2, 5), new Coord(3, 4)).get(), (move, _state, _resultingState) => {
       if (move.isDuplication()) {
         return MGPValidation.SUCCESS;
@@ -40086,14 +40267,14 @@ var SquarzTutorial = class extends Tutorial {
         return MGPValidation.failure($localize`Bad choice, by making this move you allowed the opponent to win.<br/><br/>Try again!`);
       }
     }, TutorialStepMessage.CONGRATULATIONS_YOU_WON()).withPreviousMove(SquarzMove.from(new Coord(3, 1), new Coord(3, 2)).get(), new SquarzState([
-      [X23, X23, X23, X23, X23, X23, X23, X23],
-      [O23, O23, O23, O23, O23, O23, O23, O23],
-      [O23, O23, O23, _26, O23, O23, O23, O23],
-      [O23, O23, O23, O23, O23, O23, O23, O23],
-      [X23, X23, X23, _26, X23, X23, X23, X23],
-      [X23, X23, X23, X23, X23, X23, X23, X23],
-      [X23, X23, X23, X23, X23, X23, X23, X23],
-      [O23, O23, O23, O23, O23, O23, O23, O23]
+      [X24, X24, X24, X24, X24, X24, X24, X24],
+      [O24, O24, O24, O24, O24, O24, O24, O24],
+      [O24, O24, O24, _27, O24, O24, O24, O24],
+      [O24, O24, O24, O24, O24, O24, O24, O24],
+      [X24, X24, X24, _27, X24, X24, X24, X24],
+      [X24, X24, X24, X24, X24, X24, X24, X24],
+      [X24, X24, X24, X24, X24, X24, X24, X24],
+      [O24, O24, O24, O24, O24, O24, O24, O24]
     ], 2))
   ];
 };
@@ -40845,7 +41026,7 @@ var BrandhubRules = class _BrandhubRules extends TaflRules {
     super(BrandhubMove.from);
   }
   getInitialState(config) {
-    const _32 = TaflPawn.UNOCCUPIED;
+    const _33 = TaflPawn.UNOCCUPIED;
     let I = TaflPawn.PLAYER_ZERO_PAWN;
     let D2 = TaflPawn.PLAYER_ONE_PAWN;
     let K = TaflPawn.PLAYER_ONE_KING;
@@ -40855,13 +41036,13 @@ var BrandhubRules = class _BrandhubRules extends TaflRules {
       K = TaflPawn.PLAYER_ZERO_KING;
     }
     const board = [
-      [_32, _32, _32, I, _32, _32, _32],
-      [_32, _32, _32, I, _32, _32, _32],
-      [_32, _32, _32, D2, _32, _32, _32],
+      [_33, _33, _33, I, _33, _33, _33],
+      [_33, _33, _33, I, _33, _33, _33],
+      [_33, _33, _33, D2, _33, _33, _33],
       [I, I, D2, K, D2, I, I],
-      [_32, _32, _32, D2, _32, _32, _32],
-      [_32, _32, _32, I, _32, _32, _32],
-      [_32, _32, _32, I, _32, _32, _32]
+      [_33, _33, _33, D2, _33, _33, _33],
+      [_33, _33, _33, I, _33, _33, _33],
+      [_33, _33, _33, I, _33, _33, _33]
     ];
     return new TaflState(board, 0);
   }
@@ -40871,64 +41052,64 @@ var BrandhubRules = class _BrandhubRules extends TaflRules {
 };
 
 // src/app/games/tafl/brandhub/BrandhubTutorial.ts
-var _27 = TaflPawn.UNOCCUPIED;
-var O24 = TaflPawn.PLAYER_ZERO_PAWN;
-var X24 = TaflPawn.PLAYER_ONE_PAWN;
+var _28 = TaflPawn.UNOCCUPIED;
+var O25 = TaflPawn.PLAYER_ZERO_PAWN;
+var X25 = TaflPawn.PLAYER_ONE_PAWN;
 var A5 = TaflPawn.PLAYER_ONE_KING;
-var defaultConfig22 = BrandhubRules.get().getDefaultRulesConfig();
+var defaultConfig23 = BrandhubRules.get().getDefaultRulesConfig();
 var BrandhubTutorial = class extends Tutorial {
   tutorial = [
-    TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`Brandhub is the Irish version of the Tafl, Tafl being a family of viking strategy game. The object of the game is different for each player. The attacker plays first. Their pieces (dark) are close to the edges. Their goal is to capture the king, which is in the center of the board. The defender plays second. Their pieces (light) are in the middle. Their goal is to move the king on one of the 4 thrones in the corners. Note that the square in which the king starts, in the center of the board, is also a throne.`, BrandhubRules.get().getInitialState(defaultConfig22)),
-    TutorialStep.anyMove($localize`Moving`, $localize`All pieces move the same way. Similarly to a rook in chess, a piece can move: <ol><li>By as many squares as you want.</li><li>Without going over another piece or stopping on another piece.</li><li>Horizontally or vertically.</li><li>Only the king can land on a corner throne.</li><li>Once the king left his central throne, no piece can land on it, but all can pass over it.</li></ol>To move a piece, click on it and then on its landing square.<br/><br/>You're playing Dark, do the first move.`, BrandhubRules.get().getInitialState(defaultConfig22), BrandhubMove.from(new Coord(3, 1), new Coord(1, 1)).get(), TutorialStepMessage.CONGRATULATIONS()),
+    TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`Brandhub is the Irish version of the Tafl, Tafl being a family of viking strategy game. The object of the game is different for each player. The attacker plays first. Their pieces (dark) are close to the edges. Their goal is to capture the king, which is in the center of the board. The defender plays second. Their pieces (light) are in the middle. Their goal is to move the king on one of the 4 thrones in the corners. Note that the square in which the king starts, in the center of the board, is also a throne.`, BrandhubRules.get().getInitialState(defaultConfig23)),
+    TutorialStep.anyMove($localize`Moving`, $localize`All pieces move the same way. Similarly to a rook in chess, a piece can move: <ol><li>By as many squares as you want.</li><li>Without going over another piece or stopping on another piece.</li><li>Horizontally or vertically.</li><li>Only the king can land on a corner throne.</li><li>Once the king left his central throne, no piece can land on it, but all can pass over it.</li></ol>To move a piece, click on it and then on its landing square.<br/><br/>You're playing Dark, do the first move.`, BrandhubRules.get().getInitialState(defaultConfig23), BrandhubMove.from(new Coord(3, 1), new Coord(1, 1)).get(), TutorialStepMessage.CONGRATULATIONS()),
     TutorialStep.fromMove($localize`Capturing a soldier` + " (1/2)", $localize`All pieces, attackers and defenders, except the king, are soldiers. To capture them, they have to be sandwiched between two of your pieces. By getting too close, an attacker's soldier is in danger.<br/><br/>You're playing Light. Capture the soldier.`, new TaflState([
-      [_27, _27, _27, O24, _27, _27, _27],
-      [_27, _27, _27, O24, _27, _27, _27],
-      [O24, _27, _27, X24, _27, _27, _27],
-      [_27, _27, X24, A5, X24, O24, O24],
-      [_27, _27, O24, _27, _27, _27, _27],
-      [_27, _27, _27, X24, _27, O24, _27],
-      [_27, _27, _27, O24, _27, _27, _27]
+      [_28, _28, _28, O25, _28, _28, _28],
+      [_28, _28, _28, O25, _28, _28, _28],
+      [O25, _28, _28, X25, _28, _28, _28],
+      [_28, _28, X25, A5, X25, O25, O25],
+      [_28, _28, O25, _28, _28, _28, _28],
+      [_28, _28, _28, X25, _28, O25, _28],
+      [_28, _28, _28, O25, _28, _28, _28]
     ], 1), [
       BrandhubMove.from(new Coord(3, 5), new Coord(2, 5)).get()
     ], $localize`Congratulations, that will teach him a lesson!`, $localize`Failed, you missed an opportunity to capture a piece of the opponent.`),
     TutorialStep.fromMove($localize`Capturing a soldier` + " (2/2)", $localize`A second way to capture a soldier is to sandwich it against an empty throne. The king has moved and endangered one of its soldiers.<br/><br/>You're playing Dark. Capture the soldier.`, new TaflState([
-      [_27, _27, _27, O24, _27, _27, _27],
-      [_27, _27, O24, _27, _27, _27, _27],
-      [_27, _27, _27, X24, _27, _27, _27],
-      [O24, X24, _27, _27, X24, O24, O24],
-      [_27, X24, _27, _27, _27, _27, _27],
-      [_27, O24, _27, A5, _27, O24, _27],
-      [_27, _27, _27, O24, _27, _27, _27]
+      [_28, _28, _28, O25, _28, _28, _28],
+      [_28, _28, O25, _28, _28, _28, _28],
+      [_28, _28, _28, X25, _28, _28, _28],
+      [O25, X25, _28, _28, X25, O25, O25],
+      [_28, X25, _28, _28, _28, _28, _28],
+      [_28, O25, _28, A5, _28, O25, _28],
+      [_28, _28, _28, O25, _28, _28, _28]
     ], 12), [
       BrandhubMove.from(new Coord(2, 1), new Coord(3, 1)).get(),
       BrandhubMove.from(new Coord(3, 0), new Coord(3, 1)).get()
     ], $localize`Congratulations, one less defender. But keep an eye on the king, it is the most important.`, $localize`Failed, you did not do the expected move.`),
     TutorialStep.fromMove($localize`Capturing the king on his throne`, $localize`To capture the king when he sits on his throne, the four squares neighbor to the king (horizontally and vertically) must be occupied by your soldiers.<br/><br/>You're playing Dark. Capture the king.`, new TaflState([
-      [_27, _27, _27, _27, _27, _27, _27],
-      [_27, _27, _27, X24, _27, _27, _27],
-      [_27, _27, _27, O24, _27, _27, _27],
-      [_27, O24, _27, A5, O24, _27, _27],
-      [_27, _27, _27, O24, _27, _27, _27],
-      [_27, X24, _27, _27, _27, _27, _27],
-      [_27, _27, _27, _27, _27, _27, _27]
+      [_28, _28, _28, _28, _28, _28, _28],
+      [_28, _28, _28, X25, _28, _28, _28],
+      [_28, _28, _28, O25, _28, _28, _28],
+      [_28, O25, _28, A5, O25, _28, _28],
+      [_28, _28, _28, O25, _28, _28, _28],
+      [_28, X25, _28, _28, _28, _28, _28],
+      [_28, _28, _28, _28, _28, _28, _28]
     ], 72), [BrandhubMove.from(new Coord(1, 3), new Coord(2, 3)).get()], TutorialStepMessage.CONGRATULATIONS_YOU_WON(), $localize`Failed, you let the king run away.`),
     TutorialStep.fromMove($localize`Capturing the king next to his throne`, $localize`Another way to capture the king is to use three soldier plus the central throne to surround the king on four sides.<br/><br/>You're playing Dark. Capture the king.`, new TaflState([
-      [_27, _27, O24, _27, _27, _27, _27],
-      [_27, _27, _27, O24, _27, _27, _27],
-      [_27, _27, _27, A5, O24, _27, _27],
-      [_27, O24, X24, _27, X24, _27, _27],
-      [_27, _27, _27, O24, _27, _27, _27],
-      [_27, _27, _27, _27, _27, _27, _27],
-      [_27, _27, _27, _27, _27, _27, _27]
+      [_28, _28, O25, _28, _28, _28, _28],
+      [_28, _28, _28, O25, _28, _28, _28],
+      [_28, _28, _28, A5, O25, _28, _28],
+      [_28, O25, X25, _28, X25, _28, _28],
+      [_28, _28, _28, O25, _28, _28, _28],
+      [_28, _28, _28, _28, _28, _28, _28],
+      [_28, _28, _28, _28, _28, _28, _28]
     ], 72), [BrandhubMove.from(new Coord(2, 0), new Coord(2, 2)).get()], $localize`The king is dead, long live the king. Congratulations, you won.`, TutorialStepMessage.FAILED_TRY_AGAIN()),
     TutorialStep.fromMove($localize`Capturing the king far from his throne`, $localize`When the king is not on his central throne nor next to it, he can be captured like a soldier.<br/><br/>You're playing Dark. Capture the king.`, new TaflState([
-      [_27, _27, _27, _27, _27, _27, _27],
-      [_27, _27, _27, _27, _27, _27, _27],
-      [_27, O24, _27, O24, _27, _27, _27],
-      [O24, _27, _27, _27, X24, _27, _27],
-      [_27, _27, _27, X24, _27, _27, _27],
-      [_27, _27, _27, _27, _27, _27, _27],
-      [_27, A5, _27, O24, _27, _27, _27]
+      [_28, _28, _28, _28, _28, _28, _28],
+      [_28, _28, _28, _28, _28, _28, _28],
+      [_28, O25, _28, O25, _28, _28, _28],
+      [O25, _28, _28, _28, X25, _28, _28],
+      [_28, _28, _28, X25, _28, _28, _28],
+      [_28, _28, _28, _28, _28, _28, _28],
+      [_28, A5, _28, O25, _28, _28, _28]
     ], 72), [BrandhubMove.from(new Coord(3, 6), new Coord(2, 6)).get()], $localize`The king is dead, long live the king. Congratulations, you won.`, TutorialStepMessage.FAILED_TRY_AGAIN())
   ];
 };
@@ -41791,7 +41972,7 @@ var HnefataflRules = class _HnefataflRules extends TaflRules {
     super(HnefataflMove.from);
   }
   getInitialState(config) {
-    const _32 = TaflPawn.UNOCCUPIED;
+    const _33 = TaflPawn.UNOCCUPIED;
     let I = TaflPawn.PLAYER_ZERO_PAWN;
     let D2 = TaflPawn.PLAYER_ONE_PAWN;
     let K = TaflPawn.PLAYER_ONE_KING;
@@ -41801,17 +41982,17 @@ var HnefataflRules = class _HnefataflRules extends TaflRules {
       K = TaflPawn.PLAYER_ZERO_KING;
     }
     const board = [
-      [_32, _32, _32, I, I, I, I, I, _32, _32, _32],
-      [_32, _32, _32, _32, _32, I, _32, _32, _32, _32, _32],
-      [_32, _32, _32, _32, _32, _32, _32, _32, _32, _32, _32],
-      [I, _32, _32, _32, _32, D2, _32, _32, _32, _32, I],
-      [I, _32, _32, _32, D2, D2, D2, _32, _32, _32, I],
-      [I, I, _32, D2, D2, K, D2, D2, _32, I, I],
-      [I, _32, _32, _32, D2, D2, D2, _32, _32, _32, I],
-      [I, _32, _32, _32, _32, D2, _32, _32, _32, _32, I],
-      [_32, _32, _32, _32, _32, _32, _32, _32, _32, _32, _32],
-      [_32, _32, _32, _32, _32, I, _32, _32, _32, _32, _32],
-      [_32, _32, _32, I, I, I, I, I, _32, _32, _32]
+      [_33, _33, _33, I, I, I, I, I, _33, _33, _33],
+      [_33, _33, _33, _33, _33, I, _33, _33, _33, _33, _33],
+      [_33, _33, _33, _33, _33, _33, _33, _33, _33, _33, _33],
+      [I, _33, _33, _33, _33, D2, _33, _33, _33, _33, I],
+      [I, _33, _33, _33, D2, D2, D2, _33, _33, _33, I],
+      [I, I, _33, D2, D2, K, D2, D2, _33, I, I],
+      [I, _33, _33, _33, D2, D2, D2, _33, _33, _33, I],
+      [I, _33, _33, _33, _33, D2, _33, _33, _33, _33, I],
+      [_33, _33, _33, _33, _33, _33, _33, _33, _33, _33, _33],
+      [_33, _33, _33, _33, _33, I, _33, _33, _33, _33, _33],
+      [_33, _33, _33, I, I, I, I, I, _33, _33, _33]
     ];
     return new TaflState(board, 0);
   }
@@ -41821,69 +42002,69 @@ var HnefataflRules = class _HnefataflRules extends TaflRules {
 };
 
 // src/app/games/tafl/hnefatafl/HnefataflTutorial.ts
-var _28 = TaflPawn.UNOCCUPIED;
-var O25 = TaflPawn.PLAYER_ZERO_PAWN;
-var X25 = TaflPawn.PLAYER_ONE_PAWN;
+var _29 = TaflPawn.UNOCCUPIED;
+var O26 = TaflPawn.PLAYER_ZERO_PAWN;
+var X26 = TaflPawn.PLAYER_ONE_PAWN;
 var A6 = TaflPawn.PLAYER_ONE_KING;
-var defaultConfig23 = HnefataflRules.get().getDefaultRulesConfig();
+var defaultConfig24 = HnefataflRules.get().getDefaultRulesConfig();
 var HnefataflTutorial = class extends Tutorial {
   tutorial = [
-    TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`Hnefatafl is a strategy game that was played by the vikings, it's part of a larger family of games called Tafl. The object of the game is different for each player. The attacker plays first. Their pieces (dark) are close to the edges. Their goal is to capture the king, which is in the center of the board. The defender plays second. Their pieces (light) are in the middle. Their goal is to move the king on one of the 4 thrones in the corners. Note that the square in which the king starts, in the center of the board, is also a throne.`, HnefataflRules.get().getInitialState(defaultConfig23)),
-    TutorialStep.anyMove($localize`Moving`, $localize`All pieces move the same way. Similarly to a rook in chess, a piece can move:<ol><li>By as many squares as you want.</li><li>Without going over another piece or stopping on another piece.</li><li>Horizontally or vertically.</li><li>Only the king can land on a throne.</li></ol>To move a piece, click on it and then on its landing square.<br/><br/>You're playing Dark, do the first move.`, HnefataflRules.get().getInitialState(defaultConfig23), HnefataflMove.from(new Coord(5, 1), new Coord(1, 1)).get(), TutorialStepMessage.CONGRATULATIONS()),
+    TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`Hnefatafl is a strategy game that was played by the vikings, it's part of a larger family of games called Tafl. The object of the game is different for each player. The attacker plays first. Their pieces (dark) are close to the edges. Their goal is to capture the king, which is in the center of the board. The defender plays second. Their pieces (light) are in the middle. Their goal is to move the king on one of the 4 thrones in the corners. Note that the square in which the king starts, in the center of the board, is also a throne.`, HnefataflRules.get().getInitialState(defaultConfig24)),
+    TutorialStep.anyMove($localize`Moving`, $localize`All pieces move the same way. Similarly to a rook in chess, a piece can move:<ol><li>By as many squares as you want.</li><li>Without going over another piece or stopping on another piece.</li><li>Horizontally or vertically.</li><li>Only the king can land on a throne.</li></ol>To move a piece, click on it and then on its landing square.<br/><br/>You're playing Dark, do the first move.`, HnefataflRules.get().getInitialState(defaultConfig24), HnefataflMove.from(new Coord(5, 1), new Coord(1, 1)).get(), TutorialStepMessage.CONGRATULATIONS()),
     TutorialStep.fromMove($localize`Capturing a soldier` + " (1/2)", $localize`All pieces, attackers and defenders, except the king, are soldiers. To capture them, they have to be sandwiched between two of your pieces. By getting too close, an attacker's soldier is in danger.<br/><br/>You're playing Light. Capture the soldier.`, new TaflState([
-      [_28, _28, _28, _28, O25, O25, O25, O25, _28, _28, _28],
-      [_28, _28, _28, _28, _28, O25, _28, _28, _28, _28, _28],
-      [_28, _28, _28, _28, _28, _28, _28, _28, _28, _28, _28],
-      [O25, _28, _28, _28, _28, X25, _28, _28, _28, _28, O25],
-      [O25, _28, _28, O25, X25, X25, X25, _28, _28, _28, O25],
-      [O25, O25, _28, X25, X25, A6, X25, X25, _28, O25, O25],
-      [O25, _28, _28, _28, X25, X25, X25, _28, _28, _28, O25],
-      [O25, _28, _28, _28, _28, X25, _28, _28, _28, _28, O25],
-      [_28, _28, _28, _28, _28, _28, _28, _28, _28, _28, _28],
-      [_28, _28, _28, _28, _28, O25, _28, _28, _28, _28, _28],
-      [_28, _28, _28, O25, O25, O25, O25, O25, _28, _28, _28]
-    ], 1), [HnefataflMove.from(new Coord(5, 3), new Coord(3, 3)).get()], $localize`Congratulations, that will teach him a lesson!`, $localize`Failed, you missed an opportunity to capture a piece of the opponent.`).withPreviousMove(HnefataflMove.from(new Coord(3, 0), new Coord(3, 4)).get(), HnefataflRules.get().getInitialState(defaultConfig23)),
+      [_29, _29, _29, _29, O26, O26, O26, O26, _29, _29, _29],
+      [_29, _29, _29, _29, _29, O26, _29, _29, _29, _29, _29],
+      [_29, _29, _29, _29, _29, _29, _29, _29, _29, _29, _29],
+      [O26, _29, _29, _29, _29, X26, _29, _29, _29, _29, O26],
+      [O26, _29, _29, O26, X26, X26, X26, _29, _29, _29, O26],
+      [O26, O26, _29, X26, X26, A6, X26, X26, _29, O26, O26],
+      [O26, _29, _29, _29, X26, X26, X26, _29, _29, _29, O26],
+      [O26, _29, _29, _29, _29, X26, _29, _29, _29, _29, O26],
+      [_29, _29, _29, _29, _29, _29, _29, _29, _29, _29, _29],
+      [_29, _29, _29, _29, _29, O26, _29, _29, _29, _29, _29],
+      [_29, _29, _29, O26, O26, O26, O26, O26, _29, _29, _29]
+    ], 1), [HnefataflMove.from(new Coord(5, 3), new Coord(3, 3)).get()], $localize`Congratulations, that will teach him a lesson!`, $localize`Failed, you missed an opportunity to capture a piece of the opponent.`).withPreviousMove(HnefataflMove.from(new Coord(3, 0), new Coord(3, 4)).get(), HnefataflRules.get().getInitialState(defaultConfig24)),
     TutorialStep.fromMove($localize`Capturing a soldier` + " (2/2)", $localize`A second way to capture a soldier is to sandwich it against an empty throne. The king has moved and endangered one of its soldiers.<br/><br/>You're playing Dark. Capture the soldier.`, new TaflState([
-      [_28, _28, _28, O25, O25, O25, O25, O25, _28, _28, _28],
-      [_28, X25, _28, _28, _28, O25, _28, _28, _28, _28, _28],
-      [_28, _28, _28, _28, _28, _28, _28, _28, _28, _28, _28],
-      [_28, _28, _28, _28, _28, X25, _28, _28, _28, _28, O25],
-      [O25, _28, _28, _28, _28, X25, X25, _28, _28, _28, O25],
-      [O25, O25, A6, _28, X25, _28, X25, X25, _28, _28, O25],
-      [_28, _28, O25, _28, _28, X25, X25, _28, _28, _28, O25],
-      [O25, _28, _28, _28, _28, X25, _28, _28, _28, _28, _28],
-      [_28, _28, _28, _28, _28, _28, _28, _28, _28, _28, _28],
-      [_28, O25, _28, _28, _28, _28, _28, _28, _28, _28, _28],
-      [_28, _28, _28, O25, O25, O25, O25, _28, O25, _28, _28]
+      [_29, _29, _29, O26, O26, O26, O26, O26, _29, _29, _29],
+      [_29, X26, _29, _29, _29, O26, _29, _29, _29, _29, _29],
+      [_29, _29, _29, _29, _29, _29, _29, _29, _29, _29, _29],
+      [_29, _29, _29, _29, _29, X26, _29, _29, _29, _29, O26],
+      [O26, _29, _29, _29, _29, X26, X26, _29, _29, _29, O26],
+      [O26, O26, A6, _29, X26, _29, X26, X26, _29, _29, O26],
+      [_29, _29, O26, _29, _29, X26, X26, _29, _29, _29, O26],
+      [O26, _29, _29, _29, _29, X26, _29, _29, _29, _29, _29],
+      [_29, _29, _29, _29, _29, _29, _29, _29, _29, _29, _29],
+      [_29, O26, _29, _29, _29, _29, _29, _29, _29, _29, _29],
+      [_29, _29, _29, O26, O26, O26, O26, _29, O26, _29, _29]
     ], 12), [
       HnefataflMove.from(new Coord(3, 0), new Coord(3, 5)).get(),
       HnefataflMove.from(new Coord(3, 10), new Coord(3, 5)).get()
     ], $localize`Congratulations, one less defender. But keep an eye on the king, it is the most important.`, $localize`Failed, you did not do the expected move.`),
     TutorialStep.fromMove($localize`Capturing the king` + " (1/2)", $localize`To capture the king, two soldiers are not enough. For the first solution, the four squares neighbor to the king (horizontally and vertically) must be occupied by your soldiers. This also works if the king is on the throne.<br/><br/>You're playing Dark, capture the king.`, new TaflState([
-      [_28, _28, _28, _28, _28, _28, _28, _28, _28, _28, _28],
-      [_28, _28, _28, _28, _28, _28, _28, _28, _28, _28, _28],
-      [_28, _28, _28, _28, _28, _28, _28, _28, _28, _28, _28],
-      [_28, O25, _28, _28, _28, _28, _28, _28, _28, _28, _28],
-      [O25, A6, _28, O25, _28, _28, _28, _28, _28, _28, _28],
-      [_28, O25, _28, _28, _28, _28, _28, _28, _28, _28, _28],
-      [_28, _28, _28, _28, _28, _28, _28, _28, _28, _28, _28],
-      [_28, _28, _28, _28, _28, _28, _28, _28, _28, _28, _28],
-      [_28, _28, _28, _28, _28, _28, _28, _28, _28, _28, _28],
-      [_28, _28, _28, _28, _28, _28, _28, _28, _28, _28, _28],
-      [_28, _28, _28, _28, _28, _28, _28, _28, _28, _28, _28]
+      [_29, _29, _29, _29, _29, _29, _29, _29, _29, _29, _29],
+      [_29, _29, _29, _29, _29, _29, _29, _29, _29, _29, _29],
+      [_29, _29, _29, _29, _29, _29, _29, _29, _29, _29, _29],
+      [_29, O26, _29, _29, _29, _29, _29, _29, _29, _29, _29],
+      [O26, A6, _29, O26, _29, _29, _29, _29, _29, _29, _29],
+      [_29, O26, _29, _29, _29, _29, _29, _29, _29, _29, _29],
+      [_29, _29, _29, _29, _29, _29, _29, _29, _29, _29, _29],
+      [_29, _29, _29, _29, _29, _29, _29, _29, _29, _29, _29],
+      [_29, _29, _29, _29, _29, _29, _29, _29, _29, _29, _29],
+      [_29, _29, _29, _29, _29, _29, _29, _29, _29, _29, _29],
+      [_29, _29, _29, _29, _29, _29, _29, _29, _29, _29, _29]
     ], 72), [HnefataflMove.from(new Coord(3, 4), new Coord(2, 4)).get()], TutorialStepMessage.CONGRATULATIONS_YOU_WON(), $localize`Failed, you let the king run away.`),
     TutorialStep.fromMove($localize`Capturing the king` + " (2/2)", $localize`Another way to capture the king is to immobilize it against an edge of the board. Note that the king cannot be captured next to a throne.<br/><br/>You're playing Dark, capture the king.`, new TaflState([
-      [_28, _28, O25, A6, O25, _28, _28, _28, _28, _28, _28],
-      [_28, _28, _28, _28, _28, _28, X25, _28, _28, _28, _28],
-      [_28, _28, _28, _28, _28, _28, _28, _28, _28, _28, _28],
-      [_28, _28, _28, O25, _28, _28, _28, _28, _28, _28, _28],
-      [_28, _28, _28, _28, _28, _28, _28, _28, _28, _28, _28],
-      [_28, _28, _28, _28, _28, _28, _28, _28, _28, _28, _28],
-      [_28, _28, _28, _28, _28, _28, _28, _28, _28, _28, _28],
-      [_28, _28, _28, _28, _28, _28, _28, _28, _28, _28, _28],
-      [_28, _28, _28, _28, _28, _28, _28, _28, _28, _28, _28],
-      [_28, _28, _28, _28, _28, _28, _28, _28, _28, _28, _28],
-      [_28, _28, _28, _28, _28, _28, _28, _28, _28, _28, _28]
+      [_29, _29, O26, A6, O26, _29, _29, _29, _29, _29, _29],
+      [_29, _29, _29, _29, _29, _29, X26, _29, _29, _29, _29],
+      [_29, _29, _29, _29, _29, _29, _29, _29, _29, _29, _29],
+      [_29, _29, _29, O26, _29, _29, _29, _29, _29, _29, _29],
+      [_29, _29, _29, _29, _29, _29, _29, _29, _29, _29, _29],
+      [_29, _29, _29, _29, _29, _29, _29, _29, _29, _29, _29],
+      [_29, _29, _29, _29, _29, _29, _29, _29, _29, _29, _29],
+      [_29, _29, _29, _29, _29, _29, _29, _29, _29, _29, _29],
+      [_29, _29, _29, _29, _29, _29, _29, _29, _29, _29, _29],
+      [_29, _29, _29, _29, _29, _29, _29, _29, _29, _29, _29],
+      [_29, _29, _29, _29, _29, _29, _29, _29, _29, _29, _29]
     ], 72), [HnefataflMove.from(new Coord(3, 3), new Coord(3, 1)).get()], $localize`The king is dead, long live the king. Congratulations, you won.`, TutorialStepMessage.FAILED_TRY_AGAIN())
   ];
 };
@@ -42149,7 +42330,7 @@ var TablutRules = class _TablutRules extends TaflRules {
     super(TablutMove.from);
   }
   getInitialState(config) {
-    const _32 = TaflPawn.UNOCCUPIED;
+    const _33 = TaflPawn.UNOCCUPIED;
     let I = TaflPawn.PLAYER_ZERO_PAWN;
     let D2 = TaflPawn.PLAYER_ONE_PAWN;
     let K = TaflPawn.PLAYER_ONE_KING;
@@ -42159,15 +42340,15 @@ var TablutRules = class _TablutRules extends TaflRules {
       K = TaflPawn.PLAYER_ZERO_KING;
     }
     const board = [
-      [_32, _32, _32, I, I, I, _32, _32, _32],
-      [_32, _32, _32, _32, I, _32, _32, _32, _32],
-      [_32, _32, _32, _32, D2, _32, _32, _32, _32],
-      [I, _32, _32, _32, D2, _32, _32, _32, I],
+      [_33, _33, _33, I, I, I, _33, _33, _33],
+      [_33, _33, _33, _33, I, _33, _33, _33, _33],
+      [_33, _33, _33, _33, D2, _33, _33, _33, _33],
+      [I, _33, _33, _33, D2, _33, _33, _33, I],
       [I, I, D2, D2, K, D2, D2, I, I],
-      [I, _32, _32, _32, D2, _32, _32, _32, I],
-      [_32, _32, _32, _32, D2, _32, _32, _32, _32],
-      [_32, _32, _32, _32, I, _32, _32, _32, _32],
-      [_32, _32, _32, I, I, I, _32, _32, _32]
+      [I, _33, _33, _33, D2, _33, _33, _33, I],
+      [_33, _33, _33, _33, D2, _33, _33, _33, _33],
+      [_33, _33, _33, _33, I, _33, _33, _33, _33],
+      [_33, _33, _33, I, I, I, _33, _33, _33]
     ];
     return new TaflState(board, 0);
   }
@@ -42177,61 +42358,61 @@ var TablutRules = class _TablutRules extends TaflRules {
 };
 
 // src/app/games/tafl/tablut/TablutTutorial.ts
-var _29 = TaflPawn.UNOCCUPIED;
+var _30 = TaflPawn.UNOCCUPIED;
 var x = TaflPawn.PLAYER_ZERO_PAWN;
 var i = TaflPawn.PLAYER_ONE_PAWN;
 var A7 = TaflPawn.PLAYER_ONE_KING;
-var defaultConfig24 = TablutRules.get().getDefaultRulesConfig();
+var defaultConfig25 = TablutRules.get().getDefaultRulesConfig();
 var TablutTutorial = class extends Tutorial {
   tutorial = [
-    TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`Tablut is the lapland version of the Tafl, Tafl being a family of viking strategy game. The object of the game is different for each player. The attacker plays first. Its pieces (dark) are close to the edges. Its goal is to capture the king, which is in the center of the board. The defender plays second. Its pieces (light) are in the middle. Its goal is to move the king on one of the 4 thrones in the corners. Note that the square in which the king starts, in the center of the board, is also a throne.`, TablutRules.get().getInitialState(defaultConfig24)),
-    TutorialStep.anyMove($localize`Moving`, $localize`All pieces move the same way. Similarly to a rook in chess, a piece can move:<ol><li>By as many squares as you want.</li><li>Without going over another piece or stopping on another piece.</li><li>Horizontally or vertically.</li><li>Only the king can land on a throne.</li></ol>To move a piece, click on it and then on its landing square.<br/><br/>You're playing Dark, do the first move.`, TablutRules.get().getInitialState(defaultConfig24), TablutMove.from(new Coord(4, 1), new Coord(1, 1)).get(), TutorialStepMessage.CONGRATULATIONS()),
+    TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`Tablut is the lapland version of the Tafl, Tafl being a family of viking strategy game. The object of the game is different for each player. The attacker plays first. Its pieces (dark) are close to the edges. Its goal is to capture the king, which is in the center of the board. The defender plays second. Its pieces (light) are in the middle. Its goal is to move the king on one of the 4 thrones in the corners. Note that the square in which the king starts, in the center of the board, is also a throne.`, TablutRules.get().getInitialState(defaultConfig25)),
+    TutorialStep.anyMove($localize`Moving`, $localize`All pieces move the same way. Similarly to a rook in chess, a piece can move:<ol><li>By as many squares as you want.</li><li>Without going over another piece or stopping on another piece.</li><li>Horizontally or vertically.</li><li>Only the king can land on a throne.</li></ol>To move a piece, click on it and then on its landing square.<br/><br/>You're playing Dark, do the first move.`, TablutRules.get().getInitialState(defaultConfig25), TablutMove.from(new Coord(4, 1), new Coord(1, 1)).get(), TutorialStepMessage.CONGRATULATIONS()),
     TutorialStep.fromMove($localize`Capturing a soldier` + " (1/2)", $localize`All pieces, attackers and defenders, except the king, are soldiers. To capture them, they have to be sandwiched between two of your pieces. By getting too close, an attacker's soldier is in danger.<br/><br/>You're playing Light. Capture the soldier.`, new TaflState([
-      [_29, _29, _29, x, x, x, _29, _29, _29],
-      [_29, _29, _29, _29, x, _29, _29, _29, _29],
-      [_29, _29, _29, _29, i, _29, _29, _29, _29],
-      [_29, _29, _29, x, i, _29, _29, _29, x],
+      [_30, _30, _30, x, x, x, _30, _30, _30],
+      [_30, _30, _30, _30, x, _30, _30, _30, _30],
+      [_30, _30, _30, _30, i, _30, _30, _30, _30],
+      [_30, _30, _30, x, i, _30, _30, _30, x],
       [x, x, i, i, A7, i, i, x, x],
-      [_29, _29, _29, _29, i, _29, _29, _29, x],
-      [_29, _29, _29, _29, i, _29, _29, _29, _29],
-      [_29, _29, _29, _29, x, _29, _29, _29, _29],
-      [_29, _29, _29, x, x, x, _29, _29, _29]
+      [_30, _30, _30, _30, i, _30, _30, _30, x],
+      [_30, _30, _30, _30, i, _30, _30, _30, _30],
+      [_30, _30, _30, _30, x, _30, _30, _30, _30],
+      [_30, _30, _30, x, x, x, _30, _30, _30]
     ], 1), [
       TablutMove.from(new Coord(2, 4), new Coord(2, 3)).get(),
       TablutMove.from(new Coord(4, 2), new Coord(3, 2)).get()
     ], $localize`Congratulations, that will teach him a lesson!`, $localize`Failed, you missed an opportunity to capture a piece of the opponent.`),
     TutorialStep.fromMove($localize`Capturing a soldier` + " (2/2)", $localize`A second way to capture a soldier is to sandwich it against an empty throne. The king has moved and endangered one of its soldiers.<br/><br/>You're playing Dark. Capture the soldier.`, new TaflState([
-      [_29, _29, _29, x, x, x, _29, _29, _29],
-      [_29, _29, _29, _29, x, _29, _29, _29, _29],
-      [_29, _29, _29, _29, i, _29, _29, _29, _29],
-      [_29, _29, i, _29, A7, _29, i, _29, x],
-      [x, x, _29, i, _29, i, i, x, x],
-      [_29, _29, _29, _29, i, _29, _29, _29, x],
-      [_29, _29, _29, _29, i, _29, _29, _29, _29],
-      [_29, _29, _29, _29, x, _29, _29, _29, _29],
-      [_29, _29, _29, x, x, x, _29, _29, _29]
+      [_30, _30, _30, x, x, x, _30, _30, _30],
+      [_30, _30, _30, _30, x, _30, _30, _30, _30],
+      [_30, _30, _30, _30, i, _30, _30, _30, _30],
+      [_30, _30, i, _30, A7, _30, i, _30, x],
+      [x, x, _30, i, _30, i, i, x, x],
+      [_30, _30, _30, _30, i, _30, _30, _30, x],
+      [_30, _30, _30, _30, i, _30, _30, _30, _30],
+      [_30, _30, _30, _30, x, _30, _30, _30, _30],
+      [_30, _30, _30, x, x, x, _30, _30, _30]
     ], 12), [TablutMove.from(new Coord(1, 4), new Coord(2, 4)).get()], $localize`Congratulations, one less defender. But keep an eye on the king, it is the most important.`, $localize`Failed, you did not do the expected move.`),
     TutorialStep.fromMove($localize`Capturing the king` + " (1/2)", $localize`To capture the king, two soldiers are not enough. For the first solution, the four squares neighbor to the king (horizontally and vertically) must be occupied by your soldiers. This also works if the king is on the throne.<br/><br/>You're playing Dark, capture the king.`, new TaflState([
-      [_29, _29, _29, _29, _29, _29, _29, _29, _29],
-      [_29, _29, _29, _29, _29, _29, _29, _29, _29],
-      [_29, _29, _29, _29, _29, _29, _29, _29, _29],
-      [_29, x, _29, _29, _29, _29, _29, _29, _29],
-      [x, A7, _29, x, _29, _29, _29, _29, _29],
-      [_29, x, _29, _29, _29, _29, _29, _29, _29],
-      [_29, _29, _29, _29, _29, _29, _29, _29, _29],
-      [_29, _29, _29, _29, _29, _29, _29, _29, _29],
-      [_29, _29, _29, _29, _29, _29, _29, _29, _29]
+      [_30, _30, _30, _30, _30, _30, _30, _30, _30],
+      [_30, _30, _30, _30, _30, _30, _30, _30, _30],
+      [_30, _30, _30, _30, _30, _30, _30, _30, _30],
+      [_30, x, _30, _30, _30, _30, _30, _30, _30],
+      [x, A7, _30, x, _30, _30, _30, _30, _30],
+      [_30, x, _30, _30, _30, _30, _30, _30, _30],
+      [_30, _30, _30, _30, _30, _30, _30, _30, _30],
+      [_30, _30, _30, _30, _30, _30, _30, _30, _30],
+      [_30, _30, _30, _30, _30, _30, _30, _30, _30]
     ], 72), [TablutMove.from(new Coord(3, 4), new Coord(2, 4)).get()], TutorialStepMessage.CONGRATULATIONS_YOU_WON(), $localize`Failed, you let the king run away.`),
     TutorialStep.fromMove($localize`Capturing the king` + " (2/2)", $localize`Another way to capture the king is to immobilize it against an edge of the board. Note that the king cannot be captured next to a throne.<br/><br/>You're playing Dark, capture the king.`, new TaflState([
-      [_29, _29, x, A7, x, _29, _29, _29, _29],
-      [_29, _29, _29, _29, _29, _29, _29, _29, _29],
-      [_29, _29, _29, _29, _29, _29, _29, _29, _29],
-      [_29, _29, _29, x, _29, _29, _29, _29, _29],
-      [_29, _29, _29, _29, _29, _29, _29, _29, _29],
-      [_29, _29, _29, _29, _29, _29, _29, _29, _29],
-      [_29, _29, _29, _29, _29, _29, _29, _29, _29],
-      [_29, _29, _29, _29, _29, _29, _29, _29, _29],
-      [_29, _29, _29, _29, _29, _29, _29, _29, _29]
+      [_30, _30, x, A7, x, _30, _30, _30, _30],
+      [_30, _30, _30, _30, _30, _30, _30, _30, _30],
+      [_30, _30, _30, _30, _30, _30, _30, _30, _30],
+      [_30, _30, _30, x, _30, _30, _30, _30, _30],
+      [_30, _30, _30, _30, _30, _30, _30, _30, _30],
+      [_30, _30, _30, _30, _30, _30, _30, _30, _30],
+      [_30, _30, _30, _30, _30, _30, _30, _30, _30],
+      [_30, _30, _30, _30, _30, _30, _30, _30, _30],
+      [_30, _30, _30, _30, _30, _30, _30, _30, _30]
     ], 72), [TablutMove.from(new Coord(3, 3), new Coord(3, 1)).get()], $localize`The king is dead, long live the king. Congratulations, you won.`, TutorialStepMessage.FAILED_TRY_AGAIN())
   ];
 };
@@ -42659,26 +42840,26 @@ var TeekoRules = class _TeekoRules extends ConfigurableRules {
 };
 
 // src/app/games/teeko/TeekoTutorial.ts
-var _30 = PlayerOrNone.NONE;
-var O26 = PlayerOrNone.ZERO;
-var X26 = PlayerOrNone.ONE;
+var _31 = PlayerOrNone.NONE;
+var O27 = PlayerOrNone.ZERO;
+var X27 = PlayerOrNone.ONE;
 var TeekoTutorial = class extends Tutorial {
   tutorial = [
     TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`The object of the game is to align your 4 pieces, or to form a square with them.`, TeekoRules.get().getInitialState()),
     TutorialStep.anyMove($localize`Dropping a piece`, $localize`During your first four turns, you must drop one piece on any empty space of the board. There is no other restriction.<br/><br/>You're playing Dark, put a piece on the board.`, TeekoRules.get().getInitialState(), TeekoDropMove.from(new Coord(2, 2)), TutorialStepMessage.CONGRATULATIONS()),
     TutorialStep.anyMove($localize`Moving a piece`, $localize`Once all of your four pieces are placed on the board, you must now move one of your piece to an empty neighboring space, orthogonally or diagonally. The goal remains to be the first to create a line or a square.<br/><br/>You're playing Dark, move a piece.`, new TeekoState([
-      [O26, X26, _30, _30, _30],
-      [O26, O26, _30, _30, _30],
-      [X26, X26, _30, _30, _30],
-      [X26, O26, _30, _30, _30],
-      [_30, _30, _30, _30, _30]
+      [O27, X27, _31, _31, _31],
+      [O27, O27, _31, _31, _31],
+      [X27, X27, _31, _31, _31],
+      [X27, O27, _31, _31, _31],
+      [_31, _31, _31, _31, _31]
     ], 8), TeekoTranslationMove.from(new Coord(1, 3), new Coord(2, 2)).get(), TutorialStepMessage.CONGRATULATIONS()),
     TutorialStep.fromMove($localize`Victory`, $localize`In this board, you can win by creating a square.<br/><br/>You are playing Dark, win.`, new TeekoState([
-      [X26, _30, _30, _30, _30],
-      [X26, O26, _30, O26, _30],
-      [_30, O26, O26, X26, _30],
-      [_30, X26, _30, _30, _30],
-      [_30, _30, _30, _30, _30]
+      [X27, _31, _31, _31, _31],
+      [X27, O27, _31, O27, _31],
+      [_31, O27, O27, X27, _31],
+      [_31, X27, _31, _31, _31],
+      [_31, _31, _31, _31, _31]
     ], 8), [
       TeekoTranslationMove.from(new Coord(3, 1), new Coord(2, 1)).get()
     ], $localize`Congratulations, you won! Remember that you can also win by creating a line.`, TutorialStepMessage.FAILED_TRY_AGAIN())
@@ -43257,7 +43438,7 @@ var TrexoTutorial = class extends Tutorial {
       [______, ______, ______, ______, ______, ______, ______, ______, ______, ______],
       [______, ______, ______, ______, ______, ______, ______, ______, ______, ______],
       [______, ______, ______, ______, ______, ______, ______, ______, ______, ______]
-    ], 7), TrexoMove.from(new Coord(2, 0), new Coord(2, 1)).get(), (lastMove, _32, resultingState) => {
+    ], 7), TrexoMove.from(new Coord(2, 0), new Coord(2, 1)).get(), (lastMove, _33, resultingState) => {
       const moveScore = TrexoRules.TREXO_HELPER.getSquareScore(resultingState, lastMove.getOne());
       if (moveScore === Number.POSITIVE_INFINITY) {
         return MGPValidation.SUCCESS;
@@ -44444,20 +44625,20 @@ var YinshRules = class _YinshRules extends Rules {
     return _YinshRules.singleton.get();
   }
   getInitialState() {
-    const _32 = YinshPiece.EMPTY;
+    const _33 = YinshPiece.EMPTY;
     const N10 = YinshPiece.UNREACHABLE;
     const board = [
-      [N10, N10, N10, N10, N10, N10, _32, _32, _32, _32, N10],
-      [N10, N10, N10, N10, _32, _32, _32, _32, _32, _32, _32],
-      [N10, N10, N10, _32, _32, _32, _32, _32, _32, _32, _32],
-      [N10, N10, _32, _32, _32, _32, _32, _32, _32, _32, _32],
-      [N10, _32, _32, _32, _32, _32, _32, _32, _32, _32, _32],
-      [N10, _32, _32, _32, _32, _32, _32, _32, _32, _32, N10],
-      [_32, _32, _32, _32, _32, _32, _32, _32, _32, _32, N10],
-      [_32, _32, _32, _32, _32, _32, _32, _32, _32, N10, N10],
-      [_32, _32, _32, _32, _32, _32, _32, _32, N10, N10, N10],
-      [_32, _32, _32, _32, _32, _32, _32, N10, N10, N10, N10],
-      [N10, _32, _32, _32, _32, N10, N10, N10, N10, N10, N10]
+      [N10, N10, N10, N10, N10, N10, _33, _33, _33, _33, N10],
+      [N10, N10, N10, N10, _33, _33, _33, _33, _33, _33, _33],
+      [N10, N10, N10, _33, _33, _33, _33, _33, _33, _33, _33],
+      [N10, N10, _33, _33, _33, _33, _33, _33, _33, _33, _33],
+      [N10, _33, _33, _33, _33, _33, _33, _33, _33, _33, _33],
+      [N10, _33, _33, _33, _33, _33, _33, _33, _33, _33, N10],
+      [_33, _33, _33, _33, _33, _33, _33, _33, _33, _33, N10],
+      [_33, _33, _33, _33, _33, _33, _33, _33, _33, N10, N10],
+      [_33, _33, _33, _33, _33, _33, _33, _33, N10, N10, N10],
+      [_33, _33, _33, _33, _33, _33, _33, N10, N10, N10, N10],
+      [N10, _33, _33, _33, _33, N10, N10, N10, N10, N10, N10]
     ];
     return new YinshState(board, PlayerNumberMap.of(5, 5), 0);
   }
@@ -44700,7 +44881,7 @@ var YinshRules = class _YinshRules extends Rules {
 };
 
 // src/app/games/yinsh/YinshTutorial.ts
-var _31 = YinshPiece.EMPTY;
+var _32 = YinshPiece.EMPTY;
 var N9 = YinshPiece.UNREACHABLE;
 var a2 = YinshPiece.MARKER_ZERO;
 var A8 = YinshPiece.RING_ZERO;
@@ -44713,17 +44894,17 @@ var YinshTutorialMessages = class {
 var YinshTutorial = class extends Tutorial {
   tutorial = [
     TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`The goal at Yinsh is to capture three rings in total. The rings taken are shown on the top left for Dark, and on the bottom right for Light. Here, Dark won the game. Note that on the board you have two types of pieces for each player: rings (empty circles) and markers (full circles).`, new YinshState([
-      [N9, N9, N9, N9, N9, N9, _31, _31, _31, _31, N9],
-      [N9, N9, N9, N9, _31, _31, _31, _31, _31, _31, _31],
-      [N9, N9, N9, a2, B6, _31, _31, _31, _31, _31, _31],
-      [N9, N9, _31, a2, _31, B6, _31, b4, _31, _31, _31],
-      [N9, _31, A8, b4, _31, _31, B6, a2, _31, _31, _31],
-      [N9, _31, _31, a2, b4, _31, _31, _31, _31, _31, N9],
-      [_31, _31, _31, a2, _31, _31, _31, B6, _31, _31, N9],
-      [_31, _31, _31, b4, a2, A8, _31, _31, _31, N9, N9],
-      [_31, _31, _31, _31, _31, _31, _31, _31, N9, N9, N9],
-      [_31, _31, _31, _31, _31, _31, _31, N9, N9, N9, N9],
-      [N9, _31, _31, _31, _31, N9, N9, N9, N9, N9, N9]
+      [N9, N9, N9, N9, N9, N9, _32, _32, _32, _32, N9],
+      [N9, N9, N9, N9, _32, _32, _32, _32, _32, _32, _32],
+      [N9, N9, N9, a2, B6, _32, _32, _32, _32, _32, _32],
+      [N9, N9, _32, a2, _32, B6, _32, b4, _32, _32, _32],
+      [N9, _32, A8, b4, _32, _32, B6, a2, _32, _32, _32],
+      [N9, _32, _32, a2, b4, _32, _32, _32, _32, _32, N9],
+      [_32, _32, _32, a2, _32, _32, _32, B6, _32, _32, N9],
+      [_32, _32, _32, b4, a2, A8, _32, _32, _32, N9, N9],
+      [_32, _32, _32, _32, _32, _32, _32, _32, N9, N9, N9],
+      [_32, _32, _32, _32, _32, _32, _32, N9, N9, N9, N9],
+      [N9, _32, _32, _32, _32, N9, N9, N9, N9, N9, N9]
     ], PlayerNumberMap.of(3, 1), 20)),
     TutorialStep.anyMove($localize`Initial board and placement phase`, $localize`The initial board is empty.
         At the beginning of the game, each player puts one of its ring on the board at their turn.
@@ -44736,17 +44917,17 @@ var YinshTutorial = class extends Tutorial {
         If it goes over a group of markers, your move must stop at the first empty space after that group.
         All markers in the group are then flipped and their color change.<br/><br/>
         You're playing Dark, do a move.`, new YinshState([
-      [N9, N9, N9, N9, N9, N9, _31, _31, _31, _31, N9],
-      [N9, N9, N9, N9, _31, _31, _31, _31, _31, _31, _31],
-      [N9, N9, N9, B6, _31, _31, _31, _31, _31, _31, _31],
-      [N9, N9, B6, _31, _31, B6, _31, _31, _31, _31, _31],
-      [N9, _31, A8, b4, _31, _31, B6, _31, _31, _31, _31],
-      [N9, _31, _31, b4, _31, _31, _31, _31, _31, _31, N9],
-      [_31, _31, _31, _31, A8, _31, _31, B6, _31, _31, N9],
-      [_31, _31, _31, _31, _31, A8, _31, _31, _31, N9, N9],
-      [_31, _31, _31, A8, _31, _31, _31, N9, N9, N9, N9],
-      [_31, _31, _31, _31, _31, _31, _31, N9, N9, N9, N9],
-      [N9, _31, _31, _31, _31, N9, N9, N9, N9, N9, N9]
+      [N9, N9, N9, N9, N9, N9, _32, _32, _32, _32, N9],
+      [N9, N9, N9, N9, _32, _32, _32, _32, _32, _32, _32],
+      [N9, N9, N9, B6, _32, _32, _32, _32, _32, _32, _32],
+      [N9, N9, B6, _32, _32, B6, _32, _32, _32, _32, _32],
+      [N9, _32, A8, b4, _32, _32, B6, _32, _32, _32, _32],
+      [N9, _32, _32, b4, _32, _32, _32, _32, _32, _32, N9],
+      [_32, _32, _32, _32, A8, _32, _32, B6, _32, _32, N9],
+      [_32, _32, _32, _32, _32, A8, _32, _32, _32, N9, N9],
+      [_32, _32, _32, A8, _32, _32, _32, N9, N9, N9, N9],
+      [_32, _32, _32, _32, _32, _32, _32, N9, N9, N9, N9],
+      [N9, _32, _32, _32, _32, N9, N9, N9, N9, N9, N9]
     ], PlayerNumberMap.of(0, 0), 20), new YinshMove([], new Coord(2, 4), MGPOptional.of(new Coord(4, 4)), []), TutorialStepMessage.CONGRATULATIONS()),
     TutorialStep.fromPredicate($localize`Getting a ring by aligning 5 markers`, $localize`Finally, the last mechanic you need is to be able to get a ring from the board in order to gain points.
         To do so, you need to align 5 markers of your color.
@@ -44754,17 +44935,17 @@ var YinshTutorial = class extends Tutorial {
         You will then have one more point.
         You must capture when you can.<br/><br/>
         You're playing Dark, perform a capture!`, new YinshState([
-      [N9, N9, N9, N9, N9, N9, _31, _31, _31, _31, N9],
-      [N9, N9, N9, N9, _31, _31, _31, _31, _31, _31, _31],
-      [N9, N9, N9, B6, _31, _31, _31, _31, _31, _31, _31],
-      [N9, N9, B6, _31, _31, B6, _31, _31, _31, _31, _31],
-      [N9, _31, a2, a2, A8, b4, b4, _31, _31, _31, _31],
-      [N9, _31, _31, B6, _31, _31, _31, _31, _31, _31, N9],
-      [_31, _31, _31, _31, A8, _31, _31, B6, _31, _31, N9],
-      [_31, _31, _31, _31, _31, A8, _31, _31, _31, N9, N9],
-      [_31, _31, _31, A8, _31, _31, _31, A8, N9, N9, N9],
-      [_31, _31, _31, _31, _31, _31, _31, N9, N9, N9, N9],
-      [N9, _31, _31, _31, _31, N9, N9, N9, N9, N9, N9]
+      [N9, N9, N9, N9, N9, N9, _32, _32, _32, _32, N9],
+      [N9, N9, N9, N9, _32, _32, _32, _32, _32, _32, _32],
+      [N9, N9, N9, B6, _32, _32, _32, _32, _32, _32, _32],
+      [N9, N9, B6, _32, _32, B6, _32, _32, _32, _32, _32],
+      [N9, _32, a2, a2, A8, b4, b4, _32, _32, _32, _32],
+      [N9, _32, _32, B6, _32, _32, _32, _32, _32, _32, N9],
+      [_32, _32, _32, _32, A8, _32, _32, B6, _32, _32, N9],
+      [_32, _32, _32, _32, _32, A8, _32, _32, _32, N9, N9],
+      [_32, _32, _32, A8, _32, _32, _32, A8, N9, N9, N9],
+      [_32, _32, _32, _32, _32, _32, _32, N9, N9, N9, N9],
+      [N9, _32, _32, _32, _32, N9, N9, N9, N9, N9, N9]
     ], PlayerNumberMap.of(0, 0), 20), new YinshMove([], new Coord(4, 4), MGPOptional.of(new Coord(7, 4)), [YinshCapture.of(new Coord(2, 4), new Coord(6, 4), MGPOptional.of(new Coord(7, 4)))]), (_move, _previous, result) => {
       if (result.sideRings.get(Player.ZERO) === 1) {
         return MGPValidation.SUCCESS;
@@ -44776,17 +44957,17 @@ var YinshTutorial = class extends Tutorial {
         or you could even capture multiple times!
         During the capture selection, if you see that the marker you clicked belongs to two captures, you have to click on a second marker to avoid any ambiguity.<br/><br/>
         Here, playing Dark, you can capture two rings, do it!`, new YinshState([
-      [N9, N9, N9, N9, N9, N9, _31, _31, _31, _31, N9],
-      [N9, N9, N9, N9, A8, _31, _31, B6, B6, A8, _31],
-      [N9, N9, N9, A8, _31, _31, b4, B6, _31, A8, _31],
-      [N9, N9, _31, A8, _31, _31, _31, _31, _31, B6, _31],
-      [N9, _31, _31, _31, _31, a2, _31, _31, B6, _31, _31],
-      [N9, _31, _31, _31, a2, a2, _31, b4, _31, _31, N9],
-      [_31, _31, _31, a2, _31, a2, _31, _31, _31, _31, N9],
-      [_31, _31, a2, _31, _31, a2, _31, _31, _31, N9, N9],
-      [_31, a2, _31, _31, _31, a2, _31, _31, N9, N9, N9],
-      [_31, _31, _31, _31, _31, a2, _31, N9, N9, N9, N9],
-      [N9, _31, _31, _31, _31, N9, N9, N9, N9, N9, N9]
+      [N9, N9, N9, N9, N9, N9, _32, _32, _32, _32, N9],
+      [N9, N9, N9, N9, A8, _32, _32, B6, B6, A8, _32],
+      [N9, N9, N9, A8, _32, _32, b4, B6, _32, A8, _32],
+      [N9, N9, _32, A8, _32, _32, _32, _32, _32, B6, _32],
+      [N9, _32, _32, _32, _32, a2, _32, _32, B6, _32, _32],
+      [N9, _32, _32, _32, a2, a2, _32, b4, _32, _32, N9],
+      [_32, _32, _32, a2, _32, a2, _32, _32, _32, _32, N9],
+      [_32, _32, a2, _32, _32, a2, _32, _32, _32, N9, N9],
+      [_32, a2, _32, _32, _32, a2, _32, _32, N9, N9, N9],
+      [_32, _32, _32, _32, _32, a2, _32, N9, N9, N9, N9],
+      [N9, _32, _32, _32, _32, N9, N9, N9, N9, N9, N9]
     ], PlayerNumberMap.of(0, 0), 10), new YinshMove([
       YinshCapture.of(new Coord(5, 4), new Coord(1, 8), MGPOptional.of(new Coord(3, 2))),
       YinshCapture.of(new Coord(5, 9), new Coord(5, 5), MGPOptional.of(new Coord(3, 3)))
@@ -45674,6 +45855,7 @@ var GameDescription = class {
   static SQUARZ = () => $localize`Duplicate yourself to conquer the board!`;
   static TABLUT = () => $localize`Lapland version of the Tafl game family! Invaders must capture the king, defender must make him escape!`;
   static TEEKO = () => $localize`Align your 4 pieces or form a square with them to win!`;
+  static TORIC_REVERSI = () => $localize`A toric version of Reversi!`;
   static TREXO = () => $localize`Align 5 pieces of your color in a row, but beware, the pieces can be put on top of other pieces!`;
   static TRIANGULAR_GO = () => $localize`A version of Go on triangular spaces!`;
   static YINSH = () => $localize`Align your pieces to score points, but beware, pieces can flip!`;
@@ -45783,8 +45965,10 @@ var GameInfo = class _GameInfo {
       // 40:                             * Martin
       new _GameInfo($localize`Quebec Castles`, "QuebecCastles", QuebecCastlesComponent, new QuebecCastlesTutorial(), QuebecCastlesRules.get(), /* @__PURE__ */ new Date("2025-09-29"), GameDescription.QUEBEC_CASTLES()),
       // 41:                             * Martin
-      new _GameInfo($localize`Hexagonal Go`, "HexagonalGo", HexagonalGoComponent, new HexagonalGoTutorial(), HexagonalGoRules.get(), /* @__PURE__ */ new Date("2026-02-14"), GameDescription.HEXAGONAL_GO())
+      new _GameInfo($localize`Hexagonal Go`, "HexagonalGo", HexagonalGoComponent, new HexagonalGoTutorial(), HexagonalGoRules.get(), /* @__PURE__ */ new Date("2026-02-14"), GameDescription.HEXAGONAL_GO()),
       // 42:                             * Martin
+      new _GameInfo($localize`Toric Reversi`, "ToricReversi", ToricReversiComponent, new ToricReversiTutorial(), ToricReversiRules.get(), /* @__PURE__ */ new Date("2026-08-10"), GameDescription.TORIC_REVERSI())
+      // 43:                             * Martin
     ].sort((a3, b5) => a3.name.localeCompare(b5.name));
   }
   static getByUrlName(urlName) {
@@ -45881,7 +46065,7 @@ var PickGameComponent = class _PickGameComponent {
   }], null, { pickGame: [{ type: Output, args: ["pickGame"] }] });
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(PickGameComponent, { className: "PickGameComponent", filePath: "src/app/components/normal-component/pick-game/pick-game.component.ts", lineNumber: 352 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(PickGameComponent, { className: "PickGameComponent", filePath: "src/app/components/normal-component/pick-game/pick-game.component.ts", lineNumber: 358 });
 })();
 
 export {
@@ -45910,4 +46094,4 @@ bulma-toast/dist/bulma-toast.min.js:
    * Released under the MIT License.
    *)
 */
-//# sourceMappingURL=chunk-GRUSFYL3.js.map
+//# sourceMappingURL=chunk-PQXFXFT5.js.map

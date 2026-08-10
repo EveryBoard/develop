@@ -1,6 +1,6 @@
 import {
   BackendService
-} from "./chunk-B45PQAIF.js";
+} from "./chunk-NRQGL3YK.js";
 import {
   AuthUser,
   ConnectedUserService
@@ -148,4 +148,4 @@ export {
   GameActionFailure,
   CurrentGameService
 };
-//# sourceMappingURL=chunk-V2RMD556.js.map
+//# sourceMappingURL=chunk-NIKXW4OZ.js.map
