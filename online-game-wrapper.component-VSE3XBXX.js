@@ -1,22 +1,22 @@
 import {
   DemoCardWrapperComponent
-} from "./chunk-INOMGJLE.js";
-import "./chunk-X3SKXGUG.js";
+} from "./chunk-NZI4KLFL.js";
+import "./chunk-UFIHUYUC.js";
 import {
   RulesConfigurationComponent,
   ViewConfigComponent
-} from "./chunk-Y7DJQ77X.js";
+} from "./chunk-V6N2O5MT.js";
 import {
   BaseWrapperComponent,
   GameWrapper,
   GameWrapperMessages
-} from "./chunk-WRBXPLKP.js";
+} from "./chunk-2FTKUCFF.js";
 import {
   ConfigRoomService
-} from "./chunk-HBBH2Y2X.js";
+} from "./chunk-ZJ4S3WLO.js";
 import {
   GameService
-} from "./chunk-GUQ34RTS.js";
+} from "./chunk-Z2H47DWZ.js";
 import {
   ChatComponent,
   EloComponent,
@@ -24,9 +24,9 @@ import {
   GameDuration,
   GameType,
   Status
-} from "./chunk-4JEG2DLE.js";
-import "./chunk-KDJSPPLR.js";
-import "./chunk-NRQGL3YK.js";
+} from "./chunk-FMN5ZSD6.js";
+import "./chunk-4VRSQYAS.js";
+import "./chunk-V4JNCCV5.js";
 import {
   GameInfo,
   GameNode,
@@ -34,7 +34,7 @@ import {
   Player,
   PlayerNumberMap,
   PlayerOrNone
-} from "./chunk-PQXFXFT5.js";
+} from "./chunk-Q4HANRET.js";
 import "./chunk-4HQW7IWY.js";
 import {
   FaIconComponent,
@@ -3024,7 +3024,7 @@ var OnlineGameWrapperComponent = class OnlineGameWrapperComponent2 extends GameW
         this.timeManager.setTimers([this.timerZeroMove(), this.timerOneMove()], [this.timerZeroGame(), this.timerOneGame()]);
         Utils.assert(createdSuccessfully, "Game should be created successfully, otherwise game-creation would have redirected");
         Utils.assert(this.gameComponent !== null, "Game component should exist");
-        this.gameComponent.config = configRoom.rulesConfig;
+        this.gameComponent.setConfig(configRoom.rulesConfig);
         yield this.subscribeToGameUpdates();
       }), 2);
     });
@@ -3901,4 +3901,4 @@ export {
   OnlineGameWrapperComponent,
   OnlineGameWrapperMessages
 };
-//# sourceMappingURL=online-game-wrapper.component-JWZ2KPAI.js.map
+//# sourceMappingURL=online-game-wrapper.component-VSE3XBXX.js.map

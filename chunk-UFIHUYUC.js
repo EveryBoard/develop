@@ -1,13 +1,13 @@
 import {
   ViewConfigComponent
-} from "./chunk-Y7DJQ77X.js";
+} from "./chunk-V6N2O5MT.js";
 import {
   GameWrapper
-} from "./chunk-WRBXPLKP.js";
+} from "./chunk-2FTKUCFF.js";
 import {
   GameNode,
   Move
-} from "./chunk-PQXFXFT5.js";
+} from "./chunk-Q4HANRET.js";
 import {
   Debug
 } from "./chunk-7IUA2OKB.js";
@@ -455,7 +455,7 @@ var TutorialGameWrapperComponent = class TutorialGameWrapperComponent2 extends G
       const state = currentStep.state;
       this.gameComponent.node = new GameNode(state, currentStep.parent, currentStep.previousMove);
       const defaultConfig = this.gameComponent.rules.getDefaultRulesConfig();
-      this.gameComponent.config = currentStep.config.getOrElse(defaultConfig);
+      this.gameComponent.setConfig(currentStep.config.getOrElse(defaultConfig));
       yield this.setRole(this.gameComponent.getCurrentPlayer());
       yield this.setInteractive(currentStep.isInformation() === false);
       this.cdr.detectChanges();
@@ -757,4 +757,4 @@ export {
   TutorialGameWrapperMessages,
   TutorialGameWrapperComponent
 };
-//# sourceMappingURL=chunk-X3SKXGUG.js.map
+//# sourceMappingURL=chunk-UFIHUYUC.js.map

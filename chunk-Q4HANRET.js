@@ -4617,6 +4617,9 @@ var GameComponent = class GameComponent2 extends BaseGameComponent {
   getConfig() {
     return this.config;
   }
+  setConfig(config) {
+    this.config = config;
+  }
   /**
    * Gives the translation transform for coordinate x, y, based on SPACE_SIZE
    */
@@ -26085,18 +26088,23 @@ var MancalaFailure = class {
 // src/app/games/mancala/common/MancalaMove.ts
 var MancalaDistribution = class _MancalaDistribution {
   x;
-  static encoder = Encoder.tuple([Encoder.identity()], (distribution) => [distribution.x], (value) => _MancalaDistribution.of(value[0]));
-  static of(x2) {
-    Utils.assert(0 <= x2, "MancalaDistribution should be a positive integer!");
-    return new _MancalaDistribution(x2);
+  y;
+  static encoder = Encoder.tuple([Encoder.identity(), Encoder.identity()], (distribution) => [distribution.x, distribution.y], (value) => _MancalaDistribution.of(value[0], value[1]));
+  static of(x2, y) {
+    Utils.assert(0 <= x2, "MancalaDistribution.x should be a positive integer!");
+    Utils.assert(0 <= y, "MancalaDistribution.y should be a positive integer!");
+    return new _MancalaDistribution(x2, y);
   }
-  constructor(x2) {
+  constructor(x2, y) {
     this.x = x2;
+    this.y = y;
   }
   equals(other) {
     if (other === this)
       return true;
-    return other.x === this.x;
+    if (other.x !== this.x)
+      return false;
+    return other.y === this.y;
   }
 };
 var MancalaMove = class _MancalaMove extends Move {
@@ -26116,7 +26124,7 @@ var MancalaMove = class _MancalaMove extends Move {
     return _MancalaMove.of(this.distributions[0], this.distributions.slice(1).concat(move));
   }
   toString() {
-    const distributions = this.distributions.map((move) => move.x);
+    const distributions = this.distributions.map((move) => "(" + move.x + ", " + move.y + ")");
     return "MancalaMove([" + distributions.join(", ") + "])";
   }
   equals(other) {
@@ -26180,12 +26188,6 @@ var MancalaState = class _MancalaState extends GameStateWithTable {
       return false;
     return this.turn === other.turn;
   }
-  getCurrentPlayerY() {
-    return this.getCurrentOpponent().getValue();
-  }
-  getOpponentY() {
-    return this.getCurrentPlayer().getValue();
-  }
 };
 
 // src/app/games/mancala/common/MancalaRules.ts
@@ -26197,25 +26199,31 @@ var MancalaRules = class _MancalaRules extends ConfigurableRules {
   static MULTIPLE_SOW = () => $localize`Continue distribution after last seed ends in store`;
   static CYCLICAL_LAP = () => $localize`Continue distribution until capture or empty house`;
   static SEEDS_BY_HOUSE = () => $localize`Seeds by house`;
+  static NUMBER_OF_ROWS = () => $localize`Number of rows`;
   // These are the coordinates of the store. These are fake coordinates since the stores are not on the board
   static FAKE_STORE_COORD = new ReversibleMap([
     { key: Player.ZERO, value: new Coord(-1, -1) },
-    { key: Player.ONE, value: new Coord(2, 2) }
+    { key: Player.ONE, value: new Coord(-1, 1) }
   ]);
-  static isStarving(player, board) {
-    let i2 = 0;
-    const playerY = player.getOpponent().getValue();
-    while (i2 < board[0].length) {
-      if (board[playerY][i2++] > 0) {
-        return false;
+  static isStarving(player, board, config) {
+    return _MancalaRules.getAllCoordOf(player, config).every((coord) => {
+      return board[coord.y][coord.x] <= 0;
+    });
+  }
+  static getAllCoordOf(player, config) {
+    const coords = [];
+    const y0 = player === Player.ZERO ? config.numberOfRows : 0;
+    for (let y = 0; y < config.numberOfRows; y++) {
+      for (let x2 = 0; x2 < config.width; x2++) {
+        coords.push(new Coord(x2, y + y0));
       }
     }
-    return true;
+    return coords;
   }
   static getEmptyDistributionResult(state) {
     return {
       capturedSum: 0,
-      captureMap: TableUtils.create(state.getWidth(), 2, 0),
+      captureMap: TableUtils.create(state.getWidth(), state.getHeight(), 0),
       endsUpInStore: false,
       filledCoords: [],
       passedByStoreNTimes: 0,
@@ -26223,7 +26231,7 @@ var MancalaRules = class _MancalaRules extends ConfigurableRules {
     };
   }
   static getInitialState(config) {
-    const board = TableUtils.create(config.width, 2, config.seedsByHouse);
+    const board = TableUtils.create(config.width, config.numberOfRows * 2, config.seedsByHouse);
     return new MancalaState(board, 0, PlayerNumberMap.of(0, 0));
   }
   constructor(capturableValues) {
@@ -26231,7 +26239,6 @@ var MancalaRules = class _MancalaRules extends ConfigurableRules {
     this.capturableValues = capturableValues;
   }
   isLegal(move, state, config) {
-    const playerY = state.getCurrentPlayerY();
     let canStillPlay = true;
     for (const distribution of move) {
       Utils.assert(canStillPlay, "Cannot play after non kalah move");
@@ -26240,7 +26247,7 @@ var MancalaRules = class _MancalaRules extends ConfigurableRules {
         return MGPValidation.ofFallible(distributionResult);
       } else {
         const previousDistributionResult = _MancalaRules.getEmptyDistributionResult(state);
-        state = this.distributeHouse(distribution.x, playerY, previousDistributionResult, config).resultingState;
+        state = this.distributeHouse(distribution, previousDistributionResult, config).resultingState;
         canStillPlay = distributionResult.get();
       }
     }
@@ -26249,7 +26256,7 @@ var MancalaRules = class _MancalaRules extends ConfigurableRules {
     }
     if (config.mustFeed) {
       const opponent = state.getCurrentOpponent();
-      const opponentIsStarving = _MancalaRules.isStarving(opponent, state.board);
+      const opponentIsStarving = _MancalaRules.isStarving(opponent, state.board, config);
       const playerDoesEmbargo = this.canDistribute(state.getCurrentPlayer(), state, config);
       if (opponentIsStarving && playerDoesEmbargo) {
         return MGPValidation.failure(MancalaFailure.SHOULD_DISTRIBUTE());
@@ -26265,12 +26272,15 @@ var MancalaRules = class _MancalaRules extends ConfigurableRules {
    * If the distribution is legal, return a MGPFallible of a boolean that is true if user can still play
    */
   isLegalDistribution(distribution, state, config) {
-    const playerY = state.getCurrentPlayerY();
-    if (state.getPieceAtXY(distribution.x, playerY) === 0) {
+    if (state.getPieceAtXY(distribution.x, distribution.y) === 0) {
       return MGPFallible.failure(MancalaFailure.MUST_CHOOSE_NON_EMPTY_HOUSE());
     }
+    const spaceOwner = this.getSpaceOwner(new Coord(distribution.x, distribution.y), config);
+    if (spaceOwner === state.getCurrentOpponent()) {
+      return MGPFallible.failure(MancalaFailure.MUST_DISTRIBUTE_YOUR_OWN_HOUSES());
+    }
     const distributionResult = this.distributeMove(MancalaMove.of(distribution), state, config);
-    const isStarving = _MancalaRules.isStarving(distributionResult.resultingState.getCurrentPlayer(), distributionResult.resultingState.board);
+    const isStarving = _MancalaRules.isStarving(distributionResult.resultingState.getCurrentPlayer(), distributionResult.resultingState.board, config);
     return MGPFallible.success(distributionResult.endsUpInStore && isStarving === false);
   }
   /**
@@ -26280,25 +26290,23 @@ var MancalaRules = class _MancalaRules extends ConfigurableRules {
    */
   distributeMove(move, state, config) {
     const player = state.getCurrentPlayer();
-    const playerY = state.getCurrentPlayerY();
     const filledCoords = [];
     let distributionResult = {
       capturedSum: 0,
-      captureMap: TableUtils.create(config.width, 2, 0),
+      captureMap: TableUtils.create(config.width, config.numberOfRows * 2, 0),
       endsUpInStore: false,
       passedByStoreNTimes: 0,
       filledCoords: [],
       resultingState: state
     };
     for (const distribution of move) {
-      let houseToDistribute = new Coord(distribution.x, playerY);
+      let houseToDistribute = new Coord(distribution.x, distribution.y);
       let mustDoOneMoreLap = true;
       while (mustDoOneMoreLap) {
-        distributionResult = this.distributeHouse(houseToDistribute.x, houseToDistribute.y, distributionResult, config);
+        distributionResult = this.distributeHouse(houseToDistribute, distributionResult, config);
         const captures = distributionResult.resultingState.getScoresCopy();
         captures.add(player, distributionResult.passedByStoreNTimes);
         filledCoords.push(...distributionResult.filledCoords);
-        distributionResult.passedByStoreNTimes += distributionResult.passedByStoreNTimes;
         houseToDistribute = distributionResult.filledCoords[distributionResult.filledCoords.length - 1];
         if (config.continueLapUntilCaptureOrEmptyHouse && distributionResult.endsUpInStore === false) {
           mustDoOneMoreLap = this.isHouseCapturableOrEmpty(houseToDistribute, distributionResult.resultingState) === false;
@@ -26325,13 +26333,13 @@ var MancalaRules = class _MancalaRules extends ConfigurableRules {
     const opponent = postCaptureState.getCurrentOpponent();
     const player = postCaptureState.getCurrentPlayer();
     if (config.mustFeed) {
-      if (_MancalaRules.isStarving(player, postCaptureBoard) && this.canDistribute(opponent, postCaptureState, config) === false) {
+      if (_MancalaRules.isStarving(player, postCaptureBoard, config) && this.canDistribute(opponent, postCaptureState, config) === false) {
         return [opponent];
       }
     } else {
-      if (_MancalaRules.isStarving(opponent, postCaptureBoard)) {
+      if (_MancalaRules.isStarving(opponent, postCaptureBoard, config)) {
         return [player];
-      } else if (_MancalaRules.isStarving(player, postCaptureBoard)) {
+      } else if (_MancalaRules.isStarving(player, postCaptureBoard, config)) {
         return [opponent];
       }
     }
@@ -26341,7 +26349,7 @@ var MancalaRules = class _MancalaRules extends ConfigurableRules {
     const state = node.gameState;
     const width = node.gameState.getWidth();
     const seedsByHouse = config.seedsByHouse;
-    const halfOfTotalSeeds = width * seedsByHouse;
+    const halfOfTotalSeeds = width * seedsByHouse * config.numberOfRows;
     if (state.scores.get(Player.ZERO) > halfOfTotalSeeds) {
       return GameStatus.ZERO_WON;
     }
@@ -26372,9 +26380,9 @@ var MancalaRules = class _MancalaRules extends ConfigurableRules {
    * Does not make the capture nor verify the legality of the move
    * Returns the coords of the filled houses
    */
-  distributeHouse(x2, y, previousLapResult, config) {
-    let coord = new Coord(x2, y);
-    const initial = new Coord(x2, y);
+  distributeHouse(distribution, previousLapResult, config) {
+    let coord = new Coord(distribution.x, distribution.y);
+    const initial = new Coord(distribution.x, distribution.y);
     let seedsInHand = previousLapResult.resultingState.getPieceAt(initial);
     let resultingState = previousLapResult.resultingState.setPieceAt(initial, 0);
     const player = resultingState.getCurrentPlayer();
@@ -26424,32 +26432,40 @@ var MancalaRules = class _MancalaRules extends ConfigurableRules {
   getDropResult(_seedsInHand, state, coord) {
     return {
       capturedSum: 0,
-      captureMap: TableUtils.create(state.getWidth(), 2, 0),
+      captureMap: TableUtils.create(state.getWidth(), state.getHeight(), 0),
       resultingState: state.feed(coord)
     };
   }
   getNextCoord(coord, previousDropWasStore, state, config) {
-    const player = state.getCurrentPlayer();
-    if (coord.y === 0) {
-      if (coord.x === state.getWidth() - 1) {
-        if (config.passByPlayerStore && player === Player.ONE && previousDropWasStore === false) {
-          return MGPOptional.empty();
-        } else {
-          return MGPOptional.of(new Coord(coord.x, 1));
-        }
-      } else {
-        return MGPOptional.of(new Coord(coord.x + 1, 0));
-      }
+    const coordOwner = this.getSpaceOwner(coord, config);
+    const horizontalDirection = coordOwner === Player.ONE ? Orthogonal.RIGHT : Orthogonal.LEFT;
+    const nextCoord = coord.getNext(horizontalDirection);
+    if (state.isOnBoard(nextCoord)) {
+      return MGPOptional.of(nextCoord);
+    }
+    const isPlayerStore = state.getCurrentPlayer() === Player.ZERO ? nextCoord.x === -1 : nextCoord.x === config.width;
+    if (config.passByPlayerStore && isPlayerStore && previousDropWasStore === false) {
+      return MGPOptional.empty();
+    }
+    const newY = this.getOppositeY(coord, config);
+    const newCoord = new Coord(coord.x, newY);
+    return MGPOptional.of(newCoord);
+  }
+  getOppositeY(coord, config) {
+    const coordOwner = this.getSpaceOwner(coord, config);
+    const verticalDirection = coordOwner === Player.ONE ? Orthogonal.DOWN : Orthogonal.UP;
+    const verticalFactor = 2 * Math.abs(config.numberOfRows - 0.5 - coord.y);
+    return coord.y + verticalFactor * verticalDirection.y;
+  }
+  getStoreOwner(coord) {
+    return _MancalaRules.FAKE_STORE_COORD.reverse().get(coord);
+  }
+  getSpaceOwner(coord, config) {
+    const owner = this.getStoreOwner(coord);
+    if (owner.isPresent()) {
+      return owner.get().getAnyElement().get();
     } else {
-      if (coord.x === 0) {
-        if (config.passByPlayerStore && player === Player.ZERO && previousDropWasStore === false) {
-          return MGPOptional.empty();
-        } else {
-          return MGPOptional.of(new Coord(0, 0));
-        }
-      } else {
-        return MGPOptional.of(new Coord(coord.x - 1, 1));
-      }
+      return coord.y < config.numberOfRows ? Player.ONE : Player.ZERO;
     }
   }
   doesDistribute(x2, y, state, config) {
@@ -26465,8 +26481,8 @@ var MancalaRules = class _MancalaRules extends ConfigurableRules {
     return pieceNeededToFeedOpponent <= board[y][x2];
   }
   canDistribute(player, state, config) {
-    for (let x2 = 0; x2 < state.getWidth(); x2++) {
-      if (this.doesDistribute(x2, player.getOpponent().getValue(), state, config)) {
+    for (const coord of _MancalaRules.getAllCoordOf(player, config)) {
+      if (this.doesDistribute(coord.x, coord.y, state, config)) {
         return true;
       }
     }
@@ -26480,7 +26496,7 @@ var MancalaRules = class _MancalaRules extends ConfigurableRules {
     */
   monsoon(monsooningPlayer, postCaptureResult) {
     const state = postCaptureResult.resultingState;
-    const resultingBoard = TableUtils.create(state.getWidth(), 2, 0);
+    const resultingBoard = TableUtils.create(state.getWidth(), state.getHeight(), 0);
     const captured = state.getScoresCopy();
     const capturedSum = state.getTotalRemainingSeeds();
     const captureMap = TableUtils.add(postCaptureResult.captureMap, state.board);
@@ -26493,7 +26509,7 @@ var MancalaRules = class _MancalaRules extends ConfigurableRules {
   }
   sharedMonsoon(postCaptureResult) {
     const state = postCaptureResult.resultingState;
-    const resultingBoard = TableUtils.create(state.getWidth(), 2, 0);
+    const resultingBoard = TableUtils.create(state.getWidth(), state.getHeight(), 0);
     const captured = state.getScoresCopy();
     const capturedSum = state.getTotalRemainingSeeds();
     const captureMap = TableUtils.add(postCaptureResult.captureMap, state.board);
@@ -26504,6 +26520,9 @@ var MancalaRules = class _MancalaRules extends ConfigurableRules {
       captureMap,
       resultingState: new MancalaState(resultingBoard, state.turn, captured)
     };
+  }
+  isCapturableValue(value) {
+    return this.capturableValues.some((capturableValue) => capturableValue === value);
   }
 };
 
@@ -26519,7 +26538,8 @@ var AwaleRules = class _AwaleRules extends MancalaRules {
       mustContinueDistributionAfterStore: new BooleanConfig(false, MancalaRules.MULTIPLE_SOW),
       continueLapUntilCaptureOrEmptyHouse: new BooleanConfig(false, MancalaRules.CYCLICAL_LAP),
       seedsByHouse: new NumberConfig(4, MancalaRules.SEEDS_BY_HOUSE, MGPValidators.range(1, 99)),
-      width: new NumberConfig(6, RulesConfigDescriptionLocalizable.WIDTH, MGPValidators.range(1, 99))
+      width: new NumberConfig(6, RulesConfigDescriptionLocalizable.WIDTH, MGPValidators.range(1, 99)),
+      numberOfRows: new NumberConfig(1, MancalaRules.NUMBER_OF_ROWS, MGPValidators.range(1, 99))
     }
   });
   static get() {
@@ -26538,19 +26558,18 @@ var AwaleRules = class _AwaleRules extends MancalaRules {
     return this.captureIfLegal(landingCoord.x, landingCoord.y, resultingState, config);
   }
   /**
-   * Only called if y and player are not equal.
+   * Only called if piece is opponent's territory
    * If the condition to make a capture into the opponent's side are met
    * Captures and return the number of captured
    * Captures even if this could mean doing an illegal starvation
    */
   capture(x2, y, state, config) {
-    const playerY = state.getCurrentPlayerY();
-    Utils.assert(y !== playerY, "AwaleRules.capture cannot capture the players house");
+    Utils.assert(this.coordIsInOpponentTerritory(x2, y, state, config), "AwaleRules.capture cannot capture the players house");
     let resultingState = state;
     let target = resultingState.getOptionalPieceAtXY(x2, y);
     let capturedSum = 0;
-    const captureMap = TableUtils.create(config.width, 2, 0);
-    if (target.get() < 2 || target.get() > 3) {
+    const captureMap = TableUtils.create(config.width, 2 * config.numberOfRows, 0);
+    if (this.isCapturableValue(target.get()) === false) {
       return { capturedSum: 0, captureMap, resultingState: state };
     }
     let direction = -1;
@@ -26566,8 +26585,15 @@ var AwaleRules = class _AwaleRules extends MancalaRules {
       resultingState = resultingState.capture(player, new Coord(x2, y));
       x2 += direction;
       target = resultingState.getOptionalPieceAtXY(x2, y);
-    } while (x2 !== limit && (target.equalsValue(2) || target.equalsValue(3)));
+    } while (x2 !== limit && target.isPresent() && this.isCapturableValue(target.get()));
     return { capturedSum, captureMap, resultingState };
+  }
+  coordIsInOpponentTerritory(x2, y, state, config) {
+    if (state.isOnBoard(new Coord(x2, y))) {
+      return state.getCurrentPlayer() === Player.ZERO ? y < config.numberOfRows : config.numberOfRows <= y;
+    } else {
+      return false;
+    }
   }
   captureIfLegal(x2, y, state, config) {
     const player = state.getCurrentPlayer();
@@ -26575,11 +26601,11 @@ var AwaleRules = class _AwaleRules extends MancalaRules {
       capturedSum: 0,
       resultingState: state,
       // Apply no capture
-      captureMap: TableUtils.create(state.getWidth(), 2, 0)
+      captureMap: TableUtils.create(state.getWidth(), state.getHeight(), 0)
     };
-    if (y === player.getValue()) {
+    if (this.coordIsInOpponentTerritory(x2, y, state, config)) {
       const captureResult = this.capture(x2, y, state, config);
-      const isStarving = MancalaRules.isStarving(player.getOpponent(), captureResult.resultingState.board);
+      const isStarving = MancalaRules.isStarving(player.getOpponent(), captureResult.resultingState.board, config);
       if (captureResult.capturedSum > 0 && isStarving) {
         return captureLessResult;
       } else {
@@ -26599,7 +26625,7 @@ var MancalaTutorial = class {
   static sowing(state) {
     const initialHouseContent = state.getPieceAtXY(5, 1);
     Utils.assert(initialHouseContent === 4, "(5, 1) should contain 4 seed");
-    return TutorialStep.fromMove($localize`Sowing`, $localize`The main move in Mancala games is sowing, let's see how seeds are sown. As you are playing Dark, the 6 houses on the bottom are yours.<br/><br/>When you sow a house, the seeds it contains are sown clockwise, one seed per house.<br/><br/>Click on the rightmost house!`, state, [MancalaMove.of(MancalaDistribution.of(5))], $localize`Look at the 4 houses that follow clockwise the one you picked, they now contain one more seed. This is how seeds are sown: one by one from the house next to the one they come from, clockwise.`, $localize`Failed. Choose the rightmost house on the bottom.`);
+    return TutorialStep.fromMove($localize`Sowing`, $localize`The main move in Mancala games is sowing, let's see how seeds are sown. As you are playing Dark, the 6 houses on the bottom are yours.<br/><br/>When you sow a house, the seeds it contains are sown clockwise, one seed per house.<br/><br/>Click on the rightmost house!`, state, [MancalaMove.of(MancalaDistribution.of(5, 1))], $localize`Look at the 4 houses that follow clockwise the one you picked, they now contain one more seed. This is how seeds are sown: one by one from the house next to the one they come from, clockwise.`, $localize`Failed. Choose the rightmost house on the bottom.`);
   }
   static YOU_DID_NOT_CAPTURE_ANY_SEEDS = () => $localize`Failed. You did not capture anything. Try again.`;
 };
@@ -26615,35 +26641,35 @@ var AwaleTutorial = class extends Tutorial {
     TutorialStep.anyMove($localize`Big sowing`, $localize`When there are enough seeds to make a full turn, something else happens.<br/><br/> You're playing Dark. Sow the house that contains 12 seeds.`, new MancalaState([
       [0, 0, 0, 0, 0, 0],
       [0, 12, 0, 0, 0, 0]
-    ], 0, PlayerNumberMap.of(0, 0)), MancalaMove.of(MancalaDistribution.of(1)), $localize`See, the house that you sowed has not been refilled, and the sowing immediately continued to the next house (which therefore contains two seeds).`),
+    ], 0, PlayerNumberMap.of(0, 0)), MancalaMove.of(MancalaDistribution.of(1, 1)), $localize`See, the house that you sowed has not been refilled, and the sowing immediately continued to the next house (which therefore contains two seeds).`),
     TutorialStep.fromMove($localize`Simple capture`, $localize`After sowing, if the last seed falls in an opponent's house and if there are now two or three seeds in this house, the player captures these two or three seeds.<br/><br/>You're playing Dark, do a capture!`, new MancalaState([
       [0, 1, 0, 0, 1, 0],
       [2, 0, 0, 0, 1, 0]
-    ], 0, PlayerNumberMap.of(0, 0)), [MancalaMove.of(MancalaDistribution.of(0))], $localize`Well done! This was a simple capture, now let us see how to make multiple captures.`, MancalaTutorial.YOU_DID_NOT_CAPTURE_ANY_SEEDS()),
+    ], 0, PlayerNumberMap.of(0, 0)), [MancalaMove.of(MancalaDistribution.of(0, 1))], $localize`Well done! This was a simple capture, now let us see how to make multiple captures.`, MancalaTutorial.YOU_DID_NOT_CAPTURE_ANY_SEEDS()),
     TutorialStep.fromMove($localize`Multiple captures`, $localize`By sowing from your leftmost house, you will end in the opponent's second leftmost house, which now contains 2 seeds, so this will be a capture. But now, the house right before it contains 3 seeds, which is also capturable, so, that house will get captured as well!<br/><br/>You're playing Dark, do a capture!`, new MancalaState([
       [2, 1, 0, 0, 1, 0],
       [2, 0, 0, 0, 1, 0]
-    ], 0, PlayerNumberMap.of(0, 0)), [MancalaMove.of(MancalaDistribution.of(0))], $localize`Nice, you win 3 points from the first house, and 2 from the second!`, MancalaTutorial.YOU_DID_NOT_CAPTURE_ANY_SEEDS()),
+    ], 0, PlayerNumberMap.of(0, 0)), [MancalaMove.of(MancalaDistribution.of(0, 1))], $localize`Nice, you win 3 points from the first house, and 2 from the second!`, MancalaTutorial.YOU_DID_NOT_CAPTURE_ANY_SEEDS()),
     TutorialStep.fromMove($localize`Interrupted capture`, $localize`By clicking on your leftmost house, you end up on the 3rd house, which is capturable.<br/><br/>You're playing Dark, do a capture!`, new MancalaState([
       [1, 0, 1, 0, 0, 1],
       [3, 0, 0, 0, 1, 0]
-    ], 0, PlayerNumberMap.of(0, 0)), [MancalaMove.of(MancalaDistribution.of(0))], $localize`Notice that because the second house was not capturable, the capture was interrupted and you have not captured the first house.`, MancalaTutorial.YOU_DID_NOT_CAPTURE_ANY_SEEDS()),
+    ], 0, PlayerNumberMap.of(0, 0)), [MancalaMove.of(MancalaDistribution.of(0, 1))], $localize`Notice that because the second house was not capturable, the capture was interrupted and you have not captured the first house.`, MancalaTutorial.YOU_DID_NOT_CAPTURE_ANY_SEEDS()),
     TutorialStep.fromMove($localize`Capture on the other side only`, $localize`You're playing Dark. Try to capture the two leftmost houses of the opponent.`, new MancalaState([
       [2, 2, 0, 0, 1, 0],
       [1, 3, 0, 0, 0, 0]
-    ], 0, PlayerNumberMap.of(0, 0)), [MancalaMove.of(MancalaDistribution.of(1))], $localize`Congratulations! Notice that the capture was interrupted when entering your territory: you cannot capture your own houses!`, $localize`You have only captured one house, try again!`),
+    ], 0, PlayerNumberMap.of(0, 0)), [MancalaMove.of(MancalaDistribution.of(1, 1))], $localize`Congratulations! Notice that the capture was interrupted when entering your territory: you cannot capture your own houses!`, $localize`You have only captured one house, try again!`),
     TutorialStep.fromMove($localize`Do not starve`, $localize`You have a very nice capture that seems possible: it seems that you can capture all the opponent's seeds!<br/><br/>You're playing Dark. Try it.`, new MancalaState([
       [1, 1, 1, 1, 1, 0],
       [5, 0, 0, 1, 0, 0]
-    ], 0, PlayerNumberMap.of(0, 0)), [MancalaMove.of(MancalaDistribution.of(0))], $localize`Sadly, you cannot capture here, otherwise the opponent could not play after you. When this happens, the move can be made, but no capture takes place!`, TutorialStepMessage.FAILED_TRY_AGAIN()),
+    ], 0, PlayerNumberMap.of(0, 0)), [MancalaMove.of(MancalaDistribution.of(0, 1))], $localize`Sadly, you cannot capture here, otherwise the opponent could not play after you. When this happens, the move can be made, but no capture takes place!`, TutorialStepMessage.FAILED_TRY_AGAIN()),
     TutorialStep.anyMove($localize`Feeding is mandatory`, $localize`You cannot let another player starve, meaning that if your opponent has no seeds anymore and if you can give them at least one, you have to do it.<br/><br/>You're playing Dark. Give a seed to your opponent!`, new MancalaState([
       [0, 0, 0, 0, 0, 0],
       [0, 1, 2, 4, 4, 5]
-    ], 0, PlayerNumberMap.of(0, 0)), MancalaMove.of(MancalaDistribution.of(3)), $localize`Congratulations! Note that you can choose to give your opponent the least number of seeds if it is better for you. It is often a good way to have easy captures!`),
+    ], 0, PlayerNumberMap.of(0, 0)), MancalaMove.of(MancalaDistribution.of(3, 1)), $localize`Congratulations! Note that you can choose to give your opponent the least number of seeds if it is better for you. It is often a good way to have easy captures!`),
     TutorialStep.anyMove(TutorialStepMessage.END_OF_THE_GAME(), $localize`A game is won as soon as one player has captured 25 seeds, as that player has more than half of all the seeds.<br/><br/>You're playing Dark, sow the leftmost house.`, new MancalaState([
       [4, 4, 3, 2, 1, 0],
       [1, 0, 0, 0, 0, 0]
-    ], 0, PlayerNumberMap.of(23, 10)), MancalaMove.of(MancalaDistribution.of(0)), $localize`Also, as soon as on player cannot play, the other player captures all the seeds in its own side. Here, it was the first player's turn, and the second player has taken all the remaining seeds.`)
+    ], 0, PlayerNumberMap.of(23, 10)), MancalaMove.of(MancalaDistribution.of(0, 1)), $localize`Also, as soon as on player cannot play, the other player captures all the seeds in its own side. Here, it was the first player's turn, and the second player has taken all the remaining seeds.`)
   ];
 };
 
@@ -26672,9 +26698,12 @@ var MancalaComponent = class _MancalaComponent extends RectangularGameComponent 
   static TIMEOUT_BETWEEN_SEEDS = 100;
   // The awaited time between two laps or distributions
   static TIMEOUT_BETWEEN_LAPS = 1e3;
+  static SPACE_BETWEEN_PLAYER_ROW = 5;
+  static SPACE_BETWEEN_PLAYERS = 20;
+  static PADDING = 10;
   lastDistributedHouses = [];
   currentMove = MGPOptional.empty();
-  captured = TableUtils.create(6, 2, 0);
+  captured = [];
   droppedInStore = PlayerNumberMap.of(0, 0);
   filledCoords = [];
   constructedState;
@@ -26691,11 +26720,38 @@ var MancalaComponent = class _MancalaComponent extends RectangularGameComponent 
     const left = -this.STROKE_WIDTH / 2;
     const up = -this.STROKE_WIDTH / 2;
     const width = this.getViewBoxWidth() + this.STROKE_WIDTH;
-    const height = 2 * this.SPACE_SIZE + 50;
+    const height = this.getViewBoxHeight() + this.STROKE_WIDTH;
     return left + " " + up + " " + width + " " + height;
   }
   getViewBoxWidth() {
-    return 60 + (2 + this.getState().getWidth()) * this.SPACE_SIZE;
+    const width = this.getState().getWidth();
+    return 60 + (2 + width) * this.SPACE_SIZE;
+  }
+  getViewBoxHeight() {
+    const abstractHeight = this.config.numberOfRows * 2;
+    const pieceHeight = abstractHeight * this.SPACE_SIZE;
+    const interPieceHeight = (abstractHeight - 1) * _MancalaComponent.SPACE_BETWEEN_PLAYER_ROW;
+    return pieceHeight + interPieceHeight + _MancalaComponent.SPACE_BETWEEN_PLAYERS + _MancalaComponent.PADDING * 2;
+  }
+  getVerticalCenter() {
+    return this.getViewBoxHeight() / 2;
+  }
+  getStoreTranslate(player) {
+    const translateX = player === Player.ZERO ? 60 : this.getViewBoxWidth() - 60;
+    const translateY = this.getVerticalCenter();
+    return `translate(${translateX} ${translateY})`;
+  }
+  getPieceCx(x2) {
+    return 80 + 100 * (x2 + 1);
+  }
+  getPieceCy(y) {
+    let ry = y * (this.SPACE_SIZE + _MancalaComponent.SPACE_BETWEEN_PLAYER_ROW);
+    ry += 0.5 * this.SPACE_SIZE;
+    ry += _MancalaComponent.PADDING;
+    if (this.getConfig().numberOfRows <= y) {
+      ry += _MancalaComponent.SPACE_BETWEEN_PLAYERS;
+    }
+    return ry;
   }
   showLastMove(move) {
     return __async(this, null, function* () {
@@ -26706,8 +26762,7 @@ var MancalaComponent = class _MancalaComponent extends RectangularGameComponent 
       this.filledCoords = distributionResult.filledCoords;
       let captureResult = this.rules.applyCapture(distributionResult, config);
       this.captured = captureResult.captureMap;
-      const playerY = previousState.getCurrentPlayerY();
-      this.lastDistributedHouses = move.distributions.map((d2) => new Coord(d2.x, playerY));
+      this.lastDistributedHouses = move.distributions.map((d2) => new Coord(d2.x, d2.y));
       const monsoonedPlayer = this.rules.mustMonsoon(captureResult.resultingState, config);
       if (monsoonedPlayer.length > 0) {
         captureResult = this.rules.monsoon(Player.ZERO, captureResult);
@@ -26754,27 +26809,28 @@ var MancalaComponent = class _MancalaComponent extends RectangularGameComponent 
   }
   onLegalClick(x2, y) {
     return __async(this, null, function* () {
-      if (Player.of(y) === this.getState().getCurrentPlayer()) {
+      const config = this.getConfig();
+      if (this.rules.getSpaceOwner(new Coord(x2, y), config) === this.getState().getCurrentOpponent()) {
         return this.cancelMove(MancalaFailure.MUST_DISTRIBUTE_YOUR_OWN_HOUSES());
       }
-      this.updateOrCreateCurrentMove(x2);
+      this.updateOrCreateCurrentMove(x2, y);
       if (this.constructedState.getPieceAtXY(x2, y) === 0) {
         return this.cancelMove(MancalaFailure.MUST_CHOOSE_NON_EMPTY_HOUSE());
       } else {
-        return this.continueMoveConstruction(x2);
+        return this.continueMoveConstruction(x2, y);
       }
     });
   }
-  continueMoveConstruction(x2) {
+  continueMoveConstruction(x2, y) {
     return __async(this, null, function* () {
-      const moveValidity = yield this.isDistributionLegal(x2);
+      const moveValidity = yield this.isDistributionLegal(x2, y);
       if (moveValidity.isFailure()) {
         return this.cancelMove(moveValidity.getReason());
       }
-      const distributionResult = yield this.showSeedBySeedDistribution(MancalaDistribution.of(x2));
+      const distributionResult = yield this.showSeedBySeedDistribution(MancalaDistribution.of(x2, y));
       if (distributionResult.endsUpInStore && this.getConfig().mustContinueDistributionAfterStore) {
         const player = this.constructedState.getCurrentPlayer();
-        if (MancalaRules.isStarving(player, distributionResult.resultingState.board)) {
+        if (MancalaRules.isStarving(player, distributionResult.resultingState.board, this.getConfig())) {
           return this.chooseMove(this.currentMove.get());
         } else {
           return MGPValidation.SUCCESS;
@@ -26784,13 +26840,13 @@ var MancalaComponent = class _MancalaComponent extends RectangularGameComponent 
       }
     });
   }
-  isDistributionLegal(x2) {
+  isDistributionLegal(x2, y) {
     return __async(this, null, function* () {
       const config = this.getConfig();
-      const distributionResult = yield this.getDistributionResult(MancalaDistribution.of(x2));
+      const distributionResult = yield this.getDistributionResult(MancalaDistribution.of(x2, y));
       if (distributionResult.endsUpInStore && config.mustContinueDistributionAfterStore) {
         const player = this.constructedState.getCurrentPlayer();
-        if (MancalaRules.isStarving(player, distributionResult.resultingState.board)) {
+        if (MancalaRules.isStarving(player, distributionResult.resultingState.board, this.getConfig())) {
           return this.rules.isLegal(this.currentMove.get(), this.getState(), config);
         } else {
           return MGPValidation.SUCCESS;
@@ -26813,15 +26869,14 @@ var MancalaComponent = class _MancalaComponent extends RectangularGameComponent 
   getSimpleDistributionResult(distribution, showSeedBySeed) {
     return __async(this, null, function* () {
       const state = this.constructedState;
-      const playerY = state.getCurrentPlayerY();
-      const coord = new Coord(distribution.x, playerY);
+      const coord = new Coord(distribution.x, distribution.y);
       this.lastDistributedHouses.push(coord);
       const config = this.getConfig();
       if (showSeedBySeed) {
         yield this.showSeedBySeed(coord, state);
       }
       const previousDistributionResult = MancalaRules.getEmptyDistributionResult(state);
-      const distributionResult = this.rules.distributeHouse(distribution.x, playerY, previousDistributionResult, config);
+      const distributionResult = this.rules.distributeHouse(distribution, previousDistributionResult, config);
       return distributionResult;
     });
   }
@@ -26848,7 +26903,7 @@ var MancalaComponent = class _MancalaComponent extends RectangularGameComponent 
           mustDoOneMoreLap = false;
         } else {
           const lastHouseContent = seedDropResult.resultingState.getPieceAt(seedDropResult.houseToDistribute);
-          mustDoOneMoreLap = lastHouseContent !== 1 && lastHouseContent !== 4;
+          mustDoOneMoreLap = lastHouseContent !== 1 && this.rules.isCapturableValue(lastHouseContent) === false;
           if (mustDoOneMoreLap) {
             yield TimeUtils.sleep(_MancalaComponent.TIMEOUT_BETWEEN_LAPS);
           }
@@ -26887,8 +26942,9 @@ var MancalaComponent = class _MancalaComponent extends RectangularGameComponent 
     });
   }
   hideLastMove() {
-    const width = this.config.width;
-    this.captured = TableUtils.create(width, 2, 0);
+    const width = this.getState().getWidth();
+    const height = this.getState().getHeight();
+    this.captured = TableUtils.create(width, height, 0);
     this.filledCoords = [];
     this.lastDistributedHouses = [];
     this.changeVisibleState(this.getState());
@@ -26902,9 +26958,9 @@ var MancalaComponent = class _MancalaComponent extends RectangularGameComponent 
   }
   getSpaceClasses(x2, y) {
     const coord = new Coord(x2, y);
-    const homeOwner = this.getSpaceOwner(coord);
+    const homeOwner = this.rules.getSpaceOwner(coord, this.getConfig());
     const homeColor = this.getPlayerClass(homeOwner);
-    if (this.getStoreOwner(coord).isAbsent() && this.captured[y][x2] > 0) {
+    if (this.rules.getStoreOwner(coord).isAbsent() && y < this.captured.length && this.captured[y][x2] > 0) {
       return ["captured-fill", "moved-stroke"];
     } else if (this.lastDistributedHouses.some((c) => c.equals(coord))) {
       return ["last-move-stroke", homeColor];
@@ -26913,23 +26969,6 @@ var MancalaComponent = class _MancalaComponent extends RectangularGameComponent 
     } else {
       return [homeColor];
     }
-  }
-  getStoreOwner(coord) {
-    return MancalaRules.FAKE_STORE_COORD.reverse().get(coord);
-  }
-  getSpaceOwner(coord) {
-    const owner = this.getStoreOwner(coord);
-    if (owner.isPresent()) {
-      return owner.get().getAnyElement().get();
-    } else {
-      return Player.of((coord.y + 1) % 2);
-    }
-  }
-  getPieceCx(x2) {
-    return 80 + 100 * (x2 + 1);
-  }
-  getPieceCy(y) {
-    return 60 + 120 * y;
   }
   getPieceTransform(x2, y) {
     const cx = this.getPieceCx(x2);
@@ -26943,7 +26982,7 @@ var MancalaComponent = class _MancalaComponent extends RectangularGameComponent 
     const previousContent = this.getPreviousStableState().getPieceAtXY(x2, y);
     const currentContent = this.constructedState.getPieceAtXY(x2, y);
     const difference = currentContent - previousContent;
-    if (this.captured[y][x2] > 0) {
+    if (y < this.captured.length && this.captured[y][x2] > 0) {
       return MGPOptional.of("-" + this.captured[y][x2]);
     } else if (difference > 0) {
       return MGPOptional.of("+" + difference);
@@ -27021,20 +27060,21 @@ var MancalaComponent = class _MancalaComponent extends RectangularGameComponent 
    * for single sow it will always be creating it
    * for multiple sow it will sometime be the second sub-distribution of the move
    * @param x the X value of the distribution that has been done
+   * @param y the Y value of the distribution that has been done
    */
-  updateOrCreateCurrentMove(x2) {
+  updateOrCreateCurrentMove(x2, y) {
     if (this.currentMove.isPresent()) {
-      const newMove = this.addToMove(x2);
+      const newMove = this.addToMove(x2, y);
       this.currentMove = MGPOptional.of(newMove);
     } else {
-      this.currentMove = MGPOptional.of(this.generateMove(x2));
+      this.currentMove = MGPOptional.of(this.generateMove(x2, y));
     }
   }
-  generateMove(x2) {
-    return MancalaMove.of(MancalaDistribution.of(x2));
+  generateMove(x2, y) {
+    return MancalaMove.of(MancalaDistribution.of(x2, y));
   }
-  addToMove(x2) {
-    return this.currentMove.get().add(MancalaDistribution.of(x2));
+  addToMove(x2, y) {
+    return this.currentMove.get().add(MancalaDistribution.of(x2, y));
   }
 };
 __decorate29([
@@ -27129,12 +27169,11 @@ var MancalaMoveGenerator = class extends MoveGenerator {
   getListMoves(node, config) {
     const moves = [];
     const state = node.gameState;
-    const playerY = state.getCurrentPlayerY();
-    for (let x2 = 0; x2 < state.getWidth(); x2++) {
-      if (state.getPieceAtXY(x2, playerY) > 0) {
-        const move = MancalaMove.of(MancalaDistribution.of(x2));
+    for (const coord of MancalaRules.getAllCoordOf(state.getCurrentPlayer(), config)) {
+      if (state.getPieceAt(coord) > 0) {
+        const move = MancalaMove.of(MancalaDistribution.of(coord.x, coord.y));
         if (config.mustContinueDistributionAfterStore) {
-          moves.push(...this.getPossibleMoveContinuations(state, x2, playerY, move, config));
+          moves.push(...this.getPossibleMoveContinuations(state, coord.x, coord.y, move, config));
         } else {
           const legality = this.rules.isLegal(move, state, config);
           if (legality.isSuccess()) {
@@ -27148,14 +27187,14 @@ var MancalaMoveGenerator = class extends MoveGenerator {
   getPossibleMoveContinuations(state, x2, y, currentMove, config) {
     const moves = [];
     const previousDistributionResult = MancalaRules.getEmptyDistributionResult(state);
-    const distributionResult = this.rules.distributeHouse(x2, y, previousDistributionResult, config);
+    const distributionResult = this.rules.distributeHouse(MancalaDistribution.of(x2, y), previousDistributionResult, config);
     const stateAfterDistribution = distributionResult.resultingState;
-    const isStarving = MancalaRules.isStarving(stateAfterDistribution.getCurrentPlayer(), stateAfterDistribution.board);
+    const isStarving = MancalaRules.isStarving(stateAfterDistribution.getCurrentPlayer(), stateAfterDistribution.board, config);
     const playerHasPieces = isStarving === false;
     if (distributionResult.endsUpInStore && playerHasPieces) {
       for (let i2 = 0; i2 < stateAfterDistribution.getWidth(); i2++) {
         if (stateAfterDistribution.getPieceAtXY(i2, y) > 0) {
-          const move = currentMove.add(MancalaDistribution.of(i2));
+          const move = currentMove.add(MancalaDistribution.of(i2, y));
           moves.push(...this.getPossibleMoveContinuations(stateAfterDistribution, i2, y, move, config));
         }
       }
@@ -27220,7 +27259,7 @@ var AwaleComponent = class _AwaleComponent extends MancalaComponent {
   static \u0275fac = function AwaleComponent_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _AwaleComponent)();
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _AwaleComponent, selectors: [["app-awale-component"]], features: [\u0275\u0275InheritDefinitionFeature], decls: 9, vars: 20, consts: [["xmlns", "http://www.w3.org/2000/svg", "preserveAspectRatio", "xMidYMid meet", 1, "board"], ["x", "0", "y", "0", "ry", "115", "rx", "115", "fill", "blue", 1, "base"], ["x1", "120", "y1", "120", "y2", "120", 1, "base"], ["x1", "120", "y1", "0", "x2", "120", "y2", "240", 1, "base"], ["y1", "0", "y2", "240", 1, "base"], ["id", "store-PLAYER_ZERO", "app-numbered-circle", "", "transform", "translate(60 120)", 3, "click", "x", "y", "content", "spaceClasses", "rotation", "secondaryContent"], ["id", "store-PLAYER_ONE", "app-numbered-circle", "", 3, "click", "x", "y", "content", "spaceClasses", "rotation", "secondaryContent"], ["app-numbered-circle", "", 3, "click", "id", "x", "y", "content", "spaceClasses", "rotation", "secondaryContent"]], template: function AwaleComponent_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _AwaleComponent, selectors: [["app-awale-component"]], features: [\u0275\u0275InheritDefinitionFeature], decls: 9, vars: 25, consts: [["xmlns", "http://www.w3.org/2000/svg", "preserveAspectRatio", "xMidYMid meet", 1, "board"], ["x", "0", "y", "0", "ry", "115", "rx", "115", "fill", "blue", 1, "base"], ["id", "horizontal-line", "x1", "120", 1, "base"], ["x1", "120", "y1", "0", "x2", "120", 1, "base"], ["y1", "0", 1, "base"], ["id", "store-PLAYER_ZERO", "app-numbered-circle", "", 3, "click", "x", "y", "content", "spaceClasses", "rotation", "secondaryContent"], ["id", "store-PLAYER_ONE", "app-numbered-circle", "", 3, "click", "x", "y", "content", "spaceClasses", "rotation", "secondaryContent"], ["app-numbered-circle", "", 3, "click", "id", "x", "y", "content", "spaceClasses", "rotation", "secondaryContent"]], template: function AwaleComponent_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275namespaceSVG();
       \u0275\u0275elementStart(0, "svg", 0);
@@ -27241,25 +27280,28 @@ var AwaleComponent = class _AwaleComponent extends MancalaComponent {
     if (rf & 2) {
       \u0275\u0275attribute("viewBox", ctx.getMancalaViewBox())("transform", ctx.rotation);
       \u0275\u0275advance();
-      \u0275\u0275attribute("width", ctx.getViewBoxWidth())("height", 240);
+      \u0275\u0275attribute("width", ctx.getViewBoxWidth())("height", ctx.getViewBoxHeight());
       \u0275\u0275advance();
       \u0275\u0275repeater(ctx.board);
       \u0275\u0275advance(2);
-      \u0275\u0275attribute("x2", ctx.getViewBoxWidth() - 120);
-      \u0275\u0275advance(2);
-      \u0275\u0275attribute("x1", ctx.getViewBoxWidth() - 120)("x2", ctx.getViewBoxWidth() - 120);
+      \u0275\u0275attribute("y1", ctx.getVerticalCenter())("x2", ctx.getViewBoxWidth() - 120)("y2", ctx.getVerticalCenter());
+      \u0275\u0275advance();
+      \u0275\u0275attribute("y2", ctx.getViewBoxHeight());
+      \u0275\u0275advance();
+      \u0275\u0275attribute("x1", ctx.getViewBoxWidth() - 120)("x2", ctx.getViewBoxWidth() - 120)("y2", ctx.getViewBoxHeight());
       \u0275\u0275advance();
       \u0275\u0275property("x", -1)("y", -1)("content", ctx.getStoreContent(ctx.Player.ZERO))("spaceClasses", ctx.getSpaceClasses(-1, -1))("rotation", ctx.getPieceRotation())("secondaryContent", ctx.getStoreSecondaryContent(ctx.Player.ZERO));
+      \u0275\u0275attribute("transform", ctx.getStoreTranslate(ctx.Player.ZERO));
       \u0275\u0275advance();
-      \u0275\u0275property("x", 2)("y", 2)("content", ctx.getStoreContent(ctx.Player.ONE))("spaceClasses", ctx.getSpaceClasses(2, 2))("rotation", ctx.getPieceRotation())("secondaryContent", ctx.getStoreSecondaryContent(ctx.Player.ONE));
-      \u0275\u0275attribute("transform", ctx.getSVGTranslation(ctx.getViewBoxWidth() - 60, 120));
+      \u0275\u0275property("x", -1)("y", 1)("content", ctx.getStoreContent(ctx.Player.ONE))("spaceClasses", ctx.getSpaceClasses(-1, 1))("rotation", ctx.getPieceRotation())("secondaryContent", ctx.getStoreSecondaryContent(ctx.Player.ONE));
+      \u0275\u0275attribute("transform", ctx.getStoreTranslate(ctx.Player.ONE));
     }
   }, dependencies: [NumberedCircleComponent], styles: ["\n\n.base[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke[_ngcontent-%COMP%] {\n  stroke-width: 0;\n}\n.base.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n}\n.base-no-stroke[_ngcontent-%COMP%] {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n}\n.white-background[_ngcontent-%COMP%] {\n  fill: white;\n}\n.background[_ngcontent-%COMP%] {\n  fill: var(--spaces-fill);\n}\n.transparent[_ngcontent-%COMP%] {\n  opacity: 0;\n}\n.background2[_ngcontent-%COMP%] {\n  fill: var(--alt-background-fill);\n}\n.background3[_ngcontent-%COMP%] {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill[_ngcontent-%COMP%] {\n  fill: var(--player0);\n}\n.player0-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--player0-alternate);\n}\n.player0-stroke[_ngcontent-%COMP%] {\n  stroke: var(--player0);\n}\n.player1-fill[_ngcontent-%COMP%] {\n  fill: var(--player1);\n}\n.player1-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--player1-alternate);\n}\n.player1-stroke[_ngcontent-%COMP%] {\n  stroke: var(--player1);\n}\n.nonplayer-fill[_ngcontent-%COMP%] {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill[_ngcontent-%COMP%] {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke[_ngcontent-%COMP%] {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke[_ngcontent-%COMP%] {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill[_ngcontent-%COMP%] {\n  fill: var(--pre-captured);\n}\n.captured-fill[_ngcontent-%COMP%] {\n  fill: var(--captured);\n}\n.captured-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--alt-captured);\n}\n.captured-stroke[_ngcontent-%COMP%] {\n  stroke: var(--captured);\n}\n.moved-fill[_ngcontent-%COMP%] {\n  fill: var(--moved);\n}\n.moved-stroke[_ngcontent-%COMP%] {\n  stroke: var(--moved);\n}\n.indicator[_ngcontent-%COMP%] {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill[_ngcontent-%COMP%] {\n  fill: var(--indicator);\n}\n.selectable-stroke[_ngcontent-%COMP%] {\n  stroke: var(--selectable);\n}\n.selectable[_ngcontent-%COMP%]    > .base-no-stroke[_ngcontent-%COMP%] {\n  fill: var(--selectable);\n}\n.last-move-stroke[_ngcontent-%COMP%] {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--last-move);\n}\n.last-move-fill[_ngcontent-%COMP%] {\n  fill: var(--last-move);\n}\n.victory-fill[_ngcontent-%COMP%] {\n  fill: var(--victory);\n}\n.victory-stroke[_ngcontent-%COMP%] {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--victory);\n}\n.defeat-fill[_ngcontent-%COMP%] {\n  fill: var(--defeat);\n}\n.defeat-stroke[_ngcontent-%COMP%] {\n  stroke: var(--defeat);\n}\n.selected-fill[_ngcontent-%COMP%] {\n  fill: var(--selected);\n}\n.selected-stroke[_ngcontent-%COMP%] {\n  stroke: var(--selected);\n}\n.clickable-stroke[_ngcontent-%COMP%] {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover[_ngcontent-%COMP%]:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke[_ngcontent-%COMP%] {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill[_ngcontent-%COMP%] {\n  fill: var(--capturable);\n}\n.capturable-stroke[_ngcontent-%COMP%]:hover {\n  stroke-width: 8;\n}\n.no-fill[_ngcontent-%COMP%] {\n  fill: none;\n}\n.no-stroke[_ngcontent-%COMP%] {\n  stroke: none;\n}\n.small-stroke[_ngcontent-%COMP%] {\n  stroke-width: 2;\n}\n.mid-small-stroke[_ngcontent-%COMP%] {\n  stroke-width: 3;\n}\n.mid-stroke[_ngcontent-%COMP%] {\n  stroke-width: 5;\n}\n.big-stroke[_ngcontent-%COMP%] {\n  stroke-width: 8;\n}\n.huge-stroke[_ngcontent-%COMP%] {\n  stroke-width: 12;\n}\n.semi-transparent[_ngcontent-%COMP%] {\n  opacity: 0.5;\n}\n.territory-opacity[_ngcontent-%COMP%] {\n  fill-opacity: 0.7;\n}\n.round[_ngcontent-%COMP%] {\n  stroke-linecap: round;\n}\n.text-giant[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big[_ngcontent-%COMP%] {\n  font: 50px sans-serif;\n}\n.backgrounded-text[_ngcontent-%COMP%] {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus[_ngcontent-%COMP%] {\n  font: 38px sans-serif;\n}\n.text-medium[_ngcontent-%COMP%] {\n  font: 35px sans-serif;\n}\n.text-small-plus[_ngcontent-%COMP%] {\n  font: 28px sans-serif;\n}\n.text-small[_ngcontent-%COMP%] {\n  font: 25px sans-serif;\n}\n.text-bold[_ngcontent-%COMP%] {\n  font-weight: bold;\n}\n.text-center[_ngcontent-%COMP%] {\n  text-anchor: middle;\n}\n.black-fill[_ngcontent-%COMP%] {\n  fill: black;\n}\n.darker[_ngcontent-%COMP%] {\n  filter: brightness(80%);\n}\n.lighter[_ngcontent-%COMP%] {\n  filter: brightness(110%);\n}\nsvg[_ngcontent-%COMP%] {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator[_ngcontent-%COMP%] {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */"] });
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(AwaleComponent, [{
     type: Component,
-    args: [{ selector: "app-awale-component", imports: [NumberedCircleComponent], template: '<svg xmlns="http://www.w3.org/2000/svg"\n     class="board"\n     [attr.viewBox]="getMancalaViewBox()"\n     [attr.transform]="rotation"\n     preserveAspectRatio="xMidYMid meet">\n    <rect x="0"\n          y="0"\n          ry="115"\n          rx="115"\n          [attr.width]="getViewBoxWidth()"\n          [attr.height]="240"\n          fill="blue"\n          class="base"/>\n    @for (line of board; track $index; let y = $index) {\n        <g>\n            @for (content of line; track $index; let x = $index) {\n                <g>\n                    <g id="click-{{ x }}-{{ y }}"\n                       app-numbered-circle\n                       [attr.transform]="getPieceTransform(x, y)"\n                       (click)="onClick(x, y)"\n                       [x]="x"\n                       [y]="y"\n                       [content]="content"\n                       [spaceClasses]="getSpaceClasses(x, y)"\n                       [rotation]="getPieceRotation()"\n                       [secondaryContent]="getHouseSecondaryContent(x, y)"></g>\n                </g>\n            }\n        </g>\n    }\n    <line x1="120"\n          y1="120"\n          [attr.x2]="getViewBoxWidth() - 120"\n          y2="120"\n          class="base"/>\n    <line x1="120"\n          y1="0"\n          x2="120"\n          y2="240"\n          class="base"/>\n    <line [attr.x1]="getViewBoxWidth() - 120"\n          y1="0"\n          [attr.x2]="getViewBoxWidth() - 120"\n          y2="240"\n          class="base"/>\n\n    <g id="store-PLAYER_ZERO"\n       (click)="onStoreClick(Player.ZERO)"\n       app-numbered-circle\n       transform="translate(60 120)"\n       [x]="-1"\n       [y]="-1"\n       [content]="getStoreContent(Player.ZERO)"\n       [spaceClasses]="getSpaceClasses(-1, -1)"\n       [rotation]="getPieceRotation()"\n       [secondaryContent]="getStoreSecondaryContent(Player.ZERO)"></g>\n    <g id="store-PLAYER_ONE"\n       (click)="onStoreClick(Player.ONE)"\n       app-numbered-circle\n       [attr.transform]="getSVGTranslation(getViewBoxWidth() - 60, 120)"\n       [x]="2"\n       [y]="2"\n       [content]="getStoreContent(Player.ONE)"\n       [spaceClasses]="getSpaceClasses(2, 2)"\n       [rotation]="getPieceRotation()"\n       [secondaryContent]="getStoreSecondaryContent(Player.ONE)"></g>\n</svg>\n', styles: ["/* src/app/components/game-components/game-component/game-component.scss */\n.base {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke {\n  stroke-width: 0;\n}\n.base.manual-stroke {\n  fill: var(--base-stroke);\n}\n.base-no-stroke {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text {\n  fill: var(--base-stroke);\n}\n.white-background {\n  fill: white;\n}\n.background {\n  fill: var(--spaces-fill);\n}\n.transparent {\n  opacity: 0;\n}\n.background2 {\n  fill: var(--alt-background-fill);\n}\n.background3 {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill {\n  fill: var(--player0);\n}\n.player0-alternate-fill {\n  fill: var(--player0-alternate);\n}\n.player0-stroke {\n  stroke: var(--player0);\n}\n.player1-fill {\n  fill: var(--player1);\n}\n.player1-alternate-fill {\n  fill: var(--player1-alternate);\n}\n.player1-stroke {\n  stroke: var(--player1);\n}\n.nonplayer-fill {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill {\n  fill: var(--pre-captured);\n}\n.captured-fill {\n  fill: var(--captured);\n}\n.captured-alternate-fill {\n  fill: var(--alt-captured);\n}\n.captured-stroke {\n  stroke: var(--captured);\n}\n.moved-fill {\n  fill: var(--moved);\n}\n.moved-stroke {\n  stroke: var(--moved);\n}\n.indicator {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill {\n  fill: var(--indicator);\n}\n.selectable-stroke {\n  stroke: var(--selectable);\n}\n.selectable > .base-no-stroke {\n  fill: var(--selectable);\n}\n.last-move-stroke {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke {\n  fill: var(--last-move);\n}\n.last-move-fill {\n  fill: var(--last-move);\n}\n.victory-fill {\n  fill: var(--victory);\n}\n.victory-stroke {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke {\n  fill: var(--victory);\n}\n.defeat-fill {\n  fill: var(--defeat);\n}\n.defeat-stroke {\n  stroke: var(--defeat);\n}\n.selected-fill {\n  fill: var(--selected);\n}\n.selected-stroke {\n  stroke: var(--selected);\n}\n.clickable-stroke {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill {\n  fill: var(--capturable);\n}\n.capturable-stroke:hover {\n  stroke-width: 8;\n}\n.no-fill {\n  fill: none;\n}\n.no-stroke {\n  stroke: none;\n}\n.small-stroke {\n  stroke-width: 2;\n}\n.mid-small-stroke {\n  stroke-width: 3;\n}\n.mid-stroke {\n  stroke-width: 5;\n}\n.big-stroke {\n  stroke-width: 8;\n}\n.huge-stroke {\n  stroke-width: 12;\n}\n.semi-transparent {\n  opacity: 0.5;\n}\n.territory-opacity {\n  fill-opacity: 0.7;\n}\n.round {\n  stroke-linecap: round;\n}\n.text-giant {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big {\n  font: 50px sans-serif;\n}\n.backgrounded-text {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus {\n  font: 38px sans-serif;\n}\n.text-medium {\n  font: 35px sans-serif;\n}\n.text-small-plus {\n  font: 28px sans-serif;\n}\n.text-small {\n  font: 25px sans-serif;\n}\n.text-bold {\n  font-weight: bold;\n}\n.text-center {\n  text-anchor: middle;\n}\n.black-fill {\n  fill: black;\n}\n.darker {\n  filter: brightness(80%);\n}\n.lighter {\n  filter: brightness(110%);\n}\nsvg {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */\n"] }]
+    args: [{ selector: "app-awale-component", imports: [NumberedCircleComponent], template: '<svg xmlns="http://www.w3.org/2000/svg"\n     class="board"\n     [attr.viewBox]="getMancalaViewBox()"\n     [attr.transform]="rotation"\n     preserveAspectRatio="xMidYMid meet">\n    <rect x="0"\n          y="0"\n          ry="115"\n          rx="115"\n          [attr.width]="getViewBoxWidth()"\n          [attr.height]="getViewBoxHeight()"\n          fill="blue"\n          class="base"/>\n    @for (line of board; track $index; let y = $index) {\n        <g>\n            @for (content of line; track $index; let x = $index) {\n                <g>\n                    <g id="click-{{ x }}-{{ y }}"\n                       app-numbered-circle\n                       [attr.transform]="getPieceTransform(x, y)"\n                       (click)="onClick(x, y)"\n                       [x]="x"\n                       [y]="y"\n                       [content]="content"\n                       [spaceClasses]="getSpaceClasses(x, y)"\n                       [rotation]="getPieceRotation()"\n                       [secondaryContent]="getHouseSecondaryContent(x, y)"></g>\n                </g>\n            }\n        </g>\n    }\n    <line id="horizontal-line"\n          x1="120"\n          [attr.y1]="getVerticalCenter()"\n          [attr.x2]="getViewBoxWidth() - 120"\n          [attr.y2]="getVerticalCenter()"\n          class="base"/>\n    <line x1="120"\n          y1="0"\n          x2="120"\n          [attr.y2]="getViewBoxHeight()"\n          class="base"/>\n    <line [attr.x1]="getViewBoxWidth() - 120"\n          y1="0"\n          [attr.x2]="getViewBoxWidth() - 120"\n          [attr.y2]="getViewBoxHeight()"\n          class="base"/>\n\n    <g id="store-PLAYER_ZERO"\n       (click)="onStoreClick(Player.ZERO)"\n       app-numbered-circle\n       [attr.transform]="getStoreTranslate(Player.ZERO)"\n       [x]="-1"\n       [y]="-1"\n       [content]="getStoreContent(Player.ZERO)"\n       [spaceClasses]="getSpaceClasses(-1, -1)"\n       [rotation]="getPieceRotation()"\n       [secondaryContent]="getStoreSecondaryContent(Player.ZERO)"></g>\n    <g id="store-PLAYER_ONE"\n       (click)="onStoreClick(Player.ONE)"\n       app-numbered-circle\n       [attr.transform]="getStoreTranslate(Player.ONE)"\n       [x]="-1"\n       [y]="1"\n       [content]="getStoreContent(Player.ONE)"\n       [spaceClasses]="getSpaceClasses(-1, 1)"\n       [rotation]="getPieceRotation()"\n       [secondaryContent]="getStoreSecondaryContent(Player.ONE)"></g>\n</svg>\n', styles: ["/* src/app/components/game-components/game-component/game-component.scss */\n.base {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke {\n  stroke-width: 0;\n}\n.base.manual-stroke {\n  fill: var(--base-stroke);\n}\n.base-no-stroke {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text {\n  fill: var(--base-stroke);\n}\n.white-background {\n  fill: white;\n}\n.background {\n  fill: var(--spaces-fill);\n}\n.transparent {\n  opacity: 0;\n}\n.background2 {\n  fill: var(--alt-background-fill);\n}\n.background3 {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill {\n  fill: var(--player0);\n}\n.player0-alternate-fill {\n  fill: var(--player0-alternate);\n}\n.player0-stroke {\n  stroke: var(--player0);\n}\n.player1-fill {\n  fill: var(--player1);\n}\n.player1-alternate-fill {\n  fill: var(--player1-alternate);\n}\n.player1-stroke {\n  stroke: var(--player1);\n}\n.nonplayer-fill {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill {\n  fill: var(--pre-captured);\n}\n.captured-fill {\n  fill: var(--captured);\n}\n.captured-alternate-fill {\n  fill: var(--alt-captured);\n}\n.captured-stroke {\n  stroke: var(--captured);\n}\n.moved-fill {\n  fill: var(--moved);\n}\n.moved-stroke {\n  stroke: var(--moved);\n}\n.indicator {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill {\n  fill: var(--indicator);\n}\n.selectable-stroke {\n  stroke: var(--selectable);\n}\n.selectable > .base-no-stroke {\n  fill: var(--selectable);\n}\n.last-move-stroke {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke {\n  fill: var(--last-move);\n}\n.last-move-fill {\n  fill: var(--last-move);\n}\n.victory-fill {\n  fill: var(--victory);\n}\n.victory-stroke {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke {\n  fill: var(--victory);\n}\n.defeat-fill {\n  fill: var(--defeat);\n}\n.defeat-stroke {\n  stroke: var(--defeat);\n}\n.selected-fill {\n  fill: var(--selected);\n}\n.selected-stroke {\n  stroke: var(--selected);\n}\n.clickable-stroke {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill {\n  fill: var(--capturable);\n}\n.capturable-stroke:hover {\n  stroke-width: 8;\n}\n.no-fill {\n  fill: none;\n}\n.no-stroke {\n  stroke: none;\n}\n.small-stroke {\n  stroke-width: 2;\n}\n.mid-small-stroke {\n  stroke-width: 3;\n}\n.mid-stroke {\n  stroke-width: 5;\n}\n.big-stroke {\n  stroke-width: 8;\n}\n.huge-stroke {\n  stroke-width: 12;\n}\n.semi-transparent {\n  opacity: 0.5;\n}\n.territory-opacity {\n  fill-opacity: 0.7;\n}\n.round {\n  stroke-linecap: round;\n}\n.text-giant {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big {\n  font: 50px sans-serif;\n}\n.backgrounded-text {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus {\n  font: 38px sans-serif;\n}\n.text-medium {\n  font: 35px sans-serif;\n}\n.text-small-plus {\n  font: 28px sans-serif;\n}\n.text-small {\n  font: 25px sans-serif;\n}\n.text-bold {\n  font-weight: bold;\n}\n.text-center {\n  text-anchor: middle;\n}\n.black-fill {\n  fill: black;\n}\n.darker {\n  filter: brightness(80%);\n}\n.lighter {\n  filter: brightness(110%);\n}\nsvg {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */\n"] }]
   }], () => [], null);
 })();
 (() => {
@@ -27279,6 +27321,7 @@ var BaAwaRules = class _BaAwaRules extends MancalaRules {
       continueLapUntilCaptureOrEmptyHouse: new BooleanConfig(true, MancalaRules.CYCLICAL_LAP),
       seedsByHouse: new NumberConfig(4, MancalaRules.SEEDS_BY_HOUSE, MGPValidators.range(1, 99)),
       width: new NumberConfig(6, RulesConfigDescriptionLocalizable.WIDTH, MGPValidators.range(1, 99)),
+      numberOfRows: new NumberConfig(1, MancalaRules.NUMBER_OF_ROWS, MGPValidators.range(1, 99)),
       splitFinalSeedsEvenly: new BooleanConfig(false, () => $localize`Split final seeds evenly`)
     }
   }, [{
@@ -27291,6 +27334,7 @@ var BaAwaRules = class _BaAwaRules extends MancalaRules {
       continueLapUntilCaptureOrEmptyHouse: true,
       seedsByHouse: 4,
       width: 6,
+      numberOfRows: 1,
       splitFinalSeedsEvenly: true
     }
   }]);
@@ -27306,12 +27350,14 @@ var BaAwaRules = class _BaAwaRules extends MancalaRules {
   applyCapture(distributionResult) {
     const captureMap = TableUtils.copy(distributionResult.captureMap);
     const lastDrop = distributionResult.filledCoords[distributionResult.filledCoords.length - 1];
-    const captureIsPossible = distributionResult.endsUpInStore === false && distributionResult.resultingState.getPieceAt(lastDrop) === 4;
-    if (captureIsPossible) {
-      const currentPlayer = distributionResult.resultingState.getCurrentPlayer();
-      distributionResult.capturedSum += 4;
-      captureMap[lastDrop.y][lastDrop.x] += 4;
-      distributionResult.resultingState = distributionResult.resultingState.capture(currentPlayer, lastDrop);
+    if (distributionResult.endsUpInStore === false) {
+      const lastHouseContent = distributionResult.resultingState.getPieceAt(lastDrop);
+      if (this.isCapturableValue(lastHouseContent)) {
+        const currentPlayer = distributionResult.resultingState.getCurrentPlayer();
+        distributionResult.capturedSum += lastHouseContent;
+        captureMap[lastDrop.y][lastDrop.x] += lastHouseContent;
+        distributionResult.resultingState = distributionResult.resultingState.capture(currentPlayer, lastDrop);
+      }
     }
     return {
       capturedSum: distributionResult.capturedSum,
@@ -27322,7 +27368,7 @@ var BaAwaRules = class _BaAwaRules extends MancalaRules {
   getDropResult(seedsInHand, state, coord) {
     let resultingState = state.feed(coord);
     const previousValue = resultingState.getPieceAt(coord);
-    const captureMap = TableUtils.create(state.getWidth(), 2, 0);
+    const captureMap = TableUtils.create(state.getWidth(), state.getHeight(), 0);
     if (previousValue === 4 && seedsInHand > 1) {
       captureMap[coord.y][coord.x] = 4;
       const houseOwner = Player.of(coord.y).getOpponent();
@@ -27364,23 +27410,23 @@ var BaAwaTutorial = class extends Tutorial {
     TutorialStep.fromMove($localize`Multiple laps sowing`, $localize`However, the distribution only stops when the last seed is dropped in a house that contains zero or three seeds (before drop).<br/><br/>You're playing Dark, do such a move!`, new MancalaState([
       [0, 2, 4, 0, 0, 0],
       [0, 0, 0, 5, 0, 0]
-    ], 0, PlayerNumberMap.of(0, 0)), [MancalaMove.of(MancalaDistribution.of(3))], $localize`So, after landing in the house with 2 seeds (then 3), a second lap has been started.`, TutorialStepMessage.FAILED_TRY_AGAIN()),
+    ], 0, PlayerNumberMap.of(0, 0)), [MancalaMove.of(MancalaDistribution.of(3, 1))], $localize`So, after landing in the house with 2 seeds (then 3), a second lap has been started.`, TutorialStepMessage.FAILED_TRY_AGAIN()),
     TutorialStep.fromMove($localize`Captures during distribution` + " (1/2)", $localize`If, during some distribution, you pass by one of your houses that contains 3 seeds, and drop a fourth seed, you capture the house immediately, then continue the distribution!<br/><br/>You're playing Dark, do such a move!`, new MancalaState([
       [0, 8, 0, 0, 0, 0],
       [0, 0, 3, 2, 0, 0]
-    ], 0, PlayerNumberMap.of(0, 0)), [MancalaMove.of(MancalaDistribution.of(3))], $localize`Congratulations, you captured 4 seeds.`, MancalaTutorial.YOU_DID_NOT_CAPTURE_ANY_SEEDS()),
+    ], 0, PlayerNumberMap.of(0, 0)), [MancalaMove.of(MancalaDistribution.of(3, 1))], $localize`Congratulations, you captured 4 seeds.`, MancalaTutorial.YOU_DID_NOT_CAPTURE_ANY_SEEDS()),
     TutorialStep.fromMove($localize`Captures during distribution` + " (2/2)", $localize`If, during some distribution, you pass by one house of the opponent that contains 3 seeds, and drop a fourth seed, the opponent captures the house immediately, while you continue to distribute.<br/><br/>You're playing Dark, do such a move!`, new MancalaState([
       [0, 3, 0, 0, 8, 0],
       [3, 0, 1, 0, 0, 0]
-    ], 0, PlayerNumberMap.of(0, 0)), [MancalaMove.of(MancalaDistribution.of(0))], $localize`There it is, the opponent captured 4 seeds.`, MancalaTutorial.YOU_DID_NOT_CAPTURE_ANY_SEEDS()),
+    ], 0, PlayerNumberMap.of(0, 0)), [MancalaMove.of(MancalaDistribution.of(0, 1))], $localize`There it is, the opponent captured 4 seeds.`, MancalaTutorial.YOU_DID_NOT_CAPTURE_ANY_SEEDS()),
     TutorialStep.fromMove($localize`Captures`, $localize`Though, if your very last seed is dropped in a house of the opponent that contains 3 seeds (4 with your seed), you capture it immediately!<br/><br/>You're playing Dark, do such a move!`, new MancalaState([
       [0, 1, 1, 3, 8, 0],
       [2, 7, 2, 0, 0, 0]
-    ], 0, PlayerNumberMap.of(0, 0)), [MancalaMove.of(MancalaDistribution.of(0))], $localize`Congratulations, you captured 4 seeds.`, MancalaTutorial.YOU_DID_NOT_CAPTURE_ANY_SEEDS()),
+    ], 0, PlayerNumberMap.of(0, 0)), [MancalaMove.of(MancalaDistribution.of(0, 1))], $localize`Congratulations, you captured 4 seeds.`, MancalaTutorial.YOU_DID_NOT_CAPTURE_ANY_SEEDS()),
     TutorialStep.fromMove(TutorialStepMessage.END_OF_THE_GAME(), $localize`At the end of a turn, if the number of seeds reaches 8 or less, the first player (Dark) captures the remaining seeds.<br/><br/>You're playing Dark, end the game by capturing!`, new MancalaState([
       [0, 1, 1, 3, 0, 0],
       [1, 0, 2, 0, 0, 4]
-    ], 0, PlayerNumberMap.of(0, 0)), [MancalaMove.of(MancalaDistribution.of(2))], $localize`There it is, you captured all remaining seeds.`, MancalaTutorial.YOU_DID_NOT_CAPTURE_ANY_SEEDS())
+    ], 0, PlayerNumberMap.of(0, 0)), [MancalaMove.of(MancalaDistribution.of(2, 1))], $localize`There it is, you captured all remaining seeds.`, MancalaTutorial.YOU_DID_NOT_CAPTURE_ANY_SEEDS())
   ];
 };
 
@@ -27438,7 +27484,7 @@ var BaAwaComponent = class _BaAwaComponent extends MancalaComponent {
   static \u0275fac = function BaAwaComponent_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _BaAwaComponent)();
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _BaAwaComponent, selectors: [["app-ba-awa-component"]], features: [\u0275\u0275InheritDefinitionFeature], decls: 9, vars: 20, consts: [["xmlns", "http://www.w3.org/2000/svg", "preserveAspectRatio", "xMidYMid meet", 1, "board"], ["x", "0", "y", "0", "ry", "115", "rx", "115", "fill", "blue", 1, "base"], ["x1", "120", "y1", "120", "y2", "120", 1, "base"], ["x1", "120", "y1", "0", "x2", "120", "y2", "240", 1, "base"], ["y1", "0", "y2", "240", 1, "base"], ["id", "store-PLAYER_ZERO", "app-numbered-circle", "", "transform", "translate(60 120)", 3, "click", "x", "y", "content", "spaceClasses", "rotation", "secondaryContent"], ["id", "store-PLAYER_ONE", "app-numbered-circle", "", 3, "click", "x", "y", "content", "spaceClasses", "rotation", "secondaryContent"], ["app-numbered-circle", "", 3, "click", "id", "x", "y", "content", "spaceClasses", "rotation", "secondaryContent"]], template: function BaAwaComponent_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _BaAwaComponent, selectors: [["app-ba-awa-component"]], features: [\u0275\u0275InheritDefinitionFeature], decls: 9, vars: 25, consts: [["xmlns", "http://www.w3.org/2000/svg", "preserveAspectRatio", "xMidYMid meet", 1, "board"], ["x", "0", "y", "0", "ry", "115", "rx", "115", "fill", "blue", 1, "base"], ["id", "horizontal-line", "x1", "120", 1, "base"], ["x1", "120", "y1", "0", "x2", "120", 1, "base"], ["y1", "0", 1, "base"], ["id", "store-PLAYER_ZERO", "app-numbered-circle", "", 3, "click", "x", "y", "content", "spaceClasses", "rotation", "secondaryContent"], ["id", "store-PLAYER_ONE", "app-numbered-circle", "", 3, "click", "x", "y", "content", "spaceClasses", "rotation", "secondaryContent"], ["app-numbered-circle", "", 3, "click", "id", "x", "y", "content", "spaceClasses", "rotation", "secondaryContent"]], template: function BaAwaComponent_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275namespaceSVG();
       \u0275\u0275elementStart(0, "svg", 0);
@@ -27459,25 +27505,28 @@ var BaAwaComponent = class _BaAwaComponent extends MancalaComponent {
     if (rf & 2) {
       \u0275\u0275attribute("viewBox", ctx.getMancalaViewBox())("transform", ctx.rotation);
       \u0275\u0275advance();
-      \u0275\u0275attribute("width", ctx.getViewBoxWidth())("height", 240);
+      \u0275\u0275attribute("width", ctx.getViewBoxWidth())("height", ctx.getViewBoxHeight());
       \u0275\u0275advance();
       \u0275\u0275repeater(ctx.board);
       \u0275\u0275advance(2);
-      \u0275\u0275attribute("x2", ctx.getViewBoxWidth() - 120);
-      \u0275\u0275advance(2);
-      \u0275\u0275attribute("x1", ctx.getViewBoxWidth() - 120)("x2", ctx.getViewBoxWidth() - 120);
+      \u0275\u0275attribute("y1", ctx.getVerticalCenter())("x2", ctx.getViewBoxWidth() - 120)("y2", ctx.getVerticalCenter());
+      \u0275\u0275advance();
+      \u0275\u0275attribute("y2", ctx.getViewBoxHeight());
+      \u0275\u0275advance();
+      \u0275\u0275attribute("x1", ctx.getViewBoxWidth() - 120)("x2", ctx.getViewBoxWidth() - 120)("y2", ctx.getViewBoxHeight());
       \u0275\u0275advance();
       \u0275\u0275property("x", -1)("y", -1)("content", ctx.getStoreContent(ctx.Player.ZERO))("spaceClasses", ctx.getSpaceClasses(-1, -1))("rotation", ctx.getPieceRotation())("secondaryContent", ctx.getStoreSecondaryContent(ctx.Player.ZERO));
+      \u0275\u0275attribute("transform", ctx.getStoreTranslate(ctx.Player.ZERO));
       \u0275\u0275advance();
-      \u0275\u0275property("x", 2)("y", 2)("content", ctx.getStoreContent(ctx.Player.ONE))("spaceClasses", ctx.getSpaceClasses(2, 2))("rotation", ctx.getPieceRotation())("secondaryContent", ctx.getStoreSecondaryContent(ctx.Player.ONE));
-      \u0275\u0275attribute("transform", ctx.getSVGTranslation(ctx.getViewBoxWidth() - 60, 120));
+      \u0275\u0275property("x", -1)("y", 1)("content", ctx.getStoreContent(ctx.Player.ONE))("spaceClasses", ctx.getSpaceClasses(-1, 1))("rotation", ctx.getPieceRotation())("secondaryContent", ctx.getStoreSecondaryContent(ctx.Player.ONE));
+      \u0275\u0275attribute("transform", ctx.getStoreTranslate(ctx.Player.ONE));
     }
   }, dependencies: [NumberedCircleComponent], styles: ["\n\n.base[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke[_ngcontent-%COMP%] {\n  stroke-width: 0;\n}\n.base.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n}\n.base-no-stroke[_ngcontent-%COMP%] {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n}\n.white-background[_ngcontent-%COMP%] {\n  fill: white;\n}\n.background[_ngcontent-%COMP%] {\n  fill: var(--spaces-fill);\n}\n.transparent[_ngcontent-%COMP%] {\n  opacity: 0;\n}\n.background2[_ngcontent-%COMP%] {\n  fill: var(--alt-background-fill);\n}\n.background3[_ngcontent-%COMP%] {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill[_ngcontent-%COMP%] {\n  fill: var(--player0);\n}\n.player0-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--player0-alternate);\n}\n.player0-stroke[_ngcontent-%COMP%] {\n  stroke: var(--player0);\n}\n.player1-fill[_ngcontent-%COMP%] {\n  fill: var(--player1);\n}\n.player1-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--player1-alternate);\n}\n.player1-stroke[_ngcontent-%COMP%] {\n  stroke: var(--player1);\n}\n.nonplayer-fill[_ngcontent-%COMP%] {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill[_ngcontent-%COMP%] {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke[_ngcontent-%COMP%] {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke[_ngcontent-%COMP%] {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill[_ngcontent-%COMP%] {\n  fill: var(--pre-captured);\n}\n.captured-fill[_ngcontent-%COMP%] {\n  fill: var(--captured);\n}\n.captured-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--alt-captured);\n}\n.captured-stroke[_ngcontent-%COMP%] {\n  stroke: var(--captured);\n}\n.moved-fill[_ngcontent-%COMP%] {\n  fill: var(--moved);\n}\n.moved-stroke[_ngcontent-%COMP%] {\n  stroke: var(--moved);\n}\n.indicator[_ngcontent-%COMP%] {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill[_ngcontent-%COMP%] {\n  fill: var(--indicator);\n}\n.selectable-stroke[_ngcontent-%COMP%] {\n  stroke: var(--selectable);\n}\n.selectable[_ngcontent-%COMP%]    > .base-no-stroke[_ngcontent-%COMP%] {\n  fill: var(--selectable);\n}\n.last-move-stroke[_ngcontent-%COMP%] {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--last-move);\n}\n.last-move-fill[_ngcontent-%COMP%] {\n  fill: var(--last-move);\n}\n.victory-fill[_ngcontent-%COMP%] {\n  fill: var(--victory);\n}\n.victory-stroke[_ngcontent-%COMP%] {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--victory);\n}\n.defeat-fill[_ngcontent-%COMP%] {\n  fill: var(--defeat);\n}\n.defeat-stroke[_ngcontent-%COMP%] {\n  stroke: var(--defeat);\n}\n.selected-fill[_ngcontent-%COMP%] {\n  fill: var(--selected);\n}\n.selected-stroke[_ngcontent-%COMP%] {\n  stroke: var(--selected);\n}\n.clickable-stroke[_ngcontent-%COMP%] {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover[_ngcontent-%COMP%]:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke[_ngcontent-%COMP%] {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill[_ngcontent-%COMP%] {\n  fill: var(--capturable);\n}\n.capturable-stroke[_ngcontent-%COMP%]:hover {\n  stroke-width: 8;\n}\n.no-fill[_ngcontent-%COMP%] {\n  fill: none;\n}\n.no-stroke[_ngcontent-%COMP%] {\n  stroke: none;\n}\n.small-stroke[_ngcontent-%COMP%] {\n  stroke-width: 2;\n}\n.mid-small-stroke[_ngcontent-%COMP%] {\n  stroke-width: 3;\n}\n.mid-stroke[_ngcontent-%COMP%] {\n  stroke-width: 5;\n}\n.big-stroke[_ngcontent-%COMP%] {\n  stroke-width: 8;\n}\n.huge-stroke[_ngcontent-%COMP%] {\n  stroke-width: 12;\n}\n.semi-transparent[_ngcontent-%COMP%] {\n  opacity: 0.5;\n}\n.territory-opacity[_ngcontent-%COMP%] {\n  fill-opacity: 0.7;\n}\n.round[_ngcontent-%COMP%] {\n  stroke-linecap: round;\n}\n.text-giant[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big[_ngcontent-%COMP%] {\n  font: 50px sans-serif;\n}\n.backgrounded-text[_ngcontent-%COMP%] {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus[_ngcontent-%COMP%] {\n  font: 38px sans-serif;\n}\n.text-medium[_ngcontent-%COMP%] {\n  font: 35px sans-serif;\n}\n.text-small-plus[_ngcontent-%COMP%] {\n  font: 28px sans-serif;\n}\n.text-small[_ngcontent-%COMP%] {\n  font: 25px sans-serif;\n}\n.text-bold[_ngcontent-%COMP%] {\n  font-weight: bold;\n}\n.text-center[_ngcontent-%COMP%] {\n  text-anchor: middle;\n}\n.black-fill[_ngcontent-%COMP%] {\n  fill: black;\n}\n.darker[_ngcontent-%COMP%] {\n  filter: brightness(80%);\n}\n.lighter[_ngcontent-%COMP%] {\n  filter: brightness(110%);\n}\nsvg[_ngcontent-%COMP%] {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator[_ngcontent-%COMP%] {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */"] });
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(BaAwaComponent, [{
     type: Component,
-    args: [{ selector: "app-ba-awa-component", imports: [NumberedCircleComponent], template: '<svg xmlns="http://www.w3.org/2000/svg"\n     class="board"\n     [attr.viewBox]="getMancalaViewBox()"\n     [attr.transform]="rotation"\n     preserveAspectRatio="xMidYMid meet">\n    <rect x="0"\n          y="0"\n          ry="115"\n          rx="115"\n          [attr.width]="getViewBoxWidth()"\n          [attr.height]="240"\n          fill="blue"\n          class="base"/>\n    @for (line of board; track $index; let y = $index) {\n        <g>\n            @for (content of line; track $index; let x = $index) {\n                <g>\n                    <g id="click-{{ x }}-{{ y }}"\n                       app-numbered-circle\n                       [attr.transform]="getPieceTransform(x, y)"\n                       (click)="onClick(x, y)"\n                       [x]="x"\n                       [y]="y"\n                       [content]="content"\n                       [spaceClasses]="getSpaceClasses(x, y)"\n                       [rotation]="getPieceRotation()"\n                       [secondaryContent]="getHouseSecondaryContent(x, y)"></g>\n                </g>\n            }\n        </g>\n    }\n    <line x1="120"\n          y1="120"\n          [attr.x2]="getViewBoxWidth() - 120"\n          y2="120"\n          class="base"/>\n    <line x1="120"\n          y1="0"\n          x2="120"\n          y2="240"\n          class="base"/>\n    <line [attr.x1]="getViewBoxWidth() - 120"\n          y1="0"\n          [attr.x2]="getViewBoxWidth() - 120"\n          y2="240"\n          class="base"/>\n\n    <g id="store-PLAYER_ZERO"\n       (click)="onStoreClick(Player.ZERO)"\n       app-numbered-circle\n       transform="translate(60 120)"\n       [x]="-1"\n       [y]="-1"\n       [content]="getStoreContent(Player.ZERO)"\n       [spaceClasses]="getSpaceClasses(-1, -1)"\n       [rotation]="getPieceRotation()"\n       [secondaryContent]="getStoreSecondaryContent(Player.ZERO)"></g>\n    <g id="store-PLAYER_ONE"\n       (click)="onStoreClick(Player.ONE)"\n       app-numbered-circle\n       [attr.transform]="getSVGTranslation(getViewBoxWidth() - 60, 120)"\n       [x]="2"\n       [y]="2"\n       [content]="getStoreContent(Player.ONE)"\n       [spaceClasses]="getSpaceClasses(2, 2)"\n       [rotation]="getPieceRotation()"\n       [secondaryContent]="getStoreSecondaryContent(Player.ONE)"></g>\n</svg>\n', styles: ["/* src/app/components/game-components/game-component/game-component.scss */\n.base {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke {\n  stroke-width: 0;\n}\n.base.manual-stroke {\n  fill: var(--base-stroke);\n}\n.base-no-stroke {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text {\n  fill: var(--base-stroke);\n}\n.white-background {\n  fill: white;\n}\n.background {\n  fill: var(--spaces-fill);\n}\n.transparent {\n  opacity: 0;\n}\n.background2 {\n  fill: var(--alt-background-fill);\n}\n.background3 {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill {\n  fill: var(--player0);\n}\n.player0-alternate-fill {\n  fill: var(--player0-alternate);\n}\n.player0-stroke {\n  stroke: var(--player0);\n}\n.player1-fill {\n  fill: var(--player1);\n}\n.player1-alternate-fill {\n  fill: var(--player1-alternate);\n}\n.player1-stroke {\n  stroke: var(--player1);\n}\n.nonplayer-fill {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill {\n  fill: var(--pre-captured);\n}\n.captured-fill {\n  fill: var(--captured);\n}\n.captured-alternate-fill {\n  fill: var(--alt-captured);\n}\n.captured-stroke {\n  stroke: var(--captured);\n}\n.moved-fill {\n  fill: var(--moved);\n}\n.moved-stroke {\n  stroke: var(--moved);\n}\n.indicator {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill {\n  fill: var(--indicator);\n}\n.selectable-stroke {\n  stroke: var(--selectable);\n}\n.selectable > .base-no-stroke {\n  fill: var(--selectable);\n}\n.last-move-stroke {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke {\n  fill: var(--last-move);\n}\n.last-move-fill {\n  fill: var(--last-move);\n}\n.victory-fill {\n  fill: var(--victory);\n}\n.victory-stroke {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke {\n  fill: var(--victory);\n}\n.defeat-fill {\n  fill: var(--defeat);\n}\n.defeat-stroke {\n  stroke: var(--defeat);\n}\n.selected-fill {\n  fill: var(--selected);\n}\n.selected-stroke {\n  stroke: var(--selected);\n}\n.clickable-stroke {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill {\n  fill: var(--capturable);\n}\n.capturable-stroke:hover {\n  stroke-width: 8;\n}\n.no-fill {\n  fill: none;\n}\n.no-stroke {\n  stroke: none;\n}\n.small-stroke {\n  stroke-width: 2;\n}\n.mid-small-stroke {\n  stroke-width: 3;\n}\n.mid-stroke {\n  stroke-width: 5;\n}\n.big-stroke {\n  stroke-width: 8;\n}\n.huge-stroke {\n  stroke-width: 12;\n}\n.semi-transparent {\n  opacity: 0.5;\n}\n.territory-opacity {\n  fill-opacity: 0.7;\n}\n.round {\n  stroke-linecap: round;\n}\n.text-giant {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big {\n  font: 50px sans-serif;\n}\n.backgrounded-text {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus {\n  font: 38px sans-serif;\n}\n.text-medium {\n  font: 35px sans-serif;\n}\n.text-small-plus {\n  font: 28px sans-serif;\n}\n.text-small {\n  font: 25px sans-serif;\n}\n.text-bold {\n  font-weight: bold;\n}\n.text-center {\n  text-anchor: middle;\n}\n.black-fill {\n  fill: black;\n}\n.darker {\n  filter: brightness(80%);\n}\n.lighter {\n  filter: brightness(110%);\n}\nsvg {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */\n"] }]
+    args: [{ selector: "app-ba-awa-component", imports: [NumberedCircleComponent], template: '<svg xmlns="http://www.w3.org/2000/svg"\n     class="board"\n     [attr.viewBox]="getMancalaViewBox()"\n     [attr.transform]="rotation"\n     preserveAspectRatio="xMidYMid meet">\n    <rect x="0"\n          y="0"\n          ry="115"\n          rx="115"\n          [attr.width]="getViewBoxWidth()"\n          [attr.height]="getViewBoxHeight()"\n          fill="blue"\n          class="base"/>\n    @for (line of board; track $index; let y = $index) {\n        <g>\n            @for (content of line; track $index; let x = $index) {\n                <g>\n                    <g id="click-{{ x }}-{{ y }}"\n                       app-numbered-circle\n                       [attr.transform]="getPieceTransform(x, y)"\n                       (click)="onClick(x, y)"\n                       [x]="x"\n                       [y]="y"\n                       [content]="content"\n                       [spaceClasses]="getSpaceClasses(x, y)"\n                       [rotation]="getPieceRotation()"\n                       [secondaryContent]="getHouseSecondaryContent(x, y)"></g>\n                </g>\n            }\n        </g>\n    }\n    <line id="horizontal-line"\n          x1="120"\n          [attr.y1]="getVerticalCenter()"\n          [attr.x2]="getViewBoxWidth() - 120"\n          [attr.y2]="getVerticalCenter()"\n          class="base"/>\n    <line x1="120"\n          y1="0"\n          x2="120"\n          [attr.y2]="getViewBoxHeight()"\n          class="base"/>\n    <line [attr.x1]="getViewBoxWidth() - 120"\n          y1="0"\n          [attr.x2]="getViewBoxWidth() - 120"\n          [attr.y2]="getViewBoxHeight()"\n          class="base"/>\n\n    <g id="store-PLAYER_ZERO"\n       (click)="onStoreClick(Player.ZERO)"\n       app-numbered-circle\n       [attr.transform]="getStoreTranslate(Player.ZERO)"\n       [x]="-1"\n       [y]="-1"\n       [content]="getStoreContent(Player.ZERO)"\n       [spaceClasses]="getSpaceClasses(-1, -1)"\n       [rotation]="getPieceRotation()"\n       [secondaryContent]="getStoreSecondaryContent(Player.ZERO)"></g>\n    <g id="store-PLAYER_ONE"\n       (click)="onStoreClick(Player.ONE)"\n       app-numbered-circle\n       [attr.transform]="getStoreTranslate(Player.ONE)"\n       [x]="-1"\n       [y]="1"\n       [content]="getStoreContent(Player.ONE)"\n       [spaceClasses]="getSpaceClasses(-1, 1)"\n       [rotation]="getPieceRotation()"\n       [secondaryContent]="getStoreSecondaryContent(Player.ONE)"></g>\n</svg>\n', styles: ["/* src/app/components/game-components/game-component/game-component.scss */\n.base {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke {\n  stroke-width: 0;\n}\n.base.manual-stroke {\n  fill: var(--base-stroke);\n}\n.base-no-stroke {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text {\n  fill: var(--base-stroke);\n}\n.white-background {\n  fill: white;\n}\n.background {\n  fill: var(--spaces-fill);\n}\n.transparent {\n  opacity: 0;\n}\n.background2 {\n  fill: var(--alt-background-fill);\n}\n.background3 {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill {\n  fill: var(--player0);\n}\n.player0-alternate-fill {\n  fill: var(--player0-alternate);\n}\n.player0-stroke {\n  stroke: var(--player0);\n}\n.player1-fill {\n  fill: var(--player1);\n}\n.player1-alternate-fill {\n  fill: var(--player1-alternate);\n}\n.player1-stroke {\n  stroke: var(--player1);\n}\n.nonplayer-fill {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill {\n  fill: var(--pre-captured);\n}\n.captured-fill {\n  fill: var(--captured);\n}\n.captured-alternate-fill {\n  fill: var(--alt-captured);\n}\n.captured-stroke {\n  stroke: var(--captured);\n}\n.moved-fill {\n  fill: var(--moved);\n}\n.moved-stroke {\n  stroke: var(--moved);\n}\n.indicator {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill {\n  fill: var(--indicator);\n}\n.selectable-stroke {\n  stroke: var(--selectable);\n}\n.selectable > .base-no-stroke {\n  fill: var(--selectable);\n}\n.last-move-stroke {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke {\n  fill: var(--last-move);\n}\n.last-move-fill {\n  fill: var(--last-move);\n}\n.victory-fill {\n  fill: var(--victory);\n}\n.victory-stroke {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke {\n  fill: var(--victory);\n}\n.defeat-fill {\n  fill: var(--defeat);\n}\n.defeat-stroke {\n  stroke: var(--defeat);\n}\n.selected-fill {\n  fill: var(--selected);\n}\n.selected-stroke {\n  stroke: var(--selected);\n}\n.clickable-stroke {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill {\n  fill: var(--capturable);\n}\n.capturable-stroke:hover {\n  stroke-width: 8;\n}\n.no-fill {\n  fill: none;\n}\n.no-stroke {\n  stroke: none;\n}\n.small-stroke {\n  stroke-width: 2;\n}\n.mid-small-stroke {\n  stroke-width: 3;\n}\n.mid-stroke {\n  stroke-width: 5;\n}\n.big-stroke {\n  stroke-width: 8;\n}\n.huge-stroke {\n  stroke-width: 12;\n}\n.semi-transparent {\n  opacity: 0.5;\n}\n.territory-opacity {\n  fill-opacity: 0.7;\n}\n.round {\n  stroke-linecap: round;\n}\n.text-giant {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big {\n  font: 50px sans-serif;\n}\n.backgrounded-text {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus {\n  font: 38px sans-serif;\n}\n.text-medium {\n  font: 35px sans-serif;\n}\n.text-small-plus {\n  font: 28px sans-serif;\n}\n.text-small {\n  font: 25px sans-serif;\n}\n.text-bold {\n  font-weight: bold;\n}\n.text-center {\n  text-anchor: middle;\n}\n.black-fill {\n  fill: black;\n}\n.darker {\n  filter: brightness(80%);\n}\n.lighter {\n  filter: brightness(110%);\n}\nsvg {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */\n"] }]
   }], () => [], null);
 })();
 (() => {
@@ -27496,7 +27545,8 @@ var KalahRules = class _KalahRules extends MancalaRules {
       mustContinueDistributionAfterStore: new BooleanConfig(true, MancalaRules.MULTIPLE_SOW),
       continueLapUntilCaptureOrEmptyHouse: new BooleanConfig(false, MancalaRules.CYCLICAL_LAP),
       seedsByHouse: new NumberConfig(4, MancalaRules.SEEDS_BY_HOUSE, MGPValidators.range(1, 99)),
-      width: new NumberConfig(6, RulesConfigDescriptionLocalizable.WIDTH, MGPValidators.range(1, 99))
+      width: new NumberConfig(6, RulesConfigDescriptionLocalizable.WIDTH, MGPValidators.range(1, 99)),
+      numberOfRows: new NumberConfig(1, MancalaRules.NUMBER_OF_ROWS, MGPValidators.range(1, 99))
     }
   });
   static get() {
@@ -27508,30 +27558,29 @@ var KalahRules = class _KalahRules extends MancalaRules {
   getRulesConfigDescription() {
     return _KalahRules.RULES_CONFIG_DESCRIPTION;
   }
-  applyCapture(distributionResult) {
+  applyCapture(distributionResult, config) {
     const distributedState = distributionResult.resultingState;
     const capturelessResult = {
       capturedSum: 0,
-      captureMap: TableUtils.create(distributedState.getWidth(), 2, 0),
+      captureMap: TableUtils.create(distributedState.getWidth(), distributedState.getHeight(), 0),
       resultingState: distributedState
     };
     if (distributionResult.endsUpInStore) {
       return capturelessResult;
     } else {
       const landingSpace = distributionResult.filledCoords[distributionResult.filledCoords.length - 1];
-      const playerY = distributionResult.resultingState.getCurrentPlayerY();
-      const opponentY = distributionResult.resultingState.getOpponentY();
+      const currentPlayer = distributionResult.resultingState.getCurrentPlayer();
+      const oppositeY = this.getOppositeY(landingSpace, config);
       const landingSeeds = distributionResult.resultingState.getPieceAt(landingSpace);
-      const parallelSeeds = distributionResult.resultingState.getPieceAtXY(landingSpace.x, opponentY);
-      if (landingSpace.y === playerY && landingSeeds === 1 && parallelSeeds > 0) {
+      const parallelSeeds = distributionResult.resultingState.getPieceAtXY(landingSpace.x, oppositeY);
+      if (this.getSpaceOwner(landingSpace, config) === currentPlayer && landingSeeds === 1 && parallelSeeds > 0) {
         const board = distributedState.getCopiedBoard();
         const capturedSum = board[0][landingSpace.x] + board[1][landingSpace.x];
-        const captureMap = TableUtils.create(distributedState.getWidth(), 2, 0);
-        captureMap[0][landingSpace.x] = board[0][landingSpace.x];
-        captureMap[1][landingSpace.x] = board[1][landingSpace.x];
+        const captureMap = TableUtils.create(distributedState.getWidth(), distributedState.getHeight(), 0);
+        captureMap[landingSpace.y][landingSpace.x] = board[landingSpace.y][landingSpace.x];
+        captureMap[oppositeY][landingSpace.x] = board[oppositeY][landingSpace.x];
         const capturer = distributedState.getCurrentPlayer();
         let postCaptureState = distributedState.capture(capturer, landingSpace);
-        const oppositeY = (landingSpace.y + 1) % 2;
         const oppositeSpace = new Coord(landingSpace.x, oppositeY);
         postCaptureState = postCaptureState.capture(capturer, oppositeSpace);
         return {
@@ -27555,11 +27604,11 @@ var KalahTutorial = class extends Tutorial {
     TutorialStep.informational($localize`Kalah`, $localize`Bonus fact: Kalah has been created in the U.S.A in 1940 by William Julius Champion Jr.`, KalahRules.get().getInitialState(defaultConfig14)),
     MancalaTutorial.sowing(KalahRules.get().getInitialState(defaultConfig14)),
     TutorialStep.fromMove($localize`The Kalah` + " (1/2)", $localize`The houses on the extreme left and right, unaligned with the others, are the Kalah. Yours is on the left, the opponent's on the right. When sowing, before passing from your leftmost house to the leftmost house of the opponent, you must drop one seed in your Kalah, but you won't have to drop seed in your opponent's Kalah. When you make a capture, the captured seeds are put in your Kalah.<br/><br/>You're playing Dark. Make a move that passes through your Kalah then feeds opponent's houses.`, KalahRules.get().getInitialState(defaultConfig14), [
-      MancalaMove.of(MancalaDistribution.of(0)),
-      MancalaMove.of(MancalaDistribution.of(1)),
-      MancalaMove.of(MancalaDistribution.of(2))
+      MancalaMove.of(MancalaDistribution.of(0, 1)),
+      MancalaMove.of(MancalaDistribution.of(1, 1)),
+      MancalaMove.of(MancalaDistribution.of(2, 1))
     ], $localize`As you see, three houses have been fed in addition to your Kalah.`, $localize`Failed. Choose the three leftmost house on the bottom.`),
-    TutorialStep.fromPredicate($localize`The Kalah` + " (2/2)", $localize`When ending in the Kalah, you must distribute again.<br/><br/>You're playing Dark, play the house that ends up in the Kalah then do a second distribution!`, KalahRules.get().getInitialState(defaultConfig14), MancalaMove.of(MancalaDistribution.of(3), [MancalaDistribution.of(1)]), (move, _previous, _result) => {
+    TutorialStep.fromPredicate($localize`The Kalah` + " (2/2)", $localize`When ending in the Kalah, you must distribute again.<br/><br/>You're playing Dark, play the house that ends up in the Kalah then do a second distribution!`, KalahRules.get().getInitialState(defaultConfig14), MancalaMove.of(MancalaDistribution.of(3, 1), [MancalaDistribution.of(1, 1)]), (move, _previous, _result) => {
       if (move.distributions.length === 1) {
         return MGPValidation.failure($localize`This move only distributed one house, do one distribution that ends in the Kalah, then do a second one!`);
       } else {
@@ -27569,7 +27618,7 @@ var KalahTutorial = class extends Tutorial {
     TutorialStep.fromPredicate($localize`Captures`, $localize`When the last seed of a distribution ends up in one of your empty houses, if the opposite house is filled, then you capture both houses. On this board, such a move is possible.<br/><br/>You're playing Dark, do a capture!`, new MancalaState([
       [0, 4, 4, 4, 4, 4],
       [0, 2, 0, 2, 4, 0]
-    ], 4, PlayerNumberMap.of(0, 0)), MancalaMove.of(MancalaDistribution.of(1), [MancalaDistribution.of(0), MancalaDistribution.of(3)]), (_move, _state, resultingState) => {
+    ], 4, PlayerNumberMap.of(0, 0)), MancalaMove.of(MancalaDistribution.of(1, 1), [MancalaDistribution.of(0, 1), MancalaDistribution.of(3, 1)]), (_move, _state, resultingState) => {
       if (resultingState.getPieceAtXY(1, 0) === 0) {
         return MGPValidation.SUCCESS;
       } else {
@@ -27580,7 +27629,7 @@ var KalahTutorial = class extends Tutorial {
       [0, 0, 0, 0, 2, 0],
       [2, 0, 0, 0, 0, 1]
     ], 0, PlayerNumberMap.of(19, 24)), [
-      MancalaMove.of(MancalaDistribution.of(5))
+      MancalaMove.of(MancalaDistribution.of(5, 1))
     ], $localize`Since there is no longer seeds in the opponent houses, all your seeds have been captured by you. Congratulations, you won!`, $localize`Failed, you gave the opponent a seed! Try again.`)
   ];
 };
@@ -27639,7 +27688,7 @@ var KalahComponent = class _KalahComponent extends MancalaComponent {
   static \u0275fac = function KalahComponent_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _KalahComponent)();
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _KalahComponent, selectors: [["app-kalah-component"]], features: [\u0275\u0275InheritDefinitionFeature], decls: 9, vars: 20, consts: [["xmlns", "http://www.w3.org/2000/svg", "preserveAspectRatio", "xMidYMid meet", 1, "board"], ["x", "0", "y", "0", "ry", "115", "rx", "115", "fill", "blue", 1, "base"], ["x1", "120", "y1", "120", "y2", "120", 1, "base"], ["x1", "120", "y1", "0", "x2", "120", "y2", "240", 1, "base"], ["y1", "0", "y2", "240", 1, "base"], ["id", "store-PLAYER_ZERO", "app-numbered-circle", "", "transform", "translate(60 120)", 3, "click", "x", "y", "content", "spaceClasses", "rotation", "secondaryContent"], ["id", "store-PLAYER_ONE", "app-numbered-circle", "", 3, "click", "x", "y", "content", "spaceClasses", "rotation", "secondaryContent"], ["app-numbered-circle", "", 3, "click", "id", "x", "y", "content", "spaceClasses", "rotation", "secondaryContent"]], template: function KalahComponent_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _KalahComponent, selectors: [["app-kalah-component"]], features: [\u0275\u0275InheritDefinitionFeature], decls: 9, vars: 25, consts: [["xmlns", "http://www.w3.org/2000/svg", "preserveAspectRatio", "xMidYMid meet", 1, "board"], ["x", "0", "y", "0", "ry", "115", "rx", "115", "fill", "blue", 1, "base"], ["id", "horizontal-line", "x1", "120", 1, "base"], ["x1", "120", "y1", "0", "x2", "120", 1, "base"], ["y1", "0", 1, "base"], ["id", "store-PLAYER_ZERO", "app-numbered-circle", "", 3, "click", "x", "y", "content", "spaceClasses", "rotation", "secondaryContent"], ["id", "store-PLAYER_ONE", "app-numbered-circle", "", 3, "click", "x", "y", "content", "spaceClasses", "rotation", "secondaryContent"], ["app-numbered-circle", "", 3, "click", "id", "x", "y", "content", "spaceClasses", "rotation", "secondaryContent"]], template: function KalahComponent_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275namespaceSVG();
       \u0275\u0275elementStart(0, "svg", 0);
@@ -27660,25 +27709,28 @@ var KalahComponent = class _KalahComponent extends MancalaComponent {
     if (rf & 2) {
       \u0275\u0275attribute("viewBox", ctx.getMancalaViewBox())("transform", ctx.rotation);
       \u0275\u0275advance();
-      \u0275\u0275attribute("width", ctx.getViewBoxWidth())("height", 240);
+      \u0275\u0275attribute("width", ctx.getViewBoxWidth())("height", ctx.getViewBoxHeight());
       \u0275\u0275advance();
       \u0275\u0275repeater(ctx.board);
       \u0275\u0275advance(2);
-      \u0275\u0275attribute("x2", ctx.getViewBoxWidth() - 120);
-      \u0275\u0275advance(2);
-      \u0275\u0275attribute("x1", ctx.getViewBoxWidth() - 120)("x2", ctx.getViewBoxWidth() - 120);
+      \u0275\u0275attribute("y1", ctx.getVerticalCenter())("x2", ctx.getViewBoxWidth() - 120)("y2", ctx.getVerticalCenter());
+      \u0275\u0275advance();
+      \u0275\u0275attribute("y2", ctx.getViewBoxHeight());
+      \u0275\u0275advance();
+      \u0275\u0275attribute("x1", ctx.getViewBoxWidth() - 120)("x2", ctx.getViewBoxWidth() - 120)("y2", ctx.getViewBoxHeight());
       \u0275\u0275advance();
       \u0275\u0275property("x", -1)("y", -1)("content", ctx.getStoreContent(ctx.Player.ZERO))("spaceClasses", ctx.getSpaceClasses(-1, -1))("rotation", ctx.getPieceRotation())("secondaryContent", ctx.getStoreSecondaryContent(ctx.Player.ZERO));
+      \u0275\u0275attribute("transform", ctx.getStoreTranslate(ctx.Player.ZERO));
       \u0275\u0275advance();
-      \u0275\u0275property("x", 2)("y", 2)("content", ctx.getStoreContent(ctx.Player.ONE))("spaceClasses", ctx.getSpaceClasses(2, 2))("rotation", ctx.getPieceRotation())("secondaryContent", ctx.getStoreSecondaryContent(ctx.Player.ONE));
-      \u0275\u0275attribute("transform", ctx.getSVGTranslation(ctx.getViewBoxWidth() - 60, 120));
+      \u0275\u0275property("x", -1)("y", 1)("content", ctx.getStoreContent(ctx.Player.ONE))("spaceClasses", ctx.getSpaceClasses(-1, 1))("rotation", ctx.getPieceRotation())("secondaryContent", ctx.getStoreSecondaryContent(ctx.Player.ONE));
+      \u0275\u0275attribute("transform", ctx.getStoreTranslate(ctx.Player.ONE));
     }
   }, dependencies: [NumberedCircleComponent], styles: ["\n\n.base[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke[_ngcontent-%COMP%] {\n  stroke-width: 0;\n}\n.base.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n}\n.base-no-stroke[_ngcontent-%COMP%] {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n}\n.white-background[_ngcontent-%COMP%] {\n  fill: white;\n}\n.background[_ngcontent-%COMP%] {\n  fill: var(--spaces-fill);\n}\n.transparent[_ngcontent-%COMP%] {\n  opacity: 0;\n}\n.background2[_ngcontent-%COMP%] {\n  fill: var(--alt-background-fill);\n}\n.background3[_ngcontent-%COMP%] {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill[_ngcontent-%COMP%] {\n  fill: var(--player0);\n}\n.player0-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--player0-alternate);\n}\n.player0-stroke[_ngcontent-%COMP%] {\n  stroke: var(--player0);\n}\n.player1-fill[_ngcontent-%COMP%] {\n  fill: var(--player1);\n}\n.player1-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--player1-alternate);\n}\n.player1-stroke[_ngcontent-%COMP%] {\n  stroke: var(--player1);\n}\n.nonplayer-fill[_ngcontent-%COMP%] {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill[_ngcontent-%COMP%] {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke[_ngcontent-%COMP%] {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke[_ngcontent-%COMP%] {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill[_ngcontent-%COMP%] {\n  fill: var(--pre-captured);\n}\n.captured-fill[_ngcontent-%COMP%] {\n  fill: var(--captured);\n}\n.captured-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--alt-captured);\n}\n.captured-stroke[_ngcontent-%COMP%] {\n  stroke: var(--captured);\n}\n.moved-fill[_ngcontent-%COMP%] {\n  fill: var(--moved);\n}\n.moved-stroke[_ngcontent-%COMP%] {\n  stroke: var(--moved);\n}\n.indicator[_ngcontent-%COMP%] {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill[_ngcontent-%COMP%] {\n  fill: var(--indicator);\n}\n.selectable-stroke[_ngcontent-%COMP%] {\n  stroke: var(--selectable);\n}\n.selectable[_ngcontent-%COMP%]    > .base-no-stroke[_ngcontent-%COMP%] {\n  fill: var(--selectable);\n}\n.last-move-stroke[_ngcontent-%COMP%] {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--last-move);\n}\n.last-move-fill[_ngcontent-%COMP%] {\n  fill: var(--last-move);\n}\n.victory-fill[_ngcontent-%COMP%] {\n  fill: var(--victory);\n}\n.victory-stroke[_ngcontent-%COMP%] {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--victory);\n}\n.defeat-fill[_ngcontent-%COMP%] {\n  fill: var(--defeat);\n}\n.defeat-stroke[_ngcontent-%COMP%] {\n  stroke: var(--defeat);\n}\n.selected-fill[_ngcontent-%COMP%] {\n  fill: var(--selected);\n}\n.selected-stroke[_ngcontent-%COMP%] {\n  stroke: var(--selected);\n}\n.clickable-stroke[_ngcontent-%COMP%] {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover[_ngcontent-%COMP%]:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke[_ngcontent-%COMP%] {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill[_ngcontent-%COMP%] {\n  fill: var(--capturable);\n}\n.capturable-stroke[_ngcontent-%COMP%]:hover {\n  stroke-width: 8;\n}\n.no-fill[_ngcontent-%COMP%] {\n  fill: none;\n}\n.no-stroke[_ngcontent-%COMP%] {\n  stroke: none;\n}\n.small-stroke[_ngcontent-%COMP%] {\n  stroke-width: 2;\n}\n.mid-small-stroke[_ngcontent-%COMP%] {\n  stroke-width: 3;\n}\n.mid-stroke[_ngcontent-%COMP%] {\n  stroke-width: 5;\n}\n.big-stroke[_ngcontent-%COMP%] {\n  stroke-width: 8;\n}\n.huge-stroke[_ngcontent-%COMP%] {\n  stroke-width: 12;\n}\n.semi-transparent[_ngcontent-%COMP%] {\n  opacity: 0.5;\n}\n.territory-opacity[_ngcontent-%COMP%] {\n  fill-opacity: 0.7;\n}\n.round[_ngcontent-%COMP%] {\n  stroke-linecap: round;\n}\n.text-giant[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big[_ngcontent-%COMP%] {\n  font: 50px sans-serif;\n}\n.backgrounded-text[_ngcontent-%COMP%] {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus[_ngcontent-%COMP%] {\n  font: 38px sans-serif;\n}\n.text-medium[_ngcontent-%COMP%] {\n  font: 35px sans-serif;\n}\n.text-small-plus[_ngcontent-%COMP%] {\n  font: 28px sans-serif;\n}\n.text-small[_ngcontent-%COMP%] {\n  font: 25px sans-serif;\n}\n.text-bold[_ngcontent-%COMP%] {\n  font-weight: bold;\n}\n.text-center[_ngcontent-%COMP%] {\n  text-anchor: middle;\n}\n.black-fill[_ngcontent-%COMP%] {\n  fill: black;\n}\n.darker[_ngcontent-%COMP%] {\n  filter: brightness(80%);\n}\n.lighter[_ngcontent-%COMP%] {\n  filter: brightness(110%);\n}\nsvg[_ngcontent-%COMP%] {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator[_ngcontent-%COMP%] {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */"] });
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(KalahComponent, [{
     type: Component,
-    args: [{ selector: "app-kalah-component", imports: [NumberedCircleComponent], template: '<svg xmlns="http://www.w3.org/2000/svg"\n     class="board"\n     [attr.viewBox]="getMancalaViewBox()"\n     [attr.transform]="rotation"\n     preserveAspectRatio="xMidYMid meet">\n    <rect x="0"\n          y="0"\n          ry="115"\n          rx="115"\n          [attr.width]="getViewBoxWidth()"\n          [attr.height]="240"\n          fill="blue"\n          class="base"/>\n    @for (line of board; track $index; let y = $index) {\n        <g>\n            @for (content of line; track $index; let x = $index) {\n                <g>\n                    <g id="click-{{ x }}-{{ y }}"\n                       app-numbered-circle\n                       [attr.transform]="getPieceTransform(x, y)"\n                       (click)="onClick(x, y)"\n                       [x]="x"\n                       [y]="y"\n                       [content]="content"\n                       [spaceClasses]="getSpaceClasses(x, y)"\n                       [rotation]="getPieceRotation()"\n                       [secondaryContent]="getHouseSecondaryContent(x, y)"></g>\n                </g>\n            }\n        </g>\n    }\n    <line x1="120"\n          y1="120"\n          [attr.x2]="getViewBoxWidth() - 120"\n          y2="120"\n          class="base"/>\n    <line x1="120"\n          y1="0"\n          x2="120"\n          y2="240"\n          class="base"/>\n    <line [attr.x1]="getViewBoxWidth() - 120"\n          y1="0"\n          [attr.x2]="getViewBoxWidth() - 120"\n          y2="240"\n          class="base"/>\n\n    <g id="store-PLAYER_ZERO"\n       (click)="onStoreClick(Player.ZERO)"\n       app-numbered-circle\n       transform="translate(60 120)"\n       [x]="-1"\n       [y]="-1"\n       [content]="getStoreContent(Player.ZERO)"\n       [spaceClasses]="getSpaceClasses(-1, -1)"\n       [rotation]="getPieceRotation()"\n       [secondaryContent]="getStoreSecondaryContent(Player.ZERO)"></g>\n    <g id="store-PLAYER_ONE"\n       (click)="onStoreClick(Player.ONE)"\n       app-numbered-circle\n       [attr.transform]="getSVGTranslation(getViewBoxWidth() - 60, 120)"\n       [x]="2"\n       [y]="2"\n       [content]="getStoreContent(Player.ONE)"\n       [spaceClasses]="getSpaceClasses(2, 2)"\n       [rotation]="getPieceRotation()"\n       [secondaryContent]="getStoreSecondaryContent(Player.ONE)"></g>\n</svg>\n', styles: ["/* src/app/components/game-components/game-component/game-component.scss */\n.base {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke {\n  stroke-width: 0;\n}\n.base.manual-stroke {\n  fill: var(--base-stroke);\n}\n.base-no-stroke {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text {\n  fill: var(--base-stroke);\n}\n.white-background {\n  fill: white;\n}\n.background {\n  fill: var(--spaces-fill);\n}\n.transparent {\n  opacity: 0;\n}\n.background2 {\n  fill: var(--alt-background-fill);\n}\n.background3 {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill {\n  fill: var(--player0);\n}\n.player0-alternate-fill {\n  fill: var(--player0-alternate);\n}\n.player0-stroke {\n  stroke: var(--player0);\n}\n.player1-fill {\n  fill: var(--player1);\n}\n.player1-alternate-fill {\n  fill: var(--player1-alternate);\n}\n.player1-stroke {\n  stroke: var(--player1);\n}\n.nonplayer-fill {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill {\n  fill: var(--pre-captured);\n}\n.captured-fill {\n  fill: var(--captured);\n}\n.captured-alternate-fill {\n  fill: var(--alt-captured);\n}\n.captured-stroke {\n  stroke: var(--captured);\n}\n.moved-fill {\n  fill: var(--moved);\n}\n.moved-stroke {\n  stroke: var(--moved);\n}\n.indicator {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill {\n  fill: var(--indicator);\n}\n.selectable-stroke {\n  stroke: var(--selectable);\n}\n.selectable > .base-no-stroke {\n  fill: var(--selectable);\n}\n.last-move-stroke {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke {\n  fill: var(--last-move);\n}\n.last-move-fill {\n  fill: var(--last-move);\n}\n.victory-fill {\n  fill: var(--victory);\n}\n.victory-stroke {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke {\n  fill: var(--victory);\n}\n.defeat-fill {\n  fill: var(--defeat);\n}\n.defeat-stroke {\n  stroke: var(--defeat);\n}\n.selected-fill {\n  fill: var(--selected);\n}\n.selected-stroke {\n  stroke: var(--selected);\n}\n.clickable-stroke {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill {\n  fill: var(--capturable);\n}\n.capturable-stroke:hover {\n  stroke-width: 8;\n}\n.no-fill {\n  fill: none;\n}\n.no-stroke {\n  stroke: none;\n}\n.small-stroke {\n  stroke-width: 2;\n}\n.mid-small-stroke {\n  stroke-width: 3;\n}\n.mid-stroke {\n  stroke-width: 5;\n}\n.big-stroke {\n  stroke-width: 8;\n}\n.huge-stroke {\n  stroke-width: 12;\n}\n.semi-transparent {\n  opacity: 0.5;\n}\n.territory-opacity {\n  fill-opacity: 0.7;\n}\n.round {\n  stroke-linecap: round;\n}\n.text-giant {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big {\n  font: 50px sans-serif;\n}\n.backgrounded-text {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus {\n  font: 38px sans-serif;\n}\n.text-medium {\n  font: 35px sans-serif;\n}\n.text-small-plus {\n  font: 28px sans-serif;\n}\n.text-small {\n  font: 25px sans-serif;\n}\n.text-bold {\n  font-weight: bold;\n}\n.text-center {\n  text-anchor: middle;\n}\n.black-fill {\n  fill: black;\n}\n.darker {\n  filter: brightness(80%);\n}\n.lighter {\n  filter: brightness(110%);\n}\nsvg {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */\n"] }]
+    args: [{ selector: "app-kalah-component", imports: [NumberedCircleComponent], template: '<svg xmlns="http://www.w3.org/2000/svg"\n     class="board"\n     [attr.viewBox]="getMancalaViewBox()"\n     [attr.transform]="rotation"\n     preserveAspectRatio="xMidYMid meet">\n    <rect x="0"\n          y="0"\n          ry="115"\n          rx="115"\n          [attr.width]="getViewBoxWidth()"\n          [attr.height]="getViewBoxHeight()"\n          fill="blue"\n          class="base"/>\n    @for (line of board; track $index; let y = $index) {\n        <g>\n            @for (content of line; track $index; let x = $index) {\n                <g>\n                    <g id="click-{{ x }}-{{ y }}"\n                       app-numbered-circle\n                       [attr.transform]="getPieceTransform(x, y)"\n                       (click)="onClick(x, y)"\n                       [x]="x"\n                       [y]="y"\n                       [content]="content"\n                       [spaceClasses]="getSpaceClasses(x, y)"\n                       [rotation]="getPieceRotation()"\n                       [secondaryContent]="getHouseSecondaryContent(x, y)"></g>\n                </g>\n            }\n        </g>\n    }\n    <line id="horizontal-line"\n          x1="120"\n          [attr.y1]="getVerticalCenter()"\n          [attr.x2]="getViewBoxWidth() - 120"\n          [attr.y2]="getVerticalCenter()"\n          class="base"/>\n    <line x1="120"\n          y1="0"\n          x2="120"\n          [attr.y2]="getViewBoxHeight()"\n          class="base"/>\n    <line [attr.x1]="getViewBoxWidth() - 120"\n          y1="0"\n          [attr.x2]="getViewBoxWidth() - 120"\n          [attr.y2]="getViewBoxHeight()"\n          class="base"/>\n\n    <g id="store-PLAYER_ZERO"\n       (click)="onStoreClick(Player.ZERO)"\n       app-numbered-circle\n       [attr.transform]="getStoreTranslate(Player.ZERO)"\n       [x]="-1"\n       [y]="-1"\n       [content]="getStoreContent(Player.ZERO)"\n       [spaceClasses]="getSpaceClasses(-1, -1)"\n       [rotation]="getPieceRotation()"\n       [secondaryContent]="getStoreSecondaryContent(Player.ZERO)"></g>\n    <g id="store-PLAYER_ONE"\n       (click)="onStoreClick(Player.ONE)"\n       app-numbered-circle\n       [attr.transform]="getStoreTranslate(Player.ONE)"\n       [x]="-1"\n       [y]="1"\n       [content]="getStoreContent(Player.ONE)"\n       [spaceClasses]="getSpaceClasses(-1, 1)"\n       [rotation]="getPieceRotation()"\n       [secondaryContent]="getStoreSecondaryContent(Player.ONE)"></g>\n</svg>\n', styles: ["/* src/app/components/game-components/game-component/game-component.scss */\n.base {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke {\n  stroke-width: 0;\n}\n.base.manual-stroke {\n  fill: var(--base-stroke);\n}\n.base-no-stroke {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text {\n  fill: var(--base-stroke);\n}\n.white-background {\n  fill: white;\n}\n.background {\n  fill: var(--spaces-fill);\n}\n.transparent {\n  opacity: 0;\n}\n.background2 {\n  fill: var(--alt-background-fill);\n}\n.background3 {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill {\n  fill: var(--player0);\n}\n.player0-alternate-fill {\n  fill: var(--player0-alternate);\n}\n.player0-stroke {\n  stroke: var(--player0);\n}\n.player1-fill {\n  fill: var(--player1);\n}\n.player1-alternate-fill {\n  fill: var(--player1-alternate);\n}\n.player1-stroke {\n  stroke: var(--player1);\n}\n.nonplayer-fill {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill {\n  fill: var(--pre-captured);\n}\n.captured-fill {\n  fill: var(--captured);\n}\n.captured-alternate-fill {\n  fill: var(--alt-captured);\n}\n.captured-stroke {\n  stroke: var(--captured);\n}\n.moved-fill {\n  fill: var(--moved);\n}\n.moved-stroke {\n  stroke: var(--moved);\n}\n.indicator {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill {\n  fill: var(--indicator);\n}\n.selectable-stroke {\n  stroke: var(--selectable);\n}\n.selectable > .base-no-stroke {\n  fill: var(--selectable);\n}\n.last-move-stroke {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke {\n  fill: var(--last-move);\n}\n.last-move-fill {\n  fill: var(--last-move);\n}\n.victory-fill {\n  fill: var(--victory);\n}\n.victory-stroke {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke {\n  fill: var(--victory);\n}\n.defeat-fill {\n  fill: var(--defeat);\n}\n.defeat-stroke {\n  stroke: var(--defeat);\n}\n.selected-fill {\n  fill: var(--selected);\n}\n.selected-stroke {\n  stroke: var(--selected);\n}\n.clickable-stroke {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill {\n  fill: var(--capturable);\n}\n.capturable-stroke:hover {\n  stroke-width: 8;\n}\n.no-fill {\n  fill: none;\n}\n.no-stroke {\n  stroke: none;\n}\n.small-stroke {\n  stroke-width: 2;\n}\n.mid-small-stroke {\n  stroke-width: 3;\n}\n.mid-stroke {\n  stroke-width: 5;\n}\n.big-stroke {\n  stroke-width: 8;\n}\n.huge-stroke {\n  stroke-width: 12;\n}\n.semi-transparent {\n  opacity: 0.5;\n}\n.territory-opacity {\n  fill-opacity: 0.7;\n}\n.round {\n  stroke-linecap: round;\n}\n.text-giant {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big {\n  font: 50px sans-serif;\n}\n.backgrounded-text {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus {\n  font: 38px sans-serif;\n}\n.text-medium {\n  font: 35px sans-serif;\n}\n.text-small-plus {\n  font: 28px sans-serif;\n}\n.text-small {\n  font: 25px sans-serif;\n}\n.text-bold {\n  font-weight: bold;\n}\n.text-center {\n  text-anchor: middle;\n}\n.black-fill {\n  fill: black;\n}\n.darker {\n  filter: brightness(80%);\n}\n.lighter {\n  filter: brightness(110%);\n}\nsvg {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */\n"] }]
   }], () => [], null);
 })();
 (() => {
@@ -46094,4 +46146,4 @@ bulma-toast/dist/bulma-toast.min.js:
    * Released under the MIT License.
    *)
 */
-//# sourceMappingURL=chunk-PQXFXFT5.js.map
+//# sourceMappingURL=chunk-Q4HANRET.js.map
