@@ -1,6 +1,6 @@
 import {
   ChatService
-} from "./chunk-4VRSQYAS.js";
+} from "./chunk-RRDLMVIP.js";
 import {
   FaIconComponent,
   faReply
@@ -471,4 +471,4 @@ export {
   ChatComponent,
   EloComponent
 };
-//# sourceMappingURL=chunk-FMN5ZSD6.js.map
+//# sourceMappingURL=chunk-7SYGI5MY.js.map
