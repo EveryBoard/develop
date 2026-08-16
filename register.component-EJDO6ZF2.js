@@ -11,7 +11,7 @@ import {
 } from "./chunk-MC3HRXVP.js";
 import {
   ConnectedUserService
-} from "./chunk-RWYRC6Z5.js";
+} from "./chunk-J5I62YSE.js";
 import {
   AutofocusDirective
 } from "./chunk-4D3V7D3R.js";
@@ -448,4 +448,4 @@ var RegisterComponent = class _RegisterComponent {
 export {
   RegisterComponent
 };
-//# sourceMappingURL=register.component-R2KLLW3D.js.map
+//# sourceMappingURL=register.component-EJDO6ZF2.js.map

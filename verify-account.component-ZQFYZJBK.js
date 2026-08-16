@@ -4,7 +4,7 @@ import {
 } from "./chunk-MC3HRXVP.js";
 import {
   ConnectedUserService
-} from "./chunk-RWYRC6Z5.js";
+} from "./chunk-J5I62YSE.js";
 import "./chunk-7IUA2OKB.js";
 import {
   DefaultValueAccessor,
@@ -412,4 +412,4 @@ var VerifyAccountComponent = class _VerifyAccountComponent {
 export {
   VerifyAccountComponent
 };
-//# sourceMappingURL=verify-account.component-UJ3OLS2E.js.map
+//# sourceMappingURL=verify-account.component-ZQFYZJBK.js.map

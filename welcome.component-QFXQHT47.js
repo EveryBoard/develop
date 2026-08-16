@@ -1,7 +1,7 @@
 import {
   CurrentGameService
-} from "./chunk-BDLAZJF5.js";
-import "./chunk-QYHR3D2D.js";
+} from "./chunk-HPEMMGVX.js";
+import "./chunk-FRZM6ADF.js";
 import {
   GameInfo,
   MessageDisplayer,
@@ -20,7 +20,7 @@ import {
   Router,
   RouterLink
 } from "./chunk-MC3HRXVP.js";
-import "./chunk-RWYRC6Z5.js";
+import "./chunk-J5I62YSE.js";
 import "./chunk-4D3V7D3R.js";
 import "./chunk-7IUA2OKB.js";
 import {
@@ -323,4 +323,4 @@ var WelcomeComponent = class _WelcomeComponent {
 export {
   WelcomeComponent
 };
-//# sourceMappingURL=welcome.component-TFXS3736.js.map
+//# sourceMappingURL=welcome.component-QFXQHT47.js.map

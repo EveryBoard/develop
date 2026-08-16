@@ -1482,6 +1482,9 @@ function _getProvider(app, name3) {
   }
   return app.container.getProvider(name3);
 }
+function _removeServiceInstance(app, name3, instanceIdentifier = DEFAULT_ENTRY_NAME2) {
+  _getProvider(app, name3).clearInstance(instanceIdentifier);
+}
 function _isFirebaseServerApp(obj) {
   if (obj === null || obj === void 0) {
     return false;
@@ -13361,6 +13364,9 @@ function __PRIVATE_configureFirestore(e) {
     };
   })(e._componentsProvider));
 }
+function terminate(e) {
+  return _removeServiceInstance(e.app, "firestore", e._databaseId.database), e._delete();
+}
 var Bytes = class _Bytes {
   /** @hideconstructor */
   constructor(e) {
@@ -21542,6 +21548,7 @@ export {
   getAuth,
   connectFirestoreEmulator,
   getFirestore,
+  terminate,
   serverTimestamp,
   FirestoreDAO,
   UserService,
@@ -23090,4 +23097,4 @@ export {
    * limitations under the License.
    *)
 */
-//# sourceMappingURL=chunk-RWYRC6Z5.js.map
+//# sourceMappingURL=chunk-J5I62YSE.js.map

@@ -3,7 +3,7 @@ import {
 } from "./chunk-DOUO5NUN.js";
 import {
   ConnectedUserService
-} from "./chunk-RWYRC6Z5.js";
+} from "./chunk-J5I62YSE.js";
 import {
   MGPFallible,
   MGPMap,
@@ -123,11 +123,23 @@ var BackendService = class _BackendService extends AbstractBackendService {
   resolveConnection;
   nextConnectionAttemptTime = 1;
   disconnectRequested = false;
+  pageIsUnloading = false;
+  // Upon the "pagehide" event, we need to disconnect
+  // This arises for example when we navigate away from the page in the same tab (e.g., by entering another URL)
+  // It is necessary to disconnect at that time because otherwise the websocket may remain open for too long
+  // and then if we load EveryBoard in the same tab, we may get an already-subscribed error
+  disconnectOnPageHide = () => {
+    this.pageIsUnloading = true;
+    if (this.webSocket.isPresent()) {
+      this.disconnect();
+    }
+  };
   constructor() {
     super();
     this.connectionPromise = new Promise((resolve) => {
       this.resolveConnection = resolve;
     });
+    window.addEventListener("pagehide", this.disconnectOnPageHide);
   }
   waitForConnection() {
     return this.connectionPromise;
@@ -151,6 +163,11 @@ var BackendService = class _BackendService extends AbstractBackendService {
           this.nextConnectionAttemptTime *= 2;
         };
         ws.onopen = () => {
+          if (this.pageIsUnloading) {
+            ws.close();
+            resolve(new Subscription());
+            return;
+          }
           if (timeout.isPresent()) {
             window.clearTimeout(timeout.get());
             timeout = MGPOptional.empty();
@@ -218,6 +235,10 @@ var BackendService = class _BackendService extends AbstractBackendService {
       this.resolveConnection = resolve;
     });
   }
+  ngOnDestroy() {
+    window.removeEventListener("pagehide", this.disconnectOnPageHide);
+    this.disconnectOnPageHide();
+  }
   static \u0275fac = function BackendService_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _BackendService)();
   };
@@ -238,4 +259,4 @@ export {
   environment,
   BackendService
 };
-//# sourceMappingURL=chunk-QYHR3D2D.js.map
+//# sourceMappingURL=chunk-FRZM6ADF.js.map
