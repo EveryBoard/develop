@@ -2479,8 +2479,8 @@ var ScoreName = class _ScoreName {
    * A score name might be differently written for zero, one, or more than one "points".
    * Zero might be plural like in english, but different in another language, like french where it is singular.
    */
-  constructor(zero2, singular, plural) {
-    this.zero = zero2;
+  constructor(zero3, singular, plural) {
+    this.zero = zero3;
     this.singular = singular;
     this.plural = plural;
   }
@@ -2648,9 +2648,9 @@ var GameComponent = class GameComponent2 extends BaseGameComponent {
   }
   setRulesAndNode(urlName) {
     const gameInfo = GameInfo.getByUrlName(urlName).get();
-    const defaultConfig26 = gameInfo.getRulesConfig();
+    const defaultConfig27 = gameInfo.getRulesConfig();
     this.rules = gameInfo.rules;
-    this.node = this.rules.getInitialNode(defaultConfig26);
+    this.node = this.rules.getInitialNode(defaultConfig27);
     this.tutorial = gameInfo.tutorial.tutorial;
   }
   getConfig() {
@@ -3614,10 +3614,10 @@ var ApagosSquare = class _ApagosSquare {
     return this.containing.equals(other.containing);
   }
   toString() {
-    const zero2 = this.containing.get(PlayerOrNone.ZERO).get();
-    const one2 = this.containing.get(PlayerOrNone.ONE).get();
+    const zero3 = this.containing.get(PlayerOrNone.ZERO).get();
+    const one3 = this.containing.get(PlayerOrNone.ONE).get();
     const none = this.containing.get(PlayerOrNone.NONE).get();
-    return `(${zero2}, ${one2}, ${none})`;
+    return `(${zero3}, ${one3}, ${none})`;
   }
 };
 
@@ -4251,8 +4251,8 @@ var ApagosComponent = class _ApagosComponent extends GameComponent {
   getPieceClasses(x2, i2, square) {
     const pieceLocation = { square: x2, piece: i2 };
     const classes = [];
-    let zero2 = square.count(Player.ZERO);
-    let one2 = square.count(Player.ONE);
+    let zero3 = square.count(Player.ZERO);
+    let one3 = square.count(Player.ONE);
     if (this.selectedPiece.equalsValue(pieceLocation)) {
       classes.push("selected-stroke");
     } else if (this.lastMoveDrop.equalsValue(pieceLocation)) {
@@ -4264,22 +4264,22 @@ var ApagosComponent = class _ApagosComponent extends GameComponent {
       } else {
         const opponent = this.getState().getCurrentOpponent();
         if (opponent === Player.ZERO)
-          zero2++;
+          zero3++;
         else
-          one2++;
+          one3++;
       }
     }
-    const neutral = square.count(PlayerOrNone.NONE) - (one2 + zero2);
-    const pieceColor = this.getPieceColor(i2, zero2, neutral);
+    const neutral = square.count(PlayerOrNone.NONE) - (one3 + zero3);
+    const pieceColor = this.getPieceColor(i2, zero3, neutral);
     if (pieceColor !== "") {
       classes.push(pieceColor);
     }
     return classes;
   }
-  getPieceColor(i2, zero2, neutral) {
-    if (i2 < zero2) {
+  getPieceColor(i2, zero3, neutral) {
+    if (i2 < zero3) {
       return "player0-fill";
-    } else if (i2 < zero2 + neutral) {
+    } else if (i2 < zero3 + neutral) {
       return "";
     } else {
       return "player1-fill";
@@ -4443,7 +4443,7 @@ var BooleanConfig = class extends ConfigLine {
 
 // src/app/games/checkers/common/CheckersFailure.ts
 var CheckersFailure = class {
-  static CANNOT_GO_BACKWARD = () => $localize`You cannot go backward with normal pieces!`;
+  static ONLY_PROMOTED_PIECES_CAN_GO_BACKWARD = () => $localize`Only promoted pieces can go backward.`;
   static CANNOT_SKIP_CAPTURE = () => $localize`You must capture when it is possible!`;
   static MUST_FINISH_CAPTURING = () => $localize`You must finish this capture!`;
   static THIS_PIECE_CANNOT_MOVE = () => $localize`This piece cannot move!`;
@@ -4453,7 +4453,7 @@ var CheckersFailure = class {
   static FLYING_CAPTURE_IS_FORBIDDEN_FOR_NORMAL_PIECES = () => $localize`Flying capture is forbidden for normal pieces!`;
   static NO_PIECE_CAN_DO_LONG_JUMP = () => $localize`No piece is allowed to do a long jump`;
   static CANNOT_MOVE_ORTHOGONALLY = () => $localize`You cannot move orthogonally!`;
-  static CANNOT_CAPTURE_TWICE_THE_SAME_COORD = () => $localize`You cannot jump over the same square several times!`;
+  static CANNOT_CAPTURE_TWICE_THE_SAME_SQUARE = () => $localize`You cannot capture the same square several times!`;
   static MUST_DO_LONGEST_CAPTURE = () => $localize`You must do the longest capture possible!`;
   static CANNOT_JUMP_OVER_SEVERAL_PIECES = () => $localize`You cannot jump over several pieces!`;
   static MOVE_CANNOT_CONTINUE_AFTER_NON_CAPTURE_MOVE = () => $localize`You have done a step after a capture. A move that starts with a capture can only contain captures.`;
@@ -4461,48 +4461,25 @@ var CheckersFailure = class {
 
 // src/app/games/checkers/common/CheckersMove.ts
 var CheckersMove = class _CheckersMove extends Move {
+  coords;
   isStep;
   static of(coords, isStep) {
     return new _CheckersMove(coords, isStep);
   }
   static fromCapture(coords) {
-    const jumpsValidity = _CheckersMove.getSteppedOverCoords(coords);
-    if (jumpsValidity.isSuccess()) {
-      return MGPFallible.success(new _CheckersMove(coords, false));
-    } else {
-      return MGPFallible.failure(jumpsValidity.getReason());
-    }
-  }
-  static getSteppedOverCoords(steppedOn) {
-    let lastCoordOpt = MGPOptional.empty();
-    let jumpedOverCoords = new MGPUniqueList([steppedOn[0]]);
-    for (const coord of steppedOn) {
-      if (lastCoordOpt.isPresent()) {
-        const lastCoord = lastCoordOpt.get();
-        const subJumpedOverCoords = lastCoord.getCoordsToward(coord).concat([coord]);
-        for (const jumpedOverCoord of subJumpedOverCoords) {
-          if (jumpedOverCoords.contains(jumpedOverCoord)) {
-            return MGPFallible.failure(CheckersFailure.CANNOT_CAPTURE_TWICE_THE_SAME_COORD());
-          }
-          jumpedOverCoords = jumpedOverCoords.addElement(jumpedOverCoord);
-        }
-      }
-      lastCoordOpt = MGPOptional.of(coord);
-    }
-    return MGPFallible.success(jumpedOverCoords);
+    return new _CheckersMove(coords, false);
   }
   static fromStep(start, end) {
     return new _CheckersMove([start, end], true);
   }
-  static encoder = Encoder.tuple([Encoder.list(Coord.encoder), Encoder.identity()], (move) => [move.coords.toList(), move.isStep], (fields) => _CheckersMove.of(fields[0], fields[1]));
-  coords;
+  static encoder = Encoder.tuple([Encoder.list(Coord.encoder), Encoder.identity()], (move) => [[...move.coords], move.isStep], (fields) => _CheckersMove.of(fields[0], fields[1]));
   constructor(coords, isStep) {
     super();
+    this.coords = coords;
     this.isStep = isStep;
-    this.coords = new MGPUniqueList(coords);
   }
   toString() {
-    const coordStrings = this.coords.toList().map((coord) => coord.toString());
+    const coordStrings = this.coords.map((coord) => coord.toString());
     const coordString = coordStrings.join(", ");
     if (this.isStep) {
       return "CheckersStep(" + coordString + ")";
@@ -4511,11 +4488,14 @@ var CheckersMove = class _CheckersMove extends Move {
     }
   }
   getRelation(other) {
-    return _CheckersMove.getRelation(this.coords.toList(), other.coords.toList());
+    return _CheckersMove.getRelation(this.coords, other.coords);
   }
   static getRelation(a3, b5) {
     const thisLength = a3.length;
     const otherLength = b5.length;
+    if (thisLength > otherLength) {
+      return "INEQUALITY";
+    }
     const minimalLength = Math.min(thisLength, otherLength);
     for (let i2 = 0; i2 < minimalLength; i2++) {
       if (a3[i2].equals(b5[i2]) === false)
@@ -4534,22 +4514,36 @@ var CheckersMove = class _CheckersMove extends Move {
     return this.getRelation(other) === "PREFIX";
   }
   getStartingCoord() {
-    return this.coords.get(0);
+    return this.coords[0];
   }
   getEndingCoord() {
-    return this.coords.getFromEnd(0);
+    return this.coords[this.coords.length - 1];
+  }
+  getSteppedOverCoordsWithDuplicates() {
+    let lastCoordOpt = MGPOptional.empty();
+    const allJumpedOverCoords = [];
+    for (const coord of this.coords) {
+      if (lastCoordOpt.isPresent()) {
+        const lastCoord = lastCoordOpt.get();
+        const subJumpedOverCoords = lastCoord.getCoordsToward(coord);
+        for (const jumpedOverCoord of subJumpedOverCoords) {
+          allJumpedOverCoords.push(jumpedOverCoord);
+        }
+      }
+      allJumpedOverCoords.push(coord);
+      lastCoordOpt = MGPOptional.of(coord);
+    }
+    return allJumpedOverCoords;
   }
   getSteppedOverCoords() {
-    return _CheckersMove.getSteppedOverCoords(this.coords.toList());
+    return new MGPUniqueList(this.getSteppedOverCoordsWithDuplicates());
   }
   concatenate(move) {
     const lastLandingOfFirstMove = this.getEndingCoord();
-    const startOfSecondMove = move.coords.toList()[0];
+    const startOfSecondMove = move.coords[0];
     Utils.assert(lastLandingOfFirstMove.equals(startOfSecondMove), "should not concatenate non-touching move");
-    const thisCoordList = this.coords.toList();
-    const firstPart = ArrayUtils.copy(thisCoordList);
-    const otherCoordList = move.coords.toList();
-    const secondPart = ArrayUtils.copy(otherCoordList).slice(1);
+    const firstPart = [...this.coords];
+    const secondPart = [...move.coords].slice(1);
     return _CheckersMove.fromCapture(firstPart.concat(secondPart));
   }
 };
@@ -4622,11 +4616,7 @@ var CheckersStack = class _CheckersStack {
     return new _CheckersStack(this.pieces.concat(piece));
   }
   addStackBelow(stack) {
-    let resultingStack = this;
-    for (const piece of stack.pieces) {
-      resultingStack = resultingStack.capturePiece(piece);
-    }
-    return resultingStack;
+    return new _CheckersStack(this.pieces.concat(stack.pieces));
   }
   getStackSize() {
     return this.pieces.length;
@@ -4660,8 +4650,8 @@ var CheckersStack = class _CheckersStack {
 };
 var CheckersState = class _CheckersState extends GameStateWithTable {
   static SIZE = 7;
-  static of(board, turn) {
-    return new _CheckersState(board, turn);
+  constructor(board, turn) {
+    super(board, turn);
   }
   getStacksOf(player) {
     const stackCoords = [];
@@ -4709,8 +4699,7 @@ var CheckersState = class _CheckersState extends GameStateWithTable {
   getScores() {
     const zeroScore = this.getStacksOf(Player.ZERO).length;
     const oneScore = this.getStacksOf(Player.ONE).length;
-    const scores = PlayerNumberMap.of(zeroScore, oneScore);
-    return MGPOptional.of(scores);
+    return PlayerNumberMap.of(zeroScore, oneScore);
   }
   toString() {
     let biggerStack = 1;
@@ -4733,6 +4722,28 @@ var CheckersState = class _CheckersState extends GameStateWithTable {
     return lines.join("\n");
   }
 };
+var EvenCheckersState = class extends CheckersState {
+  static of(board, turn) {
+    const state = new CheckersState(board, turn);
+    state.forEachCoord((coord, content) => {
+      if ((coord.x + coord.y) % 2 === 1) {
+        Utils.assert(content.isEmpty(), `Invalid even checkers state contains a piece at (${coord.x}, ${coord.y})`);
+      }
+    });
+    return state;
+  }
+};
+var OddCheckersState = class extends CheckersState {
+  static of(board, turn) {
+    const state = new CheckersState(board, turn);
+    state.forEachCoord((coord, content) => {
+      if ((coord.x + coord.y) % 2 === 0) {
+        Utils.assert(content.isEmpty(), `Invalid odd checkers state contains a piece at (${coord.x}, ${coord.y})`);
+      }
+    });
+    return state;
+  }
+};
 
 // src/app/games/checkers/common/AbstractCheckersRules.ts
 var CheckersOptionLocalizable = class {
@@ -4742,6 +4753,7 @@ var CheckersOptionLocalizable = class {
   static PROMOTED_PIECES_CAN_TRAVEL_LONG_DISTANCES = () => $localize`Promoted pieces can travel long distance`;
   static OCCUPY_EVEN_SQUARE = () => $localize`Occupy upper-left corner`;
   static FRISIAN_CAPTURE_ALLOWED = () => $localize`Can do frisian captures`;
+  static CAN_PROMOTE_MID_CAPTURE = () => $localize`Piece that reaches the last line during a capture continues capturing as king`;
 };
 var AbstractCheckersRules = class extends ConfigurableRules {
   getInitialState(config) {
@@ -4762,7 +4774,11 @@ var AbstractCheckersRules = class extends ConfigurableRules {
         }
       }
     }
-    return new CheckersState(board, 0);
+    if (config.occupyEvenSquare) {
+      return EvenCheckersState.of(board, 0);
+    } else {
+      return OddCheckersState.of(board, 0);
+    }
   }
   /**
    * @param state the state from which you want the current player's capture
@@ -4777,34 +4793,31 @@ var AbstractCheckersRules = class extends ConfigurableRules {
     const captures = [];
     const playerPieces = state.getStacksOf(player);
     for (const playerPiece of playerPieces) {
-      captures.push(...this.getPieceCaptures(state, playerPiece, config, [playerPiece]));
+      captures.push(...this.getPieceCaptures(state, playerPiece, config, []));
     }
     return captures;
   }
-  getPieceCaptures(state, coord, config, flyiedOvers) {
+  getPieceCaptures(state, coord, config, capturedCoords) {
     let pieceMoves = [];
     const piece = state.getPieceAt(coord);
     const pieceOwner = piece.getCommander().player;
     const opponent = pieceOwner.getOpponent();
     const directions = this.getPieceDirections(state, coord, true, config);
-    const moved = state.getPieceAt(coord);
     for (const direction of directions) {
-      const captured = this.getFirstCapturableCoord(state, coord, direction, opponent, flyiedOvers, config);
+      const captured = this.getFirstCapturableCoord(state, coord, direction, opponent, capturedCoords, config);
       if (captured.isPresent()) {
-        const landings = this.getLandableCoords(state, coord, captured.get(), direction, flyiedOvers, config);
+        const landings = this.getLandableCoords(state, coord, captured.get(), direction, config);
         for (const landing of landings) {
-          const fakePostCaptureState = state.remove(coord).remove(captured.get()).set(landing, moved);
-          const startOfMove = CheckersMove.fromCapture([coord, landing]).get();
-          const newFlyiedOvers = flyiedOvers.concat(...coord.getCoordsToward(landing, false, true));
-          const endsOfMoves = this.getPieceCaptures(fakePostCaptureState, landing, config, newFlyiedOvers);
+          const postCapture = this.applyCapture(state, coord, captured.get(), landing, config);
+          const startOfMove = CheckersMove.fromCapture([coord, landing]);
+          const newCapturedCoords = capturedCoords.concat(captured.get());
+          const endsOfMoves = this.getPieceCaptures(postCapture.state, landing, config, newCapturedCoords);
           if (endsOfMoves.length === 0) {
             pieceMoves = pieceMoves.concat(startOfMove);
           } else {
-            const mergedMoves = [];
-            for (const endMove of endsOfMoves) {
-              const concatenatedMove = startOfMove.concatenate(endMove);
-              mergedMoves.push(concatenatedMove.get());
-            }
+            const mergedMoves = endsOfMoves.map((endMove) => {
+              return startOfMove.concatenate(endMove);
+            });
             pieceMoves = pieceMoves.concat(mergedMoves);
           }
         }
@@ -4812,36 +4825,53 @@ var AbstractCheckersRules = class extends ConfigurableRules {
     }
     return pieceMoves;
   }
-  getFirstCapturableCoord(state, coord, direction, opponent, flyiedOvers, config) {
+  applyCapture(state, start, captured, landing, config) {
+    const moved = state.getPieceAt(start);
+    const pieceOwner = moved.getCommander().player;
+    let fakePostCaptureState = state.remove(start);
+    let landingPiece = moved;
+    if (config.canStackPieces) {
+      const capturedSpace = state.getPieceAt(captured);
+      const remainingStack = capturedSpace.getPiecesUnderCommander();
+      fakePostCaptureState = fakePostCaptureState.set(captured, remainingStack);
+      landingPiece = moved.capturePiece(capturedSpace.getCommander());
+    }
+    if (config.canPromoteMidCapture && landing.y === state.getFinishLineOf(pieceOwner)) {
+      landingPiece = landingPiece.promoteCommander();
+    }
+    fakePostCaptureState = fakePostCaptureState.set(landing, landingPiece);
+    return { state: fakePostCaptureState, piece: landingPiece };
+  }
+  getFirstCapturableCoord(state, coord, direction, opponent, capturedCoords, config) {
     const isPromotedPiece = state.getPieceAt(coord).getCommander().isPromoted;
     if (config.promotedPiecesCanFly && isPromotedPiece) {
-      return this.getFirstCapturableCoordForFlyingCapture(state, coord, direction, flyiedOvers);
+      return this.getFirstCapturableCoordForFlyingCapture(state, coord, direction, opponent, capturedCoords);
     } else {
       const nextCoord = coord.getNext(direction, 1);
-      if (state.coordIsCommandedBy(nextCoord, opponent) && flyiedOvers.some((c) => c.equals(nextCoord)) === false) {
+      if (state.coordIsCommandedBy(nextCoord, opponent) && this.isPresentIn(nextCoord, capturedCoords) === false) {
         return MGPOptional.of(nextCoord);
       } else {
         return MGPOptional.empty();
       }
     }
   }
-  getLandableCoords(state, coord, captured, direction, flyiedOvers, config) {
-    let possibleLanding = this.getNextPossibleLanding(state, captured, direction, flyiedOvers);
+  getLandableCoords(state, coord, captured, direction, config) {
+    let possibleLanding = this.getNextPossibleLanding(state, captured, direction);
     const possibleLandings = [];
     if (possibleLanding.isPresent()) {
       possibleLandings.push(possibleLanding.get());
       const isPromotedPiece = state.getPieceAt(coord).getCommander().isPromoted;
       if (config.promotedPiecesCanFly && isPromotedPiece) {
-        possibleLanding = this.getNextPossibleLanding(state, possibleLanding.get(), direction, flyiedOvers);
+        possibleLanding = this.getNextPossibleLanding(state, possibleLanding.get(), direction);
         while (possibleLanding.isPresent()) {
           possibleLandings.push(possibleLanding.get());
-          possibleLanding = this.getNextPossibleLanding(state, possibleLanding.get(), direction, flyiedOvers);
+          possibleLanding = this.getNextPossibleLanding(state, possibleLanding.get(), direction);
         }
       }
     }
     return possibleLandings;
   }
-  getNextPossibleLanding(state, coord, direction, flyiedOvers) {
+  getNextPossibleLanding(state, coord, direction) {
     const minimalisedDirection = direction.toMinimalVector();
     const nextPossibleLanding = coord.getNext(direction, 1);
     const distance = coord.getDistanceToward(nextPossibleLanding);
@@ -4849,8 +4879,6 @@ var AbstractCheckersRules = class extends ConfigurableRules {
     while (i2 < distance) {
       coord = coord.getNext(minimalisedDirection, 1);
       if (state.isEmptyAt(coord) === false) {
-        return MGPOptional.empty();
-      } else if (this.isPresentIn(coord, flyiedOvers)) {
         return MGPOptional.empty();
       }
       i2++;
@@ -4860,18 +4888,22 @@ var AbstractCheckersRules = class extends ConfigurableRules {
   isPresentIn(coord, coordList) {
     return coordList.some((c) => c.equals(coord));
   }
-  getFirstCapturableCoordForFlyingCapture(state, coord, direction, flyiedOvers) {
+  getFirstCapturableCoordForFlyingCapture(state, coord, direction, opponent, capturedCoords) {
     const minimalisedDirection = direction.toMinimalVector();
-    const player = state.getCurrentPlayer();
     const nextCoord = coord.getNext(minimalisedDirection, 1);
-    if (state.isNotOnBoard(nextCoord) || state.getPieceAt(nextCoord).isCommandedBy(player) || flyiedOvers.some((c) => c.equals(nextCoord))) {
+    if (state.isNotOnBoard(nextCoord)) {
       return MGPOptional.empty();
-    } else {
-      if (state.getPieceAt(nextCoord).isEmpty()) {
-        return this.getFirstCapturableCoordForFlyingCapture(state, nextCoord, minimalisedDirection, flyiedOvers);
+    }
+    if (state.getPieceAt(nextCoord).isEmpty()) {
+      return this.getFirstCapturableCoordForFlyingCapture(state, nextCoord, minimalisedDirection, opponent, capturedCoords);
+    } else if (state.getPieceAt(nextCoord).isCommandedBy(opponent)) {
+      if (this.isPresentIn(nextCoord, capturedCoords)) {
+        return MGPOptional.empty();
       } else {
         return MGPOptional.of(nextCoord);
       }
+    } else {
+      return MGPOptional.empty();
     }
   }
   getPieceDirections(state, coord, isCapture, config) {
@@ -4885,15 +4917,17 @@ var AbstractCheckersRules = class extends ConfigurableRules {
       // right diagonal
     ];
     if (isCapture && config.frisianCaptureAllowed) {
+      const frisianForward = new Vector(0, 2 * verticalDirection);
       directions.push(
         new Vector(-2, 0),
         // left frisian
         new Vector(2, 0),
         // right frisian
-        new Vector(0, 2 * verticalDirection)
+        frisianForward
       );
       if (config.simplePieceCanCaptureBackwards) {
-        directions.push(new Vector(0, -2 * verticalDirection));
+        const frisianBackward = new Vector(0, -2 * verticalDirection);
+        directions.push(frisianBackward);
       }
     }
     const isLegalCaptureBackward = isCapture && config.simplePieceCanCaptureBackwards;
@@ -4945,33 +4979,54 @@ var AbstractCheckersRules = class extends ConfigurableRules {
     return pieceMoves;
   }
   applyLegalMove(move, state, config) {
+    return this.applyMove(move, state, config).incrementTurn();
+  }
+  applyMove(move, state, config) {
     const moveStart = move.getStartingCoord();
     const moveEnd = move.getEndingCoord();
     let movingStack = state.getPieceAt(moveStart);
     let resultingState = state.remove(moveStart);
-    if (this.isMoveStep(move) === false) {
-      for (const capturedCoord of this.getCapturedCoords(move, state)) {
-        if (config.canStackPieces) {
-          const capturedSpace = state.getPieceAt(capturedCoord);
+    if (move.isStep === false) {
+      const capturedCoords = [];
+      for (let i2 = 1; i2 < move.coords.length; i2++) {
+        const previousCoord = move.coords[i2 - 1];
+        const landingCoord = move.coords[i2];
+        const capturedCoord = this.getCapturedCoord(previousCoord, landingCoord, resultingState);
+        if (capturedCoord.isPresent()) {
+          const captured = capturedCoord.get();
+          Utils.assert(this.isPresentIn(captured, capturedCoords) === false, "A legal checkers move cannot capture the same coordinate twice.");
+          capturedCoords.push(captured);
+          const capturedSpace = resultingState.getPieceAt(captured);
           const capturedCommander = capturedSpace.getCommander();
-          movingStack = movingStack.capturePiece(capturedCommander);
-          const remainingStack = capturedSpace.getPiecesUnderCommander();
-          resultingState = resultingState.set(capturedCoord, remainingStack);
-        } else {
-          resultingState = resultingState.set(capturedCoord, CheckersStack.EMPTY);
+          if (config.canStackPieces) {
+            movingStack = movingStack.capturePiece(capturedCommander);
+            const remainingStack = capturedSpace.getPiecesUnderCommander();
+            resultingState = resultingState.set(captured, remainingStack);
+          } else {
+            resultingState = resultingState.set(captured, CheckersStack.EMPTY);
+          }
+        }
+        if (config.canPromoteMidCapture && landingCoord.y === state.getFinishLineOf(state.getCurrentPlayer())) {
+          movingStack = movingStack.promoteCommander();
         }
       }
     }
     resultingState = resultingState.set(moveEnd, movingStack);
-    if (moveEnd.y === state.getFinishLineOf(state.getCurrentPlayer())) {
-      const promotedCommander = movingStack.promoteCommander();
-      resultingState = resultingState.set(moveEnd, promotedCommander);
+    const finishLine = state.getFinishLineOf(state.getCurrentPlayer());
+    const promotedMidCapture = config.canPromoteMidCapture && move.coords.some((c) => c.y === finishLine);
+    if (moveEnd.y === finishLine || promotedMidCapture) {
+      resultingState = resultingState.set(moveEnd, movingStack.promoteCommander());
     }
-    return resultingState.incrementTurn();
+    return resultingState;
   }
-  getCapturedCoords(move, state) {
-    const steppedOverCoords = move.getSteppedOverCoords().get();
-    return steppedOverCoords.filter((coord) => state.getPieceAt(coord).isOccupied() && coord.equals(move.getStartingCoord()) === false);
+  getCapturedCoord(start, end, state) {
+    const capturedCoords = start.getCoordsToward(end).filter((coord) => state.getPieceAt(coord).isOccupied());
+    Utils.assert(capturedCoords.length <= 1, "getCapturedCoord should only be called after single-capture validation.");
+    if (capturedCoords.length === 1) {
+      return MGPOptional.of(capturedCoords[0]);
+    } else {
+      return MGPOptional.empty();
+    }
   }
   isLegal(move, state, config) {
     const moveOwnershipValidity = this.getMoveOwnershipValidity(move, state, config);
@@ -4986,7 +5041,7 @@ var AbstractCheckersRules = class extends ConfigurableRules {
     if (possibleCaptures.length === 0) {
       return MGPValidation.SUCCESS;
     } else {
-      return this.isLegalCaptureChoice(move, possibleCaptures, config);
+      return this.isLegalCaptureChoice(move, state, possibleCaptures, config);
     }
   }
   getMoveOwnershipValidity(move, state, config) {
@@ -5015,17 +5070,38 @@ var AbstractCheckersRules = class extends ConfigurableRules {
     return MGPOptional.empty();
   }
   isLegalSubMoveList(move, state, config) {
-    for (let i2 = 1; i2 < move.coords.size(); i2++) {
-      const previousCoord = move.coords.get(i2 - 1);
-      const landingCoord = move.coords.get(i2);
-      const subMoveValidity = this.getSubMoveValidity(move, previousCoord, landingCoord, state, config);
+    let stack = state.getPieceAt(move.coords[0]);
+    const isSimpleJump = move.coords.length === 2;
+    let validationState = state.remove(move.coords[0]);
+    const capturedCoords = [];
+    const finishLine = state.getFinishLineOf(state.getCurrentPlayer());
+    for (let i2 = 1; i2 < move.coords.length; i2++) {
+      const previousCoord = move.coords[i2 - 1];
+      const landingCoord = move.coords[i2];
+      const subMoveValidity = this.getSubMoveValidity(stack, isSimpleJump, previousCoord, landingCoord, validationState, config);
       if (subMoveValidity.isFailure()) {
         return subMoveValidity;
+      }
+      const capturedCoord = this.getCapturedCoord(previousCoord, landingCoord, validationState);
+      if (capturedCoord.isPresent()) {
+        const captured = capturedCoord.get();
+        if (this.isPresentIn(captured, capturedCoords)) {
+          return MGPValidation.failure(CheckersFailure.CANNOT_CAPTURE_TWICE_THE_SAME_SQUARE());
+        }
+        capturedCoords.push(captured);
+        if (config.canStackPieces) {
+          const capturedStack = validationState.getPieceAt(captured);
+          stack = stack.capturePiece(capturedStack.getCommander());
+          validationState = validationState.set(captured, capturedStack.getPiecesUnderCommander());
+        }
+      }
+      if (config.canPromoteMidCapture && landingCoord.y === finishLine) {
+        stack = stack.promoteCommander();
       }
     }
     return MGPValidation.SUCCESS;
   }
-  getSubMoveValidity(move, start, end, state, config) {
+  getSubMoveValidity(stack, isSimpleJump, start, end, state, config) {
     const landingPiece = state.getPieceAt(end);
     if (landingPiece.getStackSize() > 0) {
       return MGPValidation.failure(RulesFailure.MUST_LAND_ON_EMPTY_SPACE());
@@ -5034,34 +5110,28 @@ var AbstractCheckersRules = class extends ConfigurableRules {
     if (directionValidity.isFailure()) {
       return directionValidity;
     }
-    const flyiedOverPlayer = this.getFlyiedOverPlayers(start, end, state);
+    const flownOverPlayers = this.getFlownOverPlayers(start, end, state);
     let isCapture;
-    if (flyiedOverPlayer.length === 0) {
-      const nonCaptureValidity = this.getNonCaptureValidity(move);
-      if (nonCaptureValidity.isFailure()) {
-        return nonCaptureValidity;
+    if (flownOverPlayers.length === 0) {
+      if (isSimpleJump) {
+        isCapture = false;
+      } else {
+        return MGPValidation.failure(CheckersFailure.MOVE_CANNOT_CONTINUE_AFTER_NON_CAPTURE_MOVE());
       }
-      isCapture = false;
-    } else if (flyiedOverPlayer.length > 1) {
+    } else if (flownOverPlayers.length > 1) {
       return MGPValidation.failure(CheckersFailure.CANNOT_JUMP_OVER_SEVERAL_PIECES());
     } else {
-      if (flyiedOverPlayer.some((player) => player.equals(state.getCurrentPlayer()))) {
+      if (flownOverPlayers.some((player) => player.equals(state.getCurrentPlayer()))) {
         return MGPValidation.failure(RulesFailure.CANNOT_SELF_CAPTURE());
       }
       isCapture = true;
     }
-    if (this.isNormalPieceGoingBackwardIllegaly(move, start, end, state, config)) {
-      return MGPValidation.failure(CheckersFailure.CANNOT_GO_BACKWARD());
+    if (this.isNormalPieceGoingBackwardIllegaly(stack, start, end, state, config)) {
+      return MGPValidation.failure(CheckersFailure.ONLY_PROMOTED_PIECES_CAN_GO_BACKWARD());
     }
-    const flyLegality = this.getFlyLegality(move, start, end, state, isCapture, config);
+    const flyLegality = this.getFlyLegality(stack, start, end, isCapture, config);
     if (flyLegality.isFailure()) {
       return flyLegality;
-    }
-    return MGPValidation.SUCCESS;
-  }
-  getNonCaptureValidity(move) {
-    if (this.isMisplacedStep(move)) {
-      return MGPValidation.failure(CheckersFailure.MOVE_CANNOT_CONTINUE_AFTER_NON_CAPTURE_MOVE());
     }
     return MGPValidation.SUCCESS;
   }
@@ -5084,25 +5154,21 @@ var AbstractCheckersRules = class extends ConfigurableRules {
     }
     return MGPValidation.SUCCESS;
   }
-  isMisplacedStep(move) {
-    if (move.coords.size() === 2) {
-      return false;
-    } else {
-      return true;
-    }
-  }
-  getFlyiedOverPlayers(start, end, state) {
-    const flyiedOverCoords = start.getCoordsToward(end);
-    const flyiedOverPieces = flyiedOverCoords.map((coord) => state.getPieceAt(coord));
-    const flyiedOverOccupiedStacks = flyiedOverPieces.filter((stack) => stack.isOccupied());
-    return flyiedOverOccupiedStacks.map((stack) => stack.getCommander().player);
+  getFlownOverPlayers(start, end, state) {
+    const fliedOverCoords = start.getCoordsToward(end);
+    const fliedOverPieces = fliedOverCoords.map((coord) => state.getPieceAt(coord));
+    const fliedOverOccupiedStacks = fliedOverPieces.filter((stack) => stack.isOccupied());
+    return fliedOverOccupiedStacks.map((stack) => stack.getCommander().player);
   }
   /**
-   * @param move a simple move, (start/end, nothing more)
+   * @param stepStart the start of the step
+   * @param stepEnd the end of the step
+   * @param state the state before the step
+   * @param config the config
    */
-  isNormalPieceGoingBackwardIllegaly(move, stepStart, stepEnd, state, config) {
-    const movingPiece = state.getPieceAt(move.getStartingCoord()).getCommander();
-    if (movingPiece.isPromoted) {
+  isNormalPieceGoingBackwardIllegaly(piece, stepStart, stepEnd, state, config) {
+    const commander = piece.getCommander();
+    if (commander.isPromoted) {
       return false;
     }
     const opponent = state.getCurrentOpponent();
@@ -5121,7 +5187,7 @@ var AbstractCheckersRules = class extends ConfigurableRules {
       return false;
     }
   }
-  getFlyLegality(move, stepStart, stepEnd, state, isCapture, config) {
+  getFlyLegality(stack, stepStart, stepEnd, isCapture, config) {
     const distance = stepStart.getDistanceToward(stepEnd);
     if (isCapture) {
       if (distance === 2) {
@@ -5136,7 +5202,7 @@ var AbstractCheckersRules = class extends ConfigurableRules {
       }
     }
     if (config.promotedPiecesCanFly) {
-      if (state.getPieceAt(move.getStartingCoord()).getCommander().isPromoted) {
+      if (stack.getCommander().isPromoted) {
         return MGPValidation.SUCCESS;
       } else {
         if (isCapture) {
@@ -5149,40 +5215,31 @@ var AbstractCheckersRules = class extends ConfigurableRules {
       return MGPValidation.failure(CheckersFailure.NO_PIECE_CAN_DO_LONG_JUMP());
     }
   }
-  isMoveStep(move) {
-    if (move.coords.size() === 2) {
-      const start = move.getStartingCoord();
-      const end = move.getEndingCoord();
-      const distance = start.getDistanceToward(end);
-      return distance === 1;
-    } else {
-      return false;
-    }
-  }
   /**
-   * @param move the chosen capture
-   * @param possibleCaptures all possible captures
-   * @param config the config
-   * @returns whether or not this move is amongst the possible capture, based on global-capture group
-   * The check aspect are only based on the rules mustMakeMaximalCapture and partialCapture rules
-   */
-  isLegalCaptureChoice(move, possibleCaptures, config) {
+  * @param move the chosen capture
+  * @param possibleCaptures all possible captures
+  * @param config the config
+  * @returns whether or not this move is amongst the possible capture, based on global-capture group
+  * The check aspect are only based on the rules mustMakeMaximalCapture and partialCapture rules
+  */
+  isLegalCaptureChoice(move, state, possibleCaptures, config) {
+    if (move.isStep) {
+      return MGPValidation.failure(CheckersFailure.CANNOT_SKIP_CAPTURE());
+    }
     if (config.mustMakeMaximalCapture) {
-      const legalCaptures = ArrayUtils.maximumsBy(possibleCaptures, (m2) => m2.coords.size());
-      const awaitedCaptureSize = legalCaptures[0].coords.size();
-      if (this.isMoveStep(move)) {
-        return MGPValidation.failure(CheckersFailure.CANNOT_SKIP_CAPTURE());
-      } else if (move.coords.size() === awaitedCaptureSize) {
+      const legalCaptures = ArrayUtils.maximumsBy(possibleCaptures, (m2) => m2.coords.length);
+      const captureSize = move.coords.length;
+      const awaitedCaptureSize = legalCaptures[0].coords.length;
+      if (captureSize === awaitedCaptureSize) {
         return MGPValidation.SUCCESS;
       } else if (legalCaptures.some((m2) => move.isPrefix(m2))) {
         return MGPValidation.failure(CheckersFailure.MUST_FINISH_CAPTURING());
       } else {
+        Utils.assert(awaitedCaptureSize > captureSize, "capture is longer than it should!");
         return MGPValidation.failure(CheckersFailure.MUST_DO_LONGEST_CAPTURE());
       }
     } else {
-      if (this.isMoveStep(move)) {
-        return MGPValidation.failure(CheckersFailure.CANNOT_SKIP_CAPTURE());
-      } else if (possibleCaptures.some((m2) => m2.equals(move))) {
+      if (possibleCaptures.some((m2) => m2.equals(move))) {
         return MGPValidation.SUCCESS;
       } else {
         return MGPValidation.failure(CheckersFailure.MUST_FINISH_CAPTURING());
@@ -5200,154 +5257,180 @@ var AbstractCheckersRules = class extends ConfigurableRules {
   }
 };
 
-// src/app/games/checkers/international-checkers/InternationalCheckersRules.ts
-var InternationalCheckersRules = class _InternationalCheckersRules extends AbstractCheckersRules {
+// src/app/games/checkers/bashni/BashniRules.ts
+var BashniRules = class _BashniRules extends AbstractCheckersRules {
   static singleton = MGPOptional.empty();
   static RULES_CONFIG_DESCRIPTION = new RulesConfigDescription({
-    name: () => $localize`International Checkers`,
+    name: () => $localize`Bashni`,
     config: {
-      playerRows: new NumberConfig(4, RulesConfigDescriptionLocalizable.NUMBER_OF_PIECES_ROWS, MGPValidators.range(1, 99)),
+      playerRows: new NumberConfig(3, RulesConfigDescriptionLocalizable.NUMBER_OF_PIECES_ROWS, MGPValidators.range(1, 99)),
       emptyRows: new NumberConfig(2, RulesConfigDescriptionLocalizable.NUMBER_OF_EMPTY_ROWS, MGPValidators.range(1, 99)),
-      width: new NumberConfig(10, RulesConfigDescriptionLocalizable.WIDTH, MGPValidators.range(2, 99)),
-      canStackPieces: new BooleanConfig(false, CheckersOptionLocalizable.STACK_PIECES),
-      mustMakeMaximalCapture: new BooleanConfig(true, CheckersOptionLocalizable.MAXIMAL_CAPTURE),
+      width: new NumberConfig(8, RulesConfigDescriptionLocalizable.WIDTH, MGPValidators.range(2, 99)),
+      canStackPieces: new BooleanConfig(true, CheckersOptionLocalizable.STACK_PIECES),
+      mustMakeMaximalCapture: new BooleanConfig(false, CheckersOptionLocalizable.MAXIMAL_CAPTURE),
       simplePieceCanCaptureBackwards: new BooleanConfig(true, CheckersOptionLocalizable.SIMPLE_PIECE_CAN_CAPTURE_BACKWARDS),
       promotedPiecesCanFly: new BooleanConfig(true, CheckersOptionLocalizable.PROMOTED_PIECES_CAN_TRAVEL_LONG_DISTANCES),
       occupyEvenSquare: new BooleanConfig(false, CheckersOptionLocalizable.OCCUPY_EVEN_SQUARE),
-      frisianCaptureAllowed: new BooleanConfig(false, CheckersOptionLocalizable.FRISIAN_CAPTURE_ALLOWED)
+      frisianCaptureAllowed: new BooleanConfig(false, CheckersOptionLocalizable.FRISIAN_CAPTURE_ALLOWED),
+      canPromoteMidCapture: new BooleanConfig(true, CheckersOptionLocalizable.CAN_PROMOTE_MID_CAPTURE)
     }
   });
   static get() {
-    if (_InternationalCheckersRules.singleton.isAbsent()) {
-      _InternationalCheckersRules.singleton = MGPOptional.of(new _InternationalCheckersRules());
+    if (_BashniRules.singleton.isAbsent()) {
+      _BashniRules.singleton = MGPOptional.of(new _BashniRules());
     }
-    return _InternationalCheckersRules.singleton.get();
+    return _BashniRules.singleton.get();
   }
   getRulesConfigDescription() {
-    return _InternationalCheckersRules.RULES_CONFIG_DESCRIPTION;
+    return _BashniRules.RULES_CONFIG_DESCRIPTION;
   }
 };
 
 // src/app/games/checkers/common/CheckersTutorialStep.ts
 var CheckersTutorialStep = class {
-  static SIMPLE_STEPS = () => $localize`A simple step is made by one diagonal move forward left or forward right. Click on the chosen piece, then on its landing square.<br/><br/>You are playing Dark, do the first move.`;
+  static SIMPLE_STEPS_TITLE = () => $localize`Steps`;
+  static SIMPLE_STEPS = () => $localize`A simple step is made by one diagonal move forward left or forward right. Click on a piece to choose it, then click on its landing square.<br/><br/>You are playing Dark, do the first move.`;
   static BACKWARD_CAPTURES_TITLE = () => $localize`Backward captures`;
-  static BACKWARD_CAPTURES = () => $localize`A capture can also be done backward<br/><br/>You're playing Dark, do a capture backward.`;
+  static BACKWARD_CAPTURES = () => $localize`A capture can also be done backward.<br/><br/>You're playing Dark, do a backward capture.`;
   static CAPTURES = () => $localize`A capture happens when you jump diagonally over an opponent piece to land right behind it. You have to capture when you can. It is the case here, so click on the piece that must capture, and then on its landing square.<br/><br/>You're playing Dark, do a capture.`;
   static MULTIPLE_CAPTURES_TITLE = () => $localize`Multiple captures`;
-  static MULTIPLE_CAPTURES = () => $localize`If, after the beginning of your capture, the piece that you just moved can capture another piece, it has to capture until it can no longer capture. To do so, you must then click again on the next landing square. Note that, you cannot jump twice over the same square.<br/><br/>You are playing Dark, do a double capture.`;
+  static MULTIPLE_CAPTURES = () => $localize`If, after the beginning of your capture, the piece that you just moved can capture another piece, it has to capture until it can no longer capture. To do so, you must then click again on the next landing square.<br/><br/>You are playing Dark, do a double capture.`;
   static PROMOTION_TITLE = () => $localize`Promotion`;
 };
 
-// src/app/games/checkers/international-checkers/InternationalCheckersTutorial.ts
-var U = new CheckersStack([CheckersPiece.ZERO]);
-var O2 = new CheckersStack([CheckersPiece.ZERO_PROMOTED]);
-var V = new CheckersStack([CheckersPiece.ONE]);
-var _2 = CheckersStack.EMPTY;
-var defaultConfig2 = InternationalCheckersRules.get().getDefaultRulesConfig();
-var InternationalCheckersTutorial = class extends Tutorial {
+// src/app/games/checkers/bashni/BashniTutorial.ts
+var zero = CheckersPiece.ZERO;
+var one = CheckersPiece.ONE;
+var _u = new CheckersStack([zero]);
+var _O = new CheckersStack([CheckersPiece.ZERO_PROMOTED]);
+var _v = new CheckersStack([one]);
+var uv = new CheckersStack([zero, one]);
+var Uv = new CheckersStack([CheckersPiece.ZERO_PROMOTED, one]);
+var vU = new CheckersStack([one, CheckersPiece.ZERO_PROMOTED]);
+var __ = CheckersStack.EMPTY;
+var defaultConfig2 = BashniRules.get().getDefaultRulesConfig();
+var BashniTutorial = class extends Tutorial {
   tutorial = [
-    TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`The goal of checkers is to render the opponent unable to move, either by capturing all their pieces, or by blocking them.`, InternationalCheckersRules.get().getInitialState(defaultConfig2)),
-    TutorialStep.anyMove($localize`Steps`, $localize`A simple step is made by one diagonal move forward left or forward right. Click on the chosen piece, then on its landing square.<br/><br/>You are playing Dark, do the first move.`, InternationalCheckersRules.get().getInitialState(defaultConfig2), CheckersMove.fromStep(new Coord(5, 6), new Coord(4, 5)), TutorialStepMessage.CONGRATULATIONS()),
-    TutorialStep.anyMove($localize`Captures`, CheckersTutorialStep.CAPTURES(), CheckersState.of([
-      [V, _2, V, _2, V, _2, V, _2, V, _2],
-      [_2, V, _2, V, _2, V, _2, V, _2, V],
-      [V, _2, V, _2, V, _2, V, _2, V, _2],
-      [_2, V, _2, V, _2, V, _2, _2, _2, V],
-      [_2, _2, _2, _2, _2, _2, _2, _2, V, _2],
-      [_2, _2, _2, _2, _2, _2, _2, _2, _2, U],
-      [U, _2, U, _2, U, _2, U, _2, _2, _2],
-      [_2, U, _2, U, _2, U, _2, U, _2, U],
-      [U, _2, U, _2, U, _2, U, _2, U, _2],
-      [_2, U, _2, U, _2, U, _2, U, _2, U]
-    ], 4), CheckersMove.fromCapture([new Coord(9, 5), new Coord(7, 3)]).get(), TutorialStepMessage.CONGRATULATIONS()).withPreviousMove(CheckersMove.fromStep(new Coord(7, 3), new Coord(8, 4))),
-    TutorialStep.anyMove(CheckersTutorialStep.BACKWARD_CAPTURES_TITLE(), CheckersTutorialStep.BACKWARD_CAPTURES(), CheckersState.of([
-      [V, _2, V, _2, V, _2, V, _2, V, _2],
-      [_2, V, _2, V, _2, V, _2, V, _2, V],
-      [V, _2, V, _2, _2, _2, V, _2, V, _2],
-      [_2, V, _2, _2, _2, V, _2, _2, _2, V],
-      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
-      [_2, U, _2, _2, _2, _2, _2, _2, _2, U],
-      [U, _2, _2, _2, U, _2, _2, _2, V, _2],
-      [_2, U, _2, U, _2, U, _2, _2, _2, _2],
-      [U, _2, U, _2, U, _2, U, _2, U, _2],
-      [_2, U, _2, U, _2, U, _2, U, _2, U]
-    ], 2), CheckersMove.fromCapture([new Coord(9, 5), new Coord(7, 7)]).get(), TutorialStepMessage.CONGRATULATIONS()),
-    TutorialStep.anyMove(CheckersTutorialStep.MULTIPLE_CAPTURES_TITLE(), CheckersTutorialStep.MULTIPLE_CAPTURES(), CheckersState.of([
-      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
-      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
-      [_2, _2, _2, _2, V, _2, _2, _2, _2, _2],
-      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
-      [_2, _2, _2, _2, _2, _2, V, _2, _2, _2],
-      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
-      [_2, _2, _2, _2, _2, _2, V, _2, _2, _2],
-      [_2, _2, _2, _2, _2, U, _2, _2, _2, _2],
-      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
-      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2]
-    ], 2), CheckersMove.fromCapture([new Coord(5, 7), new Coord(7, 5), new Coord(5, 3), new Coord(3, 1)]).get(), TutorialStepMessage.CONGRATULATIONS()),
-    TutorialStep.anyMove($localize`Maximum capture`, $localize`If at some turn you have several capture choices, you have to capture the maximal number of pieces.<br/><br/>You are playing Dark, do the maximal capture.`, CheckersState.of([
-      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
-      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
-      [_2, _2, _2, _2, _2, _2, V, _2, _2, _2],
-      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
-      [_2, _2, _2, _2, V, _2, V, _2, _2, _2],
-      [_2, _2, _2, _2, _2, U, _2, _2, _2, _2],
-      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
-      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
-      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
-      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2]
-    ], 2), CheckersMove.fromCapture([new Coord(5, 5), new Coord(7, 3), new Coord(5, 1)]).get(), TutorialStepMessage.CONGRATULATIONS()),
-    TutorialStep.fromMove(CheckersTutorialStep.PROMOTION_TITLE(), $localize`When a piece reaches the last line, it is promoted and becomes a king, and gains abilities that will be explained in next step! One of your piece could be promoted now.<br/><br/>You're playing Dark. Do it.`, CheckersState.of([
-      [_2, _2, _2, _2, _2, _2, _2, _2, _2, V],
-      [_2, _2, _2, _2, _2, _2, U, _2, V, _2],
-      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
-      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
-      [_2, _2, _2, U, _2, _2, _2, _2, _2, _2],
-      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
-      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
-      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
-      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
-      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2]
+    TutorialStep.informational($localize`Bashni: origins`, $localize`Bashni (Russian: башни, towers), also known as column draughts, is a Russian checkers variant. Captured pieces are not removed but stacked under the capturing piece, forming towers.`, BashniRules.get().getInitialState(defaultConfig2)),
+    TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`The goal of Bashni is, like for checkers, to render the opponent unable to move, either by capturing all their pieces, or by blocking them.`, BashniRules.get().getInitialState(defaultConfig2)),
+    TutorialStep.anyMove($localize`Steps`, CheckersTutorialStep.SIMPLE_STEPS(), BashniRules.get().getInitialState(defaultConfig2), CheckersMove.fromStep(new Coord(0, 5), new Coord(1, 4)), TutorialStepMessage.CONGRATULATIONS()),
+    TutorialStep.anyMove($localize`Captures`, $localize`A capture happens when you jump diagonally over an opponent piece. In Bashni, the captured piece is not removed: it goes under your piece, forming a tower. You have to capture when you can.<br/><br/>You're playing Dark, do a capture.`, OddCheckersState.of([
+      [__, _v, __, _v, __, _v, __, _v],
+      [_v, __, _v, __, _v, __, _v, __],
+      [__, _v, __, _v, __, _v, __, __],
+      [__, __, __, __, __, __, __, __],
+      [__, __, __, __, __, _v, __, __],
+      [_u, __, _u, __, _u, __, _u, __],
+      [__, _u, __, _u, __, _u, __, _u],
+      [_u, __, _u, __, _u, __, _u, __]
+    ], 0), CheckersMove.fromCapture([new Coord(6, 5), new Coord(4, 3)]), $localize`Congratulations! Notice that the captured piece was not removed from the board, but put below the capturing piece, forming a tower controlled the player at the top of the tower.`),
+    TutorialStep.anyMove(CheckersTutorialStep.BACKWARD_CAPTURES_TITLE(), CheckersTutorialStep.BACKWARD_CAPTURES(), OddCheckersState.of([
+      [__, _v, __, _v, __, _v, __, _v],
+      [_v, __, _v, __, _v, __, _v, __],
+      [__, _v, __, _v, __, _v, __, __],
+      [__, __, __, __, __, __, __, __],
+      [__, __, __, __, __, _u, __, __],
+      [__, __, __, __, _u, __, _v, __],
+      [__, __, __, _u, __, __, __, __],
+      [_u, __, _u, __, _u, __, _u, __]
+    ], 0), CheckersMove.fromCapture([new Coord(5, 4), new Coord(7, 6)]), TutorialStepMessage.CONGRATULATIONS()),
+    TutorialStep.anyMove(CheckersTutorialStep.MULTIPLE_CAPTURES_TITLE(), CheckersTutorialStep.MULTIPLE_CAPTURES(), OddCheckersState.of([
+      [__, __, __, __, __, __, __, __],
+      [__, __, __, __, __, __, __, __],
+      [__, __, __, __, __, _v, __, _v],
+      [_v, __, _v, __, __, __, __, __],
+      [__, __, __, __, __, _v, __, __],
+      [_v, __, __, __, __, __, _u, __],
+      [__, __, __, _u, __, _u, __, __],
+      [__, __, __, __, __, __, __, __]
+    ], 2), CheckersMove.fromCapture([new Coord(6, 5), new Coord(4, 3), new Coord(6, 1)]), TutorialStepMessage.CONGRATULATIONS()),
+    TutorialStep.fromMove($localize`Minority capture is allowed`, $localize`In Bashni, unlike International Checkers, you may choose any legal capture sequence. If one choice captures one piece and another captures two, you can choose either.<br/><br/>You're playing Dark, do a capture.`, OddCheckersState.of([
+      [__, __, __, __, __, __, __, __],
+      [__, __, __, __, __, __, _v, __],
+      [__, __, __, __, __, __, __, __],
+      [_v, __, _v, __, _v, __, __, __],
+      [__, __, __, _u, __, __, __, __],
+      [__, __, __, __, __, __, __, __],
+      [__, __, __, __, __, __, __, __],
+      [__, __, __, __, __, __, __, __]
+    ], 2), [CheckersMove.fromCapture([new Coord(3, 4), new Coord(1, 2)])], TutorialStepMessage.CONGRATULATIONS(), $localize`You made the majority capture, but you were asked to do the minority one here!`),
+    TutorialStep.fromMove(CheckersTutorialStep.PROMOTION_TITLE(), $localize`When a piece reaches the last line, it is promoted and becomes a king. Only the top piece of a tower is promoted. One of your pieces could be promoted now.<br/><br/>You're playing Dark. Do it.`, OddCheckersState.of([
+      [__, __, __, __, __, __, __, _v],
+      [__, __, uv, __, _v, __, __, __],
+      [__, __, __, __, __, __, __, __],
+      [__, __, __, __, __, __, __, __],
+      [__, __, __, __, __, __, __, __],
+      [__, __, __, __, __, __, __, __],
+      [__, __, __, _u, __, _u, __, _u],
+      [__, __, __, __, __, __, __, __]
     ], 2), [
-      CheckersMove.fromStep(new Coord(6, 1), new Coord(5, 0)),
-      CheckersMove.fromStep(new Coord(6, 1), new Coord(7, 0))
+      CheckersMove.fromStep(new Coord(2, 1), new Coord(1, 0)),
+      CheckersMove.fromStep(new Coord(2, 1), new Coord(3, 0))
     ], TutorialStepMessage.CONGRATULATIONS(), $localize`You did not choose the correct piece, and got no promotion.`),
-    TutorialStep.fromPredicate($localize`King move`, $localize`Kings can, like any other piece, move forward and capture backward. They have extra abilities. First, they can move backward without capturing. Second, they are able to "fly": they can move over multiple squares without jumping over any piece, or by jumping over exactly one opponent piece to capture it, and finally landing wherever in the same line.<br/><br/>You're playing Dark, move your king!`, CheckersState.of([
-      [_2, _2, _2, _2, _2, _2, _2, O2, _2, V],
-      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
-      [_2, _2, _2, _2, _2, _2, _2, V, _2, _2],
-      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
-      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
-      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
-      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
-      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
-      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
-      [_2, _2, U, _2, _2, U, _2, U, _2, U]
-    ], 2), CheckersMove.fromStep(new Coord(7, 0), new Coord(0, 7)), (move, _ps, _rs) => {
-      if (move.getStartingCoord().equals(new Coord(7, 0))) {
-        return MGPValidation.SUCCESS;
-      } else {
-        return MGPValidation.failure($localize`You did not move your king.`);
-      }
-    }, TutorialStepMessage.CONGRATULATIONS()),
-    TutorialStep.anyMove($localize`Capture rule`, $localize`When you do multiple jumps, you cannot jump twice over neither the same piece nor the same empty space.<br/>Here you have to apply all the different capturing rules: backward, maximal, flying, and of course not jumping twice over the same square.<br/><br/>You are playing Dark, go ahead.`, new CheckersState([
-      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
-      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
-      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
-      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
-      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
-      [_2, _2, _2, _2, _2, V, _2, _2, _2, _2],
-      [_2, _2, _2, _2, _2, _2, V, _2, V, _2],
-      [_2, _2, _2, _2, _2, _2, _2, _2, _2, O2],
-      [_2, _2, _2, _2, V, _2, V, _2, _2, _2],
-      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2]
-    ], 20), CheckersMove.fromCapture([
-      new Coord(9, 7),
-      new Coord(6, 4),
-      new Coord(3, 7),
-      new Coord(5, 9),
-      new Coord(7, 7)
-    ]).get(), TutorialStepMessage.CONGRATULATIONS_YOU_WON())
+    TutorialStep.fromMove($localize`King move`, $localize`Kings can move and capture backward as well as forward. They can also "fly": move over multiple squares or jump over one opponent piece to capture it and land anywhere on the same diagonal.<br/><br/>You're playing Dark, move your king to capture two pieces of the opponent!`, OddCheckersState.of([
+      [__, __, __, __, __, Uv, __, _v],
+      [__, __, __, __, __, __, __, __],
+      [__, __, __, __, __, __, __, __],
+      [__, __, _v, __, __, __, __, __],
+      [__, __, __, __, __, __, __, __],
+      [__, __, __, __, __, __, __, __],
+      [__, _v, __, __, __, __, __, __],
+      [__, __, __, __, _u, __, _u, __]
+    ], 2), [
+      CheckersMove.fromCapture([new Coord(5, 0), new Coord(0, 5), new Coord(2, 7)])
+    ], TutorialStepMessage.CONGRATULATIONS(), $localize`You should capture twice!`),
+    TutorialStep.anyMove($localize`Promotion mid-capture`, $localize`In Bashni, if a piece reaches the last line <strong>during a capture sequence</strong>, it immediately becomes a king and may continue capturing with king capabilities (backward and long-range).<br/><br/>You're playing Dark. Capture two light pieces. Your piece will promote mid-sequence and continue as a king!`, OddCheckersState.of([
+      [__, __, __, __, __, __, __, __],
+      [_v, __, _v, __, _v, __, __, __],
+      [__, __, __, __, __, _u, __, __],
+      [__, __, __, __, __, __, __, __],
+      [__, __, __, __, __, __, __, __],
+      [__, __, __, __, __, __, __, __],
+      [__, __, __, __, __, __, __, __],
+      [__, __, __, __, __, __, __, __]
+    ], 0), CheckersMove.fromCapture([new Coord(5, 2), new Coord(3, 0), new Coord(0, 3)]), TutorialStepMessage.CONGRATULATIONS()),
+    TutorialStep.anyMove($localize`Tower capture`, $localize`In Bashni, when a tower is captured, only the top piece is removed. After the capture, the old tower can therefore be commanded by the opponent, depending on the new piece at the top of the tower. But you can also recover a captured king. This is the case here, recover your king!`, OddCheckersState.of([
+      [__, __, __, __, __, __, __, __],
+      [__, __, _u, __, __, __, __, __],
+      [__, __, __, vU, __, _v, __, __],
+      [__, __, __, __, __, __, __, __],
+      [__, __, __, __, __, __, __, __],
+      [__, __, _v, __, __, __, __, __],
+      [__, __, __, __, __, _v, __, __],
+      [__, __, __, __, __, __, __, __]
+    ], 0), CheckersMove.fromCapture([new Coord(2, 1), new Coord(4, 3), new Coord(6, 1)]), TutorialStepMessage.CONGRATULATIONS()),
+    TutorialStep.fromMove($localize`Capture rule`, $localize`When making multiple captures, you cannot jump twice over the same tower. The captured commander is immediately placed under your capturing tower, while the rest of the captured tower stays on its square. Even if this exposes another opposing commander, you cannot capture that tower again during the same move.<br/>Here you must also use your king's backward and flying capture abilities.<br/><br/>You are playing Dark. Capture all remaining pieces.`, OddCheckersState.of([
+      [__, __, __, __, __, __, __, __],
+      [__, __, __, __, __, __, __, __],
+      [__, _v, __, __, __, __, __, __],
+      [__, __, __, __, _v, __, __, __],
+      [__, _v, __, __, __, _O, __, __],
+      [__, __, __, __, _v, __, __, __],
+      [__, __, __, __, __, __, __, __],
+      [__, __, __, __, __, __, __, __]
+    ], 0), [
+      CheckersMove.fromCapture([
+        new Coord(5, 4),
+        new Coord(2, 1),
+        new Coord(0, 3),
+        new Coord(3, 6),
+        new Coord(5, 4)
+      ]),
+      CheckersMove.fromCapture([
+        new Coord(5, 4),
+        new Coord(2, 1),
+        new Coord(0, 3),
+        new Coord(3, 6),
+        new Coord(6, 3)
+      ]),
+      CheckersMove.fromCapture([
+        new Coord(5, 4),
+        new Coord(2, 1),
+        new Coord(0, 3),
+        new Coord(3, 6),
+        new Coord(7, 2)
+      ])
+    ], TutorialStepMessage.CONGRATULATIONS_YOU_KNOW_EVERYTHING(), $localize`You did not capture everything!`)
   ];
 };
 
@@ -5523,7 +5606,7 @@ var CheckersMoveGenerator = class extends MoveGenerator {
   getLegalCaptures(state, config) {
     const possibleCaptures = this.rules.getCompleteCaptures(state, config);
     if (config.mustMakeMaximalCapture) {
-      return ArrayUtils.maximumsBy(possibleCaptures, (m2) => m2.coords.size());
+      return ArrayUtils.maximumsBy(possibleCaptures, (m2) => m2.coords.length);
     } else {
       return possibleCaptures;
     }
@@ -5533,7 +5616,7 @@ var CheckersMoveGenerator = class extends MoveGenerator {
 // src/app/games/checkers/common/CheckersScoreHeuristic.ts
 var CheckersScoreHeuristic = class extends PlayerMetricHeuristic {
   getMetrics(node, _config) {
-    return node.gameState.getScores().get().toTable();
+    return node.gameState.getScores().toTable();
   }
 };
 
@@ -5546,48 +5629,40 @@ var __decorate5 = function(decorators, target, key, desc) {
 };
 var CheckersComponent = class extends ParallelogramGameComponent {
   THICKNESS = 40;
-  mode = {
+  mode = signal({
     horizontalWidthRatio: 1.2,
     offsetRatio: 0.4,
     pieceHeightRatio: 1,
     parallelogramHeight: 100
-  };
-  LEFT;
-  UP;
-  basicWidth;
-  basicHeight;
-  WIDTH;
-  HEIGHT;
-  CX;
-  CY;
-  constructedState;
+  }, ...ngDevMode ? [{ debugName: "mode" }] : []);
+  constructedState = signal(MGPOptional.empty(), ...ngDevMode ? [{ debugName: "constructedState" }] : []);
+  boardSize = computed(() => {
+    const state = this.constructedState().get();
+    return new Coord(state.getWidth(), state.getHeight());
+  }, ...ngDevMode ? [{ debugName: "boardSize" }] : []);
+  basicWidth = computed(() => this.boardSize().x * this.mode().parallelogramHeight, ...ngDevMode ? [{ debugName: "basicWidth" }] : []);
+  basicHeight = computed(() => this.boardSize().y * this.mode().parallelogramHeight, ...ngDevMode ? [{ debugName: "basicHeight" }] : []);
   currentMoveClicks = [];
   lastCaptures = [];
-  lastMoveds = [];
+  lastMoved = [];
   possibleClicks = new Set2();
   selectedStack = MGPOptional.empty();
   capturedCoords = [];
   // Only the coords capture by active player during this turn
-  flyiedOverCoords = [];
-  // Coord that where flyied over during ongoing turn
+  flownOverCoords = [];
+  // Coord that where flown over during ongoing turn
   legalMoves = [];
   moveGenerator;
   computeViewBox() {
-    const abstractWidth = this.getState().getWidth();
-    const abstractHeight = this.getState().getHeight();
-    this.LEFT = 0;
-    this.UP = -this.SPACE_SIZE;
-    this.basicWidth = abstractWidth * this.mode.parallelogramHeight;
-    this.basicHeight = abstractHeight * this.mode.parallelogramHeight;
-    const boardOffset = abstractHeight * this.mode.offsetRatio * this.mode.parallelogramHeight;
-    this.WIDTH = this.basicWidth * this.mode.horizontalWidthRatio + boardOffset;
-    this.HEIGHT = this.basicHeight + this.THICKNESS + this.STROKE_WIDTH - this.UP;
-    this.CX = this.WIDTH / 2;
-    this.CY = (this.HEIGHT + this.UP) / 2;
-    return new ViewBox(this.LEFT, this.UP, this.WIDTH, this.HEIGHT);
+    const h = this.boardSize().y;
+    const boardOffset = h * this.mode().offsetRatio * this.mode().parallelogramHeight;
+    const width = this.basicWidth() * this.mode().horizontalWidthRatio + boardOffset + this.STROKE_WIDTH;
+    const height = this.basicHeight() + this.THICKNESS + this.STROKE_WIDTH + this.SPACE_SIZE;
+    return new ViewBox(-this.STROKE_WIDTH / 2, -this.SPACE_SIZE, width, height);
   }
   setRulesAndNode(urlName) {
     super.setRulesAndNode(urlName);
+    this.setConstructedState(this.getState());
     this.moveGenerator = new CheckersMoveGenerator(this.rules);
     this.aiConfig = {
       minimax: [
@@ -5621,6 +5696,9 @@ var CheckersComponent = class extends ParallelogramGameComponent {
     this.encoder = CheckersMove.encoder;
     this.hasAsymmetricBoard = true;
   }
+  setConstructedState(state) {
+    this.constructedState.set(MGPOptional.of(state));
+  }
   getScoreName() {
     if (this.config.canStackPieces) {
       return ScoreName.STACKS_UNDER_CONTROL;
@@ -5630,9 +5708,9 @@ var CheckersComponent = class extends ParallelogramGameComponent {
   }
   updateBoard(_triggerAnimation) {
     return __async(this, null, function* () {
-      this.constructedState = this.getState();
+      this.setConstructedState(this.getState());
       this.legalMoves = this.moveGenerator.getListMoves(this.node, this.config);
-      this.scores = this.constructedState.getScores();
+      this.scores = MGPOptional.of(this.constructedState().get().getScores());
       this.showPossibleClicks();
     });
   }
@@ -5642,15 +5720,15 @@ var CheckersComponent = class extends ParallelogramGameComponent {
     if (this.capturedCoords.concat(this.lastCaptures).some((c) => c.equals(coord))) {
       classes.push("captured-fill");
     }
-    const flyiedOverCoords = this.currentMoveClicks.concat(this.lastMoveds.concat(this.flyiedOverCoords));
-    if (flyiedOverCoords.some((c) => c.equals(coord))) {
+    const flownOverCoords = this.currentMoveClicks.concat(this.lastMoved.concat(this.flownOverCoords));
+    if (flownOverCoords.some((c) => c.equals(coord))) {
       classes.push("moved-fill");
     }
     return classes;
   }
   getPieceClasses(x2, y, z) {
     const coord = new Coord(x2, y);
-    const square = this.constructedState.getPieceAt(coord);
+    const square = this.constructedState().get().getPieceAt(coord);
     const max = square.getStackSize() - 1;
     const piece = square.get(max - z);
     const classes = [this.getPlayerClass(piece.player)];
@@ -5661,7 +5739,7 @@ var CheckersComponent = class extends ParallelogramGameComponent {
   }
   isPiecePromoted(x2, y, z) {
     const coord = new Coord(x2, y);
-    const square = this.constructedState.getPieceAt(coord);
+    const square = this.constructedState().get().getPieceAt(coord);
     const max = square.getStackSize() - 1;
     const piece = square.get(max - z);
     return piece.isPromoted;
@@ -5669,20 +5747,21 @@ var CheckersComponent = class extends ParallelogramGameComponent {
   showLastMove(move) {
     return __async(this, null, function* () {
       this.lastCaptures = [];
-      this.lastMoveds = [move.getStartingCoord()];
-      if (this.rules.isMoveStep(move)) {
-        this.lastMoveds.push(move.getEndingCoord());
-      } else {
-        const jumpedOverCoord = move.getSteppedOverCoords();
-        Utils.assert(jumpedOverCoord.isSuccess(), "Last move is a capture yet has illegal jumps !?");
-        for (const coord of jumpedOverCoord.get().toList().slice(1)) {
-          if (this.getPreviousState().getPieceAt(coord).isOccupied()) {
+      this.lastMoved = [];
+      for (let i2 = 0; i2 < move.coords.length - 1; i2++) {
+        const start = move.coords[i2];
+        const end = move.coords[i2 + 1];
+        this.lastMoved.push(start);
+        for (const coord of start.getCoordsToward(end)) {
+          const isCapture = move.isStep === false && this.getPreviousState().getPieceAt(coord).isOccupied();
+          if (isCapture) {
             this.lastCaptures.push(coord);
           } else {
-            this.lastMoveds.push(coord);
+            this.lastMoved.push(coord);
           }
         }
       }
+      this.lastMoved.push(move.getEndingCoord());
     });
   }
   showPossibleClicks() {
@@ -5690,9 +5769,9 @@ var CheckersComponent = class extends ParallelogramGameComponent {
     if (this.interactive) {
       for (const validMove of this.legalMoves) {
         const numberOfClicks = this.currentMoveClicks.length;
-        if (numberOfClicks < validMove.coords.size()) {
-          const possibleCoord = validMove.coords.get(numberOfClicks);
-          if (CheckersMove.getRelation(this.currentMoveClicks, validMove.coords.toList()) === "PREFIX") {
+        if (numberOfClicks < validMove.coords.length) {
+          const possibleCoord = validMove.coords[numberOfClicks];
+          if (CheckersMove.getRelation(this.currentMoveClicks, validMove.coords) === "PREFIX") {
             this.possibleClicks = this.possibleClicks.addElement(possibleCoord);
           }
         }
@@ -5701,13 +5780,13 @@ var CheckersComponent = class extends ParallelogramGameComponent {
   }
   hideLastMove() {
     this.lastCaptures = [];
-    this.lastMoveds = [];
+    this.lastMoved = [];
   }
   onClick(x2, y) {
     return __async(this, null, function* () {
       const clickedCoord = new Coord(x2, y);
-      const clickedSpace = this.constructedState.getPieceAt(clickedCoord);
-      const opponent = this.constructedState.getCurrentOpponent();
+      const clickedSpace = this.constructedState().get().getPieceAt(clickedCoord);
+      const opponent = this.constructedState().get().getCurrentOpponent();
       if (clickedSpace.isCommandedBy(opponent)) {
         return this.cancelMove(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
       }
@@ -5719,89 +5798,91 @@ var CheckersComponent = class extends ParallelogramGameComponent {
     });
   }
   cancelMoveAttempt() {
-    this.constructedState = this.getState();
+    this.setConstructedState(this.getState());
     this.currentMoveClicks = [];
     this.capturedCoords = [];
-    this.flyiedOverCoords = [];
+    this.flownOverCoords = [];
     this.selectedStack = MGPOptional.empty();
     this.showPossibleClicks();
   }
   moveClick(clicked) {
     return __async(this, null, function* () {
       const start = this.currentMoveClicks[0];
-      if (clicked.equals(start)) {
+      if (clicked.equals(start) && this.possibleClicks.contains(clicked) === false) {
         return this.cancelMove();
       }
-      const clickedSpace = this.constructedState.getPieceAt(clicked);
-      const player = this.constructedState.getCurrentPlayer();
+      const clickedSpace = this.constructedState().get().getPieceAt(clicked);
+      const player = this.constructedState().get().getCurrentPlayer();
       if (clickedSpace.isCommandedBy(player)) {
         this.cancelMoveAttempt();
         return this.trySelectingPiece(clicked);
       }
-      if (this.currentMoveClicks.length === 1) {
-        const delta = start.getVectorToward(clicked);
-        if (delta.isDiagonal()) {
-          const flyiedOverPlayer = this.rules.getFlyiedOverPlayers(start, clicked, this.constructedState);
-          if (flyiedOverPlayer.length === 0) {
-            const step = CheckersMove.fromStep(start, clicked);
-            return this.chooseMove(step);
-          }
-        }
+      if (this.possibleClicks.contains(clicked) === false) {
+        return this.cancelMove(this.getClickFailureReason(clicked));
       }
-      return this.capture(clicked);
-    });
-  }
-  capture(clicked) {
-    return __async(this, null, function* () {
-      const numberOfClicks = this.currentMoveClicks.length;
-      const lastCoord = this.currentMoveClicks[numberOfClicks - 1];
-      const captureValidity = this.getCaptureValidity(lastCoord, clicked);
-      if (captureValidity.isFailure()) {
-        return this.cancelMove(captureValidity.getReason());
-      } else {
-        for (const flyiedOver of lastCoord.getCoordsToward(clicked)) {
-          if (this.constructedState.getPieceAt(flyiedOver).isOccupied()) {
-            this.capturedCoords.push(flyiedOver);
-          } else {
-            this.flyiedOverCoords.push(flyiedOver);
-          }
-        }
-        this.currentMoveClicks.push(clicked);
-        const currentMove = CheckersMove.fromCapture(this.currentMoveClicks);
-        if (this.legalMoves.some((capture) => capture.isPrefix(currentMove.get()))) {
-          this.showPossibleClicks();
-          return this.applyPartialCapture();
+      const lastCoord = this.currentMoveClicks[this.currentMoveClicks.length - 1];
+      const steppedOver = lastCoord.getCoordsToward(clicked);
+      for (const coord of steppedOver) {
+        if (this.constructedState().get().getPieceAt(coord).isOccupied()) {
+          this.capturedCoords.push(coord);
         } else {
-          return this.chooseMove(currentMove.get());
+          this.flownOverCoords.push(coord);
         }
+      }
+      this.currentMoveClicks.push(clicked);
+      const matchingMove = this.getMatchingLegalMove();
+      if (matchingMove.isPresent()) {
+        return this.chooseMove(matchingMove.get());
+      } else {
+        this.showPossibleClicks();
+        this.applyPartialCapture();
+        return MGPValidation.SUCCESS;
       }
     });
   }
-  getCaptureValidity(start, end) {
-    const ongoingMove = CheckersMove.fromCapture(this.currentMoveClicks);
-    const config = this.getConfig();
-    return this.rules.getSubMoveValidity(ongoingMove.get(), start, end, this.getState(), config);
+  getClickFailureReason(clicked) {
+    const lastSegmentStart = this.currentMoveClicks[this.currentMoveClicks.length - 1];
+    const stack = this.constructedState().get().getPieceAt(lastSegmentStart);
+    const isSimpleJump = this.currentMoveClicks.length === 1;
+    const stateWithoutStarting = this.getState().remove(this.currentMoveClicks[0]);
+    const validation = this.rules.getSubMoveValidity(stack, isSimpleJump, lastSegmentStart, clicked, stateWithoutStarting, this.getConfig());
+    if (validation.isFailure()) {
+      return validation.getReason();
+    }
+    const attemptedMove = this.getMoveAttemptEndingAt(clicked);
+    const moveValidity = this.rules.isLegal(attemptedMove, this.getState(), this.getConfig());
+    Utils.assert(moveValidity.isFailure(), "A move absent from possibleClicks should be illegal");
+    return moveValidity.getReason();
+  }
+  getMoveAttemptEndingAt(clicked) {
+    const clickedCoords = this.currentMoveClicks.concat(clicked);
+    if (clickedCoords.length === 2 && this.doesMoveAttemptCapture(clicked) === false) {
+      return CheckersMove.fromStep(clickedCoords[0], clickedCoords[1]);
+    } else {
+      return CheckersMove.fromCapture(clickedCoords);
+    }
+  }
+  doesMoveAttemptCapture(clicked) {
+    const start = this.currentMoveClicks[0];
+    const steppedOver = start.getCoordsToward(clicked);
+    return steppedOver.some((coord) => this.getState().getPieceAt(coord).isOccupied());
+  }
+  getMatchingLegalMove() {
+    const currentMove = CheckersMove.fromCapture(this.currentMoveClicks);
+    for (const move of this.legalMoves) {
+      if (move.equals(currentMove)) {
+        return MGPOptional.of(move);
+      }
+    }
+    return MGPOptional.empty();
   }
   applyPartialCapture() {
-    const lastCaptureIndex = this.capturedCoords.length - 1;
-    const lastCapturedCoord = this.capturedCoords[lastCaptureIndex];
-    const lastMoveIndex = this.currentMoveClicks.length - 2;
-    const lastMovedCoord = this.currentMoveClicks[lastMoveIndex];
-    const landingIndex = this.currentMoveClicks.length - 1;
-    const landingCoord = this.currentMoveClicks[landingIndex];
-    const movingStack = this.constructedState.getPieceAt(lastMovedCoord);
-    const capturedStack = this.constructedState.getPieceAt(lastCapturedCoord);
-    const capturedCommander = capturedStack.getCommander();
-    const pieceUnderCommander = capturedStack.getPiecesUnderCommander();
-    const landingStack = movingStack.capturePiece(capturedCommander);
-    this.constructedState = this.constructedState.remove(lastMovedCoord);
-    this.constructedState = this.constructedState.set(lastCapturedCoord, pieceUnderCommander);
-    this.constructedState = this.constructedState.set(landingCoord, landingStack);
-    return MGPValidation.SUCCESS;
+    const currentMove = CheckersMove.fromCapture(this.currentMoveClicks);
+    this.setConstructedState(this.rules.applyMove(currentMove, this.getState(), this.getConfig()));
   }
   trySelectingPiece(clicked) {
     return __async(this, null, function* () {
-      const clickedSpace = this.constructedState.getPieceAt(clicked);
+      const clickedSpace = this.constructedState().get().getPieceAt(clicked);
       if (clickedSpace.isEmpty()) {
         return this.cancelMove(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_EMPTY());
       } else {
@@ -5823,7 +5904,7 @@ var CheckersComponent = class extends ParallelogramGameComponent {
   }
   getTranslationAtXYZ(x2, y, z) {
     const adaptedCoord = this.adaptXY(x2, y);
-    const coordTransform = this.getCoordTranslation(adaptedCoord.x, adaptedCoord.y, z, this.mode);
+    const coordTransform = this.getCoordTranslation(adaptedCoord.x, adaptedCoord.y, z, this.mode());
     return this.getSVGTranslationAt(coordTransform);
   }
   adaptXY(x2, y) {
@@ -5835,23 +5916,15 @@ var CheckersComponent = class extends ParallelogramGameComponent {
       return new Coord(x2, y);
     }
   }
-  getParallelogramPoints() {
-    const parallelogramCoords = this.getParallelogramCoordsForCheckers();
-    return parallelogramCoords.map((coord) => coord.x + ", " + coord.y).join(" ");
-  }
-  getParallelogramCoordsForCheckers() {
-    return this.getParallelogramCoords(this.mode);
-  }
-  getParallelogramCenter() {
-    const parallelogramCoords = this.getParallelogramCoordsForCheckers();
-    return this.getParallelogramCenterOf(parallelogramCoords[0], parallelogramCoords[1], parallelogramCoords[2], parallelogramCoords[3]);
-  }
+  parallelogramPoints = computed(() => {
+    return this.getParallelogramCoords(this.mode()).map((coord) => coord.x + ", " + coord.y).join(" ");
+  }, ...ngDevMode ? [{ debugName: "parallelogramPoints" }] : []);
+  parallelogramCenter = computed(() => {
+    const coords = this.getParallelogramCoords(this.mode());
+    return this.getParallelogramCenterOf(coords[0], coords[1], coords[2], coords[3]);
+  }, ...ngDevMode ? [{ debugName: "parallelogramCenter" }] : []);
   /**
-   * @param a coord of the parallelogram opposite to c
-   * @param b coord of the parallelogram opposite to d
-   * @param c coord of the parallelogram opposite to a
-   * @param d coord of the parallelogram opposite to b
-   * @returns the center of the parallelogram
+   * @returns the center of the parallelogram delineated by four points, @param a, @param b, @param c, and @param d
    */
   getParallelogramCenterOf(a3, b5, c, d2) {
     const maxX = Math.max(a3.x, b5.x, c.x, d2.x);
@@ -5862,22 +5935,21 @@ var CheckersComponent = class extends ParallelogramGameComponent {
     const y = (maxY - minY) / 2;
     return new Coord(x2, y);
   }
-  getRightEdge() {
-    const width = this.basicWidth * this.mode.horizontalWidthRatio;
-    const offset = this.basicHeight * this.mode.offsetRatio;
+  rightEdge = computed(() => {
+    const width = this.basicWidth() * this.mode().horizontalWidthRatio;
+    const offset = this.basicHeight() * this.mode().offsetRatio;
     const x0 = offset + width;
     const y0 = 0;
     const x1 = offset + width;
     const y1 = this.THICKNESS;
     const x2 = width;
-    const y2 = this.basicHeight + this.THICKNESS;
+    const y2 = this.basicHeight() + this.THICKNESS;
     const x3 = width;
-    const y3 = this.basicHeight;
+    const y3 = this.basicHeight();
     return [x0, y0, x1, y1, x2, y2, x3, y3].join(" ");
-  }
+  }, ...ngDevMode ? [{ debugName: "rightEdge" }] : []);
   getPieceTranslation(z) {
-    const parallelogramCenter = this.getParallelogramCenter();
-    const cy = parallelogramCenter.y;
+    const cy = this.parallelogramCenter().y;
     const pieceCy = (50 + 15) / 2;
     const offsetY = cy - pieceCy;
     const pieceHeight = this.SPACE_SIZE * 0.15;
@@ -5888,9 +5960,302 @@ __decorate5([
   ClickHandler((x2, y) => `#coord-${x2}-${y}`)
 ], CheckersComponent.prototype, "onClick", null);
 
-// src/app/games/checkers/international-checkers/international-checkers.component.ts
+// src/app/games/checkers/bashni/bashni.component.ts
 var _forTrack02 = ($index, $item) => $item.coord.toString();
 var _forTrack12 = ($index, $item) => $item.toString();
+function BashniComponent_For_6_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r1 = \u0275\u0275getCurrentView();
+    \u0275\u0275namespaceSVG();
+    \u0275\u0275elementStart(0, "polygon", 9);
+    \u0275\u0275listener("click", function BashniComponent_For_6_Template_polygon_click_0_listener() {
+      const coordAndContent_r2 = \u0275\u0275restoreView(_r1).$implicit;
+      const ctx_r2 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r2.onClick(coordAndContent_r2.coord.x, coordAndContent_r2.coord.y));
+    });
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const coordAndContent_r2 = ctx.$implicit;
+    const ctx_r2 = \u0275\u0275nextContext();
+    \u0275\u0275property("id", \u0275\u0275interpolate2("square-", coordAndContent_r2.coord.x, "-", coordAndContent_r2.coord.y))("ngClass", ctx_r2.getSquareClass(coordAndContent_r2.coord.x, coordAndContent_r2.coord.y));
+    \u0275\u0275attribute("transform", ctx_r2.getTranslationAtXYZ(coordAndContent_r2.coord.x, coordAndContent_r2.coord.y, 0))("points", ctx_r2.parallelogramPoints());
+  }
+}
+function BashniComponent_For_10_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r4 = \u0275\u0275getCurrentView();
+    \u0275\u0275namespaceSVG();
+    \u0275\u0275elementStart(0, "polygon", 10);
+    \u0275\u0275listener("click", function BashniComponent_For_10_Template_polygon_click_0_listener() {
+      const coord_r5 = \u0275\u0275restoreView(_r4).$implicit;
+      const ctx_r2 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r2.onClick(coord_r5.x, coord_r5.y));
+    });
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const coord_r5 = ctx.$implicit;
+    const ctx_r2 = \u0275\u0275nextContext();
+    \u0275\u0275property("id", \u0275\u0275interpolate2("clickable-highlight-", coord_r5.x, "-", coord_r5.y));
+    \u0275\u0275attribute("transform", ctx_r2.getTranslationAtXYZ(coord_r5.x, coord_r5.y, 0))("points", ctx_r2.parallelogramPoints());
+  }
+}
+function BashniComponent_For_12_For_2_Conditional_2_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275namespaceSVG();
+    \u0275\u0275element(0, "circle", 14);
+  }
+  if (rf & 2) {
+    const \u0275$index_24_r8 = \u0275\u0275nextContext().$index;
+    const coordAndContent_r7 = \u0275\u0275nextContext().$implicit;
+    const ctx_r2 = \u0275\u0275nextContext();
+    \u0275\u0275property("id", \u0275\u0275interpolate3("square-", coordAndContent_r7.coord.x, "-", coordAndContent_r7.coord.y, "-piece-", \u0275$index_24_r8, "-promoted-symbol"))("ngClass", ctx_r2.getPieceClasses(coordAndContent_r7.coord.x, coordAndContent_r7.coord.y, \u0275$index_24_r8));
+    \u0275\u0275attribute("cx", ctx_r2.SPACE_SIZE * 0.4)("cy", ctx_r2.SPACE_SIZE * 0.575)("r", ctx_r2.SPACE_SIZE * 0.045);
+  }
+}
+function BashniComponent_For_12_For_2_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275namespaceSVG();
+    \u0275\u0275elementStart(0, "g", 12);
+    \u0275\u0275element(1, "use", 13);
+    \u0275\u0275conditionalCreate(2, BashniComponent_For_12_For_2_Conditional_2_Template, 1, 8, ":svg:circle", 14);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const \u0275$index_24_r8 = ctx.$index;
+    const coordAndContent_r7 = \u0275\u0275nextContext().$implicit;
+    const ctx_r2 = \u0275\u0275nextContext();
+    \u0275\u0275attribute("transform", ctx_r2.getPieceTranslation(\u0275$index_24_r8));
+    \u0275\u0275advance();
+    \u0275\u0275property("id", \u0275\u0275interpolate3("square-", coordAndContent_r7.coord.x, "-", coordAndContent_r7.coord.y, "-piece-", \u0275$index_24_r8))("ngClass", ctx_r2.getPieceClasses(coordAndContent_r7.coord.x, coordAndContent_r7.coord.y, \u0275$index_24_r8));
+    \u0275\u0275advance();
+    \u0275\u0275conditional(ctx_r2.isPiecePromoted(coordAndContent_r7.coord.x, coordAndContent_r7.coord.y, \u0275$index_24_r8) ? 2 : -1);
+  }
+}
+function BashniComponent_For_12_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r6 = \u0275\u0275getCurrentView();
+    \u0275\u0275namespaceSVG();
+    \u0275\u0275elementStart(0, "g", 11);
+    \u0275\u0275listener("click", function BashniComponent_For_12_Template_g_click_0_listener() {
+      const coordAndContent_r7 = \u0275\u0275restoreView(_r6).$implicit;
+      const ctx_r2 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r2.onClick(coordAndContent_r7.coord.x, coordAndContent_r7.coord.y));
+    });
+    \u0275\u0275repeaterCreate(1, BashniComponent_For_12_For_2_Template, 3, 7, ":svg:g", 12, \u0275\u0275repeaterTrackByIndex);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const coordAndContent_r7 = ctx.$implicit;
+    const ctx_r2 = \u0275\u0275nextContext();
+    \u0275\u0275property("id", \u0275\u0275interpolate2("coord-", coordAndContent_r7.coord.x, "-", coordAndContent_r7.coord.y));
+    \u0275\u0275attribute("transform", ctx_r2.getTranslationAtXYZ(coordAndContent_r7.coord.x, coordAndContent_r7.coord.y, 0));
+    \u0275\u0275advance();
+    \u0275\u0275repeater(coordAndContent_r7.content.pieces);
+  }
+}
+var BashniComponent = class _BashniComponent extends CheckersComponent {
+  constructor() {
+    super();
+    this.setRulesAndNode("Bashni");
+  }
+  static \u0275fac = function BashniComponent_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _BashniComponent)();
+  };
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _BashniComponent, selectors: [["app-bashni"]], features: [\u0275\u0275InheritDefinitionFeature], decls: 13, vars: 5, consts: [["xmlns", "http://www.w3.org/2000/svg", "preserveAspectRatio", "xMidYMid meet", 1, "board"], ["id", "piece"], ["d", "M 0 25 v 15 a 40 25, 0, 0, 0, 80 0 v -15 a 40 25, 0, 0, 0, -80 0 Z"], ["cx", "40", "cy", "25", "rx", "40", "ry", "25"], [1, "base", 3, "id", "ngClass"], ["id", "bottomEdge", "x", "0", 1, "base"], ["id", "rightEdge", 1, "base"], [1, "base", "no-fill", "clickable-stroke", "small-stroke", 3, "id"], [3, "id"], [1, "base", 3, "click", "id", "ngClass"], [1, "base", "no-fill", "clickable-stroke", "small-stroke", 3, "click", "id"], [3, "click", "id"], ["pointer-events", "fill", 1, "base", "mid-small-stroke"], [0, "xlink", "href", "#piece", 1, "base", "mid-stroke", 3, "id", "ngClass"], [3, "id", "ngClass"]], template: function BashniComponent_Template(rf, ctx) {
+    if (rf & 1) {
+      \u0275\u0275namespaceSVG();
+      \u0275\u0275elementStart(0, "svg", 0)(1, "defs")(2, "g", 1);
+      \u0275\u0275element(3, "path", 2)(4, "ellipse", 3);
+      \u0275\u0275elementEnd()();
+      \u0275\u0275repeaterCreate(5, BashniComponent_For_6_Template, 1, 6, ":svg:polygon", 4, _forTrack02);
+      \u0275\u0275element(7, "rect", 5)(8, "polygon", 6);
+      \u0275\u0275repeaterCreate(9, BashniComponent_For_10_Template, 1, 5, ":svg:polygon", 7, _forTrack12);
+      \u0275\u0275repeaterCreate(11, BashniComponent_For_12_Template, 3, 4, ":svg:g", 8, _forTrack02);
+      \u0275\u0275elementEnd();
+    }
+    if (rf & 2) {
+      \u0275\u0275attribute("viewBox", ctx.viewBoxString());
+      \u0275\u0275advance(5);
+      \u0275\u0275repeater(ctx.constructedState().get().getCoordsAndContents());
+      \u0275\u0275advance(2);
+      \u0275\u0275attribute("y", ctx.basicHeight())("width", ctx.basicWidth() * ctx.mode().horizontalWidthRatio)("height", ctx.THICKNESS);
+      \u0275\u0275advance();
+      \u0275\u0275attribute("points", ctx.rightEdge());
+      \u0275\u0275advance();
+      \u0275\u0275repeater(ctx.possibleClicks);
+      \u0275\u0275advance(2);
+      \u0275\u0275repeater(ctx.constructedState().get().getCoordsAndContents());
+    }
+  }, dependencies: [NgClass], styles: ["\n\n.base[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke[_ngcontent-%COMP%] {\n  stroke-width: 0;\n}\n.base.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n}\n.base-no-stroke[_ngcontent-%COMP%] {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n}\n.white-background[_ngcontent-%COMP%] {\n  fill: white;\n}\n.background[_ngcontent-%COMP%] {\n  fill: var(--spaces-fill);\n}\n.transparent[_ngcontent-%COMP%] {\n  opacity: 0;\n}\n.background2[_ngcontent-%COMP%] {\n  fill: var(--alt-background-fill);\n}\n.background3[_ngcontent-%COMP%] {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill[_ngcontent-%COMP%] {\n  fill: var(--player0);\n}\n.player0-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--player0-alternate);\n}\n.player0-stroke[_ngcontent-%COMP%] {\n  stroke: var(--player0);\n}\n.player1-fill[_ngcontent-%COMP%] {\n  fill: var(--player1);\n}\n.player1-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--player1-alternate);\n}\n.player1-stroke[_ngcontent-%COMP%] {\n  stroke: var(--player1);\n}\n.nonplayer-fill[_ngcontent-%COMP%] {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill[_ngcontent-%COMP%] {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke[_ngcontent-%COMP%] {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke[_ngcontent-%COMP%] {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill[_ngcontent-%COMP%] {\n  fill: var(--pre-captured);\n}\n.captured-fill[_ngcontent-%COMP%] {\n  fill: var(--captured);\n}\n.captured-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--alt-captured);\n}\n.captured-stroke[_ngcontent-%COMP%] {\n  stroke: var(--captured);\n}\n.moved-fill[_ngcontent-%COMP%] {\n  fill: var(--moved);\n}\n.moved-stroke[_ngcontent-%COMP%] {\n  stroke: var(--moved);\n}\n.indicator[_ngcontent-%COMP%] {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill[_ngcontent-%COMP%] {\n  fill: var(--indicator);\n}\n.selectable-stroke[_ngcontent-%COMP%] {\n  stroke: var(--selectable);\n}\n.selectable[_ngcontent-%COMP%]    > .base-no-stroke[_ngcontent-%COMP%] {\n  fill: var(--selectable);\n}\n.last-move-stroke[_ngcontent-%COMP%] {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--last-move);\n}\n.last-move-fill[_ngcontent-%COMP%] {\n  fill: var(--last-move);\n}\n.victory-fill[_ngcontent-%COMP%] {\n  fill: var(--victory);\n}\n.victory-stroke[_ngcontent-%COMP%] {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--victory);\n}\n.defeat-fill[_ngcontent-%COMP%] {\n  fill: var(--defeat);\n}\n.defeat-stroke[_ngcontent-%COMP%] {\n  stroke: var(--defeat);\n}\n.selected-fill[_ngcontent-%COMP%] {\n  fill: var(--selected);\n}\n.selected-stroke[_ngcontent-%COMP%] {\n  stroke: var(--selected);\n}\n.clickable-stroke[_ngcontent-%COMP%] {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover[_ngcontent-%COMP%]:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke[_ngcontent-%COMP%] {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill[_ngcontent-%COMP%] {\n  fill: var(--capturable);\n}\n.capturable-stroke[_ngcontent-%COMP%]:hover {\n  stroke-width: 8;\n}\n.no-fill[_ngcontent-%COMP%] {\n  fill: none;\n}\n.no-stroke[_ngcontent-%COMP%] {\n  stroke: none;\n}\n.small-stroke[_ngcontent-%COMP%] {\n  stroke-width: 2;\n}\n.mid-small-stroke[_ngcontent-%COMP%] {\n  stroke-width: 3;\n}\n.mid-stroke[_ngcontent-%COMP%] {\n  stroke-width: 5;\n}\n.big-stroke[_ngcontent-%COMP%] {\n  stroke-width: 8;\n}\n.huge-stroke[_ngcontent-%COMP%] {\n  stroke-width: 12;\n}\n.semi-transparent[_ngcontent-%COMP%] {\n  opacity: 0.5;\n}\n.territory-opacity[_ngcontent-%COMP%] {\n  fill-opacity: 0.7;\n}\n.round[_ngcontent-%COMP%] {\n  stroke-linecap: round;\n}\n.text-giant[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big[_ngcontent-%COMP%] {\n  font: 50px sans-serif;\n}\n.backgrounded-text[_ngcontent-%COMP%] {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus[_ngcontent-%COMP%] {\n  font: 38px sans-serif;\n}\n.text-medium[_ngcontent-%COMP%] {\n  font: 35px sans-serif;\n}\n.text-small-plus[_ngcontent-%COMP%] {\n  font: 28px sans-serif;\n}\n.text-small[_ngcontent-%COMP%] {\n  font: 25px sans-serif;\n}\n.text-bold[_ngcontent-%COMP%] {\n  font-weight: bold;\n}\n.text-center[_ngcontent-%COMP%] {\n  text-anchor: middle;\n}\n.black-fill[_ngcontent-%COMP%] {\n  fill: black;\n}\n.darker[_ngcontent-%COMP%] {\n  filter: brightness(80%);\n}\n.lighter[_ngcontent-%COMP%] {\n  filter: brightness(110%);\n}\nsvg[_ngcontent-%COMP%] {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator[_ngcontent-%COMP%] {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */"] });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(BashniComponent, [{
+    type: Component,
+    args: [{ selector: "app-bashni", imports: [NgClass], template: '<svg xmlns="http://www.w3.org/2000/svg"\n     class="board"\n     [attr.viewBox]="viewBoxString()"\n     preserveAspectRatio="xMidYMid meet">\n\n    <defs>\n        <g id="piece">\n            <path d="M 0 25 v 15 a 40 25, 0, 0, 0, 80 0 v -15 a 40 25, 0, 0, 0, -80 0 Z"/>\n            <ellipse cx="40"\n                     cy="25"\n                     rx="40"\n                     ry="25"/>\n        </g>\n    </defs>\n\n    <!-- Empty board -->\n    @for (coordAndContent of constructedState().get().getCoordsAndContents(); track coordAndContent.coord.toString()) {\n        <polygon id="square-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n                 [attr.transform]="getTranslationAtXYZ(coordAndContent.coord.x, coordAndContent.coord.y, 0)"\n                 (click)="onClick(coordAndContent.coord.x, coordAndContent.coord.y)"\n                 [attr.points]="parallelogramPoints()"\n                 [ngClass]="getSquareClass(coordAndContent.coord.x, coordAndContent.coord.y)"\n                 class="base"/>\n    }\n\n    <rect id="bottomEdge"\n          x="0"\n          [attr.y]="basicHeight()"\n          [attr.width]="basicWidth() * mode().horizontalWidthRatio"\n          [attr.height]="THICKNESS"\n          class="base"/>\n    <polygon id="rightEdge"\n             [attr.points]="rightEdge()"\n             class="base"/>\n\n    <!-- Clickable highlights -->\n    @for (coord of possibleClicks; track coord.toString()) {\n        <polygon id="clickable-highlight-{{ coord.x }}-{{ coord.y }}"\n                 [attr.transform]="getTranslationAtXYZ(coord.x, coord.y, 0)"\n                 (click)="onClick(coord.x, coord.y)"\n                 [attr.points]="parallelogramPoints()"\n                 class="base no-fill clickable-stroke small-stroke"/>\n    }\n\n    <!-- Pieces -->\n    @for (coordAndContent of constructedState().get().getCoordsAndContents(); track coordAndContent.coord.toString()) {\n        <g id="coord-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n           [attr.transform]="getTranslationAtXYZ(coordAndContent.coord.x, coordAndContent.coord.y, 0)"\n           (click)="onClick(coordAndContent.coord.x, coordAndContent.coord.y)">\n            @for (pieceInfo of coordAndContent.content.pieces; track $index; let z = $index) {\n                <g pointer-events="fill"\n                   [attr.transform]="getPieceTranslation(z)"\n                   class="base mid-small-stroke">\n                    <use id="square-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}-piece-{{ z }}"\n                         xlink:href="#piece"\n                         [ngClass]="getPieceClasses(coordAndContent.coord.x, coordAndContent.coord.y, z)"\n                         class="base mid-stroke"/>\n                    @if (isPiecePromoted(coordAndContent.coord.x, coordAndContent.coord.y, z)) {\n                        <circle id="square-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}-piece-{{ z }}-promoted-symbol"\n                                [attr.cx]="SPACE_SIZE * 0.4"\n                                [attr.cy]="SPACE_SIZE * 0.575"\n                                [attr.r]="SPACE_SIZE * 0.045"\n                                [ngClass]="getPieceClasses(coordAndContent.coord.x, coordAndContent.coord.y, z)"/>\n                    }\n                </g>\n            }\n        </g>\n    }\n\n</svg>\n', styles: ["/* src/app/components/game-components/game-component/game-component.scss */\n.base {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke {\n  stroke-width: 0;\n}\n.base.manual-stroke {\n  fill: var(--base-stroke);\n}\n.base-no-stroke {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text {\n  fill: var(--base-stroke);\n}\n.white-background {\n  fill: white;\n}\n.background {\n  fill: var(--spaces-fill);\n}\n.transparent {\n  opacity: 0;\n}\n.background2 {\n  fill: var(--alt-background-fill);\n}\n.background3 {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill {\n  fill: var(--player0);\n}\n.player0-alternate-fill {\n  fill: var(--player0-alternate);\n}\n.player0-stroke {\n  stroke: var(--player0);\n}\n.player1-fill {\n  fill: var(--player1);\n}\n.player1-alternate-fill {\n  fill: var(--player1-alternate);\n}\n.player1-stroke {\n  stroke: var(--player1);\n}\n.nonplayer-fill {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill {\n  fill: var(--pre-captured);\n}\n.captured-fill {\n  fill: var(--captured);\n}\n.captured-alternate-fill {\n  fill: var(--alt-captured);\n}\n.captured-stroke {\n  stroke: var(--captured);\n}\n.moved-fill {\n  fill: var(--moved);\n}\n.moved-stroke {\n  stroke: var(--moved);\n}\n.indicator {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill {\n  fill: var(--indicator);\n}\n.selectable-stroke {\n  stroke: var(--selectable);\n}\n.selectable > .base-no-stroke {\n  fill: var(--selectable);\n}\n.last-move-stroke {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke {\n  fill: var(--last-move);\n}\n.last-move-fill {\n  fill: var(--last-move);\n}\n.victory-fill {\n  fill: var(--victory);\n}\n.victory-stroke {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke {\n  fill: var(--victory);\n}\n.defeat-fill {\n  fill: var(--defeat);\n}\n.defeat-stroke {\n  stroke: var(--defeat);\n}\n.selected-fill {\n  fill: var(--selected);\n}\n.selected-stroke {\n  stroke: var(--selected);\n}\n.clickable-stroke {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill {\n  fill: var(--capturable);\n}\n.capturable-stroke:hover {\n  stroke-width: 8;\n}\n.no-fill {\n  fill: none;\n}\n.no-stroke {\n  stroke: none;\n}\n.small-stroke {\n  stroke-width: 2;\n}\n.mid-small-stroke {\n  stroke-width: 3;\n}\n.mid-stroke {\n  stroke-width: 5;\n}\n.big-stroke {\n  stroke-width: 8;\n}\n.huge-stroke {\n  stroke-width: 12;\n}\n.semi-transparent {\n  opacity: 0.5;\n}\n.territory-opacity {\n  fill-opacity: 0.7;\n}\n.round {\n  stroke-linecap: round;\n}\n.text-giant {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big {\n  font: 50px sans-serif;\n}\n.backgrounded-text {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus {\n  font: 38px sans-serif;\n}\n.text-medium {\n  font: 35px sans-serif;\n}\n.text-small-plus {\n  font: 28px sans-serif;\n}\n.text-small {\n  font: 25px sans-serif;\n}\n.text-bold {\n  font-weight: bold;\n}\n.text-center {\n  text-anchor: middle;\n}\n.black-fill {\n  fill: black;\n}\n.darker {\n  filter: brightness(80%);\n}\n.lighter {\n  filter: brightness(110%);\n}\nsvg {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */\n"] }]
+  }], () => [], null);
+})();
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(BashniComponent, { className: "BashniComponent", filePath: "src/app/games/checkers/bashni/bashni.component.ts", lineNumber: 14 });
+})();
+
+// src/app/games/checkers/international-checkers/InternationalCheckersRules.ts
+var InternationalCheckersRules = class _InternationalCheckersRules extends AbstractCheckersRules {
+  static singleton = MGPOptional.empty();
+  static RULES_CONFIG_DESCRIPTION = new RulesConfigDescription({
+    name: () => $localize`International Checkers`,
+    config: {
+      playerRows: new NumberConfig(4, RulesConfigDescriptionLocalizable.NUMBER_OF_PIECES_ROWS, MGPValidators.range(1, 99)),
+      emptyRows: new NumberConfig(2, RulesConfigDescriptionLocalizable.NUMBER_OF_EMPTY_ROWS, MGPValidators.range(1, 99)),
+      width: new NumberConfig(10, RulesConfigDescriptionLocalizable.WIDTH, MGPValidators.range(2, 99)),
+      canStackPieces: new BooleanConfig(false, CheckersOptionLocalizable.STACK_PIECES),
+      mustMakeMaximalCapture: new BooleanConfig(true, CheckersOptionLocalizable.MAXIMAL_CAPTURE),
+      simplePieceCanCaptureBackwards: new BooleanConfig(true, CheckersOptionLocalizable.SIMPLE_PIECE_CAN_CAPTURE_BACKWARDS),
+      promotedPiecesCanFly: new BooleanConfig(true, CheckersOptionLocalizable.PROMOTED_PIECES_CAN_TRAVEL_LONG_DISTANCES),
+      occupyEvenSquare: new BooleanConfig(false, CheckersOptionLocalizable.OCCUPY_EVEN_SQUARE),
+      frisianCaptureAllowed: new BooleanConfig(false, CheckersOptionLocalizable.FRISIAN_CAPTURE_ALLOWED),
+      canPromoteMidCapture: new BooleanConfig(false, CheckersOptionLocalizable.CAN_PROMOTE_MID_CAPTURE)
+    }
+  });
+  static get() {
+    if (_InternationalCheckersRules.singleton.isAbsent()) {
+      _InternationalCheckersRules.singleton = MGPOptional.of(new _InternationalCheckersRules());
+    }
+    return _InternationalCheckersRules.singleton.get();
+  }
+  getRulesConfigDescription() {
+    return _InternationalCheckersRules.RULES_CONFIG_DESCRIPTION;
+  }
+};
+
+// src/app/games/checkers/international-checkers/InternationalCheckersTutorial.ts
+var U = new CheckersStack([CheckersPiece.ZERO]);
+var O2 = new CheckersStack([CheckersPiece.ZERO_PROMOTED]);
+var V = new CheckersStack([CheckersPiece.ONE]);
+var _2 = CheckersStack.EMPTY;
+var defaultConfig3 = InternationalCheckersRules.get().getDefaultRulesConfig();
+var InternationalCheckersTutorial = class extends Tutorial {
+  tutorial = [
+    TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`The goal of checkers is to render the opponent unable to move, either by capturing all their pieces, or by blocking them.`, InternationalCheckersRules.get().getInitialState(defaultConfig3)),
+    TutorialStep.anyMove(CheckersTutorialStep.SIMPLE_STEPS_TITLE(), CheckersTutorialStep.SIMPLE_STEPS(), InternationalCheckersRules.get().getInitialState(defaultConfig3), CheckersMove.fromStep(new Coord(5, 6), new Coord(4, 5)), TutorialStepMessage.CONGRATULATIONS()),
+    TutorialStep.anyMove($localize`Captures`, CheckersTutorialStep.CAPTURES(), OddCheckersState.of([
+      [_2, V, _2, V, _2, V, _2, V, _2, V],
+      [V, _2, V, _2, V, _2, V, _2, V, _2],
+      [_2, V, _2, V, _2, V, _2, V, _2, V],
+      [V, _2, _2, _2, V, _2, V, _2, V, _2],
+      [_2, V, _2, _2, _2, _2, _2, _2, _2, _2],
+      [U, _2, _2, _2, _2, _2, _2, _2, _2, _2],
+      [_2, _2, _2, U, _2, U, _2, U, _2, U],
+      [U, _2, U, _2, U, _2, U, _2, U, _2],
+      [_2, U, _2, U, _2, U, _2, U, _2, U],
+      [U, _2, U, _2, U, _2, U, _2, U, _2]
+    ], 4), CheckersMove.fromCapture([new Coord(0, 5), new Coord(2, 3)]), TutorialStepMessage.CONGRATULATIONS()).withPreviousMove(CheckersMove.fromStep(new Coord(2, 3), new Coord(1, 4))),
+    TutorialStep.anyMove(CheckersTutorialStep.BACKWARD_CAPTURES_TITLE(), CheckersTutorialStep.BACKWARD_CAPTURES(), OddCheckersState.of([
+      [_2, V, _2, V, _2, V, _2, V, _2, V],
+      [V, _2, V, _2, V, _2, V, _2, V, _2],
+      [_2, V, _2, V, _2, _2, _2, V, _2, V],
+      [_2, _2, V, _2, _2, _2, _2, _2, _2, _2],
+      [_2, _2, _2, _2, _2, _2, _2, U, _2, _2],
+      [_2, _2, U, _2, _2, _2, _2, _2, V, _2],
+      [_2, U, _2, _2, _2, U, _2, _2, _2, _2],
+      [_2, _2, U, _2, U, _2, U, _2, _2, _2],
+      [_2, U, _2, U, _2, U, _2, U, _2, U],
+      [U, _2, U, _2, U, _2, U, _2, U, _2]
+    ], 2), CheckersMove.fromCapture([new Coord(7, 4), new Coord(9, 6)]), TutorialStepMessage.CONGRATULATIONS()),
+    TutorialStep.anyMove(CheckersTutorialStep.MULTIPLE_CAPTURES_TITLE(), CheckersTutorialStep.MULTIPLE_CAPTURES(), OddCheckersState.of([
+      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
+      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
+      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
+      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
+      [_2, _2, _2, _2, _2, _2, _2, V, _2, _2],
+      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
+      [_2, _2, _2, _2, _2, _2, _2, V, _2, _2],
+      [_2, _2, _2, _2, _2, _2, U, _2, _2, _2],
+      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
+      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2]
+    ], 2), CheckersMove.fromCapture([new Coord(6, 7), new Coord(8, 5), new Coord(6, 3)]), TutorialStepMessage.CONGRATULATIONS()),
+    TutorialStep.anyMove($localize`Maximum capture`, $localize`If at some turn you have several capture choices, you have to capture the maximal number of pieces.<br/><br/>You are playing Dark, do the maximal capture.`, OddCheckersState.of([
+      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
+      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
+      [_2, _2, _2, _2, _2, _2, _2, V, _2, _2],
+      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
+      [_2, _2, _2, _2, _2, V, _2, V, _2, _2],
+      [_2, _2, _2, _2, _2, _2, U, _2, _2, _2],
+      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
+      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
+      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
+      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2]
+    ], 2), CheckersMove.fromCapture([new Coord(6, 5), new Coord(8, 3), new Coord(6, 1)]), TutorialStepMessage.CONGRATULATIONS()),
+    TutorialStep.fromMove(CheckersTutorialStep.PROMOTION_TITLE(), $localize`When a piece reaches the last line, it is promoted and becomes a king, and gains abilities that will be explained in next step! One of your pieces could be promoted now.<br/><br/>You're playing Dark. Do it.`, OddCheckersState.of([
+      [_2, _2, _2, _2, _2, _2, _2, _2, _2, V],
+      [_2, _2, _2, _2, _2, _2, U, _2, V, _2],
+      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
+      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
+      [_2, _2, _2, U, _2, _2, _2, _2, _2, _2],
+      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
+      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
+      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
+      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
+      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2]
+    ], 2), [
+      CheckersMove.fromStep(new Coord(6, 1), new Coord(5, 0)),
+      CheckersMove.fromStep(new Coord(6, 1), new Coord(7, 0))
+    ], TutorialStepMessage.CONGRATULATIONS(), $localize`You did not choose the correct piece, and got no promotion.`),
+    TutorialStep.fromPredicate($localize`King move`, $localize`Kings can, like any other piece, move forward and capture backward. They have extra abilities. First, they can move backward without capturing. Second, they are able to "fly": they can move over multiple squares without jumping over any piece, or by jumping over exactly one opponent piece to capture it, and finally landing wherever in the same line.<br/><br/>You're playing Dark, move your king!`, OddCheckersState.of([
+      [_2, _2, _2, _2, _2, _2, _2, O2, _2, V],
+      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
+      [_2, _2, _2, _2, _2, _2, _2, V, _2, _2],
+      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
+      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
+      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
+      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
+      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
+      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
+      [_2, _2, U, _2, U, _2, U, _2, U, _2]
+    ], 2), CheckersMove.fromStep(new Coord(7, 0), new Coord(0, 7)), (move, _ps, _rs) => {
+      if (move.getStartingCoord().equals(new Coord(7, 0))) {
+        return MGPValidation.SUCCESS;
+      } else {
+        return MGPValidation.failure($localize`You did not move your king.`);
+      }
+    }, TutorialStepMessage.CONGRATULATIONS()),
+    TutorialStep.anyMove($localize`No promotion mid-capture`, $localize`If, during a multiple capture, a piece reaches the last line but does not stop there, this piece will not be promoted and will remain a simple piece.<br/><br/>You are playing Dark, capture the remaining opponent's piece.`, OddCheckersState.of([
+      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
+      [_2, _2, _2, _2, V, _2, V, _2, _2, _2],
+      [_2, _2, _2, U, _2, _2, _2, _2, _2, _2],
+      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
+      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
+      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
+      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
+      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
+      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
+      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2]
+    ], 2), CheckersMove.fromCapture([new Coord(3, 2), new Coord(5, 0), new Coord(7, 2)]), $localize`Observe how your piece did not get a promotion despite having reached the last line.`),
+    TutorialStep.anyMove($localize`Capture rule`, $localize`When you do multiple jumps, you cannot jump twice over the same piece. The captured pieces are actually removed after your full move.<br/>Here you have to apply all the different capturing rules: backward, maximal, flying, and not jumping twice over the same piece.<br/><br/>You are playing Dark, go ahead.`, OddCheckersState.of([
+      [_2, O2, _2, _2, _2, _2, _2, _2, _2, _2],
+      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
+      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
+      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
+      [_2, _2, _2, _2, _2, V, _2, _2, _2, _2],
+      [_2, _2, _2, _2, _2, _2, V, _2, V, _2],
+      [_2, _2, _2, _2, _2, _2, _2, _2, _2, O2],
+      [_2, _2, _2, _2, V, _2, V, _2, _2, _2],
+      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2],
+      [_2, _2, _2, _2, _2, _2, _2, _2, _2, _2]
+    ], 20), CheckersMove.fromCapture([
+      new Coord(9, 6),
+      new Coord(6, 3),
+      new Coord(3, 6),
+      new Coord(5, 8),
+      new Coord(7, 6)
+    ]), TutorialStepMessage.CONGRATULATIONS_YOU_KNOW_EVERYTHING())
+  ];
+};
+
+// src/app/games/checkers/international-checkers/international-checkers.component.ts
+var _forTrack03 = ($index, $item) => $item.coord.toString();
+var _forTrack13 = ($index, $item) => $item.toString();
 function InternationalCheckersComponent_For_6_Template(rf, ctx) {
   if (rf & 1) {
     const _r1 = \u0275\u0275getCurrentView();
@@ -5907,7 +6272,7 @@ function InternationalCheckersComponent_For_6_Template(rf, ctx) {
     const coordAndContent_r2 = ctx.$implicit;
     const ctx_r2 = \u0275\u0275nextContext();
     \u0275\u0275property("id", \u0275\u0275interpolate2("square-", coordAndContent_r2.coord.x, "-", coordAndContent_r2.coord.y))("ngClass", ctx_r2.getSquareClass(coordAndContent_r2.coord.x, coordAndContent_r2.coord.y));
-    \u0275\u0275attribute("transform", ctx_r2.getTranslationAtXYZ(coordAndContent_r2.coord.x, coordAndContent_r2.coord.y, 0))("points", ctx_r2.getParallelogramPoints());
+    \u0275\u0275attribute("transform", ctx_r2.getTranslationAtXYZ(coordAndContent_r2.coord.x, coordAndContent_r2.coord.y, 0))("points", ctx_r2.parallelogramPoints());
   }
 }
 function InternationalCheckersComponent_For_10_Template(rf, ctx) {
@@ -5926,7 +6291,7 @@ function InternationalCheckersComponent_For_10_Template(rf, ctx) {
     const coord_r5 = ctx.$implicit;
     const ctx_r2 = \u0275\u0275nextContext();
     \u0275\u0275property("id", \u0275\u0275interpolate2("clickable-highlight-", coord_r5.x, "-", coord_r5.y));
-    \u0275\u0275attribute("transform", ctx_r2.getTranslationAtXYZ(coord_r5.x, coord_r5.y, 0))("points", ctx_r2.getParallelogramPoints());
+    \u0275\u0275attribute("transform", ctx_r2.getTranslationAtXYZ(coord_r5.x, coord_r5.y, 0))("points", ctx_r2.parallelogramPoints());
   }
 }
 function InternationalCheckersComponent_For_12_For_2_Conditional_2_Template(rf, ctx) {
@@ -5997,31 +6362,31 @@ var InternationalCheckersComponent = class _InternationalCheckersComponent exten
       \u0275\u0275elementStart(0, "svg", 0)(1, "defs")(2, "g", 1);
       \u0275\u0275element(3, "path", 2)(4, "ellipse", 3);
       \u0275\u0275elementEnd()();
-      \u0275\u0275repeaterCreate(5, InternationalCheckersComponent_For_6_Template, 1, 6, ":svg:polygon", 4, _forTrack02);
+      \u0275\u0275repeaterCreate(5, InternationalCheckersComponent_For_6_Template, 1, 6, ":svg:polygon", 4, _forTrack03);
       \u0275\u0275element(7, "rect", 5)(8, "polygon", 6);
-      \u0275\u0275repeaterCreate(9, InternationalCheckersComponent_For_10_Template, 1, 5, ":svg:polygon", 7, _forTrack12);
-      \u0275\u0275repeaterCreate(11, InternationalCheckersComponent_For_12_Template, 3, 4, ":svg:g", 8, _forTrack02);
+      \u0275\u0275repeaterCreate(9, InternationalCheckersComponent_For_10_Template, 1, 5, ":svg:polygon", 7, _forTrack13);
+      \u0275\u0275repeaterCreate(11, InternationalCheckersComponent_For_12_Template, 3, 4, ":svg:g", 8, _forTrack03);
       \u0275\u0275elementEnd();
     }
     if (rf & 2) {
       \u0275\u0275attribute("viewBox", ctx.viewBoxString());
       \u0275\u0275advance(5);
-      \u0275\u0275repeater(ctx.constructedState.getCoordsAndContents());
+      \u0275\u0275repeater(ctx.constructedState().get().getCoordsAndContents());
       \u0275\u0275advance(2);
-      \u0275\u0275attribute("y", ctx.basicHeight)("width", ctx.basicWidth * ctx.mode.horizontalWidthRatio)("height", ctx.THICKNESS);
+      \u0275\u0275attribute("y", ctx.basicHeight())("width", ctx.basicWidth() * ctx.mode().horizontalWidthRatio)("height", ctx.THICKNESS);
       \u0275\u0275advance();
-      \u0275\u0275attribute("points", ctx.getRightEdge());
+      \u0275\u0275attribute("points", ctx.rightEdge());
       \u0275\u0275advance();
       \u0275\u0275repeater(ctx.possibleClicks);
       \u0275\u0275advance(2);
-      \u0275\u0275repeater(ctx.constructedState.getCoordsAndContents());
+      \u0275\u0275repeater(ctx.constructedState().get().getCoordsAndContents());
     }
   }, dependencies: [NgClass], styles: ["\n\n.base[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke[_ngcontent-%COMP%] {\n  stroke-width: 0;\n}\n.base.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n}\n.base-no-stroke[_ngcontent-%COMP%] {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n}\n.white-background[_ngcontent-%COMP%] {\n  fill: white;\n}\n.background[_ngcontent-%COMP%] {\n  fill: var(--spaces-fill);\n}\n.transparent[_ngcontent-%COMP%] {\n  opacity: 0;\n}\n.background2[_ngcontent-%COMP%] {\n  fill: var(--alt-background-fill);\n}\n.background3[_ngcontent-%COMP%] {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill[_ngcontent-%COMP%] {\n  fill: var(--player0);\n}\n.player0-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--player0-alternate);\n}\n.player0-stroke[_ngcontent-%COMP%] {\n  stroke: var(--player0);\n}\n.player1-fill[_ngcontent-%COMP%] {\n  fill: var(--player1);\n}\n.player1-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--player1-alternate);\n}\n.player1-stroke[_ngcontent-%COMP%] {\n  stroke: var(--player1);\n}\n.nonplayer-fill[_ngcontent-%COMP%] {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill[_ngcontent-%COMP%] {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke[_ngcontent-%COMP%] {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke[_ngcontent-%COMP%] {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill[_ngcontent-%COMP%] {\n  fill: var(--pre-captured);\n}\n.captured-fill[_ngcontent-%COMP%] {\n  fill: var(--captured);\n}\n.captured-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--alt-captured);\n}\n.captured-stroke[_ngcontent-%COMP%] {\n  stroke: var(--captured);\n}\n.moved-fill[_ngcontent-%COMP%] {\n  fill: var(--moved);\n}\n.moved-stroke[_ngcontent-%COMP%] {\n  stroke: var(--moved);\n}\n.indicator[_ngcontent-%COMP%] {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill[_ngcontent-%COMP%] {\n  fill: var(--indicator);\n}\n.selectable-stroke[_ngcontent-%COMP%] {\n  stroke: var(--selectable);\n}\n.selectable[_ngcontent-%COMP%]    > .base-no-stroke[_ngcontent-%COMP%] {\n  fill: var(--selectable);\n}\n.last-move-stroke[_ngcontent-%COMP%] {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--last-move);\n}\n.last-move-fill[_ngcontent-%COMP%] {\n  fill: var(--last-move);\n}\n.victory-fill[_ngcontent-%COMP%] {\n  fill: var(--victory);\n}\n.victory-stroke[_ngcontent-%COMP%] {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--victory);\n}\n.defeat-fill[_ngcontent-%COMP%] {\n  fill: var(--defeat);\n}\n.defeat-stroke[_ngcontent-%COMP%] {\n  stroke: var(--defeat);\n}\n.selected-fill[_ngcontent-%COMP%] {\n  fill: var(--selected);\n}\n.selected-stroke[_ngcontent-%COMP%] {\n  stroke: var(--selected);\n}\n.clickable-stroke[_ngcontent-%COMP%] {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover[_ngcontent-%COMP%]:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke[_ngcontent-%COMP%] {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill[_ngcontent-%COMP%] {\n  fill: var(--capturable);\n}\n.capturable-stroke[_ngcontent-%COMP%]:hover {\n  stroke-width: 8;\n}\n.no-fill[_ngcontent-%COMP%] {\n  fill: none;\n}\n.no-stroke[_ngcontent-%COMP%] {\n  stroke: none;\n}\n.small-stroke[_ngcontent-%COMP%] {\n  stroke-width: 2;\n}\n.mid-small-stroke[_ngcontent-%COMP%] {\n  stroke-width: 3;\n}\n.mid-stroke[_ngcontent-%COMP%] {\n  stroke-width: 5;\n}\n.big-stroke[_ngcontent-%COMP%] {\n  stroke-width: 8;\n}\n.huge-stroke[_ngcontent-%COMP%] {\n  stroke-width: 12;\n}\n.semi-transparent[_ngcontent-%COMP%] {\n  opacity: 0.5;\n}\n.territory-opacity[_ngcontent-%COMP%] {\n  fill-opacity: 0.7;\n}\n.round[_ngcontent-%COMP%] {\n  stroke-linecap: round;\n}\n.text-giant[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big[_ngcontent-%COMP%] {\n  font: 50px sans-serif;\n}\n.backgrounded-text[_ngcontent-%COMP%] {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus[_ngcontent-%COMP%] {\n  font: 38px sans-serif;\n}\n.text-medium[_ngcontent-%COMP%] {\n  font: 35px sans-serif;\n}\n.text-small-plus[_ngcontent-%COMP%] {\n  font: 28px sans-serif;\n}\n.text-small[_ngcontent-%COMP%] {\n  font: 25px sans-serif;\n}\n.text-bold[_ngcontent-%COMP%] {\n  font-weight: bold;\n}\n.text-center[_ngcontent-%COMP%] {\n  text-anchor: middle;\n}\n.black-fill[_ngcontent-%COMP%] {\n  fill: black;\n}\n.darker[_ngcontent-%COMP%] {\n  filter: brightness(80%);\n}\n.lighter[_ngcontent-%COMP%] {\n  filter: brightness(110%);\n}\nsvg[_ngcontent-%COMP%] {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator[_ngcontent-%COMP%] {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */"] });
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(InternationalCheckersComponent, [{
     type: Component,
-    args: [{ selector: "app-international-checkers", imports: [NgClass], template: '<svg xmlns="http://www.w3.org/2000/svg"\n     class="board"\n     [attr.viewBox]="viewBoxString()"\n     preserveAspectRatio="xMidYMid meet">\n\n    <defs>\n        <g id="piece">\n            <path d="M 0 25 v 15 a 40 25, 0, 0, 0, 80 0 v -15 a 40 25, 0, 0, 0, -80 0 Z"/>\n            <ellipse cx="40"\n                     cy="25"\n                     rx="40"\n                     ry="25"/>\n        </g>\n    </defs>\n\n    <!-- Empty board -->\n    @for (coordAndContent of constructedState.getCoordsAndContents(); track coordAndContent.coord.toString()) {\n        <polygon id="square-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n                 [attr.transform]="getTranslationAtXYZ(coordAndContent.coord.x, coordAndContent.coord.y, 0)"\n                 (click)="onClick(coordAndContent.coord.x, coordAndContent.coord.y)"\n                 [attr.points]="getParallelogramPoints()"\n                 [ngClass]="getSquareClass(coordAndContent.coord.x, coordAndContent.coord.y)"\n                 class="base"/>\n    }\n\n    <rect id="bottomEdge"\n          x="0"\n          [attr.y]="basicHeight"\n          [attr.width]="basicWidth * mode.horizontalWidthRatio"\n          [attr.height]="THICKNESS"\n          class="base"/>\n    <polygon id="rightEdge"\n             [attr.points]="getRightEdge()"\n             class="base"/>\n\n    <!-- Clickable highlights -->\n    @for (coord of possibleClicks; track coord.toString()) {\n        <polygon id="clickable-highlight-{{ coord.x }}-{{ coord.y }}"\n                 [attr.transform]="getTranslationAtXYZ(coord.x, coord.y, 0)"\n                 (click)="onClick(coord.x, coord.y)"\n                 [attr.points]="getParallelogramPoints()"\n                 class="base no-fill clickable-stroke small-stroke"/>\n    }\n\n    <!-- Pieces -->\n    @for (coordAndContent of constructedState.getCoordsAndContents(); track coordAndContent.coord.toString()) {\n        <g id="coord-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n           [attr.transform]="getTranslationAtXYZ(coordAndContent.coord.x, coordAndContent.coord.y, 0)"\n           (click)="onClick(coordAndContent.coord.x, coordAndContent.coord.y)">\n            @for (pieceInfo of coordAndContent.content.pieces; track $index; let z = $index) {\n                <g pointer-events="fill"\n                   [attr.transform]="getPieceTranslation(z)"\n                   class="base mid-small-stroke">\n                    <use id="square-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}-piece-{{ z }}"\n                         xlink:href="#piece"\n                         [ngClass]="getPieceClasses(coordAndContent.coord.x, coordAndContent.coord.y, z)"\n                         class="base mid-stroke"/>\n                    @if (isPiecePromoted(coordAndContent.coord.x, coordAndContent.coord.y, z)) {\n                        <circle id="square-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}-piece-{{ z }}-promoted-symbol"\n                                [attr.cx]="SPACE_SIZE * 0.4"\n                                [attr.cy]="SPACE_SIZE * 0.575"\n                                [attr.r]="SPACE_SIZE * 0.045"\n                                [ngClass]="getPieceClasses(coordAndContent.coord.x, coordAndContent.coord.y, z)"/>\n                    }\n                </g>\n            }\n        </g>\n    }\n\n</svg>\n', styles: ["/* src/app/components/game-components/game-component/game-component.scss */\n.base {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke {\n  stroke-width: 0;\n}\n.base.manual-stroke {\n  fill: var(--base-stroke);\n}\n.base-no-stroke {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text {\n  fill: var(--base-stroke);\n}\n.white-background {\n  fill: white;\n}\n.background {\n  fill: var(--spaces-fill);\n}\n.transparent {\n  opacity: 0;\n}\n.background2 {\n  fill: var(--alt-background-fill);\n}\n.background3 {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill {\n  fill: var(--player0);\n}\n.player0-alternate-fill {\n  fill: var(--player0-alternate);\n}\n.player0-stroke {\n  stroke: var(--player0);\n}\n.player1-fill {\n  fill: var(--player1);\n}\n.player1-alternate-fill {\n  fill: var(--player1-alternate);\n}\n.player1-stroke {\n  stroke: var(--player1);\n}\n.nonplayer-fill {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill {\n  fill: var(--pre-captured);\n}\n.captured-fill {\n  fill: var(--captured);\n}\n.captured-alternate-fill {\n  fill: var(--alt-captured);\n}\n.captured-stroke {\n  stroke: var(--captured);\n}\n.moved-fill {\n  fill: var(--moved);\n}\n.moved-stroke {\n  stroke: var(--moved);\n}\n.indicator {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill {\n  fill: var(--indicator);\n}\n.selectable-stroke {\n  stroke: var(--selectable);\n}\n.selectable > .base-no-stroke {\n  fill: var(--selectable);\n}\n.last-move-stroke {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke {\n  fill: var(--last-move);\n}\n.last-move-fill {\n  fill: var(--last-move);\n}\n.victory-fill {\n  fill: var(--victory);\n}\n.victory-stroke {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke {\n  fill: var(--victory);\n}\n.defeat-fill {\n  fill: var(--defeat);\n}\n.defeat-stroke {\n  stroke: var(--defeat);\n}\n.selected-fill {\n  fill: var(--selected);\n}\n.selected-stroke {\n  stroke: var(--selected);\n}\n.clickable-stroke {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill {\n  fill: var(--capturable);\n}\n.capturable-stroke:hover {\n  stroke-width: 8;\n}\n.no-fill {\n  fill: none;\n}\n.no-stroke {\n  stroke: none;\n}\n.small-stroke {\n  stroke-width: 2;\n}\n.mid-small-stroke {\n  stroke-width: 3;\n}\n.mid-stroke {\n  stroke-width: 5;\n}\n.big-stroke {\n  stroke-width: 8;\n}\n.huge-stroke {\n  stroke-width: 12;\n}\n.semi-transparent {\n  opacity: 0.5;\n}\n.territory-opacity {\n  fill-opacity: 0.7;\n}\n.round {\n  stroke-linecap: round;\n}\n.text-giant {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big {\n  font: 50px sans-serif;\n}\n.backgrounded-text {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus {\n  font: 38px sans-serif;\n}\n.text-medium {\n  font: 35px sans-serif;\n}\n.text-small-plus {\n  font: 28px sans-serif;\n}\n.text-small {\n  font: 25px sans-serif;\n}\n.text-bold {\n  font-weight: bold;\n}\n.text-center {\n  text-anchor: middle;\n}\n.black-fill {\n  fill: black;\n}\n.darker {\n  filter: brightness(80%);\n}\n.lighter {\n  filter: brightness(110%);\n}\nsvg {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */\n"] }]
+    args: [{ selector: "app-international-checkers", imports: [NgClass], template: '<svg xmlns="http://www.w3.org/2000/svg"\n     class="board"\n     [attr.viewBox]="viewBoxString()"\n     preserveAspectRatio="xMidYMid meet">\n\n    <defs>\n        <g id="piece">\n            <path d="M 0 25 v 15 a 40 25, 0, 0, 0, 80 0 v -15 a 40 25, 0, 0, 0, -80 0 Z"/>\n            <ellipse cx="40"\n                     cy="25"\n                     rx="40"\n                     ry="25"/>\n        </g>\n    </defs>\n\n    <!-- Empty board -->\n    @for (coordAndContent of constructedState().get().getCoordsAndContents(); track coordAndContent.coord.toString()) {\n        <polygon id="square-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n                 [attr.transform]="getTranslationAtXYZ(coordAndContent.coord.x, coordAndContent.coord.y, 0)"\n                 (click)="onClick(coordAndContent.coord.x, coordAndContent.coord.y)"\n                 [attr.points]="parallelogramPoints()"\n                 [ngClass]="getSquareClass(coordAndContent.coord.x, coordAndContent.coord.y)"\n                 class="base"/>\n    }\n\n    <rect id="bottomEdge"\n          x="0"\n          [attr.y]="basicHeight()"\n          [attr.width]="basicWidth() * mode().horizontalWidthRatio"\n          [attr.height]="THICKNESS"\n          class="base"/>\n    <polygon id="rightEdge"\n             [attr.points]="rightEdge()"\n             class="base"/>\n\n    <!-- Clickable highlights -->\n    @for (coord of possibleClicks; track coord.toString()) {\n        <polygon id="clickable-highlight-{{ coord.x }}-{{ coord.y }}"\n                 [attr.transform]="getTranslationAtXYZ(coord.x, coord.y, 0)"\n                 (click)="onClick(coord.x, coord.y)"\n                 [attr.points]="parallelogramPoints()"\n                 class="base no-fill clickable-stroke small-stroke"/>\n    }\n\n    <!-- Pieces -->\n    @for (coordAndContent of constructedState().get().getCoordsAndContents(); track coordAndContent.coord.toString()) {\n        <g id="coord-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n           [attr.transform]="getTranslationAtXYZ(coordAndContent.coord.x, coordAndContent.coord.y, 0)"\n           (click)="onClick(coordAndContent.coord.x, coordAndContent.coord.y)">\n            @for (pieceInfo of coordAndContent.content.pieces; track $index; let z = $index) {\n                <g pointer-events="fill"\n                   [attr.transform]="getPieceTranslation(z)"\n                   class="base mid-small-stroke">\n                    <use id="square-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}-piece-{{ z }}"\n                         xlink:href="#piece"\n                         [ngClass]="getPieceClasses(coordAndContent.coord.x, coordAndContent.coord.y, z)"\n                         class="base mid-stroke"/>\n                    @if (isPiecePromoted(coordAndContent.coord.x, coordAndContent.coord.y, z)) {\n                        <circle id="square-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}-piece-{{ z }}-promoted-symbol"\n                                [attr.cx]="SPACE_SIZE * 0.4"\n                                [attr.cy]="SPACE_SIZE * 0.575"\n                                [attr.r]="SPACE_SIZE * 0.045"\n                                [ngClass]="getPieceClasses(coordAndContent.coord.x, coordAndContent.coord.y, z)"/>\n                    }\n                </g>\n            }\n        </g>\n    }\n\n</svg>\n', styles: ["/* src/app/components/game-components/game-component/game-component.scss */\n.base {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke {\n  stroke-width: 0;\n}\n.base.manual-stroke {\n  fill: var(--base-stroke);\n}\n.base-no-stroke {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text {\n  fill: var(--base-stroke);\n}\n.white-background {\n  fill: white;\n}\n.background {\n  fill: var(--spaces-fill);\n}\n.transparent {\n  opacity: 0;\n}\n.background2 {\n  fill: var(--alt-background-fill);\n}\n.background3 {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill {\n  fill: var(--player0);\n}\n.player0-alternate-fill {\n  fill: var(--player0-alternate);\n}\n.player0-stroke {\n  stroke: var(--player0);\n}\n.player1-fill {\n  fill: var(--player1);\n}\n.player1-alternate-fill {\n  fill: var(--player1-alternate);\n}\n.player1-stroke {\n  stroke: var(--player1);\n}\n.nonplayer-fill {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill {\n  fill: var(--pre-captured);\n}\n.captured-fill {\n  fill: var(--captured);\n}\n.captured-alternate-fill {\n  fill: var(--alt-captured);\n}\n.captured-stroke {\n  stroke: var(--captured);\n}\n.moved-fill {\n  fill: var(--moved);\n}\n.moved-stroke {\n  stroke: var(--moved);\n}\n.indicator {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill {\n  fill: var(--indicator);\n}\n.selectable-stroke {\n  stroke: var(--selectable);\n}\n.selectable > .base-no-stroke {\n  fill: var(--selectable);\n}\n.last-move-stroke {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke {\n  fill: var(--last-move);\n}\n.last-move-fill {\n  fill: var(--last-move);\n}\n.victory-fill {\n  fill: var(--victory);\n}\n.victory-stroke {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke {\n  fill: var(--victory);\n}\n.defeat-fill {\n  fill: var(--defeat);\n}\n.defeat-stroke {\n  stroke: var(--defeat);\n}\n.selected-fill {\n  fill: var(--selected);\n}\n.selected-stroke {\n  stroke: var(--selected);\n}\n.clickable-stroke {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill {\n  fill: var(--capturable);\n}\n.capturable-stroke:hover {\n  stroke-width: 8;\n}\n.no-fill {\n  fill: none;\n}\n.no-stroke {\n  stroke: none;\n}\n.small-stroke {\n  stroke-width: 2;\n}\n.mid-small-stroke {\n  stroke-width: 3;\n}\n.mid-stroke {\n  stroke-width: 5;\n}\n.big-stroke {\n  stroke-width: 8;\n}\n.huge-stroke {\n  stroke-width: 12;\n}\n.semi-transparent {\n  opacity: 0.5;\n}\n.territory-opacity {\n  fill-opacity: 0.7;\n}\n.round {\n  stroke-linecap: round;\n}\n.text-giant {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big {\n  font: 50px sans-serif;\n}\n.backgrounded-text {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus {\n  font: 38px sans-serif;\n}\n.text-medium {\n  font: 35px sans-serif;\n}\n.text-small-plus {\n  font: 28px sans-serif;\n}\n.text-small {\n  font: 25px sans-serif;\n}\n.text-bold {\n  font-weight: bold;\n}\n.text-center {\n  text-anchor: middle;\n}\n.black-fill {\n  fill: black;\n}\n.darker {\n  filter: brightness(80%);\n}\n.lighter {\n  filter: brightness(110%);\n}\nsvg {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */\n"] }]
   }], () => [], null);
 })();
 (() => {
@@ -6042,7 +6407,8 @@ var LascaRules = class _LascaRules extends AbstractCheckersRules {
       simplePieceCanCaptureBackwards: new BooleanConfig(false, CheckersOptionLocalizable.SIMPLE_PIECE_CAN_CAPTURE_BACKWARDS),
       promotedPiecesCanFly: new BooleanConfig(false, CheckersOptionLocalizable.PROMOTED_PIECES_CAN_TRAVEL_LONG_DISTANCES),
       occupyEvenSquare: new BooleanConfig(true, CheckersOptionLocalizable.OCCUPY_EVEN_SQUARE),
-      frisianCaptureAllowed: new BooleanConfig(false, CheckersOptionLocalizable.FRISIAN_CAPTURE_ALLOWED)
+      frisianCaptureAllowed: new BooleanConfig(false, CheckersOptionLocalizable.FRISIAN_CAPTURE_ALLOWED),
+      canPromoteMidCapture: new BooleanConfig(false, CheckersOptionLocalizable.CAN_PROMOTE_MID_CAPTURE)
     }
   });
   static get() {
@@ -6057,76 +6423,111 @@ var LascaRules = class _LascaRules extends AbstractCheckersRules {
 };
 
 // src/app/games/checkers/lasca/LascaTutorial.ts
-var zero = CheckersPiece.ZERO;
-var one = CheckersPiece.ONE;
-var _u = new CheckersStack([zero]);
-var _v = new CheckersStack([one]);
-var uv = new CheckersStack([zero, one]);
-var Uv = new CheckersStack([CheckersPiece.ZERO_PROMOTED, one]);
-var __ = CheckersStack.EMPTY;
-var defaultConfig3 = LascaRules.get().getDefaultRulesConfig();
+var zero2 = CheckersPiece.ZERO;
+var one2 = CheckersPiece.ONE;
+var _u2 = new CheckersStack([zero2]);
+var _v2 = new CheckersStack([one2]);
+var vv = new CheckersStack([one2, one2]);
+var vU2 = new CheckersStack([one2, CheckersPiece.ZERO_PROMOTED]);
+var uv2 = new CheckersStack([zero2, one2]);
+var Uv2 = new CheckersStack([CheckersPiece.ZERO_PROMOTED, one2]);
+var __2 = CheckersStack.EMPTY;
+var defaultConfig4 = LascaRules.get().getDefaultRulesConfig();
 var LascaTutorial = class extends Tutorial {
   tutorial = [
-    TutorialStep.informational($localize`Lasca: origins`, $localize`Lasca is a game based on checkers, created in 1911 by Emanuel Lasker, chess world champion. It's played on a 7x7 board, each player has 11 pieces.`, LascaRules.get().getInitialState(defaultConfig3)),
-    TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`The goal of Lasca is, like for checkers, to render the opponent unable to move, either by capturing all their pieces, or by blocking them.`, LascaRules.get().getInitialState(defaultConfig3)),
-    TutorialStep.anyMove($localize`Steps`, CheckersTutorialStep.SIMPLE_STEPS(), LascaRules.get().getInitialState(defaultConfig3), CheckersMove.fromStep(new Coord(4, 4), new Coord(3, 3)), TutorialStepMessage.CONGRATULATIONS()),
-    TutorialStep.anyMove($localize`Captures`, CheckersTutorialStep.CAPTURES(), CheckersState.of([
-      [_v, __, __, __, _v, __, _v],
-      [__, __, __, _v, __, _v, __],
-      [__, __, _v, __, _v, __, _v],
-      [__, _v, __, __, __, __, __],
-      [_u, __, _u, __, _u, __, _u],
-      [__, _u, __, _u, __, _u, __],
-      [_u, __, _u, __, _u, __, _u]
-    ], 2), CheckersMove.fromCapture([new Coord(2, 4), new Coord(0, 2)]).get(), $localize`Congratulations, notice that the captured piece was not removed from the board, but put below the capturing pieces.`),
-    TutorialStep.anyMove(CheckersTutorialStep.MULTIPLE_CAPTURES_TITLE(), CheckersTutorialStep.MULTIPLE_CAPTURES(), CheckersState.of([
-      [__, __, __, __, __, __, __],
-      [__, __, __, __, __, __, __],
-      [_v, __, __, __, _v, __, _v],
-      [__, _v, __, _v, __, _v, __],
-      [__, __, _v, __, _v, __, _v],
-      [__, _v, __, __, __, __, __],
-      [__, __, _u, __, _u, __, _u]
-    ], 2), CheckersMove.fromCapture([new Coord(2, 6), new Coord(0, 4), new Coord(2, 2)]).get(), TutorialStepMessage.CONGRATULATIONS()),
-    TutorialStep.anyMove($localize`Minority capture is allowed`, $localize`If you have several capture choices, you are allowed to choose any of them. For example if one choice is to capture one piece, and the other choice is to capture two pieces, you can choose either.`, CheckersState.of([
-      [__, __, __, __, __, __, __],
-      [__, __, __, __, __, _v, __],
-      [__, __, __, __, __, __, __],
-      [__, _v, __, _v, __, __, __],
-      [__, __, _u, __, __, __, __],
-      [__, __, __, __, __, __, __],
-      [__, __, __, __, __, __, __]
-    ], 2), CheckersMove.fromCapture([new Coord(2, 4), new Coord(0, 2)]).get(), TutorialStepMessage.CONGRATULATIONS()),
-    TutorialStep.fromMove(CheckersTutorialStep.PROMOTION_TITLE(), $localize`When a stack reaches the last line, its commander becomes an officer, and gains the ability to go backward, which is illegal for the other pieces! One of your piece could be promoted now.<br/><br/>You're playing Dark. Do it.`, CheckersState.of([
-      [__, __, __, __, __, __, _v],
-      [__, __, __, uv, __, _v, __],
-      [__, __, __, __, __, __, __],
-      [__, __, __, __, __, __, __],
-      [__, __, __, __, __, __, __],
-      [__, __, __, __, __, __, __],
-      [__, __, _u, __, _u, __, _u]
+    TutorialStep.informational($localize`Lasca: origins`, $localize`Lasca is a game based on checkers, created in 1911 by Emanuel Lasker, a chess world champion. It's played on a 7x7 board, each player has 11 pieces.`, LascaRules.get().getInitialState(defaultConfig4)),
+    TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`The goal of Lasca is, like for checkers, to render the opponent unable to move, either by capturing all their pieces, or by blocking them.`, LascaRules.get().getInitialState(defaultConfig4)),
+    TutorialStep.anyMove($localize`Steps`, CheckersTutorialStep.SIMPLE_STEPS(), LascaRules.get().getInitialState(defaultConfig4), CheckersMove.fromStep(new Coord(4, 4), new Coord(3, 3)), TutorialStepMessage.CONGRATULATIONS()),
+    TutorialStep.anyMove($localize`Captures`, CheckersTutorialStep.CAPTURES(), EvenCheckersState.of([
+      [_v2, __2, __2, __2, _v2, __2, _v2],
+      [__2, __2, __2, _v2, __2, _v2, __2],
+      [__2, __2, _v2, __2, _v2, __2, _v2],
+      [__2, _v2, __2, __2, __2, __2, __2],
+      [_u2, __2, _u2, __2, _u2, __2, _u2],
+      [__2, _u2, __2, _u2, __2, _u2, __2],
+      [_u2, __2, _u2, __2, _u2, __2, _u2]
+    ], 2), CheckersMove.fromCapture([new Coord(2, 4), new Coord(0, 2)]), $localize`Congratulations, notice that the captured piece was not removed from the board, but put below the capturing pieces.`),
+    TutorialStep.anyMove(CheckersTutorialStep.MULTIPLE_CAPTURES_TITLE(), CheckersTutorialStep.MULTIPLE_CAPTURES(), EvenCheckersState.of([
+      [__2, __2, __2, __2, __2, __2, __2],
+      [__2, __2, __2, __2, __2, __2, __2],
+      [_v2, __2, __2, __2, _v2, __2, _v2],
+      [__2, _v2, __2, _v2, __2, _v2, __2],
+      [__2, __2, _v2, __2, _v2, __2, _v2],
+      [__2, _v2, __2, __2, __2, __2, __2],
+      [__2, __2, _u2, __2, _u2, __2, _u2]
+    ], 2), CheckersMove.fromCapture([new Coord(2, 6), new Coord(0, 4), new Coord(2, 2)]), TutorialStepMessage.CONGRATULATIONS()),
+    TutorialStep.anyMove($localize`Minority capture is allowed`, $localize`If you have several capture choices, you are allowed to choose any of them. For example if one choice is to capture one piece, and the other choice is to capture two pieces, you can choose either.<br/><br/>You're playing Dark. Do the shortest capture here!`, EvenCheckersState.of([
+      [__2, __2, __2, __2, __2, __2, __2],
+      [__2, __2, __2, __2, __2, _v2, __2],
+      [__2, __2, __2, __2, __2, __2, __2],
+      [__2, _v2, __2, _v2, __2, __2, __2],
+      [__2, __2, _u2, __2, __2, __2, __2],
+      [__2, __2, __2, __2, __2, __2, __2],
+      [__2, __2, __2, __2, __2, __2, __2]
+    ], 2), CheckersMove.fromCapture([new Coord(2, 4), new Coord(0, 2)]), TutorialStepMessage.CONGRATULATIONS()),
+    TutorialStep.fromMove(CheckersTutorialStep.PROMOTION_TITLE(), $localize`When a stack reaches the last line, its commander becomes an officer, and gains the ability to go backward, which is illegal for the other pieces! One of your pieces could be promoted now.<br/><br/>You're playing Dark. Do it.`, EvenCheckersState.of([
+      [__2, __2, __2, __2, __2, __2, _v2],
+      [__2, __2, __2, uv2, __2, _v2, __2],
+      [__2, __2, __2, __2, __2, __2, __2],
+      [__2, __2, __2, __2, __2, __2, __2],
+      [__2, __2, __2, __2, __2, __2, __2],
+      [__2, __2, __2, __2, __2, __2, __2],
+      [__2, __2, _u2, __2, _u2, __2, _u2]
     ], 2), [
       CheckersMove.fromStep(new Coord(3, 1), new Coord(2, 0)),
       CheckersMove.fromStep(new Coord(3, 1), new Coord(4, 0))
     ], TutorialStepMessage.CONGRATULATIONS(), $localize`You did not choose the correct stack, and got no promotion.`),
-    TutorialStep.fromMove($localize`Officer move`, $localize`Officers can move and capture backward as well as forward.<br/><br/>You're playing Dark, move your officier!`, CheckersState.of([
-      [__, __, __, __, Uv, __, _v],
-      [__, __, __, __, __, __, __],
-      [__, __, __, __, _v, __, __],
-      [__, __, __, __, __, __, __],
-      [__, __, __, __, __, __, __],
-      [__, __, __, __, __, __, __],
-      [__, __, _u, __, _u, __, _u]
+    TutorialStep.fromMove($localize`Officer move`, $localize`Officers can move and capture backward as well as forward.<br/><br/>You're playing Dark, move your officer!`, EvenCheckersState.of([
+      [__2, __2, __2, __2, Uv2, __2, _v2],
+      [__2, __2, __2, __2, __2, __2, __2],
+      [__2, __2, __2, __2, _v2, __2, __2],
+      [__2, __2, __2, __2, __2, __2, __2],
+      [__2, __2, __2, __2, __2, __2, __2],
+      [__2, __2, __2, __2, __2, __2, __2],
+      [__2, __2, _u2, __2, _u2, __2, _u2]
     ], 2), [
       CheckersMove.fromStep(new Coord(4, 0), new Coord(3, 1)),
       CheckersMove.fromStep(new Coord(4, 0), new Coord(5, 1))
-    ], TutorialStepMessage.CONGRATULATIONS(), $localize`You did not move your officer.`)
+    ], TutorialStepMessage.CONGRATULATIONS(), $localize`You did not move your officer.`),
+    TutorialStep.fromMove($localize`Stack capture`, $localize`In Lasca, when a stack is captured, only the top piece is removed. After the capture, the stack can therefore be commanded by the opponent, depending on the new piece at the top of the stack. But you can also recover a captured king. This is the case here, recover your king!`, EvenCheckersState.of([
+      [__2, __2, __2, __2, __2, __2, __2],
+      [__2, __2, __2, vU2, __2, _v2, __2],
+      [__2, __2, __2, __2, _u2, __2, __2],
+      [__2, __2, __2, __2, __2, __2, __2],
+      [__2, __2, _v2, __2, __2, __2, __2],
+      [__2, __2, __2, __2, __2, _v2, __2],
+      [__2, __2, __2, __2, __2, __2, __2]
+    ], 0), [CheckersMove.fromCapture([new Coord(4, 2), new Coord(2, 0)])], TutorialStepMessage.CONGRATULATIONS(), $localize`You did not capture the right piece.`),
+    TutorialStep.anyMove($localize`No promotion mid-capture`, $localize`If, during a multiple capture, a piece reaches the last line, this piece will stop there and be promoted. But it cannot continue its capture as it is only promoted after the capture.<br/><br/>You are playing Dark, do a capture.`, EvenCheckersState.of([
+      [__2, __2, __2, __2, __2, __2, __2],
+      [__2, _v2, __2, _v2, __2, __2, __2],
+      [_u2, __2, __2, __2, __2, __2, __2],
+      [__2, __2, __2, __2, __2, __2, __2],
+      [__2, __2, __2, __2, __2, __2, __2],
+      [__2, __2, __2, __2, __2, __2, __2],
+      [__2, __2, __2, __2, __2, __2, __2]
+    ], 0), CheckersMove.fromCapture([new Coord(0, 2), new Coord(2, 0)]), $localize`Observe how your piece got promoted but could not continue its capture further.`),
+    TutorialStep.anyMove($localize`Capture rule`, $localize`When making multiple captures, you cannot jump twice over the same stack. The captured commander is immediately placed under your capturing stack, while the rest of the captured stack stays on its square. Even if this exposes another opposing commander, you cannot capture that stack again during the same move.<br/><br/>You are playing Dark. Capture as much pieces as possible.`, EvenCheckersState.of([
+      [__2, __2, __2, __2, __2, __2, __2],
+      [__2, __2, __2, __2, __2, __2, __2],
+      [__2, __2, __2, __2, __2, __2, __2],
+      [__2, __2, __2, _v2, __2, vv, __2],
+      [__2, __2, __2, __2, __2, __2, Uv2],
+      [__2, __2, __2, _v2, __2, _v2, __2],
+      [__2, __2, __2, __2, __2, __2, __2]
+    ], 0), CheckersMove.fromCapture([
+      new Coord(6, 4),
+      new Coord(4, 2),
+      new Coord(2, 4),
+      new Coord(4, 6),
+      new Coord(6, 4)
+    ]), TutorialStepMessage.CONGRATULATIONS_YOU_KNOW_EVERYTHING())
   ];
 };
 
 // src/app/games/checkers/lasca/lasca.component.ts
-var _forTrack03 = ($index, $item) => $item.coord.toString();
-var _forTrack13 = ($index, $item) => $item.toString();
+var _forTrack04 = ($index, $item) => $item.coord.toString();
+var _forTrack14 = ($index, $item) => $item.toString();
 function LascaComponent_For_6_Template(rf, ctx) {
   if (rf & 1) {
     const _r1 = \u0275\u0275getCurrentView();
@@ -6143,7 +6544,7 @@ function LascaComponent_For_6_Template(rf, ctx) {
     const coordAndContent_r2 = ctx.$implicit;
     const ctx_r2 = \u0275\u0275nextContext();
     \u0275\u0275property("id", \u0275\u0275interpolate2("square-", coordAndContent_r2.coord.x, "-", coordAndContent_r2.coord.y))("ngClass", ctx_r2.getSquareClass(coordAndContent_r2.coord.x, coordAndContent_r2.coord.y));
-    \u0275\u0275attribute("transform", ctx_r2.getTranslationAtXYZ(coordAndContent_r2.coord.x, coordAndContent_r2.coord.y, 0))("points", ctx_r2.getParallelogramPoints());
+    \u0275\u0275attribute("transform", ctx_r2.getTranslationAtXYZ(coordAndContent_r2.coord.x, coordAndContent_r2.coord.y, 0))("points", ctx_r2.parallelogramPoints());
   }
 }
 function LascaComponent_For_10_Template(rf, ctx) {
@@ -6162,7 +6563,7 @@ function LascaComponent_For_10_Template(rf, ctx) {
     const coord_r5 = ctx.$implicit;
     const ctx_r2 = \u0275\u0275nextContext();
     \u0275\u0275property("id", \u0275\u0275interpolate2("clickable-highlight-", coord_r5.x, "-", coord_r5.y));
-    \u0275\u0275attribute("transform", ctx_r2.getTranslationAtXYZ(coord_r5.x, coord_r5.y, 0))("points", ctx_r2.getParallelogramPoints());
+    \u0275\u0275attribute("transform", ctx_r2.getTranslationAtXYZ(coord_r5.x, coord_r5.y, 0))("points", ctx_r2.parallelogramPoints());
   }
 }
 function LascaComponent_For_12_For_2_Conditional_2_Template(rf, ctx) {
@@ -6233,31 +6634,31 @@ var LascaComponent = class _LascaComponent extends CheckersComponent {
       \u0275\u0275elementStart(0, "svg", 0)(1, "defs")(2, "g", 1);
       \u0275\u0275element(3, "path", 2)(4, "ellipse", 3);
       \u0275\u0275elementEnd()();
-      \u0275\u0275repeaterCreate(5, LascaComponent_For_6_Template, 1, 6, ":svg:polygon", 4, _forTrack03);
+      \u0275\u0275repeaterCreate(5, LascaComponent_For_6_Template, 1, 6, ":svg:polygon", 4, _forTrack04);
       \u0275\u0275element(7, "rect", 5)(8, "polygon", 6);
-      \u0275\u0275repeaterCreate(9, LascaComponent_For_10_Template, 1, 5, ":svg:polygon", 7, _forTrack13);
-      \u0275\u0275repeaterCreate(11, LascaComponent_For_12_Template, 3, 4, ":svg:g", 8, _forTrack03);
+      \u0275\u0275repeaterCreate(9, LascaComponent_For_10_Template, 1, 5, ":svg:polygon", 7, _forTrack14);
+      \u0275\u0275repeaterCreate(11, LascaComponent_For_12_Template, 3, 4, ":svg:g", 8, _forTrack04);
       \u0275\u0275elementEnd();
     }
     if (rf & 2) {
       \u0275\u0275attribute("viewBox", ctx.viewBoxString());
       \u0275\u0275advance(5);
-      \u0275\u0275repeater(ctx.constructedState.getCoordsAndContents());
+      \u0275\u0275repeater(ctx.constructedState().get().getCoordsAndContents());
       \u0275\u0275advance(2);
-      \u0275\u0275attribute("y", ctx.basicHeight)("width", ctx.basicWidth * ctx.mode.horizontalWidthRatio)("height", ctx.THICKNESS);
+      \u0275\u0275attribute("y", ctx.basicHeight())("width", ctx.basicWidth() * ctx.mode().horizontalWidthRatio)("height", ctx.THICKNESS);
       \u0275\u0275advance();
-      \u0275\u0275attribute("points", ctx.getRightEdge());
+      \u0275\u0275attribute("points", ctx.rightEdge());
       \u0275\u0275advance();
       \u0275\u0275repeater(ctx.possibleClicks);
       \u0275\u0275advance(2);
-      \u0275\u0275repeater(ctx.constructedState.getCoordsAndContents());
+      \u0275\u0275repeater(ctx.constructedState().get().getCoordsAndContents());
     }
   }, dependencies: [NgClass], styles: ["\n\n.base[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke[_ngcontent-%COMP%] {\n  stroke-width: 0;\n}\n.base.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n}\n.base-no-stroke[_ngcontent-%COMP%] {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n}\n.white-background[_ngcontent-%COMP%] {\n  fill: white;\n}\n.background[_ngcontent-%COMP%] {\n  fill: var(--spaces-fill);\n}\n.transparent[_ngcontent-%COMP%] {\n  opacity: 0;\n}\n.background2[_ngcontent-%COMP%] {\n  fill: var(--alt-background-fill);\n}\n.background3[_ngcontent-%COMP%] {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill[_ngcontent-%COMP%] {\n  fill: var(--player0);\n}\n.player0-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--player0-alternate);\n}\n.player0-stroke[_ngcontent-%COMP%] {\n  stroke: var(--player0);\n}\n.player1-fill[_ngcontent-%COMP%] {\n  fill: var(--player1);\n}\n.player1-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--player1-alternate);\n}\n.player1-stroke[_ngcontent-%COMP%] {\n  stroke: var(--player1);\n}\n.nonplayer-fill[_ngcontent-%COMP%] {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill[_ngcontent-%COMP%] {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke[_ngcontent-%COMP%] {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke[_ngcontent-%COMP%] {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill[_ngcontent-%COMP%] {\n  fill: var(--pre-captured);\n}\n.captured-fill[_ngcontent-%COMP%] {\n  fill: var(--captured);\n}\n.captured-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--alt-captured);\n}\n.captured-stroke[_ngcontent-%COMP%] {\n  stroke: var(--captured);\n}\n.moved-fill[_ngcontent-%COMP%] {\n  fill: var(--moved);\n}\n.moved-stroke[_ngcontent-%COMP%] {\n  stroke: var(--moved);\n}\n.indicator[_ngcontent-%COMP%] {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill[_ngcontent-%COMP%] {\n  fill: var(--indicator);\n}\n.selectable-stroke[_ngcontent-%COMP%] {\n  stroke: var(--selectable);\n}\n.selectable[_ngcontent-%COMP%]    > .base-no-stroke[_ngcontent-%COMP%] {\n  fill: var(--selectable);\n}\n.last-move-stroke[_ngcontent-%COMP%] {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--last-move);\n}\n.last-move-fill[_ngcontent-%COMP%] {\n  fill: var(--last-move);\n}\n.victory-fill[_ngcontent-%COMP%] {\n  fill: var(--victory);\n}\n.victory-stroke[_ngcontent-%COMP%] {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--victory);\n}\n.defeat-fill[_ngcontent-%COMP%] {\n  fill: var(--defeat);\n}\n.defeat-stroke[_ngcontent-%COMP%] {\n  stroke: var(--defeat);\n}\n.selected-fill[_ngcontent-%COMP%] {\n  fill: var(--selected);\n}\n.selected-stroke[_ngcontent-%COMP%] {\n  stroke: var(--selected);\n}\n.clickable-stroke[_ngcontent-%COMP%] {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover[_ngcontent-%COMP%]:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke[_ngcontent-%COMP%] {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill[_ngcontent-%COMP%] {\n  fill: var(--capturable);\n}\n.capturable-stroke[_ngcontent-%COMP%]:hover {\n  stroke-width: 8;\n}\n.no-fill[_ngcontent-%COMP%] {\n  fill: none;\n}\n.no-stroke[_ngcontent-%COMP%] {\n  stroke: none;\n}\n.small-stroke[_ngcontent-%COMP%] {\n  stroke-width: 2;\n}\n.mid-small-stroke[_ngcontent-%COMP%] {\n  stroke-width: 3;\n}\n.mid-stroke[_ngcontent-%COMP%] {\n  stroke-width: 5;\n}\n.big-stroke[_ngcontent-%COMP%] {\n  stroke-width: 8;\n}\n.huge-stroke[_ngcontent-%COMP%] {\n  stroke-width: 12;\n}\n.semi-transparent[_ngcontent-%COMP%] {\n  opacity: 0.5;\n}\n.territory-opacity[_ngcontent-%COMP%] {\n  fill-opacity: 0.7;\n}\n.round[_ngcontent-%COMP%] {\n  stroke-linecap: round;\n}\n.text-giant[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big[_ngcontent-%COMP%] {\n  font: 50px sans-serif;\n}\n.backgrounded-text[_ngcontent-%COMP%] {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus[_ngcontent-%COMP%] {\n  font: 38px sans-serif;\n}\n.text-medium[_ngcontent-%COMP%] {\n  font: 35px sans-serif;\n}\n.text-small-plus[_ngcontent-%COMP%] {\n  font: 28px sans-serif;\n}\n.text-small[_ngcontent-%COMP%] {\n  font: 25px sans-serif;\n}\n.text-bold[_ngcontent-%COMP%] {\n  font-weight: bold;\n}\n.text-center[_ngcontent-%COMP%] {\n  text-anchor: middle;\n}\n.black-fill[_ngcontent-%COMP%] {\n  fill: black;\n}\n.darker[_ngcontent-%COMP%] {\n  filter: brightness(80%);\n}\n.lighter[_ngcontent-%COMP%] {\n  filter: brightness(110%);\n}\nsvg[_ngcontent-%COMP%] {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator[_ngcontent-%COMP%] {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */"] });
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(LascaComponent, [{
     type: Component,
-    args: [{ selector: "app-lasca", imports: [NgClass], template: '<svg xmlns="http://www.w3.org/2000/svg"\n     class="board"\n     [attr.viewBox]="viewBoxString()"\n     preserveAspectRatio="xMidYMid meet">\n\n    <defs>\n        <g id="piece">\n            <path d="M 0 25 v 15 a 40 25, 0, 0, 0, 80 0 v -15 a 40 25, 0, 0, 0, -80 0 Z"/>\n            <ellipse cx="40"\n                     cy="25"\n                     rx="40"\n                     ry="25"/>\n        </g>\n    </defs>\n\n    <!-- Empty board -->\n    @for (coordAndContent of constructedState.getCoordsAndContents(); track coordAndContent.coord.toString()) {\n        <polygon id="square-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n                 [attr.transform]="getTranslationAtXYZ(coordAndContent.coord.x, coordAndContent.coord.y, 0)"\n                 (click)="onClick(coordAndContent.coord.x, coordAndContent.coord.y)"\n                 [attr.points]="getParallelogramPoints()"\n                 [ngClass]="getSquareClass(coordAndContent.coord.x, coordAndContent.coord.y)"\n                 class="base"/>\n    }\n\n    <rect id="bottomEdge"\n          x="0"\n          [attr.y]="basicHeight"\n          [attr.width]="basicWidth * mode.horizontalWidthRatio"\n          [attr.height]="THICKNESS"\n          class="base"/>\n    <polygon id="rightEdge"\n             [attr.points]="getRightEdge()"\n             class="base"/>\n\n    <!-- Clickable highlights -->\n    @for (coord of possibleClicks; track coord.toString()) {\n        <polygon id="clickable-highlight-{{ coord.x }}-{{ coord.y }}"\n                 [attr.transform]="getTranslationAtXYZ(coord.x, coord.y, 0)"\n                 (click)="onClick(coord.x, coord.y)"\n                 [attr.points]="getParallelogramPoints()"\n                 class="base no-fill clickable-stroke small-stroke"/>\n    }\n\n    <!-- Pieces -->\n    @for (coordAndContent of constructedState.getCoordsAndContents(); track coordAndContent.coord.toString()) {\n        <g id="coord-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n           [attr.transform]="getTranslationAtXYZ(coordAndContent.coord.x, coordAndContent.coord.y, 0)"\n           (click)="onClick(coordAndContent.coord.x, coordAndContent.coord.y)">\n            @for (pieceInfo of coordAndContent.content.pieces; track $index; let z = $index) {\n                <g pointer-events="fill"\n                   [attr.transform]="getPieceTranslation(z)"\n                   class="base mid-small-stroke">\n                    <use id="square-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}-piece-{{ z }}"\n                         xlink:href="#piece"\n                         [ngClass]="getPieceClasses(coordAndContent.coord.x, coordAndContent.coord.y, z)"\n                         class="base mid-stroke"/>\n                    @if (isPiecePromoted(coordAndContent.coord.x, coordAndContent.coord.y, z)) {\n                        <circle id="square-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}-piece-{{ z }}-promoted-symbol"\n                                [attr.cx]="SPACE_SIZE * 0.4"\n                                [attr.cy]="SPACE_SIZE * 0.575"\n                                [attr.r]="SPACE_SIZE * 0.045"\n                                [ngClass]="getPieceClasses(coordAndContent.coord.x, coordAndContent.coord.y, z)"/>\n                    }\n                </g>\n            }\n        </g>\n    }\n\n</svg>\n', styles: ["/* src/app/components/game-components/game-component/game-component.scss */\n.base {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke {\n  stroke-width: 0;\n}\n.base.manual-stroke {\n  fill: var(--base-stroke);\n}\n.base-no-stroke {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text {\n  fill: var(--base-stroke);\n}\n.white-background {\n  fill: white;\n}\n.background {\n  fill: var(--spaces-fill);\n}\n.transparent {\n  opacity: 0;\n}\n.background2 {\n  fill: var(--alt-background-fill);\n}\n.background3 {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill {\n  fill: var(--player0);\n}\n.player0-alternate-fill {\n  fill: var(--player0-alternate);\n}\n.player0-stroke {\n  stroke: var(--player0);\n}\n.player1-fill {\n  fill: var(--player1);\n}\n.player1-alternate-fill {\n  fill: var(--player1-alternate);\n}\n.player1-stroke {\n  stroke: var(--player1);\n}\n.nonplayer-fill {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill {\n  fill: var(--pre-captured);\n}\n.captured-fill {\n  fill: var(--captured);\n}\n.captured-alternate-fill {\n  fill: var(--alt-captured);\n}\n.captured-stroke {\n  stroke: var(--captured);\n}\n.moved-fill {\n  fill: var(--moved);\n}\n.moved-stroke {\n  stroke: var(--moved);\n}\n.indicator {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill {\n  fill: var(--indicator);\n}\n.selectable-stroke {\n  stroke: var(--selectable);\n}\n.selectable > .base-no-stroke {\n  fill: var(--selectable);\n}\n.last-move-stroke {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke {\n  fill: var(--last-move);\n}\n.last-move-fill {\n  fill: var(--last-move);\n}\n.victory-fill {\n  fill: var(--victory);\n}\n.victory-stroke {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke {\n  fill: var(--victory);\n}\n.defeat-fill {\n  fill: var(--defeat);\n}\n.defeat-stroke {\n  stroke: var(--defeat);\n}\n.selected-fill {\n  fill: var(--selected);\n}\n.selected-stroke {\n  stroke: var(--selected);\n}\n.clickable-stroke {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill {\n  fill: var(--capturable);\n}\n.capturable-stroke:hover {\n  stroke-width: 8;\n}\n.no-fill {\n  fill: none;\n}\n.no-stroke {\n  stroke: none;\n}\n.small-stroke {\n  stroke-width: 2;\n}\n.mid-small-stroke {\n  stroke-width: 3;\n}\n.mid-stroke {\n  stroke-width: 5;\n}\n.big-stroke {\n  stroke-width: 8;\n}\n.huge-stroke {\n  stroke-width: 12;\n}\n.semi-transparent {\n  opacity: 0.5;\n}\n.territory-opacity {\n  fill-opacity: 0.7;\n}\n.round {\n  stroke-linecap: round;\n}\n.text-giant {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big {\n  font: 50px sans-serif;\n}\n.backgrounded-text {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus {\n  font: 38px sans-serif;\n}\n.text-medium {\n  font: 35px sans-serif;\n}\n.text-small-plus {\n  font: 28px sans-serif;\n}\n.text-small {\n  font: 25px sans-serif;\n}\n.text-bold {\n  font-weight: bold;\n}\n.text-center {\n  text-anchor: middle;\n}\n.black-fill {\n  fill: black;\n}\n.darker {\n  filter: brightness(80%);\n}\n.lighter {\n  filter: brightness(110%);\n}\nsvg {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */\n"] }]
+    args: [{ selector: "app-lasca", imports: [NgClass], template: '<svg xmlns="http://www.w3.org/2000/svg"\n     class="board"\n     [attr.viewBox]="viewBoxString()"\n     preserveAspectRatio="xMidYMid meet">\n\n    <defs>\n        <g id="piece">\n            <path d="M 0 25 v 15 a 40 25, 0, 0, 0, 80 0 v -15 a 40 25, 0, 0, 0, -80 0 Z"/>\n            <ellipse cx="40"\n                     cy="25"\n                     rx="40"\n                     ry="25"/>\n        </g>\n    </defs>\n\n    <!-- Empty board -->\n    @for (coordAndContent of constructedState().get().getCoordsAndContents(); track coordAndContent.coord.toString()) {\n        <polygon id="square-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n                 [attr.transform]="getTranslationAtXYZ(coordAndContent.coord.x, coordAndContent.coord.y, 0)"\n                 (click)="onClick(coordAndContent.coord.x, coordAndContent.coord.y)"\n                 [attr.points]="parallelogramPoints()"\n                 [ngClass]="getSquareClass(coordAndContent.coord.x, coordAndContent.coord.y)"\n                 class="base"/>\n    }\n\n    <rect id="bottomEdge"\n          x="0"\n          [attr.y]="basicHeight()"\n          [attr.width]="basicWidth() * mode().horizontalWidthRatio"\n          [attr.height]="THICKNESS"\n          class="base"/>\n    <polygon id="rightEdge"\n             [attr.points]="rightEdge()"\n             class="base"/>\n\n    <!-- Clickable highlights -->\n    @for (coord of possibleClicks; track coord.toString()) {\n        <polygon id="clickable-highlight-{{ coord.x }}-{{ coord.y }}"\n                 [attr.transform]="getTranslationAtXYZ(coord.x, coord.y, 0)"\n                 (click)="onClick(coord.x, coord.y)"\n                 [attr.points]="parallelogramPoints()"\n                 class="base no-fill clickable-stroke small-stroke"/>\n    }\n\n    <!-- Pieces -->\n    @for (coordAndContent of constructedState().get().getCoordsAndContents(); track coordAndContent.coord.toString()) {\n        <g id="coord-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n           [attr.transform]="getTranslationAtXYZ(coordAndContent.coord.x, coordAndContent.coord.y, 0)"\n           (click)="onClick(coordAndContent.coord.x, coordAndContent.coord.y)">\n            @for (pieceInfo of coordAndContent.content.pieces; track $index; let z = $index) {\n                <g pointer-events="fill"\n                   [attr.transform]="getPieceTranslation(z)"\n                   class="base mid-small-stroke">\n                    <use id="square-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}-piece-{{ z }}"\n                         xlink:href="#piece"\n                         [ngClass]="getPieceClasses(coordAndContent.coord.x, coordAndContent.coord.y, z)"\n                         class="base mid-stroke"/>\n                    @if (isPiecePromoted(coordAndContent.coord.x, coordAndContent.coord.y, z)) {\n                        <circle id="square-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}-piece-{{ z }}-promoted-symbol"\n                                [attr.cx]="SPACE_SIZE * 0.4"\n                                [attr.cy]="SPACE_SIZE * 0.575"\n                                [attr.r]="SPACE_SIZE * 0.045"\n                                [ngClass]="getPieceClasses(coordAndContent.coord.x, coordAndContent.coord.y, z)"/>\n                    }\n                </g>\n            }\n        </g>\n    }\n\n</svg>\n', styles: ["/* src/app/components/game-components/game-component/game-component.scss */\n.base {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke {\n  stroke-width: 0;\n}\n.base.manual-stroke {\n  fill: var(--base-stroke);\n}\n.base-no-stroke {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text {\n  fill: var(--base-stroke);\n}\n.white-background {\n  fill: white;\n}\n.background {\n  fill: var(--spaces-fill);\n}\n.transparent {\n  opacity: 0;\n}\n.background2 {\n  fill: var(--alt-background-fill);\n}\n.background3 {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill {\n  fill: var(--player0);\n}\n.player0-alternate-fill {\n  fill: var(--player0-alternate);\n}\n.player0-stroke {\n  stroke: var(--player0);\n}\n.player1-fill {\n  fill: var(--player1);\n}\n.player1-alternate-fill {\n  fill: var(--player1-alternate);\n}\n.player1-stroke {\n  stroke: var(--player1);\n}\n.nonplayer-fill {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill {\n  fill: var(--pre-captured);\n}\n.captured-fill {\n  fill: var(--captured);\n}\n.captured-alternate-fill {\n  fill: var(--alt-captured);\n}\n.captured-stroke {\n  stroke: var(--captured);\n}\n.moved-fill {\n  fill: var(--moved);\n}\n.moved-stroke {\n  stroke: var(--moved);\n}\n.indicator {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill {\n  fill: var(--indicator);\n}\n.selectable-stroke {\n  stroke: var(--selectable);\n}\n.selectable > .base-no-stroke {\n  fill: var(--selectable);\n}\n.last-move-stroke {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke {\n  fill: var(--last-move);\n}\n.last-move-fill {\n  fill: var(--last-move);\n}\n.victory-fill {\n  fill: var(--victory);\n}\n.victory-stroke {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke {\n  fill: var(--victory);\n}\n.defeat-fill {\n  fill: var(--defeat);\n}\n.defeat-stroke {\n  stroke: var(--defeat);\n}\n.selected-fill {\n  fill: var(--selected);\n}\n.selected-stroke {\n  stroke: var(--selected);\n}\n.clickable-stroke {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill {\n  fill: var(--capturable);\n}\n.capturable-stroke:hover {\n  stroke-width: 8;\n}\n.no-fill {\n  fill: none;\n}\n.no-stroke {\n  stroke: none;\n}\n.small-stroke {\n  stroke-width: 2;\n}\n.mid-small-stroke {\n  stroke-width: 3;\n}\n.mid-stroke {\n  stroke-width: 5;\n}\n.big-stroke {\n  stroke-width: 8;\n}\n.huge-stroke {\n  stroke-width: 12;\n}\n.semi-transparent {\n  opacity: 0.5;\n}\n.territory-opacity {\n  fill-opacity: 0.7;\n}\n.round {\n  stroke-linecap: round;\n}\n.text-giant {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big {\n  font: 50px sans-serif;\n}\n.backgrounded-text {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus {\n  font: 38px sans-serif;\n}\n.text-medium {\n  font: 35px sans-serif;\n}\n.text-small-plus {\n  font: 28px sans-serif;\n}\n.text-small {\n  font: 25px sans-serif;\n}\n.text-bold {\n  font-weight: bold;\n}\n.text-center {\n  text-anchor: middle;\n}\n.black-fill {\n  fill: black;\n}\n.darker {\n  filter: brightness(80%);\n}\n.lighter {\n  filter: brightness(110%);\n}\nsvg {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */\n"] }]
   }], () => [], null);
 })();
 (() => {
@@ -6852,10 +7253,10 @@ var _3 = FourStatePiece.EMPTY;
 var N2 = FourStatePiece.UNREACHABLE;
 var O3 = FourStatePiece.ZERO;
 var X2 = FourStatePiece.ONE;
-var defaultConfig4 = CoerceoRules.get().getDefaultRulesConfig();
+var defaultConfig5 = CoerceoRules.get().getDefaultRulesConfig();
 var CoerceoTutorial = class extends Tutorial {
   tutorial = [
-    TutorialStep.informational(TutorialStepMessage.INITIAL_BOARD_AND_OBJECT_OF_THE_GAME(), $localize`Coerceo is played on a board like this, composed of hexagonal tiles, each comprising 6 triangles. The triangles are the spaces on which pieces move during the game. The tiles can be removed from the board (you will see how later). The dark pieces belong to the first player and can only move on the dark spaces, while the light pieces belong to the second player and can only move on the light spaces. The object of the game is to capture all of the opponent's pieces.`, CoerceoRules.get().getInitialState(defaultConfig4)),
+    TutorialStep.informational(TutorialStepMessage.INITIAL_BOARD_AND_OBJECT_OF_THE_GAME(), $localize`Coerceo is played on a board like this, composed of hexagonal tiles, each comprising 6 triangles. The triangles are the spaces on which pieces move during the game. The tiles can be removed from the board (you will see how later). The dark pieces belong to the first player and can only move on the dark spaces, while the light pieces belong to the second player and can only move on the light spaces. The object of the game is to capture all of the opponent's pieces.`, CoerceoRules.get().getInitialState(defaultConfig5)),
     TutorialStep.anyMove($localize`Move`, $localize`To move a piece, you need to:
         <ol>
           <li>Click on one of your pieces.</li>
@@ -6863,7 +7264,7 @@ var CoerceoTutorial = class extends Tutorial {
         </ol>
         You can pass through the opponent's pieces.<br/><br/>
         You're playing first, hence you're playing Dark.
-        Perform any move.`, CoerceoRules.get().getInitialState(defaultConfig4), CoerceoRegularMove.of(new Coord(3, 5), new Coord(5, 5)), $localize`Congratulations! Let's see captures now.`),
+        Perform any move.`, CoerceoRules.get().getInitialState(defaultConfig5), CoerceoRegularMove.of(new Coord(3, 5), new Coord(5, 5)), $localize`Congratulations! Let's see captures now.`),
     TutorialStep.fromMove($localize`Captures`, $localize`Every piece has three neighboring triangular spaces (2 on the sides).
         When all neighboring spaces except one are occupied, and one opponent moves to that last free space, your piece is captured!
         However, it is possible to place a piece between 3 of the opponent's pieces (or 2 on the side) without being captured.<br/><br/>
@@ -7374,8 +7775,8 @@ var __decorate8 = function(decorators, target, key, desc) {
   else for (var i2 = decorators.length - 1; i2 >= 0; i2--) if (d2 = decorators[i2]) r2 = (c < 3 ? d2(r2) : c > 3 ? d2(target, key, r2) : d2(target, key)) || r2;
   return c > 3 && r2 && Object.defineProperty(target, key, r2), r2;
 };
-var _forTrack04 = ($index, $item) => $item.coord.toString();
-var _forTrack14 = ($index, $item) => $item.getValue();
+var _forTrack05 = ($index, $item) => $item.coord.toString();
+var _forTrack15 = ($index, $item) => $item.getValue();
 var _forTrack22 = ($index, $item) => $item.toString();
 function CoerceoComponent_For_2_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
@@ -7819,10 +8220,10 @@ var CoerceoComponent = class _CoerceoComponent extends TriangularGameComponent {
     if (rf & 1) {
       \u0275\u0275namespaceSVG();
       \u0275\u0275elementStart(0, "svg", 0);
-      \u0275\u0275repeaterCreate(1, CoerceoComponent_For_2_Template, 2, 1, ":svg:g", null, _forTrack04);
-      \u0275\u0275repeaterCreate(3, CoerceoComponent_For_4_Template, 2, 1, ":svg:g", null, _forTrack04);
+      \u0275\u0275repeaterCreate(1, CoerceoComponent_For_2_Template, 2, 1, ":svg:g", null, _forTrack05);
+      \u0275\u0275repeaterCreate(3, CoerceoComponent_For_4_Template, 2, 1, ":svg:g", null, _forTrack05);
       \u0275\u0275conditionalCreate(5, CoerceoComponent_Conditional_5_Template, 4, 5, ":svg:g")(6, CoerceoComponent_Conditional_6_Template, 2, 2);
-      \u0275\u0275repeaterCreate(7, CoerceoComponent_For_8_Template, 2, 1, ":svg:g", null, _forTrack14);
+      \u0275\u0275repeaterCreate(7, CoerceoComponent_For_8_Template, 2, 1, ":svg:g", null, _forTrack15);
       \u0275\u0275elementEnd();
     }
     if (rf & 2) {
@@ -8215,11 +8616,11 @@ var ConnectSixRules = class _ConnectSixRules extends ConfigurableRules {
 var _4 = PlayerOrNone.NONE;
 var O4 = PlayerOrNone.ZERO;
 var X3 = PlayerOrNone.ONE;
-var defaultConfig5 = ConnectSixRules.get().getDefaultRulesConfig();
+var defaultConfig6 = ConnectSixRules.get().getDefaultRulesConfig();
 var ConnectSixTutorial = class extends Tutorial {
   tutorial = [
-    TutorialStep.informational(TutorialStepMessage.INITIAL_BOARD_AND_OBJECT_OF_THE_GAME(), $localize`Connect Six is played on a 19x19 board, on which stones are put on the intersections. The object of the game is to align 6 of your pieces.`, ConnectSixRules.get().getInitialState(defaultConfig5)),
-    TutorialStep.anyMove($localize`First turn`, $localize`At the first turn, the first player plays only one piece.<br/><br/>You're playing Dark, place your first piece by clicking on an intersection.`, ConnectSixRules.get().getInitialState(defaultConfig5), ConnectSixFirstMove.of(new Coord(9, 9)), TutorialStepMessage.CONGRATULATIONS()),
+    TutorialStep.informational(TutorialStepMessage.INITIAL_BOARD_AND_OBJECT_OF_THE_GAME(), $localize`Connect Six is played on a 19x19 board, on which stones are put on the intersections. The object of the game is to align 6 of your pieces.`, ConnectSixRules.get().getInitialState(defaultConfig6)),
+    TutorialStep.anyMove($localize`First turn`, $localize`At the first turn, the first player plays only one piece.<br/><br/>You're playing Dark, place your first piece by clicking on an intersection.`, ConnectSixRules.get().getInitialState(defaultConfig6), ConnectSixFirstMove.of(new Coord(9, 9)), TutorialStepMessage.CONGRATULATIONS()),
     TutorialStep.fromMove($localize`Next turns`, $localize`On all following turns, the players play two pieces, until a victory or a draw is reached.<br/><br/>You're playing Light, do the winning move.`, new ConnectSixState([
       [_4, _4, _4, _4, _4, _4, _4, _4, _4, _4, _4, _4, _4, _4, _4, _4, _4, _4, _4],
       [_4, _4, _4, _4, _4, _4, _4, _4, _4, _4, _4, _4, _4, _4, _4, _4, _4, _4, _4],
@@ -8323,7 +8724,7 @@ var GobanGameComponent = class _GobanGameComponent extends RectangularGameCompon
 
 // src/app/components/game-components/goban-game-component/blank-goban/blank-goban.component.ts
 var _c02 = ["app-blank-goban", ""];
-var _forTrack05 = ($index, $item) => $item.toString();
+var _forTrack06 = ($index, $item) => $item.toString();
 function BlankGobanComponent_For_3_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
@@ -8426,7 +8827,7 @@ var BlankGobanComponent = class _BlankGobanComponent extends BaseGameComponent {
       \u0275\u0275repeaterCreate(2, BlankGobanComponent_For_3_Template, 1, 6, ":svg:line", 2, \u0275\u0275repeaterTrackByIndex);
       \u0275\u0275repeaterCreate(4, BlankGobanComponent_For_5_Template, 1, 6, ":svg:line", 2, \u0275\u0275repeaterTrackByIndex);
       \u0275\u0275repeaterCreate(6, BlankGobanComponent_For_7_Template, 3, 0, ":svg:g", null, \u0275\u0275repeaterTrackByIndex);
-      \u0275\u0275repeaterCreate(8, BlankGobanComponent_For_9_Template, 1, 6, ":svg:circle", 3, _forTrack05);
+      \u0275\u0275repeaterCreate(8, BlankGobanComponent_For_9_Template, 1, 6, ":svg:circle", 3, _forTrack06);
       \u0275\u0275domElementEnd();
     }
     if (rf & 2) {
@@ -9254,7 +9655,7 @@ var __decorate10 = function(decorators, target, key, desc) {
   else for (var i2 = decorators.length - 1; i2 >= 0; i2--) if (d2 = decorators[i2]) r2 = (c < 3 ? d2(r2) : c > 3 ? d2(target, key, r2) : d2(target, key)) || r2;
   return c > 3 && r2 && Object.defineProperty(target, key, r2), r2;
 };
-var _forTrack06 = ($index, $item) => $item.toString();
+var _forTrack07 = ($index, $item) => $item.toString();
 function ConspirateursComponent_For_2_For_2_Conditional_2_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
@@ -9660,7 +10061,7 @@ var ConspirateursComponent = class _ConspirateursComponent extends GameComponent
       \u0275\u0275namespaceSVG();
       \u0275\u0275elementStart(0, "svg", 0);
       \u0275\u0275repeaterCreate(1, ConspirateursComponent_For_2_Template, 3, 0, ":svg:g", null, \u0275\u0275repeaterTrackByIndex);
-      \u0275\u0275repeaterCreate(3, ConspirateursComponent_For_4_Template, 2, 5, ":svg:g", null, _forTrack06);
+      \u0275\u0275repeaterCreate(3, ConspirateursComponent_For_4_Template, 2, 5, ":svg:g", null, _forTrack07);
       \u0275\u0275repeaterCreate(5, ConspirateursComponent_For_6_Template, 1, 5, ":svg:circle", 1, \u0275\u0275repeaterTrackByIdentity);
       \u0275\u0275repeaterCreate(7, ConspirateursComponent_For_8_Template, 1, 5, ":svg:circle", 2, \u0275\u0275repeaterTrackByIdentity);
       \u0275\u0275conditionalCreate(9, ConspirateursComponent_Conditional_9_Template, 1, 4, ":svg:rect", 3);
@@ -10419,7 +10820,7 @@ var __decorate11 = function(decorators, target, key, desc) {
   else for (var i2 = decorators.length - 1; i2 >= 0; i2--) if (d2 = decorators[i2]) r2 = (c < 3 ? d2(r2) : c > 3 ? d2(target, key, r2) : d2(target, key)) || r2;
   return c > 3 && r2 && Object.defineProperty(target, key, r2), r2;
 };
-var _forTrack07 = ($index, $item) => $item.toString();
+var _forTrack08 = ($index, $item) => $item.toString();
 function DiaballikComponent_For_6_For_2_Conditional_2_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
@@ -10908,7 +11309,7 @@ var DiaballikComponent = class _DiaballikComponent extends RectangularGameCompon
       \u0275\u0275elementStart(4, "g");
       \u0275\u0275repeaterCreate(5, DiaballikComponent_For_6_Template, 3, 0, ":svg:g", null, \u0275\u0275repeaterTrackByIndex);
       \u0275\u0275repeaterCreate(7, DiaballikComponent_For_8_Template, 1, 4, ":svg:line", 3, \u0275\u0275repeaterTrackByIndex);
-      \u0275\u0275repeaterCreate(9, DiaballikComponent_For_10_Template, 1, 8, ":svg:rect", 4, _forTrack07);
+      \u0275\u0275repeaterCreate(9, DiaballikComponent_For_10_Template, 1, 8, ":svg:rect", 4, _forTrack08);
       \u0275\u0275elementEnd();
       \u0275\u0275conditionalCreate(11, DiaballikComponent_Conditional_11_Template, 17, 50, ":svg:g");
       \u0275\u0275conditionalCreate(12, DiaballikComponent_Conditional_12_Template, 3, 4, ":svg:g", 5);
@@ -11400,7 +11801,7 @@ var DiamRules = class _DiamRules extends Rules {
 };
 
 // src/app/games/diam/DiamTutorial.ts
-var __2 = DiamPiece.EMPTY;
+var __3 = DiamPiece.EMPTY;
 var A1 = DiamPiece.ZERO_FIRST;
 var A2 = DiamPiece.ZERO_SECOND;
 var B1 = DiamPiece.ONE_FIRST;
@@ -11409,16 +11810,16 @@ var DiamTutorial = class {
   tutorial = [
     TutorialStep.informational($localize`Initial board and player pieces`, $localize`Diam's board is a circular board made of 8 spaces. Each player has 8 pieces: 4 of one color, and 4 of another color. Initially, the board is empty. All the remaining pieces are displayed next to the board: Dark's pieces are on the left, Light's pieces are on the right.`, DiamRules.get().getInitialState()),
     TutorialStep.fromMove(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`At Diam, the goal is to align two of your pieces, having exactly the same color, on diametrically opposed spaces, on top of at least another piece. Note here that Dark does not win because the dark pieces are not on top of any other piece. You're playing Light. Here, you can win by dropping one of your pieces on the leftmost space. You can do it by clicking on the corresponding piece next to the board, and then on the space in which you want to drop your piece.<br/><br/>You're playing Light, win the game!`, DiamState.ofRepresentation([
-      [__2, __2, __2, __2, __2, __2, __2, __2],
-      [__2, __2, __2, __2, __2, __2, __2, __2],
-      [__2, __2, __2, __2, B1, __2, __2, __2],
-      [A1, __2, __2, __2, A1, __2, __2, __2]
+      [__3, __3, __3, __3, __3, __3, __3, __3],
+      [__3, __3, __3, __3, __3, __3, __3, __3],
+      [__3, __3, __3, __3, B1, __3, __3, __3],
+      [A1, __3, __3, __3, A1, __3, __3, __3]
     ], 3), [new DiamMoveDrop(0, DiamPiece.ONE_FIRST)], TutorialStepMessage.CONGRATULATIONS_YOU_WON(), $localize`Failed, you should drop your piece on the leftmost space, using the piece of the same color of the other piece you already have on the board.`),
     TutorialStep.fromMove($localize`Types of move`, $localize`You can perform two types of move: either dropping one of your piece like you did in the previous step, or you can shift one of your pieces on the board to a neighboring space. You can pick any of your piece on the board, even if there are pieces on top of it. Only one condition applies: there can never be more than 4 pieces in a space. When you pick a piece with other pieces on top of it, all the other pieces move with yours.<br/><br/>You're playing Dark, try to move one of your piece that is already on the board.`, DiamState.ofRepresentation([
-      [__2, __2, __2, __2, __2, __2, __2, __2],
-      [__2, __2, __2, __2, B2, __2, __2, __2],
-      [__2, __2, __2, __2, A1, __2, __2, __2],
-      [B1, __2, __2, __2, A2, __2, __2, __2]
+      [__3, __3, __3, __3, __3, __3, __3, __3],
+      [__3, __3, __3, __3, B2, __3, __3, __3],
+      [__3, __3, __3, __3, A1, __3, __3, __3],
+      [B1, __3, __3, __3, A2, __3, __3, __3]
     ], 4), [
       DiamMoveShift.ofRepresentation(new Coord(4, 3), "counterclockwise"),
       DiamMoveShift.ofRepresentation(new Coord(4, 3), "clockwise"),
@@ -11426,10 +11827,10 @@ var DiamTutorial = class {
       DiamMoveShift.ofRepresentation(new Coord(4, 2), "clockwise")
     ], TutorialStepMessage.CONGRATULATIONS(), $localize`Failed, try to move one of your piece that is already on the board.`),
     TutorialStep.fromMove($localize`Special case`, $localize`It can happen that, in a single turn, both players reach an alignment. If it is the case, only the player with the highest alignment wins.<br/><br/>Here, playing Dark, you can win by performing such a move, do it!`, DiamState.ofRepresentation([
-      [__2, __2, __2, __2, A1, __2, __2, __2],
-      [__2, __2, __2, __2, B2, __2, __2, A1],
-      [__2, __2, __2, __2, A1, __2, __2, B2],
-      [__2, B1, __2, __2, A2, __2, __2, B1]
+      [__3, __3, __3, __3, A1, __3, __3, __3],
+      [__3, __3, __3, __3, B2, __3, __3, A1],
+      [__3, __3, __3, __3, A1, __3, __3, B2],
+      [__3, B1, __3, __3, A2, __3, __3, B1]
     ], 8), [DiamMoveShift.ofRepresentation(new Coord(4, 2), "counterclockwise")], TutorialStepMessage.CONGRATULATIONS(), $localize`Failed, try to shift a stack of pieces to the left.`)
   ];
 };
@@ -11509,8 +11910,8 @@ var __decorate12 = function(decorators, target, key, desc) {
 };
 var _c03 = () => [0, 1, 2, 3, 4, 5, 6, 7];
 var _c1 = () => [2, 1, 3, 0, 4, 7, 5, 6];
-var _forTrack08 = ($index, $item) => $item.getValue();
-var _forTrack15 = ($index, $item) => $item.y;
+var _forTrack09 = ($index, $item) => $item.getValue();
+var _forTrack16 = ($index, $item) => $item.y;
 function DiamComponent_For_6_Template(rf, ctx) {
   if (rf & 1) {
     const _r1 = \u0275\u0275getCurrentView();
@@ -11571,7 +11972,7 @@ function DiamComponent_For_8_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
     \u0275\u0275elementStart(0, "g");
-    \u0275\u0275repeaterCreate(1, DiamComponent_For_8_For_2_Template, 3, 9, ":svg:g", 7, _forTrack15);
+    \u0275\u0275repeaterCreate(1, DiamComponent_For_8_For_2_Template, 3, 9, ":svg:g", 7, _forTrack16);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -11962,7 +12363,7 @@ var DiamComponent = class _DiamComponent extends GameComponent {
       \u0275\u0275elementEnd()();
       \u0275\u0275repeaterCreate(5, DiamComponent_For_6_Template, 3, 8, ":svg:g", 4, \u0275\u0275repeaterTrackByIdentity);
       \u0275\u0275repeaterCreate(7, DiamComponent_For_8_Template, 3, 0, ":svg:g", null, \u0275\u0275repeaterTrackByIdentity);
-      \u0275\u0275repeaterCreate(9, DiamComponent_For_10_Template, 3, 0, ":svg:g", null, _forTrack08);
+      \u0275\u0275repeaterCreate(9, DiamComponent_For_10_Template, 3, 0, ":svg:g", null, _forTrack09);
       \u0275\u0275elementEnd();
     }
     if (rf & 2) {
@@ -12537,7 +12938,7 @@ var DvonnRules = class _DvonnRules extends Rules {
 };
 
 // src/app/games/dvonn/DvonnTutorial.ts
-var __3 = DvonnPieceStack.EMPTY;
+var __4 = DvonnPieceStack.EMPTY;
 var NN = DvonnPieceStack.UNREACHABLE;
 var SO = DvonnPieceStack.SOURCE;
 var O1 = DvonnPieceStack.PLAYER_ZERO;
@@ -12562,11 +12963,11 @@ var DvonnTutorial = class extends Tutorial {
     TutorialStep.fromPredicate($localize`Disconnection`, $localize`Pieces with a lightning strike are called "sources".
         When a stack is not directly nor indirectly connected to a source, it is removed from the board.<br/><br/>
         You're playing Dark, try to disconnect the stack of 4 pieces from your opponent. There are two ways of doing that, one is better than the other: try to find that one!`, new DvonnState([
-      [NN, NN, X1, SO, __3, __3, __3, __3, __3, __3, __3],
-      [NN, __3, O1, __3, __3, __3, __3, __3, __3, __3, __3],
-      [__3, __3, X42, __3, __3, __3, __3, X1, SO, __3, __3],
-      [__3, __3, __3, __3, __3, __3, __3, __3, __3, __3, NN],
-      [__3, __3, __3, __3, __3, __3, __3, __3, __3, NN, NN]
+      [NN, NN, X1, SO, __4, __4, __4, __4, __4, __4, __4],
+      [NN, __4, O1, __4, __4, __4, __4, __4, __4, __4, __4],
+      [__4, __4, X42, __4, __4, __4, __4, X1, SO, __4, __4],
+      [__4, __4, __4, __4, __4, __4, __4, __4, __4, __4, NN],
+      [__4, __4, __4, __4, __4, __4, __4, __4, __4, NN, NN]
     ], 0, false), DvonnMove.from(new Coord(2, 1), new Coord(2, 0)).get(), (move, _previous, _result) => {
       if (move.getEnd().equals(new Coord(3, 0))) {
         return MGPValidation.failure($localize`You have successfully disconnected the stack of 4 pieces of your opponent, but on the next move your opponent will be able to move on your new stack, and to win the game! There exists a better outcome of this situation, try to find it.`);
@@ -12581,11 +12982,11 @@ var DvonnTutorial = class extends Tutorial {
         This means that you can take control of a source by moving one of your stack on top of it.
         This way, you know that this stack may never be disconnected, as it contains a source.<br/><br/>
         You're playing Dark and you can take control of a source, do it!`, new DvonnState([
-      [NN, NN, SO, X1, __3, __3, __3, __3, __3, __3, __3],
-      [NN, O1, O1, __3, __3, __3, __3, __3, __3, __3, __3],
-      [__3, X1, O1, X1, __3, __3, O1, X22, SO, __3, __3],
-      [__3, __3, X1, __3, __3, __3, __3, __3, __3, __3, NN],
-      [__3, __3, __3, __3, __3, __3, __3, __3, __3, NN, NN]
+      [NN, NN, SO, X1, __4, __4, __4, __4, __4, __4, __4],
+      [NN, O1, O1, __4, __4, __4, __4, __4, __4, __4, __4],
+      [__4, X1, O1, X1, __4, __4, O1, X22, SO, __4, __4],
+      [__4, __4, X1, __4, __4, __4, __4, __4, __4, __4, NN],
+      [__4, __4, __4, __4, __4, __4, __4, __4, __4, NN, NN]
     ], 0, false), DvonnMove.from(new Coord(2, 1), new Coord(2, 0)).get(), (move, _previous, _result) => {
       if (move.getEnd().equals(new Coord(2, 0))) {
         return MGPValidation.SUCCESS;
@@ -12596,18 +12997,18 @@ var DvonnTutorial = class extends Tutorial {
     TutorialStep.informational($localize`Passing`, $localize`It can happen that you have no possible move to make.
         If this is the case, and if your opponent can still move, you must pass your turn.<br/><br/>
         This is a situation that occurs here for Dark.`, new DvonnState([
-      [NN, NN, SO, __3, __3, __3, __3, __3, __3, __3, __3],
-      [NN, __3, O22, __3, __3, __3, __3, __3, __3, __3, __3],
-      [__3, __3, X22, __3, __3, __3, __3, X22, SO, O42, __3],
-      [__3, __3, __3, __3, __3, __3, __3, __3, __3, __3, NN],
-      [__3, __3, __3, __3, __3, __3, __3, __3, __3, NN, NN]
+      [NN, NN, SO, __4, __4, __4, __4, __4, __4, __4, __4],
+      [NN, __4, O22, __4, __4, __4, __4, __4, __4, __4, __4],
+      [__4, __4, X22, __4, __4, __4, __4, X22, SO, O42, __4],
+      [__4, __4, __4, __4, __4, __4, __4, __4, __4, __4, NN],
+      [__4, __4, __4, __4, __4, __4, __4, __4, __4, NN, NN]
     ], 0, false)),
     TutorialStep.fromMove(TutorialStepMessage.END_OF_THE_GAME(), $localize`When no more move is possible for both players, the game ends and the player with the most points wins.<br/><br/>You're playing Dark, make your last move.`, new DvonnState([
-      [NN, NN, SO, __3, __3, __3, __3, __3, __3, __3, __3],
-      [NN, __3, O1, __3, __3, __3, __3, __3, __3, __3, __3],
-      [__3, __3, __3, __3, __3, __3, __3, __3, SO, O42, __3],
-      [__3, __3, __3, __3, __3, __3, __3, __3, __3, __3, NN],
-      [__3, __3, __3, __3, __3, __3, __3, __3, __3, NN, NN]
+      [NN, NN, SO, __4, __4, __4, __4, __4, __4, __4, __4],
+      [NN, __4, O1, __4, __4, __4, __4, __4, __4, __4, __4],
+      [__4, __4, __4, __4, __4, __4, __4, __4, SO, O42, __4],
+      [__4, __4, __4, __4, __4, __4, __4, __4, __4, __4, NN],
+      [__4, __4, __4, __4, __4, __4, __4, __4, __4, NN, NN]
     ], 0, false), [DvonnMove.from(new Coord(2, 1), new Coord(2, 0)).get()], $localize`Congratulations, you won 6 - 0!`, $localize`Bad idea, by moving on the source you would have won a point.`)
   ];
 };
@@ -12931,8 +13332,8 @@ var __decorate13 = function(decorators, target, key, desc) {
   else for (var i2 = decorators.length - 1; i2 >= 0; i2--) if (d2 = decorators[i2]) r2 = (c < 3 ? d2(r2) : c > 3 ? d2(target, key, r2) : d2(target, key)) || r2;
   return c > 3 && r2 && Object.defineProperty(target, key, r2), r2;
 };
-var _forTrack09 = ($index, $item) => $item.toString();
-var _forTrack16 = ($index, $item) => $item.coord.toString();
+var _forTrack010 = ($index, $item) => $item.toString();
+var _forTrack17 = ($index, $item) => $item.coord.toString();
 function DvonnComponent_For_2_Conditional_4_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
@@ -13265,8 +13666,8 @@ var DvonnComponent = class _DvonnComponent extends HexagonalGameComponent {
     if (rf & 1) {
       \u0275\u0275namespaceSVG();
       \u0275\u0275elementStart(0, "svg", 0);
-      \u0275\u0275repeaterCreate(1, DvonnComponent_For_2_Template, 7, 9, ":svg:g", null, _forTrack09);
-      \u0275\u0275repeaterCreate(3, DvonnComponent_For_4_Template, 4, 13, ":svg:g", 1, _forTrack16);
+      \u0275\u0275repeaterCreate(1, DvonnComponent_For_2_Template, 7, 9, ":svg:g", null, _forTrack010);
+      \u0275\u0275repeaterCreate(3, DvonnComponent_For_4_Template, 4, 13, ":svg:g", 1, _forTrack17);
       \u0275\u0275conditionalCreate(5, DvonnComponent_Conditional_5_Template, 3, 4, ":svg:ng-container");
       \u0275\u0275conditionalCreate(6, DvonnComponent_Conditional_6_Template, 1, 5, ":svg:polygon", 2);
       \u0275\u0275elementEnd();
@@ -13642,7 +14043,7 @@ var S = _7.put(smallLight);
 var B = _7.put(bigLight);
 var Sm = _7.put(smallLight).put(mediumDark);
 var sm = _7.put(smallDark).put(mediumDark);
-var defaultConfig6 = EncapsuleRules.get().getDefaultRulesConfig();
+var defaultConfig7 = EncapsuleRules.get().getDefaultRulesConfig();
 var noMorePieces = PlayerMap.ofValues(new EncapsuleSizeToNumberMap(), new EncapsuleSizeToNumberMap());
 var EncapsuleTutorial = class extends Tutorial {
   tutorial = [
@@ -13652,7 +14053,7 @@ var EncapsuleTutorial = class extends Tutorial {
       [_7, _7, b]
     ], 0, EncapsuleRules.get().getEncapsulePieceMapFrom([1, 1, 1], [1, 2, 1]), 3)),
     TutorialStep.anyMove($localize`Putting a piece`, $localize`This is the initial board.<br/><br/>
-        You're playing Dark. Pick one of your piece on the side of the board and put it on the board.`, EncapsuleRules.get().getInitialState(defaultConfig6), EncapsuleMove.ofDrop(smallDark, new Coord(1, 1)), TutorialStepMessage.CONGRATULATIONS()),
+        You're playing Dark. Pick one of your piece on the side of the board and put it on the board.`, EncapsuleRules.get().getInitialState(defaultConfig7), EncapsuleMove.ofDrop(smallDark, new Coord(1, 1)), TutorialStepMessage.CONGRATULATIONS()),
     TutorialStep.fromMove($localize`Moving`, $localize`Another possible action is to move one of your pieces that is already on the board.<br/><br/>
         You're playing Dark, click on your piece already on the board and then on any empty square of the board.`, new EncapsuleState([
       [s, B, _7],
@@ -13773,8 +14174,8 @@ var __decorate15 = function(decorators, target, key, desc) {
   else for (var i2 = decorators.length - 1; i2 >= 0; i2--) if (d2 = decorators[i2]) r2 = (c < 3 ? d2(r2) : c > 3 ? d2(target, key, r2) : d2(target, key)) || r2;
   return c > 3 && r2 && Object.defineProperty(target, key, r2), r2;
 };
-var _forTrack010 = ($index, $item) => $item.getValue();
-var _forTrack17 = ($index, $item) => $item.toString();
+var _forTrack011 = ($index, $item) => $item.getValue();
+var _forTrack18 = ($index, $item) => $item.toString();
 function EncapsuleComponent_For_2_For_3_Template(rf, ctx) {
   if (rf & 1) {
     const _r1 = \u0275\u0275getCurrentView();
@@ -14162,11 +14563,11 @@ var EncapsuleComponent = class _EncapsuleComponent extends RectangularGameCompon
     if (rf & 1) {
       \u0275\u0275namespaceSVG();
       \u0275\u0275elementStart(0, "svg", 2);
-      \u0275\u0275repeaterCreate(1, EncapsuleComponent_For_2_Template, 4, 0, ":svg:g", null, _forTrack010);
+      \u0275\u0275repeaterCreate(1, EncapsuleComponent_For_2_Template, 4, 0, ":svg:g", null, _forTrack011);
       \u0275\u0275elementStart(3, "g", null, 0);
       \u0275\u0275repeaterCreate(5, EncapsuleComponent_For_6_Template, 3, 0, ":svg:g", null, \u0275\u0275repeaterTrackByIndex);
       \u0275\u0275conditionalCreate(7, EncapsuleComponent_Conditional_7_Template, 1, 7, ":svg:rect", 3);
-      \u0275\u0275repeaterCreate(8, EncapsuleComponent_For_9_Template, 1, 7, ":svg:rect", 4, _forTrack17);
+      \u0275\u0275repeaterCreate(8, EncapsuleComponent_For_9_Template, 1, 7, ":svg:rect", 4, _forTrack18);
       \u0275\u0275elementEnd()();
     }
     if (rf & 2) {
@@ -14402,10 +14803,10 @@ var EpaminondasMove = class _EpaminondasMove extends MoveCoord {
 var _8 = PlayerOrNone.NONE;
 var O7 = PlayerOrNone.ZERO;
 var X6 = PlayerOrNone.ONE;
-var defaultConfig7 = EpaminondasRules.get().getDefaultRulesConfig();
+var defaultConfig8 = EpaminondasRules.get().getDefaultRulesConfig();
 var EpaminondasTutorial = class extends Tutorial {
   tutorial = [
-    TutorialStep.informational($localize`Initial board`, $localize`This is the initial board of Epaminondas. The top line is the starting line of Light. The bottom line is the starting line of Dark.`, EpaminondasRules.get().getInitialState(defaultConfig7)),
+    TutorialStep.informational($localize`Initial board`, $localize`This is the initial board of Epaminondas. The top line is the starting line of Light. The bottom line is the starting line of Dark.`, EpaminondasRules.get().getInitialState(defaultConfig8)),
     TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME() + " (1/2)", $localize`After multiple moves, if at the beginning of its turn, a player has more pieces on the opponent's starting line than the number of pieces the opponent has on the player's starting line, the player wins. Here, it's Dark's turn to play: Dark has therefore won.`, new EpaminondasState([
       [_8, _8, _8, _8, _8, O7, _8, _8, X6, X6, X6, X6, X6, X6],
       [_8, _8, _8, _8, _8, O7, _8, _8, _8, _8, _8, _8, X6, X6],
@@ -14434,14 +14835,14 @@ var EpaminondasTutorial = class extends Tutorial {
       [_8, _8, _8, _8, _8, _8, _8, _8, _8, _8, _8, _8, _8, _8],
       [_8, _8, X6, X6, _8, _8, _8, O7, O7, _8, O7, O7, O7, O7]
     ], 1)),
-    TutorialStep.fromPredicate($localize`Moving a piece`, $localize`Here is the starting board. Dark plays first. Let's start with moving a single piece:<ol><li>Click on a piece.</li><li>Click on a empty neighboring square.</li></ol><br/>You're playing Dark, move a piece.`, EpaminondasRules.get().getInitialState(defaultConfig7), new EpaminondasMove(0, 10, 1, 1, Ordinal.UP), (move, _previous, _result) => {
+    TutorialStep.fromPredicate($localize`Moving a piece`, $localize`Here is the starting board. Dark plays first. Let's start with moving a single piece:<ol><li>Click on a piece.</li><li>Click on a empty neighboring square.</li></ol><br/>You're playing Dark, move a piece.`, EpaminondasRules.get().getInitialState(defaultConfig8), new EpaminondasMove(0, 10, 1, 1, Ordinal.UP), (move, _previous, _result) => {
       if (move.phalanxSize === 1) {
         return MGPValidation.SUCCESS;
       } else {
         return MGPValidation.failure($localize`Congratulations, you are in advance. But this is not the exercise here, try again.`);
       }
     }, $localize`This is how you move a single piece.`),
-    TutorialStep.fromPredicate($localize`Moving a phalanx`, $localize`A line of several pieces is called a phalanx. Let us now see how to move a phalanx along a line:<ol><li>Click on the first piece of the phalanx.</li><li>Click on one of the squares highlighted in yellow; you can move your phalanx up to a distance equal to its length.</li></ol><br/>You're playing Dark, move a phalanx!`, EpaminondasRules.get().getInitialState(defaultConfig7), new EpaminondasMove(0, 11, 2, 1, Ordinal.UP), (move, _previous, _result) => {
+    TutorialStep.fromPredicate($localize`Moving a phalanx`, $localize`A line of several pieces is called a phalanx. Let us now see how to move a phalanx along a line:<ol><li>Click on the first piece of the phalanx.</li><li>Click on one of the squares highlighted in yellow; you can move your phalanx up to a distance equal to its length.</li></ol><br/>You're playing Dark, move a phalanx!`, EpaminondasRules.get().getInitialState(defaultConfig8), new EpaminondasMove(0, 11, 2, 1, Ordinal.UP), (move, _previous, _result) => {
       if (move.phalanxSize > 1) {
         return MGPValidation.SUCCESS;
       } else {
@@ -14762,7 +15163,7 @@ var __decorate16 = function(decorators, target, key, desc) {
   else for (var i2 = decorators.length - 1; i2 >= 0; i2--) if (d2 = decorators[i2]) r2 = (c < 3 ? d2(r2) : c > 3 ? d2(target, key, r2) : d2(target, key)) || r2;
   return c > 3 && r2 && Object.defineProperty(target, key, r2), r2;
 };
-var _forTrack011 = ($index, $item) => $item.toString();
+var _forTrack012 = ($index, $item) => $item.toString();
 function EpaminondasComponent_For_2_For_2_Conditional_2_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
@@ -15088,7 +15489,7 @@ var EpaminondasComponent = class _EpaminondasComponent extends RectangularGameCo
       \u0275\u0275namespaceSVG();
       \u0275\u0275elementStart(0, "svg", 0);
       \u0275\u0275repeaterCreate(1, EpaminondasComponent_For_2_Template, 3, 0, ":svg:g", null, \u0275\u0275repeaterTrackByIndex);
-      \u0275\u0275repeaterCreate(3, EpaminondasComponent_For_4_Template, 1, 7, ":svg:rect", 1, _forTrack011);
+      \u0275\u0275repeaterCreate(3, EpaminondasComponent_For_4_Template, 1, 7, ":svg:rect", 1, _forTrack012);
       \u0275\u0275repeaterCreate(5, EpaminondasComponent_For_6_Template, 1, 6, ":svg:g", 2, \u0275\u0275repeaterTrackByIndex);
       \u0275\u0275elementEnd();
     }
@@ -15831,8 +16232,8 @@ var __decorate17 = function(decorators, target, key, desc) {
   else for (var i2 = decorators.length - 1; i2 >= 0; i2--) if (d2 = decorators[i2]) r2 = (c < 3 ? d2(r2) : c > 3 ? d2(target, key, r2) : d2(target, key)) || r2;
   return c > 3 && r2 && Object.defineProperty(target, key, r2), r2;
 };
-var _forTrack012 = ($index, $item) => $item.toString();
-var _forTrack18 = ($index, $item) => $item.getValue();
+var _forTrack013 = ($index, $item) => $item.toString();
+var _forTrack19 = ($index, $item) => $item.getValue();
 function GipfComponent_For_7_Conditional_2_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
@@ -15908,7 +16309,7 @@ function GipfComponent_For_9_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
     \u0275\u0275elementStart(0, "g", 6);
-    \u0275\u0275repeaterCreate(1, GipfComponent_For_9_For_2_Template, 1, 2, ":svg:polygon", 13, _forTrack012);
+    \u0275\u0275repeaterCreate(1, GipfComponent_For_9_For_2_Template, 1, 2, ":svg:polygon", 13, _forTrack013);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -16273,10 +16674,10 @@ var GipfComponent = class _GipfComponent extends HexagonalGameComponent {
       \u0275\u0275elementStart(4, "marker", 3);
       \u0275\u0275element(5, "polygon", 4);
       \u0275\u0275elementEnd()();
-      \u0275\u0275repeaterCreate(6, GipfComponent_For_7_Template, 4, 11, ":svg:g", 5, _forTrack012);
+      \u0275\u0275repeaterCreate(6, GipfComponent_For_7_Template, 4, 11, ":svg:g", 5, _forTrack013);
       \u0275\u0275repeaterCreate(8, GipfComponent_For_9_Template, 3, 0, ":svg:g", 6, \u0275\u0275repeaterTrackByIndex);
       \u0275\u0275repeaterCreate(10, GipfComponent_For_11_Template, 1, 4, ":svg:line", 7, \u0275\u0275repeaterTrackByIndex);
-      \u0275\u0275repeaterCreate(12, GipfComponent_For_13_Template, 5, 3, ":svg:g", null, _forTrack18);
+      \u0275\u0275repeaterCreate(12, GipfComponent_For_13_Template, 5, 3, ":svg:g", null, _forTrack19);
       \u0275\u0275conditionalCreate(14, GipfComponent_Conditional_14_Template, 1, 4, ":svg:line", 8);
       \u0275\u0275elementEnd();
     }
@@ -17095,13 +17496,13 @@ var k = GoPiece.DEAD_LIGHT;
 var w = GoPiece.LIGHT_TERRITORY;
 var b2 = GoPiece.DARK_TERRITORY;
 var _10 = GoPiece.EMPTY;
-var defaultConfig8 = GoRules.get().getDefaultRulesConfig();
+var defaultConfig9 = GoRules.get().getDefaultRulesConfig();
 var GoTutorial = class extends Tutorial {
   tutorial = [
     TutorialStep.informational($localize`Preliminary information`, $localize`The game of Go is played on a board called a Goban, and the stones are placed on the intersections.
         The traditional board is made of 19x19 intersections, but on this website we have the 13x13 board.
         (For shorter parts, 9x9 and 5x5 boards exist, but are not yet available here).
-        For this tutorial, we will use a smaller board for pedagogical purposes.`, GoRules.get().getInitialState(defaultConfig8)),
+        For this tutorial, we will use a smaller board for pedagogical purposes.`, GoRules.get().getInitialState(defaultConfig9)),
     TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`The object of the game is to have the most points at the end of the game. We call "territories" the intersections that are empty and isolated from the rest of the Goban by the stones of a single player. Here, Dark has 9 territories on the left, and Light has 8 on the right. The top part belongs to no one. Each player's score at the end of the game is the sum of that player's territories and captures.`, new GoState([
       [_10, O9, _10, _10, X8, X8],
       [_10, O9, _10, _10, X8, _10],
@@ -17358,8 +17759,8 @@ var __decorate21 = function(decorators, target, key, desc) {
   return c > 3 && r2 && Object.defineProperty(target, key, r2), r2;
 };
 var GoComponent_1;
-var _forTrack013 = ($index, $item) => $item.coord.toString();
-var _forTrack19 = ($index, $item) => $item.toString();
+var _forTrack014 = ($index, $item) => $item.coord.toString();
+var _forTrack110 = ($index, $item) => $item.toString();
 function GoComponent_For_4_Conditional_1_Conditional_2_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
@@ -17616,10 +18017,10 @@ var GoComponent = (_a5 = class extends GobanGameComponent {
     });
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(2, "g", 2);
-    \u0275\u0275repeaterCreate(3, GoComponent_For_4_Template, 3, 1, ":svg:g", null, _forTrack013);
+    \u0275\u0275repeaterCreate(3, GoComponent_For_4_Template, 3, 1, ":svg:g", null, _forTrack014);
     \u0275\u0275elementEnd();
     \u0275\u0275conditionalCreate(5, GoComponent_Conditional_5_Template, 1, 8, ":svg:rect", 3);
-    \u0275\u0275repeaterCreate(6, GoComponent_For_7_Template, 1, 4, ":svg:circle", 4, _forTrack19);
+    \u0275\u0275repeaterCreate(6, GoComponent_For_7_Template, 1, 4, ":svg:circle", 4, _forTrack110);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -17761,10 +18162,10 @@ var X9 = GoPiece.LIGHT;
 var O10 = GoPiece.DARK;
 var _11 = GoPiece.EMPTY;
 var N4 = GoPiece.UNREACHABLE;
-var defaultConfig9 = HexagonalGoRules.get().getDefaultRulesConfig();
+var defaultConfig10 = HexagonalGoRules.get().getDefaultRulesConfig();
 var HexagonalGoTutorial = class extends Tutorial {
   tutorial = [
-    TutorialStep.informational($localize`Preliminary information`, $localize`The game of Hexagonal Go is a hexagonal adaptation of the game of Go. Go is present on Everyboard, you can go learn it <a href="/tutorial/Go">here</a>. This tutorial will only review the small differences that this experimental adaptation induced.`, HexagonalGoRules.get().getInitialState(defaultConfig9)),
+    TutorialStep.informational($localize`Preliminary information`, $localize`The game of Hexagonal Go is a hexagonal adaptation of the game of Go. Go is present on Everyboard, you can go learn it <a href="/tutorial/Go">here</a>. This tutorial will only review the small differences that this experimental adaptation induced.`, HexagonalGoRules.get().getInitialState(defaultConfig10)),
     TutorialStep.informational($localize`Freedom` + " (1/4)", $localize`Since the board is hexagonal, pieces have three freedom in the corners.`, new GoState([
       [N4, N4, N4, N4, N4, N4, _11, _11, _11, _11, _11, _11, _11],
       [N4, N4, N4, N4, N4, _11, _11, _11, _11, _11, _11, _11, _11],
@@ -17849,7 +18250,7 @@ var __decorate22 = function(decorators, target, key, desc) {
   else for (var i2 = decorators.length - 1; i2 >= 0; i2--) if (d2 = decorators[i2]) r2 = (c < 3 ? d2(r2) : c > 3 ? d2(target, key, r2) : d2(target, key)) || r2;
   return c > 3 && r2 && Object.defineProperty(target, key, r2), r2;
 };
-var _forTrack014 = ($index, $item) => $item.coord.toString();
+var _forTrack015 = ($index, $item) => $item.coord.toString();
 function HexagonalGoComponent_For_2_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
@@ -18046,7 +18447,7 @@ var HexagonalGoComponent = class HexagonalGoComponent2 extends HexagonalGameComp
     if (rf & 1) {
       \u0275\u0275namespaceSVG();
       \u0275\u0275elementStart(0, "svg", 0);
-      \u0275\u0275repeaterCreate(1, HexagonalGoComponent_For_2_Template, 4, 7, ":svg:g", 1, _forTrack014);
+      \u0275\u0275repeaterCreate(1, HexagonalGoComponent_For_2_Template, 4, 7, ":svg:g", 1, _forTrack015);
       \u0275\u0275conditionalCreate(3, HexagonalGoComponent_Conditional_3_Template, 1, 6, ":svg:polygon", 2);
       \u0275\u0275elementEnd();
     }
@@ -18117,10 +18518,10 @@ var X10 = GoPiece.LIGHT;
 var O11 = GoPiece.DARK;
 var _12 = GoPiece.EMPTY;
 var N5 = GoPiece.UNREACHABLE;
-var defaultConfig10 = TriangularGoRules.get().getDefaultRulesConfig();
+var defaultConfig11 = TriangularGoRules.get().getDefaultRulesConfig();
 var TriangularGoTutorial = class extends Tutorial {
   tutorial = [
-    TutorialStep.informational($localize`Preliminary information`, $localize`The game of Triangular Go is a triangular adaptation of the game of Go. Go is present on Everyboard, you can go learn it <a href="/tutorial/Go">here</a>. This tutorial will only review the small differences that this experimental adaptation induced.`, TriangularGoRules.get().getInitialState(defaultConfig10)),
+    TutorialStep.informational($localize`Preliminary information`, $localize`The game of Triangular Go is a triangular adaptation of the game of Go. Go is present on Everyboard, you can go learn it <a href="/tutorial/Go">here</a>. This tutorial will only review the small differences that this experimental adaptation induced.`, TriangularGoRules.get().getInitialState(defaultConfig11)),
     TutorialStep.informational($localize`Freedom` + " (1/4)", $localize`Since the board is triangular, pieces have only one freedom in the corners.`, new GoState([
       [N5, N5, N5, N5, N5, N5, _12, N5, N5, N5, N5, N5, N5],
       [N5, N5, N5, N5, N5, _12, _12, _12, N5, N5, N5, N5, N5],
@@ -18181,7 +18582,7 @@ var __decorate23 = function(decorators, target, key, desc) {
   else for (var i2 = decorators.length - 1; i2 >= 0; i2--) if (d2 = decorators[i2]) r2 = (c < 3 ? d2(r2) : c > 3 ? d2(target, key, r2) : d2(target, key)) || r2;
   return c > 3 && r2 && Object.defineProperty(target, key, r2), r2;
 };
-var _forTrack015 = ($index, $item) => $item.coord.toString();
+var _forTrack016 = ($index, $item) => $item.coord.toString();
 function TriangularGoComponent_For_2_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
@@ -18428,7 +18829,7 @@ var TriangularGoComponent = class TriangularGoComponent2 extends TriangularGameC
     if (rf & 1) {
       \u0275\u0275namespaceSVG();
       \u0275\u0275elementStart(0, "svg", 0);
-      \u0275\u0275repeaterCreate(1, TriangularGoComponent_For_2_Template, 4, 7, ":svg:g", 1, _forTrack015);
+      \u0275\u0275repeaterCreate(1, TriangularGoComponent_For_2_Template, 4, 7, ":svg:g", 1, _forTrack016);
       \u0275\u0275conditionalCreate(3, TriangularGoComponent_Conditional_3_Template, 1, 8, ":svg:rect", 2);
       \u0275\u0275conditionalCreate(4, TriangularGoComponent_Conditional_4_Template, 1, 6, ":svg:polygon", 3);
       \u0275\u0275elementEnd();
@@ -18686,8 +19087,8 @@ var _13 = FourStatePiece.EMPTY;
 var O12 = FourStatePiece.ZERO;
 var X11 = FourStatePiece.ONE;
 var N6 = FourStatePiece.UNREACHABLE;
-var defaultConfig11 = HexodiaRules.get().getDefaultRulesConfig();
-var initialState = HexodiaRules.get().getInitialState(defaultConfig11);
+var defaultConfig12 = HexodiaRules.get().getDefaultRulesConfig();
+var initialState = HexodiaRules.get().getInitialState(defaultConfig12);
 var HexodiaTutorial = class extends Tutorial {
   tutorial = [
     TutorialStep.informational(TutorialStepMessage.INITIAL_BOARD_AND_OBJECT_OF_THE_GAME(), $localize`Hexodia is played on a hexagonal board, your goal is to be the first to align 6 of your pieces.`, initialState),
@@ -18848,8 +19249,8 @@ var __decorate24 = function(decorators, target, key, desc) {
   return c > 3 && r2 && Object.defineProperty(target, key, r2), r2;
 };
 var _c06 = (a0) => ["moved-stroke", a0];
-var _forTrack016 = ($index, $item) => $item.coord.toString();
-var _forTrack110 = ($index, $item) => $item.toString();
+var _forTrack017 = ($index, $item) => $item.coord.toString();
+var _forTrack111 = ($index, $item) => $item.toString();
 function HexodiaComponent_For_2_Conditional_1_Conditional_2_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
@@ -19030,8 +19431,8 @@ var HexodiaComponent = class _HexodiaComponent extends HexagonalGameComponent {
     if (rf & 1) {
       \u0275\u0275namespaceSVG();
       \u0275\u0275elementStart(0, "svg", 0);
-      \u0275\u0275repeaterCreate(1, HexodiaComponent_For_2_Template, 2, 1, ":svg:g", null, _forTrack016);
-      \u0275\u0275repeaterCreate(3, HexodiaComponent_For_4_Template, 2, 8, ":svg:g", null, _forTrack110);
+      \u0275\u0275repeaterCreate(1, HexodiaComponent_For_2_Template, 2, 1, ":svg:g", null, _forTrack017);
+      \u0275\u0275repeaterCreate(3, HexodiaComponent_For_4_Template, 2, 8, ":svg:g", null, _forTrack111);
       \u0275\u0275elementEnd();
     }
     if (rf & 2) {
@@ -20231,7 +20632,7 @@ var __decorate25 = function(decorators, target, key, desc) {
   else for (var i2 = decorators.length - 1; i2 >= 0; i2--) if (d2 = decorators[i2]) r2 = (c < 3 ? d2(r2) : c > 3 ? d2(target, key, r2) : d2(target, key)) || r2;
   return c > 3 && r2 && Object.defineProperty(target, key, r2), r2;
 };
-var _forTrack017 = ($index, $item) => $item.x + "-" + $item.y;
+var _forTrack018 = ($index, $item) => $item.x + "-" + $item.y;
 function HiveComponent_For_2_Template(rf, ctx) {
   if (rf & 1) {
     const _r1 = \u0275\u0275getCurrentView();
@@ -20381,8 +20782,8 @@ function HiveComponent_For_8_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
     \u0275\u0275elementStart(0, "g");
-    \u0275\u0275repeaterCreate(1, HiveComponent_For_8_For_2_Template, 2, 11, ":svg:g", null, _forTrack017);
-    \u0275\u0275repeaterCreate(3, HiveComponent_For_8_For_4_Template, 2, 2, ":svg:g", null, _forTrack017);
+    \u0275\u0275repeaterCreate(1, HiveComponent_For_8_For_2_Template, 2, 11, ":svg:g", null, _forTrack018);
+    \u0275\u0275repeaterCreate(3, HiveComponent_For_8_For_4_Template, 2, 2, ":svg:g", null, _forTrack018);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -20853,9 +21254,9 @@ var HiveComponent = class _HiveComponent extends HexagonalGameComponent {
     if (rf & 1) {
       \u0275\u0275namespaceSVG();
       \u0275\u0275elementStart(0, "svg", 0);
-      \u0275\u0275repeaterCreate(1, HiveComponent_For_2_Template, 2, 6, ":svg:g", null, _forTrack017);
-      \u0275\u0275repeaterCreate(3, HiveComponent_For_4_Template, 2, 1, ":svg:g", null, _forTrack017);
-      \u0275\u0275repeaterCreate(5, HiveComponent_For_6_Template, 2, 1, ":svg:g", null, _forTrack017);
+      \u0275\u0275repeaterCreate(1, HiveComponent_For_2_Template, 2, 6, ":svg:g", null, _forTrack018);
+      \u0275\u0275repeaterCreate(3, HiveComponent_For_4_Template, 2, 1, ":svg:g", null, _forTrack018);
+      \u0275\u0275repeaterCreate(5, HiveComponent_For_6_Template, 2, 1, ":svg:g", null, _forTrack018);
       \u0275\u0275repeaterCreate(7, HiveComponent_For_8_Template, 5, 0, ":svg:g", null, \u0275\u0275repeaterTrackByIndex);
       \u0275\u0275repeaterCreate(9, HiveComponent_For_10_Template, 3, 1, ":svg:g", null, \u0275\u0275repeaterTrackByIndex);
       \u0275\u0275elementStart(11, "g");
@@ -21387,7 +21788,7 @@ var KamisadoRules = class _KamisadoRules extends Rules {
 };
 
 // src/app/games/kamisado/KamisadoTutorial.ts
-var __4 = KamisadoPiece.EMPTY;
+var __5 = KamisadoPiece.EMPTY;
 var or = KamisadoPiece.ZERO.ORANGE;
 var Or = KamisadoPiece.ONE.ORANGE;
 var bl = KamisadoPiece.ZERO.BLUE;
@@ -21411,13 +21812,13 @@ var KamisadoTutorial = class extends Tutorial {
         or by forcing the opponent to make a move that blocks the entire game.
         Here, Dark wins because its brown piece is on Light's starting line, on the top left.`, new KamisadoState(5, KamisadoColor.ORANGE, MGPOptional.empty(), false, [
       [br, Bl, Pu, Pi, Ye, Re, Gr, Br],
-      [__4, __4, __4, __4, __4, __4, __4, __4],
-      [__4, __4, __4, __4, __4, __4, __4, __4],
-      [__4, __4, __4, __4, __4, __4, __4, __4],
-      [__4, __4, __4, Or, __4, __4, __4, __4],
-      [__4, __4, __4, __4, __4, __4, __4, __4],
-      [__4, __4, __4, __4, __4, __4, __4, __4],
-      [__4, gr, re, ye, pi, pu, bl, or]
+      [__5, __5, __5, __5, __5, __5, __5, __5],
+      [__5, __5, __5, __5, __5, __5, __5, __5],
+      [__5, __5, __5, __5, __5, __5, __5, __5],
+      [__5, __5, __5, Or, __5, __5, __5, __5],
+      [__5, __5, __5, __5, __5, __5, __5, __5],
+      [__5, __5, __5, __5, __5, __5, __5, __5],
+      [__5, gr, re, ye, pi, pu, bl, or]
     ])).withPreviousMove(KamisadoMove.of(new Coord(0, 7), new Coord(0, 0))),
     TutorialStep.anyMove($localize`Initial board and initial move`, $localize`Here is the initial board.
         At Kamisado, pieces can only move forward, vertically or diagonally.
@@ -21430,13 +21831,13 @@ var KamisadoTutorial = class extends Tutorial {
         It is already selected, you do not have to click on it.<br/><br/>
         You're playing Light, move your piece on a blue square.`, new KamisadoState(1, KamisadoColor.PINK, MGPOptional.of(new Coord(3, 0)), false, [
       [Or, Bl, Pu, Pi, Ye, Re, Gr, Br],
-      [__4, __4, __4, __4, __4, __4, __4, __4],
-      [__4, __4, __4, __4, __4, __4, __4, __4],
-      [__4, __4, __4, __4, __4, __4, __4, __4],
-      [__4, __4, __4, __4, __4, __4, __4, __4],
-      [__4, __4, __4, __4, __4, __4, bl, __4],
-      [__4, __4, __4, __4, __4, __4, __4, __4],
-      [br, gr, re, ye, pi, pu, __4, or]
+      [__5, __5, __5, __5, __5, __5, __5, __5],
+      [__5, __5, __5, __5, __5, __5, __5, __5],
+      [__5, __5, __5, __5, __5, __5, __5, __5],
+      [__5, __5, __5, __5, __5, __5, __5, __5],
+      [__5, __5, __5, __5, __5, __5, bl, __5],
+      [__5, __5, __5, __5, __5, __5, __5, __5],
+      [br, gr, re, ye, pi, pu, __5, or]
     ]), [
       KamisadoMove.of(new Coord(3, 0), new Coord(3, 6)),
       KamisadoMove.of(new Coord(3, 0), new Coord(4, 1))
@@ -21444,28 +21845,28 @@ var KamisadoTutorial = class extends Tutorial {
     TutorialStep.informational($localize`Stuck situation`, $localize`Dark moved to another pink square, hence you have to move your pink piece again.
         However, your pink piece is stuck! In this case, you must pass your turn.
         Dark will now have to play by moving its pink piece.`, new KamisadoState(1, KamisadoColor.PINK, MGPOptional.of(new Coord(3, 6)), false, [
-      [Or, Bl, Pu, __4, Ye, Re, Gr, Br],
-      [__4, __4, __4, __4, __4, __4, __4, __4],
-      [__4, __4, __4, __4, __4, __4, __4, __4],
-      [__4, __4, __4, __4, __4, __4, __4, __4],
-      [__4, __4, __4, __4, __4, __4, __4, bl],
-      [__4, __4, __4, __4, __4, __4, __4, __4],
-      [__4, __4, __4, Pi, __4, __4, __4, __4],
-      [br, gr, re, ye, pi, pu, __4, or]
+      [Or, Bl, Pu, __5, Ye, Re, Gr, Br],
+      [__5, __5, __5, __5, __5, __5, __5, __5],
+      [__5, __5, __5, __5, __5, __5, __5, __5],
+      [__5, __5, __5, __5, __5, __5, __5, __5],
+      [__5, __5, __5, __5, __5, __5, __5, bl],
+      [__5, __5, __5, __5, __5, __5, __5, __5],
+      [__5, __5, __5, Pi, __5, __5, __5, __5],
+      [br, gr, re, ye, pi, pu, __5, or]
     ])).withPreviousMove(KamisadoMove.of(new Coord(6, 5), new Coord(7, 4))),
     TutorialStep.fromMove($localize`Victory by blocking`, $localize`At any time, if a player blocks the entire game, that player loses.
         In other words, if a player forces its opponent to move a piece that the opponent cannot move,
         and the player cannot move its own piece of the same color, then that player loses.
         Here, you're playing Dark and you can force your opponent to create such a situation, hence you can force your opponent to lose!<br/><br/>
         You're playing Dark, analyze the board and make the winning move.`, new KamisadoState(2, KamisadoColor.RED, MGPOptional.of(new Coord(2, 4)), false, [
-      [__4, Bl, Pu, __4, __4, Re, __4, __4],
-      [__4, __4, __4, Ye, __4, __4, __4, __4],
-      [__4, __4, __4, Pi, __4, Pu, __4, __4],
-      [__4, __4, __4, ye, __4, __4, __4, __4],
-      [__4, __4, re, __4, __4, __4, __4, __4],
-      [__4, __4, __4, __4, __4, __4, Gr, __4],
-      [Or, __4, __4, __4, __4, pi, __4, Br],
-      [br, gr, __4, __4, __4, __4, bl, or]
+      [__5, Bl, Pu, __5, __5, Re, __5, __5],
+      [__5, __5, __5, Ye, __5, __5, __5, __5],
+      [__5, __5, __5, Pi, __5, Pu, __5, __5],
+      [__5, __5, __5, ye, __5, __5, __5, __5],
+      [__5, __5, re, __5, __5, __5, __5, __5],
+      [__5, __5, __5, __5, __5, __5, Gr, __5],
+      [Or, __5, __5, __5, __5, pi, __5, Br],
+      [br, gr, __5, __5, __5, __5, bl, or]
     ]), [KamisadoMove.of(new Coord(2, 4), new Coord(0, 2))], $localize`Perfect!
          Your opponent must move its green piece on the orange square, forcing you to play with your orange piece.
          Your orange piece will be stuck and you will have to pass your turn.
@@ -21982,11 +22383,11 @@ var LinesOfActionRules = class _LinesOfActionRules extends Rules {
   getGameStatus(node) {
     const state = node.gameState;
     const groups = _LinesOfActionRules.getNumberOfGroups(state);
-    const zero2 = groups.get(Player.ZERO);
-    const one2 = groups.get(Player.ONE);
-    if (zero2 === 1 && one2 > 1) {
+    const zero3 = groups.get(Player.ZERO);
+    const one3 = groups.get(Player.ONE);
+    if (zero3 === 1 && one3 > 1) {
       return GameStatus.ZERO_WON;
-    } else if (zero2 > 1 && one2 === 1) {
+    } else if (zero3 > 1 && one3 === 1) {
       return GameStatus.ONE_WON;
     } else {
       return GameStatus.ONGOING;
@@ -22129,7 +22530,7 @@ var __decorate27 = function(decorators, target, key, desc) {
   else for (var i2 = decorators.length - 1; i2 >= 0; i2--) if (d2 = decorators[i2]) r2 = (c < 3 ? d2(r2) : c > 3 ? d2(target, key, r2) : d2(target, key)) || r2;
   return c > 3 && r2 && Object.defineProperty(target, key, r2), r2;
 };
-var _forTrack018 = ($index, $item) => $item.toString();
+var _forTrack019 = ($index, $item) => $item.toString();
 function LinesOfActionComponent_For_2_For_2_Conditional_3_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
@@ -22318,7 +22719,7 @@ var LinesOfActionComponent = class _LinesOfActionComponent extends RectangularGa
       \u0275\u0275namespaceSVG();
       \u0275\u0275elementStart(0, "svg", 0);
       \u0275\u0275repeaterCreate(1, LinesOfActionComponent_For_2_Template, 3, 0, ":svg:g", null, \u0275\u0275repeaterTrackByIndex);
-      \u0275\u0275repeaterCreate(3, LinesOfActionComponent_For_4_Template, 1, 4, ":svg:rect", 1, _forTrack018);
+      \u0275\u0275repeaterCreate(3, LinesOfActionComponent_For_4_Template, 1, 4, ":svg:rect", 1, _forTrack019);
       \u0275\u0275elementEnd();
     }
     if (rf & 2) {
@@ -24716,13 +25117,13 @@ var MancalaTutorial = class {
 };
 
 // src/app/games/mancala/awale/AwaleTutorial.ts
-var defaultConfig12 = AwaleRules.get().getDefaultRulesConfig();
+var defaultConfig13 = AwaleRules.get().getDefaultRulesConfig();
 var AwaleTutorial = class extends Tutorial {
   gameName = $localize`Awalé`;
   tutorial = [
-    MancalaTutorial.intro(this.gameName, AwaleRules.get().getInitialState(defaultConfig12)),
-    TutorialStep.informational($localize`Awalé`, $localize`Bonus fact: Awalé is the most common of all Mancalas.`, AwaleRules.get().getInitialState(defaultConfig12)),
-    MancalaTutorial.sowing(AwaleRules.get().getInitialState(defaultConfig12)),
+    MancalaTutorial.intro(this.gameName, AwaleRules.get().getInitialState(defaultConfig13)),
+    TutorialStep.informational($localize`Awalé`, $localize`Bonus fact: Awalé is the most common of all Mancalas.`, AwaleRules.get().getInitialState(defaultConfig13)),
+    MancalaTutorial.sowing(AwaleRules.get().getInitialState(defaultConfig13)),
     TutorialStep.anyMove($localize`Big sowing`, $localize`When there are enough seeds to make a full turn, something else happens.<br/><br/> You're playing Dark. Sow the house that contains 12 seeds.`, new MancalaState([
       [0, 0, 0, 0, 0, 0],
       [0, 12, 0, 0, 0, 0]
@@ -25479,12 +25880,12 @@ var BaAwaRules = class _BaAwaRules extends MancalaRules {
 };
 
 // src/app/games/mancala/ba-awa/BaAwaTutorial.ts
-var defaultConfig13 = BaAwaRules.get().getDefaultRulesConfig();
+var defaultConfig14 = BaAwaRules.get().getDefaultRulesConfig();
 var BaAwaTutorial = class extends Tutorial {
   gameName = $localize`Ba-awa`;
   tutorial = [
-    MancalaTutorial.intro(this.gameName, BaAwaRules.get().getInitialState(defaultConfig13)),
-    TutorialStep.informational($localize`Ba-awa`, $localize`Bonus fact: Ba-awa, also called Adi, is played mainly in Ghana.`, BaAwaRules.get().getInitialState(defaultConfig13)),
+    MancalaTutorial.intro(this.gameName, BaAwaRules.get().getInitialState(defaultConfig14)),
+    TutorialStep.informational($localize`Ba-awa`, $localize`Bonus fact: Ba-awa, also called Adi, is played mainly in Ghana.`, BaAwaRules.get().getInitialState(defaultConfig14)),
     MancalaTutorial.sowing(new MancalaState([
       [4, 4, 4, 4, 4, 4],
       [4, 0, 4, 4, 4, 4]
@@ -25678,19 +26079,19 @@ var KalahRules = class _KalahRules extends MancalaRules {
 };
 
 // src/app/games/mancala/kalah/KalahTutorial.ts
-var defaultConfig14 = KalahRules.get().getDefaultRulesConfig();
+var defaultConfig15 = KalahRules.get().getDefaultRulesConfig();
 var KalahTutorial = class extends Tutorial {
   gameName = $localize`Kalah`;
   tutorial = [
-    MancalaTutorial.intro(this.gameName, KalahRules.get().getInitialState(defaultConfig14)),
-    TutorialStep.informational($localize`Kalah`, $localize`Bonus fact: Kalah has been created in the U.S.A in 1940 by William Julius Champion Jr.`, KalahRules.get().getInitialState(defaultConfig14)),
-    MancalaTutorial.sowing(KalahRules.get().getInitialState(defaultConfig14)),
-    TutorialStep.fromMove($localize`The Kalah` + " (1/2)", $localize`The houses on the extreme left and right, unaligned with the others, are the Kalah. Yours is on the left, the opponent's on the right. When sowing, before passing from your leftmost house to the leftmost house of the opponent, you must drop one seed in your Kalah, but you won't have to drop seed in your opponent's Kalah. When you make a capture, the captured seeds are put in your Kalah.<br/><br/>You're playing Dark. Make a move that passes through your Kalah then feeds opponent's houses.`, KalahRules.get().getInitialState(defaultConfig14), [
+    MancalaTutorial.intro(this.gameName, KalahRules.get().getInitialState(defaultConfig15)),
+    TutorialStep.informational($localize`Kalah`, $localize`Bonus fact: Kalah has been created in the U.S.A in 1940 by William Julius Champion Jr.`, KalahRules.get().getInitialState(defaultConfig15)),
+    MancalaTutorial.sowing(KalahRules.get().getInitialState(defaultConfig15)),
+    TutorialStep.fromMove($localize`The Kalah` + " (1/2)", $localize`The houses on the extreme left and right, unaligned with the others, are the Kalah. Yours is on the left, the opponent's on the right. When sowing, before passing from your leftmost house to the leftmost house of the opponent, you must drop one seed in your Kalah, but you won't have to drop seed in your opponent's Kalah. When you make a capture, the captured seeds are put in your Kalah.<br/><br/>You're playing Dark. Make a move that passes through your Kalah then feeds opponent's houses.`, KalahRules.get().getInitialState(defaultConfig15), [
       MancalaMove.of(MancalaDistribution.of(0, 1)),
       MancalaMove.of(MancalaDistribution.of(1, 1)),
       MancalaMove.of(MancalaDistribution.of(2, 1))
     ], $localize`As you see, three houses have been fed in addition to your Kalah.`, $localize`Failed. Choose the three leftmost house on the bottom.`),
-    TutorialStep.fromPredicate($localize`The Kalah` + " (2/2)", $localize`When ending in the Kalah, you must distribute again.<br/><br/>You're playing Dark, play the house that ends up in the Kalah then do a second distribution!`, KalahRules.get().getInitialState(defaultConfig14), MancalaMove.of(MancalaDistribution.of(3, 1), [MancalaDistribution.of(1, 1)]), (move, _previous, _result) => {
+    TutorialStep.fromPredicate($localize`The Kalah` + " (2/2)", $localize`When ending in the Kalah, you must distribute again.<br/><br/>You're playing Dark, play the house that ends up in the Kalah then do a second distribution!`, KalahRules.get().getInitialState(defaultConfig15), MancalaMove.of(MancalaDistribution.of(3, 1), [MancalaDistribution.of(1, 1)]), (move, _previous, _result) => {
       if (move.distributions.length === 1) {
         return MGPValidation.failure($localize`This move only distributed one house, do one distribution that ends in the Kalah, then do a second one!`);
       } else {
@@ -27070,8 +27471,8 @@ var __decorate30 = function(decorators, target, key, desc) {
   return c > 3 && r2 && Object.defineProperty(target, key, r2), r2;
 };
 var _c013 = (a0) => [a0];
-var _forTrack019 = ($index, $item) => $item.coord.toString();
-var _forTrack111 = ($index, $item) => $item.getValue();
+var _forTrack020 = ($index, $item) => $item.coord.toString();
+var _forTrack112 = ($index, $item) => $item.getValue();
 var _forTrack23 = ($index, $item) => $item.toString();
 var _forTrack3 = ($index, $item) => $item.name;
 function MartianChessComponent_For_3_Conditional_2_Conditional_1_Template(rf, ctx) {
@@ -27650,7 +28051,7 @@ var MartianChessComponent = class _MartianChessComponent extends RectangularGame
     if (rf & 1) {
       \u0275\u0275namespaceSVG();
       \u0275\u0275elementStart(0, "svg", 0)(1, "g");
-      \u0275\u0275repeaterCreate(2, MartianChessComponent_For_3_Template, 3, 11, ":svg:g", 1, _forTrack019);
+      \u0275\u0275repeaterCreate(2, MartianChessComponent_For_3_Template, 3, 11, ":svg:g", 1, _forTrack020);
       \u0275\u0275conditionalCreate(4, MartianChessComponent_Conditional_4_Template, 3, 0, ":svg:g");
       \u0275\u0275elementEnd();
       \u0275\u0275elementStart(5, "g", 2);
@@ -27670,7 +28071,7 @@ var MartianChessComponent = class _MartianChessComponent extends RectangularGame
       \u0275\u0275conditionalCreate(14, MartianChessComponent_Conditional_14_Template, 4, 3, ":svg:g", 10);
       \u0275\u0275elementEnd();
       \u0275\u0275elementStart(15, "g", 11);
-      \u0275\u0275repeaterCreate(16, MartianChessComponent_For_17_Template, 4, 3, ":svg:g", null, _forTrack111);
+      \u0275\u0275repeaterCreate(16, MartianChessComponent_For_17_Template, 4, 3, ":svg:g", null, _forTrack112);
       \u0275\u0275elementEnd()();
     }
     if (rf & 2) {
@@ -27990,13 +28391,13 @@ var P4Move = class _P4Move extends Move {
 var _17 = PlayerOrNone.NONE;
 var O14 = PlayerOrNone.ZERO;
 var X14 = PlayerOrNone.ONE;
-var defaultConfig15 = P4Rules.get().getDefaultRulesConfig();
+var defaultConfig16 = P4Rules.get().getDefaultRulesConfig();
 var P4Tutorial = class extends Tutorial {
   tutorial = [
     TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`The board at Four in a Row is made of 7 columns and 6 rows, and it is initially empty.
         The first player plays Dark, the second plays Light.
-        The goal is to be the first to align 4 of its pieces (horizontally, vertically, or diagonally).`, P4Rules.get().getInitialState(defaultConfig15)),
-    TutorialStep.anyMove($localize`Dropping a piece`, $localize`Click on any space in any column.`, P4Rules.get().getInitialState(defaultConfig15), P4Move.of(3), $localize`As you can see, the piece falls at the bottom of the column.`),
+        The goal is to be the first to align 4 of its pieces (horizontally, vertically, or diagonally).`, P4Rules.get().getInitialState(defaultConfig16)),
+    TutorialStep.anyMove($localize`Dropping a piece`, $localize`Click on any space in any column.`, P4Rules.get().getInitialState(defaultConfig16), P4Move.of(3), $localize`As you can see, the piece falls at the bottom of the column.`),
     TutorialStep.fromMove($localize`Victory`, $localize`You're playing Dark.
         Place your piece so that you create a horizontal alignment of 4 of your pieces.`, new P4State([
       [_17, _17, _17, _17, _17, _17, _17],
@@ -28097,7 +28498,7 @@ var __decorate33 = function(decorators, target, key, desc) {
   else for (var i2 = decorators.length - 1; i2 >= 0; i2--) if (d2 = decorators[i2]) r2 = (c < 3 ? d2(r2) : c > 3 ? d2(target, key, r2) : d2(target, key)) || r2;
   return c > 3 && r2 && Object.defineProperty(target, key, r2), r2;
 };
-var _forTrack020 = ($index, $item) => $item.toString();
+var _forTrack021 = ($index, $item) => $item.toString();
 function P4Component_For_2_For_2_Conditional_2_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
@@ -28260,7 +28661,7 @@ var P4Component = class _P4Component extends RectangularGameComponent {
       \u0275\u0275elementStart(0, "svg", 0);
       \u0275\u0275repeaterCreate(1, P4Component_For_2_Template, 3, 0, ":svg:g", null, \u0275\u0275repeaterTrackByIndex);
       \u0275\u0275conditionalCreate(3, P4Component_Conditional_3_Template, 1, 4, ":svg:rect", 1);
-      \u0275\u0275repeaterCreate(4, P4Component_For_5_Template, 1, 7, ":svg:rect", 2, _forTrack020);
+      \u0275\u0275repeaterCreate(4, P4Component_For_5_Template, 1, 7, ":svg:rect", 2, _forTrack021);
       \u0275\u0275elementEnd();
     }
     if (rf & 2) {
@@ -28643,8 +29044,8 @@ var __decorate34 = function(decorators, target, key, desc) {
   return c > 3 && r2 && Object.defineProperty(target, key, r2), r2;
 };
 var _c014 = (a0) => [0, a0];
-var _forTrack021 = ($index, $item) => $item.coord.toString();
-var _forTrack112 = ($index, $item) => $item.toString();
+var _forTrack022 = ($index, $item) => $item.coord.toString();
+var _forTrack113 = ($index, $item) => $item.toString();
 function PentagoComponent_For_8_For_2_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
@@ -29000,11 +29401,11 @@ var PentagoComponent = class _PentagoComponent extends RectangularGameComponent 
       \u0275\u0275element(6, "polygon", 2);
       \u0275\u0275elementEnd()();
       \u0275\u0275repeaterCreate(7, PentagoComponent_For_8_Template, 3, 2, ":svg:ng-container", null, \u0275\u0275repeaterTrackByIdentity);
-      \u0275\u0275repeaterCreate(9, PentagoComponent_For_10_Template, 1, 8, ":svg:circle", 4, _forTrack021);
+      \u0275\u0275repeaterCreate(9, PentagoComponent_For_10_Template, 1, 8, ":svg:circle", 4, _forTrack022);
       \u0275\u0275conditionalCreate(11, PentagoComponent_Conditional_11_Template, 1, 8, ":svg:circle", 4);
       \u0275\u0275repeaterCreate(12, PentagoComponent_For_13_Template, 2, 5, ":svg:ng-container", null, \u0275\u0275repeaterTrackByIndex);
       \u0275\u0275conditionalCreate(14, PentagoComponent_Conditional_14_Template, 1, 5, ":svg:path", 5);
-      \u0275\u0275repeaterCreate(15, PentagoComponent_For_16_Template, 1, 9, ":svg:circle", 6, _forTrack112);
+      \u0275\u0275repeaterCreate(15, PentagoComponent_For_16_Template, 1, 9, ":svg:circle", 6, _forTrack113);
       \u0275\u0275conditionalCreate(17, PentagoComponent_Conditional_17_Template, 3, 9, ":svg:g", 7);
       \u0275\u0275elementEnd();
     }
@@ -29295,11 +29696,11 @@ var PenteMove = class _PenteMove extends MoveCoord {
 var _19 = PlayerOrNone.NONE;
 var O16 = PlayerOrNone.ZERO;
 var X16 = PlayerOrNone.ONE;
-var defaultConfig16 = PenteRules.get().getDefaultRulesConfig();
+var defaultConfig17 = PenteRules.get().getDefaultRulesConfig();
 var PenteTutorial = class extends Tutorial {
   tutorial = [
-    TutorialStep.informational(TutorialStepMessage.INITIAL_BOARD_AND_OBJECT_OF_THE_GAME(), $localize`Pente is played on a 19x19 board, on which the pieces are put on the intersections of the squares. The object of the game is to align 5 of your pieces, or to capture 10 pieces of your opponent. Initially, a piece of the second player is in the center location of the board.`, PenteRules.get().getInitialState(defaultConfig16)),
-    TutorialStep.anyMove($localize`Dropping a piece`, $localize`At your turn, you must drop one piece on any empty space of the board. There is no other restriction.<br/><br/>You're playing Dark, put a piece on the board.`, PenteRules.get().getInitialState(defaultConfig16), PenteMove.of(new Coord(9, 8)), TutorialStepMessage.CONGRATULATIONS()),
+    TutorialStep.informational(TutorialStepMessage.INITIAL_BOARD_AND_OBJECT_OF_THE_GAME(), $localize`Pente is played on a 19x19 board, on which the pieces are put on the intersections of the squares. The object of the game is to align 5 of your pieces, or to capture 10 pieces of your opponent. Initially, a piece of the second player is in the center location of the board.`, PenteRules.get().getInitialState(defaultConfig17)),
+    TutorialStep.anyMove($localize`Dropping a piece`, $localize`At your turn, you must drop one piece on any empty space of the board. There is no other restriction.<br/><br/>You're playing Dark, put a piece on the board.`, PenteRules.get().getInitialState(defaultConfig17), PenteMove.of(new Coord(9, 8)), TutorialStepMessage.CONGRATULATIONS()),
     TutorialStep.fromMove($localize`Captures`, $localize`You can capture exactly two pieces of your opponent by sandwiching them between two of your pieces.<br/><br/>You're playing Light and you can capture, do it!`, new PenteState([
       [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
       [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
@@ -29398,8 +29799,8 @@ var __decorate35 = function(decorators, target, key, desc) {
   else for (var i2 = decorators.length - 1; i2 >= 0; i2--) if (d2 = decorators[i2]) r2 = (c < 3 ? d2(r2) : c > 3 ? d2(target, key, r2) : d2(target, key)) || r2;
   return c > 3 && r2 && Object.defineProperty(target, key, r2), r2;
 };
-var _forTrack022 = ($index, $item) => $item.coord.toString();
-var _forTrack113 = ($index, $item) => $item.toString();
+var _forTrack023 = ($index, $item) => $item.coord.toString();
+var _forTrack114 = ($index, $item) => $item.toString();
 function PenteComponent_For_3_Template(rf, ctx) {
   if (rf & 1) {
     const _r1 = \u0275\u0275getCurrentView();
@@ -29513,8 +29914,8 @@ var PenteComponent = class _PenteComponent extends GobanGameComponent {
         return ctx.onClick($event);
       });
       \u0275\u0275elementEnd();
-      \u0275\u0275repeaterCreate(2, PenteComponent_For_3_Template, 1, 7, ":svg:circle", 2, _forTrack022);
-      \u0275\u0275repeaterCreate(4, PenteComponent_For_5_Template, 1, 6, ":svg:circle", 3, _forTrack113);
+      \u0275\u0275repeaterCreate(2, PenteComponent_For_3_Template, 1, 7, ":svg:circle", 2, _forTrack023);
+      \u0275\u0275repeaterCreate(4, PenteComponent_For_5_Template, 1, 6, ":svg:circle", 3, _forTrack114);
       \u0275\u0275elementEnd();
     }
     if (rf & 2) {
@@ -30142,8 +30543,8 @@ var __decorate36 = function(decorators, target, key, desc) {
   return c > 3 && r2 && Object.defineProperty(target, key, r2), r2;
 };
 var _c015 = () => [0, 1, 2];
-var _forTrack023 = ($index, $item) => $item.getValue();
-var _forTrack114 = ($index, $item) => $item.toString();
+var _forTrack024 = ($index, $item) => $item.getValue();
+var _forTrack115 = ($index, $item) => $item.toString();
 function PylosComponent_For_3_For_2_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
@@ -30673,14 +31074,14 @@ var PylosComponent = class _PylosComponent extends GameComponent {
     if (rf & 1) {
       \u0275\u0275namespaceSVG();
       \u0275\u0275elementStart(0, "svg", 1)(1, "g");
-      \u0275\u0275repeaterCreate(2, PylosComponent_For_3_Template, 3, 0, ":svg:g", null, _forTrack023);
+      \u0275\u0275repeaterCreate(2, PylosComponent_For_3_Template, 3, 0, ":svg:g", null, _forTrack024);
       \u0275\u0275elementEnd();
       \u0275\u0275elementStart(4, "g", null, 0);
       \u0275\u0275element(6, "rect", 2);
       \u0275\u0275repeaterCreate(7, PylosComponent_For_8_Template, 3, 0, ":svg:g", null, \u0275\u0275repeaterTrackByIdentity);
       \u0275\u0275conditionalCreate(9, PylosComponent_Conditional_9_Template, 1, 8, ":svg:rect", 3);
       \u0275\u0275conditionalCreate(10, PylosComponent_Conditional_10_Template, 3, 5, ":svg:g", 4);
-      \u0275\u0275repeaterCreate(11, PylosComponent_For_12_Template, 3, 13, ":svg:g", 5, _forTrack114);
+      \u0275\u0275repeaterCreate(11, PylosComponent_For_12_Template, 3, 13, ":svg:g", 5, _forTrack115);
       \u0275\u0275elementEnd()();
     }
     if (rf & 2) {
@@ -31481,8 +31882,8 @@ var __decorate37 = function(decorators, target, key, desc) {
   else for (var i2 = decorators.length - 1; i2 >= 0; i2--) if (d2 = decorators[i2]) r2 = (c < 3 ? d2(r2) : c > 3 ? d2(target, key, r2) : d2(target, key)) || r2;
   return c > 3 && r2 && Object.defineProperty(target, key, r2), r2;
 };
-var _forTrack024 = ($index, $item) => $item.coord.toString();
-var _forTrack115 = ($index, $item) => $item.toString();
+var _forTrack025 = ($index, $item) => $item.coord.toString();
+var _forTrack116 = ($index, $item) => $item.toString();
 function QuartoComponent_For_3_Conditional_2_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
@@ -31931,10 +32332,10 @@ var QuartoComponent = class _QuartoComponent extends RectangularGameComponent {
     if (rf & 1) {
       \u0275\u0275namespaceSVG();
       \u0275\u0275elementStart(0, "svg", 0)(1, "g", 1);
-      \u0275\u0275repeaterCreate(2, QuartoComponent_For_3_Template, 3, 8, ":svg:g", null, _forTrack024);
+      \u0275\u0275repeaterCreate(2, QuartoComponent_For_3_Template, 3, 8, ":svg:g", null, _forTrack025);
       \u0275\u0275conditionalCreate(4, QuartoComponent_Conditional_4_Template, 1, 7, ":svg:rect", 2);
       \u0275\u0275conditionalCreate(5, QuartoComponent_Conditional_5_Template, 5, 8, ":svg:g", 3);
-      \u0275\u0275repeaterCreate(6, QuartoComponent_For_7_Template, 2, 6, ":svg:g", null, _forTrack115);
+      \u0275\u0275repeaterCreate(6, QuartoComponent_For_7_Template, 2, 6, ":svg:g", null, _forTrack116);
       \u0275\u0275elementStart(8, "g");
       \u0275\u0275element(9, "rect", 4);
       \u0275\u0275conditionalCreate(10, QuartoComponent_Conditional_10_Template, 4, 2, ":svg:g", 5);
@@ -32657,22 +33058,22 @@ var QuebecCastlesRules = class _QuebecCastlesRules extends ConfigurableRules {
 };
 
 // src/app/games/quebec-castles/QuebecCastlesTutorial.ts
-var defaultConfig17 = QuebecCastlesRules.get().getDefaultRulesConfig();
-var rectangularWidthHeightConfig = __spreadProps(__spreadValues({}, defaultConfig17), {
+var defaultConfig18 = QuebecCastlesRules.get().getDefaultRulesConfig();
+var rectangularWidthHeightConfig = __spreadProps(__spreadValues({}, defaultConfig18), {
   height: 12,
   width: 14,
   isRhombic: false
 });
-var playersPlaceCastleConfig = __spreadProps(__spreadValues({}, defaultConfig17), {
+var playersPlaceCastleConfig = __spreadProps(__spreadValues({}, defaultConfig18), {
   playersPlaceCastle: true
 });
-var dropByBatchConfig = __spreadProps(__spreadValues({}, defaultConfig17), {
+var dropByBatchConfig = __spreadProps(__spreadValues({}, defaultConfig18), {
   dropMode: "BY_BATCH"
 });
-var dropPieceByPieceConfig = __spreadProps(__spreadValues({}, defaultConfig17), {
+var dropPieceByPieceConfig = __spreadProps(__spreadValues({}, defaultConfig18), {
   dropMode: "PIECE_BY_PIECE"
 });
-var numberOfPieceAndTerritorySizeConfig = __spreadProps(__spreadValues({}, defaultConfig17), {
+var numberOfPieceAndTerritorySizeConfig = __spreadProps(__spreadValues({}, defaultConfig18), {
   linesForTerritory: 3,
   dropMode: "PIECE_BY_PIECE",
   defenders: 2,
@@ -32680,9 +33081,9 @@ var numberOfPieceAndTerritorySizeConfig = __spreadProps(__spreadValues({}, defau
 });
 var QuebecCastlesTutorial = class extends Tutorial {
   tutorial = [
-    TutorialStep.informational(TutorialStepMessage.INITIAL_BOARD_AND_OBJECT_OF_THE_GAME(), $localize`Quebec Castles is the first board game invented by the EveryBoard Team.<br/>The goal of the game is to capture all the pieces of the opponent, or to step on the opponent's castle. The castles are on the corners by default.`, QuebecCastlesRules.get().getInitialState(defaultConfig17)),
-    TutorialStep.anyMove($localize`Defender's move`, $localize`The defenders have the dark pieces, they play first by selecting one of their pieces and moving it on a neighboring square.<br/><br/>You're playing Dark, move a defender piece.`, QuebecCastlesRules.get().getInitialState(defaultConfig17), QuebecCastlesMove.translation(new Coord(7, 7), new Coord(6, 6)), TutorialStepMessage.CONGRATULATIONS()),
-    TutorialStep.anyMove($localize`Invader's move`, $localize`The invaders have the light pieces, they play second by selecting one of their piece and moving them two step in a straight line. A piece cannot jump over another piece.<br/><br/>Move an invader piece.`, QuebecCastlesRules.get().getInitialState(defaultConfig17).incrementTurn(), QuebecCastlesMove.translation(new Coord(2, 2), new Coord(4, 4)), TutorialStepMessage.CONGRATULATIONS_YOU_KNOW_EVERYTHING()),
+    TutorialStep.informational(TutorialStepMessage.INITIAL_BOARD_AND_OBJECT_OF_THE_GAME(), $localize`Quebec Castles is the first board game invented by the EveryBoard Team.<br/>The goal of the game is to capture all the pieces of the opponent, or to step on the opponent's castle. The castles are on the corners by default.`, QuebecCastlesRules.get().getInitialState(defaultConfig18)),
+    TutorialStep.anyMove($localize`Defender's move`, $localize`The defenders have the dark pieces, they play first by selecting one of their pieces and moving it on a neighboring square.<br/><br/>You're playing Dark, move a defender piece.`, QuebecCastlesRules.get().getInitialState(defaultConfig18), QuebecCastlesMove.translation(new Coord(7, 7), new Coord(6, 6)), TutorialStepMessage.CONGRATULATIONS()),
+    TutorialStep.anyMove($localize`Invader's move`, $localize`The invaders have the light pieces, they play second by selecting one of their piece and moving them two step in a straight line. A piece cannot jump over another piece.<br/><br/>Move an invader piece.`, QuebecCastlesRules.get().getInitialState(defaultConfig18).incrementTurn(), QuebecCastlesMove.translation(new Coord(2, 2), new Coord(4, 4)), TutorialStepMessage.CONGRATULATIONS_YOU_KNOW_EVERYTHING()),
     // 5.a configurations alternatives: rectangulaire & width & height
     TutorialStep.informational($localize`Custom config: rhombic, width, height`, $localize`You have the option to change the shape of the board, if it's not rhombic, it's rectangular. You also can change the size`, QuebecCastlesRules.get().getInitialState(rectangularWidthHeightConfig), MGPOptional.of(rectangularWidthHeightConfig)),
     TutorialStep.anyMove($localize`Custom config: place castle yourself`, $localize`You have the option to decide yourself where you place the castle. If you don't change anything else the piece placement will be automatically done right after.<br/><br/>You're playing Dark/Defender, place your castle.`, QuebecCastlesRules.get().getInitialState(playersPlaceCastleConfig), QuebecCastlesMove.drop([new Coord(7, 7)]), TutorialStepMessage.CONGRATULATIONS(), MGPOptional.of(playersPlaceCastleConfig)),
@@ -32761,8 +33162,8 @@ var __decorate38 = function(decorators, target, key, desc) {
   else for (var i2 = decorators.length - 1; i2 >= 0; i2--) if (d2 = decorators[i2]) r2 = (c < 3 ? d2(r2) : c > 3 ? d2(target, key, r2) : d2(target, key)) || r2;
   return c > 3 && r2 && Object.defineProperty(target, key, r2), r2;
 };
-var _forTrack025 = ($index, $item) => $item.coord.toString();
-var _forTrack116 = ($index, $item) => $item.getValue();
+var _forTrack026 = ($index, $item) => $item.coord.toString();
+var _forTrack117 = ($index, $item) => $item.getValue();
 function QuebecCastlesComponent_For_3_For_3_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
@@ -32826,7 +33227,7 @@ function QuebecCastlesComponent_For_3_Template(rf, ctx) {
       return \u0275\u0275resetView(ctx_r2.onClick(coordAndContent_r2.coord));
     });
     \u0275\u0275element(1, "rect", 4);
-    \u0275\u0275repeaterCreate(2, QuebecCastlesComponent_For_3_For_3_Template, 2, 1, ":svg:ng-container", null, _forTrack116);
+    \u0275\u0275repeaterCreate(2, QuebecCastlesComponent_For_3_For_3_Template, 2, 1, ":svg:ng-container", null, _forTrack117);
     \u0275\u0275conditionalCreate(4, QuebecCastlesComponent_For_3_Conditional_4_Template, 1, 7, ":svg:circle", 5);
     \u0275\u0275conditionalCreate(5, QuebecCastlesComponent_For_3_Conditional_5_Template, 1, 7, ":svg:rect", 6);
     \u0275\u0275elementEnd();
@@ -33234,7 +33635,7 @@ var QuebecCastlesComponent = class _QuebecCastlesComponent extends RectangularGa
     if (rf & 1) {
       \u0275\u0275namespaceSVG();
       \u0275\u0275elementStart(0, "svg", 0)(1, "g", 1);
-      \u0275\u0275repeaterCreate(2, QuebecCastlesComponent_For_3_Template, 6, 12, ":svg:g", 2, _forTrack025);
+      \u0275\u0275repeaterCreate(2, QuebecCastlesComponent_For_3_Template, 6, 12, ":svg:g", 2, _forTrack026);
       \u0275\u0275elementEnd();
       \u0275\u0275conditionalCreate(4, QuebecCastlesComponent_Conditional_4_Template, 3, 1, ":svg:g");
       \u0275\u0275elementEnd();
@@ -33471,13 +33872,13 @@ var QuixoMove = class _QuixoMove extends MoveCoord {
 var _21 = PlayerOrNone.NONE;
 var O18 = PlayerOrNone.ZERO;
 var X18 = PlayerOrNone.ONE;
-var defaultConfig18 = QuixoRules.get().getDefaultRulesConfig();
+var defaultConfig19 = QuixoRules.get().getDefaultRulesConfig();
 var QuixoTutorial = class extends Tutorial {
   tutorial = [
     TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`At Quixo, the goal is to align 5 of your pieces.
         The first player plays with dark pieces, the second with light pieces.
         The board is made of 25 spaces spread over a 5x5 square.
-        Every piece has a neutral side, a light side, and a dark side.`, QuixoRules.get().getInitialState(defaultConfig18)),
+        Every piece has a neutral side, a light side, and a dark side.`, QuixoRules.get().getInitialState(defaultConfig19)),
     TutorialStep.fromMove($localize`What a move looks like (without animation)`, $localize`When it is your turn:
         <ol>
             <li>Click on one of your pieces or on a neutral one. You cannot choose a piece of the opponent.
@@ -33547,7 +33948,7 @@ var __decorate39 = function(decorators, target, key, desc) {
   else for (var i2 = decorators.length - 1; i2 >= 0; i2--) if (d2 = decorators[i2]) r2 = (c < 3 ? d2(r2) : c > 3 ? d2(target, key, r2) : d2(target, key)) || r2;
   return c > 3 && r2 && Object.defineProperty(target, key, r2), r2;
 };
-var _forTrack026 = ($index, $item) => $item.toString();
+var _forTrack027 = ($index, $item) => $item.toString();
 function QuixoComponent_For_4_For_2_Template(rf, ctx) {
   if (rf & 1) {
     const _r1 = \u0275\u0275getCurrentView();
@@ -33606,7 +34007,7 @@ function QuixoComponent_Conditional_5_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
     \u0275\u0275elementStart(0, "g");
-    \u0275\u0275repeaterCreate(1, QuixoComponent_Conditional_5_For_2_Template, 1, 3, ":svg:use", 3, _forTrack026);
+    \u0275\u0275repeaterCreate(1, QuixoComponent_Conditional_5_For_2_Template, 1, 3, ":svg:use", 3, _forTrack027);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -34005,7 +34406,7 @@ var ReversiRules = class _ReversiRules extends AbstractReversiRules {
 var _22 = PlayerOrNone.NONE;
 var O19 = PlayerOrNone.ZERO;
 var X19 = PlayerOrNone.ONE;
-var defaultConfig19 = ReversiRules.get().getDefaultRulesConfig();
+var defaultConfig20 = ReversiRules.get().getDefaultRulesConfig();
 var ReversiTutorial = class extends Tutorial {
   tutorial = [
     TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`At Reversi, the pieces are double sided: one dark side for the first player, one light side for the second player. When one piece is flipped, its owner changes. The player owning the most pieces at the end of the game wins. Here, Dark has 28 points and Light has 36, hence Light wins.`, new ReversiState([
@@ -34018,7 +34419,7 @@ var ReversiTutorial = class extends Tutorial {
       [O19, X19, X19, X19, X19, X19, X19, O19],
       [O19, O19, O19, O19, O19, O19, O19, O19]
     ], 60)),
-    TutorialStep.anyMove($localize`Captures` + " (1/2)", $localize`At the beginning of the game, pieces are placed as shown here. For a move to be legal, it must sandwich at least one piece of the opponent between the piece you're putting and another of your pieces.<br/><br/>Do any move by clicking to put your piece. Dark plays first.`, ReversiRules.get().getInitialState(defaultConfig19), new ReversiMove(2, 4), TutorialStepMessage.CONGRATULATIONS()),
+    TutorialStep.anyMove($localize`Captures` + " (1/2)", $localize`At the beginning of the game, pieces are placed as shown here. For a move to be legal, it must sandwich at least one piece of the opponent between the piece you're putting and another of your pieces.<br/><br/>Do any move by clicking to put your piece. Dark plays first.`, ReversiRules.get().getInitialState(defaultConfig20), new ReversiMove(2, 4), TutorialStepMessage.CONGRATULATIONS()),
     TutorialStep.fromMove($localize`Captures` + " (2/2)", $localize`A move can also capture a bigger line, and more than one line at a time<br/><br/>You're playing Light here. Play on the bottom left to see a capture.`, new ReversiState([
       [_22, _22, _22, _22, _22, _22, _22, _22],
       [_22, _22, _22, _22, _22, _22, _22, _22],
@@ -34262,10 +34663,10 @@ var ToricReversiRules = class _ToricReversiRules extends AbstractReversiRules {
 var _23 = PlayerOrNone.NONE;
 var O20 = PlayerOrNone.ZERO;
 var X20 = PlayerOrNone.ONE;
-var defaultConfig20 = ToricReversiRules.get().getDefaultRulesConfig();
+var defaultConfig21 = ToricReversiRules.get().getDefaultRulesConfig();
 var ToricReversiTutorial = class extends Tutorial {
   tutorial = [
-    TutorialStep.informational($localize`Toric Reversi`, $localize`Toric Reversi is a variant of Reversi played on a toric board. If you are not familiar with the base rules of Reversi, check them out <a href="/tutorial/Reversi">here</a> before continuing. This tutorial only covers what changes with the toric board.`, ToricReversiRules.get().getInitialState(defaultConfig20)),
+    TutorialStep.informational($localize`Toric Reversi`, $localize`Toric Reversi is a variant of Reversi played on a toric board. If you are not familiar with the base rules of Reversi, check them out <a href="/tutorial/Reversi">here</a> before continuing. This tutorial only covers what changes with the toric board.`, ToricReversiRules.get().getInitialState(defaultConfig21)),
     TutorialStep.fromMove($localize`Left-right connectivity`, $localize`On a toric board, the left edge is connected to the right edge. This means a line of pieces can wrap around horizontally. Here, you can capture the three light pieces by playing on the leftmost column, as the board wraps around to continue the line.<br/><br/>You are playing Dark. Do a capture.`, new ReversiState([
       [_23, _23, _23, _23, _23, _23, _23, _23],
       [_23, _23, _23, _23, _23, _23, _23, _23],
@@ -34296,7 +34697,7 @@ var ToricReversiTutorial = class extends Tutorial {
       [_23, _23, _23, _23, _23, _23, _23, _23],
       [_23, _23, _23, _23, _23, _23, _23, _23]
     ], 2), [new ReversiMove(0, 7)], TutorialStepMessage.CONGRATULATIONS(), $localize`Follow the diagonal starting from the dark piece: it wraps around the right edge and continues on the left.`),
-    TutorialStep.informational($localize`Strategic implications`, $localize`On a standard Reversi board, corners and edges are powerful because pieces placed there cannot be flanked. On a toric board, there are no corners and no edges, every piece can potentially be captured from any direction. This completely changes the strategy: stability must be built differently, and no position is ever truly safe.`, ToricReversiRules.get().getInitialState(defaultConfig20))
+    TutorialStep.informational($localize`Strategic implications`, $localize`On a standard Reversi board, corners and edges are powerful because pieces placed there cannot be flanked. On a toric board, there are no corners and no edges, every piece can potentially be captured from any direction. This completely changes the strategy: stability must be built differently, and no position is ever truly safe.`, ToricReversiRules.get().getInitialState(defaultConfig21))
   ];
 };
 
@@ -34786,7 +35187,7 @@ var __decorate43 = function(decorators, target, key, desc) {
   else for (var i2 = decorators.length - 1; i2 >= 0; i2--) if (d2 = decorators[i2]) r2 = (c < 3 ? d2(r2) : c > 3 ? d2(target, key, r2) : d2(target, key)) || r2;
   return c > 3 && r2 && Object.defineProperty(target, key, r2), r2;
 };
-var _forTrack027 = ($index, $item) => $item.toString();
+var _forTrack028 = ($index, $item) => $item.toString();
 function SaharaComponent_For_2_For_2_Conditional_1_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
@@ -34927,7 +35328,7 @@ function SaharaComponent_Conditional_3_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
     \u0275\u0275elementContainerStart(0);
-    \u0275\u0275repeaterCreate(1, SaharaComponent_Conditional_3_For_2_Template, 1, 5, ":svg:polygon", 6, _forTrack027);
+    \u0275\u0275repeaterCreate(1, SaharaComponent_Conditional_3_For_2_Template, 1, 5, ":svg:polygon", 6, _forTrack028);
     \u0275\u0275conditionalCreate(3, SaharaComponent_Conditional_3_Conditional_3_Template, 1, 5, ":svg:polygon", 6);
     \u0275\u0275elementContainerEnd();
   }
@@ -35760,11 +36161,11 @@ var u = SiamPiece.DARK_UP;
 var l = SiamPiece.DARK_LEFT;
 var r = SiamPiece.DARK_RIGHT;
 var d = SiamPiece.DARK_DOWN;
-var defaultConfig21 = SiamRules.get().getDefaultRulesConfig();
+var defaultConfig22 = SiamRules.get().getDefaultRulesConfig();
 var SiamTutorial = class extends Tutorial {
   tutorial = [
-    TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`The goal at Siam is to be the first to push a mountain out of the board. The initial board contains three mountains, and no pieces are initially on the board. During its turn, a player can do one of the following actions:<ol><li>Put a new piece on the board.</li><li>Change the orientation of one of its piece</li><li>Move one of its piece and optionally reorient it.</li><li>Take one of its pieces out of the board.</li></ol>`, SiamRules.get().getInitialState(defaultConfig21)),
-    TutorialStep.anyMove($localize`Inserting a piece`, $localize`Each player has 5 pieces in total. As long as you have remaining pieces next to the board, you can insert new pieces. To do so:<ol><li>Click on one of your pieces from your reserve, next to board.</li><li>Click on one of the highlighted squares to select a landing for your piece.</li><li>Select an orientation for your piece by clicking on one of the arrows that appear on top of the board.</li></ol><br/>You're playing Dark, insert a piece on the board.`, SiamRules.get().getInitialState(defaultConfig21), SiamMove.of(2, -1, MGPOptional.of(Orthogonal.DOWN), Orthogonal.DOWN), TutorialStepMessage.CONGRATULATIONS()),
+    TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`The goal at Siam is to be the first to push a mountain out of the board. The initial board contains three mountains, and no pieces are initially on the board. During its turn, a player can do one of the following actions:<ol><li>Put a new piece on the board.</li><li>Change the orientation of one of its piece</li><li>Move one of its piece and optionally reorient it.</li><li>Take one of its pieces out of the board.</li></ol>`, SiamRules.get().getInitialState(defaultConfig22)),
+    TutorialStep.anyMove($localize`Inserting a piece`, $localize`Each player has 5 pieces in total. As long as you have remaining pieces next to the board, you can insert new pieces. To do so:<ol><li>Click on one of your pieces from your reserve, next to board.</li><li>Click on one of the highlighted squares to select a landing for your piece.</li><li>Select an orientation for your piece by clicking on one of the arrows that appear on top of the board.</li></ol><br/>You're playing Dark, insert a piece on the board.`, SiamRules.get().getInitialState(defaultConfig22), SiamMove.of(2, -1, MGPOptional.of(Orthogonal.DOWN), Orthogonal.DOWN), TutorialStepMessage.CONGRATULATIONS()),
     TutorialStep.fromMove($localize`Moving a piece`, $localize`We will distinguish here "moving" and "pushing". A move is made from a piece's square to an empty neighboring square, horizontally or vertically. You can also move a piece out of the board. To move a piece:<ol><li>Click on it.</li><li>Click on the square on which you want the piece to move. You can also click a second time on your piece to change its orientation without moving it.</li><li>Select the orientation of your piece by clicking one one of the arrows that appear on top of the board.</li></ol><br/>You're playing Dark. Try to move your piece that is already on the board one square upwards and to orient it to the left.`, new SiamState([
       [_25, _25, _25, _25, _25],
       [_25, _25, _25, _25, _25],
@@ -37591,8 +37992,8 @@ var __decorate48 = function(decorators, target, key, desc) {
   else for (var i2 = decorators.length - 1; i2 >= 0; i2--) if (d2 = decorators[i2]) r2 = (c < 3 ? d2(r2) : c > 3 ? d2(target, key, r2) : d2(target, key)) || r2;
   return c > 3 && r2 && Object.defineProperty(target, key, r2), r2;
 };
-var _forTrack028 = ($index, $item) => $item.toString();
-var _forTrack117 = ($index, $item) => $item.coord.toString();
+var _forTrack029 = ($index, $item) => $item.toString();
+var _forTrack118 = ($index, $item) => $item.coord.toString();
 function SixComponent_For_2_Template(rf, ctx) {
   if (rf & 1) {
     const _r1 = \u0275\u0275getCurrentView();
@@ -37750,7 +38151,7 @@ function SixComponent_For_14_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
     \u0275\u0275elementStart(0, "g", 8);
-    \u0275\u0275repeaterCreate(1, SixComponent_For_14_For_2_Template, 1, 5, ":svg:polygon", 14, _forTrack028);
+    \u0275\u0275repeaterCreate(1, SixComponent_For_14_For_2_Template, 1, 5, ":svg:polygon", 14, _forTrack029);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -37967,14 +38368,14 @@ var SixComponent = class _SixComponent extends HexagonalGameComponent {
     if (rf & 1) {
       \u0275\u0275namespaceSVG();
       \u0275\u0275elementStart(0, "svg", 0);
-      \u0275\u0275repeaterCreate(1, SixComponent_For_2_Template, 1, 6, ":svg:polygon", 1, _forTrack028);
-      \u0275\u0275repeaterCreate(3, SixComponent_For_4_Template, 1, 5, ":svg:polygon", 2, _forTrack028);
+      \u0275\u0275repeaterCreate(1, SixComponent_For_2_Template, 1, 6, ":svg:polygon", 1, _forTrack029);
+      \u0275\u0275repeaterCreate(3, SixComponent_For_4_Template, 1, 5, ":svg:polygon", 2, _forTrack029);
       \u0275\u0275conditionalCreate(5, SixComponent_Conditional_5_Template, 1, 6, ":svg:polygon", 1);
       \u0275\u0275conditionalCreate(6, SixComponent_Conditional_6_Template, 1, 5, ":svg:polygon", 3);
-      \u0275\u0275repeaterCreate(7, SixComponent_For_8_Template, 1, 6, ":svg:polygon", 4, _forTrack117);
+      \u0275\u0275repeaterCreate(7, SixComponent_For_8_Template, 1, 6, ":svg:polygon", 4, _forTrack118);
       \u0275\u0275conditionalCreate(9, SixComponent_Conditional_9_Template, 1, 5, ":svg:polygon", 5);
       \u0275\u0275conditionalCreate(10, SixComponent_Conditional_10_Template, 1, 6, ":svg:polygon", 6);
-      \u0275\u0275repeaterCreate(11, SixComponent_For_12_Template, 1, 5, ":svg:polygon", 7, _forTrack028);
+      \u0275\u0275repeaterCreate(11, SixComponent_For_12_Template, 1, 5, ":svg:polygon", 7, _forTrack029);
       \u0275\u0275repeaterCreate(13, SixComponent_For_14_Template, 3, 0, ":svg:g", 8, \u0275\u0275repeaterTrackByIndex);
       \u0275\u0275elementEnd();
     }
@@ -38199,8 +38600,8 @@ var SquarzRules = class _SquarzRules extends ConfigurableRules {
 };
 
 // src/app/games/squarz/SquarzTutorial.ts
-var defaultConfig22 = SquarzRules.get().getDefaultRulesConfig();
-var initialState2 = SquarzRules.get().getInitialState(defaultConfig22);
+var defaultConfig23 = SquarzRules.get().getDefaultRulesConfig();
+var initialState2 = SquarzRules.get().getInitialState(defaultConfig23);
 var _27 = PlayerOrNone.NONE;
 var O24 = PlayerOrNone.ZERO;
 var X24 = PlayerOrNone.ONE;
@@ -38321,7 +38722,7 @@ var __decorate49 = function(decorators, target, key, desc) {
   else for (var i2 = decorators.length - 1; i2 >= 0; i2--) if (d2 = decorators[i2]) r2 = (c < 3 ? d2(r2) : c > 3 ? d2(target, key, r2) : d2(target, key)) || r2;
   return c > 3 && r2 && Object.defineProperty(target, key, r2), r2;
 };
-var _forTrack029 = ($index, $item) => $item.toString();
+var _forTrack030 = ($index, $item) => $item.toString();
 function SquarzComponent_For_2_For_2_Conditional_2_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
@@ -38528,7 +38929,7 @@ var SquarzComponent = class _SquarzComponent extends RectangularGameComponent {
       \u0275\u0275namespaceSVG();
       \u0275\u0275elementStart(0, "svg", 0);
       \u0275\u0275repeaterCreate(1, SquarzComponent_For_2_Template, 3, 0, ":svg:g", null, \u0275\u0275repeaterTrackByIndex);
-      \u0275\u0275repeaterCreate(3, SquarzComponent_For_4_Template, 1, 6, ":svg:rect", null, _forTrack029);
+      \u0275\u0275repeaterCreate(3, SquarzComponent_For_4_Template, 1, 6, ":svg:rect", null, _forTrack030);
       \u0275\u0275elementEnd();
     }
     if (rf & 2) {
@@ -39051,11 +39452,11 @@ var _28 = TaflPawn.UNOCCUPIED;
 var O25 = TaflPawn.PLAYER_ZERO_PAWN;
 var X25 = TaflPawn.PLAYER_ONE_PAWN;
 var A5 = TaflPawn.PLAYER_ONE_KING;
-var defaultConfig23 = BrandhubRules.get().getDefaultRulesConfig();
+var defaultConfig24 = BrandhubRules.get().getDefaultRulesConfig();
 var BrandhubTutorial = class extends Tutorial {
   tutorial = [
-    TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`Brandhub is the Irish version of the Tafl, Tafl being a family of viking strategy game. The object of the game is different for each player. The attacker plays first. Their pieces (dark) are close to the edges. Their goal is to capture the king, which is in the center of the board. The defender plays second. Their pieces (light) are in the middle. Their goal is to move the king on one of the 4 thrones in the corners. Note that the square in which the king starts, in the center of the board, is also a throne.`, BrandhubRules.get().getInitialState(defaultConfig23)),
-    TutorialStep.anyMove($localize`Moving`, $localize`All pieces move the same way. Similarly to a rook in chess, a piece can move: <ol><li>By as many squares as you want.</li><li>Without going over another piece or stopping on another piece.</li><li>Horizontally or vertically.</li><li>Only the king can land on a corner throne.</li><li>Once the king left his central throne, no piece can land on it, but all can pass over it.</li></ol>To move a piece, click on it and then on its landing square.<br/><br/>You're playing Dark, do the first move.`, BrandhubRules.get().getInitialState(defaultConfig23), BrandhubMove.from(new Coord(3, 1), new Coord(1, 1)).get(), TutorialStepMessage.CONGRATULATIONS()),
+    TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`Brandhub is the Irish version of the Tafl, Tafl being a family of viking strategy game. The object of the game is different for each player. The attacker plays first. Their pieces (dark) are close to the edges. Their goal is to capture the king, which is in the center of the board. The defender plays second. Their pieces (light) are in the middle. Their goal is to move the king on one of the 4 thrones in the corners. Note that the square in which the king starts, in the center of the board, is also a throne.`, BrandhubRules.get().getInitialState(defaultConfig24)),
+    TutorialStep.anyMove($localize`Moving`, $localize`All pieces move the same way. Similarly to a rook in chess, a piece can move: <ol><li>By as many squares as you want.</li><li>Without going over another piece or stopping on another piece.</li><li>Horizontally or vertically.</li><li>Only the king can land on a corner throne.</li><li>Once the king left his central throne, no piece can land on it, but all can pass over it.</li></ol>To move a piece, click on it and then on its landing square.<br/><br/>You're playing Dark, do the first move.`, BrandhubRules.get().getInitialState(defaultConfig24), BrandhubMove.from(new Coord(3, 1), new Coord(1, 1)).get(), TutorialStepMessage.CONGRATULATIONS()),
     TutorialStep.fromMove($localize`Capturing a soldier` + " (1/2)", $localize`All pieces, attackers and defenders, except the king, are soldiers. To capture them, they have to be sandwiched between two of your pieces. By getting too close, an attacker's soldier is in danger.<br/><br/>You're playing Light. Capture the soldier.`, new TaflState([
       [_28, _28, _28, O25, _28, _28, _28],
       [_28, _28, _28, O25, _28, _28, _28],
@@ -39707,7 +40108,7 @@ __decorate51([
 ], TaflComponent.prototype, "onClick", null);
 
 // src/app/games/tafl/brandhub/brandhub.component.ts
-var _forTrack030 = ($index, $item) => $item.toString();
+var _forTrack031 = ($index, $item) => $item.toString();
 function BrandhubComponent_For_2_For_2_Conditional_2_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
@@ -39906,7 +40307,7 @@ var BrandhubComponent = class _BrandhubComponent extends TaflComponent {
       \u0275\u0275namespaceSVG();
       \u0275\u0275elementStart(0, "svg", 0);
       \u0275\u0275repeaterCreate(1, BrandhubComponent_For_2_Template, 3, 0, ":svg:g", null, \u0275\u0275repeaterTrackByIndex);
-      \u0275\u0275repeaterCreate(3, BrandhubComponent_For_4_Template, 2, 7, ":svg:g", null, _forTrack030);
+      \u0275\u0275repeaterCreate(3, BrandhubComponent_For_4_Template, 2, 7, ":svg:g", null, _forTrack031);
       \u0275\u0275elementEnd();
     }
     if (rf & 2) {
@@ -40001,11 +40402,11 @@ var _29 = TaflPawn.UNOCCUPIED;
 var O26 = TaflPawn.PLAYER_ZERO_PAWN;
 var X26 = TaflPawn.PLAYER_ONE_PAWN;
 var A6 = TaflPawn.PLAYER_ONE_KING;
-var defaultConfig24 = HnefataflRules.get().getDefaultRulesConfig();
+var defaultConfig25 = HnefataflRules.get().getDefaultRulesConfig();
 var HnefataflTutorial = class extends Tutorial {
   tutorial = [
-    TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`Hnefatafl is a strategy game that was played by the vikings, it's part of a larger family of games called Tafl. The object of the game is different for each player. The attacker plays first. Their pieces (dark) are close to the edges. Their goal is to capture the king, which is in the center of the board. The defender plays second. Their pieces (light) are in the middle. Their goal is to move the king on one of the 4 thrones in the corners. Note that the square in which the king starts, in the center of the board, is also a throne.`, HnefataflRules.get().getInitialState(defaultConfig24)),
-    TutorialStep.anyMove($localize`Moving`, $localize`All pieces move the same way. Similarly to a rook in chess, a piece can move:<ol><li>By as many squares as you want.</li><li>Without going over another piece or stopping on another piece.</li><li>Horizontally or vertically.</li><li>Only the king can land on a throne.</li></ol>To move a piece, click on it and then on its landing square.<br/><br/>You're playing Dark, do the first move.`, HnefataflRules.get().getInitialState(defaultConfig24), HnefataflMove.from(new Coord(5, 1), new Coord(1, 1)).get(), TutorialStepMessage.CONGRATULATIONS()),
+    TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`Hnefatafl is a strategy game that was played by the vikings, it's part of a larger family of games called Tafl. The object of the game is different for each player. The attacker plays first. Their pieces (dark) are close to the edges. Their goal is to capture the king, which is in the center of the board. The defender plays second. Their pieces (light) are in the middle. Their goal is to move the king on one of the 4 thrones in the corners. Note that the square in which the king starts, in the center of the board, is also a throne.`, HnefataflRules.get().getInitialState(defaultConfig25)),
+    TutorialStep.anyMove($localize`Moving`, $localize`All pieces move the same way. Similarly to a rook in chess, a piece can move:<ol><li>By as many squares as you want.</li><li>Without going over another piece or stopping on another piece.</li><li>Horizontally or vertically.</li><li>Only the king can land on a throne.</li></ol>To move a piece, click on it and then on its landing square.<br/><br/>You're playing Dark, do the first move.`, HnefataflRules.get().getInitialState(defaultConfig25), HnefataflMove.from(new Coord(5, 1), new Coord(1, 1)).get(), TutorialStepMessage.CONGRATULATIONS()),
     TutorialStep.fromMove($localize`Capturing a soldier` + " (1/2)", $localize`All pieces, attackers and defenders, except the king, are soldiers. To capture them, they have to be sandwiched between two of your pieces. By getting too close, an attacker's soldier is in danger.<br/><br/>You're playing Light. Capture the soldier.`, new TaflState([
       [_29, _29, _29, _29, O26, O26, O26, O26, _29, _29, _29],
       [_29, _29, _29, _29, _29, O26, _29, _29, _29, _29, _29],
@@ -40018,7 +40419,7 @@ var HnefataflTutorial = class extends Tutorial {
       [_29, _29, _29, _29, _29, _29, _29, _29, _29, _29, _29],
       [_29, _29, _29, _29, _29, O26, _29, _29, _29, _29, _29],
       [_29, _29, _29, O26, O26, O26, O26, O26, _29, _29, _29]
-    ], 1), [HnefataflMove.from(new Coord(5, 3), new Coord(3, 3)).get()], $localize`Congratulations, that will teach him a lesson!`, $localize`Failed, you missed an opportunity to capture a piece of the opponent.`).withPreviousMove(HnefataflMove.from(new Coord(3, 0), new Coord(3, 4)).get(), HnefataflRules.get().getInitialState(defaultConfig24)),
+    ], 1), [HnefataflMove.from(new Coord(5, 3), new Coord(3, 3)).get()], $localize`Congratulations, that will teach him a lesson!`, $localize`Failed, you missed an opportunity to capture a piece of the opponent.`).withPreviousMove(HnefataflMove.from(new Coord(3, 0), new Coord(3, 4)).get(), HnefataflRules.get().getInitialState(defaultConfig25)),
     TutorialStep.fromMove($localize`Capturing a soldier` + " (2/2)", $localize`A second way to capture a soldier is to sandwich it against an empty throne. The king has moved and endangered one of its soldiers.<br/><br/>You're playing Dark. Capture the soldier.`, new TaflState([
       [_29, _29, _29, O26, O26, O26, O26, O26, _29, _29, _29],
       [_29, X26, _29, _29, _29, O26, _29, _29, _29, _29, _29],
@@ -40065,7 +40466,7 @@ var HnefataflTutorial = class extends Tutorial {
 };
 
 // src/app/games/tafl/hnefatafl/hnefatafl.component.ts
-var _forTrack031 = ($index, $item) => $item.toString();
+var _forTrack032 = ($index, $item) => $item.toString();
 function HnefataflComponent_For_2_For_2_Conditional_2_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
@@ -40264,7 +40665,7 @@ var HnefataflComponent = class _HnefataflComponent extends TaflComponent {
       \u0275\u0275namespaceSVG();
       \u0275\u0275elementStart(0, "svg", 0);
       \u0275\u0275repeaterCreate(1, HnefataflComponent_For_2_Template, 3, 0, ":svg:g", null, \u0275\u0275repeaterTrackByIndex);
-      \u0275\u0275repeaterCreate(3, HnefataflComponent_For_4_Template, 2, 7, ":svg:g", null, _forTrack031);
+      \u0275\u0275repeaterCreate(3, HnefataflComponent_For_4_Template, 2, 7, ":svg:g", null, _forTrack032);
       \u0275\u0275elementEnd();
     }
     if (rf & 2) {
@@ -40357,11 +40758,11 @@ var _30 = TaflPawn.UNOCCUPIED;
 var x = TaflPawn.PLAYER_ZERO_PAWN;
 var i = TaflPawn.PLAYER_ONE_PAWN;
 var A7 = TaflPawn.PLAYER_ONE_KING;
-var defaultConfig25 = TablutRules.get().getDefaultRulesConfig();
+var defaultConfig26 = TablutRules.get().getDefaultRulesConfig();
 var TablutTutorial = class extends Tutorial {
   tutorial = [
-    TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`Tablut is the lapland version of the Tafl, Tafl being a family of viking strategy game. The object of the game is different for each player. The attacker plays first. Its pieces (dark) are close to the edges. Its goal is to capture the king, which is in the center of the board. The defender plays second. Its pieces (light) are in the middle. Its goal is to move the king on one of the 4 thrones in the corners. Note that the square in which the king starts, in the center of the board, is also a throne.`, TablutRules.get().getInitialState(defaultConfig25)),
-    TutorialStep.anyMove($localize`Moving`, $localize`All pieces move the same way. Similarly to a rook in chess, a piece can move:<ol><li>By as many squares as you want.</li><li>Without going over another piece or stopping on another piece.</li><li>Horizontally or vertically.</li><li>Only the king can land on a throne.</li></ol>To move a piece, click on it and then on its landing square.<br/><br/>You're playing Dark, do the first move.`, TablutRules.get().getInitialState(defaultConfig25), TablutMove.from(new Coord(4, 1), new Coord(1, 1)).get(), TutorialStepMessage.CONGRATULATIONS()),
+    TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`Tablut is the lapland version of the Tafl, Tafl being a family of viking strategy game. The object of the game is different for each player. The attacker plays first. Its pieces (dark) are close to the edges. Its goal is to capture the king, which is in the center of the board. The defender plays second. Its pieces (light) are in the middle. Its goal is to move the king on one of the 4 thrones in the corners. Note that the square in which the king starts, in the center of the board, is also a throne.`, TablutRules.get().getInitialState(defaultConfig26)),
+    TutorialStep.anyMove($localize`Moving`, $localize`All pieces move the same way. Similarly to a rook in chess, a piece can move:<ol><li>By as many squares as you want.</li><li>Without going over another piece or stopping on another piece.</li><li>Horizontally or vertically.</li><li>Only the king can land on a throne.</li></ol>To move a piece, click on it and then on its landing square.<br/><br/>You're playing Dark, do the first move.`, TablutRules.get().getInitialState(defaultConfig26), TablutMove.from(new Coord(4, 1), new Coord(1, 1)).get(), TutorialStepMessage.CONGRATULATIONS()),
     TutorialStep.fromMove($localize`Capturing a soldier` + " (1/2)", $localize`All pieces, attackers and defenders, except the king, are soldiers. To capture them, they have to be sandwiched between two of your pieces. By getting too close, an attacker's soldier is in danger.<br/><br/>You're playing Light. Capture the soldier.`, new TaflState([
       [_30, _30, _30, x, x, x, _30, _30, _30],
       [_30, _30, _30, _30, x, _30, _30, _30, _30],
@@ -40413,7 +40814,7 @@ var TablutTutorial = class extends Tutorial {
 };
 
 // src/app/games/tafl/tablut/tablut.component.ts
-var _forTrack032 = ($index, $item) => $item.toString();
+var _forTrack033 = ($index, $item) => $item.toString();
 function TablutComponent_For_2_For_2_Conditional_2_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
@@ -40612,7 +41013,7 @@ var TablutComponent = class _TablutComponent extends TaflComponent {
       \u0275\u0275namespaceSVG();
       \u0275\u0275elementStart(0, "svg", 0);
       \u0275\u0275repeaterCreate(1, TablutComponent_For_2_Template, 3, 0, ":svg:g", null, \u0275\u0275repeaterTrackByIndex);
-      \u0275\u0275repeaterCreate(3, TablutComponent_For_4_Template, 2, 7, ":svg:g", null, _forTrack032);
+      \u0275\u0275repeaterCreate(3, TablutComponent_For_4_Template, 2, 7, ":svg:g", null, _forTrack033);
       \u0275\u0275elementEnd();
     }
     if (rf & 2) {
@@ -41225,12 +41626,12 @@ var TrexoState = class _TrexoState extends GameStateWithTable {
 // src/app/games/trexo/TrexoMove.ts
 var TrexoMove = class _TrexoMove extends MoveWithTwoCoords {
   static encoder = MoveWithTwoCoords.getFallibleEncoder(_TrexoMove.from);
-  static from(zero2, one2) {
-    Utils.assert(TrexoState.isOnBoard(zero2), `${zero2.toString()} is out of the TrexoBoard!`);
-    Utils.assert(TrexoState.isOnBoard(one2), `${one2.toString()} is out of the TrexoBoard!`);
-    const distance = zero2.getOrthogonalDistance(one2);
+  static from(zero3, one3) {
+    Utils.assert(TrexoState.isOnBoard(zero3), `${zero3.toString()} is out of the TrexoBoard!`);
+    Utils.assert(TrexoState.isOnBoard(one3), `${one3.toString()} is out of the TrexoBoard!`);
+    const distance = zero3.getOrthogonalDistance(one3);
     if (distance === 1) {
-      return MGPFallible.success(new _TrexoMove(zero2, one2));
+      return MGPFallible.success(new _TrexoMove(zero3, one3));
     } else {
       return MGPFallible.failure(TrexoFailure.NON_NEIGHBORING_SPACES());
     }
@@ -41309,9 +41710,9 @@ var TrexoRules = class _TrexoRules extends Rules {
     return MGPValidation.SUCCESS;
   }
   isUnevenGround(move, state) {
-    const zero2 = state.getPieceAt(move.getZero());
-    const one2 = state.getPieceAt(move.getOne());
-    return zero2.getHeight() !== one2.getHeight();
+    const zero3 = state.getPieceAt(move.getZero());
+    const one3 = state.getPieceAt(move.getOne());
+    return zero3.getHeight() !== one3.getHeight();
   }
   landsOnOnlyOnePiece(move, state) {
     const zeroSpace = state.getPieceAt(move.getZero());
@@ -43051,8 +43452,8 @@ var __decorate54 = function(decorators, target, key, desc) {
   return c > 3 && r2 && Object.defineProperty(target, key, r2), r2;
 };
 var _c019 = () => [];
-var _forTrack033 = ($index, $item) => $item.toString();
-var _forTrack118 = ($index, $item) => $item.getValue();
+var _forTrack034 = ($index, $item) => $item.toString();
+var _forTrack119 = ($index, $item) => $item.getValue();
 function YinshComponent_For_2_For_2_Conditional_1_Conditional_3_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
@@ -43181,7 +43582,7 @@ function YinshComponent_Conditional_5_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
     \u0275\u0275elementStart(0, "g");
-    \u0275\u0275repeaterCreate(1, YinshComponent_Conditional_5_For_2_Template, 1, 5, ":svg:polygon", 10, _forTrack033);
+    \u0275\u0275repeaterCreate(1, YinshComponent_Conditional_5_For_2_Template, 1, 5, ":svg:polygon", 10, _forTrack034);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -43663,10 +44064,10 @@ var YinshComponent = class _YinshComponent extends HexagonalGameComponent {
       \u0275\u0275namespaceSVG();
       \u0275\u0275elementStart(0, "svg", 0);
       \u0275\u0275repeaterCreate(1, YinshComponent_For_2_Template, 3, 0, ":svg:g", null, \u0275\u0275repeaterTrackByIndex);
-      \u0275\u0275repeaterCreate(3, YinshComponent_For_4_Template, 1, 5, ":svg:polygon", 1, _forTrack033);
+      \u0275\u0275repeaterCreate(3, YinshComponent_For_4_Template, 1, 5, ":svg:polygon", 1, _forTrack034);
       \u0275\u0275conditionalCreate(5, YinshComponent_Conditional_5_Template, 3, 0, ":svg:g");
-      \u0275\u0275repeaterCreate(6, YinshComponent_For_7_Template, 1, 8, ":svg:rect", 2, _forTrack033);
-      \u0275\u0275repeaterCreate(8, YinshComponent_For_9_Template, 3, 2, ":svg:g", null, _forTrack118);
+      \u0275\u0275repeaterCreate(6, YinshComponent_For_7_Template, 1, 8, ":svg:rect", 2, _forTrack034);
+      \u0275\u0275repeaterCreate(8, YinshComponent_For_9_Template, 3, 2, ":svg:g", null, _forTrack119);
       \u0275\u0275elementEnd();
     }
     if (rf & 2) {
@@ -43792,6 +44193,7 @@ var GameDescription = class {
   static APAGOS = () => $localize`Very simple game, but, will you be able to win everytime?`;
   static AWALE = () => $localize`The most widespread of the Mancalas.`;
   static BA_AWA = () => $localize`The most widespread multiple-lap Mancala.`;
+  static BASHNI = () => $localize`Russian column checkers: captured pieces stack under the capturing piece, forming towers.`;
   static BRANDHUB = () => $localize`The Irish version of the Tafl game family! Invaders must capture the king, defender must make him escape!`;
   static COERCEO = () => $localize`Get rid of all of your opponent's pieces on a board that shrinks little by little!`;
   static CONNECT_SIX = () => $localize`Put two pieces on the board at each turn, and be the first to align six pieces!`;
@@ -43942,8 +44344,10 @@ var GameInfo = class _GameInfo {
       // 41:                             * Martin
       new _GameInfo($localize`Hexagonal Go`, "HexagonalGo", HexagonalGoComponent, new HexagonalGoTutorial(), HexagonalGoRules.get(), /* @__PURE__ */ new Date("2026-02-14"), GameDescription.HEXAGONAL_GO()),
       // 42:                             * Martin
-      new _GameInfo($localize`Toric Reversi`, "ToricReversi", ToricReversiComponent, new ToricReversiTutorial(), ToricReversiRules.get(), /* @__PURE__ */ new Date("2026-08-10"), GameDescription.TORIC_REVERSI())
+      new _GameInfo($localize`Toric Reversi`, "ToricReversi", ToricReversiComponent, new ToricReversiTutorial(), ToricReversiRules.get(), /* @__PURE__ */ new Date("2026-08-10"), GameDescription.TORIC_REVERSI()),
       // 43:                             * Martin
+      new _GameInfo($localize`Bashni`, "Bashni", BashniComponent, new BashniTutorial(), BashniRules.get(), /* @__PURE__ */ new Date("2026-08-17"), GameDescription.BASHNI())
+      // 44:                             * Quentin
     ].sort((a3, b5) => a3.name.localeCompare(b5.name));
   }
   static getByUrlName(urlName) {
@@ -44007,4 +44411,4 @@ bulma-toast/dist/bulma-toast.min.js:
    * Released under the MIT License.
    *)
 */
-//# sourceMappingURL=chunk-IAGWQQ2T.js.map
+//# sourceMappingURL=chunk-JTWM7MON.js.map

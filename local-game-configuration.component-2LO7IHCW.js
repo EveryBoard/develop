@@ -1,16 +1,16 @@
 import {
   DemoCardWrapperComponent
-} from "./chunk-BN4B2M3R.js";
-import "./chunk-ALEKCS2P.js";
+} from "./chunk-7NKFQVMF.js";
+import "./chunk-SIWVRVO7.js";
 import {
   RulesConfigurationComponent
-} from "./chunk-UAU3TV3N.js";
+} from "./chunk-KY7SP45L.js";
 import {
   BaseWrapperComponent
-} from "./chunk-QANXI7FH.js";
+} from "./chunk-AU5AUIL2.js";
 import {
   GameNode
-} from "./chunk-IAGWQQ2T.js";
+} from "./chunk-JTWM7MON.js";
 import "./chunk-2OERIB7G.js";
 import {
   Router
@@ -202,4 +202,4 @@ var LocalGameConfigurationComponent = class _LocalGameConfigurationComponent ext
 export {
   LocalGameConfigurationComponent
 };
-//# sourceMappingURL=local-game-configuration.component-6QJMYFKL.js.map
+//# sourceMappingURL=local-game-configuration.component-2LO7IHCW.js.map

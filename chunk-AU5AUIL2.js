@@ -5,7 +5,7 @@ import {
   Player,
   PlayerMap,
   PlayerOrNone
-} from "./chunk-IAGWQQ2T.js";
+} from "./chunk-JTWM7MON.js";
 import {
   ActivatedRoute,
   Router
@@ -316,4 +316,4 @@ export {
   GameWrapperMessages,
   GameWrapper
 };
-//# sourceMappingURL=chunk-QANXI7FH.js.map
+//# sourceMappingURL=chunk-AU5AUIL2.js.map
