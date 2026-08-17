@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/components/normal-component/tutorial-game-creation/tutorial-game-creation.component.ts", "src/app/components/normal-component/tutorial-game-creation/tutorial-game-creation.component.html"],
+  "sourcesContent": ["import { Component, inject } from '@angular/core';\nimport { Router } from '@angular/router';\n\nimport { PickGameComponent } from '../pick-game/pick-game.component';\n\n@Component({\n    selector: 'app-tutorial-game-creation',\n    templateUrl: './tutorial-game-creation.component.html',\n    imports: [PickGameComponent],\n})\nexport class TutorialGameCreationComponent {\n\n    private readonly router: Router = inject(Router);\n\n    public async pickGame(pickedGame: string): Promise<void> {\n        await this.router.navigate(['/tutorial/', pickedGame]);\n    }\n}\n", "<app-pick-game (pickGame)=\"pickGame($event)\"></app-pick-game>\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;;AAUM,IAAO,gCAAP,MAAO,+BAA6B;EAErB,SAAiB,OAAO,MAAM;EAElC,SAAS,YAAkB;;AACpC,YAAM,KAAK,OAAO,SAAS,CAAC,cAAc,UAAU,CAAC;IACzD;;;qCANS,gCAA6B;EAAA;yEAA7B,gCAA6B,WAAA,CAAA,CAAA,4BAAA,CAAA,GAAA,OAAA,GAAA,MAAA,GAAA,QAAA,CAAA,CAAA,GAAA,UAAA,CAAA,GAAA,UAAA,SAAA,uCAAA,IAAA,KAAA;AAAA,QAAA,KAAA,GAAA;ACV1C,MAAA,yBAAA,GAAA,iBAAA,CAAA;AAAe,MAAA,qBAAA,YAAA,SAAA,yEAAA,QAAA;AAAA,eAAY,IAAA,SAAA,MAAA;MAAgB,CAAA;AAAE,MAAA,uBAAA;;oBDQ/B,iBAAiB,GAAA,eAAA,EAAA,CAAA;;;sEAElB,+BAA6B,CAAA;UALzC;uBACa,8BAA4B,SAE7B,CAAC,iBAAiB,GAAC,UAAA,kEAAA,CAAA;;;;6EAEnB,+BAA6B,EAAA,WAAA,iCAAA,UAAA,kGAAA,YAAA,GAAA,CAAA;AAAA,GAAA;",
+  "names": []
+}
