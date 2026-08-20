@@ -38,6 +38,7 @@ import {
   computed,
   inject,
   input,
+  model,
   output,
   setClassMetadata,
   signal,
@@ -1757,20 +1758,20 @@ var AbaloneRules = class _AbaloneRules extends ConfigurableRules {
     return _AbaloneRules.RULES_CONFIG_DESCRIPTION;
   }
   getInitialState() {
-    const _33 = FourStatePiece.EMPTY;
+    const _34 = FourStatePiece.EMPTY;
     const N10 = FourStatePiece.UNREACHABLE;
-    const O28 = FourStatePiece.ZERO;
-    const X28 = FourStatePiece.ONE;
+    const O29 = FourStatePiece.ZERO;
+    const X29 = FourStatePiece.ONE;
     const board = [
-      [N10, N10, N10, N10, X28, X28, X28, X28, X28],
-      [N10, N10, N10, X28, X28, X28, X28, X28, X28],
-      [N10, N10, _33, _33, X28, X28, X28, _33, _33],
-      [N10, _33, _33, _33, _33, _33, _33, _33, _33],
-      [_33, _33, _33, _33, _33, _33, _33, _33, _33],
-      [_33, _33, _33, _33, _33, _33, _33, _33, N10],
-      [_33, _33, O28, O28, O28, _33, _33, N10, N10],
-      [O28, O28, O28, O28, O28, O28, N10, N10, N10],
-      [O28, O28, O28, O28, O28, N10, N10, N10, N10]
+      [N10, N10, N10, N10, X29, X29, X29, X29, X29],
+      [N10, N10, N10, X29, X29, X29, X29, X29, X29],
+      [N10, N10, _34, _34, X29, X29, X29, _34, _34],
+      [N10, _34, _34, _34, _34, _34, _34, _34, _34],
+      [_34, _34, _34, _34, _34, _34, _34, _34, _34],
+      [_34, _34, _34, _34, _34, _34, _34, _34, N10],
+      [_34, _34, O29, O29, O29, _34, _34, N10, N10],
+      [O29, O29, O29, O29, O29, O29, N10, N10, N10],
+      [O29, O29, O29, O29, O29, N10, N10, N10, N10]
     ];
     return new AbaloneState(board, 0);
   }
@@ -2318,6 +2319,17 @@ var BaseGameComponent = class extends BaseComponent {
   SPACE_SIZE = 100;
   STROKE_WIDTH = 8;
   SMALL_STROKE_WIDTH = 2;
+  /**
+   * Gives the translation transform for coordinate x, y, based on SPACE_SIZE
+   */
+  getTranslationAt(logicalCoord) {
+    return this.getTranslationAtXY(logicalCoord.x, logicalCoord.y);
+  }
+  getTranslationAtXY(logicalX, logicalY) {
+    const svgX = logicalX * this.SPACE_SIZE;
+    const svgY = logicalY * this.SPACE_SIZE;
+    return this.getSVGTranslation(svgX, svgY);
+  }
   getSVGTranslation(x2, y) {
     return "translate(" + x2 + ", " + y + ")";
   }
@@ -2648,9 +2660,9 @@ var GameComponent = class GameComponent2 extends BaseGameComponent {
   }
   setRulesAndNode(urlName) {
     const gameInfo = GameInfo.getByUrlName(urlName).get();
-    const defaultConfig27 = gameInfo.getRulesConfig();
+    const defaultConfig28 = gameInfo.getRulesConfig();
     this.rules = gameInfo.rules;
-    this.node = this.rules.getInitialNode(defaultConfig27);
+    this.node = this.rules.getInitialNode(defaultConfig28);
     this.tutorial = gameInfo.tutorial.tutorial;
   }
   getConfig() {
@@ -2658,17 +2670,6 @@ var GameComponent = class GameComponent2 extends BaseGameComponent {
   }
   setConfig(config) {
     this.config = config;
-  }
-  /**
-   * Gives the translation transform for coordinate x, y, based on SPACE_SIZE
-   */
-  getTranslationAt(logicalCoord) {
-    return this.getTranslationAtXY(logicalCoord.x, logicalCoord.y);
-  }
-  getTranslationAtXY(logicalX, logicalY) {
-    const svgX = logicalX * this.SPACE_SIZE;
-    const svgY = logicalY * this.SPACE_SIZE;
-    return this.getSVGTranslation(svgX, svgY);
   }
   getArrowTransform(boardWidth, boardHeight, orthogonal) {
     let tx;
@@ -2719,7 +2720,7 @@ GameComponent = __decorate2([
   }], null, null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(GameComponent, { className: "GameComponent", filePath: "src/app/components/game-components/game-component/GameComponent.ts", lineNumber: 47 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(GameComponent, { className: "GameComponent", filePath: "src/app/components/game-components/game-component/GameComponent.ts", lineNumber: 46 });
 })();
 
 // src/app/components/game-components/game-component/HexagonalGameComponent.ts
@@ -4759,9 +4760,9 @@ var AbstractCheckersRules = class extends ConfigurableRules {
   getInitialState(config) {
     const U3 = new CheckersStack([CheckersPiece.ZERO]);
     const V2 = new CheckersStack([CheckersPiece.ONE]);
-    const _33 = CheckersStack.EMPTY;
+    const _34 = CheckersStack.EMPTY;
     const height = config.emptyRows + 2 * config.playerRows;
-    const board = TableUtils.create(config.width, height, _33);
+    const board = TableUtils.create(config.width, height, _34);
     const occupiedSquare = config.occupyEvenSquare ? 0 : 1;
     for (let y = 0; y < height; y++) {
       for (let x2 = 0; x2 < config.width; x2++) {
@@ -5446,6 +5447,9 @@ var RectangularGameComponent = class _RectangularGameComponent extends GameCompo
   computeViewBox() {
     const width = this.getWidth() * this.SPACE_SIZE;
     const height = this.getHeight() * this.SPACE_SIZE;
+    return this.getViewBoxFor(width, height);
+  }
+  getViewBoxFor(width, height) {
     const halfStroke = 0.5 * this.STROKE_WIDTH;
     return ViewBox.fromLimits(0, width, 0, height).expandAll(halfStroke);
   }
@@ -7128,34 +7132,34 @@ var CoerceoRules = (_a3 = class extends ConfigurableRules {
     return CoerceoRules_1.singleton.get();
   }
   getInitialState(config) {
-    const _33 = FourStatePiece.EMPTY;
+    const _34 = FourStatePiece.EMPTY;
     const N10 = FourStatePiece.UNREACHABLE;
-    const O28 = FourStatePiece.ZERO;
-    const X28 = FourStatePiece.ONE;
+    const O29 = FourStatePiece.ZERO;
+    const X29 = FourStatePiece.ONE;
     let board;
     if (config.smallBoard) {
       board = [
         [N10, N10, N10, N10, N10, N10, N10, N10, N10],
-        [N10, N10, N10, O28, _33, O28, N10, N10, N10],
-        [_33, _33, O28, _33, _33, _33, O28, _33, _33],
-        [_33, _33, _33, O28, _33, O28, _33, _33, _33],
-        [_33, _33, _33, X28, _33, X28, _33, _33, _33],
-        [_33, _33, X28, _33, _33, _33, X28, _33, _33],
-        [N10, N10, N10, X28, _33, X28, N10, N10, N10],
+        [N10, N10, N10, O29, _34, O29, N10, N10, N10],
+        [_34, _34, O29, _34, _34, _34, O29, _34, _34],
+        [_34, _34, _34, O29, _34, O29, _34, _34, _34],
+        [_34, _34, _34, X29, _34, X29, _34, _34, _34],
+        [_34, _34, X29, _34, _34, _34, X29, _34, _34],
+        [N10, N10, N10, X29, _34, X29, N10, N10, N10],
         [N10, N10, N10, N10, N10, N10, N10, N10, N10]
       ];
     } else {
       board = [
-        [N10, N10, N10, N10, N10, N10, O28, _33, O28, N10, N10, N10, N10, N10, N10],
-        [N10, N10, N10, _33, _33, O28, _33, _33, _33, O28, _33, _33, N10, N10, N10],
-        [_33, X28, _33, X28, _33, _33, O28, _33, O28, _33, _33, X28, _33, X28, _33],
-        [X28, _33, _33, _33, X28, _33, _33, _33, _33, _33, X28, _33, _33, _33, X28],
-        [_33, X28, _33, X28, _33, _33, _33, _33, _33, _33, _33, X28, _33, X28, _33],
-        [_33, O28, _33, O28, _33, _33, _33, _33, _33, _33, _33, O28, _33, O28, _33],
-        [O28, _33, _33, _33, O28, _33, _33, _33, _33, _33, O28, _33, _33, _33, O28],
-        [_33, O28, _33, O28, _33, _33, X28, _33, X28, _33, _33, O28, _33, O28, _33],
-        [N10, N10, N10, _33, _33, X28, _33, _33, _33, X28, _33, _33, N10, N10, N10],
-        [N10, N10, N10, N10, N10, N10, X28, _33, X28, N10, N10, N10, N10, N10, N10]
+        [N10, N10, N10, N10, N10, N10, O29, _34, O29, N10, N10, N10, N10, N10, N10],
+        [N10, N10, N10, _34, _34, O29, _34, _34, _34, O29, _34, _34, N10, N10, N10],
+        [_34, X29, _34, X29, _34, _34, O29, _34, O29, _34, _34, X29, _34, X29, _34],
+        [X29, _34, _34, _34, X29, _34, _34, _34, _34, _34, X29, _34, _34, _34, X29],
+        [_34, X29, _34, X29, _34, _34, _34, _34, _34, _34, _34, X29, _34, X29, _34],
+        [_34, O29, _34, O29, _34, _34, _34, _34, _34, _34, _34, O29, _34, O29, _34],
+        [O29, _34, _34, _34, O29, _34, _34, _34, _34, _34, O29, _34, _34, _34, O29],
+        [_34, O29, _34, O29, _34, _34, X29, _34, X29, _34, _34, O29, _34, O29, _34],
+        [N10, N10, N10, _34, _34, X29, _34, _34, _34, X29, _34, _34, N10, N10, N10],
+        [N10, N10, N10, N10, N10, N10, X29, _34, X29, N10, N10, N10, N10, N10, N10]
       ];
     }
     return new CoerceoState(board, 0, PlayerNumberMap.of(0, 0), PlayerNumberMap.of(0, 0));
@@ -8649,6 +8653,9 @@ var ConnectSixTutorial = class extends Tutorial {
 var GobanUtils = class _GobanUtils {
   static getHoshis(width, height) {
     let hoshis = new Set2();
+    if (width < 5 || height < 5) {
+      return [];
+    }
     const horizontalMiddle = _GobanUtils.getHorizontalCenter(width);
     const verticalMiddle = _GobanUtils.getVerticalCenter(height);
     const left = _GobanUtils.getHorizontalLeft(width);
@@ -8728,24 +8735,24 @@ var _forTrack06 = ($index, $item) => $item.toString();
 function BlankGobanComponent_For_3_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
-    \u0275\u0275domElement(0, "line", 2);
+    \u0275\u0275domElement(0, "line", 4);
   }
   if (rf & 2) {
     const \u0275$index_5_r1 = ctx.$index;
     const ctx_r1 = \u0275\u0275nextContext();
-    \u0275\u0275domProperty("id", \u0275\u0275interpolate1("horizontal-line-", \u0275$index_5_r1));
+    \u0275\u0275classMap(\u0275\u0275interpolate1("data-horizontal-line-", \u0275$index_5_r1));
     \u0275\u0275attribute("x1", 0)("y1", 0.5 * ctx_r1.SPACE_SIZE + ctx_r1.SPACE_SIZE * \u0275$index_5_r1)("x2", ctx_r1.SPACE_SIZE * ctx_r1.width())("y2", 0.5 * ctx_r1.SPACE_SIZE + ctx_r1.SPACE_SIZE * \u0275$index_5_r1);
   }
 }
 function BlankGobanComponent_For_5_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
-    \u0275\u0275domElement(0, "line", 2);
+    \u0275\u0275domElement(0, "line", 4);
   }
   if (rf & 2) {
     const \u0275$index_8_r3 = ctx.$index;
     const ctx_r1 = \u0275\u0275nextContext();
-    \u0275\u0275domProperty("id", \u0275\u0275interpolate1("vertical-line-", \u0275$index_8_r3));
+    \u0275\u0275classMap(\u0275\u0275interpolate1("data-vertical-line-", \u0275$index_8_r3));
     \u0275\u0275attribute("x1", 0.5 * ctx_r1.SPACE_SIZE + ctx_r1.SPACE_SIZE * \u0275$index_8_r3)("y1", 0)("x2", 0.5 * ctx_r1.SPACE_SIZE + ctx_r1.SPACE_SIZE * \u0275$index_8_r3)("y2", ctx_r1.SPACE_SIZE * ctx_r1.height());
   }
 }
@@ -8753,8 +8760,13 @@ function BlankGobanComponent_For_7_For_2_Template(rf, ctx) {
   if (rf & 1) {
     const _r4 = \u0275\u0275getCurrentView();
     \u0275\u0275namespaceSVG();
-    \u0275\u0275domElementStart(0, "rect", 5);
-    \u0275\u0275domListener("click", function BlankGobanComponent_For_7_For_2_Template_rect_click_0_listener() {
+    \u0275\u0275domElementStart(0, "rect", 6);
+    \u0275\u0275domListener("mouseenter", function BlankGobanComponent_For_7_For_2_Template_rect_mouseenter_0_listener() {
+      const \u0275$index_14_r5 = \u0275\u0275restoreView(_r4).$index;
+      const \u0275$index_11_r6 = \u0275\u0275nextContext().$index;
+      const ctx_r1 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r1.onMouseEnter(\u0275$index_14_r5, \u0275$index_11_r6));
+    })("click", function BlankGobanComponent_For_7_For_2_Template_rect_click_0_listener() {
       const \u0275$index_14_r5 = \u0275\u0275restoreView(_r4).$index;
       const \u0275$index_11_r6 = \u0275\u0275nextContext().$index;
       const ctx_r1 = \u0275\u0275nextContext();
@@ -8766,7 +8778,7 @@ function BlankGobanComponent_For_7_For_2_Template(rf, ctx) {
     const \u0275$index_14_r5 = ctx.$index;
     const \u0275$index_11_r6 = \u0275\u0275nextContext().$index;
     const ctx_r1 = \u0275\u0275nextContext();
-    \u0275\u0275domProperty("id", \u0275\u0275interpolate2("click-", \u0275$index_14_r5, "-", \u0275$index_11_r6));
+    \u0275\u0275classMap(\u0275\u0275interpolate2("space-", \u0275$index_14_r5, "-", \u0275$index_11_r6));
     \u0275\u0275attribute("width", ctx_r1.SPACE_SIZE)("height", ctx_r1.SPACE_SIZE)("x", ctx_r1.SPACE_SIZE * \u0275$index_14_r5)("y", ctx_r1.SPACE_SIZE * \u0275$index_11_r6);
   }
 }
@@ -8774,7 +8786,7 @@ function BlankGobanComponent_For_7_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
     \u0275\u0275domElementStart(0, "g");
-    \u0275\u0275repeaterCreate(1, BlankGobanComponent_For_7_For_2_Template, 1, 7, ":svg:rect", 4, \u0275\u0275repeaterTrackByIdentity);
+    \u0275\u0275repeaterCreate(1, BlankGobanComponent_For_7_For_2_Template, 1, 8, ":svg:rect", 5, \u0275\u0275repeaterTrackByIdentity);
     \u0275\u0275domElementEnd();
   }
   if (rf & 2) {
@@ -8786,12 +8798,12 @@ function BlankGobanComponent_For_7_Template(rf, ctx) {
 function BlankGobanComponent_For_9_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
-    \u0275\u0275domElement(0, "circle", 3);
+    \u0275\u0275domElement(0, "circle", 7);
   }
   if (rf & 2) {
     const hoshi_r7 = ctx.$implicit;
     const ctx_r1 = \u0275\u0275nextContext();
-    \u0275\u0275domProperty("id", \u0275\u0275interpolate2("hoshi-", hoshi_r7.x, "-", hoshi_r7.y));
+    \u0275\u0275classMap(\u0275\u0275interpolate2("data-hoshi-", hoshi_r7.x, "-", hoshi_r7.y));
     \u0275\u0275attribute("cx", ctx_r1.SPACE_SIZE * 0.5 + ctx_r1.SPACE_SIZE * hoshi_r7.x)("cy", ctx_r1.SPACE_SIZE * 0.5 + ctx_r1.SPACE_SIZE * hoshi_r7.y)("r", ctx_r1.SPACE_SIZE * 0.2);
   }
 }
@@ -8799,6 +8811,7 @@ var BlankGobanComponent = class _BlankGobanComponent extends BaseGameComponent {
   width = input.required(...ngDevMode ? [{ debugName: "width" }] : []);
   height = input.required(...ngDevMode ? [{ debugName: "height" }] : []);
   clickCallBack = output();
+  mouseEnterCallback = output();
   hoshis = [];
   ngOnChanges() {
     return this.createHoshis();
@@ -8813,21 +8826,30 @@ var BlankGobanComponent = class _BlankGobanComponent extends BaseGameComponent {
   createHoshis() {
     this.hoshis = GobanUtils.getHoshis(this.width(), this.height());
   }
+  onMouseEnter(x2, y) {
+    this.mouseEnterCallback.emit(MGPOptional.of(new Coord(x2, y)));
+  }
+  onSVGLeave() {
+    this.mouseEnterCallback.emit(MGPOptional.empty());
+  }
   static \u0275fac = /* @__PURE__ */ (() => {
     let \u0275BlankGobanComponent_BaseFactory;
     return function BlankGobanComponent_Factory(__ngFactoryType__) {
       return (\u0275BlankGobanComponent_BaseFactory || (\u0275BlankGobanComponent_BaseFactory = \u0275\u0275getInheritedFactory(_BlankGobanComponent)))(__ngFactoryType__ || _BlankGobanComponent);
     };
   })();
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _BlankGobanComponent, selectors: [["", "app-blank-goban", ""]], inputs: { width: [1, "width"], height: [1, "height"] }, outputs: { clickCallBack: "clickCallBack" }, features: [\u0275\u0275InheritDefinitionFeature, \u0275\u0275NgOnChangesFeature], attrs: _c02, decls: 10, vars: 2, consts: [["id", "blank-board"], ["x", "0", "y", "0", 1, "base", "mid-small-stroke"], [1, "base", 3, "id"], [1, "base-no-stroke", "click-delegator", 3, "id"], ["fill-opacity", "0", 1, "base", "no-stroke", 3, "id"], ["fill-opacity", "0", 1, "base", "no-stroke", 3, "click", "id"]], template: function BlankGobanComponent_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _BlankGobanComponent, selectors: [["", "app-blank-goban", ""]], inputs: { width: [1, "width"], height: [1, "height"] }, outputs: { clickCallBack: "clickCallBack", mouseEnterCallback: "mouseEnterCallback" }, features: [\u0275\u0275InheritDefinitionFeature, \u0275\u0275NgOnChangesFeature], attrs: _c02, decls: 10, vars: 2, consts: [[1, "data-blank-board", 3, "mouseleave"], ["x", "0", "y", "0", 1, "base", "mid-small-stroke"], [1, "base", 3, "class"], [1, "base-no-stroke", "click-delegator", 3, "class"], [1, "base"], ["fill-opacity", "0", 1, "base", "no-stroke", 3, "class"], ["fill-opacity", "0", 1, "base", "no-stroke", 3, "mouseenter", "click"], [1, "base-no-stroke", "click-delegator"]], template: function BlankGobanComponent_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275namespaceSVG();
       \u0275\u0275domElementStart(0, "g", 0);
+      \u0275\u0275domListener("mouseleave", function BlankGobanComponent_Template_g_mouseleave_0_listener() {
+        return ctx.onSVGLeave();
+      });
       \u0275\u0275domElement(1, "rect", 1);
-      \u0275\u0275repeaterCreate(2, BlankGobanComponent_For_3_Template, 1, 6, ":svg:line", 2, \u0275\u0275repeaterTrackByIndex);
-      \u0275\u0275repeaterCreate(4, BlankGobanComponent_For_5_Template, 1, 6, ":svg:line", 2, \u0275\u0275repeaterTrackByIndex);
+      \u0275\u0275repeaterCreate(2, BlankGobanComponent_For_3_Template, 1, 7, ":svg:line", 2, \u0275\u0275repeaterTrackByIndex);
+      \u0275\u0275repeaterCreate(4, BlankGobanComponent_For_5_Template, 1, 7, ":svg:line", 2, \u0275\u0275repeaterTrackByIndex);
       \u0275\u0275repeaterCreate(6, BlankGobanComponent_For_7_Template, 3, 0, ":svg:g", null, \u0275\u0275repeaterTrackByIndex);
-      \u0275\u0275repeaterCreate(8, BlankGobanComponent_For_9_Template, 1, 6, ":svg:circle", 3, _forTrack06);
+      \u0275\u0275repeaterCreate(8, BlankGobanComponent_For_9_Template, 1, 7, ":svg:circle", 3, _forTrack06);
       \u0275\u0275domElementEnd();
     }
     if (rf & 2) {
@@ -8847,11 +8869,11 @@ var BlankGobanComponent = class _BlankGobanComponent extends BaseGameComponent {
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(BlankGobanComponent, [{
     type: Component,
-    args: [{ selector: "[app-blank-goban]", imports: [], template: '<svg:g id="blank-board">\n    <svg:rect x="0"\n              y="0"\n              [attr.width]="width() * SPACE_SIZE"\n              [attr.height]="height() * SPACE_SIZE"\n              class="base mid-small-stroke"/>\n    @for (line of ArrayUtils.range(height()); track $index; let y = $index) {\n        <svg:line id="horizontal-line-{{ y }}"\n                  [attr.x1]="0"\n                  [attr.y1]="(0.5 * SPACE_SIZE) + SPACE_SIZE * y"\n                  [attr.x2]="SPACE_SIZE * width()"\n                  [attr.y2]="(0.5 * SPACE_SIZE) + SPACE_SIZE * y"\n                  class="base"/>\n    }\n    @for (line of ArrayUtils.range(width()); track $index; let x = $index) {\n        <svg:line id="vertical-line-{{ x }}"\n                  [attr.x1]="(0.5 * SPACE_SIZE) + SPACE_SIZE * x"\n                  [attr.y1]="0"\n                  [attr.x2]="(0.5 * SPACE_SIZE) + SPACE_SIZE * x"\n                  [attr.y2]="SPACE_SIZE * height()"\n                  class="base"/>\n    }\n    @for (line of ArrayUtils.range(height()); track $index; let y = $index) {\n        <svg:g>\n            @for (spaceContent of ArrayUtils.range(width()); track spaceContent; let x = $index) {\n                <svg:rect id="click-{{ x }}-{{ y }}"\n                          (click)="onClick(x, y)"\n                          [attr.width]="SPACE_SIZE"\n                          [attr.height]="SPACE_SIZE"\n                          [attr.x]="SPACE_SIZE * x"\n                          [attr.y]="SPACE_SIZE * y"\n                          class="base no-stroke"\n                          fill-opacity="0"/>\n            }\n        </svg:g>\n    }\n    @for (hoshi of hoshis; track hoshi.toString()) {\n        <svg:circle id="hoshi-{{ hoshi.x }}-{{ hoshi.y }}"\n                    class="base-no-stroke click-delegator"\n                    [attr.cx]="(SPACE_SIZE * 0.5) + (SPACE_SIZE * hoshi.x)"\n                    [attr.cy]="(SPACE_SIZE * 0.5) + (SPACE_SIZE * hoshi.y)"\n                    [attr.r]="SPACE_SIZE * 0.2"/>\n    }\n</svg:g>\n', styles: ["/* src/app/components/game-components/game-component/game-component.scss */\n.base {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke {\n  stroke-width: 0;\n}\n.base.manual-stroke {\n  fill: var(--base-stroke);\n}\n.base-no-stroke {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text {\n  fill: var(--base-stroke);\n}\n.white-background {\n  fill: white;\n}\n.background {\n  fill: var(--spaces-fill);\n}\n.transparent {\n  opacity: 0;\n}\n.background2 {\n  fill: var(--alt-background-fill);\n}\n.background3 {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill {\n  fill: var(--player0);\n}\n.player0-alternate-fill {\n  fill: var(--player0-alternate);\n}\n.player0-stroke {\n  stroke: var(--player0);\n}\n.player1-fill {\n  fill: var(--player1);\n}\n.player1-alternate-fill {\n  fill: var(--player1-alternate);\n}\n.player1-stroke {\n  stroke: var(--player1);\n}\n.nonplayer-fill {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill {\n  fill: var(--pre-captured);\n}\n.captured-fill {\n  fill: var(--captured);\n}\n.captured-alternate-fill {\n  fill: var(--alt-captured);\n}\n.captured-stroke {\n  stroke: var(--captured);\n}\n.moved-fill {\n  fill: var(--moved);\n}\n.moved-stroke {\n  stroke: var(--moved);\n}\n.indicator {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill {\n  fill: var(--indicator);\n}\n.selectable-stroke {\n  stroke: var(--selectable);\n}\n.selectable > .base-no-stroke {\n  fill: var(--selectable);\n}\n.last-move-stroke {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke {\n  fill: var(--last-move);\n}\n.last-move-fill {\n  fill: var(--last-move);\n}\n.victory-fill {\n  fill: var(--victory);\n}\n.victory-stroke {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke {\n  fill: var(--victory);\n}\n.defeat-fill {\n  fill: var(--defeat);\n}\n.defeat-stroke {\n  stroke: var(--defeat);\n}\n.selected-fill {\n  fill: var(--selected);\n}\n.selected-stroke {\n  stroke: var(--selected);\n}\n.clickable-stroke {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill {\n  fill: var(--capturable);\n}\n.capturable-stroke:hover {\n  stroke-width: 8;\n}\n.no-fill {\n  fill: none;\n}\n.no-stroke {\n  stroke: none;\n}\n.small-stroke {\n  stroke-width: 2;\n}\n.mid-small-stroke {\n  stroke-width: 3;\n}\n.mid-stroke {\n  stroke-width: 5;\n}\n.big-stroke {\n  stroke-width: 8;\n}\n.huge-stroke {\n  stroke-width: 12;\n}\n.semi-transparent {\n  opacity: 0.5;\n}\n.territory-opacity {\n  fill-opacity: 0.7;\n}\n.round {\n  stroke-linecap: round;\n}\n.text-giant {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big {\n  font: 50px sans-serif;\n}\n.backgrounded-text {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus {\n  font: 38px sans-serif;\n}\n.text-medium {\n  font: 35px sans-serif;\n}\n.text-small-plus {\n  font: 28px sans-serif;\n}\n.text-small {\n  font: 25px sans-serif;\n}\n.text-bold {\n  font-weight: bold;\n}\n.text-center {\n  text-anchor: middle;\n}\n.black-fill {\n  fill: black;\n}\n.darker {\n  filter: brightness(80%);\n}\n.lighter {\n  filter: brightness(110%);\n}\nsvg {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */\n"] }]
-  }], null, { width: [{ type: Input, args: [{ isSignal: true, alias: "width", required: true }] }], height: [{ type: Input, args: [{ isSignal: true, alias: "height", required: true }] }], clickCallBack: [{ type: Output, args: ["clickCallBack"] }] });
+    args: [{ selector: "[app-blank-goban]", imports: [], template: '<svg:g class="data-blank-board"\n       (mouseleave)="onSVGLeave()">\n    <svg:rect x="0"\n              y="0"\n              [attr.width]="width() * SPACE_SIZE"\n              [attr.height]="height() * SPACE_SIZE"\n              class="base mid-small-stroke"/>\n    @for (line of ArrayUtils.range(height()); track $index; let y = $index) {\n        <svg:line class="data-horizontal-line-{{ y }}"\n                  [attr.x1]="0"\n                  [attr.y1]="(0.5 * SPACE_SIZE) + SPACE_SIZE * y"\n                  [attr.x2]="SPACE_SIZE * width()"\n                  [attr.y2]="(0.5 * SPACE_SIZE) + SPACE_SIZE * y"\n                  class="base"/>\n    }\n    @for (line of ArrayUtils.range(width()); track $index; let x = $index) {\n        <svg:line class="data-vertical-line-{{ x }}"\n                  [attr.x1]="(0.5 * SPACE_SIZE) + SPACE_SIZE * x"\n                  [attr.y1]="0"\n                  [attr.x2]="(0.5 * SPACE_SIZE) + SPACE_SIZE * x"\n                  [attr.y2]="SPACE_SIZE * height()"\n                  class="base"/>\n    }\n    @for (line of ArrayUtils.range(height()); track $index; let y = $index) {\n        <svg:g>\n            @for (spaceContent of ArrayUtils.range(width()); track spaceContent; let x = $index) {\n                <svg:rect class="space-{{ x }}-{{ y }}"\n                          (mouseenter)="onMouseEnter(x, y)"\n                          (click)="onClick(x, y)"\n                          [attr.width]="SPACE_SIZE"\n                          [attr.height]="SPACE_SIZE"\n                          [attr.x]="SPACE_SIZE * x"\n                          [attr.y]="SPACE_SIZE * y"\n                          class="base no-stroke"\n                          fill-opacity="0"/>\n            }\n        </svg:g>\n    }\n    @for (hoshi of hoshis; track hoshi.toString()) {\n        <svg:circle class="data-hoshi-{{ hoshi.x }}-{{ hoshi.y }}"\n                    class="base-no-stroke click-delegator"\n                    [attr.cx]="(SPACE_SIZE * 0.5) + (SPACE_SIZE * hoshi.x)"\n                    [attr.cy]="(SPACE_SIZE * 0.5) + (SPACE_SIZE * hoshi.y)"\n                    [attr.r]="SPACE_SIZE * 0.2"/>\n    }\n</svg:g>\n', styles: ["/* src/app/components/game-components/game-component/game-component.scss */\n.base {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke {\n  stroke-width: 0;\n}\n.base.manual-stroke {\n  fill: var(--base-stroke);\n}\n.base-no-stroke {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text {\n  fill: var(--base-stroke);\n}\n.white-background {\n  fill: white;\n}\n.background {\n  fill: var(--spaces-fill);\n}\n.transparent {\n  opacity: 0;\n}\n.background2 {\n  fill: var(--alt-background-fill);\n}\n.background3 {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill {\n  fill: var(--player0);\n}\n.player0-alternate-fill {\n  fill: var(--player0-alternate);\n}\n.player0-stroke {\n  stroke: var(--player0);\n}\n.player1-fill {\n  fill: var(--player1);\n}\n.player1-alternate-fill {\n  fill: var(--player1-alternate);\n}\n.player1-stroke {\n  stroke: var(--player1);\n}\n.nonplayer-fill {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill {\n  fill: var(--pre-captured);\n}\n.captured-fill {\n  fill: var(--captured);\n}\n.captured-alternate-fill {\n  fill: var(--alt-captured);\n}\n.captured-stroke {\n  stroke: var(--captured);\n}\n.moved-fill {\n  fill: var(--moved);\n}\n.moved-stroke {\n  stroke: var(--moved);\n}\n.indicator {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill {\n  fill: var(--indicator);\n}\n.selectable-stroke {\n  stroke: var(--selectable);\n}\n.selectable > .base-no-stroke {\n  fill: var(--selectable);\n}\n.last-move-stroke {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke {\n  fill: var(--last-move);\n}\n.last-move-fill {\n  fill: var(--last-move);\n}\n.victory-fill {\n  fill: var(--victory);\n}\n.victory-stroke {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke {\n  fill: var(--victory);\n}\n.defeat-fill {\n  fill: var(--defeat);\n}\n.defeat-stroke {\n  stroke: var(--defeat);\n}\n.selected-fill {\n  fill: var(--selected);\n}\n.selected-stroke {\n  stroke: var(--selected);\n}\n.clickable-stroke {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill {\n  fill: var(--capturable);\n}\n.capturable-stroke:hover {\n  stroke-width: 8;\n}\n.no-fill {\n  fill: none;\n}\n.no-stroke {\n  stroke: none;\n}\n.small-stroke {\n  stroke-width: 2;\n}\n.mid-small-stroke {\n  stroke-width: 3;\n}\n.mid-stroke {\n  stroke-width: 5;\n}\n.big-stroke {\n  stroke-width: 8;\n}\n.huge-stroke {\n  stroke-width: 12;\n}\n.semi-transparent {\n  opacity: 0.5;\n}\n.territory-opacity {\n  fill-opacity: 0.7;\n}\n.round {\n  stroke-linecap: round;\n}\n.text-giant {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big {\n  font: 50px sans-serif;\n}\n.backgrounded-text {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus {\n  font: 38px sans-serif;\n}\n.text-medium {\n  font: 35px sans-serif;\n}\n.text-small-plus {\n  font: 28px sans-serif;\n}\n.text-small {\n  font: 25px sans-serif;\n}\n.text-bold {\n  font-weight: bold;\n}\n.text-center {\n  text-anchor: middle;\n}\n.black-fill {\n  fill: black;\n}\n.darker {\n  filter: brightness(80%);\n}\n.lighter {\n  filter: brightness(110%);\n}\nsvg {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */\n"] }]
+  }], null, { width: [{ type: Input, args: [{ isSignal: true, alias: "width", required: true }] }], height: [{ type: Input, args: [{ isSignal: true, alias: "height", required: true }] }], clickCallBack: [{ type: Output, args: ["clickCallBack"] }], mouseEnterCallback: [{ type: Output, args: ["mouseEnterCallback"] }] });
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(BlankGobanComponent, { className: "BlankGobanComponent", filePath: "src/app/components/game-components/goban-game-component/blank-goban/blank-goban.component.ts", lineNumber: 13 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(BlankGobanComponent, { className: "BlankGobanComponent", filePath: "src/app/components/game-components/goban-game-component/blank-goban/blank-goban.component.ts", lineNumber: 15 });
 })();
 
 // src/app/games/connect-six/ConnectSixAlignmentHeuristic.ts
@@ -9124,7 +9146,7 @@ var ConnectSixComponent = class _ConnectSixComponent extends GobanGameComponent 
   }, dependencies: [BlankGobanComponent, NgClass], styles: ["\n\n.base[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke[_ngcontent-%COMP%] {\n  stroke-width: 0;\n}\n.base.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n}\n.base-no-stroke[_ngcontent-%COMP%] {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n}\n.white-background[_ngcontent-%COMP%] {\n  fill: white;\n}\n.background[_ngcontent-%COMP%] {\n  fill: var(--spaces-fill);\n}\n.transparent[_ngcontent-%COMP%] {\n  opacity: 0;\n}\n.background2[_ngcontent-%COMP%] {\n  fill: var(--alt-background-fill);\n}\n.background3[_ngcontent-%COMP%] {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill[_ngcontent-%COMP%] {\n  fill: var(--player0);\n}\n.player0-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--player0-alternate);\n}\n.player0-stroke[_ngcontent-%COMP%] {\n  stroke: var(--player0);\n}\n.player1-fill[_ngcontent-%COMP%] {\n  fill: var(--player1);\n}\n.player1-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--player1-alternate);\n}\n.player1-stroke[_ngcontent-%COMP%] {\n  stroke: var(--player1);\n}\n.nonplayer-fill[_ngcontent-%COMP%] {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill[_ngcontent-%COMP%] {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke[_ngcontent-%COMP%] {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke[_ngcontent-%COMP%] {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill[_ngcontent-%COMP%] {\n  fill: var(--pre-captured);\n}\n.captured-fill[_ngcontent-%COMP%] {\n  fill: var(--captured);\n}\n.captured-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--alt-captured);\n}\n.captured-stroke[_ngcontent-%COMP%] {\n  stroke: var(--captured);\n}\n.moved-fill[_ngcontent-%COMP%] {\n  fill: var(--moved);\n}\n.moved-stroke[_ngcontent-%COMP%] {\n  stroke: var(--moved);\n}\n.indicator[_ngcontent-%COMP%] {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill[_ngcontent-%COMP%] {\n  fill: var(--indicator);\n}\n.selectable-stroke[_ngcontent-%COMP%] {\n  stroke: var(--selectable);\n}\n.selectable[_ngcontent-%COMP%]    > .base-no-stroke[_ngcontent-%COMP%] {\n  fill: var(--selectable);\n}\n.last-move-stroke[_ngcontent-%COMP%] {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--last-move);\n}\n.last-move-fill[_ngcontent-%COMP%] {\n  fill: var(--last-move);\n}\n.victory-fill[_ngcontent-%COMP%] {\n  fill: var(--victory);\n}\n.victory-stroke[_ngcontent-%COMP%] {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--victory);\n}\n.defeat-fill[_ngcontent-%COMP%] {\n  fill: var(--defeat);\n}\n.defeat-stroke[_ngcontent-%COMP%] {\n  stroke: var(--defeat);\n}\n.selected-fill[_ngcontent-%COMP%] {\n  fill: var(--selected);\n}\n.selected-stroke[_ngcontent-%COMP%] {\n  stroke: var(--selected);\n}\n.clickable-stroke[_ngcontent-%COMP%] {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover[_ngcontent-%COMP%]:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke[_ngcontent-%COMP%] {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill[_ngcontent-%COMP%] {\n  fill: var(--capturable);\n}\n.capturable-stroke[_ngcontent-%COMP%]:hover {\n  stroke-width: 8;\n}\n.no-fill[_ngcontent-%COMP%] {\n  fill: none;\n}\n.no-stroke[_ngcontent-%COMP%] {\n  stroke: none;\n}\n.small-stroke[_ngcontent-%COMP%] {\n  stroke-width: 2;\n}\n.mid-small-stroke[_ngcontent-%COMP%] {\n  stroke-width: 3;\n}\n.mid-stroke[_ngcontent-%COMP%] {\n  stroke-width: 5;\n}\n.big-stroke[_ngcontent-%COMP%] {\n  stroke-width: 8;\n}\n.huge-stroke[_ngcontent-%COMP%] {\n  stroke-width: 12;\n}\n.semi-transparent[_ngcontent-%COMP%] {\n  opacity: 0.5;\n}\n.territory-opacity[_ngcontent-%COMP%] {\n  fill-opacity: 0.7;\n}\n.round[_ngcontent-%COMP%] {\n  stroke-linecap: round;\n}\n.text-giant[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big[_ngcontent-%COMP%] {\n  font: 50px sans-serif;\n}\n.backgrounded-text[_ngcontent-%COMP%] {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus[_ngcontent-%COMP%] {\n  font: 38px sans-serif;\n}\n.text-medium[_ngcontent-%COMP%] {\n  font: 35px sans-serif;\n}\n.text-small-plus[_ngcontent-%COMP%] {\n  font: 28px sans-serif;\n}\n.text-small[_ngcontent-%COMP%] {\n  font: 25px sans-serif;\n}\n.text-bold[_ngcontent-%COMP%] {\n  font-weight: bold;\n}\n.text-center[_ngcontent-%COMP%] {\n  text-anchor: middle;\n}\n.black-fill[_ngcontent-%COMP%] {\n  fill: black;\n}\n.darker[_ngcontent-%COMP%] {\n  filter: brightness(80%);\n}\n.lighter[_ngcontent-%COMP%] {\n  filter: brightness(110%);\n}\nsvg[_ngcontent-%COMP%] {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator[_ngcontent-%COMP%] {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */"] });
 };
 __decorate9([
-  ClickHandler((coord) => "#click-" + coord.x + "-" + coord.y)
+  ClickHandler((coord) => ".space-" + coord.x + "-" + coord.y)
 ], ConnectSixComponent.prototype, "onClick", null);
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(ConnectSixComponent, [{
@@ -10290,19 +10312,19 @@ var DiaballikRules = class _DiaballikRules extends Rules {
     return _DiaballikRules.singleton.get();
   }
   getInitialState() {
-    const O28 = DiaballikPiece.ZERO;
+    const O29 = DiaballikPiece.ZERO;
     const \u022E2 = DiaballikPiece.ZERO_WITH_BALL;
-    const X28 = DiaballikPiece.ONE;
+    const X29 = DiaballikPiece.ONE;
     const \u1E8A2 = DiaballikPiece.ONE_WITH_BALL;
-    const _33 = DiaballikPiece.NONE;
+    const _34 = DiaballikPiece.NONE;
     const board = [
-      [X28, X28, X28, \u1E8A2, X28, X28, X28],
-      [_33, _33, _33, _33, _33, _33, _33],
-      [_33, _33, _33, _33, _33, _33, _33],
-      [_33, _33, _33, _33, _33, _33, _33],
-      [_33, _33, _33, _33, _33, _33, _33],
-      [_33, _33, _33, _33, _33, _33, _33],
-      [O28, O28, O28, \u022E2, O28, O28, O28]
+      [X29, X29, X29, \u1E8A2, X29, X29, X29],
+      [_34, _34, _34, _34, _34, _34, _34],
+      [_34, _34, _34, _34, _34, _34, _34],
+      [_34, _34, _34, _34, _34, _34, _34],
+      [_34, _34, _34, _34, _34, _34, _34],
+      [_34, _34, _34, _34, _34, _34, _34],
+      [O29, O29, O29, \u022E2, O29, O29, O29]
     ];
     return new DiaballikState(board, 0);
   }
@@ -11689,12 +11711,12 @@ var DiamRules = class _DiamRules extends Rules {
     return _DiamRules.singleton.get();
   }
   getInitialState() {
-    const _33 = DiamPiece.EMPTY;
+    const _34 = DiamPiece.EMPTY;
     const board = [
-      [_33, _33, _33, _33, _33, _33, _33, _33],
-      [_33, _33, _33, _33, _33, _33, _33, _33],
-      [_33, _33, _33, _33, _33, _33, _33, _33],
-      [_33, _33, _33, _33, _33, _33, _33, _33]
+      [_34, _34, _34, _34, _34, _34, _34, _34],
+      [_34, _34, _34, _34, _34, _34, _34, _34],
+      [_34, _34, _34, _34, _34, _34, _34, _34],
+      [_34, _34, _34, _34, _34, _34, _34, _34]
     ];
     return new DiamState(board, [4, 4, 4, 4], 0);
   }
@@ -12686,16 +12708,16 @@ var DvonnState = class _DvonnState extends HexagonalGameState {
    *     W D W B B W W W B
    */
   static balancedBoard() {
-    const _33 = DvonnPieceStack.UNREACHABLE;
-    const O28 = DvonnPieceStack.PLAYER_ZERO;
-    const X28 = DvonnPieceStack.PLAYER_ONE;
+    const _34 = DvonnPieceStack.UNREACHABLE;
+    const O29 = DvonnPieceStack.PLAYER_ZERO;
+    const X29 = DvonnPieceStack.PLAYER_ONE;
     const S3 = DvonnPieceStack.SOURCE;
     return [
-      [_33, _33, O28, X28, X28, X28, O28, O28, X28, S3, X28],
-      [_33, X28, X28, O28, O28, O28, X28, X28, O28, X28, X28],
-      [X28, X28, X28, X28, O28, S3, X28, O28, O28, O28, O28],
-      [O28, O28, X28, O28, O28, X28, X28, X28, O28, O28, _33],
-      [O28, S3, O28, X28, X28, O28, O28, O28, X28, _33, _33]
+      [_34, _34, O29, X29, X29, X29, O29, O29, X29, S3, X29],
+      [_34, X29, X29, O29, O29, O29, X29, X29, O29, X29, X29],
+      [X29, X29, X29, X29, O29, S3, X29, O29, O29, O29, O29],
+      [O29, O29, X29, O29, O29, X29, X29, X29, O29, O29, _34],
+      [O29, S3, O29, X29, X29, O29, O29, O29, X29, _34, _34]
     ];
   }
   static isOnBoard(coord) {
@@ -13791,7 +13813,7 @@ var EncapsuleSpace = class _EncapsuleSpace {
     const occupiedCircles = this.getOccupiedCircles();
     return occupiedCircles.size() === 0;
   }
-  isEmptyKeyValue(_33, value) {
+  isEmptyKeyValue(_34, value) {
     return value.isPlayer();
   }
   toList() {
@@ -13872,8 +13894,8 @@ var EncapsuleRules = (_a4 = class extends ConfigurableRules {
     return EncapsuleRules_1.singleton.get();
   }
   getInitialState(config) {
-    const _33 = new EncapsuleSpace(new MGPMap());
-    const startingBoard = TableUtils.create(config.width, config.height, _33);
+    const _34 = new EncapsuleSpace(new MGPMap());
+    const startingBoard = TableUtils.create(config.width, config.height, _34);
     const initialPieces = this.getInitialEncapsulePieceMap(config);
     return new EncapsuleState(startingBoard, 0, initialPieces, config.nbOfSizes);
   }
@@ -14723,12 +14745,12 @@ var EpaminondasRules = class _EpaminondasRules extends ConfigurableRules {
     return MGPFallible.success(board);
   }
   getInitialState(config) {
-    const _33 = PlayerOrNone.NONE;
-    const O28 = PlayerOrNone.ZERO;
-    const X28 = PlayerOrNone.ONE;
-    const upperBoard = TableUtils.create(config.width, config.rowsOfSoldiers, X28);
-    const middleBoard = TableUtils.create(config.width, config.emptyRows, _33);
-    const lowerBoard = TableUtils.create(config.width, config.rowsOfSoldiers, O28);
+    const _34 = PlayerOrNone.NONE;
+    const O29 = PlayerOrNone.ZERO;
+    const X29 = PlayerOrNone.ONE;
+    const upperBoard = TableUtils.create(config.width, config.rowsOfSoldiers, X29);
+    const middleBoard = TableUtils.create(config.width, config.emptyRows, _34);
+    const lowerBoard = TableUtils.create(config.width, config.rowsOfSoldiers, O29);
     const board = upperBoard.concat(middleBoard).concat(lowerBoard);
     return new EpaminondasState(board, 0);
   }
@@ -14821,7 +14843,7 @@ var EpaminondasTutorial = class extends Tutorial {
       [_8, _8, _8, _8, _8, _8, _8, _8, _8, _8, _8, _8, _8, _8],
       [_8, _8, _8, _8, _8, _8, _8, O7, O7, O7, O7, _8, _8, _8]
     ], 0)),
-    TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME() + " (2/2)", $localize`Here, it is Light's turn. Light wins because they have two pieces on Dark's starting line, and Dark only has one on Light's starting line.`, new EpaminondasState([
+    TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME() + " (2/2)", $localize`Here, it is Light's turn. Light wins because they have two pieces on Dark's starting line, and Dark has only one on Light's starting line.`, new EpaminondasState([
       [_8, _8, _8, _8, _8, O7, _8, _8, _8, _8, X6, X6, X6, X6],
       [_8, _8, _8, _8, _8, O7, _8, _8, _8, _8, _8, _8, _8, _8],
       [_8, _8, _8, _8, _8, _8, _8, _8, _8, _8, _8, _8, _8, _8],
@@ -15762,18 +15784,18 @@ var GipfRules = class _GipfRules extends Rules {
     return _GipfRules.singleton.get();
   }
   getInitialState() {
-    const _33 = FourStatePiece.EMPTY;
+    const _34 = FourStatePiece.EMPTY;
     const N10 = FourStatePiece.UNREACHABLE;
-    const O28 = FourStatePiece.ZERO;
-    const X28 = FourStatePiece.ONE;
+    const O29 = FourStatePiece.ZERO;
+    const X29 = FourStatePiece.ONE;
     const board = [
-      [N10, N10, N10, X28, _33, _33, O28],
-      [N10, N10, _33, _33, _33, _33, _33],
-      [N10, _33, _33, _33, _33, _33, _33],
-      [O28, _33, _33, _33, _33, _33, X28],
-      [_33, _33, _33, _33, _33, _33, N10],
-      [_33, _33, _33, _33, _33, N10, N10],
-      [X28, _33, _33, O28, N10, N10, N10]
+      [N10, N10, N10, X29, _34, _34, O29],
+      [N10, N10, _34, _34, _34, _34, _34],
+      [N10, _34, _34, _34, _34, _34, _34],
+      [O29, _34, _34, _34, _34, _34, X29],
+      [_34, _34, _34, _34, _34, _34, N10],
+      [_34, _34, _34, _34, _34, N10, N10],
+      [X29, _34, _34, O29, N10, N10, N10]
     ];
     return new GipfState(board, 0, PlayerNumberMap.of(12, 12), PlayerNumberMap.of(0, 0));
   }
@@ -16867,34 +16889,6 @@ var GoPiece = class _GoPiece {
   }
 };
 
-// src/app/games/gos/GoState.ts
-var GoState = class _GoState extends GameStateWithTable {
-  koCoord;
-  captured;
-  phase;
-  constructor(board, captured, turn, koCoord, phase) {
-    super(board, turn);
-    this.captured = captured;
-    this.koCoord = koCoord;
-    this.phase = phase;
-  }
-  getCapturedCopy() {
-    return this.captured.getCopy();
-  }
-  static getStartingBoard(width, height) {
-    return TableUtils.create(width, height, GoPiece.EMPTY);
-  }
-  copy() {
-    return new _GoState(this.getCopiedBoard(), this.getCapturedCopy(), this.turn, this.koCoord, this.phase);
-  }
-  isDead(coord) {
-    return this.getPieceAt(coord).isDead();
-  }
-  isTerritory(coord) {
-    return this.getPieceAt(coord).isTerritory();
-  }
-};
-
 // src/app/games/gos/AbstractGoRules.ts
 var __decorate18 = function(decorators, target, key, desc) {
   var c = arguments.length, r2 = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d2;
@@ -16908,17 +16902,23 @@ var AbstractGoRules = class AbstractGoRules2 extends ConfigurableRules {
     super();
     this.playOnIntersection = playOnIntersection;
   }
-  getNewKo(move, newBoard, captures) {
-    if (captures.length === 1) {
-      const captured = captures[0];
+  getZoom(_config) {
+    return 1;
+  }
+  getNewKo(move, newBoard, goLegalityInformation, config) {
+    if (goLegalityInformation.uniqueCapture.isPresent()) {
+      const captured = goLegalityInformation.uniqueCapture.get();
       const capturerCoord = move.coord;
       const capturer = newBoard[capturerCoord.y][capturerCoord.x];
-      const goGroupDataFactory = this.getGoGroupDataFactory();
-      const capturersInfo = goGroupDataFactory.getGroupData(capturerCoord, newBoard);
-      const capturersFreedoms = capturersInfo.emptyCoords;
-      const capturersGroup = GoPiece.pieceBelongTo(capturer, Player.ZERO) ? capturersInfo.darkCoords : capturersInfo.lightCoords;
-      if (capturersFreedoms.length === 1 && capturersFreedoms[0].equals(captured) && capturersGroup.length === 1) {
-        return MGPOptional.of(captured);
+      const maxZoom = this.getZoom(config);
+      for (let zoom = 1; zoom <= maxZoom; zoom++) {
+        const goGroupDataFactory = this.getGoGroupDataFactory(zoom);
+        const capturersInfo = goGroupDataFactory.getGroupData(capturerCoord, newBoard);
+        const capturersFreedoms = capturersInfo.emptyCoords;
+        const capturersGroup = GoPiece.pieceBelongTo(capturer, Player.ZERO) ? capturersInfo.darkCoords : capturersInfo.lightCoords;
+        if (capturersFreedoms.length === 1 && capturersFreedoms[0].equals(captured) && capturersGroup.length === 1) {
+          return MGPOptional.of(captured);
+        }
       }
     }
     return MGPOptional.empty();
@@ -16942,7 +16942,7 @@ var AbstractGoRules = class AbstractGoRules2 extends ConfigurableRules {
         }
       }
     }
-    return new GoState(resultingBoard, captured, state.turn, state.koCoord, state.phase);
+    return state.withBoard(resultingBoard).withCaptures(captured);
   }
   removeAndSubtractTerritory(state) {
     const resultingBoard = state.getCopiedBoard();
@@ -16955,16 +16955,16 @@ var AbstractGoRules = class AbstractGoRules2 extends ConfigurableRules {
         captured.add(owner, -1);
       }
     }
-    return new GoState(resultingBoard, captured, state.turn, state.koCoord, state.phase);
+    return state.withBoard(resultingBoard).withCaptures(captured);
   }
   getEmptyZones(deadlessState) {
-    return this.getGoGroupDataFactory().getGroupsDataWhere(deadlessState.getCopiedBoard(), (piece) => piece.isEmpty());
+    return this.getGoGroupDataFactory(1).getGroupsDataWhere(deadlessState.getCopiedBoard(), (piece) => piece.isEmpty());
   }
-  switchAliveness(groupCoord, switchedState) {
+  switchLiveness(groupCoord, switchedState, zoom) {
     const switchedBoard = switchedState.getCopiedBoard();
     const switchedPiece = switchedBoard[groupCoord.y][groupCoord.x];
     Utils.assert(switchedPiece.isOccupied(), `Can't switch emptyness aliveness`);
-    const goGroupDataFactory = this.getGoGroupDataFactory();
+    const goGroupDataFactory = this.getGoGroupDataFactory(zoom);
     const group = goGroupDataFactory.getGroupData(groupCoord, switchedBoard);
     const captured = switchedState.getCapturedCopy();
     switch (group.color) {
@@ -16994,7 +16994,7 @@ var AbstractGoRules = class AbstractGoRules2 extends ConfigurableRules {
         }
         break;
     }
-    return new GoState(switchedBoard, captured, switchedState.turn, switchedState.koCoord, switchedState.phase);
+    return switchedState.withBoard(switchedBoard).withCaptures(captured);
   }
   isPass(move) {
     return move.equals(GoMove.PASS);
@@ -17003,34 +17003,37 @@ var AbstractGoRules = class AbstractGoRules2 extends ConfigurableRules {
     return move.equals(GoMove.ACCEPT);
   }
   isLegalDeadMarking(move, state) {
-    return this.isOccupied(move.coord, state.getCopiedBoard()) && (state.phase.isCounting() || state.phase.isAccept());
+    return state.getPieceAt(move.coord).isOccupied() && (state.phase.isCounting() || state.phase.isAccept());
   }
-  isLegalTranslation(move, state) {
-    const boardCopy = state.getCopiedBoard();
+  isLegalDrop(move, state, config) {
     if (this.isKo(move, state)) {
       return MGPFallible.failure(GoFailure.ILLEGAL_KO());
     }
     if (state.phase.isCounting() || state.phase.isAccept()) {
       state = this.resurrectStones(state);
     }
-    const captureState = this.getCaptureState(move, state);
-    if (captureState.isCapturing()) {
-      return MGPFallible.success(captureState.capturedCoords);
+    const goLegalityInformation = this.applyCaptures(move, state, config);
+    const postCaptureState = goLegalityInformation.postCaptureState;
+    const droppedPieceHasFreedom = this.doesPieceHaveFreedoms(move.coord, postCaptureState.withPieceAt(move.coord, GoPiece.ofPlayer(postCaptureState.getCurrentPlayer())), config);
+    if (droppedPieceHasFreedom) {
+      return MGPFallible.success(goLegalityInformation);
     } else {
-      boardCopy[move.coord.y][move.coord.x] = state.turn % 2 === 0 ? GoPiece.DARK : GoPiece.LIGHT;
-      const goGroupDataFactory = this.getGoGroupDataFactory();
-      const goGroupsData = goGroupDataFactory.getGroupData(move.coord, boardCopy);
-      const isSuicide = goGroupsData.emptyCoords.length === 0;
-      boardCopy[move.coord.y][move.coord.x] = GoPiece.EMPTY;
-      if (isSuicide) {
-        return MGPFallible.failure(GoFailure.CANNOT_COMMIT_SUICIDE());
-      } else {
-        return MGPFallible.success([]);
-      }
+      return MGPFallible.failure(GoFailure.CANNOT_COMMIT_SUICIDE());
     }
   }
-  isOccupied(coord, board) {
-    return board[coord.y][coord.x].isOccupied();
+  doesPieceHaveFreedoms(coord, state, config) {
+    const boardCopy = state.getCopiedBoard();
+    boardCopy[coord.y][coord.x] = GoPiece.ofPlayer(state.getCurrentPlayer());
+    const maxZoom = this.getZoom(config);
+    for (let zoom = 1; zoom <= maxZoom; zoom++) {
+      const goGroupDataFactory = this.getGoGroupDataFactory(zoom);
+      const goGroupsData = goGroupDataFactory.getGroupData(coord, boardCopy);
+      const isSuicide = goGroupsData.emptyCoords.length === 0;
+      if (isSuicide) {
+        return false;
+      }
+    }
+    return true;
   }
   isKo(move, state) {
     if (state.koCoord.isPresent()) {
@@ -17039,25 +17042,40 @@ var AbstractGoRules = class AbstractGoRules2 extends ConfigurableRules {
       return false;
     }
   }
-  getCaptureState(move, state) {
-    const captureState = new CaptureState();
-    let capturedInDirection;
-    for (const direction of this.getGoGroupDataFactory().getDirections(move.coord)) {
-      capturedInDirection = this.getCapturedInDirection(move.coord, direction, state);
-      if (capturedInDirection.length > 0 && captureState.capturedCoords.every((coord) => capturedInDirection[0].equals(coord) === false)) {
-        captureState.capturedCoords = captureState.capturedCoords.concat(capturedInDirection);
+  /**
+   * will remove captured pieces
+   * will add captured pieces count to captures
+   * will return an optional coord if there is a coord that is the only capture
+   * (if there is strictly one capture, optional will be present, else it'll be absent)
+   */
+  applyCaptures(move, state, config) {
+    const captureds = [];
+    const maxZoom = this.getZoom(config);
+    for (let zoom = 1; zoom <= maxZoom; zoom++) {
+      const goGroupDataFactory = this.getGoGroupDataFactory(zoom);
+      for (const direction of goGroupDataFactory.getDirections(move.coord)) {
+        const captures = this.getCapturedInDirection(move.coord, direction, state, goGroupDataFactory);
+        captureds.push(...captures);
       }
     }
-    return captureState;
+    const capturedSet = new Set2(captureds);
+    let resultingState = state;
+    for (const captured of capturedSet) {
+      resultingState = resultingState.withPieceAt(captured, GoPiece.EMPTY);
+    }
+    resultingState = resultingState.withAddedCaptures(resultingState.getCurrentPlayer(), capturedSet.size());
+    return {
+      postCaptureState: resultingState,
+      uniqueCapture: capturedSet.size() === 1 ? MGPOptional.of(capturedSet.getAnyElement().get()) : MGPOptional.empty()
+    };
   }
-  getCapturedInDirection(coord, direction, state) {
+  getCapturedInDirection(coord, vector, state, goGroupDataFactory) {
+    const neightbooringCoord = coord.getNext(vector);
     const copiedBoard = state.getCopiedBoard();
-    const neightbooringCoord = coord.getNext(direction);
     if (this.isReachable(neightbooringCoord, state)) {
-      const opponent = state.turn % 2 === 0 ? GoPiece.LIGHT : GoPiece.DARK;
-      if (copiedBoard[neightbooringCoord.y][neightbooringCoord.x] === opponent) {
+      const opponent = GoPiece.ofPlayer(state.getCurrentOpponent());
+      if (state.getPieceAt(neightbooringCoord) === opponent) {
         Debug.display("GoRules", "getCapturedInDirection", "a group could be captured");
-        const goGroupDataFactory = this.getGoGroupDataFactory();
         const neightbooringGroup = goGroupDataFactory.getGroupData(neightbooringCoord, copiedBoard);
         const koCoord = state.koCoord;
         if (this.isCapturableGroup(neightbooringGroup, koCoord)) {
@@ -17086,57 +17104,36 @@ var AbstractGoRules = class AbstractGoRules2 extends ConfigurableRules {
     return emptyGroups.filter((currentGroup) => currentGroup.isMonoWrapped());
   }
   applyPass(state) {
-    const oldBoard = state.getCopiedBoard();
-    const oldCaptured = state.getCapturedCopy();
-    const oldTurn = state.turn;
-    if (state.phase.isPassed()) {
-      const newPhase = GoPhase.COUNTING;
-      const resultingState = new GoState(oldBoard, oldCaptured, oldTurn + 1, MGPOptional.empty(), newPhase);
-      return this.markTerritoryAndCount(resultingState);
-    } else {
-      Utils.assert(state.phase.isPlaying(), "Cannot pass in counting phase!");
-      const newPhase = GoPhase.PASSED;
-      return new GoState(oldBoard, oldCaptured, oldTurn + 1, MGPOptional.empty(), newPhase);
+    const originalPhase = state.phase;
+    Utils.assert(originalPhase.isPlaying() || originalPhase.isPassed(), "Cannot pass in counting phase!");
+    const newPhase = originalPhase.isPassed() ? GoPhase.COUNTING : GoPhase.PASSED;
+    let passedState = state.incrementTurn().withKo(MGPOptional.empty()).withPhase(newPhase);
+    if (originalPhase.isPassed()) {
+      passedState = this.markTerritoryAndCount(passedState);
     }
+    return passedState;
   }
   applyLegalAccept(state) {
-    const countingBoard = state.getCopiedBoard();
-    let phase;
-    if (state.phase.isCounting()) {
-      phase = GoPhase.ACCEPT;
-    } else {
-      phase = GoPhase.FINISHED;
-    }
-    return new GoState(countingBoard, state.getCapturedCopy(), state.turn + 1, MGPOptional.empty(), phase);
+    const phase = state.phase.isCounting() ? GoPhase.ACCEPT : GoPhase.FINISHED;
+    return state.incrementTurn().withKo(MGPOptional.empty()).withPhase(phase);
   }
-  applyNormalLegalMove(legalMove, currentState, capturedCoords) {
-    let state;
-    if (currentState.phase.isCounting() || currentState.phase.isAccept()) {
-      state = this.resurrectStones(currentState);
-    } else {
-      state = currentState.copy();
+  applyNormalLegalMove(legalMove, goLegalityInformation, config) {
+    let state = goLegalityInformation.postCaptureState;
+    if (state.phase.isCounting() || state.phase.isAccept()) {
+      state = this.resurrectStones(state);
     }
-    const x2 = legalMove.coord.x;
-    const y = legalMove.coord.y;
-    const newBoard = state.getCopiedBoard();
-    const currentTurn = state.turn;
     const currentPlayer = state.getCurrentPlayer();
     const currentPlayerPiece = GoPiece.ofPlayer(currentPlayer);
-    const newTurn = currentTurn + 1;
-    newBoard[y][x2] = currentPlayerPiece;
-    for (const capturedCoord of capturedCoords) {
-      newBoard[capturedCoord.y][capturedCoord.x] = GoPiece.EMPTY;
-    }
-    const newKoCoord = this.getNewKo(legalMove, newBoard, capturedCoords);
-    const newCaptured = state.getCapturedCopy();
-    newCaptured.add(currentPlayer, capturedCoords.length);
-    return new GoState(newBoard, newCaptured, newTurn, newKoCoord, GoPhase.PLAYING);
+    const postDropState = state.withPieceAt(legalMove.coord, currentPlayerPiece);
+    const newKoCoord = this.getNewKo(legalMove, postDropState.getCopiedBoard(), goLegalityInformation, config);
+    const newCaptured = state.captured;
+    return postDropState.withCaptures(newCaptured).incrementTurn().withKo(newKoCoord).withPhase(GoPhase.PLAYING);
   }
   resurrectStones(state) {
     for (let y = 0; y < state.getHeight(); y++) {
       for (let x2 = 0; x2 < state.getWidth(); x2++) {
         if (state.getPieceAtXY(x2, y).isDead()) {
-          state = this.switchAliveness(new Coord(x2, y), state);
+          state = this.switchLiveness(new Coord(x2, y), state, 1);
         }
       }
     }
@@ -17144,17 +17141,21 @@ var AbstractGoRules = class AbstractGoRules2 extends ConfigurableRules {
   }
   applyDeadMarkingMove(legalMove, state) {
     const territorylessState = this.removeAndSubtractTerritory(state);
-    const switchedState = this.switchAliveness(legalMove.coord, territorylessState);
-    const resultingState = new GoState(switchedState.getCopiedBoard(), switchedState.getCapturedCopy(), switchedState.turn + 1, MGPOptional.empty(), GoPhase.COUNTING);
+    const switchedState = this.switchLiveness(legalMove.coord, territorylessState, 1);
+    const resultingState = switchedState.incrementTurn().withKo(MGPOptional.empty()).withPhase(GoPhase.COUNTING);
     return this.markTerritoryAndCount(resultingState);
   }
-  isLegal(move, state) {
+  isLegal(move, state, config) {
+    const defaultSuccess = MGPFallible.success({
+      postCaptureState: state,
+      uniqueCapture: MGPOptional.empty()
+    });
     if (this.isPass(move)) {
       const playing = state.phase.isPlaying();
       const passed = state.phase.isPassed();
       Debug.display("GoRules", "isLegal", "at " + state.phase + (playing || passed ? " forbid" : " allowed") + " passing on " + state.getCopiedBoard());
       if (playing || passed) {
-        return MGPFallible.success([]);
+        return defaultSuccess;
       } else {
         return MGPFallible.failure(GoFailure.CANNOT_PASS_AFTER_PASSED_PHASE());
       }
@@ -17162,15 +17163,15 @@ var AbstractGoRules = class AbstractGoRules2 extends ConfigurableRules {
       const counting = state.phase.isCounting();
       const accept = state.phase.isAccept();
       if (counting || accept) {
-        return MGPFallible.success([]);
+        return defaultSuccess;
       } else {
         return MGPFallible.failure(GoFailure.CANNOT_ACCEPT_BEFORE_COUNTING_PHASE());
       }
-    } else if (this.isOccupied(move.coord, state.getCopiedBoard())) {
+    } else if (state.getPieceAt(move.coord).isOccupied()) {
       Debug.display("GoRules", "isLegal", "move is marking");
       const legal = this.isLegalDeadMarking(move, state);
       if (legal) {
-        return MGPFallible.success([]);
+        return defaultSuccess;
       } else {
         if (this.playOnIntersection) {
           return MGPFallible.failure(GoFailure.OCCUPIED_INTERSECTION());
@@ -17180,29 +17181,26 @@ var AbstractGoRules = class AbstractGoRules2 extends ConfigurableRules {
       }
     } else {
       Debug.display("GoRules", "isLegal", "move is normal stuff: " + move.toString());
-      return this.isLegalTranslation(move, state);
+      return this.isLegalDrop(move, state, config);
     }
   }
-  applyLegalMove(legalMove, state, _config, infos) {
+  applyLegalMove(legalMove, state, config, infos) {
     if (this.isPass(legalMove)) {
-      Debug.display("GoRules", "applyLegalMove", "isPass");
       return this.applyPass(state);
     } else if (this.isAccept(legalMove)) {
-      Debug.display("GoRules", "applyLegalMove", "isAccept");
       return this.applyLegalAccept(state);
     } else if (this.isLegalDeadMarking(legalMove, state)) {
-      Debug.display("GoRules", "applyLegalMove", "isDeadMarking");
       return this.applyDeadMarkingMove(legalMove, state);
     } else {
-      Debug.display("GoRules", "applyLegalMove", "else it is normal move");
-      return this.applyNormalLegalMove(legalMove, state, infos);
+      return this.applyNormalLegalMove(legalMove, infos, config);
     }
   }
   getGameStatus(node) {
     const state = node.gameState;
     if (state.phase.isFinished()) {
-      const capturedZero = state.captured.get(Player.ZERO);
-      const capturedOne = state.captured.get(Player.ONE);
+      const captured = state.captured;
+      const capturedZero = captured.get(Player.ZERO);
+      const capturedOne = captured.get(Player.ONE);
       if (capturedOne < capturedZero) {
         return GameStatus.ZERO_WON;
       } else if (capturedZero < capturedOne) {
@@ -17218,12 +17216,6 @@ var AbstractGoRules = class AbstractGoRules2 extends ConfigurableRules {
 AbstractGoRules = __decorate18([
   Debug.log
 ], AbstractGoRules);
-var CaptureState = class {
-  capturedCoords = [];
-  isCapturing() {
-    return this.capturedCoords.length > 0;
-  }
-};
 
 // src/app/jscaip/BoardData.ts
 var __decorate19 = function(decorators, target, key, desc) {
@@ -17403,8 +17395,13 @@ var GoGroupDataFactory = class extends GroupDataFactory {
   }
 };
 var OrthogonalGoGroupDataFactory = class extends GoGroupDataFactory {
-  getDirections(_33) {
-    return Orthogonal.ORTHOGONALS;
+  zoom;
+  constructor(zoom) {
+    super();
+    this.zoom = zoom;
+  }
+  getDirections(_34) {
+    return Orthogonal.ORTHOGONALS.map((value) => new Vector(0, 0).combine(value, this.zoom));
   }
 };
 var TriangularGoGroupDataFactory = class extends GoGroupDataFactory {
@@ -17413,44 +17410,67 @@ var TriangularGoGroupDataFactory = class extends GoGroupDataFactory {
   }
 };
 var HexagonalGoGroupDataFactory = class extends GoGroupDataFactory {
-  getDirections(_33) {
+  getDirections(_34) {
     return HexaDirection.factory.all;
   }
 };
 
-// src/app/games/gos/go/GoRules.ts
-var GoRules = class _GoRules extends AbstractGoRules {
-  static singleton = MGPOptional.empty();
-  static RULES_CONFIG_DESCRIPTION = new RulesConfigDescription({
-    name: () => $localize`19 x 19`,
-    config: {
-      width: new NumberConfig(19, RulesConfigDescriptionLocalizable.WIDTH, MGPValidators.range(1, 99)),
-      height: new NumberConfig(19, RulesConfigDescriptionLocalizable.HEIGHT, MGPValidators.range(1, 99)),
-      handicap: new NumberConfig(0, () => $localize`Handicap`, MGPValidators.range(0, 9))
-    }
-  }, [{
-    name: () => $localize`13 x 13`,
-    config: {
-      width: 13,
-      height: 13,
-      handicap: 0
-    }
-  }, {
-    name: () => $localize`9 x 9`,
-    config: {
-      width: 9,
-      height: 9,
-      handicap: 0
-    }
-  }]);
-  static get() {
-    if (_GoRules.singleton.isAbsent()) {
-      _GoRules.singleton = MGPOptional.of(new _GoRules());
-    }
-    return _GoRules.singleton.get();
+// src/app/games/gos/GoState.ts
+var GoState = class _GoState extends GameStateWithTable {
+  static of(oldState, newBoard) {
+    return oldState.withBoard(newBoard);
   }
-  constructor() {
-    super(true);
+  koCoord;
+  captured;
+  phase;
+  constructor(board, captured, turn, koCoord, phase) {
+    super(board, turn);
+    this.captured = captured;
+    this.captured.makeImmutable();
+    this.koCoord = koCoord;
+    this.phase = phase;
+  }
+  getCapturedCopy() {
+    return this.captured.getCopy();
+  }
+  static getStartingBoard(width, height) {
+    return TableUtils.create(width, height, GoPiece.EMPTY);
+  }
+  isDead(coord) {
+    return this.getPieceAt(coord).isDead();
+  }
+  isTerritory(coord) {
+    return this.getPieceAt(coord).isTerritory();
+  }
+  withBoard(board) {
+    return new _GoState(board, this.captured, this.turn, this.koCoord, this.phase);
+  }
+  incrementTurn() {
+    return new _GoState(this.board, this.captured, this.turn + 1, this.koCoord, this.phase);
+  }
+  withCaptures(newCaptured) {
+    return new _GoState(this.board, newCaptured, this.turn, this.koCoord, this.phase);
+  }
+  withAddedCaptures(player, captures) {
+    const newCaptured = this.getCapturedCopy();
+    newCaptured.add(player, captures);
+    return this.withCaptures(newCaptured);
+  }
+  withKo(newKo) {
+    return new _GoState(this.board, this.captured, this.turn, newKo, this.phase);
+  }
+  withPhase(newPhase) {
+    return new _GoState(this.board, this.captured, this.turn, this.koCoord, newPhase);
+  }
+  withPieceAt(coord, value) {
+    return GameStateWithTable.setPieceAt(this, coord, value, _GoState.of);
+  }
+};
+
+// src/app/games/gos/abstract-rectangular-go/AbstractRectangularGoRules.ts
+var AbstractRectangularGoRules = class extends AbstractGoRules {
+  getZoom(config) {
+    return config.zoom;
   }
   getInitialState(config) {
     const board = GoState.getStartingBoard(config.width, config.height);
@@ -17481,11 +17501,53 @@ var GoRules = class _GoRules extends AbstractGoRules {
     }
     return new GoState(board, PlayerNumberMap.of(0, 0), turn, MGPOptional.empty(), GoPhase.PLAYING);
   }
+  getGoGroupDataFactory(zoom) {
+    return new OrthogonalGoGroupDataFactory(zoom);
+  }
+};
+
+// src/app/games/gos/go/GoRules.ts
+var GoRules = class _GoRules extends AbstractRectangularGoRules {
+  static singleton = MGPOptional.empty();
+  static RULES_CONFIG_DESCRIPTION = new RulesConfigDescription({
+    name: () => $localize`19 x 19`,
+    config: {
+      width: new NumberConfig(19, RulesConfigDescriptionLocalizable.WIDTH, MGPValidators.range(1, 99)),
+      height: new NumberConfig(19, RulesConfigDescriptionLocalizable.HEIGHT, MGPValidators.range(1, 99)),
+      handicap: new NumberConfig(0, () => $localize`Handicap`, MGPValidators.range(0, 9)),
+      zoom: new NumberConfig(1, () => $localize`Zoom`, MGPValidators.range(1, 5)),
+      showZooms: new BooleanConfig(false, () => $localize`Show zooms`)
+    }
+  }, [{
+    name: () => $localize`13 x 13`,
+    config: {
+      width: 13,
+      height: 13,
+      handicap: 0,
+      zoom: 1,
+      showZooms: false
+    }
+  }, {
+    name: () => $localize`9 x 9`,
+    config: {
+      width: 9,
+      height: 9,
+      handicap: 0,
+      zoom: 1,
+      showZooms: false
+    }
+  }]);
+  static get() {
+    if (_GoRules.singleton.isAbsent()) {
+      _GoRules.singleton = MGPOptional.of(new _GoRules());
+    }
+    return _GoRules.singleton.get();
+  }
+  constructor() {
+    super(true);
+  }
   getRulesConfigDescription() {
     return _GoRules.RULES_CONFIG_DESCRIPTION;
-  }
-  getGoGroupDataFactory() {
-    return new OrthogonalGoGroupDataFactory();
   }
 };
 
@@ -17511,18 +17573,14 @@ var GoTutorial = class extends Tutorial {
       [_10, _10, O9, X8, _10, _10],
       [_10, _10, O9, X8, _10, _10]
     ], PlayerNumberMap.of(0, 0), 0, MGPOptional.empty(), GoPhase.PLAYING)),
-    TutorialStep.fromMove($localize`Simple capture`, $localize`An isolated stone, like the one in the middle here, has 4 neighboring intersections (not 8, because we do not count diagonals).
-        It is said of a group which has exactly 2 free neighboring squares, that this group has two liberties.
-        If Dark plays on the last liberty of the light stone, this stone is removed from the Goban (captured) and Dark earns one point.<br/><br/>
-        You're playing Dark. The light piece on the board only has one liberty left, play there.`, new GoState([
+    TutorialStep.fromMove($localize`Simple capture`, $localize`An isolated stone, like the one in the middle here, has 4 neighboring intersections (not 8, because we do not count diagonals). It is said of a group which has exactly 2 free neighboring squares, that this group has two liberties. If Dark plays on the last liberty of the light stone, this stone is removed from the Goban (captured) and Dark earns one point.<br/><br/>You're playing Dark. The light piece on the board has only one liberty left, play there.`, new GoState([
       [_10, _10, _10, _10, _10],
       [_10, _10, O9, _10, _10],
       [_10, O9, X8, _10, _10],
       [_10, _10, O9, _10, _10],
       [_10, _10, _10, _10, _10]
     ], PlayerNumberMap.of(0, 0), 0, MGPOptional.empty(), GoPhase.PLAYING), [new GoMove(3, 2)], $localize`Congratulations, you have earned one point.`, $localize`Failed, try again by playing on one of the intersections directly next to the light stone.`),
-    TutorialStep.fromMove($localize`Capturing multiple stones`, $localize`Stones that are connected horizontally or vertically must be captured at the same time, and are not capturable in isolation.<br/><br/>
-        You're playing Dark. The light group here only has one liberty left, capture it.`, new GoState([
+    TutorialStep.fromMove($localize`Capturing multiple stones`, $localize`Stones that are connected horizontally or vertically must be captured at the same time, and cannot be captured separately.<br/><br/>You're playing Dark. The light group here has only one liberty left, capture it.`, new GoState([
       [_10, O9, _10, _10, _10],
       [O9, X8, _10, _10, _10],
       [O9, X8, X8, O9, _10],
@@ -17539,12 +17597,7 @@ var GoTutorial = class extends Tutorial {
       [X8, O9, _10, X8, _10],
       [_10, X8, _10, X8, O9]
     ], PlayerNumberMap.of(0, 0), 0, MGPOptional.empty(), GoPhase.PLAYING)),
-    TutorialStep.informational($localize`Life and death (death)`, $localize`From the capture rule follows the life and death notion:
-        dead stones are stones that are definitely capturable (without losing anything else).
-        Alive stones are stones that can never be captured.
-        From the capture rule, Dark can play inside Light's territory and make a capture.
-        In this case, we say that Light has only one eye (its last liberty) and that Light is dead (even if not yet captured).
-        At the end of the game, the dead stones will count as captures, and the intersections they occupy as territories.`, new GoState([
+    TutorialStep.informational($localize`Life and death (death)`, $localize`From the capture rule follows the life and death notion: dead stones are stones that can definitely be captured (without losing anything else). Alive stones are stones that can never be captured. From the capture rule, Dark can play inside Light's territory and make a capture. In this case, we say that Light has only one eye (its last liberty) and that Light is dead (even if not yet captured). At the end of the game, the dead stones will count as captures, and the intersections they occupy as territories.`, new GoState([
       [_10, _10, _10, _10, _10],
       [O9, O9, O9, _10, _10],
       [X8, X8, O9, _10, _10],
@@ -17616,7 +17669,7 @@ var AbstractGoHeuristic = class extends PlayerMetricHeuristic {
   }
   getMetrics(node) {
     const goState = this.rules.markTerritoryAndCount(node.gameState);
-    const goScore = goState.getCapturedCopy();
+    const goScore = goState.captured;
     const goKilled = this.getDeadStones(goState);
     return PlayerNumberTable.ofSingle(goScore.get(Player.ZERO) + 2 * goKilled.get(Player.ONE), goScore.get(Player.ONE) + 2 * goKilled.get(Player.ZERO));
   }
@@ -17659,7 +17712,7 @@ var AbstractGoMoveGenerator = class AbstractGoMoveGenerator2 extends MoveGenerat
       playingMoves.push(GoMove.PASS);
       return playingMoves;
     } else {
-      const markingMoves = this.getCountingMovesList(currentState);
+      const markingMoves = this.getCountingMovesList(currentState, config);
       if (markingMoves.length === 0) {
         return [GoMove.ACCEPT];
       } else {
@@ -17674,7 +17727,7 @@ var AbstractGoMoveGenerator = class AbstractGoMoveGenerator2 extends MoveGenerat
       const content = coordAndContent.content;
       const newMove = new GoMove(coord.x, coord.y);
       if (content === GoPiece.EMPTY) {
-        const legality = this.rules.isLegal(newMove, state);
+        const legality = this.rules.isLegal(newMove, state, config);
         if (legality.isSuccess()) {
           choices.push(newMove);
         }
@@ -17682,10 +17735,11 @@ var AbstractGoMoveGenerator = class AbstractGoMoveGenerator2 extends MoveGenerat
     }
     return choices;
   }
-  getCountingMovesList(currentState) {
+  getCountingMovesList(currentState, config) {
     const choices = [];
     const correctBoard = this.getCorrectBoard(currentState).getCopiedBoard();
-    const groupDataFactory = this.rules.getGoGroupDataFactory();
+    const zoom = this.rules.getZoom(config);
+    const groupDataFactory = this.rules.getGoGroupDataFactory(zoom);
     const groupsData = groupDataFactory.getGroupsDataWhere(correctBoard, (piece) => piece !== GoPiece.EMPTY && piece !== GoPiece.UNREACHABLE);
     for (const group of groupsData) {
       const coord = group.getCoords()[0];
@@ -17712,7 +17766,7 @@ var AbstractGoMoveGenerator = class AbstractGoMoveGenerator2 extends MoveGenerat
       }
     };
     const allDeadBoard = this.mapBoard(currentState.getCopiedBoard(), markAsDead);
-    const allDeadState = new GoState(allDeadBoard, currentState.getCapturedCopy(), currentState.turn, currentState.koCoord, currentState.phase);
+    const allDeadState = currentState.withBoard(allDeadBoard);
     const territoryLikeGroups = this.rules.getTerritoryLikeGroup(allDeadState);
     return this.setAliveUniqueWrapper(allDeadState, territoryLikeGroups);
   }
@@ -17727,13 +17781,13 @@ var AbstractGoMoveGenerator = class AbstractGoMoveGenerator2 extends MoveGenerat
     return newBoard;
   }
   setAliveUniqueWrapper(allDeadState, monoWrappedEmptyGroups) {
-    let resultingState = allDeadState.copy();
+    let resultingState = allDeadState;
     let aliveCoords;
     for (const monoWrappedEmptyGroup of monoWrappedEmptyGroups) {
       aliveCoords = monoWrappedEmptyGroup.deadDarkCoords.concat(monoWrappedEmptyGroup.deadLightCoords);
       for (const aliveCoord of aliveCoords) {
         if (resultingState.isDead(aliveCoord)) {
-          resultingState = this.rules.switchAliveness(aliveCoord, resultingState);
+          resultingState = this.rules.switchLiveness(aliveCoord, resultingState, 1);
         }
       }
     }
@@ -17751,163 +17805,95 @@ var GoMoveGenerator = class extends AbstractGoMoveGenerator {
   }
 };
 
-// src/app/games/gos/go/go.component.ts
+// src/app/games/gos/abstract-rectangular-go/GoSubBoardHelper.ts
+var GoSubBoardHelper = class _GoSubBoardHelper {
+  static splitInSubBoards(table, zoomMax) {
+    const zooms = [];
+    for (let zoom = 1; zoom <= zoomMax; zoom++) {
+      zooms.push(_GoSubBoardHelper.splitInSubBoardsForZoom(table, zoom));
+    }
+    return zooms;
+  }
+  static splitInSubBoardsForZoom(table, zoom) {
+    const initialWidth = table[0].length;
+    const initialHeight = table.length;
+    const numberOfSubColumns = Math.min(initialWidth, zoom);
+    const numberOfSubRows = Math.min(initialHeight, zoom);
+    const resultingSubBoards = TableUtils.create(numberOfSubColumns, numberOfSubRows, []);
+    for (let x2 = 0; x2 < numberOfSubColumns; x2++) {
+      for (let y = 0; y < numberOfSubRows; y++) {
+        resultingSubBoards[y][x2] = _GoSubBoardHelper.populateSubBoardFrom(table, x2, y, zoom);
+      }
+    }
+    return resultingSubBoards;
+  }
+  static populateSubBoardFrom(table, ix, iy, zoom) {
+    if (zoom === 1) {
+      return table;
+    }
+    const width = table[0].length;
+    const height = table.length;
+    const subBoard = [];
+    let resultY = -1;
+    for (let y = iy; y < height; y += zoom) {
+      subBoard.push([]);
+      resultY++;
+      for (let x2 = ix; x2 < width; x2 += zoom) {
+        subBoard[resultY].push(table[y][x2]);
+      }
+    }
+    return subBoard;
+  }
+  static fromZoomedToNormalCoord(zoomedCoord, zx, zy, zoom) {
+    const oneBasedZoom = zoom + 1;
+    return new Coord(zx + zoomedCoord.x * oneBasedZoom, zy + zoomedCoord.y * oneBasedZoom);
+  }
+  static fromNormalToZoomedCoord(normalCoord, zx, zy, zoom) {
+    const zoomVector = new Vector(zx, zy);
+    const offsetCoord = normalCoord.getNext(zoomVector, -1);
+    const oneBasedZoom = zoom + 1;
+    if (offsetCoord.x % oneBasedZoom === 0 && offsetCoord.y % oneBasedZoom === 0) {
+      return MGPOptional.of(new Coord(offsetCoord.x / oneBasedZoom, offsetCoord.y / oneBasedZoom));
+    } else {
+      return MGPOptional.empty();
+    }
+  }
+  static fromNormalToOptionalZoomedCoord(coord, zx, zy, zoom) {
+    if (coord.isPresent()) {
+      return _GoSubBoardHelper.fromNormalToZoomedCoord(coord.get(), zx, zy, zoom);
+    } else {
+      return MGPOptional.empty();
+    }
+  }
+};
+
+// src/app/games/gos/abstract-rectangular-go/abstract-rectangular-go.component.ts
 var __decorate21 = function(decorators, target, key, desc) {
   var c = arguments.length, r2 = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d2;
   if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r2 = Reflect.decorate(decorators, target, key, desc);
   else for (var i2 = decorators.length - 1; i2 >= 0; i2--) if (d2 = decorators[i2]) r2 = (c < 3 ? d2(r2) : c > 3 ? d2(target, key, r2) : d2(target, key)) || r2;
   return c > 3 && r2 && Object.defineProperty(target, key, r2), r2;
 };
-var GoComponent_1;
-var _forTrack014 = ($index, $item) => $item.coord.toString();
-var _forTrack110 = ($index, $item) => $item.toString();
-function GoComponent_For_4_Conditional_1_Conditional_2_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275namespaceSVG();
-    \u0275\u0275element(0, "circle", 6);
-  }
-  if (rf & 2) {
-    const coordAndContent_r2 = \u0275\u0275nextContext(2).$implicit;
-    const ctx_r2 = \u0275\u0275nextContext();
-    \u0275\u0275attribute("cx", ctx_r2.SPACE_SIZE * 0.5 + ctx_r2.SPACE_SIZE * coordAndContent_r2.coord.x)("cy", ctx_r2.SPACE_SIZE * 0.5 + ctx_r2.SPACE_SIZE * coordAndContent_r2.coord.y)("r", ctx_r2.SPACE_SIZE * 0.44);
-  }
-}
-function GoComponent_For_4_Conditional_1_Conditional_3_Template(rf, ctx) {
-  if (rf & 1) {
-    const _r4 = \u0275\u0275getCurrentView();
-    \u0275\u0275namespaceSVG();
-    \u0275\u0275elementStart(0, "line", 8);
-    \u0275\u0275listener("click", function GoComponent_For_4_Conditional_1_Conditional_3_Template_line_click_0_listener() {
-      \u0275\u0275restoreView(_r4);
-      const coordAndContent_r2 = \u0275\u0275nextContext(2).$implicit;
-      const ctx_r2 = \u0275\u0275nextContext();
-      return \u0275\u0275resetView(ctx_r2.onClick(coordAndContent_r2.coord));
-    });
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const coordAndContent_r2 = \u0275\u0275nextContext(2).$implicit;
-    const ctx_r2 = \u0275\u0275nextContext();
-    \u0275\u0275attribute("x1", ctx_r2.SPACE_SIZE * coordAndContent_r2.coord.x)("y1", ctx_r2.SPACE_SIZE * coordAndContent_r2.coord.y)("x2", ctx_r2.SPACE_SIZE + ctx_r2.SPACE_SIZE * coordAndContent_r2.coord.x)("y2", ctx_r2.SPACE_SIZE + ctx_r2.SPACE_SIZE * coordAndContent_r2.coord.y);
-  }
-}
-function GoComponent_For_4_Conditional_1_Template(rf, ctx) {
-  if (rf & 1) {
-    const _r1 = \u0275\u0275getCurrentView();
-    \u0275\u0275namespaceSVG();
-    \u0275\u0275elementStart(0, "g")(1, "circle", 5);
-    \u0275\u0275listener("click", function GoComponent_For_4_Conditional_1_Template_circle_click_1_listener() {
-      \u0275\u0275restoreView(_r1);
-      const coordAndContent_r2 = \u0275\u0275nextContext().$implicit;
-      const ctx_r2 = \u0275\u0275nextContext();
-      return \u0275\u0275resetView(ctx_r2.onClick(coordAndContent_r2.coord));
-    });
-    \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(2, GoComponent_For_4_Conditional_1_Conditional_2_Template, 1, 3, ":svg:circle", 6);
-    \u0275\u0275conditionalCreate(3, GoComponent_For_4_Conditional_1_Conditional_3_Template, 1, 4, ":svg:line", 7);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const coordAndContent_r2 = \u0275\u0275nextContext().$implicit;
-    const ctx_r2 = \u0275\u0275nextContext();
-    \u0275\u0275advance();
-    \u0275\u0275property("ngClass", ctx_r2.getSpaceClass(coordAndContent_r2.coord));
-    \u0275\u0275attribute("cx", ctx_r2.SPACE_SIZE * 0.5 + ctx_r2.SPACE_SIZE * coordAndContent_r2.coord.x)("cy", ctx_r2.SPACE_SIZE * 0.5 + ctx_r2.SPACE_SIZE * coordAndContent_r2.coord.y)("r", ctx_r2.SPACE_SIZE * 0.44);
-    \u0275\u0275advance();
-    \u0275\u0275conditional(ctx_r2.isLastSpace(coordAndContent_r2.coord) ? 2 : -1);
-    \u0275\u0275advance();
-    \u0275\u0275conditional(ctx_r2.isDead(coordAndContent_r2.coord) ? 3 : -1);
-  }
-}
-function GoComponent_For_4_Conditional_2_Conditional_0_Template(rf, ctx) {
-  if (rf & 1) {
-    const _r5 = \u0275\u0275getCurrentView();
-    \u0275\u0275namespaceSVG();
-    \u0275\u0275elementStart(0, "circle", 9);
-    \u0275\u0275listener("click", function GoComponent_For_4_Conditional_2_Conditional_0_Template_circle_click_0_listener() {
-      \u0275\u0275restoreView(_r5);
-      const coordAndContent_r2 = \u0275\u0275nextContext(2).$implicit;
-      const ctx_r2 = \u0275\u0275nextContext();
-      return \u0275\u0275resetView(ctx_r2.onClick(coordAndContent_r2.coord));
-    });
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const coordAndContent_r2 = \u0275\u0275nextContext(2).$implicit;
-    const ctx_r2 = \u0275\u0275nextContext();
-    \u0275\u0275attribute("cx", ctx_r2.SPACE_SIZE * 0.5 + ctx_r2.SPACE_SIZE * coordAndContent_r2.coord.x)("cy", ctx_r2.SPACE_SIZE * 0.5 + ctx_r2.SPACE_SIZE * coordAndContent_r2.coord.y)("r", ctx_r2.SPACE_SIZE * 0.2)("class", coordAndContent_r2.content === ctx_r2.GoPiece.LIGHT_TERRITORY ? "player1-fill" : "player0-fill");
-  }
-}
-function GoComponent_For_4_Conditional_2_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275conditionalCreate(0, GoComponent_For_4_Conditional_2_Conditional_0_Template, 1, 4, ":svg:circle");
-  }
-  if (rf & 2) {
-    const coordAndContent_r2 = \u0275\u0275nextContext().$implicit;
-    const ctx_r2 = \u0275\u0275nextContext();
-    \u0275\u0275conditional(ctx_r2.isTerritory(coordAndContent_r2.coord) ? 0 : -1);
-  }
-}
-function GoComponent_For_4_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275namespaceSVG();
-    \u0275\u0275elementStart(0, "g");
-    \u0275\u0275conditionalCreate(1, GoComponent_For_4_Conditional_1_Template, 4, 6, ":svg:g")(2, GoComponent_For_4_Conditional_2_Template, 1, 1);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const coordAndContent_r2 = ctx.$implicit;
-    const ctx_r2 = \u0275\u0275nextContext();
-    \u0275\u0275advance();
-    \u0275\u0275conditional(ctx_r2.spaceIsFull(coordAndContent_r2.coord) ? 1 : 2);
-  }
-}
-function GoComponent_Conditional_5_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275namespaceSVG();
-    \u0275\u0275element(0, "rect", 3);
-  }
-  if (rf & 2) {
-    const ctx_r2 = \u0275\u0275nextContext();
-    \u0275\u0275property("id", \u0275\u0275interpolate2("ko-", ctx_r2.ko.get().x, "-", ctx_r2.ko.get().y));
-    \u0275\u0275attribute("transform", ctx_r2.getTranslationAt(ctx_r2.ko.get()))("width", ctx_r2.SPACE_SIZE * 0.5)("height", ctx_r2.SPACE_SIZE * 0.5)("x", ctx_r2.SPACE_SIZE * 0.25)("y", ctx_r2.SPACE_SIZE * 0.25);
-  }
-}
-function GoComponent_For_7_Template(rf, ctx) {
-  if (rf & 1) {
-    const _r6 = \u0275\u0275getCurrentView();
-    \u0275\u0275namespaceSVG();
-    \u0275\u0275elementStart(0, "circle", 10);
-    \u0275\u0275listener("click", function GoComponent_For_7_Template_circle_click_0_listener() {
-      const capture_r7 = \u0275\u0275restoreView(_r6).$implicit;
-      const ctx_r2 = \u0275\u0275nextContext();
-      return \u0275\u0275resetView(ctx_r2.onClick(capture_r7));
-    });
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const capture_r7 = ctx.$implicit;
-    const ctx_r2 = \u0275\u0275nextContext();
-    \u0275\u0275attribute("transform", ctx_r2.getTranslationAt(capture_r7))("cx", ctx_r2.SPACE_SIZE * 0.5)("cy", ctx_r2.SPACE_SIZE * 0.5)("r", ctx_r2.SPACE_SIZE * 0.14);
-  }
-}
-var _a5;
-var GoComponent = (_a5 = class extends GobanGameComponent {
-  boardInfo;
-  ko = MGPOptional.empty();
-  last = MGPOptional.empty();
-  captures = [];
-  GoPiece = GoPiece;
+var AbstractRectangularGoComponent = class _AbstractRectangularGoComponent extends GobanGameComponent {
+  ko = signal(MGPOptional.empty(), ...ngDevMode ? [{ debugName: "ko" }] : []);
+  last = signal(MGPOptional.empty(), ...ngDevMode ? [{ debugName: "last" }] : []);
+  captures = signal([], ...ngDevMode ? [{ debugName: "captures" }] : []);
+  displayedZooms = signal(1, ...ngDevMode ? [{ debugName: "displayedZooms" }] : []);
+  zooms = signal([], ...ngDevMode ? [{ debugName: "zooms" }] : []);
+  SUB_BOARD_SEPARATOR = 0.5 * this.SPACE_SIZE;
+  ZOOM_SEPARATOR = this.SPACE_SIZE;
   constructor() {
     super();
-    this.setRulesAndNode("Go");
+    this.encoder = GoMove.encoder;
+    this.canPass = true;
+    this.scores = MGPOptional.of(PlayerNumberMap.of(0, 0));
     this.aiConfig = {
       minimax: [{
         id: "territory",
         name: $localize`Territory`,
         heuristic: () => new GoHeuristic(),
         moveGenerator: () => new GoMoveGenerator(),
-        hash: GoComponent_1.hash
+        hash: _AbstractRectangularGoComponent.hash
       }],
       mcts: [{
         id: "default",
@@ -17929,15 +17915,27 @@ var GoComponent = (_a5 = class extends GobanGameComponent {
     }
     return `${state.turn % 2}-${state.phase.toString()}-${board}-${JSON.stringify(state.koCoord)}-${JSON.stringify(state.captured)}`;
   }
+  computeViewBox() {
+    const zooms = this.zooms().length;
+    const zoomSeparatorCount = zooms - 1;
+    const verticalSubBoardSeparatorCount = zooms * (zooms - 1) * 0.5;
+    const normalWidth = this.getState().getWidth() * this.SPACE_SIZE;
+    const width = normalWidth + (zooms - 1) * this.SUB_BOARD_SEPARATOR;
+    const normalHeight = this.getState().getHeight() * this.SPACE_SIZE;
+    let height = zooms * normalHeight;
+    height += this.SUB_BOARD_SEPARATOR * verticalSubBoardSeparatorCount;
+    height += this.ZOOM_SEPARATOR * zoomSeparatorCount;
+    return ViewBox.fromLimits(0, width, 0, height);
+  }
   showLastMove(move) {
     return __async(this, null, function* () {
-      this.last = MGPOptional.of(move.coord);
+      this.last.set(MGPOptional.of(move.coord));
       this.showCaptures();
     });
   }
   hideLastMove() {
-    this.captures = [];
-    this.last = MGPOptional.empty();
+    this.captures.set([]);
+    this.last.set(MGPOptional.empty());
   }
   onClick(coord) {
     return __async(this, null, function* () {
@@ -17950,10 +17948,18 @@ var GoComponent = (_a5 = class extends GobanGameComponent {
       const state = this.getState();
       const phase = state.phase;
       this.board = state.getCopiedBoard();
+      const subBoards = GoSubBoardHelper.splitInSubBoards(this.board, this.getConfig().zoom);
+      this.displayedZooms.set(this.getConfig().showZooms ? this.getConfig().zoom : 1);
+      this.zooms.set(subBoards.map((table) => {
+        return TableUtils.map(table, (board) => {
+          return state.withBoard(board);
+        });
+      }));
       this.updateScores();
-      this.ko = state.koCoord;
+      this.ko.set(state.koCoord);
       this.canPass = phase.allowsPass();
       this.createHoshis();
+      this.cdr.detectChanges();
     });
   }
   updateScores() {
@@ -17964,18 +17970,19 @@ var GoComponent = (_a5 = class extends GobanGameComponent {
   }
   showCaptures() {
     const previousState = this.getPreviousState();
-    this.captures = [];
+    const captures = [];
     for (let y = 0; y < this.getHeight(); y++) {
       for (let x2 = 0; x2 < this.getWidth(); x2++) {
         const coord = new Coord(x2, y);
         const wasOccupied = previousState.getPieceAt(coord).isOccupied();
         const isEmpty = this.board[y][x2] === GoPiece.EMPTY;
-        const isNotKo = this.ko.equalsValue(coord) === false;
+        const isNotKo = this.ko().equalsValue(coord) === false;
         if (wasOccupied && isEmpty && isNotKo) {
-          this.captures.push(coord);
+          captures.push(coord);
         }
       }
     }
+    this.captures.set(captures);
   }
   pass() {
     return __async(this, null, function* () {
@@ -17987,133 +17994,480 @@ var GoComponent = (_a5 = class extends GobanGameComponent {
       return this.onClick(GoMove.ACCEPT.coord);
     });
   }
-  getSpaceClass(coord) {
-    const state = this.getState();
-    const piece = state.getPieceAt(coord);
-    return this.getPlayerClass(piece.getOwner());
+  translateZoom(zoom) {
+    const translateX = this.xZoomTranslate(zoom);
+    const translateY = this.yZoomTranslate(zoom);
+    return `translate(${translateX}, ${translateY})`;
   }
-  spaceIsFull(coord) {
-    const state = this.getState();
-    const piece = state.getPieceAt(coord);
-    return piece !== GoPiece.EMPTY && this.isTerritory(coord) === false;
+  xZoomTranslate(zoom) {
+    const totalZooms = this.zooms().length;
+    return (totalZooms - zoom - 1) * 0.5 * this.SUB_BOARD_SEPARATOR;
   }
-  isLastSpace(coord) {
-    return this.last.equalsValue(coord);
+  yZoomTranslate(zoom) {
+    const normalheight = this.getState().getHeight() * this.SPACE_SIZE;
+    let translate = zoom * normalheight;
+    translate += zoom * this.ZOOM_SEPARATOR;
+    translate += zoom * (zoom - 1) * 0.5 * this.SUB_BOARD_SEPARATOR;
+    return translate;
   }
-  isDead(coord) {
-    return this.getState().isDead(coord);
+  getTranslateXZoomBoard(zoom, subZoomX, subZoomY) {
+    let squareLeftCount = 0;
+    for (let previousZoomX = 0; previousZoomX < subZoomX; previousZoomX++) {
+      const previousState = this.zooms()[zoom][subZoomY][previousZoomX];
+      const abstractWidth = previousState.getWidth();
+      squareLeftCount += abstractWidth;
+    }
+    let translateX = squareLeftCount * this.SPACE_SIZE;
+    translateX += subZoomX * this.SUB_BOARD_SEPARATOR;
+    return translateX;
   }
-  isTerritory(coord) {
-    return this.getState().isTerritory(coord);
+  getTranslateYZoomBoard(zoom, subZoomX, subZoomY) {
+    let squareTopCount = 0;
+    for (let previousZoomY = 0; previousZoomY < subZoomY; previousZoomY++) {
+      const previousState = this.zooms()[zoom][previousZoomY][subZoomX];
+      const abstractHeight = previousState.getHeight();
+      squareTopCount += abstractHeight;
+    }
+    let translateY = squareTopCount * this.SPACE_SIZE;
+    translateY += subZoomY * this.SUB_BOARD_SEPARATOR;
+    return translateY;
   }
-}, GoComponent_1 = _a5, __publicField(_a5, "\u0275fac", function GoComponent_Factory(__ngFactoryType__) {
-  return new (__ngFactoryType__ || _a5)();
-}), __publicField(_a5, "\u0275cmp", /* @__PURE__ */ \u0275\u0275defineComponent({ type: _a5, selectors: [["app-go"]], features: [\u0275\u0275InheritDefinitionFeature], decls: 8, vars: 4, consts: [["xmlns", "http://www.w3.org/2000/svg", "preserveAspectRatio", "xMidYMid meet", 1, "board"], ["app-blank-goban", "", 3, "clickCallBack", "width", "height"], ["id", "piece-ko-territory-markers-and-dead-stones"], [1, "captured-stroke", "mid-stroke", "no-fill", 3, "id"], [1, "captured-fill"], [1, "base", 3, "click", "ngClass"], [1, "base", "no-fill", "last-move-stroke"], [1, "base", "no-fill", "captured-stroke"], [1, "base", "no-fill", "captured-stroke", 3, "click"], [3, "click"], [1, "captured-fill", 3, "click"]], template: function GoComponent_Template(rf, ctx) {
+  translateZoomBoard(zoom, subZoomX, subZoomY) {
+    const translateX = this.getTranslateXZoomBoard(zoom, subZoomX, subZoomY);
+    const translateY = this.getTranslateYZoomBoard(zoom, subZoomX, subZoomY);
+    return `translate(${translateX}, ${translateY})`;
+  }
+  onTakeHover(zoom, zx, zy, zoomedCoord) {
+    if (zoomedCoord.isPresent()) {
+      const normalCoord = GoSubBoardHelper.fromZoomedToNormalCoord(zoomedCoord.get(), zx, zy, zoom);
+      this.hover.set(MGPOptional.of(normalCoord));
+    } else {
+      this.hover.set(MGPOptional.empty());
+    }
+  }
+};
+__decorate21([
+  ClickHandler((coord) => ".space-" + coord.x + "-" + coord.y)
+], AbstractRectangularGoComponent.prototype, "onClick", null);
+
+// src/app/games/gos/abstract-rectangular-go/go-board/go-board.component.ts
+var _c06 = ["app-go-board", ""];
+var _forTrack014 = ($index, $item) => $item.coord.toString();
+var _forTrack110 = ($index, $item) => $item.toString();
+function GoBoardComponent_For_3_Conditional_1_Conditional_2_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
-    \u0275\u0275elementStart(0, "svg", 0)(1, "g", 1);
-    \u0275\u0275listener("clickCallBack", function GoComponent_Template_g_clickCallBack_1_listener($event) {
-      return ctx.onClick($event);
-    });
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(2, "g", 2);
-    \u0275\u0275repeaterCreate(3, GoComponent_For_4_Template, 3, 1, ":svg:g", null, _forTrack014);
-    \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(5, GoComponent_Conditional_5_Template, 1, 8, ":svg:rect", 3);
-    \u0275\u0275repeaterCreate(6, GoComponent_For_7_Template, 1, 4, ":svg:circle", 4, _forTrack110);
+    \u0275\u0275element(0, "circle", 5);
+  }
+  if (rf & 2) {
+    const ctx_r2 = \u0275\u0275nextContext(3);
+    \u0275\u0275attribute("cx", ctx_r2.SPACE_SIZE * 0.5)("cy", ctx_r2.SPACE_SIZE * 0.5)("r", ctx_r2.SPACE_SIZE * 0.44);
+  }
+}
+function GoBoardComponent_For_3_Conditional_1_Conditional_3_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275namespaceSVG();
+    \u0275\u0275element(0, "line", 6);
+  }
+  if (rf & 2) {
+    const ctx_r2 = \u0275\u0275nextContext(3);
+    \u0275\u0275attribute("x1", 0)("y1", 0)("x2", ctx_r2.SPACE_SIZE)("y2", ctx_r2.SPACE_SIZE);
+  }
+}
+function GoBoardComponent_For_3_Conditional_1_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275namespaceSVG();
+    \u0275\u0275elementStart(0, "g");
+    \u0275\u0275element(1, "circle", 4);
+    \u0275\u0275conditionalCreate(2, GoBoardComponent_For_3_Conditional_1_Conditional_2_Template, 1, 3, ":svg:circle", 5);
+    \u0275\u0275conditionalCreate(3, GoBoardComponent_For_3_Conditional_1_Conditional_3_Template, 1, 4, ":svg:line", 6);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    \u0275\u0275attribute("viewBox", ctx.viewBoxString());
+    const coordAndContent_r2 = \u0275\u0275nextContext().$implicit;
+    const ctx_r2 = \u0275\u0275nextContext();
     \u0275\u0275advance();
-    \u0275\u0275property("width", ctx.getState().getWidth())("height", ctx.getState().getHeight());
-    \u0275\u0275advance(2);
-    \u0275\u0275repeater(ctx.getState().getCoordsAndContents());
-    \u0275\u0275advance(2);
-    \u0275\u0275conditional(ctx.ko.isPresent() ? 5 : -1);
+    \u0275\u0275property("ngClass", ctx_r2.getSpaceClass(coordAndContent_r2.coord));
+    \u0275\u0275attribute("cx", ctx_r2.SPACE_SIZE * 0.5)("cy", ctx_r2.SPACE_SIZE * 0.5)("r", ctx_r2.SPACE_SIZE * 0.44);
     \u0275\u0275advance();
-    \u0275\u0275repeater(ctx.captures);
+    \u0275\u0275conditional(ctx_r2.isLastSpace(coordAndContent_r2.coord) ? 2 : -1);
+    \u0275\u0275advance();
+    \u0275\u0275conditional(ctx_r2.isDead(coordAndContent_r2.coord) ? 3 : -1);
   }
-}, dependencies: [BlankGobanComponent, NgClass], styles: ["\n\n.base[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke[_ngcontent-%COMP%] {\n  stroke-width: 0;\n}\n.base.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n}\n.base-no-stroke[_ngcontent-%COMP%] {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n}\n.white-background[_ngcontent-%COMP%] {\n  fill: white;\n}\n.background[_ngcontent-%COMP%] {\n  fill: var(--spaces-fill);\n}\n.transparent[_ngcontent-%COMP%] {\n  opacity: 0;\n}\n.background2[_ngcontent-%COMP%] {\n  fill: var(--alt-background-fill);\n}\n.background3[_ngcontent-%COMP%] {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill[_ngcontent-%COMP%] {\n  fill: var(--player0);\n}\n.player0-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--player0-alternate);\n}\n.player0-stroke[_ngcontent-%COMP%] {\n  stroke: var(--player0);\n}\n.player1-fill[_ngcontent-%COMP%] {\n  fill: var(--player1);\n}\n.player1-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--player1-alternate);\n}\n.player1-stroke[_ngcontent-%COMP%] {\n  stroke: var(--player1);\n}\n.nonplayer-fill[_ngcontent-%COMP%] {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill[_ngcontent-%COMP%] {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke[_ngcontent-%COMP%] {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke[_ngcontent-%COMP%] {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill[_ngcontent-%COMP%] {\n  fill: var(--pre-captured);\n}\n.captured-fill[_ngcontent-%COMP%] {\n  fill: var(--captured);\n}\n.captured-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--alt-captured);\n}\n.captured-stroke[_ngcontent-%COMP%] {\n  stroke: var(--captured);\n}\n.moved-fill[_ngcontent-%COMP%] {\n  fill: var(--moved);\n}\n.moved-stroke[_ngcontent-%COMP%] {\n  stroke: var(--moved);\n}\n.indicator[_ngcontent-%COMP%] {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill[_ngcontent-%COMP%] {\n  fill: var(--indicator);\n}\n.selectable-stroke[_ngcontent-%COMP%] {\n  stroke: var(--selectable);\n}\n.selectable[_ngcontent-%COMP%]    > .base-no-stroke[_ngcontent-%COMP%] {\n  fill: var(--selectable);\n}\n.last-move-stroke[_ngcontent-%COMP%] {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--last-move);\n}\n.last-move-fill[_ngcontent-%COMP%] {\n  fill: var(--last-move);\n}\n.victory-fill[_ngcontent-%COMP%] {\n  fill: var(--victory);\n}\n.victory-stroke[_ngcontent-%COMP%] {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--victory);\n}\n.defeat-fill[_ngcontent-%COMP%] {\n  fill: var(--defeat);\n}\n.defeat-stroke[_ngcontent-%COMP%] {\n  stroke: var(--defeat);\n}\n.selected-fill[_ngcontent-%COMP%] {\n  fill: var(--selected);\n}\n.selected-stroke[_ngcontent-%COMP%] {\n  stroke: var(--selected);\n}\n.clickable-stroke[_ngcontent-%COMP%] {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover[_ngcontent-%COMP%]:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke[_ngcontent-%COMP%] {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill[_ngcontent-%COMP%] {\n  fill: var(--capturable);\n}\n.capturable-stroke[_ngcontent-%COMP%]:hover {\n  stroke-width: 8;\n}\n.no-fill[_ngcontent-%COMP%] {\n  fill: none;\n}\n.no-stroke[_ngcontent-%COMP%] {\n  stroke: none;\n}\n.small-stroke[_ngcontent-%COMP%] {\n  stroke-width: 2;\n}\n.mid-small-stroke[_ngcontent-%COMP%] {\n  stroke-width: 3;\n}\n.mid-stroke[_ngcontent-%COMP%] {\n  stroke-width: 5;\n}\n.big-stroke[_ngcontent-%COMP%] {\n  stroke-width: 8;\n}\n.huge-stroke[_ngcontent-%COMP%] {\n  stroke-width: 12;\n}\n.semi-transparent[_ngcontent-%COMP%] {\n  opacity: 0.5;\n}\n.territory-opacity[_ngcontent-%COMP%] {\n  fill-opacity: 0.7;\n}\n.round[_ngcontent-%COMP%] {\n  stroke-linecap: round;\n}\n.text-giant[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big[_ngcontent-%COMP%] {\n  font: 50px sans-serif;\n}\n.backgrounded-text[_ngcontent-%COMP%] {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus[_ngcontent-%COMP%] {\n  font: 38px sans-serif;\n}\n.text-medium[_ngcontent-%COMP%] {\n  font: 35px sans-serif;\n}\n.text-small-plus[_ngcontent-%COMP%] {\n  font: 28px sans-serif;\n}\n.text-small[_ngcontent-%COMP%] {\n  font: 25px sans-serif;\n}\n.text-bold[_ngcontent-%COMP%] {\n  font-weight: bold;\n}\n.text-center[_ngcontent-%COMP%] {\n  text-anchor: middle;\n}\n.black-fill[_ngcontent-%COMP%] {\n  fill: black;\n}\n.darker[_ngcontent-%COMP%] {\n  filter: brightness(80%);\n}\n.lighter[_ngcontent-%COMP%] {\n  filter: brightness(110%);\n}\nsvg[_ngcontent-%COMP%] {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator[_ngcontent-%COMP%] {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */"] })), _a5);
-__decorate21([
-  ClickHandler((coord) => "#click-" + coord.x + "-" + coord.y)
-], GoComponent.prototype, "onClick", null);
-GoComponent = GoComponent_1 = __decorate21([
-  Debug.log
-], GoComponent);
+}
+function GoBoardComponent_For_3_Conditional_2_Conditional_0_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275namespaceSVG();
+    \u0275\u0275element(0, "circle");
+  }
+  if (rf & 2) {
+    const coordAndContent_r2 = \u0275\u0275nextContext(2).$implicit;
+    const ctx_r2 = \u0275\u0275nextContext();
+    \u0275\u0275attribute("cx", ctx_r2.SPACE_SIZE * 0.5)("cy", ctx_r2.SPACE_SIZE * 0.5)("r", ctx_r2.SPACE_SIZE * 0.2)("class", coordAndContent_r2.content === ctx_r2.GoPiece.LIGHT_TERRITORY ? "player1-fill" : "player0-fill");
+  }
+}
+function GoBoardComponent_For_3_Conditional_2_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275conditionalCreate(0, GoBoardComponent_For_3_Conditional_2_Conditional_0_Template, 1, 4, ":svg:circle");
+  }
+  if (rf & 2) {
+    const coordAndContent_r2 = \u0275\u0275nextContext().$implicit;
+    const ctx_r2 = \u0275\u0275nextContext();
+    \u0275\u0275conditional(ctx_r2.isTerritory(coordAndContent_r2.coord) ? 0 : -1);
+  }
+}
+function GoBoardComponent_For_3_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r1 = \u0275\u0275getCurrentView();
+    \u0275\u0275namespaceSVG();
+    \u0275\u0275elementStart(0, "g", 3);
+    \u0275\u0275listener("mouseenter", function GoBoardComponent_For_3_Template_g_mouseenter_0_listener() {
+      const coordAndContent_r2 = \u0275\u0275restoreView(_r1).$implicit;
+      const ctx_r2 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r2.onMouseEnter(coordAndContent_r2.coord));
+    })("mouseleave", function GoBoardComponent_For_3_Template_g_mouseleave_0_listener() {
+      \u0275\u0275restoreView(_r1);
+      const ctx_r2 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r2.onSVGLeave());
+    })("click", function GoBoardComponent_For_3_Template_g_click_0_listener() {
+      const coordAndContent_r2 = \u0275\u0275restoreView(_r1).$implicit;
+      const ctx_r2 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r2.onClick(coordAndContent_r2.coord));
+    });
+    \u0275\u0275conditionalCreate(1, GoBoardComponent_For_3_Conditional_1_Template, 4, 6, ":svg:g")(2, GoBoardComponent_For_3_Conditional_2_Template, 1, 1);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const coordAndContent_r2 = ctx.$implicit;
+    const ctx_r2 = \u0275\u0275nextContext();
+    \u0275\u0275classMap(\u0275\u0275interpolate2("data-coord-", coordAndContent_r2.coord.x, "-", coordAndContent_r2.coord.y));
+    \u0275\u0275attribute("transform", ctx_r2.getTranslationAt(coordAndContent_r2.coord));
+    \u0275\u0275advance();
+    \u0275\u0275conditional(ctx_r2.spaceIsFull(coordAndContent_r2.coord) ? 1 : 2);
+  }
+}
+function GoBoardComponent_Conditional_4_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275namespaceSVG();
+    \u0275\u0275element(0, "rect");
+  }
+  if (rf & 2) {
+    const ctx_r2 = \u0275\u0275nextContext();
+    \u0275\u0275classMap(\u0275\u0275interpolate2("captured-stroke mid-stroke no-fill data-ko data-ko-", ctx_r2.adaptedKo().get().x, "-", ctx_r2.adaptedKo().get().y));
+    \u0275\u0275attribute("transform", ctx_r2.getTranslationAt(ctx_r2.adaptedKo().get()))("width", ctx_r2.SPACE_SIZE * 0.5)("height", ctx_r2.SPACE_SIZE * 0.5)("x", ctx_r2.SPACE_SIZE * 0.25)("y", ctx_r2.SPACE_SIZE * 0.25);
+  }
+}
+function GoBoardComponent_Conditional_5_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275namespaceSVG();
+    \u0275\u0275element(0, "circle");
+  }
+  if (rf & 2) {
+    const ctx_r2 = \u0275\u0275nextContext();
+    \u0275\u0275classMap(\u0275\u0275interpolate2("semi-transparent click-delegator data-hover data-hover-", ctx_r2.adaptedHover().get().x, "-", ctx_r2.adaptedHover().get().y));
+    \u0275\u0275attribute("transform", ctx_r2.getTranslationAt(ctx_r2.adaptedHover().get()))("cx", ctx_r2.SPACE_SIZE * 0.5)("cy", ctx_r2.SPACE_SIZE * 0.5)("r", ctx_r2.SPACE_SIZE * 0.5);
+  }
+}
+function GoBoardComponent_For_7_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275namespaceSVG();
+    \u0275\u0275element(0, "circle");
+  }
+  if (rf & 2) {
+    const capture_r4 = ctx.$implicit;
+    const ctx_r2 = \u0275\u0275nextContext();
+    \u0275\u0275classMap(\u0275\u0275interpolate2("captured-fill click-delegator data-capture data-capture-", capture_r4.x, "-", capture_r4.y));
+    \u0275\u0275attribute("transform", ctx_r2.getTranslationAt(capture_r4))("cx", ctx_r2.SPACE_SIZE * 0.5)("cy", ctx_r2.SPACE_SIZE * 0.5)("r", ctx_r2.SPACE_SIZE * 0.14);
+  }
+}
+var GoBoardComponent = class _GoBoardComponent extends BaseGameComponent {
+  // input coord match the zoom 0
+  captures = input.required(...ngDevMode ? [{ debugName: "captures" }] : []);
+  ko = input.required(...ngDevMode ? [{ debugName: "ko" }] : []);
+  last = input.required(...ngDevMode ? [{ debugName: "last" }] : []);
+  hover = input.required(...ngDevMode ? [{ debugName: "hover" }] : []);
+  adaptedCaptures = computed(() => {
+    return this.captures().map((coord) => GoSubBoardHelper.fromNormalToZoomedCoord(coord, this.zx(), this.zy(), this.zoom())).filter((coord) => coord.isPresent()).map((coord) => coord.get());
+  }, ...ngDevMode ? [{ debugName: "adaptedCaptures" }] : []);
+  adaptedKo = computed(() => {
+    return GoSubBoardHelper.fromNormalToOptionalZoomedCoord(this.ko(), this.zx(), this.zy(), this.zoom());
+  }, ...ngDevMode ? [{ debugName: "adaptedKo" }] : []);
+  adaptedLast = computed(() => {
+    return GoSubBoardHelper.fromNormalToOptionalZoomedCoord(this.last(), this.zx(), this.zy(), this.zoom());
+  }, ...ngDevMode ? [{ debugName: "adaptedLast" }] : []);
+  adaptedHover = computed(() => {
+    return GoSubBoardHelper.fromNormalToOptionalZoomedCoord(this.hover(), this.zx(), this.zy(), this.zoom());
+  }, ...ngDevMode ? [{ debugName: "adaptedHover" }] : []);
+  state = input.required(...ngDevMode ? [{ debugName: "state" }] : []);
+  zoom = input.required(...ngDevMode ? [{ debugName: "zoom" }] : []);
+  zx = input.required(...ngDevMode ? [{ debugName: "zx" }] : []);
+  zy = input.required(...ngDevMode ? [{ debugName: "zy" }] : []);
+  clicked = output();
+  takeHover = output();
+  GoPiece = GoPiece;
+  onClick(coord) {
+    const zoomAdaptedCoord = GoSubBoardHelper.fromZoomedToNormalCoord(coord, this.zx(), this.zy(), this.zoom());
+    this.clicked.emit(zoomAdaptedCoord);
+  }
+  getSpaceClass(coord) {
+    const piece = this.state().getPieceAt(coord);
+    return this.getPlayerClass(piece.getOwner());
+  }
+  spaceIsFull(coord) {
+    const piece = this.state().getPieceAt(coord);
+    return piece !== GoPiece.EMPTY && this.isTerritory(coord) === false;
+  }
+  isLastSpace(coord) {
+    return this.adaptedLast().equalsValue(coord);
+  }
+  isDead(coord) {
+    return this.state().isDead(coord);
+  }
+  isTerritory(coord) {
+    return this.state().isTerritory(coord);
+  }
+  onMouseEnter(coord) {
+    return this.onOptionalMouseOver(MGPOptional.of(coord));
+  }
+  onOptionalMouseOver(coord) {
+    this.takeHover.emit(coord);
+  }
+  onSVGLeave() {
+    this.takeHover.emit(MGPOptional.empty());
+  }
+  static \u0275fac = /* @__PURE__ */ (() => {
+    let \u0275GoBoardComponent_BaseFactory;
+    return function GoBoardComponent_Factory(__ngFactoryType__) {
+      return (\u0275GoBoardComponent_BaseFactory || (\u0275GoBoardComponent_BaseFactory = \u0275\u0275getInheritedFactory(_GoBoardComponent)))(__ngFactoryType__ || _GoBoardComponent);
+    };
+  })();
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _GoBoardComponent, selectors: [["", "app-go-board", ""]], inputs: { captures: [1, "captures"], ko: [1, "ko"], last: [1, "last"], hover: [1, "hover"], state: [1, "state"], zoom: [1, "zoom"], zx: [1, "zx"], zy: [1, "zy"] }, outputs: { clicked: "clicked", takeHover: "takeHover" }, features: [\u0275\u0275InheritDefinitionFeature], attrs: _c06, decls: 8, vars: 4, consts: [["app-blank-goban", "", 3, "clickCallBack", "mouseEnterCallback", "width", "height"], [1, "data-piece-ko-territory-markers-and-dead-stones"], [3, "class"], [3, "mouseenter", "mouseleave", "click"], [1, "base", 3, "ngClass"], [1, "base", "no-fill", "last-move-stroke"], [1, "base", "no-fill", "captured-stroke"]], template: function GoBoardComponent_Template(rf, ctx) {
+    if (rf & 1) {
+      \u0275\u0275namespaceSVG();
+      \u0275\u0275elementStart(0, "g", 0);
+      \u0275\u0275listener("clickCallBack", function GoBoardComponent_Template_g_clickCallBack_0_listener($event) {
+        return ctx.onClick($event);
+      })("mouseEnterCallback", function GoBoardComponent_Template_g_mouseEnterCallback_0_listener($event) {
+        return ctx.onOptionalMouseOver($event);
+      });
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(1, "g", 1);
+      \u0275\u0275repeaterCreate(2, GoBoardComponent_For_3_Template, 3, 6, ":svg:g", 2, _forTrack014);
+      \u0275\u0275elementEnd();
+      \u0275\u0275conditionalCreate(4, GoBoardComponent_Conditional_4_Template, 1, 9, ":svg:rect", 2);
+      \u0275\u0275conditionalCreate(5, GoBoardComponent_Conditional_5_Template, 1, 8, ":svg:circle", 2);
+      \u0275\u0275repeaterCreate(6, GoBoardComponent_For_7_Template, 1, 8, ":svg:circle", 2, _forTrack110);
+    }
+    if (rf & 2) {
+      \u0275\u0275property("width", ctx.state().getWidth())("height", ctx.state().getHeight());
+      \u0275\u0275advance(2);
+      \u0275\u0275repeater(ctx.state().getCoordsAndContents());
+      \u0275\u0275advance(2);
+      \u0275\u0275conditional(ctx.adaptedKo().isPresent() ? 4 : -1);
+      \u0275\u0275advance();
+      \u0275\u0275conditional(ctx.adaptedHover().isPresent() ? 5 : -1);
+      \u0275\u0275advance();
+      \u0275\u0275repeater(ctx.adaptedCaptures());
+    }
+  }, dependencies: [BlankGobanComponent, NgClass], styles: ["\n\n.base[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke[_ngcontent-%COMP%] {\n  stroke-width: 0;\n}\n.base.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n}\n.base-no-stroke[_ngcontent-%COMP%] {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n}\n.white-background[_ngcontent-%COMP%] {\n  fill: white;\n}\n.background[_ngcontent-%COMP%] {\n  fill: var(--spaces-fill);\n}\n.transparent[_ngcontent-%COMP%] {\n  opacity: 0;\n}\n.background2[_ngcontent-%COMP%] {\n  fill: var(--alt-background-fill);\n}\n.background3[_ngcontent-%COMP%] {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill[_ngcontent-%COMP%] {\n  fill: var(--player0);\n}\n.player0-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--player0-alternate);\n}\n.player0-stroke[_ngcontent-%COMP%] {\n  stroke: var(--player0);\n}\n.player1-fill[_ngcontent-%COMP%] {\n  fill: var(--player1);\n}\n.player1-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--player1-alternate);\n}\n.player1-stroke[_ngcontent-%COMP%] {\n  stroke: var(--player1);\n}\n.nonplayer-fill[_ngcontent-%COMP%] {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill[_ngcontent-%COMP%] {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke[_ngcontent-%COMP%] {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke[_ngcontent-%COMP%] {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill[_ngcontent-%COMP%] {\n  fill: var(--pre-captured);\n}\n.captured-fill[_ngcontent-%COMP%] {\n  fill: var(--captured);\n}\n.captured-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--alt-captured);\n}\n.captured-stroke[_ngcontent-%COMP%] {\n  stroke: var(--captured);\n}\n.moved-fill[_ngcontent-%COMP%] {\n  fill: var(--moved);\n}\n.moved-stroke[_ngcontent-%COMP%] {\n  stroke: var(--moved);\n}\n.indicator[_ngcontent-%COMP%] {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill[_ngcontent-%COMP%] {\n  fill: var(--indicator);\n}\n.selectable-stroke[_ngcontent-%COMP%] {\n  stroke: var(--selectable);\n}\n.selectable[_ngcontent-%COMP%]    > .base-no-stroke[_ngcontent-%COMP%] {\n  fill: var(--selectable);\n}\n.last-move-stroke[_ngcontent-%COMP%] {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--last-move);\n}\n.last-move-fill[_ngcontent-%COMP%] {\n  fill: var(--last-move);\n}\n.victory-fill[_ngcontent-%COMP%] {\n  fill: var(--victory);\n}\n.victory-stroke[_ngcontent-%COMP%] {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--victory);\n}\n.defeat-fill[_ngcontent-%COMP%] {\n  fill: var(--defeat);\n}\n.defeat-stroke[_ngcontent-%COMP%] {\n  stroke: var(--defeat);\n}\n.selected-fill[_ngcontent-%COMP%] {\n  fill: var(--selected);\n}\n.selected-stroke[_ngcontent-%COMP%] {\n  stroke: var(--selected);\n}\n.clickable-stroke[_ngcontent-%COMP%] {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover[_ngcontent-%COMP%]:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke[_ngcontent-%COMP%] {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill[_ngcontent-%COMP%] {\n  fill: var(--capturable);\n}\n.capturable-stroke[_ngcontent-%COMP%]:hover {\n  stroke-width: 8;\n}\n.no-fill[_ngcontent-%COMP%] {\n  fill: none;\n}\n.no-stroke[_ngcontent-%COMP%] {\n  stroke: none;\n}\n.small-stroke[_ngcontent-%COMP%] {\n  stroke-width: 2;\n}\n.mid-small-stroke[_ngcontent-%COMP%] {\n  stroke-width: 3;\n}\n.mid-stroke[_ngcontent-%COMP%] {\n  stroke-width: 5;\n}\n.big-stroke[_ngcontent-%COMP%] {\n  stroke-width: 8;\n}\n.huge-stroke[_ngcontent-%COMP%] {\n  stroke-width: 12;\n}\n.semi-transparent[_ngcontent-%COMP%] {\n  opacity: 0.5;\n}\n.territory-opacity[_ngcontent-%COMP%] {\n  fill-opacity: 0.7;\n}\n.round[_ngcontent-%COMP%] {\n  stroke-linecap: round;\n}\n.text-giant[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big[_ngcontent-%COMP%] {\n  font: 50px sans-serif;\n}\n.backgrounded-text[_ngcontent-%COMP%] {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus[_ngcontent-%COMP%] {\n  font: 38px sans-serif;\n}\n.text-medium[_ngcontent-%COMP%] {\n  font: 35px sans-serif;\n}\n.text-small-plus[_ngcontent-%COMP%] {\n  font: 28px sans-serif;\n}\n.text-small[_ngcontent-%COMP%] {\n  font: 25px sans-serif;\n}\n.text-bold[_ngcontent-%COMP%] {\n  font-weight: bold;\n}\n.text-center[_ngcontent-%COMP%] {\n  text-anchor: middle;\n}\n.black-fill[_ngcontent-%COMP%] {\n  fill: black;\n}\n.darker[_ngcontent-%COMP%] {\n  filter: brightness(80%);\n}\n.lighter[_ngcontent-%COMP%] {\n  filter: brightness(110%);\n}\nsvg[_ngcontent-%COMP%] {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator[_ngcontent-%COMP%] {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */"] });
+};
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(GoComponent, [{
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(GoBoardComponent, [{
     type: Component,
-    args: [{ selector: "app-go", imports: [BlankGobanComponent, NgClass], template: `<svg xmlns="http://www.w3.org/2000/svg"
-     class="board"
-     [attr.viewBox]="viewBoxString()"
-     preserveAspectRatio="xMidYMid meet">
-
-    <g app-blank-goban
-       [width]="getState().getWidth()"
-       [height]="getState().getHeight()"
-       (clickCallBack)="onClick($event)"/>
-    <g id="piece-ko-territory-markers-and-dead-stones">
-        @for (coordAndContent of getState().getCoordsAndContents(); track coordAndContent.coord.toString()) {
-            <g>
-                @if (spaceIsFull(coordAndContent.coord)) {
-                    <g>
-                        <circle [attr.cx]="(SPACE_SIZE * 0.5) + (SPACE_SIZE * coordAndContent.coord.x)"
-                                [attr.cy]="(SPACE_SIZE * 0.5) + (SPACE_SIZE * coordAndContent.coord.y)"
+    args: [{ selector: "[app-go-board]", imports: [BlankGobanComponent, NgClass], template: `<svg:g app-blank-goban
+       [width]="state().getWidth()"
+       [height]="state().getHeight()"
+       (clickCallBack)="onClick($event)"
+       (mouseEnterCallback)="onOptionalMouseOver($event)"
+/>
+<svg:g class="data-piece-ko-territory-markers-and-dead-stones">
+    @for (coordAndContent of state().getCoordsAndContents(); track coordAndContent.coord.toString()) {
+        <svg:g class="data-coord-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"
+               [attr.transform]="getTranslationAt(coordAndContent.coord)"
+               (mouseenter)="onMouseEnter(coordAndContent.coord)"
+               (mouseleave)="onSVGLeave()"
+               (click)="onClick(coordAndContent.coord)"
+        >
+            @if (spaceIsFull(coordAndContent.coord)) {
+                <svg:g>
+                    <svg:circle [attr.cx]="SPACE_SIZE * 0.5"
+                                [attr.cy]="SPACE_SIZE * 0.5"
                                 [attr.r]="SPACE_SIZE * 0.44"
-                                (click)="onClick(coordAndContent.coord)"
                                 [ngClass]="getSpaceClass(coordAndContent.coord)"
-                                class="base"/>
-                        @if (isLastSpace(coordAndContent.coord)) {
-                            <circle [attr.cx]="(SPACE_SIZE * 0.5) + (SPACE_SIZE * coordAndContent.coord.x)"
-                                    [attr.cy]="(SPACE_SIZE * 0.5) + (SPACE_SIZE * coordAndContent.coord.y)"
+                                class="base"
+                    />
+                    @if (isLastSpace(coordAndContent.coord)) {
+                        <svg:circle [attr.cx]="SPACE_SIZE * 0.5"
+                                    [attr.cy]="SPACE_SIZE * 0.5"
                                     [attr.r]="SPACE_SIZE * 0.44"
-                                    class="base no-fill last-move-stroke"/>
-                        }
-                        @if (isDead(coordAndContent.coord)) {
-                            <line (click)="onClick(coordAndContent.coord)"
-                                  [attr.x1]="SPACE_SIZE * coordAndContent.coord.x"
-                                  [attr.y1]="SPACE_SIZE * coordAndContent.coord.y"
-                                  [attr.x2]="SPACE_SIZE + (SPACE_SIZE * coordAndContent.coord.x)"
-                                  [attr.y2]="SPACE_SIZE + (SPACE_SIZE * coordAndContent.coord.y)"
-                                  class="base no-fill captured-stroke"/>
-                        }
-                    </g>
-                } @else {
-                    @if (isTerritory(coordAndContent.coord)) {
-                        <circle [attr.cx]="(SPACE_SIZE * 0.5) + (SPACE_SIZE * coordAndContent.coord.x)"
-                                [attr.cy]="(SPACE_SIZE * 0.5) + (SPACE_SIZE * coordAndContent.coord.y)"
+                                    class="base no-fill last-move-stroke"
+                        />
+                    }
+                    @if (isDead(coordAndContent.coord)) {
+                        <svg:line [attr.x1]="0"
+                                  [attr.y1]="0"
+                                  [attr.x2]="SPACE_SIZE"
+                                  [attr.y2]="SPACE_SIZE"
+                                  class="base no-fill captured-stroke"
+                        />
+                    }
+                </svg:g>
+            } @else {
+                @if (isTerritory(coordAndContent.coord)) {
+                    <svg:circle [attr.cx]="SPACE_SIZE * 0.5"
+                                [attr.cy]="SPACE_SIZE * 0.5"
                                 [attr.r]="SPACE_SIZE * 0.2"
                                 [attr.class]="coordAndContent.content === GoPiece.LIGHT_TERRITORY ? 'player1-fill' : 'player0-fill'"
-                                (click)="onClick(coordAndContent.coord)"/>
-                    }
+                    />
                 }
-            </g>
-        }
-    </g>
-    @if (ko.isPresent()) {
-        <rect id="ko-{{ ko.get().x }}-{{ ko.get().y }}"
-              [attr.transform]="getTranslationAt(ko.get())"
+            }
+        </svg:g>
+    }
+</svg:g>
+@if (adaptedKo().isPresent()) {
+    <svg:rect [attr.transform]="getTranslationAt(adaptedKo().get())"
               [attr.width]="SPACE_SIZE * 0.5"
               [attr.height]="SPACE_SIZE * 0.5"
               [attr.x]="SPACE_SIZE * 0.25"
               [attr.y]="SPACE_SIZE * 0.25"
-              class="captured-stroke mid-stroke no-fill"/>
-    }
-    @for (capture of captures; track capture.toString()) {
-        <circle (click)="onClick(capture)"
-                [attr.transform]="getTranslationAt(capture)"
+              class="captured-stroke mid-stroke no-fill data-ko data-ko-{{ adaptedKo().get().x }}-{{ adaptedKo().get().y }}"
+    />
+}
+@if (adaptedHover().isPresent()) {
+    <svg:circle [attr.transform]="getTranslationAt(adaptedHover().get())"
+                [attr.cx]="SPACE_SIZE * 0.5"
+                [attr.cy]="SPACE_SIZE * 0.5"
+                [attr.r]="SPACE_SIZE * 0.50"
+                class="semi-transparent click-delegator data-hover data-hover-{{ adaptedHover().get().x }}-{{ adaptedHover().get().y }}"
+    />
+}
+@for (capture of adaptedCaptures(); track capture.toString()) {
+    <svg:circle [attr.transform]="getTranslationAt(capture)"
                 [attr.cx]="SPACE_SIZE * 0.5"
                 [attr.cy]="SPACE_SIZE * 0.5"
                 [attr.r]="SPACE_SIZE * 0.14"
-                class="captured-fill"/>
+                class="captured-fill click-delegator data-capture data-capture-{{ capture.x }}-{{ capture.y }}"
+    />
+}`, styles: ["/* src/app/components/game-components/game-component/game-component.scss */\n.base {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke {\n  stroke-width: 0;\n}\n.base.manual-stroke {\n  fill: var(--base-stroke);\n}\n.base-no-stroke {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text {\n  fill: var(--base-stroke);\n}\n.white-background {\n  fill: white;\n}\n.background {\n  fill: var(--spaces-fill);\n}\n.transparent {\n  opacity: 0;\n}\n.background2 {\n  fill: var(--alt-background-fill);\n}\n.background3 {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill {\n  fill: var(--player0);\n}\n.player0-alternate-fill {\n  fill: var(--player0-alternate);\n}\n.player0-stroke {\n  stroke: var(--player0);\n}\n.player1-fill {\n  fill: var(--player1);\n}\n.player1-alternate-fill {\n  fill: var(--player1-alternate);\n}\n.player1-stroke {\n  stroke: var(--player1);\n}\n.nonplayer-fill {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill {\n  fill: var(--pre-captured);\n}\n.captured-fill {\n  fill: var(--captured);\n}\n.captured-alternate-fill {\n  fill: var(--alt-captured);\n}\n.captured-stroke {\n  stroke: var(--captured);\n}\n.moved-fill {\n  fill: var(--moved);\n}\n.moved-stroke {\n  stroke: var(--moved);\n}\n.indicator {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill {\n  fill: var(--indicator);\n}\n.selectable-stroke {\n  stroke: var(--selectable);\n}\n.selectable > .base-no-stroke {\n  fill: var(--selectable);\n}\n.last-move-stroke {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke {\n  fill: var(--last-move);\n}\n.last-move-fill {\n  fill: var(--last-move);\n}\n.victory-fill {\n  fill: var(--victory);\n}\n.victory-stroke {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke {\n  fill: var(--victory);\n}\n.defeat-fill {\n  fill: var(--defeat);\n}\n.defeat-stroke {\n  stroke: var(--defeat);\n}\n.selected-fill {\n  fill: var(--selected);\n}\n.selected-stroke {\n  stroke: var(--selected);\n}\n.clickable-stroke {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill {\n  fill: var(--capturable);\n}\n.capturable-stroke:hover {\n  stroke-width: 8;\n}\n.no-fill {\n  fill: none;\n}\n.no-stroke {\n  stroke: none;\n}\n.small-stroke {\n  stroke-width: 2;\n}\n.mid-small-stroke {\n  stroke-width: 3;\n}\n.mid-stroke {\n  stroke-width: 5;\n}\n.big-stroke {\n  stroke-width: 8;\n}\n.huge-stroke {\n  stroke-width: 12;\n}\n.semi-transparent {\n  opacity: 0.5;\n}\n.territory-opacity {\n  fill-opacity: 0.7;\n}\n.round {\n  stroke-linecap: round;\n}\n.text-giant {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big {\n  font: 50px sans-serif;\n}\n.backgrounded-text {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus {\n  font: 38px sans-serif;\n}\n.text-medium {\n  font: 35px sans-serif;\n}\n.text-small-plus {\n  font: 28px sans-serif;\n}\n.text-small {\n  font: 25px sans-serif;\n}\n.text-bold {\n  font-weight: bold;\n}\n.text-center {\n  text-anchor: middle;\n}\n.black-fill {\n  fill: black;\n}\n.darker {\n  filter: brightness(80%);\n}\n.lighter {\n  filter: brightness(110%);\n}\nsvg {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */\n"] }]
+  }], null, { captures: [{ type: Input, args: [{ isSignal: true, alias: "captures", required: true }] }], ko: [{ type: Input, args: [{ isSignal: true, alias: "ko", required: true }] }], last: [{ type: Input, args: [{ isSignal: true, alias: "last", required: true }] }], hover: [{ type: Input, args: [{ isSignal: true, alias: "hover", required: true }] }], state: [{ type: Input, args: [{ isSignal: true, alias: "state", required: true }] }], zoom: [{ type: Input, args: [{ isSignal: true, alias: "zoom", required: true }] }], zx: [{ type: Input, args: [{ isSignal: true, alias: "zx", required: true }] }], zy: [{ type: Input, args: [{ isSignal: true, alias: "zy", required: true }] }], clicked: [{ type: Output, args: ["clicked"] }], takeHover: [{ type: Output, args: ["takeHover"] }] });
+})();
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(GoBoardComponent, { className: "GoBoardComponent", filePath: "src/app/games/gos/abstract-rectangular-go/go-board/go-board.component.ts", lineNumber: 19 });
+})();
+
+// src/app/games/gos/go/go.component.ts
+function GoComponent_For_2_For_2_For_1_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r1 = \u0275\u0275getCurrentView();
+    \u0275\u0275namespaceSVG();
+    \u0275\u0275elementStart(0, "g", 3);
+    \u0275\u0275listener("clicked", function GoComponent_For_2_For_2_For_1_Template_g_clicked_0_listener($event) {
+      \u0275\u0275restoreView(_r1);
+      const ctx_r1 = \u0275\u0275nextContext(3);
+      return \u0275\u0275resetView(ctx_r1.onClick($event));
+    })("takeHover", function GoComponent_For_2_For_2_For_1_Template_g_takeHover_0_listener($event) {
+      const subZoomY_r3 = \u0275\u0275restoreView(_r1).$implicit;
+      const subZoomX_r4 = \u0275\u0275nextContext().$implicit;
+      const zoom_r5 = \u0275\u0275nextContext().$implicit;
+      const ctx_r1 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r1.onTakeHover(zoom_r5, subZoomX_r4, subZoomY_r3, $event));
+    });
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const subZoomY_r3 = ctx.$implicit;
+    const subZoomX_r4 = \u0275\u0275nextContext().$implicit;
+    const zoom_r5 = \u0275\u0275nextContext().$implicit;
+    const ctx_r1 = \u0275\u0275nextContext();
+    \u0275\u0275property("id", "zoom-" + zoom_r5 + "-zx-" + subZoomX_r4 + "-zy-" + subZoomY_r3)("zoom", zoom_r5)("zx", subZoomX_r4)("zy", subZoomY_r3)("captures", ctx_r1.captures())("ko", ctx_r1.ko())("last", ctx_r1.last())("state", ctx_r1.zooms()[zoom_r5][subZoomY_r3][subZoomX_r4])("hover", ctx_r1.hover());
+    \u0275\u0275attribute("transform", ctx_r1.translateZoomBoard(zoom_r5, subZoomX_r4, subZoomY_r3));
+  }
+}
+function GoComponent_For_2_For_2_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275repeaterCreate(0, GoComponent_For_2_For_2_For_1_Template, 1, 10, ":svg:g", 2, \u0275\u0275repeaterTrackByIndex);
+  }
+  if (rf & 2) {
+    const zoom_r5 = \u0275\u0275nextContext().$implicit;
+    const ctx_r1 = \u0275\u0275nextContext();
+    \u0275\u0275repeater(ctx_r1.ArrayUtils.range(zoom_r5 + 1));
+  }
+}
+function GoComponent_For_2_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275namespaceSVG();
+    \u0275\u0275elementStart(0, "g", 1);
+    \u0275\u0275repeaterCreate(1, GoComponent_For_2_For_2_Template, 2, 0, null, null, \u0275\u0275repeaterTrackByIndex);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const zoom_r5 = ctx.$implicit;
+    const ctx_r1 = \u0275\u0275nextContext();
+    \u0275\u0275property("id", "zoom-" + zoom_r5);
+    \u0275\u0275attribute("transform", ctx_r1.translateZoom(zoom_r5));
+    \u0275\u0275advance();
+    \u0275\u0275repeater(ctx_r1.ArrayUtils.range(zoom_r5 + 1));
+  }
+}
+var GoComponent = class _GoComponent extends AbstractRectangularGoComponent {
+  hover = model(MGPOptional.empty(), ...ngDevMode ? [{ debugName: "hover" }] : []);
+  constructor() {
+    super();
+    this.setRulesAndNode("Go");
+  }
+  static \u0275fac = function GoComponent_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _GoComponent)();
+  };
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _GoComponent, selectors: [["app-go"]], inputs: { hover: [1, "hover"] }, outputs: { hover: "hoverChange" }, features: [\u0275\u0275InheritDefinitionFeature], decls: 3, vars: 1, consts: [["xmlns", "http://www.w3.org/2000/svg", "preserveAspectRatio", "xMidYMid meet", 1, "board"], [3, "id"], ["app-go-board", "", 3, "id", "zoom", "zx", "zy", "captures", "ko", "last", "state", "hover"], ["app-go-board", "", 3, "clicked", "takeHover", "id", "zoom", "zx", "zy", "captures", "ko", "last", "state", "hover"]], template: function GoComponent_Template(rf, ctx) {
+    if (rf & 1) {
+      \u0275\u0275namespaceSVG();
+      \u0275\u0275elementStart(0, "svg", 0);
+      \u0275\u0275repeaterCreate(1, GoComponent_For_2_Template, 3, 2, ":svg:g", 1, \u0275\u0275repeaterTrackByIndex);
+      \u0275\u0275elementEnd();
+    }
+    if (rf & 2) {
+      \u0275\u0275attribute("viewBox", ctx.viewBox().toSVGString());
+      \u0275\u0275advance();
+      \u0275\u0275repeater(ctx.ArrayUtils.range(ctx.displayedZooms()));
+    }
+  }, dependencies: [GoBoardComponent], styles: ["\n\n.base[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke[_ngcontent-%COMP%] {\n  stroke-width: 0;\n}\n.base.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n}\n.base-no-stroke[_ngcontent-%COMP%] {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n}\n.white-background[_ngcontent-%COMP%] {\n  fill: white;\n}\n.background[_ngcontent-%COMP%] {\n  fill: var(--spaces-fill);\n}\n.transparent[_ngcontent-%COMP%] {\n  opacity: 0;\n}\n.background2[_ngcontent-%COMP%] {\n  fill: var(--alt-background-fill);\n}\n.background3[_ngcontent-%COMP%] {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill[_ngcontent-%COMP%] {\n  fill: var(--player0);\n}\n.player0-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--player0-alternate);\n}\n.player0-stroke[_ngcontent-%COMP%] {\n  stroke: var(--player0);\n}\n.player1-fill[_ngcontent-%COMP%] {\n  fill: var(--player1);\n}\n.player1-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--player1-alternate);\n}\n.player1-stroke[_ngcontent-%COMP%] {\n  stroke: var(--player1);\n}\n.nonplayer-fill[_ngcontent-%COMP%] {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill[_ngcontent-%COMP%] {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke[_ngcontent-%COMP%] {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke[_ngcontent-%COMP%] {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill[_ngcontent-%COMP%] {\n  fill: var(--pre-captured);\n}\n.captured-fill[_ngcontent-%COMP%] {\n  fill: var(--captured);\n}\n.captured-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--alt-captured);\n}\n.captured-stroke[_ngcontent-%COMP%] {\n  stroke: var(--captured);\n}\n.moved-fill[_ngcontent-%COMP%] {\n  fill: var(--moved);\n}\n.moved-stroke[_ngcontent-%COMP%] {\n  stroke: var(--moved);\n}\n.indicator[_ngcontent-%COMP%] {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill[_ngcontent-%COMP%] {\n  fill: var(--indicator);\n}\n.selectable-stroke[_ngcontent-%COMP%] {\n  stroke: var(--selectable);\n}\n.selectable[_ngcontent-%COMP%]    > .base-no-stroke[_ngcontent-%COMP%] {\n  fill: var(--selectable);\n}\n.last-move-stroke[_ngcontent-%COMP%] {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--last-move);\n}\n.last-move-fill[_ngcontent-%COMP%] {\n  fill: var(--last-move);\n}\n.victory-fill[_ngcontent-%COMP%] {\n  fill: var(--victory);\n}\n.victory-stroke[_ngcontent-%COMP%] {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--victory);\n}\n.defeat-fill[_ngcontent-%COMP%] {\n  fill: var(--defeat);\n}\n.defeat-stroke[_ngcontent-%COMP%] {\n  stroke: var(--defeat);\n}\n.selected-fill[_ngcontent-%COMP%] {\n  fill: var(--selected);\n}\n.selected-stroke[_ngcontent-%COMP%] {\n  stroke: var(--selected);\n}\n.clickable-stroke[_ngcontent-%COMP%] {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover[_ngcontent-%COMP%]:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke[_ngcontent-%COMP%] {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill[_ngcontent-%COMP%] {\n  fill: var(--capturable);\n}\n.capturable-stroke[_ngcontent-%COMP%]:hover {\n  stroke-width: 8;\n}\n.no-fill[_ngcontent-%COMP%] {\n  fill: none;\n}\n.no-stroke[_ngcontent-%COMP%] {\n  stroke: none;\n}\n.small-stroke[_ngcontent-%COMP%] {\n  stroke-width: 2;\n}\n.mid-small-stroke[_ngcontent-%COMP%] {\n  stroke-width: 3;\n}\n.mid-stroke[_ngcontent-%COMP%] {\n  stroke-width: 5;\n}\n.big-stroke[_ngcontent-%COMP%] {\n  stroke-width: 8;\n}\n.huge-stroke[_ngcontent-%COMP%] {\n  stroke-width: 12;\n}\n.semi-transparent[_ngcontent-%COMP%] {\n  opacity: 0.5;\n}\n.territory-opacity[_ngcontent-%COMP%] {\n  fill-opacity: 0.7;\n}\n.round[_ngcontent-%COMP%] {\n  stroke-linecap: round;\n}\n.text-giant[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big[_ngcontent-%COMP%] {\n  font: 50px sans-serif;\n}\n.backgrounded-text[_ngcontent-%COMP%] {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus[_ngcontent-%COMP%] {\n  font: 38px sans-serif;\n}\n.text-medium[_ngcontent-%COMP%] {\n  font: 35px sans-serif;\n}\n.text-small-plus[_ngcontent-%COMP%] {\n  font: 28px sans-serif;\n}\n.text-small[_ngcontent-%COMP%] {\n  font: 25px sans-serif;\n}\n.text-bold[_ngcontent-%COMP%] {\n  font-weight: bold;\n}\n.text-center[_ngcontent-%COMP%] {\n  text-anchor: middle;\n}\n.black-fill[_ngcontent-%COMP%] {\n  fill: black;\n}\n.darker[_ngcontent-%COMP%] {\n  filter: brightness(80%);\n}\n.lighter[_ngcontent-%COMP%] {\n  filter: brightness(110%);\n}\nsvg[_ngcontent-%COMP%] {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator[_ngcontent-%COMP%] {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */"] });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(GoComponent, [{
+    type: Component,
+    args: [{ selector: "app-go", imports: [GoBoardComponent], template: `<svg xmlns="http://www.w3.org/2000/svg"
+     class="board"
+     [attr.viewBox]="viewBox().toSVGString()"
+     preserveAspectRatio="xMidYMid meet">
+    @for (zoom of ArrayUtils.range(displayedZooms()); track $index) {
+        <g [id]="'zoom-' + zoom"
+           [attr.transform]="translateZoom(zoom)">
+            @for (subZoomX of ArrayUtils.range(zoom + 1); track $index) {
+                @for (subZoomY of ArrayUtils.range(zoom + 1); track $index) {
+                    <g [id]="'zoom-' + zoom + '-zx-' + subZoomX + '-zy-' + subZoomY"
+                       app-go-board
+                       [attr.transform]="translateZoomBoard(zoom, subZoomX, subZoomY)"
+                       [zoom]="zoom"
+                       [zx]="subZoomX"
+                       [zy]="subZoomY"
+                       [captures]="captures()"
+                       [ko]="ko()"
+                       [last]="last()"
+                       [state]="zooms()[zoom][subZoomY][subZoomX]"
+                       [hover]="hover()"
+                       (clicked)="onClick($event)"
+                       (takeHover)="onTakeHover(zoom, subZoomX, subZoomY, $event)"
+                    ></g>
+                }
+            }
+        </g>
     }
 </svg>
 `, styles: ["/* src/app/components/game-components/game-component/game-component.scss */\n.base {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke {\n  stroke-width: 0;\n}\n.base.manual-stroke {\n  fill: var(--base-stroke);\n}\n.base-no-stroke {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text {\n  fill: var(--base-stroke);\n}\n.white-background {\n  fill: white;\n}\n.background {\n  fill: var(--spaces-fill);\n}\n.transparent {\n  opacity: 0;\n}\n.background2 {\n  fill: var(--alt-background-fill);\n}\n.background3 {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill {\n  fill: var(--player0);\n}\n.player0-alternate-fill {\n  fill: var(--player0-alternate);\n}\n.player0-stroke {\n  stroke: var(--player0);\n}\n.player1-fill {\n  fill: var(--player1);\n}\n.player1-alternate-fill {\n  fill: var(--player1-alternate);\n}\n.player1-stroke {\n  stroke: var(--player1);\n}\n.nonplayer-fill {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill {\n  fill: var(--pre-captured);\n}\n.captured-fill {\n  fill: var(--captured);\n}\n.captured-alternate-fill {\n  fill: var(--alt-captured);\n}\n.captured-stroke {\n  stroke: var(--captured);\n}\n.moved-fill {\n  fill: var(--moved);\n}\n.moved-stroke {\n  stroke: var(--moved);\n}\n.indicator {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill {\n  fill: var(--indicator);\n}\n.selectable-stroke {\n  stroke: var(--selectable);\n}\n.selectable > .base-no-stroke {\n  fill: var(--selectable);\n}\n.last-move-stroke {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke {\n  fill: var(--last-move);\n}\n.last-move-fill {\n  fill: var(--last-move);\n}\n.victory-fill {\n  fill: var(--victory);\n}\n.victory-stroke {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke {\n  fill: var(--victory);\n}\n.defeat-fill {\n  fill: var(--defeat);\n}\n.defeat-stroke {\n  stroke: var(--defeat);\n}\n.selected-fill {\n  fill: var(--selected);\n}\n.selected-stroke {\n  stroke: var(--selected);\n}\n.clickable-stroke {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill {\n  fill: var(--capturable);\n}\n.capturable-stroke:hover {\n  stroke-width: 8;\n}\n.no-fill {\n  fill: none;\n}\n.no-stroke {\n  stroke: none;\n}\n.small-stroke {\n  stroke-width: 2;\n}\n.mid-small-stroke {\n  stroke-width: 3;\n}\n.mid-stroke {\n  stroke-width: 5;\n}\n.big-stroke {\n  stroke-width: 8;\n}\n.huge-stroke {\n  stroke-width: 12;\n}\n.semi-transparent {\n  opacity: 0.5;\n}\n.territory-opacity {\n  fill-opacity: 0.7;\n}\n.round {\n  stroke-linecap: round;\n}\n.text-giant {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big {\n  font: 50px sans-serif;\n}\n.backgrounded-text {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus {\n  font: 38px sans-serif;\n}\n.text-medium {\n  font: 35px sans-serif;\n}\n.text-small-plus {\n  font: 28px sans-serif;\n}\n.text-small {\n  font: 25px sans-serif;\n}\n.text-bold {\n  font-weight: bold;\n}\n.text-center {\n  text-anchor: middle;\n}\n.black-fill {\n  fill: black;\n}\n.darker {\n  filter: brightness(80%);\n}\n.lighter {\n  filter: brightness(110%);\n}\nsvg {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */\n"] }]
-  }], () => [], { onClick: [] });
+  }], () => [], { hover: [{ type: Input, args: [{ isSignal: true, alias: "hover", required: false }] }, { type: Output, args: ["hoverChange"] }] });
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(GoComponent, { className: "GoComponent", filePath: "src/app/games/gos/go/go.component.ts", lineNumber: 31 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(GoComponent, { className: "GoComponent", filePath: "src/app/games/gos/go/go.component.ts", lineNumber: 15 });
 })();
 
 // src/app/games/gos/hexagonal-go/HexagonalGoRules.ts
@@ -18152,7 +18506,7 @@ var HexagonalGoRules = class _HexagonalGoRules extends AbstractGoRules {
   getRulesConfigDescription() {
     return _HexagonalGoRules.RULES_CONFIG_DESCRIPTION;
   }
-  getGoGroupDataFactory() {
+  getGoGroupDataFactory(_34) {
     return new HexagonalGoGroupDataFactory();
   }
 };
@@ -18259,7 +18613,7 @@ function HexagonalGoComponent_For_2_Conditional_1_Template(rf, ctx) {
   if (rf & 2) {
     const coordAndContent_r2 = \u0275\u0275nextContext().$implicit;
     const ctx_r2 = \u0275\u0275nextContext();
-    \u0275\u0275property("id", \u0275\u0275interpolate2("polygon-", coordAndContent_r2.coord.x, "-", coordAndContent_r2.coord.y))("ngClass", ctx_r2.getPlayerClassAt(coordAndContent_r2.coord));
+    \u0275\u0275property("id", \u0275\u0275interpolate2("space-", coordAndContent_r2.coord.x, "-", coordAndContent_r2.coord.y))("ngClass", ctx_r2.getPlayerClassAt(coordAndContent_r2.coord));
     \u0275\u0275attribute("points", ctx_r2.getHexaPoints());
   }
 }
@@ -18469,7 +18823,7 @@ HexagonalGoComponent = __decorate22([
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(HexagonalGoComponent, [{
     type: Component,
-    args: [{ selector: "app-hexagonal-go", imports: [NgClass], template: '<svg xmlns="http://www.w3.org/2000/svg"\n     class="board"\n     [attr.viewBox]="viewBoxString()"\n     preserveAspectRatio="xMidYMid meet">\n    @for (coordAndContent of getState().getCoordsAndContents(); track coordAndContent.coord.toString()) {\n        <g id="click-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n           [attr.transform]="getHexaCenterTranslationAt(coordAndContent.coord)"\n           (click)="onClick(coordAndContent.coord)">\n            @if (coordAndContent.content.isReachable()) {\n                <polygon id="polygon-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n                         [attr.points]="getHexaPoints()"\n                         [ngClass]="getPlayerClassAt(coordAndContent.coord)"\n                         class="base mid-stroke"/>\n            }\n            @if (coordAndContent.content.isDead()) {\n                <g id="dead-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}">\n                    <polygon [attr.points]="getHexaDiagonalPoints()"\n                             class="base no-fill captured-stroke"/>\n                    />\n                </g>\n            }\n            @if (coordAndContent.content.isTerritory()) {\n                <polygon id="territory-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n                         [attr.points]="getHexaPoints()"\n                         [attr.transform]="getTerritoryHexagonalTransform()"\n                         [ngClass]="getPlayerClass(coordAndContent.content.player)"/>\n            }\n        </g>\n    }\n\n    @if (last.isPresent() && getState().isOnBoard(last.get())) {\n        <polygon id="last-{{ last.get().x }}-{{ last.get().y }}"\n                 [attr.transform]="getHexaCenterTranslationAt(last.get())"\n                 [attr.points]="getHexaPoints()"\n                 [ngClass]="getPlayerClassAt(last.get())"\n                 class="last-move-stroke big-stroke no-fill"/>\n    }\n\n</svg>\n', styles: ["/* src/app/components/game-components/game-component/game-component.scss */\n.base {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke {\n  stroke-width: 0;\n}\n.base.manual-stroke {\n  fill: var(--base-stroke);\n}\n.base-no-stroke {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text {\n  fill: var(--base-stroke);\n}\n.white-background {\n  fill: white;\n}\n.background {\n  fill: var(--spaces-fill);\n}\n.transparent {\n  opacity: 0;\n}\n.background2 {\n  fill: var(--alt-background-fill);\n}\n.background3 {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill {\n  fill: var(--player0);\n}\n.player0-alternate-fill {\n  fill: var(--player0-alternate);\n}\n.player0-stroke {\n  stroke: var(--player0);\n}\n.player1-fill {\n  fill: var(--player1);\n}\n.player1-alternate-fill {\n  fill: var(--player1-alternate);\n}\n.player1-stroke {\n  stroke: var(--player1);\n}\n.nonplayer-fill {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill {\n  fill: var(--pre-captured);\n}\n.captured-fill {\n  fill: var(--captured);\n}\n.captured-alternate-fill {\n  fill: var(--alt-captured);\n}\n.captured-stroke {\n  stroke: var(--captured);\n}\n.moved-fill {\n  fill: var(--moved);\n}\n.moved-stroke {\n  stroke: var(--moved);\n}\n.indicator {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill {\n  fill: var(--indicator);\n}\n.selectable-stroke {\n  stroke: var(--selectable);\n}\n.selectable > .base-no-stroke {\n  fill: var(--selectable);\n}\n.last-move-stroke {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke {\n  fill: var(--last-move);\n}\n.last-move-fill {\n  fill: var(--last-move);\n}\n.victory-fill {\n  fill: var(--victory);\n}\n.victory-stroke {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke {\n  fill: var(--victory);\n}\n.defeat-fill {\n  fill: var(--defeat);\n}\n.defeat-stroke {\n  stroke: var(--defeat);\n}\n.selected-fill {\n  fill: var(--selected);\n}\n.selected-stroke {\n  stroke: var(--selected);\n}\n.clickable-stroke {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill {\n  fill: var(--capturable);\n}\n.capturable-stroke:hover {\n  stroke-width: 8;\n}\n.no-fill {\n  fill: none;\n}\n.no-stroke {\n  stroke: none;\n}\n.small-stroke {\n  stroke-width: 2;\n}\n.mid-small-stroke {\n  stroke-width: 3;\n}\n.mid-stroke {\n  stroke-width: 5;\n}\n.big-stroke {\n  stroke-width: 8;\n}\n.huge-stroke {\n  stroke-width: 12;\n}\n.semi-transparent {\n  opacity: 0.5;\n}\n.territory-opacity {\n  fill-opacity: 0.7;\n}\n.round {\n  stroke-linecap: round;\n}\n.text-giant {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big {\n  font: 50px sans-serif;\n}\n.backgrounded-text {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus {\n  font: 38px sans-serif;\n}\n.text-medium {\n  font: 35px sans-serif;\n}\n.text-small-plus {\n  font: 28px sans-serif;\n}\n.text-small {\n  font: 25px sans-serif;\n}\n.text-bold {\n  font-weight: bold;\n}\n.text-center {\n  text-anchor: middle;\n}\n.black-fill {\n  fill: black;\n}\n.darker {\n  filter: brightness(80%);\n}\n.lighter {\n  filter: brightness(110%);\n}\nsvg {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */\n"] }]
+    args: [{ selector: "app-hexagonal-go", imports: [NgClass], template: '<svg xmlns="http://www.w3.org/2000/svg"\n     class="board"\n     [attr.viewBox]="viewBoxString()"\n     preserveAspectRatio="xMidYMid meet">\n    @for (coordAndContent of getState().getCoordsAndContents(); track coordAndContent.coord.toString()) {\n        <g id="click-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n           [attr.transform]="getHexaCenterTranslationAt(coordAndContent.coord)"\n           (click)="onClick(coordAndContent.coord)">\n            @if (coordAndContent.content.isReachable()) {\n                <polygon id="space-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n                         [attr.points]="getHexaPoints()"\n                         [ngClass]="getPlayerClassAt(coordAndContent.coord)"\n                         class="base mid-stroke"/>\n            }\n            @if (coordAndContent.content.isDead()) {\n                <g id="dead-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}">\n                    <polygon [attr.points]="getHexaDiagonalPoints()"\n                             class="base no-fill captured-stroke"/>\n                    />\n                </g>\n            }\n            @if (coordAndContent.content.isTerritory()) {\n                <polygon id="territory-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n                         [attr.points]="getHexaPoints()"\n                         [attr.transform]="getTerritoryHexagonalTransform()"\n                         [ngClass]="getPlayerClass(coordAndContent.content.player)"/>\n            }\n        </g>\n    }\n\n    @if (last.isPresent() && getState().isOnBoard(last.get())) {\n        <polygon id="last-{{ last.get().x }}-{{ last.get().y }}"\n                 [attr.transform]="getHexaCenterTranslationAt(last.get())"\n                 [attr.points]="getHexaPoints()"\n                 [ngClass]="getPlayerClassAt(last.get())"\n                 class="last-move-stroke big-stroke no-fill"/>\n    }\n\n</svg>\n', styles: ["/* src/app/components/game-components/game-component/game-component.scss */\n.base {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke {\n  stroke-width: 0;\n}\n.base.manual-stroke {\n  fill: var(--base-stroke);\n}\n.base-no-stroke {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text {\n  fill: var(--base-stroke);\n}\n.white-background {\n  fill: white;\n}\n.background {\n  fill: var(--spaces-fill);\n}\n.transparent {\n  opacity: 0;\n}\n.background2 {\n  fill: var(--alt-background-fill);\n}\n.background3 {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill {\n  fill: var(--player0);\n}\n.player0-alternate-fill {\n  fill: var(--player0-alternate);\n}\n.player0-stroke {\n  stroke: var(--player0);\n}\n.player1-fill {\n  fill: var(--player1);\n}\n.player1-alternate-fill {\n  fill: var(--player1-alternate);\n}\n.player1-stroke {\n  stroke: var(--player1);\n}\n.nonplayer-fill {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill {\n  fill: var(--pre-captured);\n}\n.captured-fill {\n  fill: var(--captured);\n}\n.captured-alternate-fill {\n  fill: var(--alt-captured);\n}\n.captured-stroke {\n  stroke: var(--captured);\n}\n.moved-fill {\n  fill: var(--moved);\n}\n.moved-stroke {\n  stroke: var(--moved);\n}\n.indicator {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill {\n  fill: var(--indicator);\n}\n.selectable-stroke {\n  stroke: var(--selectable);\n}\n.selectable > .base-no-stroke {\n  fill: var(--selectable);\n}\n.last-move-stroke {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke {\n  fill: var(--last-move);\n}\n.last-move-fill {\n  fill: var(--last-move);\n}\n.victory-fill {\n  fill: var(--victory);\n}\n.victory-stroke {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke {\n  fill: var(--victory);\n}\n.defeat-fill {\n  fill: var(--defeat);\n}\n.defeat-stroke {\n  stroke: var(--defeat);\n}\n.selected-fill {\n  fill: var(--selected);\n}\n.selected-stroke {\n  stroke: var(--selected);\n}\n.clickable-stroke {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill {\n  fill: var(--capturable);\n}\n.capturable-stroke:hover {\n  stroke-width: 8;\n}\n.no-fill {\n  fill: none;\n}\n.no-stroke {\n  stroke: none;\n}\n.small-stroke {\n  stroke-width: 2;\n}\n.mid-small-stroke {\n  stroke-width: 3;\n}\n.mid-stroke {\n  stroke-width: 5;\n}\n.big-stroke {\n  stroke-width: 8;\n}\n.huge-stroke {\n  stroke-width: 12;\n}\n.semi-transparent {\n  opacity: 0.5;\n}\n.territory-opacity {\n  fill-opacity: 0.7;\n}\n.round {\n  stroke-linecap: round;\n}\n.text-giant {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big {\n  font: 50px sans-serif;\n}\n.backgrounded-text {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus {\n  font: 38px sans-serif;\n}\n.text-medium {\n  font: 35px sans-serif;\n}\n.text-small-plus {\n  font: 28px sans-serif;\n}\n.text-small {\n  font: 25px sans-serif;\n}\n.text-bold {\n  font-weight: bold;\n}\n.text-center {\n  text-anchor: middle;\n}\n.black-fill {\n  fill: black;\n}\n.darker {\n  filter: brightness(80%);\n}\n.lighter {\n  filter: brightness(110%);\n}\nsvg {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */\n"] }]
   }], () => [], { onClick: [] });
 })();
 (() => {
@@ -18591,7 +18945,7 @@ function TriangularGoComponent_For_2_Conditional_1_Template(rf, ctx) {
   if (rf & 2) {
     const coordAndContent_r2 = \u0275\u0275nextContext().$implicit;
     const ctx_r2 = \u0275\u0275nextContext();
-    \u0275\u0275property("id", \u0275\u0275interpolate2("polygon-", coordAndContent_r2.coord.x, "-", coordAndContent_r2.coord.y))("ngClass", ctx_r2.getPlayerClassAt(coordAndContent_r2.coord));
+    \u0275\u0275property("id", \u0275\u0275interpolate2("space-", coordAndContent_r2.coord.x, "-", coordAndContent_r2.coord.y))("ngClass", ctx_r2.getPlayerClassAt(coordAndContent_r2.coord));
     \u0275\u0275attribute("points", ctx_r2.getTrianglePointsAt(coordAndContent_r2.coord));
   }
 }
@@ -18854,11 +19208,290 @@ TriangularGoComponent = __decorate23([
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(TriangularGoComponent, [{
     type: Component,
-    args: [{ selector: "app-triangular-go", imports: [NgClass], template: '<svg xmlns="http://www.w3.org/2000/svg"\n     class="board"\n     [attr.viewBox]="viewBoxString()"\n     preserveAspectRatio="xMidYMid meet">\n    @for (coordAndContent of getState().getCoordsAndContents(); track coordAndContent.coord.toString()) {\n        <g id="click-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n           [attr.transform]="getTriangleTranslationAt(coordAndContent.coord)"\n           (click)="onClick(coordAndContent.coord)">\n            @if (coordAndContent.content.isReachable()) {\n                <polygon id="polygon-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n                         [attr.points]="getTrianglePointsAt(coordAndContent.coord)"\n                         [ngClass]="getPlayerClassAt(coordAndContent.coord)"\n                         class="base mid-stroke"/>\n            }\n            @if (coordAndContent.content.isDead()) {\n                <g id="dead-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}">\n                    @if (isUpward(coordAndContent.coord)) {\n                        <line [attr.x1]="25"\n                              [attr.y1]="50"\n                              [attr.x2]="SPACE_SIZE"\n                              [attr.y2]="SPACE_SIZE"\n                              class="base no-fill captured-stroke"/>\n                    }\n                    @if (isDownward(coordAndContent.coord)) {\n                        <line [attr.x1]="0"\n                              [attr.y1]="0"\n                              [attr.x2]="75"\n                              [attr.y2]="50"\n                              class="base no-fill captured-stroke"/>\n                    }\n                </g>\n            }\n            @if (coordAndContent.content.isTerritory()) {\n                <polygon id="territory-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n                         [attr.points]="getTrianglePointsAt(coordAndContent.coord)"\n                         [attr.transform]="getTerritoryTriangleTransform(coordAndContent.coord)"\n                         [ngClass]="getPlayerClass(coordAndContent.content.player)"/>\n            }\n        </g>\n    }\n\n    @if (ko.isPresent()) {\n        <rect id="ko-{{ ko.get().x }}-{{ ko.get().y }}"\n              [attr.transform]="getKoTranslationAt(ko.get())"\n              [attr.width]="SPACE_SIZE * 0.25"\n              [attr.height]="SPACE_SIZE * 0.25"\n              [attr.x]="SPACE_SIZE * 0.375"\n              [attr.y]="SPACE_SIZE * 0.25"\n              class="captured-stroke mid-stroke no-fill"/>\n    }\n\n    @if (last.isPresent() && getState().isOnBoard(last.get())) {\n        <polygon id="last-{{ last.get().x }}-{{ last.get().y }}"\n                 [attr.transform]="getTriangleTranslationAt(last.get())"\n                 [attr.points]="getTrianglePointsAt(last.get())"\n                 [ngClass]="getPlayerClassAt(last.get())"\n                 class="last-move-stroke big-stroke no-fill"/>\n    }\n\n</svg>\n', styles: ["/* src/app/components/game-components/game-component/game-component.scss */\n.base {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke {\n  stroke-width: 0;\n}\n.base.manual-stroke {\n  fill: var(--base-stroke);\n}\n.base-no-stroke {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text {\n  fill: var(--base-stroke);\n}\n.white-background {\n  fill: white;\n}\n.background {\n  fill: var(--spaces-fill);\n}\n.transparent {\n  opacity: 0;\n}\n.background2 {\n  fill: var(--alt-background-fill);\n}\n.background3 {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill {\n  fill: var(--player0);\n}\n.player0-alternate-fill {\n  fill: var(--player0-alternate);\n}\n.player0-stroke {\n  stroke: var(--player0);\n}\n.player1-fill {\n  fill: var(--player1);\n}\n.player1-alternate-fill {\n  fill: var(--player1-alternate);\n}\n.player1-stroke {\n  stroke: var(--player1);\n}\n.nonplayer-fill {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill {\n  fill: var(--pre-captured);\n}\n.captured-fill {\n  fill: var(--captured);\n}\n.captured-alternate-fill {\n  fill: var(--alt-captured);\n}\n.captured-stroke {\n  stroke: var(--captured);\n}\n.moved-fill {\n  fill: var(--moved);\n}\n.moved-stroke {\n  stroke: var(--moved);\n}\n.indicator {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill {\n  fill: var(--indicator);\n}\n.selectable-stroke {\n  stroke: var(--selectable);\n}\n.selectable > .base-no-stroke {\n  fill: var(--selectable);\n}\n.last-move-stroke {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke {\n  fill: var(--last-move);\n}\n.last-move-fill {\n  fill: var(--last-move);\n}\n.victory-fill {\n  fill: var(--victory);\n}\n.victory-stroke {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke {\n  fill: var(--victory);\n}\n.defeat-fill {\n  fill: var(--defeat);\n}\n.defeat-stroke {\n  stroke: var(--defeat);\n}\n.selected-fill {\n  fill: var(--selected);\n}\n.selected-stroke {\n  stroke: var(--selected);\n}\n.clickable-stroke {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill {\n  fill: var(--capturable);\n}\n.capturable-stroke:hover {\n  stroke-width: 8;\n}\n.no-fill {\n  fill: none;\n}\n.no-stroke {\n  stroke: none;\n}\n.small-stroke {\n  stroke-width: 2;\n}\n.mid-small-stroke {\n  stroke-width: 3;\n}\n.mid-stroke {\n  stroke-width: 5;\n}\n.big-stroke {\n  stroke-width: 8;\n}\n.huge-stroke {\n  stroke-width: 12;\n}\n.semi-transparent {\n  opacity: 0.5;\n}\n.territory-opacity {\n  fill-opacity: 0.7;\n}\n.round {\n  stroke-linecap: round;\n}\n.text-giant {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big {\n  font: 50px sans-serif;\n}\n.backgrounded-text {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus {\n  font: 38px sans-serif;\n}\n.text-medium {\n  font: 35px sans-serif;\n}\n.text-small-plus {\n  font: 28px sans-serif;\n}\n.text-small {\n  font: 25px sans-serif;\n}\n.text-bold {\n  font-weight: bold;\n}\n.text-center {\n  text-anchor: middle;\n}\n.black-fill {\n  fill: black;\n}\n.darker {\n  filter: brightness(80%);\n}\n.lighter {\n  filter: brightness(110%);\n}\nsvg {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */\n"] }]
+    args: [{ selector: "app-triangular-go", imports: [NgClass], template: '<svg xmlns="http://www.w3.org/2000/svg"\n     class="board"\n     [attr.viewBox]="viewBoxString()"\n     preserveAspectRatio="xMidYMid meet">\n    @for (coordAndContent of getState().getCoordsAndContents(); track coordAndContent.coord.toString()) {\n        <g id="click-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n           [attr.transform]="getTriangleTranslationAt(coordAndContent.coord)"\n           (click)="onClick(coordAndContent.coord)">\n            @if (coordAndContent.content.isReachable()) {\n                <polygon id="space-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n                         [attr.points]="getTrianglePointsAt(coordAndContent.coord)"\n                         [ngClass]="getPlayerClassAt(coordAndContent.coord)"\n                         class="base mid-stroke"/>\n            }\n            @if (coordAndContent.content.isDead()) {\n                <g id="dead-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}">\n                    @if (isUpward(coordAndContent.coord)) {\n                        <line [attr.x1]="25"\n                              [attr.y1]="50"\n                              [attr.x2]="SPACE_SIZE"\n                              [attr.y2]="SPACE_SIZE"\n                              class="base no-fill captured-stroke"/>\n                    }\n                    @if (isDownward(coordAndContent.coord)) {\n                        <line [attr.x1]="0"\n                              [attr.y1]="0"\n                              [attr.x2]="75"\n                              [attr.y2]="50"\n                              class="base no-fill captured-stroke"/>\n                    }\n                </g>\n            }\n            @if (coordAndContent.content.isTerritory()) {\n                <polygon id="territory-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n                         [attr.points]="getTrianglePointsAt(coordAndContent.coord)"\n                         [attr.transform]="getTerritoryTriangleTransform(coordAndContent.coord)"\n                         [ngClass]="getPlayerClass(coordAndContent.content.player)"/>\n            }\n        </g>\n    }\n\n    @if (ko.isPresent()) {\n        <rect id="ko-{{ ko.get().x }}-{{ ko.get().y }}"\n              [attr.transform]="getKoTranslationAt(ko.get())"\n              [attr.width]="SPACE_SIZE * 0.25"\n              [attr.height]="SPACE_SIZE * 0.25"\n              [attr.x]="SPACE_SIZE * 0.375"\n              [attr.y]="SPACE_SIZE * 0.25"\n              class="captured-stroke mid-stroke no-fill"/>\n    }\n\n    @if (last.isPresent() && getState().isOnBoard(last.get())) {\n        <polygon id="last-{{ last.get().x }}-{{ last.get().y }}"\n                 [attr.transform]="getTriangleTranslationAt(last.get())"\n                 [attr.points]="getTrianglePointsAt(last.get())"\n                 [ngClass]="getPlayerClassAt(last.get())"\n                 class="last-move-stroke big-stroke no-fill"/>\n    }\n\n</svg>\n', styles: ["/* src/app/components/game-components/game-component/game-component.scss */\n.base {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke {\n  stroke-width: 0;\n}\n.base.manual-stroke {\n  fill: var(--base-stroke);\n}\n.base-no-stroke {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text {\n  fill: var(--base-stroke);\n}\n.white-background {\n  fill: white;\n}\n.background {\n  fill: var(--spaces-fill);\n}\n.transparent {\n  opacity: 0;\n}\n.background2 {\n  fill: var(--alt-background-fill);\n}\n.background3 {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill {\n  fill: var(--player0);\n}\n.player0-alternate-fill {\n  fill: var(--player0-alternate);\n}\n.player0-stroke {\n  stroke: var(--player0);\n}\n.player1-fill {\n  fill: var(--player1);\n}\n.player1-alternate-fill {\n  fill: var(--player1-alternate);\n}\n.player1-stroke {\n  stroke: var(--player1);\n}\n.nonplayer-fill {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill {\n  fill: var(--pre-captured);\n}\n.captured-fill {\n  fill: var(--captured);\n}\n.captured-alternate-fill {\n  fill: var(--alt-captured);\n}\n.captured-stroke {\n  stroke: var(--captured);\n}\n.moved-fill {\n  fill: var(--moved);\n}\n.moved-stroke {\n  stroke: var(--moved);\n}\n.indicator {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill {\n  fill: var(--indicator);\n}\n.selectable-stroke {\n  stroke: var(--selectable);\n}\n.selectable > .base-no-stroke {\n  fill: var(--selectable);\n}\n.last-move-stroke {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke {\n  fill: var(--last-move);\n}\n.last-move-fill {\n  fill: var(--last-move);\n}\n.victory-fill {\n  fill: var(--victory);\n}\n.victory-stroke {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke {\n  fill: var(--victory);\n}\n.defeat-fill {\n  fill: var(--defeat);\n}\n.defeat-stroke {\n  stroke: var(--defeat);\n}\n.selected-fill {\n  fill: var(--selected);\n}\n.selected-stroke {\n  stroke: var(--selected);\n}\n.clickable-stroke {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill {\n  fill: var(--capturable);\n}\n.capturable-stroke:hover {\n  stroke-width: 8;\n}\n.no-fill {\n  fill: none;\n}\n.no-stroke {\n  stroke: none;\n}\n.small-stroke {\n  stroke-width: 2;\n}\n.mid-small-stroke {\n  stroke-width: 3;\n}\n.mid-stroke {\n  stroke-width: 5;\n}\n.big-stroke {\n  stroke-width: 8;\n}\n.huge-stroke {\n  stroke-width: 12;\n}\n.semi-transparent {\n  opacity: 0.5;\n}\n.territory-opacity {\n  fill-opacity: 0.7;\n}\n.round {\n  stroke-linecap: round;\n}\n.text-giant {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big {\n  font: 50px sans-serif;\n}\n.backgrounded-text {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus {\n  font: 38px sans-serif;\n}\n.text-medium {\n  font: 35px sans-serif;\n}\n.text-small-plus {\n  font: 28px sans-serif;\n}\n.text-small {\n  font: 25px sans-serif;\n}\n.text-bold {\n  font-weight: bold;\n}\n.text-center {\n  text-anchor: middle;\n}\n.black-fill {\n  fill: black;\n}\n.darker {\n  filter: brightness(80%);\n}\n.lighter {\n  filter: brightness(110%);\n}\nsvg {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */\n"] }]
   }], () => [], { onClick: [] });
 })();
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(TriangularGoComponent, { className: "TriangularGoComponent", filePath: "src/app/games/gos/triangular-go/triangular-go.component.ts", lineNumber: 33 });
+})();
+
+// src/app/games/gos/zoomed-go/ZoomedGoRules.ts
+var ZoomedGoRules = class _ZoomedGoRules extends AbstractRectangularGoRules {
+  static singleton = MGPOptional.empty();
+  static zoom(z) {
+    return $localize`Zoom ${z}`;
+  }
+  static RULES_CONFIG_DESCRIPTION = new RulesConfigDescription({
+    name: () => _ZoomedGoRules.zoom(3) + " " + $localize`(medium)`,
+    config: {
+      width: new NumberConfig(12, RulesConfigDescriptionLocalizable.WIDTH, MGPValidators.range(1, 99)),
+      height: new NumberConfig(12, RulesConfigDescriptionLocalizable.HEIGHT, MGPValidators.range(1, 99)),
+      handicap: new NumberConfig(0, () => $localize`Handicap`, MGPValidators.range(0, 9)),
+      zoom: new NumberConfig(3, () => $localize`Zoom`, MGPValidators.range(1, 5)),
+      showZooms: new BooleanConfig(true, () => $localize`Show zooms`)
+    }
+  }, [
+    {
+      name: () => _ZoomedGoRules.zoom(2) + " " + $localize`(small)`,
+      config: {
+        width: 6,
+        height: 6,
+        handicap: 0,
+        zoom: 2,
+        showZooms: true
+      }
+    },
+    {
+      name: () => _ZoomedGoRules.zoom(2) + " " + $localize`(medium)`,
+      config: {
+        width: 10,
+        height: 10,
+        handicap: 0,
+        zoom: 2,
+        showZooms: true
+      }
+    },
+    {
+      name: () => _ZoomedGoRules.zoom(2) + " " + $localize`(large)`,
+      config: {
+        width: 14,
+        height: 14,
+        handicap: 0,
+        zoom: 2,
+        showZooms: true
+      }
+    },
+    {
+      name: () => _ZoomedGoRules.zoom(3) + " " + $localize`(small)`,
+      config: {
+        width: 6,
+        height: 6,
+        handicap: 0,
+        zoom: 3,
+        showZooms: true
+      }
+    },
+    {
+      name: () => _ZoomedGoRules.zoom(3) + " " + $localize`(large)`,
+      config: {
+        width: 18,
+        height: 18,
+        handicap: 0,
+        zoom: 3,
+        showZooms: true
+      }
+    }
+  ]);
+  static get() {
+    if (_ZoomedGoRules.singleton.isAbsent()) {
+      _ZoomedGoRules.singleton = MGPOptional.of(new _ZoomedGoRules());
+    }
+    return _ZoomedGoRules.singleton.get();
+  }
+  constructor() {
+    super(true);
+  }
+  getRulesConfigDescription() {
+    return _ZoomedGoRules.RULES_CONFIG_DESCRIPTION;
+  }
+};
+
+// src/app/games/gos/zoomed-go/ZoomedGoTutorial.ts
+var X11 = GoPiece.LIGHT;
+var w2 = GoPiece.LIGHT_TERRITORY;
+var O12 = GoPiece.DARK;
+var u = GoPiece.DEAD_DARK;
+var _13 = GoPiece.EMPTY;
+var defaultConfig12 = ZoomedGoRules.get().getDefaultRulesConfig();
+var zoom2Shown = __spreadProps(__spreadValues({}, defaultConfig12), {
+  zoom: 2,
+  showZooms: true
+});
+var zoom2Hidden = __spreadProps(__spreadValues({}, defaultConfig12), {
+  zoom: 2,
+  showZooms: false
+});
+var ZoomedGoTutorial = class extends Tutorial {
+  tutorial = [
+    TutorialStep.informational(TutorialStepMessage.INITIAL_BOARD_AND_OBJECT_OF_THE_GAME(), $localize`Zoomed Go is a layered version of Go that adds an extra challenge. If you're not familiar with Go, you can learn how to play it <a href="/tutorial/Go">here</a>. Let's use an example to see how Zoomed Go differs from regular Go.`, ZoomedGoRules.get().getInitialState(defaultConfig12), MGPOptional.of(defaultConfig12)),
+    TutorialStep.fromMove($localize`Simple capture`, $localize`The main difference is the way you can capture.<br/><br/>You are playing Dark. Do a capture like in a regular game of Go.`, new GoState([
+      [_13, _13, _13, _13, _13, _13, _13, _13],
+      [_13, _13, _13, O12, _13, _13, _13, _13],
+      [_13, _13, _13, _13, _13, _13, O12, _13],
+      [_13, O12, _13, X11, _13, _13, X11, O12],
+      [_13, _13, _13, _13, _13, _13, O12, _13],
+      [_13, _13, _13, O12, _13, _13, _13, _13],
+      [_13, _13, _13, _13, _13, _13, _13, _13],
+      [_13, _13, _13, _13, _13, _13, _13, _13]
+    ], PlayerNumberMap.of(0, 0), 0, MGPOptional.empty(), GoPhase.PLAYING), [new GoMove(5, 3)], $localize`Congratulations, you have captured the stone you expected, but also another one on the left. Observe how the pattern of atari is exactly the same as in regular Go, but here at a distance of two. This capture is called a capture at zoom 2, while the capture on the right is a capture at zoom 1.`, $localize`Failed, try again.`, MGPOptional.of(zoom2Hidden)),
+    TutorialStep.fromMove($localize`Simple capture, with shown zoom`, $localize`You can chose a configuration showing a visual aid in the form of sub-boards.<br/>Whether they are shown or not, the same rules are applied. The only difference of the mini boards is that they form a visual aid.<br/>Observe that the hovered intersection in one zoom is shown as hovered in one of the 4 other sub-boards.<br/><br/>Do a capture like in a regular game of Go again`, new GoState([
+      [_13, _13, _13, _13, _13, _13, _13, _13],
+      [_13, _13, _13, O12, _13, _13, _13, _13],
+      [_13, _13, _13, _13, _13, _13, O12, _13],
+      [_13, O12, _13, X11, _13, _13, X11, O12],
+      [_13, _13, _13, _13, _13, _13, O12, _13],
+      [_13, _13, _13, O12, _13, _13, _13, _13],
+      [_13, _13, _13, _13, _13, _13, _13, _13],
+      [_13, _13, _13, _13, _13, _13, _13, _13]
+    ], PlayerNumberMap.of(0, 0), 0, MGPOptional.empty(), GoPhase.PLAYING), [new GoMove(5, 3)], $localize`Observe how the main board is split in 4 little boards. On the zoom 2 lower-right board, you can see the capture as in a regular Go board. Note that you can click on either a small board or the big board. The piece will be dropped in all relevant boards, since the small boards are just a visual help.`, $localize`Failed, try again.`, MGPOptional.of(zoom2Shown)),
+    TutorialStep.informational($localize`What is a zoom`, $localize`In regular Go, a stone interacts with the intersections directly above, below, left and right.<br/>In Zoomed Go, the same pattern exists at larger distances.<br/>The four mini-boards shows the board seen at zoom 2. On it, intersections that are two spaces apart behave exactly like adjacent intersections in regular Go.`, new GoState([
+      [O12, _13, O12, _13, O12, _13, _13, _13],
+      [X11, _13, _13, _13, _13, _13, _13, _13],
+      [_13, _13, _13, _13, _13, _13, _13, _13],
+      [X11, _13, _13, _13, _13, _13, _13, _13],
+      [_13, _13, _13, _13, O12, _13, _13, _13],
+      [X11, _13, _13, _13, _13, X11, _13, _13],
+      [_13, _13, _13, _13, _13, _13, O12, _13],
+      [_13, _13, _13, _13, _13, _13, _13, X11]
+    ], PlayerNumberMap.of(0, 0), 0, MGPOptional.empty(), GoPhase.PLAYING), MGPOptional.of(zoom2Shown)),
+    TutorialStep.informational($localize`Suicide with zooms`, $localize`Now as you can see, in 4-4 you could play in regular Go, but here, due to zoom 2, you cannot, as it is now a suicide.<br/>On the other hand, at 7-4 you have a legal drop at zoom 2, but it is a suicide at zoom 1. So, it is a suicide too.`, new GoState([
+      [_13, _13, _13, _13, _13, _13, _13, _13],
+      [_13, _13, _13, O12, _13, _13, _13, _13],
+      [_13, _13, _13, _13, _13, _13, O12, _13],
+      [_13, O12, _13, _13, _13, O12, _13, O12],
+      [_13, _13, _13, _13, _13, _13, O12, _13],
+      [_13, _13, _13, O12, _13, _13, _13, _13],
+      [_13, _13, _13, _13, _13, _13, _13, _13],
+      [_13, _13, _13, _13, _13, _13, _13, _13]
+    ], PlayerNumberMap.of(0, 0), 1, MGPOptional.empty(), GoPhase.PLAYING), MGPOptional.of(zoom2Shown)),
+    TutorialStep.fromMove($localize`Fake-suicide with zooms`, $localize`Here, the 1-1 corner is a suicide at zoom 2, and a capture at zoom 1, which is not enough to make it legal. But since that capture at zoom 1 would capture some of the piece that make it a suicide at zoom 2, it is then a fake suicide, so it is legal.<br/><br/>You are playing Light. Do that capture.`, new GoState([
+      [_13, O12, O12, X11, _13, _13, _13, _13],
+      [_13, X11, X11, _13, _13, _13, _13, _13],
+      [O12, _13, _13, _13, _13, _13, _13, _13],
+      [_13, _13, _13, _13, _13, _13, _13, _13],
+      [_13, _13, _13, _13, _13, _13, _13, _13],
+      [_13, _13, _13, _13, _13, _13, _13, _13],
+      [_13, _13, _13, _13, _13, _13, _13, _13],
+      [_13, _13, _13, _13, _13, _13, _13, _13]
+    ], PlayerNumberMap.of(0, 0), 1, MGPOptional.empty(), GoPhase.PLAYING), [new GoMove(0, 0)], $localize`Congratulations. What make a move legal or not is that, after playing it and applying the capture, the piece you dropped has at least one freedom in every zoom !`, $localize`Failed, try again.`, MGPOptional.of(zoom2Shown)),
+    TutorialStep.informational($localize`End of the game`, $localize`At the end of the game, only what is marked as dead on the zoom 1 is counted.`, new GoState([
+      [O12, O12, _13, O12, O12, _13, _13, O12, O12, _13],
+      [X11, _13, _13, X11, X11, X11, X11, _13, _13, _13],
+      [O12, O12, O12, O12, O12, O12, O12, O12, O12, O12],
+      [X11, X11, X11, X11, X11, X11, _13, X11, _13, X11],
+      [X11, w2, X11, X11, X11, w2, X11, X11, X11, X11],
+      [X11, X11, X11, X11, X11, X11, X11, X11, X11, w2],
+      [u, u, u, X11, w2, X11, X11, X11, X11, w2],
+      [w2, w2, w2, X11, X11, w2, w2, X11, w2, w2],
+      [u, u, u, X11, X11, w2, X11, X11, w2, w2],
+      [w2, w2, X11, X11, w2, X11, w2, w2, w2, w2]
+    ], PlayerNumberMap.of(0, 0), 0, MGPOptional.empty(), GoPhase.COUNTING), MGPOptional.of(zoom2Shown))
+  ];
+};
+
+// src/app/games/gos/zoomed-go/zoomed-go.component.ts
+function ZoomedGoComponent_For_2_For_2_For_1_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r1 = \u0275\u0275getCurrentView();
+    \u0275\u0275namespaceSVG();
+    \u0275\u0275elementStart(0, "g", 3);
+    \u0275\u0275listener("clicked", function ZoomedGoComponent_For_2_For_2_For_1_Template_g_clicked_0_listener($event) {
+      \u0275\u0275restoreView(_r1);
+      const ctx_r1 = \u0275\u0275nextContext(3);
+      return \u0275\u0275resetView(ctx_r1.onClick($event));
+    })("takeHover", function ZoomedGoComponent_For_2_For_2_For_1_Template_g_takeHover_0_listener($event) {
+      const subZoomY_r3 = \u0275\u0275restoreView(_r1).$implicit;
+      const subZoomX_r4 = \u0275\u0275nextContext().$implicit;
+      const zoom_r5 = \u0275\u0275nextContext().$implicit;
+      const ctx_r1 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r1.onTakeHover(zoom_r5, subZoomX_r4, subZoomY_r3, $event));
+    });
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const subZoomY_r3 = ctx.$implicit;
+    const subZoomX_r4 = \u0275\u0275nextContext().$implicit;
+    const zoom_r5 = \u0275\u0275nextContext().$implicit;
+    const ctx_r1 = \u0275\u0275nextContext();
+    \u0275\u0275property("id", "zoom-" + zoom_r5 + "-zx-" + subZoomX_r4 + "-zy-" + subZoomY_r3)("zoom", zoom_r5)("zx", subZoomX_r4)("zy", subZoomY_r3)("captures", ctx_r1.captures())("ko", ctx_r1.ko())("last", ctx_r1.last())("state", ctx_r1.zooms()[zoom_r5][subZoomY_r3][subZoomX_r4])("hover", ctx_r1.hover());
+    \u0275\u0275attribute("transform", ctx_r1.translateZoomBoard(zoom_r5, subZoomX_r4, subZoomY_r3));
+  }
+}
+function ZoomedGoComponent_For_2_For_2_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275repeaterCreate(0, ZoomedGoComponent_For_2_For_2_For_1_Template, 1, 10, ":svg:g", 2, \u0275\u0275repeaterTrackByIndex);
+  }
+  if (rf & 2) {
+    const zoom_r5 = \u0275\u0275nextContext().$implicit;
+    const ctx_r1 = \u0275\u0275nextContext();
+    \u0275\u0275repeater(ctx_r1.ArrayUtils.range(zoom_r5 + 1));
+  }
+}
+function ZoomedGoComponent_For_2_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275namespaceSVG();
+    \u0275\u0275elementStart(0, "g", 1);
+    \u0275\u0275repeaterCreate(1, ZoomedGoComponent_For_2_For_2_Template, 2, 0, null, null, \u0275\u0275repeaterTrackByIndex);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const zoom_r5 = ctx.$implicit;
+    const ctx_r1 = \u0275\u0275nextContext();
+    \u0275\u0275property("id", "zoom-" + zoom_r5);
+    \u0275\u0275attribute("transform", ctx_r1.translateZoom(zoom_r5));
+    \u0275\u0275advance();
+    \u0275\u0275repeater(ctx_r1.ArrayUtils.range(zoom_r5 + 1));
+  }
+}
+var ZoomedGoComponent = class _ZoomedGoComponent extends AbstractRectangularGoComponent {
+  hover = model(MGPOptional.empty(), ...ngDevMode ? [{ debugName: "hover" }] : []);
+  constructor() {
+    super();
+    this.setRulesAndNode("ZoomedGo");
+  }
+  static \u0275fac = function ZoomedGoComponent_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _ZoomedGoComponent)();
+  };
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _ZoomedGoComponent, selectors: [["app-zoomed-go"]], inputs: { hover: [1, "hover"] }, outputs: { hover: "hoverChange" }, features: [\u0275\u0275InheritDefinitionFeature], decls: 3, vars: 1, consts: [["xmlns", "http://www.w3.org/2000/svg", "preserveAspectRatio", "xMidYMid meet", 1, "board"], [3, "id"], ["app-go-board", "", 3, "id", "zoom", "zx", "zy", "captures", "ko", "last", "state", "hover"], ["app-go-board", "", 3, "clicked", "takeHover", "id", "zoom", "zx", "zy", "captures", "ko", "last", "state", "hover"]], template: function ZoomedGoComponent_Template(rf, ctx) {
+    if (rf & 1) {
+      \u0275\u0275namespaceSVG();
+      \u0275\u0275elementStart(0, "svg", 0);
+      \u0275\u0275repeaterCreate(1, ZoomedGoComponent_For_2_Template, 3, 2, ":svg:g", 1, \u0275\u0275repeaterTrackByIndex);
+      \u0275\u0275elementEnd();
+    }
+    if (rf & 2) {
+      \u0275\u0275attribute("viewBox", ctx.viewBox().toSVGString());
+      \u0275\u0275advance();
+      \u0275\u0275repeater(ctx.ArrayUtils.range(ctx.displayedZooms()));
+    }
+  }, dependencies: [GoBoardComponent], styles: ["\n\n.base[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke[_ngcontent-%COMP%] {\n  stroke-width: 0;\n}\n.base.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n}\n.base-no-stroke[_ngcontent-%COMP%] {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n}\n.white-background[_ngcontent-%COMP%] {\n  fill: white;\n}\n.background[_ngcontent-%COMP%] {\n  fill: var(--spaces-fill);\n}\n.transparent[_ngcontent-%COMP%] {\n  opacity: 0;\n}\n.background2[_ngcontent-%COMP%] {\n  fill: var(--alt-background-fill);\n}\n.background3[_ngcontent-%COMP%] {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill[_ngcontent-%COMP%] {\n  fill: var(--player0);\n}\n.player0-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--player0-alternate);\n}\n.player0-stroke[_ngcontent-%COMP%] {\n  stroke: var(--player0);\n}\n.player1-fill[_ngcontent-%COMP%] {\n  fill: var(--player1);\n}\n.player1-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--player1-alternate);\n}\n.player1-stroke[_ngcontent-%COMP%] {\n  stroke: var(--player1);\n}\n.nonplayer-fill[_ngcontent-%COMP%] {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill[_ngcontent-%COMP%] {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke[_ngcontent-%COMP%] {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke[_ngcontent-%COMP%] {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill[_ngcontent-%COMP%] {\n  fill: var(--pre-captured);\n}\n.captured-fill[_ngcontent-%COMP%] {\n  fill: var(--captured);\n}\n.captured-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--alt-captured);\n}\n.captured-stroke[_ngcontent-%COMP%] {\n  stroke: var(--captured);\n}\n.moved-fill[_ngcontent-%COMP%] {\n  fill: var(--moved);\n}\n.moved-stroke[_ngcontent-%COMP%] {\n  stroke: var(--moved);\n}\n.indicator[_ngcontent-%COMP%] {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill[_ngcontent-%COMP%] {\n  fill: var(--indicator);\n}\n.selectable-stroke[_ngcontent-%COMP%] {\n  stroke: var(--selectable);\n}\n.selectable[_ngcontent-%COMP%]    > .base-no-stroke[_ngcontent-%COMP%] {\n  fill: var(--selectable);\n}\n.last-move-stroke[_ngcontent-%COMP%] {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--last-move);\n}\n.last-move-fill[_ngcontent-%COMP%] {\n  fill: var(--last-move);\n}\n.victory-fill[_ngcontent-%COMP%] {\n  fill: var(--victory);\n}\n.victory-stroke[_ngcontent-%COMP%] {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--victory);\n}\n.defeat-fill[_ngcontent-%COMP%] {\n  fill: var(--defeat);\n}\n.defeat-stroke[_ngcontent-%COMP%] {\n  stroke: var(--defeat);\n}\n.selected-fill[_ngcontent-%COMP%] {\n  fill: var(--selected);\n}\n.selected-stroke[_ngcontent-%COMP%] {\n  stroke: var(--selected);\n}\n.clickable-stroke[_ngcontent-%COMP%] {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover[_ngcontent-%COMP%]:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke[_ngcontent-%COMP%] {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill[_ngcontent-%COMP%] {\n  fill: var(--capturable);\n}\n.capturable-stroke[_ngcontent-%COMP%]:hover {\n  stroke-width: 8;\n}\n.no-fill[_ngcontent-%COMP%] {\n  fill: none;\n}\n.no-stroke[_ngcontent-%COMP%] {\n  stroke: none;\n}\n.small-stroke[_ngcontent-%COMP%] {\n  stroke-width: 2;\n}\n.mid-small-stroke[_ngcontent-%COMP%] {\n  stroke-width: 3;\n}\n.mid-stroke[_ngcontent-%COMP%] {\n  stroke-width: 5;\n}\n.big-stroke[_ngcontent-%COMP%] {\n  stroke-width: 8;\n}\n.huge-stroke[_ngcontent-%COMP%] {\n  stroke-width: 12;\n}\n.semi-transparent[_ngcontent-%COMP%] {\n  opacity: 0.5;\n}\n.territory-opacity[_ngcontent-%COMP%] {\n  fill-opacity: 0.7;\n}\n.round[_ngcontent-%COMP%] {\n  stroke-linecap: round;\n}\n.text-giant[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big[_ngcontent-%COMP%] {\n  font: 50px sans-serif;\n}\n.backgrounded-text[_ngcontent-%COMP%] {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus[_ngcontent-%COMP%] {\n  font: 38px sans-serif;\n}\n.text-medium[_ngcontent-%COMP%] {\n  font: 35px sans-serif;\n}\n.text-small-plus[_ngcontent-%COMP%] {\n  font: 28px sans-serif;\n}\n.text-small[_ngcontent-%COMP%] {\n  font: 25px sans-serif;\n}\n.text-bold[_ngcontent-%COMP%] {\n  font-weight: bold;\n}\n.text-center[_ngcontent-%COMP%] {\n  text-anchor: middle;\n}\n.black-fill[_ngcontent-%COMP%] {\n  fill: black;\n}\n.darker[_ngcontent-%COMP%] {\n  filter: brightness(80%);\n}\n.lighter[_ngcontent-%COMP%] {\n  filter: brightness(110%);\n}\nsvg[_ngcontent-%COMP%] {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator[_ngcontent-%COMP%] {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */"] });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(ZoomedGoComponent, [{
+    type: Component,
+    args: [{ selector: "app-zoomed-go", imports: [GoBoardComponent], template: `<svg xmlns="http://www.w3.org/2000/svg"
+     class="board"
+     [attr.viewBox]="viewBox().toSVGString()"
+     preserveAspectRatio="xMidYMid meet">
+    @for (zoom of ArrayUtils.range(displayedZooms()); track $index) {
+        <g [id]="'zoom-' + zoom"
+           [attr.transform]="translateZoom(zoom)">
+            @for (subZoomX of ArrayUtils.range(zoom + 1); track $index) {
+                @for (subZoomY of ArrayUtils.range(zoom + 1); track $index) {
+                    <g [id]="'zoom-' + zoom + '-zx-' + subZoomX + '-zy-' + subZoomY"
+                       app-go-board
+                       [attr.transform]="translateZoomBoard(zoom, subZoomX, subZoomY)"
+                       [zoom]="zoom"
+                       [zx]="subZoomX"
+                       [zy]="subZoomY"
+                       [captures]="captures()"
+                       [ko]="ko()"
+                       [last]="last()"
+                       [state]="zooms()[zoom][subZoomY][subZoomX]"
+                       [hover]="hover()"
+                       (clicked)="onClick($event)"
+                       (takeHover)="onTakeHover(zoom, subZoomX, subZoomY, $event)"
+                    ></g>
+                }
+            }
+        </g>
+    }
+</svg>
+`, styles: ["/* src/app/components/game-components/game-component/game-component.scss */\n.base {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke {\n  stroke-width: 0;\n}\n.base.manual-stroke {\n  fill: var(--base-stroke);\n}\n.base-no-stroke {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text {\n  fill: var(--base-stroke);\n}\n.white-background {\n  fill: white;\n}\n.background {\n  fill: var(--spaces-fill);\n}\n.transparent {\n  opacity: 0;\n}\n.background2 {\n  fill: var(--alt-background-fill);\n}\n.background3 {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill {\n  fill: var(--player0);\n}\n.player0-alternate-fill {\n  fill: var(--player0-alternate);\n}\n.player0-stroke {\n  stroke: var(--player0);\n}\n.player1-fill {\n  fill: var(--player1);\n}\n.player1-alternate-fill {\n  fill: var(--player1-alternate);\n}\n.player1-stroke {\n  stroke: var(--player1);\n}\n.nonplayer-fill {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill {\n  fill: var(--pre-captured);\n}\n.captured-fill {\n  fill: var(--captured);\n}\n.captured-alternate-fill {\n  fill: var(--alt-captured);\n}\n.captured-stroke {\n  stroke: var(--captured);\n}\n.moved-fill {\n  fill: var(--moved);\n}\n.moved-stroke {\n  stroke: var(--moved);\n}\n.indicator {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill {\n  fill: var(--indicator);\n}\n.selectable-stroke {\n  stroke: var(--selectable);\n}\n.selectable > .base-no-stroke {\n  fill: var(--selectable);\n}\n.last-move-stroke {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke {\n  fill: var(--last-move);\n}\n.last-move-fill {\n  fill: var(--last-move);\n}\n.victory-fill {\n  fill: var(--victory);\n}\n.victory-stroke {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke {\n  fill: var(--victory);\n}\n.defeat-fill {\n  fill: var(--defeat);\n}\n.defeat-stroke {\n  stroke: var(--defeat);\n}\n.selected-fill {\n  fill: var(--selected);\n}\n.selected-stroke {\n  stroke: var(--selected);\n}\n.clickable-stroke {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill {\n  fill: var(--capturable);\n}\n.capturable-stroke:hover {\n  stroke-width: 8;\n}\n.no-fill {\n  fill: none;\n}\n.no-stroke {\n  stroke: none;\n}\n.small-stroke {\n  stroke-width: 2;\n}\n.mid-small-stroke {\n  stroke-width: 3;\n}\n.mid-stroke {\n  stroke-width: 5;\n}\n.big-stroke {\n  stroke-width: 8;\n}\n.huge-stroke {\n  stroke-width: 12;\n}\n.semi-transparent {\n  opacity: 0.5;\n}\n.territory-opacity {\n  fill-opacity: 0.7;\n}\n.round {\n  stroke-linecap: round;\n}\n.text-giant {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big {\n  font: 50px sans-serif;\n}\n.backgrounded-text {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus {\n  font: 38px sans-serif;\n}\n.text-medium {\n  font: 35px sans-serif;\n}\n.text-small-plus {\n  font: 28px sans-serif;\n}\n.text-small {\n  font: 25px sans-serif;\n}\n.text-bold {\n  font-weight: bold;\n}\n.text-center {\n  text-anchor: middle;\n}\n.black-fill {\n  fill: black;\n}\n.darker {\n  filter: brightness(80%);\n}\n.lighter {\n  filter: brightness(110%);\n}\nsvg {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */\n"] }]
+  }], () => [], { hover: [{ type: Input, args: [{ isSignal: true, alias: "hover", required: false }] }, { type: Output, args: ["hoverChange"] }] });
+})();
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(ZoomedGoComponent, { className: "ZoomedGoComponent", filePath: "src/app/games/gos/zoomed-go/zoomed-go.component.ts", lineNumber: 15 });
 })();
 
 // src/app/jscaip/DodecaHexaDirection.ts
@@ -19083,69 +19716,69 @@ var HexodiaMove = class _HexodiaMove extends Move {
 };
 
 // src/app/games/hexodia/HexodiaTutorial.ts
-var _13 = FourStatePiece.EMPTY;
-var O12 = FourStatePiece.ZERO;
-var X11 = FourStatePiece.ONE;
+var _14 = FourStatePiece.EMPTY;
+var O13 = FourStatePiece.ZERO;
+var X12 = FourStatePiece.ONE;
 var N6 = FourStatePiece.UNREACHABLE;
-var defaultConfig12 = HexodiaRules.get().getDefaultRulesConfig();
-var initialState = HexodiaRules.get().getInitialState(defaultConfig12);
+var defaultConfig13 = HexodiaRules.get().getDefaultRulesConfig();
+var initialState = HexodiaRules.get().getInitialState(defaultConfig13);
 var HexodiaTutorial = class extends Tutorial {
   tutorial = [
     TutorialStep.informational(TutorialStepMessage.INITIAL_BOARD_AND_OBJECT_OF_THE_GAME(), $localize`Hexodia is played on a hexagonal board, your goal is to be the first to align 6 of your pieces.`, initialState),
     TutorialStep.anyMove($localize`First turn`, $localize`At the first turn, the first player plays only one piece.<br/><br/>You're playing Dark, place your first piece by clicking on a space.`, initialState, HexodiaMove.of([new Coord(12, 12)]), TutorialStepMessage.CONGRATULATIONS()),
     TutorialStep.fromMove($localize`Next turns`, $localize`On all following turns, the players play two pieces, until a victory or a draw is reached.<br/><br/>You're playing Light, do the winning move.`, new FourStatePieceGameStateWithTable([
-      [N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13],
-      [N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13],
-      [N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13],
-      [N6, N6, N6, N6, N6, N6, N6, N6, N6, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13],
-      [N6, N6, N6, N6, N6, N6, N6, N6, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13],
-      [N6, N6, N6, N6, N6, N6, N6, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13],
-      [N6, N6, N6, N6, N6, N6, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13],
-      [N6, N6, N6, N6, N6, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13],
-      [N6, N6, N6, N6, _13, _13, _13, _13, _13, X11, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13],
-      [N6, N6, N6, _13, _13, _13, _13, _13, _13, _13, O12, _13, X11, O12, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13],
-      [N6, N6, _13, _13, _13, _13, _13, _13, _13, _13, _13, O12, O12, _13, _13, X11, O12, _13, _13, _13, _13, _13, _13, _13, _13],
-      [N6, _13, _13, _13, _13, _13, _13, _13, _13, _13, X11, O12, O12, O12, O12, X11, _13, _13, _13, _13, _13, _13, _13, _13, _13],
-      [_13, _13, _13, _13, _13, _13, _13, _13, _13, X11, O12, O12, O12, O12, X11, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13],
-      [_13, _13, _13, _13, _13, _13, _13, _13, _13, X11, _13, X11, O12, X11, X11, _13, _13, _13, _13, _13, _13, _13, _13, _13, N6],
-      [_13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, O12, X11, O12, _13, _13, _13, _13, _13, _13, _13, _13, _13, N6, N6],
-      [_13, _13, _13, _13, _13, _13, _13, _13, _13, _13, X11, _13, X11, _13, O12, _13, _13, _13, _13, _13, _13, _13, N6, N6, N6],
-      [_13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, X11, X11, _13, X11, _13, _13, _13, _13, _13, N6, N6, N6, N6],
-      [_13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, X11, _13, _13, _13, _13, _13, _13, _13, N6, N6, N6, N6, N6],
-      [_13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, O12, _13, _13, _13, _13, _13, _13, N6, N6, N6, N6, N6, N6],
-      [_13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, N6, N6, N6, N6, N6, N6, N6],
-      [_13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, N6, N6, N6, N6, N6, N6, N6, N6],
-      [_13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, N6, N6, N6, N6, N6, N6, N6, N6, N6],
-      [_13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6],
-      [_13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6],
-      [_13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6]
+      [N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14],
+      [N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14],
+      [N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14],
+      [N6, N6, N6, N6, N6, N6, N6, N6, N6, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14],
+      [N6, N6, N6, N6, N6, N6, N6, N6, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14],
+      [N6, N6, N6, N6, N6, N6, N6, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14],
+      [N6, N6, N6, N6, N6, N6, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14],
+      [N6, N6, N6, N6, N6, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14],
+      [N6, N6, N6, N6, _14, _14, _14, _14, _14, X12, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14],
+      [N6, N6, N6, _14, _14, _14, _14, _14, _14, _14, O13, _14, X12, O13, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14],
+      [N6, N6, _14, _14, _14, _14, _14, _14, _14, _14, _14, O13, O13, _14, _14, X12, O13, _14, _14, _14, _14, _14, _14, _14, _14],
+      [N6, _14, _14, _14, _14, _14, _14, _14, _14, _14, X12, O13, O13, O13, O13, X12, _14, _14, _14, _14, _14, _14, _14, _14, _14],
+      [_14, _14, _14, _14, _14, _14, _14, _14, _14, X12, O13, O13, O13, O13, X12, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14],
+      [_14, _14, _14, _14, _14, _14, _14, _14, _14, X12, _14, X12, O13, X12, X12, _14, _14, _14, _14, _14, _14, _14, _14, _14, N6],
+      [_14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, O13, X12, O13, _14, _14, _14, _14, _14, _14, _14, _14, _14, N6, N6],
+      [_14, _14, _14, _14, _14, _14, _14, _14, _14, _14, X12, _14, X12, _14, O13, _14, _14, _14, _14, _14, _14, _14, N6, N6, N6],
+      [_14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, X12, X12, _14, X12, _14, _14, _14, _14, _14, N6, N6, N6, N6],
+      [_14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, X12, _14, _14, _14, _14, _14, _14, _14, N6, N6, N6, N6, N6],
+      [_14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, O13, _14, _14, _14, _14, _14, _14, N6, N6, N6, N6, N6, N6],
+      [_14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, N6, N6, N6, N6, N6, N6, N6],
+      [_14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, N6, N6, N6, N6, N6, N6, N6, N6],
+      [_14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, N6, N6, N6, N6, N6, N6, N6, N6, N6],
+      [_14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6],
+      [_14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6],
+      [_14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6]
     ], 21), [HexodiaMove.of([new Coord(10, 16), new Coord(11, 15)])], TutorialStepMessage.CONGRATULATIONS(), TutorialStepMessage.FAILED_TRY_AGAIN()),
     TutorialStep.fromMove($localize`Hexagonal Diagonals`, $localize`But an unusual kind of diagonal also exist in Hexodia. Here, Dark has made alignment in each of those three direction, in only one a victory is still possible.<br/><br/>You're playing Dark, do the winning move.`, new FourStatePieceGameStateWithTable([
-      [N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13],
-      [N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13],
-      [N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, _13, _13, _13, _13, _13, _13, _13, X11, _13, _13, _13, _13, _13, _13, _13],
-      [N6, N6, N6, N6, N6, N6, N6, N6, N6, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13],
-      [N6, N6, N6, N6, N6, N6, N6, N6, _13, _13, _13, _13, _13, _13, _13, _13, O12, _13, _13, _13, _13, _13, _13, _13, _13],
-      [N6, N6, N6, N6, N6, N6, N6, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13],
-      [N6, N6, N6, N6, N6, N6, _13, _13, _13, _13, _13, _13, _13, _13, _13, O12, _13, _13, _13, _13, _13, _13, _13, _13, _13],
-      [N6, N6, N6, N6, N6, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13],
-      [N6, N6, N6, N6, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, O12, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13],
-      [N6, N6, N6, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13],
-      [N6, N6, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, O12, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13],
-      [N6, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, X11, _13, _13, X11, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13],
-      [_13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, O12, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13],
-      [_13, _13, _13, _13, _13, _13, _13, _13, _13, _13, O12, _13, _13, O12, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, N6],
-      [_13, _13, _13, _13, _13, _13, _13, _13, O12, _13, _13, X11, _13, _13, O12, _13, _13, _13, _13, _13, _13, _13, _13, N6, N6],
-      [_13, _13, _13, _13, _13, _13, O12, _13, _13, _13, _13, _13, _13, _13, _13, O12, _13, _13, _13, _13, _13, _13, N6, N6, N6],
-      [_13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, O12, _13, _13, _13, _13, N6, N6, N6, N6],
-      [_13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, X11, _13, _13, N6, N6, N6, N6, N6],
-      [_13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, N6, N6, N6, N6, N6, N6],
-      [_13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, N6, N6, N6, N6, N6, N6, N6],
-      [_13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, N6, N6, N6, N6, N6, N6, N6, N6],
-      [_13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, N6, N6, N6, N6, N6, N6, N6, N6, N6],
-      [_13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6],
-      [_13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6],
-      [_13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, _13, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6]
+      [N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14],
+      [N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14],
+      [N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, _14, _14, _14, _14, _14, _14, _14, X12, _14, _14, _14, _14, _14, _14, _14],
+      [N6, N6, N6, N6, N6, N6, N6, N6, N6, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14],
+      [N6, N6, N6, N6, N6, N6, N6, N6, _14, _14, _14, _14, _14, _14, _14, _14, O13, _14, _14, _14, _14, _14, _14, _14, _14],
+      [N6, N6, N6, N6, N6, N6, N6, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14],
+      [N6, N6, N6, N6, N6, N6, _14, _14, _14, _14, _14, _14, _14, _14, _14, O13, _14, _14, _14, _14, _14, _14, _14, _14, _14],
+      [N6, N6, N6, N6, N6, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14],
+      [N6, N6, N6, N6, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, O13, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14],
+      [N6, N6, N6, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14],
+      [N6, N6, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, O13, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14],
+      [N6, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, X12, _14, _14, X12, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14],
+      [_14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, O13, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14],
+      [_14, _14, _14, _14, _14, _14, _14, _14, _14, _14, O13, _14, _14, O13, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, N6],
+      [_14, _14, _14, _14, _14, _14, _14, _14, O13, _14, _14, X12, _14, _14, O13, _14, _14, _14, _14, _14, _14, _14, _14, N6, N6],
+      [_14, _14, _14, _14, _14, _14, O13, _14, _14, _14, _14, _14, _14, _14, _14, O13, _14, _14, _14, _14, _14, _14, N6, N6, N6],
+      [_14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, O13, _14, _14, _14, _14, N6, N6, N6, N6],
+      [_14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, X12, _14, _14, N6, N6, N6, N6, N6],
+      [_14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, N6, N6, N6, N6, N6, N6],
+      [_14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, N6, N6, N6, N6, N6, N6, N6],
+      [_14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, N6, N6, N6, N6, N6, N6, N6, N6],
+      [_14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, N6, N6, N6, N6, N6, N6, N6, N6, N6],
+      [_14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6],
+      [_14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6],
+      [_14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, _14, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6, N6]
     ], 20), [HexodiaMove.of([new Coord(2, 17), new Coord(4, 16)])], TutorialStepMessage.CONGRATULATIONS(), TutorialStepMessage.FAILED_TRY_AGAIN())
   ];
 };
@@ -19248,7 +19881,7 @@ var __decorate24 = function(decorators, target, key, desc) {
   else for (var i2 = decorators.length - 1; i2 >= 0; i2--) if (d2 = decorators[i2]) r2 = (c < 3 ? d2(r2) : c > 3 ? d2(target, key, r2) : d2(target, key)) || r2;
   return c > 3 && r2 && Object.defineProperty(target, key, r2), r2;
 };
-var _c06 = (a0) => ["moved-stroke", a0];
+var _c07 = (a0) => ["moved-stroke", a0];
 var _forTrack017 = ($index, $item) => $item.coord.toString();
 var _forTrack111 = ($index, $item) => $item.toString();
 function HexodiaComponent_For_2_Conditional_1_Conditional_2_Template(rf, ctx) {
@@ -19320,7 +19953,7 @@ function HexodiaComponent_For_4_Template(rf, ctx) {
     const dropped_r5 = ctx.$implicit;
     const ctx_r2 = \u0275\u0275nextContext();
     \u0275\u0275advance();
-    \u0275\u0275property("id", \u0275\u0275interpolate2("dropped-", dropped_r5.x, "-", dropped_r5.y))("ngClass", \u0275\u0275pureFunction1(6, _c06, ctx_r2.getPlayerClass(ctx_r2.getCurrentPlayer())));
+    \u0275\u0275property("id", \u0275\u0275interpolate2("dropped-", dropped_r5.x, "-", dropped_r5.y))("ngClass", \u0275\u0275pureFunction1(6, _c07, ctx_r2.getPlayerClass(ctx_r2.getCurrentPlayer())));
     \u0275\u0275attribute("transform", ctx_r2.getHexaCenterTranslationAt(dropped_r5))("r", ctx_r2.SPACE_SIZE * 0.5);
   }
 }
@@ -20477,7 +21110,7 @@ var HiveMoveGenerator = class extends MoveGenerator {
 };
 
 // src/app/games/hive/hive-piece.component.ts
-var _c07 = ["app-hive-piece", ""];
+var _c08 = ["app-hive-piece", ""];
 function HivePieceComponent_Conditional_7_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
@@ -20540,7 +21173,7 @@ var HivePieceComponent = class _HivePieceComponent extends BaseGameComponent {
       return (\u0275HivePieceComponent_BaseFactory || (\u0275HivePieceComponent_BaseFactory = \u0275\u0275getInheritedFactory(_HivePieceComponent)))(__ngFactoryType__ || _HivePieceComponent);
     };
   })();
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _HivePieceComponent, selectors: [["", "app-hive-piece", ""]], inputs: { piece: [1, "piece"], x: [1, "x"], y: [1, "y"], hexaLayout: [1, "hexaLayout"], layer: [1, "layer"], pieceHeight: [1, "pieceHeight"] }, features: [\u0275\u0275InheritDefinitionFeature], attrs: _c07, decls: 12, vars: 14, consts: [["transform", "translate(-60 0)"], [1, "hive_isoPointsLight", "base", "no-stroke", "lighter", 3, "ngClass"], [1, "hive_isoPointsDark", "base", "no-stroke", "darker", 3, "ngClass"], [1, "hive_isoPointsStroke", "base", "no-fill", "small-stroke"], [1, "hive_hexaPoints", "base", "small-stroke", 3, "ngClass"], ["d", "M 15.3841 1.25408 C 22.8728 -1.82428 29.9895 -8.66692 29.9895 -11.9438 C 29.9895 -12.8799 29.4656 -13.6136 28.5873 -13.906 C 27.8046 -14.1664 24.6195 -14.3188 14.4763 -7.04548 C 14.3844 -7.97908 13.9844 -8.82172 13.3836 -9.47812 C 13.4167 -9.58096 13.4394 -9.6886 13.4394 -9.80284 C 13.4394 -13.1571 9.49688 -15.9237 3.91664 -16.864 C 3.97556 -18.4007 4.88768 -22.8456 12.8845 -26.8437 C 13.4073 -27.1052 13.6191 -27.7406 13.3578 -28.2634 C 13.0953 -28.7862 12.4609 -28.9971 11.938 -28.7367 C 3.34424 -24.4397 1.97336 -19.361 1.81856 -17.1244 C 1.12448 -17.1802 0.41168 -17.2094 -0.31564 -17.2094 C -1.40548 -17.2094 -2.46052 -17.1422 -3.47128 -17.0189 C -3.59032 -19.1981 -4.86616 -24.371 -13.5975 -28.7366 C -14.1203 -28.997 -14.7548 -28.7861 -15.0172 -28.2633 C -15.2787 -27.7404 -15.0668 -27.1049 -14.5439 -26.8436 C -6.16912 -22.6568 -5.56468 -17.9801 -5.57296 -16.6665 C -10.6046 -15.5753 -14.0706 -12.9474 -14.0706 -9.8026 C -14.0706 -9.68836 -14.048 -9.58072 -14.0146 -9.47788 C -14.6715 -8.76052 -15.0833 -7.81948 -15.121 -6.78208 C -25.5504 -14.3201 -28.8038 -14.17 -29.5978 -13.9058 C -30.4761 -13.6134 -31 -12.8799 -31 -11.9438 C -31 -8.63464 -23.7414 -1.68868 -16.1718 1.3442 C -23.7414 4.3772 -31 11.3233 -31 14.6323 C -31 15.5684 -30.4761 16.3021 -29.5968 16.5955 C -29.4222 16.6533 -29.1701 16.7371 -28.7516 16.7371 C -27.2727 16.7371 -23.7153 15.6854 -14.1678 8.74748 C -13.8431 9.143 -13.5125 9.47624 -13.0664 9.73316 C -12.821 16.1545 -7.58992 21.3656 -1.50604 21.892 L -1.50604 27.23 C -1.50604 27.8149 -1.03276 28.288 -0.448 28.288 C 0.13688 28.288 0.61004 27.8148 0.61004 27.23 L 0.61004 21.892 C 6.95852 21.3656 12.0572 16.1545 12.3026 9.73316 C 12.7614 9.46892 13.1995 9.12296 13.5294 8.71304 C 23.1112 15.6825 26.6942 16.738 28.1769 16.738 C 28.5964 16.738 28.8579 16.6533 29.0335 16.5944 C 29.9118 16.302 30.4398 15.5684 30.4398 14.6322 C 30.44 11.2893 23.0366 4.23644 15.3841 1.25408 Z M -28.8921 -11.9096 C -27.3192 -12.3306 -20.102 -7.90708 -13.9077 -3.24676 C -14.6109 -2.53432 -15.059 -1.57444 -15.1169 -0.51196 C -23.053 -3.54004 -29.0001 -10.3224 -28.8921 -11.9096 Z M -15.1288 6.06848 C -15.1288 6.31232 -15.1035 6.55004 -15.0636 6.78248 C -22.932 12.527 -27.6682 14.8687 -28.8932 14.593 C -28.9924 12.9306 -22.5395 5.64788 -14.1152 2.8394 C -14.0278 2.81048 -13.9496 2.76812 -13.8756 2.72 C -13.8144 2.78096 -13.7488 2.837 -13.6838 2.89412 C -14.5674 3.67016 -15.1288 4.80368 -15.1288 6.06848 Z M 27.8827 -11.9055 C 27.9772 -10.3347 22.2198 -3.74764 14.4784 -0.65668 C 14.3818 -1.74316 13.8714 -2.71012 13.1071 -3.40516 C 19.2103 -7.978 26.2028 -12.271 27.8827 -11.9055 Z M -0.31564 -15.0932 C 5.65928 -15.0932 10.0551 -12.9976 11.0895 -10.7981 C 10.8201 -10.8519 10.5422 -10.9012 10.257 -10.9012 L -10.8881 -10.9012 C -11.1731 -10.9012 -11.4513 -10.8519 -11.7207 -10.7981 C -10.6866 -12.9976 -6.29056 -15.0932 -0.31564 -15.0932 Z M -0.31564 19.7833 C -5.79256 19.7833 -10.3106 15.551 -10.8432 10.2606 L 10.2122 10.2606 C 9.67952 15.5509 5.16128 19.7833 -0.31564 19.7833 Z M 10.257 8.14436 L -10.8881 8.14436 C -12.0599 8.14436 -13.0126 7.1948 -13.0126 6.02816 C -13.0126 4.86152 -12.0599 3.91196 -10.8881 3.91196 L 10.257 3.91196 C 11.4286 3.91196 12.3813 4.86152 12.3813 6.02816 C 12.3813 7.1948 11.4286 8.14436 10.257 8.14436 Z M 10.257 1.79588 L -10.8881 1.79588 C -12.0599 1.79588 -13.0126 0.84632 -13.0126 -0.32032 C -13.0126 -1.48696 -12.0599 -2.43652 -10.8881 -2.43652 L 10.257 -2.43652 C 11.4286 -2.43652 12.3813 -1.48696 12.3813 -0.32032 C 12.3813 0.84632 11.4286 1.79588 10.257 1.79588 Z M 10.257 -4.5526 L -10.8881 -4.5526 C -12.0599 -4.5526 -13.0126 -5.50216 -13.0126 -6.6688 C -13.0126 -7.83544 -12.0599 -8.785 -10.8881 -8.785 L 10.257 -8.785 C 11.4286 -8.785 12.3813 -7.83544 12.3813 -6.6688 C 12.3813 -5.50216 11.4286 -4.5526 10.257 -4.5526 Z M 28.3363 14.5982 C 27.2038 14.8942 22.4127 12.5611 14.4402 6.73292 C 14.4745 6.51596 14.4975 6.29504 14.4975 6.06848 C 14.4975 4.8038 13.9364 3.67028 13.0527 2.89424 C 13.1287 2.82764 13.2044 2.7602 13.2751 2.68832 C 13.3609 2.75036 13.4539 2.80436 13.5592 2.8394 C 21.9908 5.651 28.4488 12.945 28.3363 14.5982 Z"], ["d", "M 27.079 1.30667 L 15.7412 -4.79822 L 15.7412 -7.89145 C 15.7412 -8.39311 15.335 -8.80033 14.8324 -8.80033 L 12.1056 -8.80033 L 12.1056 -9.70918 C 12.1056 -10.4088 12.0442 -11.0941 11.927 -11.7605 L 17.9173 -14.3278 C 18.2517 -14.4705 18.4681 -14.7995 18.4681 -15.1622 L 18.4681 -25.1602 L 23.9215 -25.1602 C 24.4242 -25.1602 24.8304 -25.5674 24.8304 -26.0691 C 24.8304 -26.5718 24.4242 -26.978 23.9215 -26.978 L 17.5592 -26.978 C 17.0566 -26.978 16.6503 -26.5718 16.6503 -26.0691 L 16.6503 -15.7621 L 11.4679 -13.5404 C 10.6322 -15.9716 9.02444 -18.0467 6.93872 -19.4717 C 7.86471 -20.1312 8.47025 -21.2128 8.47025 -22.4339 C 8.47025 -24.439 6.83966 -26.0695 4.83465 -26.0695 C 4.33202 -26.0695 3.92577 -25.6623 3.92577 -25.1607 C 3.92577 -24.659 4.33202 -24.2518 4.83465 -24.2518 C 5.83716 -24.2518 6.65252 -23.4366 6.65252 -22.4339 C 6.65252 -21.4314 5.83726 -20.6161 4.83465 -20.6161 L 4.83336 -20.616 C 3.43401 -21.2012 1.89916 -21.525 0.290076 -21.525 C -1.31901 -21.525 -2.85386 -21.2012 -4.25324 -20.616 L -4.2545 -20.6161 C -5.257 -20.6161 -6.07236 -21.4313 -6.07236 -22.4339 C -6.07236 -23.4365 -5.25711 -24.2518 -4.2545 -24.2518 C -3.75186 -24.2518 -3.34563 -24.659 -3.34563 -25.1607 C -3.34563 -25.6623 -3.75186 -26.0695 -4.2545 -26.0695 C -6.25961 -26.0695 -7.89009 -24.4389 -7.89009 -22.4339 C -7.89009 -21.2127 -7.28459 -20.1312 -6.35856 -19.4717 C -8.44428 -18.0467 -10.0521 -15.9716 -10.8877 -13.5404 L -16.0702 -15.7621 L -16.0702 -26.0691 C -16.0702 -26.5718 -16.4764 -26.978 -16.979 -26.978 L -23.3419 -26.978 C -23.8445 -26.978 -24.2508 -26.5718 -24.2508 -26.0691 C -24.2508 -25.5674 -23.8445 -25.1602 -23.3419 -25.1602 L -17.8884 -25.1602 L -17.8884 -15.1622 C -17.8884 -14.7995 -17.6721 -14.4705 -17.3377 -14.3278 L -11.3474 -11.7605 C -11.4646 -11.0941 -11.526 -10.4086 -11.526 -9.70917 L -11.526 -8.80033 L -14.2527 -8.80033 C -14.7554 -8.80033 -15.1616 -8.3931 -15.1616 -7.89145 L -15.1616 -4.79822 L -26.4994 1.30667 C -26.9411 1.54388 -27.1074 2.09561 -26.8693 2.53732 C -26.7047 2.84269 -26.3912 3.01546 -26.0677 3.01546 C -25.9223 3.01546 -25.775 2.98095 -25.6378 2.90639 L -15.1617 -2.73463 L -15.1617 5.31601 L -20.2889 9.58867 C -20.6025 9.85047 -20.7034 10.2904 -20.5334 10.663 L -16.1815 20.2374 L -19.5862 26.1962 C -19.8362 26.6316 -19.6845 27.1869 -19.2482 27.4359 C -19.1064 27.5177 -18.951 27.5559 -18.7983 27.5559 C -18.4819 27.5559 -18.1757 27.3913 -18.0085 27.0978 L -14.3729 20.7354 C -14.2283 20.4818 -14.2138 20.1747 -14.3347 19.9084 L -18.5921 10.5411 L -15.1618 7.68295 L -15.1618 8.46881 C -15.1618 16.989 -8.23053 23.9203 0.28965 23.9203 C 8.80982 23.9203 15.7411 16.989 15.7411 8.46881 L 15.7411 7.68295 L 19.1714 10.5411 L 14.9141 19.9084 C 14.7932 20.1747 14.8078 20.4819 14.9522 20.7354 L 18.5878 27.0978 C 18.755 27.3913 19.0614 27.5559 19.3776 27.5559 C 19.5303 27.5559 19.6857 27.5177 19.8275 27.4359 C 20.2638 27.1869 20.4155 26.6316 20.1656 26.1962 L 16.7608 20.2374 L 21.1127 10.663 C 21.2827 10.2903 21.1817 9.85037 20.8681 9.58867 L 15.741 5.31601 L 15.741 -2.73463 L 26.2171 2.90639 C 26.3544 2.98095 26.5016 3.01546 26.647 3.01546 C 26.9705 3.01546 27.2841 2.8428 27.4486 2.53732 C 27.687 2.09561 27.5207 1.54398 27.079 1.30667 Z M -9.70827 -9.70928 C -9.70827 -15.2218 -5.22281 -19.7073 0.289757 -19.7073 C 5.80234 -19.7073 10.2878 -15.2219 10.2878 -9.70928 L 10.2878 -8.80044 L -9.70827 -8.80044 Z M -10.6171 -6.98257 L 11.1966 -6.98257 L 13.9234 -6.98257 L 13.9234 -4.26531 C 13.9233 -4.25796 13.9233 -4.25065 13.9234 -4.24316 L 13.9234 -3.87835 L 0.289757 3.79022 L -13.3439 -3.87835 L -13.3439 -4.24316 C -13.3438 -4.25051 -13.3438 -4.25786 -13.3439 -4.26531 L -13.3439 -6.98257 Z M -13.3439 8.46892 L -13.3439 5.74091 L -13.3439 5.73461 L -13.3439 -1.79295 L -0.619115 5.36501 L -0.619115 22.0715 C -7.71446 21.6021 -13.3439 15.681 -13.3439 8.46892 Z M 1.19863 22.0715 L 1.19863 5.36501 L 13.9234 -1.79295 L 13.9234 5.73471 L 13.9234 5.7408 L 13.9234 8.46902 C 13.9234 15.681 8.29409 21.6021 1.19863 22.0715 Z"], ["d", "M 23.1993 15.5733 C 21.3366 14.109 18.3446 11.7414 17.7296 11.2169 C 12.9652 2.64827 6.39655 -0.814228 5.07856 -1.44294 C 5.33756 -1.88486 5.4918 -2.35409 5.4918 -2.83719 C 5.4918 -3.30048 5.3294 -3.93486 5.04265 -5.01624 C 4.8512 -5.73792 4.63024 -6.57068 4.49294 -7.31486 C 4.59374 -7.31187 4.69419 -7.30891 4.79464 -7.30891 C 8.94543 -7.30891 12.7535 -9.75455 12.9341 -9.87229 C 13.1714 -10.0271 13.3373 -10.2703 13.3943 -10.5478 C 13.451 -10.8255 13.3949 -11.1144 13.2379 -11.3502 L 11.5052 -13.9494 C 13.7039 -15.6498 16.0931 -16.5487 16.1187 -16.5583 C 16.6686 -16.7613 16.9498 -17.3717 16.7467 -17.9216 C 16.5433 -18.4713 15.9332 -18.7522 15.3835 -18.5494 C 15.2491 -18.4996 12.0538 -17.304 9.38881 -14.9538 C 8.99075 -14.6026 8.91323 -14.0109 9.20786 -13.5691 L 10.8409 -11.1198 C 9.64329 -10.4953 7.44869 -9.53254 5.16354 -9.43858 C 5.21814 -9.64602 5.24334 -9.83818 5.25069 -10.0066 C 5.28989 -10.9199 4.88588 -11.8072 4.04914 -12.6442 C 3.74954 -12.9441 3.51227 -13.3816 3.26136 -13.8449 C 2.98206 -14.3609 2.65176 -14.9693 2.15511 -15.4578 C 2.8653 -18.087 7.91209 -26.8789 12.9465 -30.2572 C 13.4331 -30.5838 13.5628 -31.2431 13.2359 -31.7297 C 12.909 -32.2165 12.2501 -32.3464 11.7633 -32.0197 C 6.51594 -28.4984 1.39127 -19.8963 0.213976 -16.338 C 0.113176 -16.3457 0.00992607 -16.351 -0.0975239 -16.351 C -0.204974 -16.351 -0.308574 -16.3457 -0.409374 -16.338 C -1.58669 -19.8963 -6.71146 -28.4984 -11.9586 -32.0197 C -12.4453 -32.3465 -13.1048 -32.2168 -13.4313 -31.7297 C -13.7575 -31.2431 -13.6283 -30.5836 -13.1415 -30.2572 C -8.10712 -26.8789 -3.0603 -18.087 -2.35008 -15.4578 C -2.8469 -14.9693 -3.17709 -14.3609 -3.45639 -13.8449 C -3.70734 -13.3816 -3.94429 -12.9441 -4.24417 -12.6442 C -5.08116 -11.8072 -5.48531 -10.9199 -5.44569 -10.0066 C -5.43869 -9.83861 -5.41034 -9.64675 -5.35889 -9.43985 C -7.63784 -9.53621 -9.83525 -10.4982 -11.0349 -11.1215 L -9.4031 -13.5691 C -9.1084 -14.0109 -9.18575 -14.6025 -9.58405 -14.9538 C -12.249 -17.304 -15.4439 -18.4998 -15.5787 -18.5494 C -16.1283 -18.7529 -16.7389 -18.4714 -16.9419 -17.9216 C -17.1453 -17.3717 -16.8639 -16.7614 -16.3139 -16.5583 C -16.2894 -16.5485 -13.9065 -15.6578 -11.7003 -13.9495 L -13.4331 -11.3502 C -13.5903 -11.1144 -13.6466 -10.8255 -13.5896 -10.5478 C -13.5325 -10.2702 -13.3666 -10.027 -13.1294 -9.87229 C -12.9485 -9.75455 -9.14095 -7.30891 -4.98985 -7.30891 C -4.8894 -7.30891 -4.7886 -7.31201 -4.68815 -7.31486 C -4.82535 -6.57068 -5.04669 -5.73792 -5.23789 -5.01624 C -5.52454 -3.93472 -5.68701 -3.30048 -5.68701 -2.8372 C -5.68701 -2.35409 -5.53301 -1.885 -5.27377 -1.44294 C -6.59176 -0.814515 -13.1606 2.64715 -17.9248 11.2169 C -18.5398 11.7414 -21.5318 14.109 -23.3946 15.5733 C -23.8553 15.9355 -23.9353 16.6027 -23.5731 17.0635 C -23.3638 17.3299 -23.0524 17.4689 -22.7381 17.4689 C -22.5085 17.4689 -22.2773 17.3949 -22.0829 17.2419 C -16.329 12.7187 -16.2836 12.636 -16.1484 12.3905 C -12.7212 6.15479 -8.19525 2.75469 -5.81882 1.2894 L -6.09532 2.62182 C -6.25842 3.40845 -6.37112 4.19975 -6.43447 4.99303 C -6.63957 5.8207 -7.95109 11.2654 -7.95109 15.2755 L -7.95109 28.8035 C -7.95109 30.0442 -6.94176 31.0534 -5.6958 31.0534 C -4.54097 31.0534 -3.57917 30.1874 -3.45818 29.0391 L -3.23488 26.9188 L -2.46904 31.3227 C -2.26779 32.4787 -1.27065 33.3177 -0.0974189 33.3177 C 1.07582 33.3177 2.07325 32.4787 2.27422 31.3229 L 3.04019 26.9189 L 3.26349 29.0391 C 3.38389 30.1876 4.34632 31.0536 5.50647 31.0536 C 6.74711 31.0536 7.75644 30.0442 7.75644 28.8036 L 7.75644 15.2757 C 7.75644 11.2658 6.4452 5.82155 6.23979 4.99331 C 6.17609 4.20003 6.06374 3.40873 5.90029 2.62196 L 5.62274 1.2836 C 7.99413 2.73998 12.5115 6.12819 15.9537 12.391 C 16.0888 12.6363 16.1339 12.719 21.888 17.2422 C 22.0826 17.395 22.3137 17.4692 22.5432 17.4692 C 22.8578 17.4692 23.1687 17.3302 23.3782 17.0637 C 23.7406 16.6029 23.6603 15.9355 23.1997 15.5733 Z M -0.0974189 -0.50221 C -1.23145 -0.50221 -3.5643 -2.07335 -3.5643 -2.83621 C -3.5608 -3.05937 -3.34415 -3.87585 -3.18616 -4.47201 C -2.94361 -5.38656 -2.65811 -6.46286 -2.51829 -7.43599 L 2.32336 -7.43599 C 2.46301 -6.46286 2.74857 -5.38656 2.99126 -4.47201 C 3.14946 -3.87585 3.36587 -3.0595 3.3694 -2.83706 C 3.36958 -2.07335 1.03665 -0.50221 -0.0973489 -0.50221 Z M -2.74316 -11.143 C -2.22485 -11.6614 -1.88748 -12.2843 -1.58991 -12.834 C -1.01925 -13.8877 -0.777679 -14.2284 -0.0976289 -14.2284 C 0.582456 -14.2284 0.824166 -13.8878 1.39474 -12.834 C 1.69259 -12.2843 2.02964 -11.6614 2.54799 -11.143 C 2.93554 -10.7554 3.14232 -10.3845 3.1299 -10.0984 C 3.1229 -9.90554 3.00985 -9.71847 2.8709 -9.55872 L -3.06667 -9.55872 C -3.20527 -9.71849 -3.31727 -9.90557 -3.32532 -10.0984 C -3.33582 -10.3844 -3.13072 -10.7553 -2.74341 -11.143 Z M -5.5692 28.8171 C -5.5762 28.882 -5.63045 28.931 -5.7015 28.931 C -5.7715 28.931 -5.8289 28.8738 -5.8289 28.8036 L -5.8289 15.2757 C -5.8289 14.5074 -5.7743 13.6716 -5.6868 12.8224 L -4.56484 19.2736 Z M 0.182861 30.9593 C 0.158361 31.0959 0.0411111 31.1951 -0.0974889 31.1951 C -0.236439 31.1951 -0.354039 31.0959 -0.377839 30.9592 L -4.12024 9.4401 C -4.36139 8.05221 -4.42929 6.65441 -4.32604 5.26327 C -4.32334 5.23737 -4.32254 5.21161 -4.32254 5.18602 C -4.26619 4.47255 -4.16574 3.76092 -4.01909 3.05339 L -3.46252 0.371859 C -2.71761 0.872219 -1.89235 1.25047 -1.1611 1.45324 L -1.1611 19.804 C -1.1611 20.3903 -0.685909 20.8653 -0.0997989 20.8653 C 0.486346 20.8653 0.961506 20.3903 0.961506 19.804 L 0.961506 1.4531 C 1.6928 1.25045 2.51806 0.872079 3.26293 0.371716 L 3.8195 3.05325 C 3.96615 3.76078 4.06695 4.47241 4.12295 5.18588 C 4.12407 5.21178 4.12617 5.2374 4.12645 5.26313 C 4.2297 6.65413 4.1618 8.05193 3.92065 9.43996 Z M 5.63355 28.8035 C 5.63355 28.8737 5.57615 28.9309 5.50055 28.9309 C 5.4351 28.9309 5.38085 28.8819 5.3742 28.8168 L 4.36967 19.2735 L 5.49166 12.8221 C 5.57951 13.6713 5.63376 14.5072 5.63376 15.2754 Z"], ["d", "M 26.2796 -9.91591 C 26.0694 -10.4424 25.4717 -10.6985 24.9452 -10.488 L 13.9952 -6.10798 C 13.8372 -6.04429 13.6972 -5.94331 13.588 -5.8123 L 8.42091 0.388326 L 4.52341 0.388326 L 8.59528 -4.49777 C 8.68702 -4.60766 8.75434 -4.73537 8.79361 -4.87289 L 13.1189 -20.0116 L 20.6616 -29.7097 C 21.0095 -30.1573 20.9295 -30.8021 20.4821 -31.1502 C 20.0347 -31.498 19.3896 -31.4175 19.0416 -30.9702 L 11.3767 -21.1152 C 11.2958 -21.0115 11.2364 -20.8935 11.1998 -20.7668 L 6.87935 -5.64532 L 3.30485 -1.35594 C 3.18605 -2.00651 2.8709 -2.58958 2.42256 -3.04056 L 3.25011 -4.69564 C 3.50388 -5.20275 3.29829 -5.81939 2.79124 -6.07303 C 2.28436 -6.3268 1.66762 -6.12088 1.41399 -5.6137 L 0.587006 -3.95974 C 0.441806 -3.97954 0.292976 -3.99472 0.142034 -3.99472 C -0.00910632 -3.99472 -0.157276 -3.98812 -0.302971 -3.95974 L -1.12991 -5.6137 C -1.38335 -6.12068 -2.00005 -6.32611 -2.50716 -6.07303 C -3.01427 -5.81926 -3.21983 -5.20292 -2.96599 -4.69564 L -2.13845 -3.04056 C -2.58676 -2.58938 -2.90151 -2.00667 -3.02074 -1.35594 L -6.5952 -5.64532 L -10.9158 -20.7666 C -10.9547 -20.8928 -11.0118 -21.0109 -11.0926 -21.1151 L -18.7576 -30.97 C -19.1055 -31.4177 -19.7506 -31.4983 -20.198 -31.15 C -20.6454 -30.802 -20.7262 -30.157 -20.3785 -29.7096 L -12.8358 -20.0115 L -8.51046 -4.87279 C -8.47152 -4.73518 -8.40354 -4.6078 -8.31213 -4.49768 L -4.24022 0.388425 L -8.13769 0.388425 L -13.3048 -5.81223 C -13.4137 -5.94324 -13.554 -6.04521 -13.7121 -6.10791 L -24.6622 -10.4879 C -25.1888 -10.6981 -25.7861 -10.4401 -25.9966 -9.91598 C -26.2072 -9.38953 -25.9488 -8.7922 -25.4248 -8.58156 L -14.7158 -4.29806 L -9.4072 2.07245 C -9.21217 2.30642 -8.92325 2.44211 -8.61853 2.44211 L -4.49492 2.44211 L -10.118 4.85187 C -10.2909 4.92612 -10.4398 5.04591 -10.5486 5.199 L -16.0236 12.8639 C -16.0985 12.9686 -16.153 13.0867 -16.1843 13.2114 L -17.2793 17.5914 C -17.4169 18.1415 -17.0823 18.6989 -16.5324 18.8364 C -16.4489 18.8562 -16.365 18.8714 -16.2825 18.8714 C -15.8228 18.8714 -15.4041 18.5596 -15.2875 18.0936 L -14.2397 13.9027 L -9.04496 6.63014 L -3.91861 4.43304 C -4.18822 4.70496 -4.4401 4.99859 -4.67127 5.31067 L -10.4723 11.6784 C -10.5927 11.811 -10.6762 11.9724 -10.7155 12.1472 L -12.9055 22.0021 C -12.9286 22.117 -12.9404 22.2354 -12.9253 22.3524 L -11.8303 31.1123 C -11.7653 31.6316 -11.3231 32.0116 -10.8129 32.0116 C -10.7697 32.0116 -10.7275 32.009 -10.6842 32.005 C -10.1217 31.9347 -9.72255 31.4215 -9.79287 30.8589 L -10.8659 22.2755 L -8.77373 12.8608 L -6.36268 10.2144 C -6.34288 13.6592 -3.66998 19.968 0.138371 19.968 C 3.94677 19.968 6.62264 13.6592 6.6395 10.2144 L 9.05055 12.8608 L 11.1426 22.2755 L 10.0697 30.8589 C 9.99943 31.4215 10.3981 31.9346 10.961 32.005 C 11.0042 32.0083 11.0468 32.0116 11.0897 32.0116 C 11.6 32.0116 12.0421 31.6318 12.1071 31.1123 L 13.2021 22.3524 C 13.2186 22.2352 13.2087 22.1171 13.1856 22.0021 L 10.9956 12.1472 C 10.9566 11.9726 10.8728 11.8106 10.7524 11.6784 L 4.95135 5.31067 C 4.72002 4.99849 4.46804 4.70499 4.19869 4.43304 L 9.32498 6.63014 L 14.5198 13.9027 L 15.5676 18.0936 C 15.6841 18.5601 16.1027 18.8714 16.5626 18.8714 C 16.6451 18.8714 16.729 18.8648 16.8124 18.8364 C 17.3625 18.6988 17.6969 18.1415 17.5594 17.5914 L 16.4644 13.2114 C 16.4294 13.0867 16.3789 12.9686 16.3037 12.8639 L 10.8287 5.199 C 10.7198 5.04621 10.5707 4.92609 10.3981 4.85187 L 4.77501 2.44211 L 8.89863 2.44211 C 9.20289 2.44211 9.49223 2.30681 9.68729 2.07245 L 14.9959 -4.29806 L 25.7048 -8.58156 C 26.2309 -8.7921 26.4871 -9.38969 26.2765 -9.91604 Z M 3.32851 6.55639 C 3.33511 6.56299 3.34831 6.57949 3.35491 6.59533 C 3.44038 6.71413 3.52189 6.83623 3.6001 6.9615 L -3.31728 6.9615 C -3.2394 6.83643 -3.15723 6.71433 -3.07209 6.59533 C -3.06549 6.58873 -3.05229 6.57223 -3.04569 6.55639 C -2.22788 5.4365 -1.08892 4.63183 0.141308 4.63183 C 1.37151 4.63183 2.51044 5.43634 3.32825 6.55639 Z M -4.30682 10.1751 C -4.30682 9.7961 -4.25897 9.40383 -4.16987 9.01166 L 4.45319 9.01166 C 4.54229 9.4036 4.59014 9.79583 4.59014 10.1751 C 4.59014 10.5284 4.5512 10.9222 4.47728 11.3385 L -4.19435 11.3385 C -4.26695 10.9222 -4.30655 10.5285 -4.30655 10.1751 Z M 1.30499 -0.774814 L 1.30499 2.50003 L 1.30499 2.50663 L 1.30499 2.71651 C 0.928325 2.62543 0.540278 2.57461 0.141572 2.57461 C -0.257068 2.57461 -0.645313 2.62543 -1.02187 2.71651 L -1.02187 2.50663 L -1.02187 2.50003 L -1.02187 -0.774814 C -1.02187 -1.4163 -0.499981 -1.93823 0.141572 -1.93823 C 0.783092 -1.93823 1.30499 -1.41623 1.30499 -0.774814 Z M 0.141572 17.9085 C -1.29768 17.9085 -2.79123 15.6796 -3.62943 13.3916 L 3.91268 13.3916 C 3.07435 15.6796 1.58077 17.9085 0.141572 17.9085 Z"], ["d", "M 21.8842 2.21077 L 18.0181 2.21077 L 13.0729 -0.756106 C 12.911 -0.853707 12.7271 -0.904573 12.5381 -0.904573 L 6.18206 -0.904573 C 6.26409 -1.2402 6.30742 -1.58751 6.30742 -1.94298 C 6.30742 -2.35345 6.24815 -2.75236 6.13972 -3.13557 L 10.6647 -4.04062 C 10.9348 -4.09355 11.1726 -4.25344 11.3252 -4.48199 L 15.2411 -10.3555 L 20.0108 -11.3098 C 20.2808 -11.3628 20.5186 -11.5227 20.6712 -11.7512 L 22.7482 -14.8665 C 23.067 -15.3442 22.9382 -15.9892 22.4605 -16.3069 C 21.9817 -16.6267 21.3378 -16.4959 21.0201 -16.0192 L 19.181 -13.2611 L 14.4113 -12.3067 C 14.1413 -12.2538 13.9035 -12.0939 13.7509 -11.8653 L 9.83492 -5.99184 L 5.07504 -5.03946 C 4.8146 -5.33056 4.51767 -5.59756 4.1913 -5.83727 C 6.07121 -6.88908 7.3457 -8.89921 7.3457 -11.2028 L 7.3457 -13.4521 C 7.3457 -13.6801 7.33217 -13.9049 7.30798 -14.1266 C 7.3256 -14.1905 7.33742 -14.257 7.34266 -14.3255 C 7.34788 -14.3889 7.864 -20.6352 11.4996 -20.6352 C 17.0843 -20.6352 17.7053 -29.5377 17.7282 -29.9168 C 17.7635 -30.489 17.3284 -30.9813 16.7572 -31.0175 C 16.1861 -31.057 15.6907 -30.6188 15.6554 -30.0456 C 15.6502 -29.9729 15.0967 -22.7121 11.4996 -22.7121 C 8.14265 -22.7121 6.5767 -19.8132 5.85813 -17.4544 C 5.37949 -18.0105 4.80424 -18.4808 4.15721 -18.8374 C 4.84539 -19.5678 5.26657 -20.5387 5.26462 -21.5875 C 5.28337 -21.8035 5.40896 -23.7278 4.30508 -24.9262 C 3.76306 -25.516 3.01841 -25.8275 2.15341 -25.8275 C 1.57915 -25.8275 1.11501 -25.3623 1.11501 -24.7892 C 1.11501 -24.216 1.57915 -23.7508 2.15341 -23.7508 C 2.51691 -23.7508 2.67681 -23.6282 2.77551 -23.5223 C 3.19194 -23.0727 3.21786 -22.0716 3.19194 -21.6739 C 3.19194 -20.5286 2.2605 -19.597 1.11501 -19.597 L -0.96193 -19.597 C -2.1073 -19.597 -3.03886 -20.5284 -3.043 -21.7601 C -3.07306 -22.135 -3.01185 -23.0986 -2.6245 -23.5203 C -2.52581 -23.6272 -2.3659 -23.7508 -2.00034 -23.7508 C -1.42607 -23.7508 -0.96193 -24.216 -0.96193 -24.7892 C -0.96193 -25.3623 -1.42607 -25.8275 -2.00034 -25.8275 C -2.86533 -25.8275 -3.60997 -25.516 -4.15199 -24.9262 C -5.25588 -23.7279 -5.13015 -21.8035 -5.11569 -21.6738 C -5.11569 -20.5799 -4.69026 -19.5842 -3.99683 -18.8416 C -4.6468 -18.4846 -5.22446 -18.0128 -5.70491 -17.4546 C -6.42352 -19.8137 -7.98933 -22.7127 -11.3464 -22.7127 C -14.9311 -22.7127 -15.4971 -29.9735 -15.5022 -30.0462 C -15.5386 -30.6193 -16.0442 -31.0587 -16.605 -31.0172 C -17.1761 -30.9808 -17.6102 -30.4887 -17.5749 -29.9164 C -17.552 -29.5374 -16.931 -20.6359 -11.3463 -20.6359 C -7.72626 -20.6359 -7.19456 -14.3876 -7.18935 -14.3253 C -7.18397 -14.257 -7.17219 -14.1909 -7.15466 -14.1274 C -7.17899 -13.9057 -7.19248 -13.6806 -7.19248 -13.4525 L -7.19248 -11.2032 C -7.19248 -8.8997 -5.91799 -6.88944 -4.03808 -5.83763 C -4.36448 -5.59792 -4.66142 -5.33105 -4.92182 -5.03983 L -9.68174 -5.99221 L -13.5977 -11.8657 C -13.7503 -12.0941 -13.9881 -12.254 -14.2581 -12.3071 L -19.0278 -13.2614 L -20.8669 -16.0196 C -21.1846 -16.4963 -21.8295 -16.6271 -22.3073 -16.3073 C -22.7849 -15.9895 -22.9138 -15.3447 -22.5949 -14.8669 L -20.518 -11.7516 C -20.3654 -11.5231 -20.1275 -11.3633 -19.8576 -11.3102 L -15.0879 -10.3559 L -11.172 -4.48236 C -11.0194 -4.25393 -10.7816 -4.09401 -10.5116 -4.04098 L -5.98653 -3.13594 C -6.09507 -2.75272 -6.1542 -2.35382 -6.1542 -1.94335 C -6.1542 -1.58776 -6.11087 -1.24057 -6.02887 -0.904939 L -12.3849 -0.904939 C -12.5739 -0.904939 -12.7576 -0.85407 -12.9197 -0.756472 L -17.8648 2.21041 L -21.7311 2.21041 C -22.3053 2.21041 -22.7695 2.67564 -22.7695 3.24881 C -22.7695 3.82199 -22.3053 4.28723 -21.7311 4.28723 L -17.5773 4.28723 C -17.3883 4.28723 -17.2045 4.23634 -17.0425 4.13876 L -12.0973 1.17188 L -5.11579 1.17188 C -5.04949 1.17188 -4.98475 1.16506 -4.92182 1.15314 C -4.41144 1.72375 -3.76306 2.20335 -3.01939 2.55979 C -3.67679 3.29481 -4.07738 4.26409 -4.07738 5.32574 L -4.07738 5.72187 L -13.8876 10.627 C -14.1752 10.7713 -14.3787 11.0381 -14.441 11.3529 L -17.495 26.6212 L -20.3882 29.5143 C -20.7943 29.9204 -20.7943 30.5767 -20.3882 30.9827 C -20.1857 31.1852 -19.9198 31.2869 -19.654 31.2869 C -19.3881 31.2869 -19.1223 31.1852 -18.9198 30.9827 L -15.8045 27.8673 C -15.6591 27.7219 -15.5614 27.5381 -15.5209 27.3366 L -12.5043 12.2584 L -4.07728 8.04487 L -4.07728 8.44097 C -4.07728 9.47136 -3.69953 10.4145 -3.07635 11.1411 C -6.09774 12.3855 -8.23116 15.3606 -8.23116 18.8254 L -8.23116 22.9792 C -8.23116 27.5598 -4.50417 31.2868 0.0764775 31.2868 C 4.65712 31.2868 8.38411 27.5598 8.38411 22.9792 L 8.38411 18.8254 C 8.38411 15.3604 6.25083 12.3854 3.2293 11.1411 C 3.85249 10.4145 4.23024 9.47136 4.23024 8.44097 L 4.23024 8.04487 L 12.6572 12.2584 L 15.6739 27.3366 C 15.7144 27.538 15.812 27.7219 15.9574 27.8673 L 19.0728 30.9827 C 19.2753 31.1852 19.5412 31.2869 19.807 31.2869 C 20.0728 31.2869 20.3386 31.1852 20.5411 30.9827 C 20.9471 30.5767 20.9471 29.9203 20.5411 29.5143 L 17.648 26.6212 L 14.5939 11.3529 C 14.5315 11.0381 14.328 10.7713 14.0404 10.627 L 4.23024 5.72187 L 4.23024 5.32574 C 4.23024 4.26409 3.82962 3.29481 3.17223 2.55979 C 3.91601 2.20335 4.56426 1.72388 5.07464 1.15314 C 5.13757 1.16506 5.20219 1.17188 5.26865 1.17188 L 12.2502 1.17188 L 17.1953 4.13876 C 17.3573 4.23634 17.5411 4.28723 17.7301 4.28723 L 21.8839 4.28723 C 22.4581 4.28723 22.9223 3.82199 22.9223 3.24881 C 22.9223 2.67564 22.4585 2.21077 21.8842 2.21077 Z M -1.04894 -7.13526 C -3.29089 -7.13526 -5.11556 -8.9598 -5.11556 -11.2028 L -5.11556 -13.4521 C -5.11556 -15.6952 -3.29101 -17.5197 -1.04894 -17.5197 L 1.20238 -17.5197 C 3.44434 -17.5197 5.26901 -15.6952 5.26901 -13.4521 L 5.26901 -11.2028 C 5.26901 -8.9598 3.44444 -7.13526 1.20238 -7.13526 Z M 6.30752 18.8259 L 6.30752 22.9796 C 6.30752 26.4159 3.51308 29.2103 0.0768428 29.2103 C -3.3594 29.2103 -6.15384 26.4159 -6.15384 22.9796 L -6.15384 18.8259 C -6.15384 15.3896 -3.3594 12.5952 0.0768428 12.5952 C 3.51308 12.5952 6.30752 15.3896 6.30752 18.8259 Z M 2.15366 5.3261 L 2.15366 6.39593 L 2.15366 6.39956 L 2.15366 8.44147 C 2.15366 9.58683 1.22222 10.5184 0.076721 10.5184 C -1.06878 10.5184 -2.00022 9.58696 -2.00022 8.44147 L -2.00022 6.39956 L -2.00022 6.39593 L -2.00022 5.3261 C -2.00022 4.18074 -1.06878 3.24918 0.076721 3.24918 C 1.22222 3.24918 2.15366 4.18074 2.15366 5.3261 Z M 0.0768428 1.17236 C -2.21403 1.17236 -4.07692 -0.225404 -4.07692 -1.94298 C -4.07692 -3.66056 -2.21391 -5.05834 0.0768428 -5.05834 C 2.36759 -5.05834 4.2306 -3.66056 4.2306 -1.94298 C 4.2306 -0.225404 2.36759 1.17236 0.0768428 1.17236 Z"]], template: function HivePieceComponent_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _HivePieceComponent, selectors: [["", "app-hive-piece", ""]], inputs: { piece: [1, "piece"], x: [1, "x"], y: [1, "y"], hexaLayout: [1, "hexaLayout"], layer: [1, "layer"], pieceHeight: [1, "pieceHeight"] }, features: [\u0275\u0275InheritDefinitionFeature], attrs: _c08, decls: 12, vars: 14, consts: [["transform", "translate(-60 0)"], [1, "hive_isoPointsLight", "base", "no-stroke", "lighter", 3, "ngClass"], [1, "hive_isoPointsDark", "base", "no-stroke", "darker", 3, "ngClass"], [1, "hive_isoPointsStroke", "base", "no-fill", "small-stroke"], [1, "hive_hexaPoints", "base", "small-stroke", 3, "ngClass"], ["d", "M 15.3841 1.25408 C 22.8728 -1.82428 29.9895 -8.66692 29.9895 -11.9438 C 29.9895 -12.8799 29.4656 -13.6136 28.5873 -13.906 C 27.8046 -14.1664 24.6195 -14.3188 14.4763 -7.04548 C 14.3844 -7.97908 13.9844 -8.82172 13.3836 -9.47812 C 13.4167 -9.58096 13.4394 -9.6886 13.4394 -9.80284 C 13.4394 -13.1571 9.49688 -15.9237 3.91664 -16.864 C 3.97556 -18.4007 4.88768 -22.8456 12.8845 -26.8437 C 13.4073 -27.1052 13.6191 -27.7406 13.3578 -28.2634 C 13.0953 -28.7862 12.4609 -28.9971 11.938 -28.7367 C 3.34424 -24.4397 1.97336 -19.361 1.81856 -17.1244 C 1.12448 -17.1802 0.41168 -17.2094 -0.31564 -17.2094 C -1.40548 -17.2094 -2.46052 -17.1422 -3.47128 -17.0189 C -3.59032 -19.1981 -4.86616 -24.371 -13.5975 -28.7366 C -14.1203 -28.997 -14.7548 -28.7861 -15.0172 -28.2633 C -15.2787 -27.7404 -15.0668 -27.1049 -14.5439 -26.8436 C -6.16912 -22.6568 -5.56468 -17.9801 -5.57296 -16.6665 C -10.6046 -15.5753 -14.0706 -12.9474 -14.0706 -9.8026 C -14.0706 -9.68836 -14.048 -9.58072 -14.0146 -9.47788 C -14.6715 -8.76052 -15.0833 -7.81948 -15.121 -6.78208 C -25.5504 -14.3201 -28.8038 -14.17 -29.5978 -13.9058 C -30.4761 -13.6134 -31 -12.8799 -31 -11.9438 C -31 -8.63464 -23.7414 -1.68868 -16.1718 1.3442 C -23.7414 4.3772 -31 11.3233 -31 14.6323 C -31 15.5684 -30.4761 16.3021 -29.5968 16.5955 C -29.4222 16.6533 -29.1701 16.7371 -28.7516 16.7371 C -27.2727 16.7371 -23.7153 15.6854 -14.1678 8.74748 C -13.8431 9.143 -13.5125 9.47624 -13.0664 9.73316 C -12.821 16.1545 -7.58992 21.3656 -1.50604 21.892 L -1.50604 27.23 C -1.50604 27.8149 -1.03276 28.288 -0.448 28.288 C 0.13688 28.288 0.61004 27.8148 0.61004 27.23 L 0.61004 21.892 C 6.95852 21.3656 12.0572 16.1545 12.3026 9.73316 C 12.7614 9.46892 13.1995 9.12296 13.5294 8.71304 C 23.1112 15.6825 26.6942 16.738 28.1769 16.738 C 28.5964 16.738 28.8579 16.6533 29.0335 16.5944 C 29.9118 16.302 30.4398 15.5684 30.4398 14.6322 C 30.44 11.2893 23.0366 4.23644 15.3841 1.25408 Z M -28.8921 -11.9096 C -27.3192 -12.3306 -20.102 -7.90708 -13.9077 -3.24676 C -14.6109 -2.53432 -15.059 -1.57444 -15.1169 -0.51196 C -23.053 -3.54004 -29.0001 -10.3224 -28.8921 -11.9096 Z M -15.1288 6.06848 C -15.1288 6.31232 -15.1035 6.55004 -15.0636 6.78248 C -22.932 12.527 -27.6682 14.8687 -28.8932 14.593 C -28.9924 12.9306 -22.5395 5.64788 -14.1152 2.8394 C -14.0278 2.81048 -13.9496 2.76812 -13.8756 2.72 C -13.8144 2.78096 -13.7488 2.837 -13.6838 2.89412 C -14.5674 3.67016 -15.1288 4.80368 -15.1288 6.06848 Z M 27.8827 -11.9055 C 27.9772 -10.3347 22.2198 -3.74764 14.4784 -0.65668 C 14.3818 -1.74316 13.8714 -2.71012 13.1071 -3.40516 C 19.2103 -7.978 26.2028 -12.271 27.8827 -11.9055 Z M -0.31564 -15.0932 C 5.65928 -15.0932 10.0551 -12.9976 11.0895 -10.7981 C 10.8201 -10.8519 10.5422 -10.9012 10.257 -10.9012 L -10.8881 -10.9012 C -11.1731 -10.9012 -11.4513 -10.8519 -11.7207 -10.7981 C -10.6866 -12.9976 -6.29056 -15.0932 -0.31564 -15.0932 Z M -0.31564 19.7833 C -5.79256 19.7833 -10.3106 15.551 -10.8432 10.2606 L 10.2122 10.2606 C 9.67952 15.5509 5.16128 19.7833 -0.31564 19.7833 Z M 10.257 8.14436 L -10.8881 8.14436 C -12.0599 8.14436 -13.0126 7.1948 -13.0126 6.02816 C -13.0126 4.86152 -12.0599 3.91196 -10.8881 3.91196 L 10.257 3.91196 C 11.4286 3.91196 12.3813 4.86152 12.3813 6.02816 C 12.3813 7.1948 11.4286 8.14436 10.257 8.14436 Z M 10.257 1.79588 L -10.8881 1.79588 C -12.0599 1.79588 -13.0126 0.84632 -13.0126 -0.32032 C -13.0126 -1.48696 -12.0599 -2.43652 -10.8881 -2.43652 L 10.257 -2.43652 C 11.4286 -2.43652 12.3813 -1.48696 12.3813 -0.32032 C 12.3813 0.84632 11.4286 1.79588 10.257 1.79588 Z M 10.257 -4.5526 L -10.8881 -4.5526 C -12.0599 -4.5526 -13.0126 -5.50216 -13.0126 -6.6688 C -13.0126 -7.83544 -12.0599 -8.785 -10.8881 -8.785 L 10.257 -8.785 C 11.4286 -8.785 12.3813 -7.83544 12.3813 -6.6688 C 12.3813 -5.50216 11.4286 -4.5526 10.257 -4.5526 Z M 28.3363 14.5982 C 27.2038 14.8942 22.4127 12.5611 14.4402 6.73292 C 14.4745 6.51596 14.4975 6.29504 14.4975 6.06848 C 14.4975 4.8038 13.9364 3.67028 13.0527 2.89424 C 13.1287 2.82764 13.2044 2.7602 13.2751 2.68832 C 13.3609 2.75036 13.4539 2.80436 13.5592 2.8394 C 21.9908 5.651 28.4488 12.945 28.3363 14.5982 Z"], ["d", "M 27.079 1.30667 L 15.7412 -4.79822 L 15.7412 -7.89145 C 15.7412 -8.39311 15.335 -8.80033 14.8324 -8.80033 L 12.1056 -8.80033 L 12.1056 -9.70918 C 12.1056 -10.4088 12.0442 -11.0941 11.927 -11.7605 L 17.9173 -14.3278 C 18.2517 -14.4705 18.4681 -14.7995 18.4681 -15.1622 L 18.4681 -25.1602 L 23.9215 -25.1602 C 24.4242 -25.1602 24.8304 -25.5674 24.8304 -26.0691 C 24.8304 -26.5718 24.4242 -26.978 23.9215 -26.978 L 17.5592 -26.978 C 17.0566 -26.978 16.6503 -26.5718 16.6503 -26.0691 L 16.6503 -15.7621 L 11.4679 -13.5404 C 10.6322 -15.9716 9.02444 -18.0467 6.93872 -19.4717 C 7.86471 -20.1312 8.47025 -21.2128 8.47025 -22.4339 C 8.47025 -24.439 6.83966 -26.0695 4.83465 -26.0695 C 4.33202 -26.0695 3.92577 -25.6623 3.92577 -25.1607 C 3.92577 -24.659 4.33202 -24.2518 4.83465 -24.2518 C 5.83716 -24.2518 6.65252 -23.4366 6.65252 -22.4339 C 6.65252 -21.4314 5.83726 -20.6161 4.83465 -20.6161 L 4.83336 -20.616 C 3.43401 -21.2012 1.89916 -21.525 0.290076 -21.525 C -1.31901 -21.525 -2.85386 -21.2012 -4.25324 -20.616 L -4.2545 -20.6161 C -5.257 -20.6161 -6.07236 -21.4313 -6.07236 -22.4339 C -6.07236 -23.4365 -5.25711 -24.2518 -4.2545 -24.2518 C -3.75186 -24.2518 -3.34563 -24.659 -3.34563 -25.1607 C -3.34563 -25.6623 -3.75186 -26.0695 -4.2545 -26.0695 C -6.25961 -26.0695 -7.89009 -24.4389 -7.89009 -22.4339 C -7.89009 -21.2127 -7.28459 -20.1312 -6.35856 -19.4717 C -8.44428 -18.0467 -10.0521 -15.9716 -10.8877 -13.5404 L -16.0702 -15.7621 L -16.0702 -26.0691 C -16.0702 -26.5718 -16.4764 -26.978 -16.979 -26.978 L -23.3419 -26.978 C -23.8445 -26.978 -24.2508 -26.5718 -24.2508 -26.0691 C -24.2508 -25.5674 -23.8445 -25.1602 -23.3419 -25.1602 L -17.8884 -25.1602 L -17.8884 -15.1622 C -17.8884 -14.7995 -17.6721 -14.4705 -17.3377 -14.3278 L -11.3474 -11.7605 C -11.4646 -11.0941 -11.526 -10.4086 -11.526 -9.70917 L -11.526 -8.80033 L -14.2527 -8.80033 C -14.7554 -8.80033 -15.1616 -8.3931 -15.1616 -7.89145 L -15.1616 -4.79822 L -26.4994 1.30667 C -26.9411 1.54388 -27.1074 2.09561 -26.8693 2.53732 C -26.7047 2.84269 -26.3912 3.01546 -26.0677 3.01546 C -25.9223 3.01546 -25.775 2.98095 -25.6378 2.90639 L -15.1617 -2.73463 L -15.1617 5.31601 L -20.2889 9.58867 C -20.6025 9.85047 -20.7034 10.2904 -20.5334 10.663 L -16.1815 20.2374 L -19.5862 26.1962 C -19.8362 26.6316 -19.6845 27.1869 -19.2482 27.4359 C -19.1064 27.5177 -18.951 27.5559 -18.7983 27.5559 C -18.4819 27.5559 -18.1757 27.3913 -18.0085 27.0978 L -14.3729 20.7354 C -14.2283 20.4818 -14.2138 20.1747 -14.3347 19.9084 L -18.5921 10.5411 L -15.1618 7.68295 L -15.1618 8.46881 C -15.1618 16.989 -8.23053 23.9203 0.28965 23.9203 C 8.80982 23.9203 15.7411 16.989 15.7411 8.46881 L 15.7411 7.68295 L 19.1714 10.5411 L 14.9141 19.9084 C 14.7932 20.1747 14.8078 20.4819 14.9522 20.7354 L 18.5878 27.0978 C 18.755 27.3913 19.0614 27.5559 19.3776 27.5559 C 19.5303 27.5559 19.6857 27.5177 19.8275 27.4359 C 20.2638 27.1869 20.4155 26.6316 20.1656 26.1962 L 16.7608 20.2374 L 21.1127 10.663 C 21.2827 10.2903 21.1817 9.85037 20.8681 9.58867 L 15.741 5.31601 L 15.741 -2.73463 L 26.2171 2.90639 C 26.3544 2.98095 26.5016 3.01546 26.647 3.01546 C 26.9705 3.01546 27.2841 2.8428 27.4486 2.53732 C 27.687 2.09561 27.5207 1.54398 27.079 1.30667 Z M -9.70827 -9.70928 C -9.70827 -15.2218 -5.22281 -19.7073 0.289757 -19.7073 C 5.80234 -19.7073 10.2878 -15.2219 10.2878 -9.70928 L 10.2878 -8.80044 L -9.70827 -8.80044 Z M -10.6171 -6.98257 L 11.1966 -6.98257 L 13.9234 -6.98257 L 13.9234 -4.26531 C 13.9233 -4.25796 13.9233 -4.25065 13.9234 -4.24316 L 13.9234 -3.87835 L 0.289757 3.79022 L -13.3439 -3.87835 L -13.3439 -4.24316 C -13.3438 -4.25051 -13.3438 -4.25786 -13.3439 -4.26531 L -13.3439 -6.98257 Z M -13.3439 8.46892 L -13.3439 5.74091 L -13.3439 5.73461 L -13.3439 -1.79295 L -0.619115 5.36501 L -0.619115 22.0715 C -7.71446 21.6021 -13.3439 15.681 -13.3439 8.46892 Z M 1.19863 22.0715 L 1.19863 5.36501 L 13.9234 -1.79295 L 13.9234 5.73471 L 13.9234 5.7408 L 13.9234 8.46902 C 13.9234 15.681 8.29409 21.6021 1.19863 22.0715 Z"], ["d", "M 23.1993 15.5733 C 21.3366 14.109 18.3446 11.7414 17.7296 11.2169 C 12.9652 2.64827 6.39655 -0.814228 5.07856 -1.44294 C 5.33756 -1.88486 5.4918 -2.35409 5.4918 -2.83719 C 5.4918 -3.30048 5.3294 -3.93486 5.04265 -5.01624 C 4.8512 -5.73792 4.63024 -6.57068 4.49294 -7.31486 C 4.59374 -7.31187 4.69419 -7.30891 4.79464 -7.30891 C 8.94543 -7.30891 12.7535 -9.75455 12.9341 -9.87229 C 13.1714 -10.0271 13.3373 -10.2703 13.3943 -10.5478 C 13.451 -10.8255 13.3949 -11.1144 13.2379 -11.3502 L 11.5052 -13.9494 C 13.7039 -15.6498 16.0931 -16.5487 16.1187 -16.5583 C 16.6686 -16.7613 16.9498 -17.3717 16.7467 -17.9216 C 16.5433 -18.4713 15.9332 -18.7522 15.3835 -18.5494 C 15.2491 -18.4996 12.0538 -17.304 9.38881 -14.9538 C 8.99075 -14.6026 8.91323 -14.0109 9.20786 -13.5691 L 10.8409 -11.1198 C 9.64329 -10.4953 7.44869 -9.53254 5.16354 -9.43858 C 5.21814 -9.64602 5.24334 -9.83818 5.25069 -10.0066 C 5.28989 -10.9199 4.88588 -11.8072 4.04914 -12.6442 C 3.74954 -12.9441 3.51227 -13.3816 3.26136 -13.8449 C 2.98206 -14.3609 2.65176 -14.9693 2.15511 -15.4578 C 2.8653 -18.087 7.91209 -26.8789 12.9465 -30.2572 C 13.4331 -30.5838 13.5628 -31.2431 13.2359 -31.7297 C 12.909 -32.2165 12.2501 -32.3464 11.7633 -32.0197 C 6.51594 -28.4984 1.39127 -19.8963 0.213976 -16.338 C 0.113176 -16.3457 0.00992607 -16.351 -0.0975239 -16.351 C -0.204974 -16.351 -0.308574 -16.3457 -0.409374 -16.338 C -1.58669 -19.8963 -6.71146 -28.4984 -11.9586 -32.0197 C -12.4453 -32.3465 -13.1048 -32.2168 -13.4313 -31.7297 C -13.7575 -31.2431 -13.6283 -30.5836 -13.1415 -30.2572 C -8.10712 -26.8789 -3.0603 -18.087 -2.35008 -15.4578 C -2.8469 -14.9693 -3.17709 -14.3609 -3.45639 -13.8449 C -3.70734 -13.3816 -3.94429 -12.9441 -4.24417 -12.6442 C -5.08116 -11.8072 -5.48531 -10.9199 -5.44569 -10.0066 C -5.43869 -9.83861 -5.41034 -9.64675 -5.35889 -9.43985 C -7.63784 -9.53621 -9.83525 -10.4982 -11.0349 -11.1215 L -9.4031 -13.5691 C -9.1084 -14.0109 -9.18575 -14.6025 -9.58405 -14.9538 C -12.249 -17.304 -15.4439 -18.4998 -15.5787 -18.5494 C -16.1283 -18.7529 -16.7389 -18.4714 -16.9419 -17.9216 C -17.1453 -17.3717 -16.8639 -16.7614 -16.3139 -16.5583 C -16.2894 -16.5485 -13.9065 -15.6578 -11.7003 -13.9495 L -13.4331 -11.3502 C -13.5903 -11.1144 -13.6466 -10.8255 -13.5896 -10.5478 C -13.5325 -10.2702 -13.3666 -10.027 -13.1294 -9.87229 C -12.9485 -9.75455 -9.14095 -7.30891 -4.98985 -7.30891 C -4.8894 -7.30891 -4.7886 -7.31201 -4.68815 -7.31486 C -4.82535 -6.57068 -5.04669 -5.73792 -5.23789 -5.01624 C -5.52454 -3.93472 -5.68701 -3.30048 -5.68701 -2.8372 C -5.68701 -2.35409 -5.53301 -1.885 -5.27377 -1.44294 C -6.59176 -0.814515 -13.1606 2.64715 -17.9248 11.2169 C -18.5398 11.7414 -21.5318 14.109 -23.3946 15.5733 C -23.8553 15.9355 -23.9353 16.6027 -23.5731 17.0635 C -23.3638 17.3299 -23.0524 17.4689 -22.7381 17.4689 C -22.5085 17.4689 -22.2773 17.3949 -22.0829 17.2419 C -16.329 12.7187 -16.2836 12.636 -16.1484 12.3905 C -12.7212 6.15479 -8.19525 2.75469 -5.81882 1.2894 L -6.09532 2.62182 C -6.25842 3.40845 -6.37112 4.19975 -6.43447 4.99303 C -6.63957 5.8207 -7.95109 11.2654 -7.95109 15.2755 L -7.95109 28.8035 C -7.95109 30.0442 -6.94176 31.0534 -5.6958 31.0534 C -4.54097 31.0534 -3.57917 30.1874 -3.45818 29.0391 L -3.23488 26.9188 L -2.46904 31.3227 C -2.26779 32.4787 -1.27065 33.3177 -0.0974189 33.3177 C 1.07582 33.3177 2.07325 32.4787 2.27422 31.3229 L 3.04019 26.9189 L 3.26349 29.0391 C 3.38389 30.1876 4.34632 31.0536 5.50647 31.0536 C 6.74711 31.0536 7.75644 30.0442 7.75644 28.8036 L 7.75644 15.2757 C 7.75644 11.2658 6.4452 5.82155 6.23979 4.99331 C 6.17609 4.20003 6.06374 3.40873 5.90029 2.62196 L 5.62274 1.2836 C 7.99413 2.73998 12.5115 6.12819 15.9537 12.391 C 16.0888 12.6363 16.1339 12.719 21.888 17.2422 C 22.0826 17.395 22.3137 17.4692 22.5432 17.4692 C 22.8578 17.4692 23.1687 17.3302 23.3782 17.0637 C 23.7406 16.6029 23.6603 15.9355 23.1997 15.5733 Z M -0.0974189 -0.50221 C -1.23145 -0.50221 -3.5643 -2.07335 -3.5643 -2.83621 C -3.5608 -3.05937 -3.34415 -3.87585 -3.18616 -4.47201 C -2.94361 -5.38656 -2.65811 -6.46286 -2.51829 -7.43599 L 2.32336 -7.43599 C 2.46301 -6.46286 2.74857 -5.38656 2.99126 -4.47201 C 3.14946 -3.87585 3.36587 -3.0595 3.3694 -2.83706 C 3.36958 -2.07335 1.03665 -0.50221 -0.0973489 -0.50221 Z M -2.74316 -11.143 C -2.22485 -11.6614 -1.88748 -12.2843 -1.58991 -12.834 C -1.01925 -13.8877 -0.777679 -14.2284 -0.0976289 -14.2284 C 0.582456 -14.2284 0.824166 -13.8878 1.39474 -12.834 C 1.69259 -12.2843 2.02964 -11.6614 2.54799 -11.143 C 2.93554 -10.7554 3.14232 -10.3845 3.1299 -10.0984 C 3.1229 -9.90554 3.00985 -9.71847 2.8709 -9.55872 L -3.06667 -9.55872 C -3.20527 -9.71849 -3.31727 -9.90557 -3.32532 -10.0984 C -3.33582 -10.3844 -3.13072 -10.7553 -2.74341 -11.143 Z M -5.5692 28.8171 C -5.5762 28.882 -5.63045 28.931 -5.7015 28.931 C -5.7715 28.931 -5.8289 28.8738 -5.8289 28.8036 L -5.8289 15.2757 C -5.8289 14.5074 -5.7743 13.6716 -5.6868 12.8224 L -4.56484 19.2736 Z M 0.182861 30.9593 C 0.158361 31.0959 0.0411111 31.1951 -0.0974889 31.1951 C -0.236439 31.1951 -0.354039 31.0959 -0.377839 30.9592 L -4.12024 9.4401 C -4.36139 8.05221 -4.42929 6.65441 -4.32604 5.26327 C -4.32334 5.23737 -4.32254 5.21161 -4.32254 5.18602 C -4.26619 4.47255 -4.16574 3.76092 -4.01909 3.05339 L -3.46252 0.371859 C -2.71761 0.872219 -1.89235 1.25047 -1.1611 1.45324 L -1.1611 19.804 C -1.1611 20.3903 -0.685909 20.8653 -0.0997989 20.8653 C 0.486346 20.8653 0.961506 20.3903 0.961506 19.804 L 0.961506 1.4531 C 1.6928 1.25045 2.51806 0.872079 3.26293 0.371716 L 3.8195 3.05325 C 3.96615 3.76078 4.06695 4.47241 4.12295 5.18588 C 4.12407 5.21178 4.12617 5.2374 4.12645 5.26313 C 4.2297 6.65413 4.1618 8.05193 3.92065 9.43996 Z M 5.63355 28.8035 C 5.63355 28.8737 5.57615 28.9309 5.50055 28.9309 C 5.4351 28.9309 5.38085 28.8819 5.3742 28.8168 L 4.36967 19.2735 L 5.49166 12.8221 C 5.57951 13.6713 5.63376 14.5072 5.63376 15.2754 Z"], ["d", "M 26.2796 -9.91591 C 26.0694 -10.4424 25.4717 -10.6985 24.9452 -10.488 L 13.9952 -6.10798 C 13.8372 -6.04429 13.6972 -5.94331 13.588 -5.8123 L 8.42091 0.388326 L 4.52341 0.388326 L 8.59528 -4.49777 C 8.68702 -4.60766 8.75434 -4.73537 8.79361 -4.87289 L 13.1189 -20.0116 L 20.6616 -29.7097 C 21.0095 -30.1573 20.9295 -30.8021 20.4821 -31.1502 C 20.0347 -31.498 19.3896 -31.4175 19.0416 -30.9702 L 11.3767 -21.1152 C 11.2958 -21.0115 11.2364 -20.8935 11.1998 -20.7668 L 6.87935 -5.64532 L 3.30485 -1.35594 C 3.18605 -2.00651 2.8709 -2.58958 2.42256 -3.04056 L 3.25011 -4.69564 C 3.50388 -5.20275 3.29829 -5.81939 2.79124 -6.07303 C 2.28436 -6.3268 1.66762 -6.12088 1.41399 -5.6137 L 0.587006 -3.95974 C 0.441806 -3.97954 0.292976 -3.99472 0.142034 -3.99472 C -0.00910632 -3.99472 -0.157276 -3.98812 -0.302971 -3.95974 L -1.12991 -5.6137 C -1.38335 -6.12068 -2.00005 -6.32611 -2.50716 -6.07303 C -3.01427 -5.81926 -3.21983 -5.20292 -2.96599 -4.69564 L -2.13845 -3.04056 C -2.58676 -2.58938 -2.90151 -2.00667 -3.02074 -1.35594 L -6.5952 -5.64532 L -10.9158 -20.7666 C -10.9547 -20.8928 -11.0118 -21.0109 -11.0926 -21.1151 L -18.7576 -30.97 C -19.1055 -31.4177 -19.7506 -31.4983 -20.198 -31.15 C -20.6454 -30.802 -20.7262 -30.157 -20.3785 -29.7096 L -12.8358 -20.0115 L -8.51046 -4.87279 C -8.47152 -4.73518 -8.40354 -4.6078 -8.31213 -4.49768 L -4.24022 0.388425 L -8.13769 0.388425 L -13.3048 -5.81223 C -13.4137 -5.94324 -13.554 -6.04521 -13.7121 -6.10791 L -24.6622 -10.4879 C -25.1888 -10.6981 -25.7861 -10.4401 -25.9966 -9.91598 C -26.2072 -9.38953 -25.9488 -8.7922 -25.4248 -8.58156 L -14.7158 -4.29806 L -9.4072 2.07245 C -9.21217 2.30642 -8.92325 2.44211 -8.61853 2.44211 L -4.49492 2.44211 L -10.118 4.85187 C -10.2909 4.92612 -10.4398 5.04591 -10.5486 5.199 L -16.0236 12.8639 C -16.0985 12.9686 -16.153 13.0867 -16.1843 13.2114 L -17.2793 17.5914 C -17.4169 18.1415 -17.0823 18.6989 -16.5324 18.8364 C -16.4489 18.8562 -16.365 18.8714 -16.2825 18.8714 C -15.8228 18.8714 -15.4041 18.5596 -15.2875 18.0936 L -14.2397 13.9027 L -9.04496 6.63014 L -3.91861 4.43304 C -4.18822 4.70496 -4.4401 4.99859 -4.67127 5.31067 L -10.4723 11.6784 C -10.5927 11.811 -10.6762 11.9724 -10.7155 12.1472 L -12.9055 22.0021 C -12.9286 22.117 -12.9404 22.2354 -12.9253 22.3524 L -11.8303 31.1123 C -11.7653 31.6316 -11.3231 32.0116 -10.8129 32.0116 C -10.7697 32.0116 -10.7275 32.009 -10.6842 32.005 C -10.1217 31.9347 -9.72255 31.4215 -9.79287 30.8589 L -10.8659 22.2755 L -8.77373 12.8608 L -6.36268 10.2144 C -6.34288 13.6592 -3.66998 19.968 0.138371 19.968 C 3.94677 19.968 6.62264 13.6592 6.6395 10.2144 L 9.05055 12.8608 L 11.1426 22.2755 L 10.0697 30.8589 C 9.99943 31.4215 10.3981 31.9346 10.961 32.005 C 11.0042 32.0083 11.0468 32.0116 11.0897 32.0116 C 11.6 32.0116 12.0421 31.6318 12.1071 31.1123 L 13.2021 22.3524 C 13.2186 22.2352 13.2087 22.1171 13.1856 22.0021 L 10.9956 12.1472 C 10.9566 11.9726 10.8728 11.8106 10.7524 11.6784 L 4.95135 5.31067 C 4.72002 4.99849 4.46804 4.70499 4.19869 4.43304 L 9.32498 6.63014 L 14.5198 13.9027 L 15.5676 18.0936 C 15.6841 18.5601 16.1027 18.8714 16.5626 18.8714 C 16.6451 18.8714 16.729 18.8648 16.8124 18.8364 C 17.3625 18.6988 17.6969 18.1415 17.5594 17.5914 L 16.4644 13.2114 C 16.4294 13.0867 16.3789 12.9686 16.3037 12.8639 L 10.8287 5.199 C 10.7198 5.04621 10.5707 4.92609 10.3981 4.85187 L 4.77501 2.44211 L 8.89863 2.44211 C 9.20289 2.44211 9.49223 2.30681 9.68729 2.07245 L 14.9959 -4.29806 L 25.7048 -8.58156 C 26.2309 -8.7921 26.4871 -9.38969 26.2765 -9.91604 Z M 3.32851 6.55639 C 3.33511 6.56299 3.34831 6.57949 3.35491 6.59533 C 3.44038 6.71413 3.52189 6.83623 3.6001 6.9615 L -3.31728 6.9615 C -3.2394 6.83643 -3.15723 6.71433 -3.07209 6.59533 C -3.06549 6.58873 -3.05229 6.57223 -3.04569 6.55639 C -2.22788 5.4365 -1.08892 4.63183 0.141308 4.63183 C 1.37151 4.63183 2.51044 5.43634 3.32825 6.55639 Z M -4.30682 10.1751 C -4.30682 9.7961 -4.25897 9.40383 -4.16987 9.01166 L 4.45319 9.01166 C 4.54229 9.4036 4.59014 9.79583 4.59014 10.1751 C 4.59014 10.5284 4.5512 10.9222 4.47728 11.3385 L -4.19435 11.3385 C -4.26695 10.9222 -4.30655 10.5285 -4.30655 10.1751 Z M 1.30499 -0.774814 L 1.30499 2.50003 L 1.30499 2.50663 L 1.30499 2.71651 C 0.928325 2.62543 0.540278 2.57461 0.141572 2.57461 C -0.257068 2.57461 -0.645313 2.62543 -1.02187 2.71651 L -1.02187 2.50663 L -1.02187 2.50003 L -1.02187 -0.774814 C -1.02187 -1.4163 -0.499981 -1.93823 0.141572 -1.93823 C 0.783092 -1.93823 1.30499 -1.41623 1.30499 -0.774814 Z M 0.141572 17.9085 C -1.29768 17.9085 -2.79123 15.6796 -3.62943 13.3916 L 3.91268 13.3916 C 3.07435 15.6796 1.58077 17.9085 0.141572 17.9085 Z"], ["d", "M 21.8842 2.21077 L 18.0181 2.21077 L 13.0729 -0.756106 C 12.911 -0.853707 12.7271 -0.904573 12.5381 -0.904573 L 6.18206 -0.904573 C 6.26409 -1.2402 6.30742 -1.58751 6.30742 -1.94298 C 6.30742 -2.35345 6.24815 -2.75236 6.13972 -3.13557 L 10.6647 -4.04062 C 10.9348 -4.09355 11.1726 -4.25344 11.3252 -4.48199 L 15.2411 -10.3555 L 20.0108 -11.3098 C 20.2808 -11.3628 20.5186 -11.5227 20.6712 -11.7512 L 22.7482 -14.8665 C 23.067 -15.3442 22.9382 -15.9892 22.4605 -16.3069 C 21.9817 -16.6267 21.3378 -16.4959 21.0201 -16.0192 L 19.181 -13.2611 L 14.4113 -12.3067 C 14.1413 -12.2538 13.9035 -12.0939 13.7509 -11.8653 L 9.83492 -5.99184 L 5.07504 -5.03946 C 4.8146 -5.33056 4.51767 -5.59756 4.1913 -5.83727 C 6.07121 -6.88908 7.3457 -8.89921 7.3457 -11.2028 L 7.3457 -13.4521 C 7.3457 -13.6801 7.33217 -13.9049 7.30798 -14.1266 C 7.3256 -14.1905 7.33742 -14.257 7.34266 -14.3255 C 7.34788 -14.3889 7.864 -20.6352 11.4996 -20.6352 C 17.0843 -20.6352 17.7053 -29.5377 17.7282 -29.9168 C 17.7635 -30.489 17.3284 -30.9813 16.7572 -31.0175 C 16.1861 -31.057 15.6907 -30.6188 15.6554 -30.0456 C 15.6502 -29.9729 15.0967 -22.7121 11.4996 -22.7121 C 8.14265 -22.7121 6.5767 -19.8132 5.85813 -17.4544 C 5.37949 -18.0105 4.80424 -18.4808 4.15721 -18.8374 C 4.84539 -19.5678 5.26657 -20.5387 5.26462 -21.5875 C 5.28337 -21.8035 5.40896 -23.7278 4.30508 -24.9262 C 3.76306 -25.516 3.01841 -25.8275 2.15341 -25.8275 C 1.57915 -25.8275 1.11501 -25.3623 1.11501 -24.7892 C 1.11501 -24.216 1.57915 -23.7508 2.15341 -23.7508 C 2.51691 -23.7508 2.67681 -23.6282 2.77551 -23.5223 C 3.19194 -23.0727 3.21786 -22.0716 3.19194 -21.6739 C 3.19194 -20.5286 2.2605 -19.597 1.11501 -19.597 L -0.96193 -19.597 C -2.1073 -19.597 -3.03886 -20.5284 -3.043 -21.7601 C -3.07306 -22.135 -3.01185 -23.0986 -2.6245 -23.5203 C -2.52581 -23.6272 -2.3659 -23.7508 -2.00034 -23.7508 C -1.42607 -23.7508 -0.96193 -24.216 -0.96193 -24.7892 C -0.96193 -25.3623 -1.42607 -25.8275 -2.00034 -25.8275 C -2.86533 -25.8275 -3.60997 -25.516 -4.15199 -24.9262 C -5.25588 -23.7279 -5.13015 -21.8035 -5.11569 -21.6738 C -5.11569 -20.5799 -4.69026 -19.5842 -3.99683 -18.8416 C -4.6468 -18.4846 -5.22446 -18.0128 -5.70491 -17.4546 C -6.42352 -19.8137 -7.98933 -22.7127 -11.3464 -22.7127 C -14.9311 -22.7127 -15.4971 -29.9735 -15.5022 -30.0462 C -15.5386 -30.6193 -16.0442 -31.0587 -16.605 -31.0172 C -17.1761 -30.9808 -17.6102 -30.4887 -17.5749 -29.9164 C -17.552 -29.5374 -16.931 -20.6359 -11.3463 -20.6359 C -7.72626 -20.6359 -7.19456 -14.3876 -7.18935 -14.3253 C -7.18397 -14.257 -7.17219 -14.1909 -7.15466 -14.1274 C -7.17899 -13.9057 -7.19248 -13.6806 -7.19248 -13.4525 L -7.19248 -11.2032 C -7.19248 -8.8997 -5.91799 -6.88944 -4.03808 -5.83763 C -4.36448 -5.59792 -4.66142 -5.33105 -4.92182 -5.03983 L -9.68174 -5.99221 L -13.5977 -11.8657 C -13.7503 -12.0941 -13.9881 -12.254 -14.2581 -12.3071 L -19.0278 -13.2614 L -20.8669 -16.0196 C -21.1846 -16.4963 -21.8295 -16.6271 -22.3073 -16.3073 C -22.7849 -15.9895 -22.9138 -15.3447 -22.5949 -14.8669 L -20.518 -11.7516 C -20.3654 -11.5231 -20.1275 -11.3633 -19.8576 -11.3102 L -15.0879 -10.3559 L -11.172 -4.48236 C -11.0194 -4.25393 -10.7816 -4.09401 -10.5116 -4.04098 L -5.98653 -3.13594 C -6.09507 -2.75272 -6.1542 -2.35382 -6.1542 -1.94335 C -6.1542 -1.58776 -6.11087 -1.24057 -6.02887 -0.904939 L -12.3849 -0.904939 C -12.5739 -0.904939 -12.7576 -0.85407 -12.9197 -0.756472 L -17.8648 2.21041 L -21.7311 2.21041 C -22.3053 2.21041 -22.7695 2.67564 -22.7695 3.24881 C -22.7695 3.82199 -22.3053 4.28723 -21.7311 4.28723 L -17.5773 4.28723 C -17.3883 4.28723 -17.2045 4.23634 -17.0425 4.13876 L -12.0973 1.17188 L -5.11579 1.17188 C -5.04949 1.17188 -4.98475 1.16506 -4.92182 1.15314 C -4.41144 1.72375 -3.76306 2.20335 -3.01939 2.55979 C -3.67679 3.29481 -4.07738 4.26409 -4.07738 5.32574 L -4.07738 5.72187 L -13.8876 10.627 C -14.1752 10.7713 -14.3787 11.0381 -14.441 11.3529 L -17.495 26.6212 L -20.3882 29.5143 C -20.7943 29.9204 -20.7943 30.5767 -20.3882 30.9827 C -20.1857 31.1852 -19.9198 31.2869 -19.654 31.2869 C -19.3881 31.2869 -19.1223 31.1852 -18.9198 30.9827 L -15.8045 27.8673 C -15.6591 27.7219 -15.5614 27.5381 -15.5209 27.3366 L -12.5043 12.2584 L -4.07728 8.04487 L -4.07728 8.44097 C -4.07728 9.47136 -3.69953 10.4145 -3.07635 11.1411 C -6.09774 12.3855 -8.23116 15.3606 -8.23116 18.8254 L -8.23116 22.9792 C -8.23116 27.5598 -4.50417 31.2868 0.0764775 31.2868 C 4.65712 31.2868 8.38411 27.5598 8.38411 22.9792 L 8.38411 18.8254 C 8.38411 15.3604 6.25083 12.3854 3.2293 11.1411 C 3.85249 10.4145 4.23024 9.47136 4.23024 8.44097 L 4.23024 8.04487 L 12.6572 12.2584 L 15.6739 27.3366 C 15.7144 27.538 15.812 27.7219 15.9574 27.8673 L 19.0728 30.9827 C 19.2753 31.1852 19.5412 31.2869 19.807 31.2869 C 20.0728 31.2869 20.3386 31.1852 20.5411 30.9827 C 20.9471 30.5767 20.9471 29.9203 20.5411 29.5143 L 17.648 26.6212 L 14.5939 11.3529 C 14.5315 11.0381 14.328 10.7713 14.0404 10.627 L 4.23024 5.72187 L 4.23024 5.32574 C 4.23024 4.26409 3.82962 3.29481 3.17223 2.55979 C 3.91601 2.20335 4.56426 1.72388 5.07464 1.15314 C 5.13757 1.16506 5.20219 1.17188 5.26865 1.17188 L 12.2502 1.17188 L 17.1953 4.13876 C 17.3573 4.23634 17.5411 4.28723 17.7301 4.28723 L 21.8839 4.28723 C 22.4581 4.28723 22.9223 3.82199 22.9223 3.24881 C 22.9223 2.67564 22.4585 2.21077 21.8842 2.21077 Z M -1.04894 -7.13526 C -3.29089 -7.13526 -5.11556 -8.9598 -5.11556 -11.2028 L -5.11556 -13.4521 C -5.11556 -15.6952 -3.29101 -17.5197 -1.04894 -17.5197 L 1.20238 -17.5197 C 3.44434 -17.5197 5.26901 -15.6952 5.26901 -13.4521 L 5.26901 -11.2028 C 5.26901 -8.9598 3.44444 -7.13526 1.20238 -7.13526 Z M 6.30752 18.8259 L 6.30752 22.9796 C 6.30752 26.4159 3.51308 29.2103 0.0768428 29.2103 C -3.3594 29.2103 -6.15384 26.4159 -6.15384 22.9796 L -6.15384 18.8259 C -6.15384 15.3896 -3.3594 12.5952 0.0768428 12.5952 C 3.51308 12.5952 6.30752 15.3896 6.30752 18.8259 Z M 2.15366 5.3261 L 2.15366 6.39593 L 2.15366 6.39956 L 2.15366 8.44147 C 2.15366 9.58683 1.22222 10.5184 0.076721 10.5184 C -1.06878 10.5184 -2.00022 9.58696 -2.00022 8.44147 L -2.00022 6.39956 L -2.00022 6.39593 L -2.00022 5.3261 C -2.00022 4.18074 -1.06878 3.24918 0.076721 3.24918 C 1.22222 3.24918 2.15366 4.18074 2.15366 5.3261 Z M 0.0768428 1.17236 C -2.21403 1.17236 -4.07692 -0.225404 -4.07692 -1.94298 C -4.07692 -3.66056 -2.21391 -5.05834 0.0768428 -5.05834 C 2.36759 -5.05834 4.2306 -3.66056 4.2306 -1.94298 C 4.2306 -0.225404 2.36759 1.17236 0.0768428 1.17236 Z"]], template: function HivePieceComponent_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275namespaceSVG();
       \u0275\u0275elementStart(0, "g")(1, "g", 0);
@@ -21108,7 +21741,7 @@ var HiveComponent = class _HiveComponent extends HexagonalGameComponent {
         return 1.5;
     }
   }
-  selectRemaining(piece, _33) {
+  selectRemaining(piece, _34) {
     return __async(this, null, function* () {
       if (piece.owner === this.getCurrentOpponent()) {
         return this.cancelMove(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
@@ -21130,7 +21763,7 @@ var HiveComponent = class _HiveComponent extends HexagonalGameComponent {
       }
     });
   }
-  selectPiece(x2, y, _33) {
+  selectPiece(x2, y, _34) {
     return __async(this, null, function* () {
       return this.select(new Coord(x2, y));
     });
@@ -21515,15 +22148,15 @@ var KamisadoBoard = class _KamisadoBoard {
     return _KamisadoBoard.COLORS[y][x2];
   }
   static getInitialBoard() {
-    const _33 = KamisadoPiece.EMPTY;
+    const _34 = KamisadoPiece.EMPTY;
     return [
       [1, 2, 3, 4, 5, 6, 7, 8].map((value) => KamisadoPiece.of(Player.ONE, value)),
-      [_33, _33, _33, _33, _33, _33, _33, _33],
-      [_33, _33, _33, _33, _33, _33, _33, _33],
-      [_33, _33, _33, _33, _33, _33, _33, _33],
-      [_33, _33, _33, _33, _33, _33, _33, _33],
-      [_33, _33, _33, _33, _33, _33, _33, _33],
-      [_33, _33, _33, _33, _33, _33, _33, _33],
+      [_34, _34, _34, _34, _34, _34, _34, _34],
+      [_34, _34, _34, _34, _34, _34, _34, _34],
+      [_34, _34, _34, _34, _34, _34, _34, _34],
+      [_34, _34, _34, _34, _34, _34, _34, _34],
+      [_34, _34, _34, _34, _34, _34, _34, _34],
+      [_34, _34, _34, _34, _34, _34, _34, _34],
       [8, 7, 6, 5, 4, 3, 2, 1].map((value) => KamisadoPiece.of(Player.ZERO, value))
     ];
   }
@@ -22233,18 +22866,18 @@ var LinesOfActionRules = class _LinesOfActionRules extends Rules {
     return _LinesOfActionRules.singleton.get();
   }
   getInitialState() {
-    const _33 = PlayerOrNone.NONE;
-    const O28 = PlayerOrNone.ZERO;
-    const X28 = PlayerOrNone.ONE;
+    const _34 = PlayerOrNone.NONE;
+    const O29 = PlayerOrNone.ZERO;
+    const X29 = PlayerOrNone.ONE;
     const board = [
-      [_33, O28, O28, O28, O28, O28, O28, _33],
-      [X28, _33, _33, _33, _33, _33, _33, X28],
-      [X28, _33, _33, _33, _33, _33, _33, X28],
-      [X28, _33, _33, _33, _33, _33, _33, X28],
-      [X28, _33, _33, _33, _33, _33, _33, X28],
-      [X28, _33, _33, _33, _33, _33, _33, X28],
-      [X28, _33, _33, _33, _33, _33, _33, X28],
-      [_33, O28, O28, O28, O28, O28, O28, _33]
+      [_34, O29, O29, O29, O29, O29, O29, _34],
+      [X29, _34, _34, _34, _34, _34, _34, X29],
+      [X29, _34, _34, _34, _34, _34, _34, X29],
+      [X29, _34, _34, _34, _34, _34, _34, X29],
+      [X29, _34, _34, _34, _34, _34, _34, X29],
+      [X29, _34, _34, _34, _34, _34, _34, X29],
+      [X29, _34, _34, _34, _34, _34, _34, X29],
+      [_34, O29, O29, O29, O29, O29, O29, _34]
     ];
     return new LinesOfActionState(board, 0);
   }
@@ -22396,22 +23029,22 @@ var LinesOfActionRules = class _LinesOfActionRules extends Rules {
 };
 
 // src/app/games/lines-of-action/LinesOfActionTutorial.ts
-var _14 = PlayerOrNone.NONE;
-var O13 = PlayerOrNone.ZERO;
-var X12 = PlayerOrNone.ONE;
+var _15 = PlayerOrNone.NONE;
+var O14 = PlayerOrNone.ZERO;
+var X13 = PlayerOrNone.ONE;
 var LinesOfActionTutorial = class {
   tutorial = [
     TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`At Lines of Actions, the goal is to group your pieces contiguously, orthogonally and/or diagonally.
         Here, Dark wins the game:
         Dark's pieces are forming a single group, while Light's pieces form three groups.`, new LinesOfActionState([
-      [_14, _14, _14, _14, _14, _14, _14, _14],
-      [X12, _14, _14, _14, O13, _14, _14, X12],
-      [_14, _14, O13, O13, X12, _14, _14, _14],
-      [_14, _14, _14, O13, _14, _14, _14, _14],
-      [_14, _14, _14, _14, _14, _14, _14, _14],
-      [_14, _14, _14, _14, _14, _14, _14, _14],
-      [_14, _14, _14, _14, _14, _14, _14, _14],
-      [_14, _14, _14, _14, _14, _14, _14, _14]
+      [_15, _15, _15, _15, _15, _15, _15, _15],
+      [X13, _15, _15, _15, O14, _15, _15, X13],
+      [_15, _15, O14, O14, X13, _15, _15, _15],
+      [_15, _15, _15, O14, _15, _15, _15, _15],
+      [_15, _15, _15, _15, _15, _15, _15, _15],
+      [_15, _15, _15, _15, _15, _15, _15, _15],
+      [_15, _15, _15, _15, _15, _15, _15, _15],
+      [_15, _15, _15, _15, _15, _15, _15, _15]
     ], 0)),
     TutorialStep.anyMove($localize`Initial board and initial move`, $localize`Here is the initial board.
          Moves can be made orthogonally or diagonally.
@@ -22421,14 +23054,14 @@ var LinesOfActionTutorial = class {
     TutorialStep.fromMove($localize`Jumping`, $localize`During a move, it is possible to jump above your own pieces.
         But it is forbidden to jump over the opponent's pieces.<br/><br/>
         You're playing Dark, make a jump over one of your pieces on the following board.`, new LinesOfActionState([
-      [_14, _14, _14, _14, _14, _14, _14, _14],
-      [_14, _14, X12, O13, O13, _14, _14, _14],
-      [_14, _14, _14, _14, _14, _14, _14, _14],
-      [_14, _14, _14, _14, _14, _14, _14, _14],
-      [_14, _14, _14, _14, _14, _14, _14, _14],
-      [_14, _14, _14, _14, _14, _14, _14, _14],
-      [_14, _14, _14, _14, _14, _14, _14, X12],
-      [_14, _14, _14, _14, _14, _14, _14, O13]
+      [_15, _15, _15, _15, _15, _15, _15, _15],
+      [_15, _15, X13, O14, O14, _15, _15, _15],
+      [_15, _15, _15, _15, _15, _15, _15, _15],
+      [_15, _15, _15, _15, _15, _15, _15, _15],
+      [_15, _15, _15, _15, _15, _15, _15, _15],
+      [_15, _15, _15, _15, _15, _15, _15, _15],
+      [_15, _15, _15, _15, _15, _15, _15, X13],
+      [_15, _15, _15, _15, _15, _15, _15, O14]
     ], 0), [LinesOfActionMove.from(new Coord(3, 1), new Coord(6, 1)).get()], TutorialStepMessage.CONGRATULATIONS(), $localize`Failed. You did not jump over one of your pieces.`),
     TutorialStep.fromMove($localize`Moving`, $localize`Here is a different board. Pick the dark piece in the middle (line 4, column 4)
         and observe its possible moves.
@@ -22441,14 +23074,14 @@ var LinesOfActionTutorial = class {
                 On the other diagonal, there are too many pieces to end the move on the board.</li>
         </ul><br/>
         You're playing Dark, make one of these moves.`, new LinesOfActionState([
-      [_14, _14, _14, _14, _14, _14, X12, _14],
-      [_14, _14, _14, _14, _14, O13, _14, _14],
-      [_14, _14, _14, _14, X12, _14, _14, _14],
-      [_14, _14, _14, O13, _14, _14, _14, _14],
-      [_14, _14, _14, _14, _14, _14, _14, X12],
-      [_14, _14, _14, _14, _14, X12, _14, X12],
-      [_14, _14, _14, O13, _14, _14, X12, X12],
-      [_14, _14, _14, O13, _14, _14, _14, _14]
+      [_15, _15, _15, _15, _15, _15, X13, _15],
+      [_15, _15, _15, _15, _15, O14, _15, _15],
+      [_15, _15, _15, _15, X13, _15, _15, _15],
+      [_15, _15, _15, O14, _15, _15, _15, _15],
+      [_15, _15, _15, _15, _15, _15, _15, X13],
+      [_15, _15, _15, _15, _15, X13, _15, X13],
+      [_15, _15, _15, O14, _15, _15, X13, X13],
+      [_15, _15, _15, O14, _15, _15, _15, _15]
     ], 0), [
       LinesOfActionMove.from(new Coord(3, 3), new Coord(3, 0)).get(),
       LinesOfActionMove.from(new Coord(3, 3), new Coord(0, 0)).get(),
@@ -22460,14 +23093,14 @@ var LinesOfActionTutorial = class {
         Watch out, having less pieces at Lines of Action makes a victory easier, as there are less pieces to regroup!
         If a player has only one piece, that player wins the game.<br/><br/>
         On the following board, try to capture one piece with Dark.`, new LinesOfActionState([
-      [_14, O13, _14, O13, O13, O13, O13, _14],
-      [X12, _14, _14, _14, _14, _14, _14, X12],
-      [_14, _14, O13, _14, X12, _14, _14, _14],
-      [X12, _14, _14, _14, _14, _14, _14, X12],
-      [X12, _14, _14, _14, _14, _14, _14, X12],
-      [X12, _14, _14, _14, _14, _14, _14, X12],
-      [X12, _14, _14, _14, _14, _14, _14, X12],
-      [_14, O13, O13, O13, O13, O13, O13, _14]
+      [_15, O14, _15, O14, O14, O14, O14, _15],
+      [X13, _15, _15, _15, _15, _15, _15, X13],
+      [_15, _15, O14, _15, X13, _15, _15, _15],
+      [X13, _15, _15, _15, _15, _15, _15, X13],
+      [X13, _15, _15, _15, _15, _15, _15, X13],
+      [X13, _15, _15, _15, _15, _15, _15, X13],
+      [X13, _15, _15, _15, _15, _15, _15, X13],
+      [_15, O14, O14, O14, O14, O14, O14, _15]
     ], 0), LinesOfActionMove.from(new Coord(2, 2), new Coord(4, 2)).get(), (move, previous, _result) => {
       if (previous.getPieceAt(move.getEnd()) === PlayerOrNone.ONE) {
         return MGPValidation.SUCCESS;
@@ -22478,14 +23111,14 @@ var LinesOfActionTutorial = class {
     TutorialStep.fromMove($localize`Tie`, $localize`In the special case where a move ends up connecting all pieces of both player, simultaneously,
         then the game ends up with a tie.<br/><br/>
         You're playing Dark, force the tie in one move.`, new LinesOfActionState([
-      [_14, _14, _14, _14, _14, _14, _14, _14],
-      [_14, _14, _14, _14, _14, _14, _14, _14],
-      [O13, _14, _14, O13, X12, O13, _14, _14],
-      [_14, _14, _14, O13, _14, _14, _14, X12],
-      [_14, _14, _14, _14, _14, _14, _14, X12],
-      [_14, _14, _14, _14, _14, _14, _14, X12],
-      [_14, _14, _14, _14, _14, _14, _14, X12],
-      [_14, _14, _14, _14, _14, _14, _14, _14]
+      [_15, _15, _15, _15, _15, _15, _15, _15],
+      [_15, _15, _15, _15, _15, _15, _15, _15],
+      [O14, _15, _15, O14, X13, O14, _15, _15],
+      [_15, _15, _15, O14, _15, _15, _15, X13],
+      [_15, _15, _15, _15, _15, _15, _15, X13],
+      [_15, _15, _15, _15, _15, _15, _15, X13],
+      [_15, _15, _15, _15, _15, _15, _15, X13],
+      [_15, _15, _15, _15, _15, _15, _15, _15]
     ], 0), [LinesOfActionMove.from(new Coord(0, 2), new Coord(4, 2)).get()], TutorialStepMessage.CONGRATULATIONS(), TutorialStepMessage.FAILED_TRY_AGAIN())
   ];
 };
@@ -23092,18 +23725,18 @@ var LodestoneRules = class _LodestoneRules extends Rules {
     return _LodestoneRules.singleton.get();
   }
   getInitialState() {
-    const _33 = LodestonePieceNone.EMPTY;
-    const O28 = LodestonePiecePlayer.ZERO;
-    const X28 = LodestonePiecePlayer.ONE;
+    const _34 = LodestonePieceNone.EMPTY;
+    const O29 = LodestonePiecePlayer.ZERO;
+    const X29 = LodestonePiecePlayer.ONE;
     const board = [
-      [_33, _33, O28, X28, O28, X28, _33, _33],
-      [_33, O28, X28, O28, X28, O28, X28, _33],
-      [O28, X28, O28, X28, O28, X28, O28, X28],
-      [X28, O28, X28, _33, _33, O28, X28, O28],
-      [O28, X28, O28, _33, _33, X28, O28, X28],
-      [X28, O28, X28, O28, X28, O28, X28, O28],
-      [_33, X28, O28, X28, O28, X28, O28, _33],
-      [_33, _33, X28, O28, X28, O28, _33, _33]
+      [_34, _34, O29, X29, O29, X29, _34, _34],
+      [_34, O29, X29, O29, X29, O29, X29, _34],
+      [O29, X29, O29, X29, O29, X29, O29, X29],
+      [X29, O29, X29, _34, _34, O29, X29, O29],
+      [O29, X29, O29, _34, _34, X29, O29, X29],
+      [X29, O29, X29, O29, X29, O29, X29, O29],
+      [_34, X29, O29, X29, O29, X29, O29, _34],
+      [_34, _34, X29, O29, X29, O29, _34, _34]
     ];
     const plates = LodestonePressurePlates.getInitialLodestonePressurePlates([5, 3]);
     return new LodestoneState(board, 0, new MGPMap(), plates);
@@ -23359,10 +23992,10 @@ var LodestoneMove = class _LodestoneMove extends MoveCoord {
 
 // src/app/games/lodestone/LodestoneTutorial.ts
 var N7 = LodestonePieceNone.UNREACHABLE;
-var _15 = LodestonePieceNone.EMPTY;
+var _16 = LodestonePieceNone.EMPTY;
 var A3 = LodestonePiecePlayer.ZERO;
 var B4 = LodestonePiecePlayer.ONE;
-var X13 = LodestonePieceLodestone.ONE_PUSH_ORTHOGONAL;
+var X14 = LodestonePieceLodestone.ONE_PUSH_ORTHOGONAL;
 var allPressurePlates = LodestoneState.INITIAL_PRESSURE_PLATES;
 var LodestoneTutorial = class extends Tutorial {
   tutorial = [
@@ -23378,14 +24011,14 @@ var LodestoneTutorial = class extends Tutorial {
       return MGPValidation.SUCCESS;
     }, TutorialStepMessage.CONGRATULATIONS()),
     TutorialStep.fromPredicate($localize`Crumbling a first pressure plate`, $localize`When a pressure plate is full, it will crumble and take a full row or column of the board with it! All pieces that are on the crumbled squares are considered lost, but will not have to be placed on pressure plates. You have here a board with a pressure plate that only requires one more piece to crumble.<br/><br/>You're playing Dark. Perform a move that captures at least one piece, and fill that pressure plate to make it crumble.`, new LodestoneState([
-      [_15, _15, _15, _15, B4, _15, _15, _15],
-      [_15, _15, A3, _15, _15, B4, _15, _15],
-      [_15, _15, X13, _15, _15, _15, _15, A3],
-      [_15, _15, _15, _15, B4, _15, _15, A3],
-      [_15, _15, _15, _15, _15, A3, _15, _15],
-      [_15, _15, _15, _15, _15, _15, _15, _15],
-      [_15, _15, _15, _15, _15, _15, _15, _15],
-      [_15, _15, _15, _15, _15, _15, _15, _15]
+      [_16, _16, _16, _16, B4, _16, _16, _16],
+      [_16, _16, A3, _16, _16, B4, _16, _16],
+      [_16, _16, X14, _16, _16, _16, _16, A3],
+      [_16, _16, _16, _16, B4, _16, _16, A3],
+      [_16, _16, _16, _16, _16, A3, _16, _16],
+      [_16, _16, _16, _16, _16, _16, _16, _16],
+      [_16, _16, _16, _16, _16, _16, _16, _16],
+      [_16, _16, _16, _16, _16, _16, _16, _16]
     ], 0, new MGPMap([
       { key: Player.ONE, value: new Coord(2, 2) }
     ]), __spreadProps(__spreadValues({}, allPressurePlates), {
@@ -23398,13 +24031,13 @@ var LodestoneTutorial = class extends Tutorial {
     }, TutorialStepMessage.CONGRATULATIONS()),
     TutorialStep.fromPredicate($localize`Crumbling a second pressure plate`, $localize`Once a pressure plate has crumbled, a shorter pressure plate takes it place. It is the case here, where only 3 spots are available on the top pressure plate.<br/><br/>You're playing Dark. Perform a move that captures enough pieces to fill the top pressure plate, and make it crumble.`, new LodestoneState([
       [N7, N7, N7, N7, N7, N7, N7, N7],
-      [_15, _15, _15, _15, _15, _15, _15, _15],
-      [_15, _15, _15, _15, _15, _15, _15, A3],
-      [_15, _15, _15, _15, _15, A3, _15, A3],
-      [_15, X13, _15, _15, B4, _15, _15, _15],
-      [_15, _15, _15, _15, _15, _15, _15, _15],
-      [_15, _15, _15, _15, B4, _15, _15, _15],
-      [_15, _15, _15, _15, _15, _15, _15, _15]
+      [_16, _16, _16, _16, _16, _16, _16, _16],
+      [_16, _16, _16, _16, _16, _16, _16, A3],
+      [_16, _16, _16, _16, _16, A3, _16, A3],
+      [_16, X14, _16, _16, B4, _16, _16, _16],
+      [_16, _16, _16, _16, _16, _16, _16, _16],
+      [_16, _16, _16, _16, B4, _16, _16, _16],
+      [_16, _16, _16, _16, _16, _16, _16, _16]
     ], 0, new MGPMap([
       { key: Player.ONE, value: new Coord(1, 4) }
     ]), __spreadProps(__spreadValues({}, allPressurePlates), {
@@ -23418,10 +24051,10 @@ var LodestoneTutorial = class extends Tutorial {
     TutorialStep.informational($localize`Minimal board`, $localize`After a pressure plate has crumbled for a second time, there is no more pressure plate available on that side. In case all pressure plates have crumbled, the board is reduced to a 4x4 board.`, new LodestoneState([
       [N7, N7, N7, N7, N7, N7, N7, N7],
       [N7, N7, N7, N7, N7, N7, N7, N7],
-      [N7, N7, A3, B4, _15, _15, N7, N7],
-      [N7, N7, X13, B4, _15, _15, N7, N7],
-      [N7, N7, _15, A3, A3, _15, N7, N7],
-      [N7, N7, A3, _15, _15, _15, N7, N7],
+      [N7, N7, A3, B4, _16, _16, N7, N7],
+      [N7, N7, X14, B4, _16, _16, N7, N7],
+      [N7, N7, _16, A3, A3, _16, N7, N7],
+      [N7, N7, A3, _16, _16, _16, N7, N7],
       [N7, N7, N7, N7, N7, N7, N7, N7],
       [N7, N7, N7, N7, N7, N7, N7, N7]
     ], 0, new MGPMap([
@@ -23433,14 +24066,14 @@ var LodestoneTutorial = class extends Tutorial {
       right: LodestonePressurePlateGroup.of([5, 3]).addCaptured(Player.ZERO, 8)
     })),
     TutorialStep.fromMove($localize`Making the lodestone fall`, $localize`If, at any point during the game, your lodestone is situated on a square that crumbles with a pressure plate, you will be allowed to select any lodestone side on your next turn.<br/><br/>In this board, playing Dark, you can place your lodestone and make a pressure plate crumble so that your lodestone falls too, allowing to choose more freely its side on your next turn. Do it!`, new LodestoneState([
-      [_15, _15, _15, _15, _15, _15, _15, _15],
-      [_15, _15, _15, _15, _15, B4, _15, _15],
-      [_15, _15, _15, X13, _15, _15, A3, _15],
-      [_15, _15, A3, A3, B4, _15, _15, A3],
-      [_15, _15, _15, _15, _15, A3, _15, _15],
-      [_15, _15, A3, _15, _15, _15, _15, _15],
-      [_15, _15, B4, _15, _15, _15, _15, _15],
-      [_15, _15, _15, _15, _15, _15, _15, _15]
+      [_16, _16, _16, _16, _16, _16, _16, _16],
+      [_16, _16, _16, _16, _16, B4, _16, _16],
+      [_16, _16, _16, X14, _16, _16, A3, _16],
+      [_16, _16, A3, A3, B4, _16, _16, A3],
+      [_16, _16, _16, _16, _16, A3, _16, _16],
+      [_16, _16, A3, _16, _16, _16, _16, _16],
+      [_16, _16, B4, _16, _16, _16, _16, _16],
+      [_16, _16, _16, _16, _16, _16, _16, _16]
     ], 0, new MGPMap([
       { key: Player.ONE, value: new Coord(3, 2) }
     ]), __spreadProps(__spreadValues({}, allPressurePlates), {
@@ -23449,11 +24082,11 @@ var LodestoneTutorial = class extends Tutorial {
     TutorialStep.fromMove(TutorialStepMessage.END_OF_THE_GAME(), $localize`In order to win, you must take out all of your opponent's pieces.<br/><br/>Here, you can win in a single move, do it!`, new LodestoneState([
       [N7, N7, N7, N7, N7, N7, N7, N7],
       [N7, N7, N7, N7, N7, N7, N7, N7],
-      [N7, B4, A3, B4, _15, _15, N7, N7],
-      [N7, B4, X13, _15, B4, _15, N7, N7],
-      [N7, _15, _15, A3, A3, _15, N7, N7],
-      [N7, B4, A3, _15, B4, _15, N7, N7],
-      [N7, _15, _15, _15, A3, _15, N7, N7],
+      [N7, B4, A3, B4, _16, _16, N7, N7],
+      [N7, B4, X14, _16, B4, _16, N7, N7],
+      [N7, _16, _16, A3, A3, _16, N7, N7],
+      [N7, B4, A3, _16, B4, _16, N7, N7],
+      [N7, _16, _16, _16, A3, _16, N7, N7],
       [N7, N7, N7, N7, N7, N7, N7, N7]
     ], 0, new MGPMap([
       { key: Player.ONE, value: new Coord(2, 3) }
@@ -23546,7 +24179,7 @@ var LodestoneScoreHeuristic = class extends PlayerMetricHeuristic {
 };
 
 // src/app/games/lodestone/lodestone-lodestone.component.ts
-var _c08 = ["app-lodestone-lodestone", ""];
+var _c09 = ["app-lodestone-lodestone", ""];
 var _c12 = () => [0, 1, 2, 3];
 function LodestoneLodestoneComponent_For_4_Template(rf, ctx) {
   if (rf & 1) {
@@ -23585,7 +24218,7 @@ var LodestoneLodestoneComponent = class _LodestoneLodestoneComponent extends Bas
   static \u0275fac = function LodestoneLodestoneComponent_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _LodestoneLodestoneComponent)();
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _LodestoneLodestoneComponent, selectors: [["", "app-lodestone-lodestone", ""]], inputs: { lodestoneInfo: [1, "lodestoneInfo"] }, features: [\u0275\u0275InheritDefinitionFeature], attrs: _c08, decls: 5, vars: 6, consts: [[1, "lodestone-wrapper"], ["cx", "0", "cy", "0", 1, "data-lodestone-main-circle", "base", "black-fill", 3, "ngClass"], ["cx", "0", "cy", "0", 1, "base", "no-stroke", 3, "ngClass"], [1, "base", "no-stroke", 3, "class", "ngClass"], [1, "base", "no-stroke", 3, "ngClass"]], template: function LodestoneLodestoneComponent_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _LodestoneLodestoneComponent, selectors: [["", "app-lodestone-lodestone", ""]], inputs: { lodestoneInfo: [1, "lodestoneInfo"] }, features: [\u0275\u0275InheritDefinitionFeature], attrs: _c09, decls: 5, vars: 6, consts: [[1, "lodestone-wrapper"], ["cx", "0", "cy", "0", 1, "data-lodestone-main-circle", "base", "black-fill", 3, "ngClass"], ["cx", "0", "cy", "0", 1, "base", "no-stroke", 3, "ngClass"], [1, "base", "no-stroke", 3, "class", "ngClass"], [1, "base", "no-stroke", 3, "ngClass"]], template: function LodestoneLodestoneComponent_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275namespaceSVG();
       \u0275\u0275elementStart(0, "g", 0);
@@ -24847,7 +25480,7 @@ var MancalaRules = class _MancalaRules extends ConfigurableRules {
     }
     return GameStatus.ONGOING;
   }
-  applyLegalMove(move, state, config, _33) {
+  applyLegalMove(move, state, config, _34) {
     const distributionsResult = this.distributeMove(move, state, config);
     const captureResult = this.applyCapture(distributionsResult, config);
     let resultingState = captureResult.resultingState;
@@ -25117,13 +25750,13 @@ var MancalaTutorial = class {
 };
 
 // src/app/games/mancala/awale/AwaleTutorial.ts
-var defaultConfig13 = AwaleRules.get().getDefaultRulesConfig();
+var defaultConfig14 = AwaleRules.get().getDefaultRulesConfig();
 var AwaleTutorial = class extends Tutorial {
   gameName = $localize`Awalé`;
   tutorial = [
-    MancalaTutorial.intro(this.gameName, AwaleRules.get().getInitialState(defaultConfig13)),
-    TutorialStep.informational($localize`Awalé`, $localize`Bonus fact: Awalé is the most common of all Mancalas.`, AwaleRules.get().getInitialState(defaultConfig13)),
-    MancalaTutorial.sowing(AwaleRules.get().getInitialState(defaultConfig13)),
+    MancalaTutorial.intro(this.gameName, AwaleRules.get().getInitialState(defaultConfig14)),
+    TutorialStep.informational($localize`Awalé`, $localize`Bonus fact: Awalé is the most common of all Mancalas.`, AwaleRules.get().getInitialState(defaultConfig14)),
+    MancalaTutorial.sowing(AwaleRules.get().getInitialState(defaultConfig14)),
     TutorialStep.anyMove($localize`Big sowing`, $localize`When there are enough seeds to make a full turn, something else happens.<br/><br/> You're playing Dark. Sow the house that contains 12 seeds.`, new MancalaState([
       [0, 0, 0, 0, 0, 0],
       [0, 12, 0, 0, 0, 0]
@@ -25504,7 +26137,7 @@ var MancalaComponent = class _MancalaComponent extends RectangularGameComponent 
       }
     }
   }
-  onStoreClick(_33) {
+  onStoreClick(_34) {
     return __async(this, null, function* () {
       return this.cancelMove(MancalaFailure.MUST_DISTRIBUTE_YOUR_OWN_HOUSES());
     });
@@ -25568,7 +26201,7 @@ __decorate29([
 ], MancalaComponent.prototype, "onStoreClick", null);
 
 // src/app/games/mancala/common/numbered-circle.component.ts
-var _c09 = ["app-numbered-circle", ""];
+var _c010 = ["app-numbered-circle", ""];
 function NumberedCircleComponent_Conditional_3_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
@@ -25594,7 +26227,7 @@ var NumberedCircleComponent = class _NumberedCircleComponent {
   static \u0275fac = function NumberedCircleComponent_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _NumberedCircleComponent)();
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _NumberedCircleComponent, selectors: [["", "app-numbered-circle", ""]], inputs: { x: [1, "x"], y: [1, "y"], spaceClasses: [1, "spaceClasses"], content: [1, "content"], secondaryContent: [1, "secondaryContent"], rotation: [1, "rotation"] }, attrs: _c09, decls: 4, vars: 12, consts: [["r", "45", 1, "base", 3, "id", "ngClass"], [1, "text-big", "text-center", 3, "id"], [1, "text-20", "text-center", 3, "id"]], template: function NumberedCircleComponent_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _NumberedCircleComponent, selectors: [["", "app-numbered-circle", ""]], inputs: { x: [1, "x"], y: [1, "y"], spaceClasses: [1, "spaceClasses"], content: [1, "content"], secondaryContent: [1, "secondaryContent"], rotation: [1, "rotation"] }, attrs: _c010, decls: 4, vars: 12, consts: [["r", "45", 1, "base", 3, "id", "ngClass"], [1, "text-big", "text-center", 3, "id"], [1, "text-20", "text-center", 3, "id"]], template: function NumberedCircleComponent_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275namespaceSVG();
       \u0275\u0275element(0, "circle", 0);
@@ -25880,12 +26513,12 @@ var BaAwaRules = class _BaAwaRules extends MancalaRules {
 };
 
 // src/app/games/mancala/ba-awa/BaAwaTutorial.ts
-var defaultConfig14 = BaAwaRules.get().getDefaultRulesConfig();
+var defaultConfig15 = BaAwaRules.get().getDefaultRulesConfig();
 var BaAwaTutorial = class extends Tutorial {
   gameName = $localize`Ba-awa`;
   tutorial = [
-    MancalaTutorial.intro(this.gameName, BaAwaRules.get().getInitialState(defaultConfig14)),
-    TutorialStep.informational($localize`Ba-awa`, $localize`Bonus fact: Ba-awa, also called Adi, is played mainly in Ghana.`, BaAwaRules.get().getInitialState(defaultConfig14)),
+    MancalaTutorial.intro(this.gameName, BaAwaRules.get().getInitialState(defaultConfig15)),
+    TutorialStep.informational($localize`Ba-awa`, $localize`Bonus fact: Ba-awa, also called Adi, is played mainly in Ghana.`, BaAwaRules.get().getInitialState(defaultConfig15)),
     MancalaTutorial.sowing(new MancalaState([
       [4, 4, 4, 4, 4, 4],
       [4, 0, 4, 4, 4, 4]
@@ -26079,19 +26712,19 @@ var KalahRules = class _KalahRules extends MancalaRules {
 };
 
 // src/app/games/mancala/kalah/KalahTutorial.ts
-var defaultConfig15 = KalahRules.get().getDefaultRulesConfig();
+var defaultConfig16 = KalahRules.get().getDefaultRulesConfig();
 var KalahTutorial = class extends Tutorial {
   gameName = $localize`Kalah`;
   tutorial = [
-    MancalaTutorial.intro(this.gameName, KalahRules.get().getInitialState(defaultConfig15)),
-    TutorialStep.informational($localize`Kalah`, $localize`Bonus fact: Kalah has been created in the U.S.A in 1940 by William Julius Champion Jr.`, KalahRules.get().getInitialState(defaultConfig15)),
-    MancalaTutorial.sowing(KalahRules.get().getInitialState(defaultConfig15)),
-    TutorialStep.fromMove($localize`The Kalah` + " (1/2)", $localize`The houses on the extreme left and right, unaligned with the others, are the Kalah. Yours is on the left, the opponent's on the right. When sowing, before passing from your leftmost house to the leftmost house of the opponent, you must drop one seed in your Kalah, but you won't have to drop seed in your opponent's Kalah. When you make a capture, the captured seeds are put in your Kalah.<br/><br/>You're playing Dark. Make a move that passes through your Kalah then feeds opponent's houses.`, KalahRules.get().getInitialState(defaultConfig15), [
+    MancalaTutorial.intro(this.gameName, KalahRules.get().getInitialState(defaultConfig16)),
+    TutorialStep.informational($localize`Kalah`, $localize`Bonus fact: Kalah has been created in the U.S.A in 1940 by William Julius Champion Jr.`, KalahRules.get().getInitialState(defaultConfig16)),
+    MancalaTutorial.sowing(KalahRules.get().getInitialState(defaultConfig16)),
+    TutorialStep.fromMove($localize`The Kalah` + " (1/2)", $localize`The houses on the extreme left and right, unaligned with the others, are the Kalah. Yours is on the left, the opponent's on the right. When sowing, before passing from your leftmost house to the leftmost house of the opponent, you must drop one seed in your Kalah, but you won't have to drop seed in your opponent's Kalah. When you make a capture, the captured seeds are put in your Kalah.<br/><br/>You're playing Dark. Make a move that passes through your Kalah then feeds opponent's houses.`, KalahRules.get().getInitialState(defaultConfig16), [
       MancalaMove.of(MancalaDistribution.of(0, 1)),
       MancalaMove.of(MancalaDistribution.of(1, 1)),
       MancalaMove.of(MancalaDistribution.of(2, 1))
     ], $localize`As you see, three houses have been fed in addition to your Kalah.`, $localize`Failed. Choose the three leftmost house on the bottom.`),
-    TutorialStep.fromPredicate($localize`The Kalah` + " (2/2)", $localize`When ending in the Kalah, you must distribute again.<br/><br/>You're playing Dark, play the house that ends up in the Kalah then do a second distribution!`, KalahRules.get().getInitialState(defaultConfig15), MancalaMove.of(MancalaDistribution.of(3, 1), [MancalaDistribution.of(1, 1)]), (move, _previous, _result) => {
+    TutorialStep.fromPredicate($localize`The Kalah` + " (2/2)", $localize`When ending in the Kalah, you must distribute again.<br/><br/>You're playing Dark, play the house that ends up in the Kalah then do a second distribution!`, KalahRules.get().getInitialState(defaultConfig16), MancalaMove.of(MancalaDistribution.of(3, 1), [MancalaDistribution.of(1, 1)]), (move, _previous, _result) => {
       if (move.distributions.length === 1) {
         return MGPValidation.failure($localize`This move only distributed one house, do one distribution that ends in the Kalah, then do a second one!`);
       } else {
@@ -26457,19 +27090,19 @@ var MartianChessRules = class _MartianChessRules extends Rules {
     return _MartianChessRules.singleton.get();
   }
   getInitialState() {
-    const _33 = MartianChessPiece.EMPTY;
+    const _34 = MartianChessPiece.EMPTY;
     const A9 = MartianChessPiece.PAWN;
     const B7 = MartianChessPiece.DRONE;
     const C2 = MartianChessPiece.QUEEN;
     const board = [
-      [C2, C2, B7, _33],
-      [C2, B7, A9, _33],
-      [B7, A9, A9, _33],
-      [_33, _33, _33, _33],
-      [_33, _33, _33, _33],
-      [_33, A9, A9, B7],
-      [_33, A9, B7, C2],
-      [_33, B7, C2, C2]
+      [C2, C2, B7, _34],
+      [C2, B7, A9, _34],
+      [B7, A9, A9, _34],
+      [_34, _34, _34, _34],
+      [_34, _34, _34, _34],
+      [_34, A9, A9, B7],
+      [_34, A9, B7, C2],
+      [_34, B7, C2, C2]
     ];
     return new MartianChessState(board, 0, MGPOptional.empty());
   }
@@ -26608,7 +27241,7 @@ var MartianChessRules = class _MartianChessRules extends Rules {
 };
 
 // src/app/games/martian-chess/MartianChessTutorial.ts
-var _16 = MartianChessPiece.EMPTY;
+var _17 = MartianChessPiece.EMPTY;
 var A4 = MartianChessPiece.PAWN;
 var B5 = MartianChessPiece.DRONE;
 var C = MartianChessPiece.QUEEN;
@@ -26631,14 +27264,14 @@ var MartianChessTutorial = class extends Tutorial {
       }
     }, TutorialStepMessage.CONGRATULATIONS()),
     TutorialStep.fromPredicate($localize`Moving queens`, $localize`Queens are worth three points. They can move any number of steps in any direction, in a straight line, without jumping over other pieces.<br/><br/>You're playing Light, move a queen.`, new MartianChessState([
-      [B5, A4, _16, _16],
-      [C, _16, _16, _16],
-      [_16, _16, _16, _16],
-      [_16, _16, C, _16],
-      [_16, _16, _16, _16],
-      [_16, _16, _16, _16],
-      [_16, _16, _16, _16],
-      [C, B5, A4, _16]
+      [B5, A4, _17, _17],
+      [C, _17, _17, _17],
+      [_17, _17, _17, _17],
+      [_17, _17, C, _17],
+      [_17, _17, _17, _17],
+      [_17, _17, _17, _17],
+      [_17, _17, _17, _17],
+      [C, B5, A4, _17]
     ], 1), MartianChessMove.from(new Coord(2, 3), new Coord(2, 7)).get(), (move, _previous, result) => {
       if (result.getPieceAt(move.getEnd()) === MartianChessPiece.QUEEN) {
         return MGPValidation.SUCCESS;
@@ -26647,37 +27280,37 @@ var MartianChessTutorial = class extends Tutorial {
       }
     }, TutorialStepMessage.CONGRATULATIONS()),
     TutorialStep.fromMove($localize`Captures`, $localize`When a piece crosses the canal and lands on another piece, you capture it and gain the value of that captured piece. However, you lose control of your piece as it crosses the canal!<br/><br/>A capture is possible for Light, do it.`, new MartianChessState([
-      [B5, A4, A4, _16],
-      [_16, _16, _16, _16],
-      [C, _16, _16, _16],
-      [_16, _16, _16, _16],
-      [_16, _16, A4, _16],
-      [_16, _16, _16, _16],
-      [_16, _16, _16, _16],
-      [_16, B5, A4, _16]
+      [B5, A4, A4, _17],
+      [_17, _17, _17, _17],
+      [C, _17, _17, _17],
+      [_17, _17, _17, _17],
+      [_17, _17, A4, _17],
+      [_17, _17, _17, _17],
+      [_17, _17, _17, _17],
+      [_17, B5, A4, _17]
     ], 1), [MartianChessMove.from(new Coord(0, 2), new Coord(2, 4)).get()], $localize`Congratulations! By capturing that pawn, you won one point.`, TutorialStepMessage.YOU_DID_NOT_CAPTURE_ANY_PIECE()),
     TutorialStep.fromMove($localize`Field Promotion` + " (1/2)", $localize`It is sometimes possible to perform what is called a field promotion. If you are out of one type of piece, you can merge two pieces to add their value and get a new piece. For example, if you have no drones, you can merge two pawns into a drone. To merge two pawns, move one of your pawns on another.<br/><br/>Such a move is possible for Light. Do it.`, new MartianChessState([
-      [_16, _16, _16, C],
-      [_16, A4, _16, _16],
-      [_16, _16, A4, _16],
-      [_16, _16, _16, _16],
-      [_16, _16, _16, _16],
-      [_16, _16, _16, C],
-      [_16, _16, B5, _16],
-      [_16, A4, _16, _16]
+      [_17, _17, _17, C],
+      [_17, A4, _17, _17],
+      [_17, _17, A4, _17],
+      [_17, _17, _17, _17],
+      [_17, _17, _17, _17],
+      [_17, _17, _17, C],
+      [_17, _17, B5, _17],
+      [_17, A4, _17, _17]
     ], 1), [
       MartianChessMove.from(new Coord(1, 1), new Coord(2, 2)).get(),
       MartianChessMove.from(new Coord(2, 2), new Coord(1, 1)).get()
     ], TutorialStepMessage.CONGRATULATIONS(), $localize`This is not a field promotion!`),
     TutorialStep.fromPredicate($localize`Field Promotion` + " (2/2)", $localize`The other kind of field promotion is to merge a drone and a pawn to obtain a queen.<br/><br/>Such a move is possible for Light. Do it.`, new MartianChessState([
-      [A4, _16, _16, _16],
-      [_16, _16, _16, _16],
-      [_16, _16, _16, _16],
-      [_16, _16, _16, _16],
-      [_16, _16, _16, _16],
-      [_16, _16, _16, _16],
-      [_16, _16, B5, _16],
-      [_16, A4, _16, _16]
+      [A4, _17, _17, _17],
+      [_17, _17, _17, _17],
+      [_17, _17, _17, _17],
+      [_17, _17, _17, _17],
+      [_17, _17, _17, _17],
+      [_17, _17, _17, _17],
+      [_17, _17, B5, _17],
+      [_17, A4, _17, _17]
     ], 0), MartianChessMove.from(new Coord(1, 7), new Coord(2, 6)).get(), (move, _previous, result) => {
       const landed = result.getPieceAt(move.getEnd());
       if (landed === MartianChessPiece.QUEEN) {
@@ -26694,34 +27327,34 @@ var MartianChessTutorial = class extends Tutorial {
       }
     }, TutorialStepMessage.CONGRATULATIONS()),
     TutorialStep.fromMove($localize`Restarting the clock`, $localize`If the clock has been called, whenever a capture is done the countdown restarts.<br/><br/>You're playing Dark, do a capture to restart the countdown.`, new MartianChessState([
-      [_16, _16, _16, _16],
-      [_16, A4, _16, _16],
-      [_16, _16, _16, _16],
-      [_16, _16, _16, _16],
-      [_16, _16, _16, _16],
-      [_16, _16, _16, A4],
-      [_16, _16, B5, _16],
-      [_16, C, _16, _16]
+      [_17, _17, _17, _17],
+      [_17, A4, _17, _17],
+      [_17, _17, _17, _17],
+      [_17, _17, _17, _17],
+      [_17, _17, _17, _17],
+      [_17, _17, _17, A4],
+      [_17, _17, B5, _17],
+      [_17, C, _17, _17]
     ], 16, MGPOptional.empty(), MGPOptional.of(1)), [MartianChessMove.from(new Coord(1, 7), new Coord(1, 1)).get()], TutorialStepMessage.CONGRATULATIONS(), $localize`This is not a capture, the game is now over, please retry!`),
     TutorialStep.anyMove($localize`End game (by clock)`, $localize`When seven turns have passed after the clock has been called, the player with the most points win. If both player have the same number of points, it is a tie.<br/><br/>You're playing Light, do the last move.`, new MartianChessState([
-      [_16, _16, _16, C],
-      [_16, A4, _16, _16],
-      [_16, _16, _16, _16],
-      [_16, _16, _16, _16],
-      [_16, _16, _16, _16],
-      [B5, _16, _16, _16],
-      [_16, _16, _16, _16],
-      [_16, B5, _16, _16]
+      [_17, _17, _17, C],
+      [_17, A4, _17, _17],
+      [_17, _17, _17, _17],
+      [_17, _17, _17, _17],
+      [_17, _17, _17, _17],
+      [B5, _17, _17, _17],
+      [_17, _17, _17, _17],
+      [_17, B5, _17, _17]
     ], 15, MGPOptional.empty(), MGPOptional.of(1)), MartianChessMove.from(new Coord(1, 1), new Coord(2, 2)).get(), TutorialStepMessage.CONGRATULATIONS()),
     TutorialStep.fromPredicate($localize`End by emptyness`, $localize`When a player's last piece is moved into the opponent territory, the game ends. If both players have the same number of points, the last player win!<br/><br/>Light player can win this way, do it!`, new MartianChessState([
-      [_16, _16, _16, C],
-      [_16, A4, _16, _16],
-      [_16, _16, _16, _16],
-      [_16, _16, _16, _16],
-      [_16, _16, A4, _16],
-      [_16, _16, _16, _16],
-      [_16, _16, _16, _16],
-      [_16, _16, _16, _16]
+      [_17, _17, _17, C],
+      [_17, A4, _17, _17],
+      [_17, _17, _17, _17],
+      [_17, _17, _17, _17],
+      [_17, _17, A4, _17],
+      [_17, _17, _17, _17],
+      [_17, _17, _17, _17],
+      [_17, _17, _17, _17]
     ], 0), MartianChessMove.from(new Coord(2, 4), new Coord(1, 3)).get(), (move, _previous, _result) => {
       if (move.getEnd().y === 3) {
         return MGPValidation.SUCCESS;
@@ -26903,7 +27536,7 @@ var MartianChessScoreHeuristic = class extends PlayerMetricHeuristic {
 };
 
 // src/app/games/martian-chess/martian-chess-drone.component.ts
-var _c010 = ["app-martian-chess-drone", ""];
+var _c011 = ["app-martian-chess-drone", ""];
 function MartianChessDroneComponent_Conditional_0_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
@@ -26992,7 +27625,7 @@ var MartianChessDroneComponent = class _MartianChessDroneComponent {
   static \u0275fac = function MartianChessDroneComponent_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _MartianChessDroneComponent)();
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _MartianChessDroneComponent, selectors: [["", "app-martian-chess-drone", ""]], inputs: { mainShapeId: [1, "mainShapeId"], pieceClasses: [1, "pieceClasses"], style: [1, "style"] }, attrs: _c010, decls: 6, vars: 6, consts: [["stroke-linecap", "round", 1, "base", 3, "id", "ngClass"], [1, "base", 3, "id", "ngClass"], [3, "ngClass"], [1, "base", "no-fill", "mid-stroke"], [1, "base", "mid-stroke"], [1, "base-no-stroke"]], template: function MartianChessDroneComponent_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _MartianChessDroneComponent, selectors: [["", "app-martian-chess-drone", ""]], inputs: { mainShapeId: [1, "mainShapeId"], pieceClasses: [1, "pieceClasses"], style: [1, "style"] }, attrs: _c011, decls: 6, vars: 6, consts: [["stroke-linecap", "round", 1, "base", 3, "id", "ngClass"], [1, "base", 3, "id", "ngClass"], [3, "ngClass"], [1, "base", "no-fill", "mid-stroke"], [1, "base", "mid-stroke"], [1, "base-no-stroke"]], template: function MartianChessDroneComponent_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275conditionalCreate(0, MartianChessDroneComponent_Conditional_0_Template, 1, 3, ":svg:polygon", 0);
       \u0275\u0275conditionalCreate(1, MartianChessDroneComponent_Conditional_1_Template, 1, 3, ":svg:polygon", 0);
@@ -27086,7 +27719,7 @@ var MartianChessDroneComponent = class _MartianChessDroneComponent {
 })();
 
 // src/app/games/martian-chess/martian-chess-pawn.component.ts
-var _c011 = ["app-martian-chess-pawn", ""];
+var _c012 = ["app-martian-chess-pawn", ""];
 function MartianChessPawnComponent_Conditional_0_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
@@ -27186,7 +27819,7 @@ var MartianChessPawnComponent = class _MartianChessPawnComponent {
   static \u0275fac = function MartianChessPawnComponent_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _MartianChessPawnComponent)();
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _MartianChessPawnComponent, selectors: [["", "app-martian-chess-pawn", ""]], inputs: { mainShapeId: [1, "mainShapeId"], pieceClasses: [1, "pieceClasses"], style: [1, "style"] }, attrs: _c011, decls: 6, vars: 6, consts: [["stroke-linecap", "round", 1, "base", 3, "id", "ngClass"], [1, "base", 3, "id", "ngClass"], [1, "base", "no-fill", "mid-stroke"], [1, "base", "mid-stroke"], [3, "ngClass"], [1, "base-no-stroke"]], template: function MartianChessPawnComponent_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _MartianChessPawnComponent, selectors: [["", "app-martian-chess-pawn", ""]], inputs: { mainShapeId: [1, "mainShapeId"], pieceClasses: [1, "pieceClasses"], style: [1, "style"] }, attrs: _c012, decls: 6, vars: 6, consts: [["stroke-linecap", "round", 1, "base", 3, "id", "ngClass"], [1, "base", 3, "id", "ngClass"], [1, "base", "no-fill", "mid-stroke"], [1, "base", "mid-stroke"], [3, "ngClass"], [1, "base-no-stroke"]], template: function MartianChessPawnComponent_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275conditionalCreate(0, MartianChessPawnComponent_Conditional_0_Template, 1, 3, ":svg:polygon", 0);
       \u0275\u0275conditionalCreate(1, MartianChessPawnComponent_Conditional_1_Template, 1, 3, ":svg:polygon", 0);
@@ -27265,7 +27898,7 @@ var MartianChessPawnComponent = class _MartianChessPawnComponent {
 })();
 
 // src/app/games/martian-chess/martian-chess-queen.component.ts
-var _c012 = ["app-martian-chess-queen", ""];
+var _c013 = ["app-martian-chess-queen", ""];
 function MartianChessQueenComponent_Conditional_0_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
@@ -27359,7 +27992,7 @@ var MartianChessQueenComponent = class _MartianChessQueenComponent {
   static \u0275fac = function MartianChessQueenComponent_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _MartianChessQueenComponent)();
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _MartianChessQueenComponent, selectors: [["", "app-martian-chess-queen", ""]], inputs: { mainShapeId: [1, "mainShapeId"], pieceClasses: [1, "pieceClasses"], style: [1, "style"] }, attrs: _c012, decls: 6, vars: 6, consts: [["stroke-linecap", "round", 1, "base", 3, "id", "ngClass"], [1, "base", 3, "id", "ngClass"], [3, "ngClass"], [1, "base", "no-fill", "mid-stroke"], [1, "base", "mid-stroke"], [1, "base-no-stroke"]], template: function MartianChessQueenComponent_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _MartianChessQueenComponent, selectors: [["", "app-martian-chess-queen", ""]], inputs: { mainShapeId: [1, "mainShapeId"], pieceClasses: [1, "pieceClasses"], style: [1, "style"] }, attrs: _c013, decls: 6, vars: 6, consts: [["stroke-linecap", "round", 1, "base", 3, "id", "ngClass"], [1, "base", 3, "id", "ngClass"], [3, "ngClass"], [1, "base", "no-fill", "mid-stroke"], [1, "base", "mid-stroke"], [1, "base-no-stroke"]], template: function MartianChessQueenComponent_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275conditionalCreate(0, MartianChessQueenComponent_Conditional_0_Template, 1, 3, ":svg:polygon", 0);
       \u0275\u0275conditionalCreate(1, MartianChessQueenComponent_Conditional_1_Template, 1, 3, ":svg:polygon", 0);
@@ -27470,7 +28103,7 @@ var __decorate30 = function(decorators, target, key, desc) {
   else for (var i2 = decorators.length - 1; i2 >= 0; i2--) if (d2 = decorators[i2]) r2 = (c < 3 ? d2(r2) : c > 3 ? d2(target, key, r2) : d2(target, key)) || r2;
   return c > 3 && r2 && Object.defineProperty(target, key, r2), r2;
 };
-var _c013 = (a0) => [a0];
+var _c014 = (a0) => [a0];
 var _forTrack020 = ($index, $item) => $item.coord.toString();
 var _forTrack112 = ($index, $item) => $item.getValue();
 var _forTrack23 = ($index, $item) => $item.toString();
@@ -27635,7 +28268,7 @@ function MartianChessComponent_Conditional_14_For_3_Template(rf, ctx) {
     const ctx_r2 = \u0275\u0275nextContext(2);
     \u0275\u0275advance();
     \u0275\u0275styleMap(proposedStyle_r8.style);
-    \u0275\u0275property("id", proposedStyle_r8.name)("pieceClasses", \u0275\u0275pureFunction1(5, _c013, "player" + ctx_r2.getCurrentPlayer().getValue() + "-fill"));
+    \u0275\u0275property("id", proposedStyle_r8.name)("pieceClasses", \u0275\u0275pureFunction1(5, _c014, "player" + ctx_r2.getCurrentPlayer().getValue() + "-fill"));
     \u0275\u0275attribute("transform", ctx_r2.getTranslationAtXY(0, -\u0275$index_54_r7 - 1));
   }
 }
@@ -27681,7 +28314,7 @@ function MartianChessComponent_For_17_For_3_Conditional_1_Conditional_3_Template
     const player_r10 = \u0275\u0275nextContext(3).$implicit;
     const ctx_r2 = \u0275\u0275nextContext();
     \u0275\u0275styleMap(ctx_r2.style);
-    \u0275\u0275property("pieceClasses", \u0275\u0275pureFunction1(3, _c013, ctx_r2.getPlayerClass(player_r10)));
+    \u0275\u0275property("pieceClasses", \u0275\u0275pureFunction1(3, _c014, ctx_r2.getPlayerClass(player_r10)));
   }
 }
 function MartianChessComponent_For_17_For_3_Conditional_1_Conditional_4_Template(rf, ctx) {
@@ -27693,7 +28326,7 @@ function MartianChessComponent_For_17_For_3_Conditional_1_Conditional_4_Template
     const player_r10 = \u0275\u0275nextContext(3).$implicit;
     const ctx_r2 = \u0275\u0275nextContext();
     \u0275\u0275styleMap(ctx_r2.style);
-    \u0275\u0275property("pieceClasses", \u0275\u0275pureFunction1(3, _c013, ctx_r2.getPlayerClass(player_r10)));
+    \u0275\u0275property("pieceClasses", \u0275\u0275pureFunction1(3, _c014, ctx_r2.getPlayerClass(player_r10)));
   }
 }
 function MartianChessComponent_For_17_For_3_Conditional_1_Conditional_5_Template(rf, ctx) {
@@ -27705,7 +28338,7 @@ function MartianChessComponent_For_17_For_3_Conditional_1_Conditional_5_Template
     const player_r10 = \u0275\u0275nextContext(3).$implicit;
     const ctx_r2 = \u0275\u0275nextContext();
     \u0275\u0275styleMap(ctx_r2.style);
-    \u0275\u0275property("pieceClasses", \u0275\u0275pureFunction1(3, _c013, ctx_r2.getPlayerClass(player_r10)));
+    \u0275\u0275property("pieceClasses", \u0275\u0275pureFunction1(3, _c014, ctx_r2.getPlayerClass(player_r10)));
   }
 }
 function MartianChessComponent_For_17_For_3_Conditional_1_Template(rf, ctx) {
@@ -28300,8 +28933,8 @@ var __decorate31 = function(decorators, target, key, desc) {
   return c > 3 && r2 && Object.defineProperty(target, key, r2), r2;
 };
 var P4Rules_1;
-var _a6;
-var P4Rules = (_a6 = class extends ConfigurableRules {
+var _a5;
+var P4Rules = (_a5 = class extends ConfigurableRules {
   static get() {
     if (P4Rules_1.singleton.isAbsent()) {
       P4Rules_1.singleton = MGPOptional.of(new P4Rules_1());
@@ -28356,13 +28989,13 @@ var P4Rules = (_a6 = class extends ConfigurableRules {
     }
     return y - 1;
   }
-}, P4Rules_1 = _a6, __publicField(_a6, "singleton", MGPOptional.empty()), __publicField(_a6, "RULES_CONFIG_DESCRIPTION", new RulesConfigDescription({
+}, P4Rules_1 = _a5, __publicField(_a5, "singleton", MGPOptional.empty()), __publicField(_a5, "RULES_CONFIG_DESCRIPTION", new RulesConfigDescription({
   name: () => $localize`Four in a Row`,
   config: {
     width: new NumberConfig(7, RulesConfigDescriptionLocalizable.WIDTH, MGPValidators.range(1, 99)),
     height: new NumberConfig(6, RulesConfigDescriptionLocalizable.HEIGHT, MGPValidators.range(1, 99))
   }
-})), _a6);
+})), _a5);
 P4Rules = P4Rules_1 = __decorate31([
   Debug.log
 ], P4Rules);
@@ -28388,32 +29021,32 @@ var P4Move = class _P4Move extends Move {
 };
 
 // src/app/games/p4/P4Tutorial.ts
-var _17 = PlayerOrNone.NONE;
-var O14 = PlayerOrNone.ZERO;
-var X14 = PlayerOrNone.ONE;
-var defaultConfig16 = P4Rules.get().getDefaultRulesConfig();
+var _18 = PlayerOrNone.NONE;
+var O15 = PlayerOrNone.ZERO;
+var X15 = PlayerOrNone.ONE;
+var defaultConfig17 = P4Rules.get().getDefaultRulesConfig();
 var P4Tutorial = class extends Tutorial {
   tutorial = [
     TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`The board at Four in a Row is made of 7 columns and 6 rows, and it is initially empty.
         The first player plays Dark, the second plays Light.
-        The goal is to be the first to align 4 of its pieces (horizontally, vertically, or diagonally).`, P4Rules.get().getInitialState(defaultConfig16)),
-    TutorialStep.anyMove($localize`Dropping a piece`, $localize`Click on any space in any column.`, P4Rules.get().getInitialState(defaultConfig16), P4Move.of(3), $localize`As you can see, the piece falls at the bottom of the column.`),
+        The goal is to be the first to align 4 of its pieces (horizontally, vertically, or diagonally).`, P4Rules.get().getInitialState(defaultConfig17)),
+    TutorialStep.anyMove($localize`Dropping a piece`, $localize`Click on any space in any column.`, P4Rules.get().getInitialState(defaultConfig17), P4Move.of(3), $localize`As you can see, the piece falls at the bottom of the column.`),
     TutorialStep.fromMove($localize`Victory`, $localize`You're playing Dark.
         Place your piece so that you create a horizontal alignment of 4 of your pieces.`, new P4State([
-      [_17, _17, _17, _17, _17, _17, _17],
-      [_17, _17, _17, _17, _17, _17, _17],
-      [_17, _17, _17, _17, _17, _17, _17],
-      [_17, _17, _17, X14, _17, _17, _17],
-      [_17, _17, _17, X14, _17, _17, _17],
-      [_17, _17, O14, O14, O14, X14, _17]
+      [_18, _18, _18, _18, _18, _18, _18],
+      [_18, _18, _18, _18, _18, _18, _18],
+      [_18, _18, _18, _18, _18, _18, _18],
+      [_18, _18, _18, X15, _18, _18, _18],
+      [_18, _18, _18, X15, _18, _18, _18],
+      [_18, _18, O15, O15, O15, X15, _18]
     ], 0), [P4Move.of(1)], $localize`You won!`, $localize`Failed, you have not aligned 4 pieces and missed an opportunity to win.`),
     TutorialStep.fromMove($localize`Other victory`, $localize`You can also align 4 pieces diagonally or vertically.`, new P4State([
-      [_17, _17, _17, _17, _17, _17, _17],
-      [_17, _17, _17, _17, _17, _17, _17],
-      [_17, _17, _17, _17, _17, _17, _17],
-      [_17, _17, _17, O14, X14, _17, _17],
-      [_17, _17, O14, O14, X14, _17, _17],
-      [_17, O14, X14, O14, O14, _17, _17]
+      [_18, _18, _18, _18, _18, _18, _18],
+      [_18, _18, _18, _18, _18, _18, _18],
+      [_18, _18, _18, _18, _18, _18, _18],
+      [_18, _18, _18, O15, X15, _18, _18],
+      [_18, _18, O15, O15, X15, _18, _18],
+      [_18, O15, X15, O15, O15, _18, _18]
     ], 0), [
       P4Move.of(3),
       P4Move.of(4)
@@ -28929,27 +29562,27 @@ var PentagoMove = class _PentagoMove extends MoveCoord {
 };
 
 // src/app/games/pentago/PentagoTutorial.ts
-var _18 = PlayerOrNone.NONE;
-var O15 = PlayerOrNone.ZERO;
-var X15 = PlayerOrNone.ONE;
+var _19 = PlayerOrNone.NONE;
+var O16 = PlayerOrNone.ZERO;
+var X16 = PlayerOrNone.ONE;
 var PentagoTutorial = class {
   tutorial = [
     TutorialStep.informational($localize`Initial board`, $localize`The initial Pentago board is made of 6x6 spaces, subdivided in 4 quadrants, which can each rotate.`, PentagoRules.get().getInitialState()),
     TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`The goal at Pentago is to align 5 of your pieces. In the following board, Dark wins.`, new PentagoState([
-      [O15, _18, _18, O15, X15, _18],
-      [O15, X15, _18, _18, _18, _18],
-      [O15, _18, X15, _18, _18, _18],
-      [O15, _18, _18, _18, _18, X15],
-      [O15, _18, _18, _18, X15, _18],
-      [_18, _18, _18, _18, _18, _18]
+      [O16, _19, _19, O16, X16, _19],
+      [O16, X16, _19, _19, _19, _19],
+      [O16, _19, X16, _19, _19, _19],
+      [O16, _19, _19, _19, _19, X16],
+      [O16, _19, _19, _19, X16, _19],
+      [_19, _19, _19, _19, _19, _19]
     ], 10)).withPreviousMove(PentagoMove.withRotation(0, 0, 0, false)),
     TutorialStep.fromPredicate($localize`Simple move`, $localize`At their turn, players put a piece on the board and possibly rotate one quadrant. As long as there are neutral quadrants, i.e., quadrants that would not change after being rotated, a player may skip rotating a quadrant. To do this, you have to click on the crossed circle that appears at the center of the board when it is possible.<br/><br/>You're playing Dark, do a simple move.`, new PentagoState([
-      [_18, _18, _18, _18, _18, _18],
-      [_18, O15, _18, _18, X15, _18],
-      [_18, _18, _18, _18, _18, _18],
-      [_18, _18, _18, _18, _18, _18],
-      [_18, X15, _18, _18, O15, _18],
-      [_18, _18, _18, _18, _18, _18]
+      [_19, _19, _19, _19, _19, _19],
+      [_19, O16, _19, _19, X16, _19],
+      [_19, _19, _19, _19, _19, _19],
+      [_19, _19, _19, _19, _19, _19],
+      [_19, X16, _19, _19, O16, _19],
+      [_19, _19, _19, _19, _19, _19]
     ], 10), PentagoMove.rotationless(2, 2), (move, _previous, _result) => {
       if (move.blockTurned.isPresent()) {
         return MGPValidation.failure($localize`You have made a move with a rotation. This tutorial step is about moves without rotations!`);
@@ -28959,12 +29592,12 @@ var PentagoTutorial = class {
     }, TutorialStepMessage.CONGRATULATIONS()).withPreviousMove(PentagoMove.of(new Coord(1, 4), MGPOptional.empty(), false)),
     TutorialStep.fromPredicate($localize`Move with rotation`, $localize`After putting a piece, arrows will appear on non-neutral quadrants.<br/><br/>
         You're playing Dark, place a piece on a quadrant and do a rotation!`, new PentagoState([
-      [_18, _18, _18, _18, _18, _18],
-      [_18, O15, _18, _18, X15, _18],
-      [_18, _18, _18, _18, _18, _18],
-      [_18, _18, _18, _18, _18, _18],
-      [_18, X15, _18, _18, O15, _18],
-      [_18, _18, _18, _18, _18, _18]
+      [_19, _19, _19, _19, _19, _19],
+      [_19, O16, _19, _19, X16, _19],
+      [_19, _19, _19, _19, _19, _19],
+      [_19, _19, _19, _19, _19, _19],
+      [_19, X16, _19, _19, O16, _19],
+      [_19, _19, _19, _19, _19, _19]
     ], 10), PentagoMove.withRotation(0, 0, 0, true), (move, _previous, _result) => {
       if (move.blockTurned.isPresent()) {
         return MGPValidation.SUCCESS;
@@ -29043,7 +29676,7 @@ var __decorate34 = function(decorators, target, key, desc) {
   else for (var i2 = decorators.length - 1; i2 >= 0; i2--) if (d2 = decorators[i2]) r2 = (c < 3 ? d2(r2) : c > 3 ? d2(target, key, r2) : d2(target, key)) || r2;
   return c > 3 && r2 && Object.defineProperty(target, key, r2), r2;
 };
-var _c014 = (a0) => [0, a0];
+var _c015 = (a0) => [0, a0];
 var _forTrack022 = ($index, $item) => $item.coord.toString();
 var _forTrack113 = ($index, $item) => $item.toString();
 function PentagoComponent_For_8_For_2_Template(rf, ctx) {
@@ -29072,7 +29705,7 @@ function PentagoComponent_For_8_Template(rf, ctx) {
   if (rf & 2) {
     const ctx_r5 = \u0275\u0275nextContext();
     \u0275\u0275advance();
-    \u0275\u0275repeater(\u0275\u0275pureFunction1(0, _c014, ctx_r5.BLOCK_WIDTH + ctx_r5.BLOCK_SEPARATION));
+    \u0275\u0275repeater(\u0275\u0275pureFunction1(0, _c015, ctx_r5.BLOCK_WIDTH + ctx_r5.BLOCK_SEPARATION));
   }
 }
 function PentagoComponent_For_10_Template(rf, ctx) {
@@ -29412,7 +30045,7 @@ var PentagoComponent = class _PentagoComponent extends RectangularGameComponent 
     if (rf & 2) {
       \u0275\u0275attribute("viewBox", ctx.viewBoxString());
       \u0275\u0275advance(7);
-      \u0275\u0275repeater(\u0275\u0275pureFunction1(4, _c014, ctx.BLOCK_WIDTH + ctx.BLOCK_SEPARATION));
+      \u0275\u0275repeater(\u0275\u0275pureFunction1(4, _c015, ctx.BLOCK_WIDTH + ctx.BLOCK_SEPARATION));
       \u0275\u0275advance(2);
       \u0275\u0275repeater(ctx.state.getCoordsAndContents());
       \u0275\u0275advance(2);
@@ -29693,76 +30326,76 @@ var PenteMove = class _PenteMove extends MoveCoord {
 };
 
 // src/app/games/pente/PenteTutorial.ts
-var _19 = PlayerOrNone.NONE;
-var O16 = PlayerOrNone.ZERO;
-var X16 = PlayerOrNone.ONE;
-var defaultConfig17 = PenteRules.get().getDefaultRulesConfig();
+var _20 = PlayerOrNone.NONE;
+var O17 = PlayerOrNone.ZERO;
+var X17 = PlayerOrNone.ONE;
+var defaultConfig18 = PenteRules.get().getDefaultRulesConfig();
 var PenteTutorial = class extends Tutorial {
   tutorial = [
-    TutorialStep.informational(TutorialStepMessage.INITIAL_BOARD_AND_OBJECT_OF_THE_GAME(), $localize`Pente is played on a 19x19 board, on which the pieces are put on the intersections of the squares. The object of the game is to align 5 of your pieces, or to capture 10 pieces of your opponent. Initially, a piece of the second player is in the center location of the board.`, PenteRules.get().getInitialState(defaultConfig17)),
-    TutorialStep.anyMove($localize`Dropping a piece`, $localize`At your turn, you must drop one piece on any empty space of the board. There is no other restriction.<br/><br/>You're playing Dark, put a piece on the board.`, PenteRules.get().getInitialState(defaultConfig17), PenteMove.of(new Coord(9, 8)), TutorialStepMessage.CONGRATULATIONS()),
+    TutorialStep.informational(TutorialStepMessage.INITIAL_BOARD_AND_OBJECT_OF_THE_GAME(), $localize`Pente is played on a 19x19 board, on which the pieces are put on the intersections of the squares. The object of the game is to align 5 of your pieces, or to capture 10 pieces of your opponent. Initially, a piece of the second player is in the center location of the board.`, PenteRules.get().getInitialState(defaultConfig18)),
+    TutorialStep.anyMove($localize`Dropping a piece`, $localize`At your turn, you must drop one piece on any empty space of the board. There is no other restriction.<br/><br/>You're playing Dark, put a piece on the board.`, PenteRules.get().getInitialState(defaultConfig18), PenteMove.of(new Coord(9, 8)), TutorialStepMessage.CONGRATULATIONS()),
     TutorialStep.fromMove($localize`Captures`, $localize`You can capture exactly two pieces of your opponent by sandwiching them between two of your pieces.<br/><br/>You're playing Light and you can capture, do it!`, new PenteState([
-      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
-      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
-      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
-      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
-      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
-      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
-      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
-      [_19, _19, _19, _19, _19, _19, _19, _19, _19, O16, _19, _19, _19, _19, _19, _19, _19, _19, _19],
-      [_19, _19, _19, _19, _19, _19, _19, _19, X16, O16, _19, _19, _19, _19, _19, _19, _19, _19, _19],
-      [_19, _19, _19, _19, _19, _19, _19, _19, _19, X16, _19, _19, _19, _19, _19, _19, _19, _19, _19],
-      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
-      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
-      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
-      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
-      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
-      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
-      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
-      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
-      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19]
+      [_20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20],
+      [_20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20],
+      [_20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20],
+      [_20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20],
+      [_20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20],
+      [_20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20],
+      [_20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20],
+      [_20, _20, _20, _20, _20, _20, _20, _20, _20, O17, _20, _20, _20, _20, _20, _20, _20, _20, _20],
+      [_20, _20, _20, _20, _20, _20, _20, _20, X17, O17, _20, _20, _20, _20, _20, _20, _20, _20, _20],
+      [_20, _20, _20, _20, _20, _20, _20, _20, _20, X17, _20, _20, _20, _20, _20, _20, _20, _20, _20],
+      [_20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20],
+      [_20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20],
+      [_20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20],
+      [_20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20],
+      [_20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20],
+      [_20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20],
+      [_20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20],
+      [_20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20],
+      [_20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20]
     ], PlayerNumberMap.of(0, 0), 3), [PenteMove.of(new Coord(9, 6))], TutorialStepMessage.CONGRATULATIONS(), TutorialStepMessage.FAILED_TRY_AGAIN()),
     TutorialStep.fromMove($localize`Placing in a sandwich position`, $localize`You can safely place a piece next to another of your piece in what would look like a sandwich from the opponent's pieces. This is a safe move.<br/><br/>You're playing Light and have the opportunity to do such a move here, do it!`, new PenteState([
-      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
-      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
-      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
-      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
-      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
-      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
-      [_19, _19, _19, _19, _19, _19, _19, _19, _19, X16, _19, _19, _19, _19, _19, _19, _19, _19, _19],
-      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
-      [_19, _19, _19, _19, _19, _19, _19, _19, X16, O16, _19, _19, _19, _19, _19, _19, _19, _19, _19],
-      [_19, _19, _19, _19, _19, _19, _19, _19, _19, X16, _19, _19, _19, _19, _19, _19, _19, _19, _19],
-      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
-      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
-      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
-      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
-      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
-      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
-      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
-      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
-      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19]
+      [_20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20],
+      [_20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20],
+      [_20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20],
+      [_20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20],
+      [_20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20],
+      [_20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20],
+      [_20, _20, _20, _20, _20, _20, _20, _20, _20, X17, _20, _20, _20, _20, _20, _20, _20, _20, _20],
+      [_20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20],
+      [_20, _20, _20, _20, _20, _20, _20, _20, X17, O17, _20, _20, _20, _20, _20, _20, _20, _20, _20],
+      [_20, _20, _20, _20, _20, _20, _20, _20, _20, X17, _20, _20, _20, _20, _20, _20, _20, _20, _20],
+      [_20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20],
+      [_20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20],
+      [_20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20],
+      [_20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20],
+      [_20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20],
+      [_20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20],
+      [_20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20],
+      [_20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20],
+      [_20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20]
     ], PlayerNumberMap.of(0, 0), 4), [PenteMove.of(new Coord(9, 7))], TutorialStepMessage.CONGRATULATIONS(), TutorialStepMessage.FAILED_TRY_AGAIN()),
     TutorialStep.fromMove($localize`Victory`, $localize`Remember, to win you can either align 5 or your pieces, or capture 10 pieces of your opponent. Here, as Light, you have already captured 8 pieces and you only need two more to win.<br/><br/>You're playing Light, you can win in two ways. Win!`, new PenteState([
-      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
-      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
-      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
-      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
-      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
-      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
-      [_19, _19, _19, _19, _19, _19, _19, _19, X16, _19, _19, O16, O16, _19, _19, _19, _19, _19, _19],
-      [_19, _19, _19, _19, _19, _19, _19, _19, _19, O16, _19, O16, _19, _19, _19, _19, _19, _19, _19],
-      [_19, _19, _19, _19, _19, _19, _19, _19, X16, O16, O16, O16, _19, _19, _19, _19, _19, _19, _19],
-      [_19, _19, _19, _19, _19, _19, _19, _19, _19, X16, X16, X16, X16, _19, _19, _19, _19, _19, _19],
-      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
-      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
-      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
-      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
-      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
-      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
-      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
-      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19],
-      [_19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19, _19]
+      [_20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20],
+      [_20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20],
+      [_20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20],
+      [_20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20],
+      [_20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20],
+      [_20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20],
+      [_20, _20, _20, _20, _20, _20, _20, _20, X17, _20, _20, O17, O17, _20, _20, _20, _20, _20, _20],
+      [_20, _20, _20, _20, _20, _20, _20, _20, _20, O17, _20, O17, _20, _20, _20, _20, _20, _20, _20],
+      [_20, _20, _20, _20, _20, _20, _20, _20, X17, O17, O17, O17, _20, _20, _20, _20, _20, _20, _20],
+      [_20, _20, _20, _20, _20, _20, _20, _20, _20, X17, X17, X17, X17, _20, _20, _20, _20, _20, _20],
+      [_20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20],
+      [_20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20],
+      [_20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20],
+      [_20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20],
+      [_20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20],
+      [_20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20],
+      [_20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20],
+      [_20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20],
+      [_20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20, _20]
     ], PlayerNumberMap.of(8, 8), 7), [
       PenteMove.of(new Coord(9, 6)),
       PenteMove.of(new Coord(8, 9)),
@@ -29930,7 +30563,7 @@ var PenteComponent = class _PenteComponent extends GobanGameComponent {
   }, dependencies: [BlankGobanComponent, NgClass], styles: ["\n\n.base[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke[_ngcontent-%COMP%] {\n  stroke-width: 0;\n}\n.base.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n}\n.base-no-stroke[_ngcontent-%COMP%] {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n}\n.white-background[_ngcontent-%COMP%] {\n  fill: white;\n}\n.background[_ngcontent-%COMP%] {\n  fill: var(--spaces-fill);\n}\n.transparent[_ngcontent-%COMP%] {\n  opacity: 0;\n}\n.background2[_ngcontent-%COMP%] {\n  fill: var(--alt-background-fill);\n}\n.background3[_ngcontent-%COMP%] {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill[_ngcontent-%COMP%] {\n  fill: var(--player0);\n}\n.player0-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--player0-alternate);\n}\n.player0-stroke[_ngcontent-%COMP%] {\n  stroke: var(--player0);\n}\n.player1-fill[_ngcontent-%COMP%] {\n  fill: var(--player1);\n}\n.player1-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--player1-alternate);\n}\n.player1-stroke[_ngcontent-%COMP%] {\n  stroke: var(--player1);\n}\n.nonplayer-fill[_ngcontent-%COMP%] {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill[_ngcontent-%COMP%] {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke[_ngcontent-%COMP%] {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke[_ngcontent-%COMP%] {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill[_ngcontent-%COMP%] {\n  fill: var(--pre-captured);\n}\n.captured-fill[_ngcontent-%COMP%] {\n  fill: var(--captured);\n}\n.captured-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--alt-captured);\n}\n.captured-stroke[_ngcontent-%COMP%] {\n  stroke: var(--captured);\n}\n.moved-fill[_ngcontent-%COMP%] {\n  fill: var(--moved);\n}\n.moved-stroke[_ngcontent-%COMP%] {\n  stroke: var(--moved);\n}\n.indicator[_ngcontent-%COMP%] {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill[_ngcontent-%COMP%] {\n  fill: var(--indicator);\n}\n.selectable-stroke[_ngcontent-%COMP%] {\n  stroke: var(--selectable);\n}\n.selectable[_ngcontent-%COMP%]    > .base-no-stroke[_ngcontent-%COMP%] {\n  fill: var(--selectable);\n}\n.last-move-stroke[_ngcontent-%COMP%] {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--last-move);\n}\n.last-move-fill[_ngcontent-%COMP%] {\n  fill: var(--last-move);\n}\n.victory-fill[_ngcontent-%COMP%] {\n  fill: var(--victory);\n}\n.victory-stroke[_ngcontent-%COMP%] {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--victory);\n}\n.defeat-fill[_ngcontent-%COMP%] {\n  fill: var(--defeat);\n}\n.defeat-stroke[_ngcontent-%COMP%] {\n  stroke: var(--defeat);\n}\n.selected-fill[_ngcontent-%COMP%] {\n  fill: var(--selected);\n}\n.selected-stroke[_ngcontent-%COMP%] {\n  stroke: var(--selected);\n}\n.clickable-stroke[_ngcontent-%COMP%] {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover[_ngcontent-%COMP%]:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke[_ngcontent-%COMP%] {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill[_ngcontent-%COMP%] {\n  fill: var(--capturable);\n}\n.capturable-stroke[_ngcontent-%COMP%]:hover {\n  stroke-width: 8;\n}\n.no-fill[_ngcontent-%COMP%] {\n  fill: none;\n}\n.no-stroke[_ngcontent-%COMP%] {\n  stroke: none;\n}\n.small-stroke[_ngcontent-%COMP%] {\n  stroke-width: 2;\n}\n.mid-small-stroke[_ngcontent-%COMP%] {\n  stroke-width: 3;\n}\n.mid-stroke[_ngcontent-%COMP%] {\n  stroke-width: 5;\n}\n.big-stroke[_ngcontent-%COMP%] {\n  stroke-width: 8;\n}\n.huge-stroke[_ngcontent-%COMP%] {\n  stroke-width: 12;\n}\n.semi-transparent[_ngcontent-%COMP%] {\n  opacity: 0.5;\n}\n.territory-opacity[_ngcontent-%COMP%] {\n  fill-opacity: 0.7;\n}\n.round[_ngcontent-%COMP%] {\n  stroke-linecap: round;\n}\n.text-giant[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big[_ngcontent-%COMP%] {\n  font: 50px sans-serif;\n}\n.backgrounded-text[_ngcontent-%COMP%] {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus[_ngcontent-%COMP%] {\n  font: 38px sans-serif;\n}\n.text-medium[_ngcontent-%COMP%] {\n  font: 35px sans-serif;\n}\n.text-small-plus[_ngcontent-%COMP%] {\n  font: 28px sans-serif;\n}\n.text-small[_ngcontent-%COMP%] {\n  font: 25px sans-serif;\n}\n.text-bold[_ngcontent-%COMP%] {\n  font-weight: bold;\n}\n.text-center[_ngcontent-%COMP%] {\n  text-anchor: middle;\n}\n.black-fill[_ngcontent-%COMP%] {\n  fill: black;\n}\n.darker[_ngcontent-%COMP%] {\n  filter: brightness(80%);\n}\n.lighter[_ngcontent-%COMP%] {\n  filter: brightness(110%);\n}\nsvg[_ngcontent-%COMP%] {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator[_ngcontent-%COMP%] {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */"] });
 };
 __decorate35([
-  ClickHandler((coord) => "#click-" + coord.x + "-" + coord.y)
+  ClickHandler((coord) => ".space-" + coord.x + "-" + coord.y)
 ], PenteComponent.prototype, "onClick", null);
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(PenteComponent, [{
@@ -30393,9 +31026,9 @@ var PylosRules = class _PylosRules extends Rules {
 };
 
 // src/app/games/pylos/PylosTutorial.ts
-var _20 = PlayerOrNone.NONE;
-var O17 = PlayerOrNone.ZERO;
-var X17 = PlayerOrNone.ONE;
+var _21 = PlayerOrNone.NONE;
+var O18 = PlayerOrNone.ZERO;
+var X18 = PlayerOrNone.ONE;
 var PylosTutorial = class extends Tutorial {
   tutorial = [
     TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`At Pylos, the goal is to be the last to play.
@@ -30416,22 +31049,22 @@ var PylosTutorial = class extends Tutorial {
         </ol><br/>
         You're playing Dark, go ahead and climb!`, new PylosState([
       [
-        [O17, X17, _20, _20],
-        [X17, O17, _20, _20],
-        [_20, _20, _20, _20],
-        [_20, _20, _20, O17]
+        [O18, X18, _21, _21],
+        [X18, O18, _21, _21],
+        [_21, _21, _21, _21],
+        [_21, _21, _21, O18]
       ],
       [
-        [_20, _20, _20],
-        [_20, _20, _20],
-        [_20, _20, _20]
+        [_21, _21, _21],
+        [_21, _21, _21],
+        [_21, _21, _21]
       ],
       [
-        [_20, _20],
-        [_20, _20]
+        [_21, _21],
+        [_21, _21]
       ],
       [
-        [_20]
+        [_21]
       ]
     ], 0), [PylosMove.ofClimb(new PylosCoord(3, 3, 0), new PylosCoord(0, 0, 1), [])], $localize`Congratulations!<br/>
         Some important notes:
@@ -30447,22 +31080,22 @@ var PylosTutorial = class extends Tutorial {
         A chosen piece can be the piece you just placed.<br/><br/>
         You're playing Dark. Form a square, click on one of the four pieces, then click on the V symbol on the bottom right to finalize your move.`, new PylosState([
       [
-        [O17, O17, _20, _20],
-        [_20, O17, _20, _20],
-        [_20, _20, _20, _20],
-        [_20, _20, _20, _20]
+        [O18, O18, _21, _21],
+        [_21, O18, _21, _21],
+        [_21, _21, _21, _21],
+        [_21, _21, _21, _21]
       ],
       [
-        [_20, _20, _20],
-        [_20, _20, _20],
-        [_20, _20, _20]
+        [_21, _21, _21],
+        [_21, _21, _21],
+        [_21, _21, _21]
       ],
       [
-        [_20, _20],
-        [_20, _20]
+        [_21, _21],
+        [_21, _21]
       ],
       [
-        [_20]
+        [_21]
       ]
     ], 0), [
       PylosMove.ofDrop(new PylosCoord(0, 1, 0), [new PylosCoord(0, 0, 0)]),
@@ -30472,22 +31105,22 @@ var PylosTutorial = class extends Tutorial {
     ], $localize`Congratulations, you have saved up one piece. Note, you can cancel your selection by clicking again on the piece.`, TutorialStepMessage.FAILED_TRY_AGAIN()),
     TutorialStep.fromPredicate($localize`Square` + " (2/2)", $localize`You're playing Dark.<br/><br/>Do like in the previous step, but this time click on two different pieces before validating.`, new PylosState([
       [
-        [O17, O17, _20, _20],
-        [_20, O17, _20, _20],
-        [_20, _20, _20, _20],
-        [_20, _20, _20, _20]
+        [O18, O18, _21, _21],
+        [_21, O18, _21, _21],
+        [_21, _21, _21, _21],
+        [_21, _21, _21, _21]
       ],
       [
-        [_20, _20, _20],
-        [_20, _20, _20],
-        [_20, _20, _20]
+        [_21, _21, _21],
+        [_21, _21, _21],
+        [_21, _21, _21]
       ],
       [
-        [_20, _20],
-        [_20, _20]
+        [_21, _21],
+        [_21, _21]
       ],
       [
-        [_20]
+        [_21]
       ]
     ], 0), PylosMove.ofDrop(new PylosCoord(0, 1, 0), [new PylosCoord(0, 0, 0), new PylosCoord(1, 0, 0)]), (move, _previous, _result) => {
       if (move.secondCapture.isPresent()) {
@@ -30542,7 +31175,7 @@ var __decorate36 = function(decorators, target, key, desc) {
   else for (var i2 = decorators.length - 1; i2 >= 0; i2--) if (d2 = decorators[i2]) r2 = (c < 3 ? d2(r2) : c > 3 ? d2(target, key, r2) : d2(target, key)) || r2;
   return c > 3 && r2 && Object.defineProperty(target, key, r2), r2;
 };
-var _c015 = () => [0, 1, 2];
+var _c016 = () => [0, 1, 2];
 var _forTrack024 = ($index, $item) => $item.getValue();
 var _forTrack115 = ($index, $item) => $item.toString();
 function PylosComponent_For_3_For_2_Template(rf, ctx) {
@@ -31095,7 +31728,7 @@ var PylosComponent = class _PylosComponent extends GameComponent {
       \u0275\u0275advance(2);
       \u0275\u0275attribute("width", 4 * ctx.SPACE_SIZE + 6)("height", 4 * ctx.SPACE_SIZE + 6);
       \u0275\u0275advance();
-      \u0275\u0275repeater(\u0275\u0275pureFunction0(7, _c015));
+      \u0275\u0275repeater(\u0275\u0275pureFunction0(7, _c016));
       \u0275\u0275advance(2);
       \u0275\u0275conditional(ctx.highCapture.isPresent() ? 9 : -1);
       \u0275\u0275advance();
@@ -32390,7 +33023,7 @@ __decorate37([
 var EnumConfig = class extends ConfigLine {
   possibleValues;
   validator;
-  constructor(value, title, possibleValues, validator = (_33) => MGPValidation.SUCCESS) {
+  constructor(value, title, possibleValues, validator = (_34) => MGPValidation.SUCCESS) {
     super(value, title);
     this.possibleValues = possibleValues;
     this.validator = validator;
@@ -33058,22 +33691,22 @@ var QuebecCastlesRules = class _QuebecCastlesRules extends ConfigurableRules {
 };
 
 // src/app/games/quebec-castles/QuebecCastlesTutorial.ts
-var defaultConfig18 = QuebecCastlesRules.get().getDefaultRulesConfig();
-var rectangularWidthHeightConfig = __spreadProps(__spreadValues({}, defaultConfig18), {
+var defaultConfig19 = QuebecCastlesRules.get().getDefaultRulesConfig();
+var rectangularWidthHeightConfig = __spreadProps(__spreadValues({}, defaultConfig19), {
   height: 12,
   width: 14,
   isRhombic: false
 });
-var playersPlaceCastleConfig = __spreadProps(__spreadValues({}, defaultConfig18), {
+var playersPlaceCastleConfig = __spreadProps(__spreadValues({}, defaultConfig19), {
   playersPlaceCastle: true
 });
-var dropByBatchConfig = __spreadProps(__spreadValues({}, defaultConfig18), {
+var dropByBatchConfig = __spreadProps(__spreadValues({}, defaultConfig19), {
   dropMode: "BY_BATCH"
 });
-var dropPieceByPieceConfig = __spreadProps(__spreadValues({}, defaultConfig18), {
+var dropPieceByPieceConfig = __spreadProps(__spreadValues({}, defaultConfig19), {
   dropMode: "PIECE_BY_PIECE"
 });
-var numberOfPieceAndTerritorySizeConfig = __spreadProps(__spreadValues({}, defaultConfig18), {
+var numberOfPieceAndTerritorySizeConfig = __spreadProps(__spreadValues({}, defaultConfig19), {
   linesForTerritory: 3,
   dropMode: "PIECE_BY_PIECE",
   defenders: 2,
@@ -33081,9 +33714,9 @@ var numberOfPieceAndTerritorySizeConfig = __spreadProps(__spreadValues({}, defau
 });
 var QuebecCastlesTutorial = class extends Tutorial {
   tutorial = [
-    TutorialStep.informational(TutorialStepMessage.INITIAL_BOARD_AND_OBJECT_OF_THE_GAME(), $localize`Quebec Castles is the first board game invented by the EveryBoard Team.<br/>The goal of the game is to capture all the pieces of the opponent, or to step on the opponent's castle. The castles are on the corners by default.`, QuebecCastlesRules.get().getInitialState(defaultConfig18)),
-    TutorialStep.anyMove($localize`Defender's move`, $localize`The defenders have the dark pieces, they play first by selecting one of their pieces and moving it on a neighboring square.<br/><br/>You're playing Dark, move a defender piece.`, QuebecCastlesRules.get().getInitialState(defaultConfig18), QuebecCastlesMove.translation(new Coord(7, 7), new Coord(6, 6)), TutorialStepMessage.CONGRATULATIONS()),
-    TutorialStep.anyMove($localize`Invader's move`, $localize`The invaders have the light pieces, they play second by selecting one of their piece and moving them two step in a straight line. A piece cannot jump over another piece.<br/><br/>Move an invader piece.`, QuebecCastlesRules.get().getInitialState(defaultConfig18).incrementTurn(), QuebecCastlesMove.translation(new Coord(2, 2), new Coord(4, 4)), TutorialStepMessage.CONGRATULATIONS_YOU_KNOW_EVERYTHING()),
+    TutorialStep.informational(TutorialStepMessage.INITIAL_BOARD_AND_OBJECT_OF_THE_GAME(), $localize`Quebec Castles is the first board game invented by the EveryBoard Team.<br/>The goal of the game is to capture all the pieces of the opponent, or to step on the opponent's castle. The castles are on the corners by default.`, QuebecCastlesRules.get().getInitialState(defaultConfig19)),
+    TutorialStep.anyMove($localize`Defender's move`, $localize`The defenders have the dark pieces, they play first by selecting one of their pieces and moving it on a neighboring square.<br/><br/>You're playing Dark, move a defender piece.`, QuebecCastlesRules.get().getInitialState(defaultConfig19), QuebecCastlesMove.translation(new Coord(7, 7), new Coord(6, 6)), TutorialStepMessage.CONGRATULATIONS()),
+    TutorialStep.anyMove($localize`Invader's move`, $localize`The invaders have the light pieces, they play second by selecting one of their piece and moving them two step in a straight line. A piece cannot jump over another piece.<br/><br/>Move an invader piece.`, QuebecCastlesRules.get().getInitialState(defaultConfig19).incrementTurn(), QuebecCastlesMove.translation(new Coord(2, 2), new Coord(4, 4)), TutorialStepMessage.CONGRATULATIONS_YOU_KNOW_EVERYTHING()),
     // 5.a configurations alternatives: rectangulaire & width & height
     TutorialStep.informational($localize`Custom config: rhombic, width, height`, $localize`You have the option to change the shape of the board, if it's not rhombic, it's rectangular. You also can change the size`, QuebecCastlesRules.get().getInitialState(rectangularWidthHeightConfig), MGPOptional.of(rectangularWidthHeightConfig)),
     TutorialStep.anyMove($localize`Custom config: place castle yourself`, $localize`You have the option to decide yourself where you place the castle. If you don't change anything else the piece placement will be automatically done right after.<br/><br/>You're playing Dark/Defender, place your castle.`, QuebecCastlesRules.get().getInitialState(playersPlaceCastleConfig), QuebecCastlesMove.drop([new Coord(7, 7)]), TutorialStepMessage.CONGRATULATIONS(), MGPOptional.of(playersPlaceCastleConfig)),
@@ -33869,16 +34502,16 @@ var QuixoMove = class _QuixoMove extends MoveCoord {
 };
 
 // src/app/games/quixo/QuixoTutorial.ts
-var _21 = PlayerOrNone.NONE;
-var O18 = PlayerOrNone.ZERO;
-var X18 = PlayerOrNone.ONE;
-var defaultConfig19 = QuixoRules.get().getDefaultRulesConfig();
+var _22 = PlayerOrNone.NONE;
+var O19 = PlayerOrNone.ZERO;
+var X19 = PlayerOrNone.ONE;
+var defaultConfig20 = QuixoRules.get().getDefaultRulesConfig();
 var QuixoTutorial = class extends Tutorial {
   tutorial = [
     TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`At Quixo, the goal is to align 5 of your pieces.
         The first player plays with dark pieces, the second with light pieces.
         The board is made of 25 spaces spread over a 5x5 square.
-        Every piece has a neutral side, a light side, and a dark side.`, QuixoRules.get().getInitialState(defaultConfig19)),
+        Every piece has a neutral side, a light side, and a dark side.`, QuixoRules.get().getInitialState(defaultConfig20)),
     TutorialStep.fromMove($localize`What a move looks like (without animation)`, $localize`When it is your turn:
         <ol>
             <li>Click on one of your pieces or on a neutral one. You cannot choose a piece of the opponent.
@@ -33889,11 +34522,11 @@ var QuixoTutorial = class extends Tutorial {
         Once on the other side, all pieces will move by one space in the opposing direction.
         Afterwards, if the piece was neutral, it will become yours and takes your color.<br/><br/>
         For example, take the bottom right neutral piece, and move it to the left (you're playing Light).`, new QuixoState([
-      [_21, _21, _21, _21, _21],
-      [_21, _21, _21, _21, _21],
-      [_21, _21, _21, _21, _21],
-      [_21, _21, _21, _21, _21],
-      [O18, O18, O18, O18, _21]
+      [_22, _22, _22, _22, _22],
+      [_22, _22, _22, _22, _22],
+      [_22, _22, _22, _22, _22],
+      [_22, _22, _22, _22, _22],
+      [O19, O19, O19, O19, _22]
     ], 1), [new QuixoMove(4, 4, Orthogonal.LEFT)], $localize`See how the four dark pieces have been moved one space to the right.
         The neutral piece has been move 4 pieces to the left and has become light.`, TutorialStepMessage.FAILED_TRY_AGAIN()),
     TutorialStep.fromMove($localize`Victory`, $localize`You already know everything you need in order to play, but there is one last particularity.
@@ -33902,11 +34535,11 @@ var QuixoTutorial = class extends Tutorial {
         If you create both, you lose too!<br/><br/>
         You can win with this board, try it.
         You're playing Light.`, new QuixoState([
-      [_21, X18, _21, X18, X18],
-      [_21, O18, O18, _21, O18],
-      [X18, X18, X18, O18, X18],
-      [O18, _21, O18, X18, X18],
-      [X18, O18, _21, X18, O18]
+      [_22, X19, _22, X19, X19],
+      [_22, O19, O19, _22, O19],
+      [X19, X19, X19, O19, X19],
+      [O19, _22, O19, X19, X19],
+      [X19, O19, _22, X19, O19]
     ], 31), [new QuixoMove(3, 0, Orthogonal.DOWN)], TutorialStepMessage.CONGRATULATIONS_YOU_WON(), TutorialStepMessage.FAILED_TRY_AGAIN())
   ];
 };
@@ -34228,7 +34861,7 @@ var ReversiMoveWithSwitched = class {
   }
 };
 var RectangularBoardMode = class {
-  getNextCoord(coord, direction, _33) {
+  getNextCoord(coord, direction, _34) {
     return coord.getNext(direction);
   }
 };
@@ -34256,7 +34889,7 @@ var AbstractReversiRules = class AbstractReversiRules2 extends ConfigurableRules
     board[downRightCenter.y][downRightCenter.x - 1] = Player.ONE;
     return new ReversiState(board, 0);
   }
-  applyLegalMove(move, state, _33, info) {
+  applyLegalMove(move, state, _34, info) {
     const turn = state.turn;
     const player = state.getCurrentPlayer();
     const board = state.getCopiedBoard();
@@ -34403,42 +35036,42 @@ var ReversiRules = class _ReversiRules extends AbstractReversiRules {
 };
 
 // src/app/games/reversis/reversi/ReversiTutorial.ts
-var _22 = PlayerOrNone.NONE;
-var O19 = PlayerOrNone.ZERO;
-var X19 = PlayerOrNone.ONE;
-var defaultConfig20 = ReversiRules.get().getDefaultRulesConfig();
+var _23 = PlayerOrNone.NONE;
+var O20 = PlayerOrNone.ZERO;
+var X20 = PlayerOrNone.ONE;
+var defaultConfig21 = ReversiRules.get().getDefaultRulesConfig();
 var ReversiTutorial = class extends Tutorial {
   tutorial = [
     TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`At Reversi, the pieces are double sided: one dark side for the first player, one light side for the second player. When one piece is flipped, its owner changes. The player owning the most pieces at the end of the game wins. Here, Dark has 28 points and Light has 36, hence Light wins.`, new ReversiState([
-      [O19, O19, O19, O19, O19, O19, O19, O19],
-      [O19, X19, X19, X19, X19, X19, X19, O19],
-      [O19, X19, X19, X19, X19, X19, X19, O19],
-      [O19, X19, X19, X19, X19, X19, X19, O19],
-      [O19, X19, X19, X19, X19, X19, X19, O19],
-      [O19, X19, X19, X19, X19, X19, X19, O19],
-      [O19, X19, X19, X19, X19, X19, X19, O19],
-      [O19, O19, O19, O19, O19, O19, O19, O19]
+      [O20, O20, O20, O20, O20, O20, O20, O20],
+      [O20, X20, X20, X20, X20, X20, X20, O20],
+      [O20, X20, X20, X20, X20, X20, X20, O20],
+      [O20, X20, X20, X20, X20, X20, X20, O20],
+      [O20, X20, X20, X20, X20, X20, X20, O20],
+      [O20, X20, X20, X20, X20, X20, X20, O20],
+      [O20, X20, X20, X20, X20, X20, X20, O20],
+      [O20, O20, O20, O20, O20, O20, O20, O20]
     ], 60)),
-    TutorialStep.anyMove($localize`Captures` + " (1/2)", $localize`At the beginning of the game, pieces are placed as shown here. For a move to be legal, it must sandwich at least one piece of the opponent between the piece you're putting and another of your pieces.<br/><br/>Do any move by clicking to put your piece. Dark plays first.`, ReversiRules.get().getInitialState(defaultConfig20), new ReversiMove(2, 4), TutorialStepMessage.CONGRATULATIONS()),
+    TutorialStep.anyMove($localize`Captures` + " (1/2)", $localize`At the beginning of the game, pieces are placed as shown here. For a move to be legal, it must sandwich at least one piece of the opponent between the piece you're putting and another of your pieces.<br/><br/>Do any move by clicking to put your piece. Dark plays first.`, ReversiRules.get().getInitialState(defaultConfig21), new ReversiMove(2, 4), TutorialStepMessage.CONGRATULATIONS()),
     TutorialStep.fromMove($localize`Captures` + " (2/2)", $localize`A move can also capture a bigger line, and more than one line at a time<br/><br/>You're playing Light here. Play on the bottom left to see a capture.`, new ReversiState([
-      [_22, _22, _22, _22, _22, _22, _22, _22],
-      [_22, _22, _22, _22, _22, _22, _22, _22],
-      [_22, _22, _22, _22, _22, _22, _22, _22],
-      [_22, _22, _22, _22, X19, _22, _22, _22],
-      [_22, _22, _22, O19, _22, _22, _22, _22],
-      [_22, _22, O19, _22, _22, _22, _22, _22],
-      [O19, O19, _22, _22, _22, _22, _22, _22],
-      [_22, O19, X19, O19, X19, O19, _22, _22]
+      [_23, _23, _23, _23, _23, _23, _23, _23],
+      [_23, _23, _23, _23, _23, _23, _23, _23],
+      [_23, _23, _23, _23, _23, _23, _23, _23],
+      [_23, _23, _23, _23, X20, _23, _23, _23],
+      [_23, _23, _23, O20, _23, _23, _23, _23],
+      [_23, _23, O20, _23, _23, _23, _23, _23],
+      [O20, O20, _23, _23, _23, _23, _23, _23],
+      [_23, O20, X20, O20, X20, O20, _23, _23]
     ], 1), [new ReversiMove(0, 7)], TutorialStepMessage.CONGRATULATIONS(), $localize`Lower and more to the left, please.`),
     TutorialStep.informational($localize`Passing a turn`, $localize`If, during its turn, a player has no move that would allow that player to flip a piece, that player must pass. Moreover, if the next player could not play neither, the game ends before the board is full, and points are counted in the usual way.`, new ReversiState([
-      [X19, O19, O19, O19, O19, O19, X19, O19],
-      [O19, X19, X19, X19, X19, X19, X19, O19],
-      [O19, X19, X19, X19, X19, X19, X19, O19],
-      [O19, X19, X19, X19, X19, X19, X19, O19],
-      [O19, X19, X19, X19, X19, X19, X19, O19],
-      [O19, X19, X19, X19, X19, X19, X19, O19],
-      [X19, X19, X19, X19, X19, X19, _22, _22],
-      [O19, O19, O19, O19, O19, O19, _22, _22]
+      [X20, O20, O20, O20, O20, O20, X20, O20],
+      [O20, X20, X20, X20, X20, X20, X20, O20],
+      [O20, X20, X20, X20, X20, X20, X20, O20],
+      [O20, X20, X20, X20, X20, X20, X20, O20],
+      [O20, X20, X20, X20, X20, X20, X20, O20],
+      [O20, X20, X20, X20, X20, X20, X20, O20],
+      [X20, X20, X20, X20, X20, X20, _23, _23],
+      [O20, O20, O20, O20, O20, O20, _23, _23]
     ], 60))
   ];
 };
@@ -34660,44 +35293,44 @@ var ToricReversiRules = class _ToricReversiRules extends AbstractReversiRules {
 };
 
 // src/app/games/reversis/toric-reversi/ToricReversiTutorial.ts
-var _23 = PlayerOrNone.NONE;
-var O20 = PlayerOrNone.ZERO;
-var X20 = PlayerOrNone.ONE;
-var defaultConfig21 = ToricReversiRules.get().getDefaultRulesConfig();
+var _24 = PlayerOrNone.NONE;
+var O21 = PlayerOrNone.ZERO;
+var X21 = PlayerOrNone.ONE;
+var defaultConfig22 = ToricReversiRules.get().getDefaultRulesConfig();
 var ToricReversiTutorial = class extends Tutorial {
   tutorial = [
-    TutorialStep.informational($localize`Toric Reversi`, $localize`Toric Reversi is a variant of Reversi played on a toric board. If you are not familiar with the base rules of Reversi, check them out <a href="/tutorial/Reversi">here</a> before continuing. This tutorial only covers what changes with the toric board.`, ToricReversiRules.get().getInitialState(defaultConfig21)),
+    TutorialStep.informational($localize`Toric Reversi`, $localize`Toric Reversi is a variant of Reversi played on a toric board. If you are not familiar with the base rules of Reversi, check them out <a href="/tutorial/Reversi">here</a> before continuing. This tutorial only covers what changes with the toric board.`, ToricReversiRules.get().getInitialState(defaultConfig22)),
     TutorialStep.fromMove($localize`Left-right connectivity`, $localize`On a toric board, the left edge is connected to the right edge. This means a line of pieces can wrap around horizontally. Here, you can capture the three light pieces by playing on the leftmost column, as the board wraps around to continue the line.<br/><br/>You are playing Dark. Do a capture.`, new ReversiState([
-      [_23, _23, _23, _23, _23, _23, _23, _23],
-      [_23, _23, _23, _23, _23, _23, _23, _23],
-      [_23, _23, _23, _23, _23, _23, _23, _23],
-      [_23, _23, _23, _23, O20, X20, X20, X20],
-      [_23, _23, _23, X20, _23, _23, _23, _23],
-      [_23, _23, _23, _23, _23, _23, _23, _23],
-      [_23, _23, _23, _23, _23, _23, _23, _23],
-      [_23, _23, _23, _23, _23, _23, _23, _23]
+      [_24, _24, _24, _24, _24, _24, _24, _24],
+      [_24, _24, _24, _24, _24, _24, _24, _24],
+      [_24, _24, _24, _24, _24, _24, _24, _24],
+      [_24, _24, _24, _24, O21, X21, X21, X21],
+      [_24, _24, _24, X21, _24, _24, _24, _24],
+      [_24, _24, _24, _24, _24, _24, _24, _24],
+      [_24, _24, _24, _24, _24, _24, _24, _24],
+      [_24, _24, _24, _24, _24, _24, _24, _24]
     ], 2), [new ReversiMove(0, 3)], TutorialStepMessage.CONGRATULATIONS(), $localize`Look at the fourth row: there is a line of dark pieces that wraps around the left edge.`),
     TutorialStep.fromMove($localize`Top-bottom connectivity`, $localize`The same applies vertically: the top edge is connected to the bottom edge. Find the move that captures by playing on the top row.`, new ReversiState([
-      [_23, _23, _23, _23, _23, _23, _23, _23],
-      [_23, _23, _23, _23, _23, _23, _23, _23],
-      [_23, _23, _23, _23, _23, _23, _23, _23],
-      [_23, _23, _23, X20, X20, _23, _23, _23],
-      [_23, _23, _23, X20, O20, _23, _23, _23],
-      [_23, _23, _23, O20, _23, _23, _23, _23],
-      [_23, _23, _23, O20, _23, _23, _23, _23],
-      [_23, _23, _23, O20, _23, _23, _23, _23]
+      [_24, _24, _24, _24, _24, _24, _24, _24],
+      [_24, _24, _24, _24, _24, _24, _24, _24],
+      [_24, _24, _24, _24, _24, _24, _24, _24],
+      [_24, _24, _24, X21, X21, _24, _24, _24],
+      [_24, _24, _24, X21, O21, _24, _24, _24],
+      [_24, _24, _24, O21, _24, _24, _24, _24],
+      [_24, _24, _24, O21, _24, _24, _24, _24],
+      [_24, _24, _24, O21, _24, _24, _24, _24]
     ], 1), [new ReversiMove(3, 0)], TutorialStepMessage.CONGRATULATIONS(), $localize`Look at the fourth column: the dark piece at the bottom wraps around to the top.`),
     TutorialStep.fromMove($localize`Diagonal wrapping`, $localize`Wrapping also works diagonally. A diagonal can cross both the horizontal and vertical edges at the same time. Here, a diagonal of light pieces wraps around a corner of the board. Can you find the capturing move?`, new ReversiState([
-      [_23, _23, _23, _23, _23, _23, _23, X20],
-      [_23, _23, _23, _23, _23, _23, X20, _23],
-      [_23, _23, _23, X20, _23, X20, _23, _23],
-      [_23, _23, _23, X20, X20, _23, _23, _23],
-      [_23, _23, _23, O20, _23, _23, _23, _23],
-      [_23, _23, _23, _23, _23, _23, _23, _23],
-      [_23, _23, _23, _23, _23, _23, _23, _23],
-      [_23, _23, _23, _23, _23, _23, _23, _23]
+      [_24, _24, _24, _24, _24, _24, _24, X21],
+      [_24, _24, _24, _24, _24, _24, X21, _24],
+      [_24, _24, _24, X21, _24, X21, _24, _24],
+      [_24, _24, _24, X21, X21, _24, _24, _24],
+      [_24, _24, _24, O21, _24, _24, _24, _24],
+      [_24, _24, _24, _24, _24, _24, _24, _24],
+      [_24, _24, _24, _24, _24, _24, _24, _24],
+      [_24, _24, _24, _24, _24, _24, _24, _24]
     ], 2), [new ReversiMove(0, 7)], TutorialStepMessage.CONGRATULATIONS(), $localize`Follow the diagonal starting from the dark piece: it wraps around the right edge and continues on the left.`),
-    TutorialStep.informational($localize`Strategic implications`, $localize`On a standard Reversi board, corners and edges are powerful because pieces placed there cannot be flanked. On a toric board, there are no corners and no edges, every piece can potentially be captured from any direction. This completely changes the strategy: stability must be built differently, and no position is ever truly safe.`, ToricReversiRules.get().getInitialState(defaultConfig21))
+    TutorialStep.informational($localize`Strategic implications`, $localize`On a standard Reversi board, corners and edges are powerful because pieces placed there cannot be flanked. On a toric board, there are no corners and no edges, every piece can potentially be captured from any direction. This completely changes the strategy: stability must be built differently, and no position is ever truly safe.`, ToricReversiRules.get().getInitialState(defaultConfig22))
   ];
 };
 
@@ -34807,8 +35440,8 @@ var __decorate42 = function(decorators, target, key, desc) {
   return c > 3 && r2 && Object.defineProperty(target, key, r2), r2;
 };
 var SaharaRules_1;
-var _a7;
-var SaharaRules = (_a7 = class extends Rules {
+var _a6;
+var SaharaRules = (_a6 = class extends Rules {
   static get() {
     if (SaharaRules_1.singleton.isAbsent()) {
       SaharaRules_1.singleton = MGPOptional.of(new SaharaRules_1());
@@ -34818,10 +35451,10 @@ var SaharaRules = (_a7 = class extends Rules {
   getInitialState() {
     const size = 3;
     const N10 = FourStatePiece.UNREACHABLE;
-    const O28 = FourStatePiece.ZERO;
-    const X28 = FourStatePiece.ONE;
-    const _33 = FourStatePiece.EMPTY;
-    const board = HexagonalUtils.createBoard(size, N10, _33);
+    const O29 = FourStatePiece.ZERO;
+    const X29 = FourStatePiece.ONE;
+    const _34 = FourStatePiece.EMPTY;
+    const board = HexagonalUtils.createBoard(size, N10, _34);
     const start = (size + 1) % 2;
     const xEnd = 4 * size - (2 - start);
     const yEnd = size * 2 - 1;
@@ -34829,18 +35462,18 @@ var SaharaRules = (_a7 = class extends Rules {
     const second = first + 1;
     const third = first + 2 * size - 1;
     const fourth = third + 1;
-    board[0][first] = O28;
-    board[0][second] = X28;
-    board[0][third] = O28;
-    board[0][fourth] = X28;
-    board[first - start][start] = X28;
-    board[second - start][start] = O28;
-    board[first - start][xEnd] = O28;
-    board[second - start][xEnd] = X28;
-    board[yEnd][first] = O28;
-    board[yEnd][second] = X28;
-    board[yEnd][third] = O28;
-    board[yEnd][fourth] = X28;
+    board[0][first] = O29;
+    board[0][second] = X29;
+    board[0][third] = O29;
+    board[0][fourth] = X29;
+    board[first - start][start] = X29;
+    board[second - start][start] = O29;
+    board[first - start][xEnd] = O29;
+    board[second - start][xEnd] = X29;
+    board[yEnd][first] = O29;
+    board[yEnd][second] = X29;
+    board[yEnd][third] = O29;
+    board[yEnd][fourth] = X29;
     return new SaharaState(board, 0);
   }
   getStartingCoords(state, player) {
@@ -34954,7 +35587,7 @@ var SaharaRules = (_a7 = class extends Rules {
     }
     return GameStatus.ONGOING;
   }
-}, SaharaRules_1 = _a7, __publicField(_a7, "singleton", MGPOptional.empty()), _a7);
+}, SaharaRules_1 = _a6, __publicField(_a6, "singleton", MGPOptional.empty()), _a6);
 SaharaRules = SaharaRules_1 = __decorate42([
   Debug.log
 ], SaharaRules);
@@ -35006,20 +35639,20 @@ var SaharaMove = class _SaharaMove extends MoveCoordToCoord {
 
 // src/app/games/sahara/SaharaTutorial.ts
 var N8 = FourStatePiece.UNREACHABLE;
-var O21 = FourStatePiece.ZERO;
-var X21 = FourStatePiece.ONE;
-var _24 = FourStatePiece.EMPTY;
+var O23 = FourStatePiece.ZERO;
+var X23 = FourStatePiece.ONE;
+var _25 = FourStatePiece.EMPTY;
 var SaharaTutorial = class extends Tutorial {
   tutorial = [
     TutorialStep.informational($localize`Initial board`, $localize`Sâhârâ is played on a board where each space is a triangle.
         Each player has six pyramids.`, SaharaRules.get().getInitialState()),
     TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`At Sâhârâ, the object of the game is to immobilize one of the opponent's pyramids. To do so, you have to occupy all neighboring space of that pyramid. Here, Light has lost because its leftmost pyramid is immobilized.`, new SaharaState([
-      [N8, N8, _24, _24, X21, _24, _24, O21, X21, N8, N8],
-      [N8, _24, _24, _24, _24, _24, _24, _24, _24, _24, N8],
-      [X21, O21, _24, _24, _24, _24, _24, _24, _24, _24, O21],
-      [O21, _24, _24, _24, _24, _24, _24, _24, _24, _24, X21],
-      [N8, _24, _24, _24, _24, _24, _24, _24, _24, _24, N8],
-      [N8, N8, X21, O21, _24, _24, _24, X21, O21, N8, N8]
+      [N8, N8, _25, _25, X23, _25, _25, O23, X23, N8, N8],
+      [N8, _25, _25, _25, _25, _25, _25, _25, _25, _25, N8],
+      [X23, O23, _25, _25, _25, _25, _25, _25, _25, _25, O23],
+      [O23, _25, _25, _25, _25, _25, _25, _25, _25, _25, X23],
+      [N8, _25, _25, _25, _25, _25, _25, _25, _25, _25, N8],
+      [N8, N8, X23, O23, _25, _25, _25, X23, O23, N8, N8]
     ], 3)),
     TutorialStep.fromPredicate($localize`Simple step`, $localize`To immobilize your opponent, you have to move your pyramids.
         When a pyramid shares its vertices with light spaces, it can move on these spaces (we call this a simple step).
@@ -35694,8 +36327,8 @@ var SiamLegalityInformation = class {
     this.moved = moved;
   }
 };
-var _a8;
-var SiamRules = (_a8 = class extends ConfigurableRules {
+var _a7;
+var SiamRules = (_a7 = class extends ConfigurableRules {
   static get() {
     if (SiamRules_1.singleton.isAbsent()) {
       SiamRules_1.singleton = MGPOptional.of(new SiamRules_1());
@@ -36135,7 +36768,7 @@ var SiamRules = (_a8 = class extends ConfigurableRules {
       return GameStatus.ONGOING;
     }
   }
-}, SiamRules_1 = _a8, __publicField(_a8, "singleton", MGPOptional.empty()), __publicField(_a8, "RULES_CONFIG_DESCRIPTION", new RulesConfigDescription({
+}, SiamRules_1 = _a7, __publicField(_a7, "singleton", MGPOptional.empty()), __publicField(_a7, "RULES_CONFIG_DESCRIPTION", new RulesConfigDescription({
   name: () => $localize`Siam`,
   config: {
     // minimum 3 so that there are spaces around the mountain
@@ -36145,61 +36778,61 @@ var SiamRules = (_a8 = class extends ConfigurableRules {
     // -1 on two ends because there will always be the first mountain
     numberOfBonusMountain: new NumberConfig(2, () => $localize`Number of bonus mountains`, MGPValidators.range(0, 98))
   }
-})), _a8);
+})), _a7);
 SiamRules = SiamRules_1 = __decorate44([
   Debug.log
 ], SiamRules);
 
 // src/app/games/siam/SiamTutorial.ts
-var _25 = SiamPiece.EMPTY;
+var _26 = SiamPiece.EMPTY;
 var M = SiamPiece.MOUNTAIN;
 var U2 = SiamPiece.LIGHT_UP;
 var L = SiamPiece.LIGHT_LEFT;
 var R = SiamPiece.LIGHT_RIGHT;
 var D = SiamPiece.LIGHT_DOWN;
-var u = SiamPiece.DARK_UP;
+var u2 = SiamPiece.DARK_UP;
 var l = SiamPiece.DARK_LEFT;
 var r = SiamPiece.DARK_RIGHT;
 var d = SiamPiece.DARK_DOWN;
-var defaultConfig22 = SiamRules.get().getDefaultRulesConfig();
+var defaultConfig23 = SiamRules.get().getDefaultRulesConfig();
 var SiamTutorial = class extends Tutorial {
   tutorial = [
-    TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`The goal at Siam is to be the first to push a mountain out of the board. The initial board contains three mountains, and no pieces are initially on the board. During its turn, a player can do one of the following actions:<ol><li>Put a new piece on the board.</li><li>Change the orientation of one of its piece</li><li>Move one of its piece and optionally reorient it.</li><li>Take one of its pieces out of the board.</li></ol>`, SiamRules.get().getInitialState(defaultConfig22)),
-    TutorialStep.anyMove($localize`Inserting a piece`, $localize`Each player has 5 pieces in total. As long as you have remaining pieces next to the board, you can insert new pieces. To do so:<ol><li>Click on one of your pieces from your reserve, next to board.</li><li>Click on one of the highlighted squares to select a landing for your piece.</li><li>Select an orientation for your piece by clicking on one of the arrows that appear on top of the board.</li></ol><br/>You're playing Dark, insert a piece on the board.`, SiamRules.get().getInitialState(defaultConfig22), SiamMove.of(2, -1, MGPOptional.of(Orthogonal.DOWN), Orthogonal.DOWN), TutorialStepMessage.CONGRATULATIONS()),
+    TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`The goal at Siam is to be the first to push a mountain out of the board. The initial board contains three mountains, and no pieces are initially on the board. During its turn, a player can do one of the following actions:<ol><li>Put a new piece on the board.</li><li>Change the orientation of one of its piece</li><li>Move one of its piece and optionally reorient it.</li><li>Take one of its pieces out of the board.</li></ol>`, SiamRules.get().getInitialState(defaultConfig23)),
+    TutorialStep.anyMove($localize`Inserting a piece`, $localize`Each player has 5 pieces in total. As long as you have remaining pieces next to the board, you can insert new pieces. To do so:<ol><li>Click on one of your pieces from your reserve, next to board.</li><li>Click on one of the highlighted squares to select a landing for your piece.</li><li>Select an orientation for your piece by clicking on one of the arrows that appear on top of the board.</li></ol><br/>You're playing Dark, insert a piece on the board.`, SiamRules.get().getInitialState(defaultConfig23), SiamMove.of(2, -1, MGPOptional.of(Orthogonal.DOWN), Orthogonal.DOWN), TutorialStepMessage.CONGRATULATIONS()),
     TutorialStep.fromMove($localize`Moving a piece`, $localize`We will distinguish here "moving" and "pushing". A move is made from a piece's square to an empty neighboring square, horizontally or vertically. You can also move a piece out of the board. To move a piece:<ol><li>Click on it.</li><li>Click on the square on which you want the piece to move. You can also click a second time on your piece to change its orientation without moving it.</li><li>Select the orientation of your piece by clicking one one of the arrows that appear on top of the board.</li></ol><br/>You're playing Dark. Try to move your piece that is already on the board one square upwards and to orient it to the left.`, new SiamState([
-      [_25, _25, _25, _25, _25],
-      [_25, _25, _25, _25, _25],
-      [_25, M, M, M, _25],
-      [_25, _25, _25, _25, _25],
-      [_25, _25, u, _25, _25]
+      [_26, _26, _26, _26, _26],
+      [_26, _26, _26, _26, _26],
+      [_26, M, M, M, _26],
+      [_26, _26, _26, _26, _26],
+      [_26, _26, u2, _26, _26]
     ], 0), [SiamMove.of(2, 4, MGPOptional.of(Orthogonal.UP), Orthogonal.LEFT)], $localize`Congratulations, you made a side-slip!`, TutorialStepMessage.FAILED_TRY_AGAIN()),
     TutorialStep.fromMove($localize`Moving a piece out of the board`, $localize`To move a piece out of the board, you do not have to pick an orientation after the move.<br/><br/> You're playing Dark, get that piece out of the board!`, new SiamState([
-      [_25, _25, _25, _25, _25],
-      [_25, _25, _25, _25, _25],
-      [_25, M, M, M, _25],
-      [_25, _25, _25, _25, _25],
-      [_25, _25, u, _25, _25]
+      [_26, _26, _26, _26, _26],
+      [_26, _26, _26, _26, _26],
+      [_26, M, M, M, _26],
+      [_26, _26, _26, _26, _26],
+      [_26, _26, u2, _26, _26]
     ], 0), [SiamMove.of(2, 4, MGPOptional.of(Orthogonal.DOWN), Orthogonal.DOWN)], $localize`Congratulations, even if in this context it was not a useful move.`, $localize`Failed, the piece is still on the board.`),
     TutorialStep.fromMove($localize`Pushing` + " (1/2)", $localize`When the landing square of your move is occupied, we use the term "push". In order to push player pieces, the following conditions must hold:<ol><li>Your piece must already be oriented in the direction of the push.</li><li>Along the line that you are pushing, the number of pieces (yours or your opponent's) that are oriented in the same way as the push should be strictly greater than the number of pieces oriented in the opposite way.</li></ol>Look closely at the board. On the first row, you cannot push as there is exactly one piece in the opposite direction. On the second row, you can push because there are two pieces against one.<br/><br/>You're playing Dark. Vertically, you can push using your piece in the center, as there is no resistance on that axis. Do it.`, new SiamState([
-      [_25, r, L, _25, _25],
-      [r, R, L, _25, _25],
-      [_25, _25, u, _25, _25],
-      [_25, _25, _25, _25, _25],
-      [_25, _25, _25, _25, _25]
+      [_26, r, L, _26, _26],
+      [r, R, L, _26, _26],
+      [_26, _26, u2, _26, _26],
+      [_26, _26, _26, _26, _26],
+      [_26, _26, _26, _26, _26]
     ], 0), [SiamMove.of(2, 2, MGPOptional.of(Orthogonal.UP), Orthogonal.UP)], TutorialStepMessage.CONGRATULATIONS(), TutorialStepMessage.FAILED_TRY_AGAIN()),
     TutorialStep.fromMove($localize`Pushing` + " (2/2)", $localize`To be able to push a mountain, you need at least one pusher per mountain. Each resistant (pieces in the opposite way) cancel the force of one pusher. In short, if there is no mountain, you need strictly more pushers than resistants. If there is a mountain, you need at least as much pushers than there are resistants and mountains. On the following board, as Dark, you can push the mountain on the first row. On the second and third row, because of the resisting forces, you cannot push. On the fourth row, you can push as there is one more pusher than resistant pieces.<br/><br/>You're playing Dark, push on the fourth row it.`, new SiamState([
-      [_25, _25, r, M, _25],
-      [_25, _25, r, M, l],
-      [_25, r, M, M, _25],
-      [_25, r, R, L, M],
-      [_25, _25, _25, _25, _25]
+      [_26, _26, r, M, _26],
+      [_26, _26, r, M, l],
+      [_26, r, M, M, _26],
+      [_26, r, R, L, M],
+      [_26, _26, _26, _26, _26]
     ], 0), [SiamMove.of(1, 3, MGPOptional.of(Orthogonal.RIGHT), Orthogonal.RIGHT)], $localize`Congratulations! Note that this move made you lose the game, you will see why in the next step.`, TutorialStepMessage.FAILED_TRY_AGAIN()),
     TutorialStep.fromMove($localize`Victory`, $localize`The game ends when a mountain is pushed out of the board. If you pushed it and nobody is in front of you, you're the winner. However, if you were pushing an opponent oriented in the same direction as you, your opponent will win because that piece is closer to the mountain. However, if that opponent is closer to the mountain but not oriented toward it, victory will be yours.<br/><br/>Here, playing Dark, you can push a mountain off the board and either win, or lose. Choose correctly!`, new SiamState([
-      [_25, _25, _25, _25, _25],
-      [_25, _25, _25, _25, _25],
-      [M, U2, l, _25, d],
-      [_25, _25, _25, _25, D],
-      [_25, _25, _25, _25, M]
+      [_26, _26, _26, _26, _26],
+      [_26, _26, _26, _26, _26],
+      [M, U2, l, _26, d],
+      [_26, _26, _26, _26, D],
+      [_26, _26, _26, _26, M]
     ], 0), [SiamMove.of(2, 2, MGPOptional.of(Orthogonal.LEFT), Orthogonal.LEFT)], TutorialStepMessage.CONGRATULATIONS_YOU_WON(), $localize`Failed, you lost.`)
   ];
 };
@@ -36266,7 +36899,7 @@ var SiamMoveGenerator = class extends MoveGenerator {
 };
 
 // src/app/games/siam/siam-orientation-arrow.component.ts
-var _c016 = ["app-siam-orientation-arrow", ""];
+var _c017 = ["app-siam-orientation-arrow", ""];
 function SiamOrientationArrowComponent_For_3_Template(rf, ctx) {
   if (rf & 1) {
     const _r1 = \u0275\u0275getCurrentView();
@@ -36320,7 +36953,7 @@ var SiamOrientationArrowComponent = class _SiamOrientationArrowComponent extends
       return (\u0275SiamOrientationArrowComponent_BaseFactory || (\u0275SiamOrientationArrowComponent_BaseFactory = \u0275\u0275getInheritedFactory(_SiamOrientationArrowComponent)))(__ngFactoryType__ || _SiamOrientationArrowComponent);
     };
   })();
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _SiamOrientationArrowComponent, selectors: [["", "app-siam-orientation-arrow", ""]], inputs: { orientations: [1, "orientations"], currentPlayer: [1, "currentPlayer"], config: [1, "config"] }, outputs: { moveEmitter: "moveEmitter" }, features: [\u0275\u0275InheritDefinitionFeature], attrs: _c016, decls: 4, vars: 0, consts: [["id", "arrow", "points", "30 10, 30 50, 10 50, 50 90, 90 50, 70 50, 70 10"], [0, "xlink", "href", "#arrow", 1, "base", "mid-stroke", "semi-transparent", 3, "id", "ngClass"], [0, "xlink", "href", "#arrow", 1, "base", "mid-stroke", "semi-transparent", 3, "click", "id", "ngClass"]], template: function SiamOrientationArrowComponent_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _SiamOrientationArrowComponent, selectors: [["", "app-siam-orientation-arrow", ""]], inputs: { orientations: [1, "orientations"], currentPlayer: [1, "currentPlayer"], config: [1, "config"] }, outputs: { moveEmitter: "moveEmitter" }, features: [\u0275\u0275InheritDefinitionFeature], attrs: _c017, decls: 4, vars: 0, consts: [["id", "arrow", "points", "30 10, 30 50, 10 50, 50 90, 90 50, 70 50, 70 10"], [0, "xlink", "href", "#arrow", 1, "base", "mid-stroke", "semi-transparent", 3, "id", "ngClass"], [0, "xlink", "href", "#arrow", 1, "base", "mid-stroke", "semi-transparent", 3, "click", "id", "ngClass"]], template: function SiamOrientationArrowComponent_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275namespaceSVG();
       \u0275\u0275elementStart(0, "defs");
@@ -37042,8 +37675,8 @@ var __decorate46 = function(decorators, target, key, desc) {
   return c > 3 && r2 && Object.defineProperty(target, key, r2), r2;
 };
 var SixRules_1;
-var _a9;
-var SixRules = (_a9 = class extends ConfigurableRules {
+var _a8;
+var SixRules = (_a8 = class extends ConfigurableRules {
   currentVictorySource;
   static get() {
     if (SixRules_1.singleton.isAbsent()) {
@@ -37331,12 +37964,12 @@ var SixRules = (_a9 = class extends ConfigurableRules {
     }
     return victory;
   }
-}, SixRules_1 = _a9, __publicField(_a9, "singleton", MGPOptional.empty()), __publicField(_a9, "RULES_CONFIG_DESCRIPTION", new RulesConfigDescription({
+}, SixRules_1 = _a8, __publicField(_a8, "singleton", MGPOptional.empty()), __publicField(_a8, "RULES_CONFIG_DESCRIPTION", new RulesConfigDescription({
   name: () => $localize`Six`,
   config: {
     piecesPerPlayer: new NumberConfig(20, () => $localize`Number of pieces to drop per player`, MGPValidators.range(5, 99))
   }
-})), _a9);
+})), _a8);
 SixRules = SixRules_1 = __decorate46([
   Debug.log
 ], SixRules);
@@ -37394,9 +38027,9 @@ var SixMove = class _SixMove extends Move {
 };
 
 // src/app/games/six/SixTutorial.ts
-var _26 = PlayerOrNone.NONE;
-var O23 = Player.ZERO;
-var X23 = Player.ONE;
+var _27 = PlayerOrNone.NONE;
+var O24 = Player.ZERO;
+var X24 = Player.ONE;
 var SixTutorialMessages = class {
   static MOVEMENT_NOT_DISCONNECTING = () => $localize`This move does not disconnect your opponent's pieces. Try again with another piece.`;
   static MOVEMENT_SELF_DISCONNECTING = () => $localize`You lost one of your pieces during this move. There is a way to disconnect an opponent's piece without losing any of yours, try again!`;
@@ -37406,41 +38039,41 @@ var SixTutorial = class extends Tutorial {
     TutorialStep.informational($localize`Six`, $localize`Six is a game without board, where pieces are placed on the side of each other, in a contiguous block. Each player has 21 pieces, with one for each player already on the board. The object of the game is to form one of the three winning shapes with your pieces.`, SixRules.get().getInitialState()),
     TutorialStep.fromMove($localize`Victory (line)`, $localize`On this board, by putting your piece at the right place, you can align six of your pieces and win the game<br/><br/>
         Find the victory. You're playing Dark.`, SixState.ofRepresentation([
-      [O23, X23, X23, X23, X23, O23],
-      [_26, O23, X23, _26, O23, _26],
-      [X23, X23, O23, _26, _26, _26],
-      [_26, _26, O23, _26, _26, _26],
-      [_26, O23, _26, _26, _26, _26],
-      [O23, _26, _26, _26, _26, _26]
+      [O24, X24, X24, X24, X24, O24],
+      [_27, O24, X24, _27, O24, _27],
+      [X24, X24, O24, _27, _27, _27],
+      [_27, _27, O24, _27, _27, _27],
+      [_27, O24, _27, _27, _27, _27],
+      [O24, _27, _27, _27, _27, _27]
     ], 0), [SixMove.ofDrop(new Coord(3, 2))], TutorialStepMessage.CONGRATULATIONS(), TutorialStepMessage.FAILED_TRY_AGAIN()),
     TutorialStep.fromMove($localize`Victory (circle)`, $localize`On this board, by putting your piece at the right place, you can form a circle with six of your pieces and win the game.<br/><br/>
         Find the victory. You're playing Dark.`, SixState.ofRepresentation([
-      [_26, _26, _26, X23, _26, _26],
-      [_26, _26, X23, X23, O23, O23],
-      [_26, X23, _26, O23, X23, _26],
-      [X23, O23, O23, O23, O23, X23]
+      [_27, _27, _27, X24, _27, _27],
+      [_27, _27, X24, X24, O24, O24],
+      [_27, X24, _27, O24, X24, _27],
+      [X24, O24, O24, O24, O24, X24]
     ], 0), [SixMove.ofDrop(new Coord(5, 2))], $localize`Congratulations! Note that if a piece is inside the circle, it does not change anything.`, TutorialStepMessage.FAILED_TRY_AGAIN()),
     TutorialStep.fromMove($localize`Victory (triangle)`, $localize`On this board, by putting your piece at the right place, you can form a triangle with six of your pieces and win the game.<br/><br/>
         Find the victory. You're playing Dark.`, SixState.ofRepresentation([
-      [_26, _26, _26, X23, _26, _26],
-      [_26, O23, X23, O23, O23, O23],
-      [_26, O23, _26, O23, O23, _26],
-      [X23, X23, X23, _26, X23, _26]
+      [_27, _27, _27, X24, _27, _27],
+      [_27, O24, X24, O24, O24, O24],
+      [_27, O24, _27, O24, O24, _27],
+      [X24, X24, X24, _27, X24, _27]
     ], 0), [SixMove.ofDrop(new Coord(3, 3))], TutorialStepMessage.CONGRATULATIONS(), TutorialStepMessage.FAILED_TRY_AGAIN()),
     TutorialStep.fromPredicate($localize`Second phase`, $localize`After 40 turns, your pieces have all been placed and we move on to the second phase of the game.
         You now have to move your pieces, paying attention not to remove a piece that was preventing the opponent's victory.
         From now on, if after move, on or more pieces are disconnected from the largest group of pieces, these will be taken out of the game.<br/><br/>
         You're playing Dark. Make a move that disconnects one of your opponent's pieces.`, SixState.ofRepresentation([
-      [_26, _26, _26, _26, _26, _26, _26, X23, _26],
-      [_26, _26, _26, _26, _26, _26, O23, _26, _26],
-      [_26, _26, _26, _26, O23, O23, O23, _26, _26],
-      [_26, _26, _26, _26, X23, X23, _26, X23, O23],
-      [_26, O23, X23, X23, O23, O23, X23, _26, _26],
-      [O23, O23, O23, O23, X23, X23, X23, O23, _26],
-      [X23, X23, O23, _26, X23, X23, O23, _26, _26],
-      [_26, O23, _26, O23, O23, _26, _26, _26, _26],
-      [X23, X23, X23, X23, _26, _26, _26, _26, _26],
-      [_26, O23, _26, X23, _26, _26, _26, _26, _26]
+      [_27, _27, _27, _27, _27, _27, _27, X24, _27],
+      [_27, _27, _27, _27, _27, _27, O24, _27, _27],
+      [_27, _27, _27, _27, O24, O24, O24, _27, _27],
+      [_27, _27, _27, _27, X24, X24, _27, X24, O24],
+      [_27, O24, X24, X24, O24, O24, X24, _27, _27],
+      [O24, O24, O24, O24, X24, X24, X24, O24, _27],
+      [X24, X24, O24, _27, X24, X24, O24, _27, _27],
+      [_27, O24, _27, O24, O24, _27, _27, _27, _27],
+      [X24, X24, X24, X24, _27, _27, _27, _27, _27],
+      [_27, O24, _27, X24, _27, _27, _27, _27, _27]
     ], 40), SixMove.ofTranslation(new Coord(6, 1), new Coord(5, 1)), (_move, _previousState, resultingState) => {
       const pieces = resultingState.countPiecesOnBoard();
       if (pieces.get(Player.ZERO) === 19) {
@@ -37457,13 +38090,13 @@ var SixTutorial = class extends Tutorial {
         If at any time, at least one player does not have enough pieces to win (less than 6), the game ends.
         The one with the most pieces wins. In case they both have the same number of pieces, it's a draw.<br/><br/>
         Here, you're playing Dark and you can win. Do it!`, SixState.ofRepresentation([
-      [_26, _26, _26, _26, _26, X23],
-      [_26, _26, _26, _26, O23, X23],
-      [_26, _26, _26, X23, O23, O23],
-      [_26, _26, O23, _26, X23, O23],
-      [X23, X23, _26, _26, _26, O23],
-      [O23, X23, _26, _26, _26, _26],
-      [O23, _26, _26, _26, _26, _26]
+      [_27, _27, _27, _27, _27, X24],
+      [_27, _27, _27, _27, O24, X24],
+      [_27, _27, _27, X24, O24, O24],
+      [_27, _27, O24, _27, X24, O24],
+      [X24, X24, _27, _27, _27, O24],
+      [O24, X24, _27, _27, _27, _27],
+      [O24, _27, _27, _27, _27, _27]
     ], 40), SixMove.ofTranslation(new Coord(2, 3), new Coord(3, 3)), (move, _previousState, _resultingState) => {
       if (move.start.equalsValue(new Coord(2, 3))) {
         return MGPValidation.SUCCESS;
@@ -37474,13 +38107,13 @@ var SixTutorial = class extends Tutorial {
     TutorialStep.fromPredicate($localize`Special disconnection`, $localize`During a disconnection, two or more groups could have the same size,
         in which case you will have to click on the group you wish to keep.<br/><br/>
         You're playing Dark, play such a move!`, SixState.ofRepresentation([
-      [_26, _26, _26, _26, _26, X23],
-      [_26, _26, _26, _26, O23, X23],
-      [_26, _26, _26, X23, O23, O23],
-      [O23, _26, O23, _26, _26, X23],
-      [X23, X23, _26, _26, _26, _26],
-      [O23, O23, _26, _26, _26, _26],
-      [O23, _26, _26, _26, _26, _26]
+      [_27, _27, _27, _27, _27, X24],
+      [_27, _27, _27, _27, O24, X24],
+      [_27, _27, _27, X24, O24, O24],
+      [O24, _27, O24, _27, _27, X24],
+      [X24, X24, _27, _27, _27, _27],
+      [O24, O24, _27, _27, _27, _27],
+      [O24, _27, _27, _27, _27, _27]
     ], 40), SixMove.ofCut(new Coord(2, 3), new Coord(2, 5), new Coord(2, 5)), (move, _previousState, resultingState) => {
       if (move.keep.isAbsent()) {
         return MGPValidation.failure($localize`This move has not cut the board in two equal halves.`);
@@ -38600,11 +39233,11 @@ var SquarzRules = class _SquarzRules extends ConfigurableRules {
 };
 
 // src/app/games/squarz/SquarzTutorial.ts
-var defaultConfig23 = SquarzRules.get().getDefaultRulesConfig();
-var initialState2 = SquarzRules.get().getInitialState(defaultConfig23);
-var _27 = PlayerOrNone.NONE;
-var O24 = PlayerOrNone.ZERO;
-var X24 = PlayerOrNone.ONE;
+var defaultConfig24 = SquarzRules.get().getDefaultRulesConfig();
+var initialState2 = SquarzRules.get().getInitialState(defaultConfig24);
+var _28 = PlayerOrNone.NONE;
+var O25 = PlayerOrNone.ZERO;
+var X25 = PlayerOrNone.ONE;
 var SquarzTutorial = class extends Tutorial {
   tutorial = [
     TutorialStep.informational($localize`Squarz`, $localize`Squarz is board control game. Here is the initial state. The goal is to have the most pieces at the end of the game.`, initialState2),
@@ -38616,14 +39249,14 @@ var SquarzTutorial = class extends Tutorial {
       }
     }, TutorialStepMessage.CONGRATULATIONS()),
     TutorialStep.fromPredicate($localize`Jumps`, $localize`The second type of move you can do is the jump. When you do one, your piece leaves its original space and jumps two spaces further. To do this, select one of your pieces, and click on its landing space two spaces further.<br/><br/>You're playing Light, make a jump.`, new SquarzState([
-      [O24, _27, _27, _27, _27, _27, _27, X24],
-      [_27, O24, _27, _27, _27, _27, _27, _27],
-      [_27, _27, _27, _27, _27, _27, _27, _27],
-      [_27, _27, _27, _27, _27, _27, _27, _27],
-      [_27, _27, _27, _27, _27, _27, _27, _27],
-      [_27, _27, _27, _27, _27, _27, _27, _27],
-      [_27, _27, _27, _27, _27, _27, _27, _27],
-      [X24, _27, _27, _27, _27, _27, _27, O24]
+      [O25, _28, _28, _28, _28, _28, _28, X25],
+      [_28, O25, _28, _28, _28, _28, _28, _28],
+      [_28, _28, _28, _28, _28, _28, _28, _28],
+      [_28, _28, _28, _28, _28, _28, _28, _28],
+      [_28, _28, _28, _28, _28, _28, _28, _28],
+      [_28, _28, _28, _28, _28, _28, _28, _28],
+      [_28, _28, _28, _28, _28, _28, _28, _28],
+      [X25, _28, _28, _28, _28, _28, _28, O25]
     ], 1), SquarzMove.from(new Coord(7, 0), new Coord(5, 2)).get(), (move, _state) => {
       if (move.isDuplication()) {
         return MGPValidation.failure($localize`This was a duplication, try a jump now.`);
@@ -38632,14 +39265,14 @@ var SquarzTutorial = class extends Tutorial {
       }
     }, TutorialStepMessage.CONGRATULATIONS()).withPreviousMove(SquarzMove.from(new Coord(0, 0), new Coord(1, 1)).get(), initialState2),
     TutorialStep.fromPredicate($localize`Captures`, $localize`When one of your pieces lands on a square, its adjacent opponent pieces become yours. This is called a capture.<br/><br/>You're playing Light, do a capture!`, new SquarzState([
-      [O24, _27, _27, _27, _27, _27, _27, X24],
-      [_27, _27, _27, _27, _27, _27, _27, _27],
-      [_27, _27, _27, _27, _27, _27, _27, _27],
-      [_27, _27, _27, O24, _27, _27, _27, _27],
-      [_27, _27, _27, _27, _27, _27, _27, _27],
-      [_27, _27, X24, _27, _27, _27, _27, _27],
-      [_27, _27, _27, _27, _27, _27, _27, _27],
-      [_27, _27, _27, _27, _27, _27, _27, O24]
+      [O25, _28, _28, _28, _28, _28, _28, X25],
+      [_28, _28, _28, _28, _28, _28, _28, _28],
+      [_28, _28, _28, _28, _28, _28, _28, _28],
+      [_28, _28, _28, O25, _28, _28, _28, _28],
+      [_28, _28, _28, _28, _28, _28, _28, _28],
+      [_28, _28, X25, _28, _28, _28, _28, _28],
+      [_28, _28, _28, _28, _28, _28, _28, _28],
+      [_28, _28, _28, _28, _28, _28, _28, O25]
     ], 3), SquarzMove.from(new Coord(2, 5), new Coord(3, 4)).get(), (_move, _state, resultingState) => {
       if (resultingState.getPieceAtXY(3, 3) === Player.ONE) {
         return MGPValidation.SUCCESS;
@@ -38648,14 +39281,14 @@ var SquarzTutorial = class extends Tutorial {
       }
     }, TutorialStepMessage.CONGRATULATIONS()).withPreviousMove(SquarzMove.from(new Coord(1, 1), new Coord(3, 3)).get(), initialState2),
     TutorialStep.fromPredicate($localize`End of the game`, $localize`When one player can no longer play, the game ends, and the player with the most pieces wins. Here, you can do a final move and win.<br/><br/>You're playing Light, do it.`, new SquarzState([
-      [X24, X24, X24, X24, X24, X24, X24, X24],
-      [O24, O24, O24, O24, O24, O24, O24, O24],
-      [O24, O24, O24, O24, O24, O24, O24, O24],
-      [O24, O24, O24, O24, O24, O24, O24, O24],
-      [X24, X24, X24, _27, X24, X24, X24, X24],
-      [X24, X24, X24, X24, X24, X24, X24, X24],
-      [X24, X24, X24, X24, X24, X24, X24, X24],
-      [O24, O24, O24, O24, O24, O24, O24, O24]
+      [X25, X25, X25, X25, X25, X25, X25, X25],
+      [O25, O25, O25, O25, O25, O25, O25, O25],
+      [O25, O25, O25, O25, O25, O25, O25, O25],
+      [O25, O25, O25, O25, O25, O25, O25, O25],
+      [X25, X25, X25, _28, X25, X25, X25, X25],
+      [X25, X25, X25, X25, X25, X25, X25, X25],
+      [X25, X25, X25, X25, X25, X25, X25, X25],
+      [O25, O25, O25, O25, O25, O25, O25, O25]
     ], 3), SquarzMove.from(new Coord(2, 5), new Coord(3, 4)).get(), (move, _state, _resultingState) => {
       if (move.isDuplication()) {
         return MGPValidation.SUCCESS;
@@ -38663,14 +39296,14 @@ var SquarzTutorial = class extends Tutorial {
         return MGPValidation.failure($localize`Bad choice, by making this move you allowed the opponent to win.<br/><br/>Try again!`);
       }
     }, TutorialStepMessage.CONGRATULATIONS_YOU_WON()).withPreviousMove(SquarzMove.from(new Coord(3, 1), new Coord(3, 2)).get(), new SquarzState([
-      [X24, X24, X24, X24, X24, X24, X24, X24],
-      [O24, O24, O24, O24, O24, O24, O24, O24],
-      [O24, O24, O24, _27, O24, O24, O24, O24],
-      [O24, O24, O24, O24, O24, O24, O24, O24],
-      [X24, X24, X24, _27, X24, X24, X24, X24],
-      [X24, X24, X24, X24, X24, X24, X24, X24],
-      [X24, X24, X24, X24, X24, X24, X24, X24],
-      [O24, O24, O24, O24, O24, O24, O24, O24]
+      [X25, X25, X25, X25, X25, X25, X25, X25],
+      [O25, O25, O25, O25, O25, O25, O25, O25],
+      [O25, O25, O25, _28, O25, O25, O25, O25],
+      [O25, O25, O25, O25, O25, O25, O25, O25],
+      [X25, X25, X25, _28, X25, X25, X25, X25],
+      [X25, X25, X25, X25, X25, X25, X25, X25],
+      [X25, X25, X25, X25, X25, X25, X25, X25],
+      [O25, O25, O25, O25, O25, O25, O25, O25]
     ], 2))
   ];
 };
@@ -39422,7 +40055,7 @@ var BrandhubRules = class _BrandhubRules extends TaflRules {
     super(BrandhubMove.from);
   }
   getInitialState(config) {
-    const _33 = TaflPawn.UNOCCUPIED;
+    const _34 = TaflPawn.UNOCCUPIED;
     let I = TaflPawn.PLAYER_ZERO_PAWN;
     let D2 = TaflPawn.PLAYER_ONE_PAWN;
     let K = TaflPawn.PLAYER_ONE_KING;
@@ -39432,13 +40065,13 @@ var BrandhubRules = class _BrandhubRules extends TaflRules {
       K = TaflPawn.PLAYER_ZERO_KING;
     }
     const board = [
-      [_33, _33, _33, I, _33, _33, _33],
-      [_33, _33, _33, I, _33, _33, _33],
-      [_33, _33, _33, D2, _33, _33, _33],
+      [_34, _34, _34, I, _34, _34, _34],
+      [_34, _34, _34, I, _34, _34, _34],
+      [_34, _34, _34, D2, _34, _34, _34],
       [I, I, D2, K, D2, I, I],
-      [_33, _33, _33, D2, _33, _33, _33],
-      [_33, _33, _33, I, _33, _33, _33],
-      [_33, _33, _33, I, _33, _33, _33]
+      [_34, _34, _34, D2, _34, _34, _34],
+      [_34, _34, _34, I, _34, _34, _34],
+      [_34, _34, _34, I, _34, _34, _34]
     ];
     return new TaflState(board, 0);
   }
@@ -39448,64 +40081,64 @@ var BrandhubRules = class _BrandhubRules extends TaflRules {
 };
 
 // src/app/games/tafl/brandhub/BrandhubTutorial.ts
-var _28 = TaflPawn.UNOCCUPIED;
-var O25 = TaflPawn.PLAYER_ZERO_PAWN;
-var X25 = TaflPawn.PLAYER_ONE_PAWN;
+var _29 = TaflPawn.UNOCCUPIED;
+var O26 = TaflPawn.PLAYER_ZERO_PAWN;
+var X26 = TaflPawn.PLAYER_ONE_PAWN;
 var A5 = TaflPawn.PLAYER_ONE_KING;
-var defaultConfig24 = BrandhubRules.get().getDefaultRulesConfig();
+var defaultConfig25 = BrandhubRules.get().getDefaultRulesConfig();
 var BrandhubTutorial = class extends Tutorial {
   tutorial = [
-    TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`Brandhub is the Irish version of the Tafl, Tafl being a family of viking strategy game. The object of the game is different for each player. The attacker plays first. Their pieces (dark) are close to the edges. Their goal is to capture the king, which is in the center of the board. The defender plays second. Their pieces (light) are in the middle. Their goal is to move the king on one of the 4 thrones in the corners. Note that the square in which the king starts, in the center of the board, is also a throne.`, BrandhubRules.get().getInitialState(defaultConfig24)),
-    TutorialStep.anyMove($localize`Moving`, $localize`All pieces move the same way. Similarly to a rook in chess, a piece can move: <ol><li>By as many squares as you want.</li><li>Without going over another piece or stopping on another piece.</li><li>Horizontally or vertically.</li><li>Only the king can land on a corner throne.</li><li>Once the king left his central throne, no piece can land on it, but all can pass over it.</li></ol>To move a piece, click on it and then on its landing square.<br/><br/>You're playing Dark, do the first move.`, BrandhubRules.get().getInitialState(defaultConfig24), BrandhubMove.from(new Coord(3, 1), new Coord(1, 1)).get(), TutorialStepMessage.CONGRATULATIONS()),
+    TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`Brandhub is the Irish version of the Tafl, Tafl being a family of viking strategy game. The object of the game is different for each player. The attacker plays first. Their pieces (dark) are close to the edges. Their goal is to capture the king, which is in the center of the board. The defender plays second. Their pieces (light) are in the middle. Their goal is to move the king on one of the 4 thrones in the corners. Note that the square in which the king starts, in the center of the board, is also a throne.`, BrandhubRules.get().getInitialState(defaultConfig25)),
+    TutorialStep.anyMove($localize`Moving`, $localize`All pieces move the same way. Similarly to a rook in chess, a piece can move: <ol><li>By as many squares as you want.</li><li>Without going over another piece or stopping on another piece.</li><li>Horizontally or vertically.</li><li>Only the king can land on a corner throne.</li><li>Once the king left his central throne, no piece can land on it, but all can pass over it.</li></ol>To move a piece, click on it and then on its landing square.<br/><br/>You're playing Dark, do the first move.`, BrandhubRules.get().getInitialState(defaultConfig25), BrandhubMove.from(new Coord(3, 1), new Coord(1, 1)).get(), TutorialStepMessage.CONGRATULATIONS()),
     TutorialStep.fromMove($localize`Capturing a soldier` + " (1/2)", $localize`All pieces, attackers and defenders, except the king, are soldiers. To capture them, they have to be sandwiched between two of your pieces. By getting too close, an attacker's soldier is in danger.<br/><br/>You're playing Light. Capture the soldier.`, new TaflState([
-      [_28, _28, _28, O25, _28, _28, _28],
-      [_28, _28, _28, O25, _28, _28, _28],
-      [O25, _28, _28, X25, _28, _28, _28],
-      [_28, _28, X25, A5, X25, O25, O25],
-      [_28, _28, O25, _28, _28, _28, _28],
-      [_28, _28, _28, X25, _28, O25, _28],
-      [_28, _28, _28, O25, _28, _28, _28]
+      [_29, _29, _29, O26, _29, _29, _29],
+      [_29, _29, _29, O26, _29, _29, _29],
+      [O26, _29, _29, X26, _29, _29, _29],
+      [_29, _29, X26, A5, X26, O26, O26],
+      [_29, _29, O26, _29, _29, _29, _29],
+      [_29, _29, _29, X26, _29, O26, _29],
+      [_29, _29, _29, O26, _29, _29, _29]
     ], 1), [
       BrandhubMove.from(new Coord(3, 5), new Coord(2, 5)).get()
     ], $localize`Congratulations, that will teach him a lesson!`, $localize`Failed, you missed an opportunity to capture a piece of the opponent.`),
     TutorialStep.fromMove($localize`Capturing a soldier` + " (2/2)", $localize`A second way to capture a soldier is to sandwich it against an empty throne. The king has moved and endangered one of its soldiers.<br/><br/>You're playing Dark. Capture the soldier.`, new TaflState([
-      [_28, _28, _28, O25, _28, _28, _28],
-      [_28, _28, O25, _28, _28, _28, _28],
-      [_28, _28, _28, X25, _28, _28, _28],
-      [O25, X25, _28, _28, X25, O25, O25],
-      [_28, X25, _28, _28, _28, _28, _28],
-      [_28, O25, _28, A5, _28, O25, _28],
-      [_28, _28, _28, O25, _28, _28, _28]
+      [_29, _29, _29, O26, _29, _29, _29],
+      [_29, _29, O26, _29, _29, _29, _29],
+      [_29, _29, _29, X26, _29, _29, _29],
+      [O26, X26, _29, _29, X26, O26, O26],
+      [_29, X26, _29, _29, _29, _29, _29],
+      [_29, O26, _29, A5, _29, O26, _29],
+      [_29, _29, _29, O26, _29, _29, _29]
     ], 12), [
       BrandhubMove.from(new Coord(2, 1), new Coord(3, 1)).get(),
       BrandhubMove.from(new Coord(3, 0), new Coord(3, 1)).get()
     ], $localize`Congratulations, one less defender. But keep an eye on the king, it is the most important.`, $localize`Failed, you did not do the expected move.`),
     TutorialStep.fromMove($localize`Capturing the king on his throne`, $localize`To capture the king when he sits on his throne, the four squares neighbor to the king (horizontally and vertically) must be occupied by your soldiers.<br/><br/>You're playing Dark. Capture the king.`, new TaflState([
-      [_28, _28, _28, _28, _28, _28, _28],
-      [_28, _28, _28, X25, _28, _28, _28],
-      [_28, _28, _28, O25, _28, _28, _28],
-      [_28, O25, _28, A5, O25, _28, _28],
-      [_28, _28, _28, O25, _28, _28, _28],
-      [_28, X25, _28, _28, _28, _28, _28],
-      [_28, _28, _28, _28, _28, _28, _28]
+      [_29, _29, _29, _29, _29, _29, _29],
+      [_29, _29, _29, X26, _29, _29, _29],
+      [_29, _29, _29, O26, _29, _29, _29],
+      [_29, O26, _29, A5, O26, _29, _29],
+      [_29, _29, _29, O26, _29, _29, _29],
+      [_29, X26, _29, _29, _29, _29, _29],
+      [_29, _29, _29, _29, _29, _29, _29]
     ], 72), [BrandhubMove.from(new Coord(1, 3), new Coord(2, 3)).get()], TutorialStepMessage.CONGRATULATIONS_YOU_WON(), $localize`Failed, you let the king run away.`),
     TutorialStep.fromMove($localize`Capturing the king next to his throne`, $localize`Another way to capture the king is to use three soldier plus the central throne to surround the king on four sides.<br/><br/>You're playing Dark. Capture the king.`, new TaflState([
-      [_28, _28, O25, _28, _28, _28, _28],
-      [_28, _28, _28, O25, _28, _28, _28],
-      [_28, _28, _28, A5, O25, _28, _28],
-      [_28, O25, X25, _28, X25, _28, _28],
-      [_28, _28, _28, O25, _28, _28, _28],
-      [_28, _28, _28, _28, _28, _28, _28],
-      [_28, _28, _28, _28, _28, _28, _28]
+      [_29, _29, O26, _29, _29, _29, _29],
+      [_29, _29, _29, O26, _29, _29, _29],
+      [_29, _29, _29, A5, O26, _29, _29],
+      [_29, O26, X26, _29, X26, _29, _29],
+      [_29, _29, _29, O26, _29, _29, _29],
+      [_29, _29, _29, _29, _29, _29, _29],
+      [_29, _29, _29, _29, _29, _29, _29]
     ], 72), [BrandhubMove.from(new Coord(2, 0), new Coord(2, 2)).get()], $localize`The king is dead, long live the king. Congratulations, you won.`, TutorialStepMessage.FAILED_TRY_AGAIN()),
     TutorialStep.fromMove($localize`Capturing the king far from his throne`, $localize`When the king is not on his central throne nor next to it, he can be captured like a soldier.<br/><br/>You're playing Dark. Capture the king.`, new TaflState([
-      [_28, _28, _28, _28, _28, _28, _28],
-      [_28, _28, _28, _28, _28, _28, _28],
-      [_28, O25, _28, O25, _28, _28, _28],
-      [O25, _28, _28, _28, X25, _28, _28],
-      [_28, _28, _28, X25, _28, _28, _28],
-      [_28, _28, _28, _28, _28, _28, _28],
-      [_28, A5, _28, O25, _28, _28, _28]
+      [_29, _29, _29, _29, _29, _29, _29],
+      [_29, _29, _29, _29, _29, _29, _29],
+      [_29, O26, _29, O26, _29, _29, _29],
+      [O26, _29, _29, _29, X26, _29, _29],
+      [_29, _29, _29, X26, _29, _29, _29],
+      [_29, _29, _29, _29, _29, _29, _29],
+      [_29, A5, _29, O26, _29, _29, _29]
     ], 72), [BrandhubMove.from(new Coord(3, 6), new Coord(2, 6)).get()], $localize`The king is dead, long live the king. Congratulations, you won.`, TutorialStepMessage.FAILED_TRY_AGAIN())
   ];
 };
@@ -40368,7 +41001,7 @@ var HnefataflRules = class _HnefataflRules extends TaflRules {
     super(HnefataflMove.from);
   }
   getInitialState(config) {
-    const _33 = TaflPawn.UNOCCUPIED;
+    const _34 = TaflPawn.UNOCCUPIED;
     let I = TaflPawn.PLAYER_ZERO_PAWN;
     let D2 = TaflPawn.PLAYER_ONE_PAWN;
     let K = TaflPawn.PLAYER_ONE_KING;
@@ -40378,17 +41011,17 @@ var HnefataflRules = class _HnefataflRules extends TaflRules {
       K = TaflPawn.PLAYER_ZERO_KING;
     }
     const board = [
-      [_33, _33, _33, I, I, I, I, I, _33, _33, _33],
-      [_33, _33, _33, _33, _33, I, _33, _33, _33, _33, _33],
-      [_33, _33, _33, _33, _33, _33, _33, _33, _33, _33, _33],
-      [I, _33, _33, _33, _33, D2, _33, _33, _33, _33, I],
-      [I, _33, _33, _33, D2, D2, D2, _33, _33, _33, I],
-      [I, I, _33, D2, D2, K, D2, D2, _33, I, I],
-      [I, _33, _33, _33, D2, D2, D2, _33, _33, _33, I],
-      [I, _33, _33, _33, _33, D2, _33, _33, _33, _33, I],
-      [_33, _33, _33, _33, _33, _33, _33, _33, _33, _33, _33],
-      [_33, _33, _33, _33, _33, I, _33, _33, _33, _33, _33],
-      [_33, _33, _33, I, I, I, I, I, _33, _33, _33]
+      [_34, _34, _34, I, I, I, I, I, _34, _34, _34],
+      [_34, _34, _34, _34, _34, I, _34, _34, _34, _34, _34],
+      [_34, _34, _34, _34, _34, _34, _34, _34, _34, _34, _34],
+      [I, _34, _34, _34, _34, D2, _34, _34, _34, _34, I],
+      [I, _34, _34, _34, D2, D2, D2, _34, _34, _34, I],
+      [I, I, _34, D2, D2, K, D2, D2, _34, I, I],
+      [I, _34, _34, _34, D2, D2, D2, _34, _34, _34, I],
+      [I, _34, _34, _34, _34, D2, _34, _34, _34, _34, I],
+      [_34, _34, _34, _34, _34, _34, _34, _34, _34, _34, _34],
+      [_34, _34, _34, _34, _34, I, _34, _34, _34, _34, _34],
+      [_34, _34, _34, I, I, I, I, I, _34, _34, _34]
     ];
     return new TaflState(board, 0);
   }
@@ -40398,69 +41031,69 @@ var HnefataflRules = class _HnefataflRules extends TaflRules {
 };
 
 // src/app/games/tafl/hnefatafl/HnefataflTutorial.ts
-var _29 = TaflPawn.UNOCCUPIED;
-var O26 = TaflPawn.PLAYER_ZERO_PAWN;
-var X26 = TaflPawn.PLAYER_ONE_PAWN;
+var _30 = TaflPawn.UNOCCUPIED;
+var O27 = TaflPawn.PLAYER_ZERO_PAWN;
+var X27 = TaflPawn.PLAYER_ONE_PAWN;
 var A6 = TaflPawn.PLAYER_ONE_KING;
-var defaultConfig25 = HnefataflRules.get().getDefaultRulesConfig();
+var defaultConfig26 = HnefataflRules.get().getDefaultRulesConfig();
 var HnefataflTutorial = class extends Tutorial {
   tutorial = [
-    TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`Hnefatafl is a strategy game that was played by the vikings, it's part of a larger family of games called Tafl. The object of the game is different for each player. The attacker plays first. Their pieces (dark) are close to the edges. Their goal is to capture the king, which is in the center of the board. The defender plays second. Their pieces (light) are in the middle. Their goal is to move the king on one of the 4 thrones in the corners. Note that the square in which the king starts, in the center of the board, is also a throne.`, HnefataflRules.get().getInitialState(defaultConfig25)),
-    TutorialStep.anyMove($localize`Moving`, $localize`All pieces move the same way. Similarly to a rook in chess, a piece can move:<ol><li>By as many squares as you want.</li><li>Without going over another piece or stopping on another piece.</li><li>Horizontally or vertically.</li><li>Only the king can land on a throne.</li></ol>To move a piece, click on it and then on its landing square.<br/><br/>You're playing Dark, do the first move.`, HnefataflRules.get().getInitialState(defaultConfig25), HnefataflMove.from(new Coord(5, 1), new Coord(1, 1)).get(), TutorialStepMessage.CONGRATULATIONS()),
+    TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`Hnefatafl is a strategy game that was played by the vikings, it's part of a larger family of games called Tafl. The object of the game is different for each player. The attacker plays first. Their pieces (dark) are close to the edges. Their goal is to capture the king, which is in the center of the board. The defender plays second. Their pieces (light) are in the middle. Their goal is to move the king on one of the 4 thrones in the corners. Note that the square in which the king starts, in the center of the board, is also a throne.`, HnefataflRules.get().getInitialState(defaultConfig26)),
+    TutorialStep.anyMove($localize`Moving`, $localize`All pieces move the same way. Similarly to a rook in chess, a piece can move:<ol><li>By as many squares as you want.</li><li>Without going over another piece or stopping on another piece.</li><li>Horizontally or vertically.</li><li>Only the king can land on a throne.</li></ol>To move a piece, click on it and then on its landing square.<br/><br/>You're playing Dark, do the first move.`, HnefataflRules.get().getInitialState(defaultConfig26), HnefataflMove.from(new Coord(5, 1), new Coord(1, 1)).get(), TutorialStepMessage.CONGRATULATIONS()),
     TutorialStep.fromMove($localize`Capturing a soldier` + " (1/2)", $localize`All pieces, attackers and defenders, except the king, are soldiers. To capture them, they have to be sandwiched between two of your pieces. By getting too close, an attacker's soldier is in danger.<br/><br/>You're playing Light. Capture the soldier.`, new TaflState([
-      [_29, _29, _29, _29, O26, O26, O26, O26, _29, _29, _29],
-      [_29, _29, _29, _29, _29, O26, _29, _29, _29, _29, _29],
-      [_29, _29, _29, _29, _29, _29, _29, _29, _29, _29, _29],
-      [O26, _29, _29, _29, _29, X26, _29, _29, _29, _29, O26],
-      [O26, _29, _29, O26, X26, X26, X26, _29, _29, _29, O26],
-      [O26, O26, _29, X26, X26, A6, X26, X26, _29, O26, O26],
-      [O26, _29, _29, _29, X26, X26, X26, _29, _29, _29, O26],
-      [O26, _29, _29, _29, _29, X26, _29, _29, _29, _29, O26],
-      [_29, _29, _29, _29, _29, _29, _29, _29, _29, _29, _29],
-      [_29, _29, _29, _29, _29, O26, _29, _29, _29, _29, _29],
-      [_29, _29, _29, O26, O26, O26, O26, O26, _29, _29, _29]
-    ], 1), [HnefataflMove.from(new Coord(5, 3), new Coord(3, 3)).get()], $localize`Congratulations, that will teach him a lesson!`, $localize`Failed, you missed an opportunity to capture a piece of the opponent.`).withPreviousMove(HnefataflMove.from(new Coord(3, 0), new Coord(3, 4)).get(), HnefataflRules.get().getInitialState(defaultConfig25)),
+      [_30, _30, _30, _30, O27, O27, O27, O27, _30, _30, _30],
+      [_30, _30, _30, _30, _30, O27, _30, _30, _30, _30, _30],
+      [_30, _30, _30, _30, _30, _30, _30, _30, _30, _30, _30],
+      [O27, _30, _30, _30, _30, X27, _30, _30, _30, _30, O27],
+      [O27, _30, _30, O27, X27, X27, X27, _30, _30, _30, O27],
+      [O27, O27, _30, X27, X27, A6, X27, X27, _30, O27, O27],
+      [O27, _30, _30, _30, X27, X27, X27, _30, _30, _30, O27],
+      [O27, _30, _30, _30, _30, X27, _30, _30, _30, _30, O27],
+      [_30, _30, _30, _30, _30, _30, _30, _30, _30, _30, _30],
+      [_30, _30, _30, _30, _30, O27, _30, _30, _30, _30, _30],
+      [_30, _30, _30, O27, O27, O27, O27, O27, _30, _30, _30]
+    ], 1), [HnefataflMove.from(new Coord(5, 3), new Coord(3, 3)).get()], $localize`Congratulations, that will teach him a lesson!`, $localize`Failed, you missed an opportunity to capture a piece of the opponent.`).withPreviousMove(HnefataflMove.from(new Coord(3, 0), new Coord(3, 4)).get(), HnefataflRules.get().getInitialState(defaultConfig26)),
     TutorialStep.fromMove($localize`Capturing a soldier` + " (2/2)", $localize`A second way to capture a soldier is to sandwich it against an empty throne. The king has moved and endangered one of its soldiers.<br/><br/>You're playing Dark. Capture the soldier.`, new TaflState([
-      [_29, _29, _29, O26, O26, O26, O26, O26, _29, _29, _29],
-      [_29, X26, _29, _29, _29, O26, _29, _29, _29, _29, _29],
-      [_29, _29, _29, _29, _29, _29, _29, _29, _29, _29, _29],
-      [_29, _29, _29, _29, _29, X26, _29, _29, _29, _29, O26],
-      [O26, _29, _29, _29, _29, X26, X26, _29, _29, _29, O26],
-      [O26, O26, A6, _29, X26, _29, X26, X26, _29, _29, O26],
-      [_29, _29, O26, _29, _29, X26, X26, _29, _29, _29, O26],
-      [O26, _29, _29, _29, _29, X26, _29, _29, _29, _29, _29],
-      [_29, _29, _29, _29, _29, _29, _29, _29, _29, _29, _29],
-      [_29, O26, _29, _29, _29, _29, _29, _29, _29, _29, _29],
-      [_29, _29, _29, O26, O26, O26, O26, _29, O26, _29, _29]
+      [_30, _30, _30, O27, O27, O27, O27, O27, _30, _30, _30],
+      [_30, X27, _30, _30, _30, O27, _30, _30, _30, _30, _30],
+      [_30, _30, _30, _30, _30, _30, _30, _30, _30, _30, _30],
+      [_30, _30, _30, _30, _30, X27, _30, _30, _30, _30, O27],
+      [O27, _30, _30, _30, _30, X27, X27, _30, _30, _30, O27],
+      [O27, O27, A6, _30, X27, _30, X27, X27, _30, _30, O27],
+      [_30, _30, O27, _30, _30, X27, X27, _30, _30, _30, O27],
+      [O27, _30, _30, _30, _30, X27, _30, _30, _30, _30, _30],
+      [_30, _30, _30, _30, _30, _30, _30, _30, _30, _30, _30],
+      [_30, O27, _30, _30, _30, _30, _30, _30, _30, _30, _30],
+      [_30, _30, _30, O27, O27, O27, O27, _30, O27, _30, _30]
     ], 12), [
       HnefataflMove.from(new Coord(3, 0), new Coord(3, 5)).get(),
       HnefataflMove.from(new Coord(3, 10), new Coord(3, 5)).get()
     ], $localize`Congratulations, one less defender. But keep an eye on the king, it is the most important.`, $localize`Failed, you did not do the expected move.`),
     TutorialStep.fromMove($localize`Capturing the king` + " (1/2)", $localize`To capture the king, two soldiers are not enough. For the first solution, the four squares neighbor to the king (horizontally and vertically) must be occupied by your soldiers. This also works if the king is on the throne.<br/><br/>You're playing Dark, capture the king.`, new TaflState([
-      [_29, _29, _29, _29, _29, _29, _29, _29, _29, _29, _29],
-      [_29, _29, _29, _29, _29, _29, _29, _29, _29, _29, _29],
-      [_29, _29, _29, _29, _29, _29, _29, _29, _29, _29, _29],
-      [_29, O26, _29, _29, _29, _29, _29, _29, _29, _29, _29],
-      [O26, A6, _29, O26, _29, _29, _29, _29, _29, _29, _29],
-      [_29, O26, _29, _29, _29, _29, _29, _29, _29, _29, _29],
-      [_29, _29, _29, _29, _29, _29, _29, _29, _29, _29, _29],
-      [_29, _29, _29, _29, _29, _29, _29, _29, _29, _29, _29],
-      [_29, _29, _29, _29, _29, _29, _29, _29, _29, _29, _29],
-      [_29, _29, _29, _29, _29, _29, _29, _29, _29, _29, _29],
-      [_29, _29, _29, _29, _29, _29, _29, _29, _29, _29, _29]
+      [_30, _30, _30, _30, _30, _30, _30, _30, _30, _30, _30],
+      [_30, _30, _30, _30, _30, _30, _30, _30, _30, _30, _30],
+      [_30, _30, _30, _30, _30, _30, _30, _30, _30, _30, _30],
+      [_30, O27, _30, _30, _30, _30, _30, _30, _30, _30, _30],
+      [O27, A6, _30, O27, _30, _30, _30, _30, _30, _30, _30],
+      [_30, O27, _30, _30, _30, _30, _30, _30, _30, _30, _30],
+      [_30, _30, _30, _30, _30, _30, _30, _30, _30, _30, _30],
+      [_30, _30, _30, _30, _30, _30, _30, _30, _30, _30, _30],
+      [_30, _30, _30, _30, _30, _30, _30, _30, _30, _30, _30],
+      [_30, _30, _30, _30, _30, _30, _30, _30, _30, _30, _30],
+      [_30, _30, _30, _30, _30, _30, _30, _30, _30, _30, _30]
     ], 72), [HnefataflMove.from(new Coord(3, 4), new Coord(2, 4)).get()], TutorialStepMessage.CONGRATULATIONS_YOU_WON(), $localize`Failed, you let the king run away.`),
     TutorialStep.fromMove($localize`Capturing the king` + " (2/2)", $localize`Another way to capture the king is to immobilize it against an edge of the board. Note that the king cannot be captured next to a throne.<br/><br/>You're playing Dark, capture the king.`, new TaflState([
-      [_29, _29, O26, A6, O26, _29, _29, _29, _29, _29, _29],
-      [_29, _29, _29, _29, _29, _29, X26, _29, _29, _29, _29],
-      [_29, _29, _29, _29, _29, _29, _29, _29, _29, _29, _29],
-      [_29, _29, _29, O26, _29, _29, _29, _29, _29, _29, _29],
-      [_29, _29, _29, _29, _29, _29, _29, _29, _29, _29, _29],
-      [_29, _29, _29, _29, _29, _29, _29, _29, _29, _29, _29],
-      [_29, _29, _29, _29, _29, _29, _29, _29, _29, _29, _29],
-      [_29, _29, _29, _29, _29, _29, _29, _29, _29, _29, _29],
-      [_29, _29, _29, _29, _29, _29, _29, _29, _29, _29, _29],
-      [_29, _29, _29, _29, _29, _29, _29, _29, _29, _29, _29],
-      [_29, _29, _29, _29, _29, _29, _29, _29, _29, _29, _29]
+      [_30, _30, O27, A6, O27, _30, _30, _30, _30, _30, _30],
+      [_30, _30, _30, _30, _30, _30, X27, _30, _30, _30, _30],
+      [_30, _30, _30, _30, _30, _30, _30, _30, _30, _30, _30],
+      [_30, _30, _30, O27, _30, _30, _30, _30, _30, _30, _30],
+      [_30, _30, _30, _30, _30, _30, _30, _30, _30, _30, _30],
+      [_30, _30, _30, _30, _30, _30, _30, _30, _30, _30, _30],
+      [_30, _30, _30, _30, _30, _30, _30, _30, _30, _30, _30],
+      [_30, _30, _30, _30, _30, _30, _30, _30, _30, _30, _30],
+      [_30, _30, _30, _30, _30, _30, _30, _30, _30, _30, _30],
+      [_30, _30, _30, _30, _30, _30, _30, _30, _30, _30, _30],
+      [_30, _30, _30, _30, _30, _30, _30, _30, _30, _30, _30]
     ], 72), [HnefataflMove.from(new Coord(3, 3), new Coord(3, 1)).get()], $localize`The king is dead, long live the king. Congratulations, you won.`, TutorialStepMessage.FAILED_TRY_AGAIN())
   ];
 };
@@ -40726,7 +41359,7 @@ var TablutRules = class _TablutRules extends TaflRules {
     super(TablutMove.from);
   }
   getInitialState(config) {
-    const _33 = TaflPawn.UNOCCUPIED;
+    const _34 = TaflPawn.UNOCCUPIED;
     let I = TaflPawn.PLAYER_ZERO_PAWN;
     let D2 = TaflPawn.PLAYER_ONE_PAWN;
     let K = TaflPawn.PLAYER_ONE_KING;
@@ -40736,15 +41369,15 @@ var TablutRules = class _TablutRules extends TaflRules {
       K = TaflPawn.PLAYER_ZERO_KING;
     }
     const board = [
-      [_33, _33, _33, I, I, I, _33, _33, _33],
-      [_33, _33, _33, _33, I, _33, _33, _33, _33],
-      [_33, _33, _33, _33, D2, _33, _33, _33, _33],
-      [I, _33, _33, _33, D2, _33, _33, _33, I],
+      [_34, _34, _34, I, I, I, _34, _34, _34],
+      [_34, _34, _34, _34, I, _34, _34, _34, _34],
+      [_34, _34, _34, _34, D2, _34, _34, _34, _34],
+      [I, _34, _34, _34, D2, _34, _34, _34, I],
       [I, I, D2, D2, K, D2, D2, I, I],
-      [I, _33, _33, _33, D2, _33, _33, _33, I],
-      [_33, _33, _33, _33, D2, _33, _33, _33, _33],
-      [_33, _33, _33, _33, I, _33, _33, _33, _33],
-      [_33, _33, _33, I, I, I, _33, _33, _33]
+      [I, _34, _34, _34, D2, _34, _34, _34, I],
+      [_34, _34, _34, _34, D2, _34, _34, _34, _34],
+      [_34, _34, _34, _34, I, _34, _34, _34, _34],
+      [_34, _34, _34, I, I, I, _34, _34, _34]
     ];
     return new TaflState(board, 0);
   }
@@ -40754,61 +41387,61 @@ var TablutRules = class _TablutRules extends TaflRules {
 };
 
 // src/app/games/tafl/tablut/TablutTutorial.ts
-var _30 = TaflPawn.UNOCCUPIED;
+var _31 = TaflPawn.UNOCCUPIED;
 var x = TaflPawn.PLAYER_ZERO_PAWN;
 var i = TaflPawn.PLAYER_ONE_PAWN;
 var A7 = TaflPawn.PLAYER_ONE_KING;
-var defaultConfig26 = TablutRules.get().getDefaultRulesConfig();
+var defaultConfig27 = TablutRules.get().getDefaultRulesConfig();
 var TablutTutorial = class extends Tutorial {
   tutorial = [
-    TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`Tablut is the lapland version of the Tafl, Tafl being a family of viking strategy game. The object of the game is different for each player. The attacker plays first. Its pieces (dark) are close to the edges. Its goal is to capture the king, which is in the center of the board. The defender plays second. Its pieces (light) are in the middle. Its goal is to move the king on one of the 4 thrones in the corners. Note that the square in which the king starts, in the center of the board, is also a throne.`, TablutRules.get().getInitialState(defaultConfig26)),
-    TutorialStep.anyMove($localize`Moving`, $localize`All pieces move the same way. Similarly to a rook in chess, a piece can move:<ol><li>By as many squares as you want.</li><li>Without going over another piece or stopping on another piece.</li><li>Horizontally or vertically.</li><li>Only the king can land on a throne.</li></ol>To move a piece, click on it and then on its landing square.<br/><br/>You're playing Dark, do the first move.`, TablutRules.get().getInitialState(defaultConfig26), TablutMove.from(new Coord(4, 1), new Coord(1, 1)).get(), TutorialStepMessage.CONGRATULATIONS()),
+    TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`Tablut is the lapland version of the Tafl, Tafl being a family of viking strategy game. The object of the game is different for each player. The attacker plays first. Its pieces (dark) are close to the edges. Its goal is to capture the king, which is in the center of the board. The defender plays second. Its pieces (light) are in the middle. Its goal is to move the king on one of the 4 thrones in the corners. Note that the square in which the king starts, in the center of the board, is also a throne.`, TablutRules.get().getInitialState(defaultConfig27)),
+    TutorialStep.anyMove($localize`Moving`, $localize`All pieces move the same way. Similarly to a rook in chess, a piece can move:<ol><li>By as many squares as you want.</li><li>Without going over another piece or stopping on another piece.</li><li>Horizontally or vertically.</li><li>Only the king can land on a throne.</li></ol>To move a piece, click on it and then on its landing square.<br/><br/>You're playing Dark, do the first move.`, TablutRules.get().getInitialState(defaultConfig27), TablutMove.from(new Coord(4, 1), new Coord(1, 1)).get(), TutorialStepMessage.CONGRATULATIONS()),
     TutorialStep.fromMove($localize`Capturing a soldier` + " (1/2)", $localize`All pieces, attackers and defenders, except the king, are soldiers. To capture them, they have to be sandwiched between two of your pieces. By getting too close, an attacker's soldier is in danger.<br/><br/>You're playing Light. Capture the soldier.`, new TaflState([
-      [_30, _30, _30, x, x, x, _30, _30, _30],
-      [_30, _30, _30, _30, x, _30, _30, _30, _30],
-      [_30, _30, _30, _30, i, _30, _30, _30, _30],
-      [_30, _30, _30, x, i, _30, _30, _30, x],
+      [_31, _31, _31, x, x, x, _31, _31, _31],
+      [_31, _31, _31, _31, x, _31, _31, _31, _31],
+      [_31, _31, _31, _31, i, _31, _31, _31, _31],
+      [_31, _31, _31, x, i, _31, _31, _31, x],
       [x, x, i, i, A7, i, i, x, x],
-      [_30, _30, _30, _30, i, _30, _30, _30, x],
-      [_30, _30, _30, _30, i, _30, _30, _30, _30],
-      [_30, _30, _30, _30, x, _30, _30, _30, _30],
-      [_30, _30, _30, x, x, x, _30, _30, _30]
+      [_31, _31, _31, _31, i, _31, _31, _31, x],
+      [_31, _31, _31, _31, i, _31, _31, _31, _31],
+      [_31, _31, _31, _31, x, _31, _31, _31, _31],
+      [_31, _31, _31, x, x, x, _31, _31, _31]
     ], 1), [
       TablutMove.from(new Coord(2, 4), new Coord(2, 3)).get(),
       TablutMove.from(new Coord(4, 2), new Coord(3, 2)).get()
     ], $localize`Congratulations, that will teach him a lesson!`, $localize`Failed, you missed an opportunity to capture a piece of the opponent.`),
     TutorialStep.fromMove($localize`Capturing a soldier` + " (2/2)", $localize`A second way to capture a soldier is to sandwich it against an empty throne. The king has moved and endangered one of its soldiers.<br/><br/>You're playing Dark. Capture the soldier.`, new TaflState([
-      [_30, _30, _30, x, x, x, _30, _30, _30],
-      [_30, _30, _30, _30, x, _30, _30, _30, _30],
-      [_30, _30, _30, _30, i, _30, _30, _30, _30],
-      [_30, _30, i, _30, A7, _30, i, _30, x],
-      [x, x, _30, i, _30, i, i, x, x],
-      [_30, _30, _30, _30, i, _30, _30, _30, x],
-      [_30, _30, _30, _30, i, _30, _30, _30, _30],
-      [_30, _30, _30, _30, x, _30, _30, _30, _30],
-      [_30, _30, _30, x, x, x, _30, _30, _30]
+      [_31, _31, _31, x, x, x, _31, _31, _31],
+      [_31, _31, _31, _31, x, _31, _31, _31, _31],
+      [_31, _31, _31, _31, i, _31, _31, _31, _31],
+      [_31, _31, i, _31, A7, _31, i, _31, x],
+      [x, x, _31, i, _31, i, i, x, x],
+      [_31, _31, _31, _31, i, _31, _31, _31, x],
+      [_31, _31, _31, _31, i, _31, _31, _31, _31],
+      [_31, _31, _31, _31, x, _31, _31, _31, _31],
+      [_31, _31, _31, x, x, x, _31, _31, _31]
     ], 12), [TablutMove.from(new Coord(1, 4), new Coord(2, 4)).get()], $localize`Congratulations, one less defender. But keep an eye on the king, it is the most important.`, $localize`Failed, you did not do the expected move.`),
     TutorialStep.fromMove($localize`Capturing the king` + " (1/2)", $localize`To capture the king, two soldiers are not enough. For the first solution, the four squares neighbor to the king (horizontally and vertically) must be occupied by your soldiers. This also works if the king is on the throne.<br/><br/>You're playing Dark, capture the king.`, new TaflState([
-      [_30, _30, _30, _30, _30, _30, _30, _30, _30],
-      [_30, _30, _30, _30, _30, _30, _30, _30, _30],
-      [_30, _30, _30, _30, _30, _30, _30, _30, _30],
-      [_30, x, _30, _30, _30, _30, _30, _30, _30],
-      [x, A7, _30, x, _30, _30, _30, _30, _30],
-      [_30, x, _30, _30, _30, _30, _30, _30, _30],
-      [_30, _30, _30, _30, _30, _30, _30, _30, _30],
-      [_30, _30, _30, _30, _30, _30, _30, _30, _30],
-      [_30, _30, _30, _30, _30, _30, _30, _30, _30]
+      [_31, _31, _31, _31, _31, _31, _31, _31, _31],
+      [_31, _31, _31, _31, _31, _31, _31, _31, _31],
+      [_31, _31, _31, _31, _31, _31, _31, _31, _31],
+      [_31, x, _31, _31, _31, _31, _31, _31, _31],
+      [x, A7, _31, x, _31, _31, _31, _31, _31],
+      [_31, x, _31, _31, _31, _31, _31, _31, _31],
+      [_31, _31, _31, _31, _31, _31, _31, _31, _31],
+      [_31, _31, _31, _31, _31, _31, _31, _31, _31],
+      [_31, _31, _31, _31, _31, _31, _31, _31, _31]
     ], 72), [TablutMove.from(new Coord(3, 4), new Coord(2, 4)).get()], TutorialStepMessage.CONGRATULATIONS_YOU_WON(), $localize`Failed, you let the king run away.`),
     TutorialStep.fromMove($localize`Capturing the king` + " (2/2)", $localize`Another way to capture the king is to immobilize it against an edge of the board. Note that the king cannot be captured next to a throne.<br/><br/>You're playing Dark, capture the king.`, new TaflState([
-      [_30, _30, x, A7, x, _30, _30, _30, _30],
-      [_30, _30, _30, _30, _30, _30, _30, _30, _30],
-      [_30, _30, _30, _30, _30, _30, _30, _30, _30],
-      [_30, _30, _30, x, _30, _30, _30, _30, _30],
-      [_30, _30, _30, _30, _30, _30, _30, _30, _30],
-      [_30, _30, _30, _30, _30, _30, _30, _30, _30],
-      [_30, _30, _30, _30, _30, _30, _30, _30, _30],
-      [_30, _30, _30, _30, _30, _30, _30, _30, _30],
-      [_30, _30, _30, _30, _30, _30, _30, _30, _30]
+      [_31, _31, x, A7, x, _31, _31, _31, _31],
+      [_31, _31, _31, _31, _31, _31, _31, _31, _31],
+      [_31, _31, _31, _31, _31, _31, _31, _31, _31],
+      [_31, _31, _31, x, _31, _31, _31, _31, _31],
+      [_31, _31, _31, _31, _31, _31, _31, _31, _31],
+      [_31, _31, _31, _31, _31, _31, _31, _31, _31],
+      [_31, _31, _31, _31, _31, _31, _31, _31, _31],
+      [_31, _31, _31, _31, _31, _31, _31, _31, _31],
+      [_31, _31, _31, _31, _31, _31, _31, _31, _31]
     ], 72), [TablutMove.from(new Coord(3, 3), new Coord(3, 1)).get()], $localize`The king is dead, long live the king. Congratulations, you won.`, TutorialStepMessage.FAILED_TRY_AGAIN())
   ];
 };
@@ -41236,26 +41869,26 @@ var TeekoRules = class _TeekoRules extends ConfigurableRules {
 };
 
 // src/app/games/teeko/TeekoTutorial.ts
-var _31 = PlayerOrNone.NONE;
-var O27 = PlayerOrNone.ZERO;
-var X27 = PlayerOrNone.ONE;
+var _32 = PlayerOrNone.NONE;
+var O28 = PlayerOrNone.ZERO;
+var X28 = PlayerOrNone.ONE;
 var TeekoTutorial = class extends Tutorial {
   tutorial = [
     TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`The object of the game is to align your 4 pieces, or to form a square with them.`, TeekoRules.get().getInitialState()),
     TutorialStep.anyMove($localize`Dropping a piece`, $localize`During your first four turns, you must drop one piece on any empty space of the board. There is no other restriction.<br/><br/>You're playing Dark, put a piece on the board.`, TeekoRules.get().getInitialState(), TeekoDropMove.from(new Coord(2, 2)), TutorialStepMessage.CONGRATULATIONS()),
     TutorialStep.anyMove($localize`Moving a piece`, $localize`Once all of your four pieces are placed on the board, you must now move one of your piece to an empty neighboring space, orthogonally or diagonally. The goal remains to be the first to create a line or a square.<br/><br/>You're playing Dark, move a piece.`, new TeekoState([
-      [O27, X27, _31, _31, _31],
-      [O27, O27, _31, _31, _31],
-      [X27, X27, _31, _31, _31],
-      [X27, O27, _31, _31, _31],
-      [_31, _31, _31, _31, _31]
+      [O28, X28, _32, _32, _32],
+      [O28, O28, _32, _32, _32],
+      [X28, X28, _32, _32, _32],
+      [X28, O28, _32, _32, _32],
+      [_32, _32, _32, _32, _32]
     ], 8), TeekoTranslationMove.from(new Coord(1, 3), new Coord(2, 2)).get(), TutorialStepMessage.CONGRATULATIONS()),
     TutorialStep.fromMove($localize`Victory`, $localize`In this board, you can win by creating a square.<br/><br/>You are playing Dark, win.`, new TeekoState([
-      [X27, _31, _31, _31, _31],
-      [X27, O27, _31, O27, _31],
-      [_31, O27, O27, X27, _31],
-      [_31, X27, _31, _31, _31],
-      [_31, _31, _31, _31, _31]
+      [X28, _32, _32, _32, _32],
+      [X28, O28, _32, O28, _32],
+      [_32, O28, O28, X28, _32],
+      [_32, X28, _32, _32, _32],
+      [_32, _32, _32, _32, _32]
     ], 8), [
       TeekoTranslationMove.from(new Coord(3, 1), new Coord(2, 1)).get()
     ], $localize`Congratulations, you won! Remember that you can also win by creating a line.`, TutorialStepMessage.FAILED_TRY_AGAIN())
@@ -41834,7 +42467,7 @@ var TrexoTutorial = class extends Tutorial {
       [______, ______, ______, ______, ______, ______, ______, ______, ______, ______],
       [______, ______, ______, ______, ______, ______, ______, ______, ______, ______],
       [______, ______, ______, ______, ______, ______, ______, ______, ______, ______]
-    ], 7), TrexoMove.from(new Coord(2, 0), new Coord(2, 1)).get(), (lastMove, _33, resultingState) => {
+    ], 7), TrexoMove.from(new Coord(2, 0), new Coord(2, 1)).get(), (lastMove, _34, resultingState) => {
       const moveScore = TrexoRules.TREXO_HELPER.getSquareScore(resultingState, lastMove.getOne());
       if (moveScore === Number.POSITIVE_INFINITY) {
         return MGPValidation.SUCCESS;
@@ -41870,7 +42503,7 @@ var TrexoMoveGenerator = class extends MoveGenerator {
 };
 
 // src/app/games/trexo/trexo-half-piece.component.ts
-var _c017 = ["app-trexo-half-piece", ""];
+var _c018 = ["app-trexo-half-piece", ""];
 function TrexoHalfPieceComponent_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
@@ -42188,7 +42821,7 @@ var TrexoHalfPieceComponent = class _TrexoHalfPieceComponent extends BaseGameCom
       return (\u0275TrexoHalfPieceComponent_BaseFactory || (\u0275TrexoHalfPieceComponent_BaseFactory = \u0275\u0275getInheritedFactory(_TrexoHalfPieceComponent)))(__ngFactoryType__ || _TrexoHalfPieceComponent);
     };
   })();
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _TrexoHalfPieceComponent, selectors: [["", "app-trexo-half-piece", ""]], inputs: { coord: [1, "coord"], pieceClasses: [1, "pieceClasses"], mode: [1, "mode"], mustDisplayHeight: [1, "mustDisplayHeight"], move: [1, "move"] }, features: [\u0275\u0275InheritDefinitionFeature], attrs: _c017, decls: 9, vars: 14, consts: [[3, "id", "ngClass"], ["x", "50", "y", "66", 1, "text-big", "text-center", 3, "id", "innerHTML"], ["id", "line-0-to-1", 1, "base", "manual-stroke", 3, "ngClass"], ["id", "line-0-to-2", 1, "base", "manual-stroke", 3, "ngClass"], ["id", "line-2-to-5", 1, "base", "manual-stroke", 3, "ngClass"], ["id", "line-3-to-6", 1, "base", "manual-stroke", 3, "ngClass"], ["id", "line-1-to-4", 1, "base", "manual-stroke", 3, "ngClass"], ["id", "line-2-to-3", 1, "base", "manual-stroke", 3, "ngClass"], ["id", "line-5-to-6", 1, "base", "manual-stroke", 3, "ngClass"], ["id", "line-1-to-3", 1, "base", "manual-stroke", 3, "ngClass"], ["id", "line-4-to-6", 1, "base", "manual-stroke", 3, "ngClass"]], template: function TrexoHalfPieceComponent_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _TrexoHalfPieceComponent, selectors: [["", "app-trexo-half-piece", ""]], inputs: { coord: [1, "coord"], pieceClasses: [1, "pieceClasses"], mode: [1, "mode"], mustDisplayHeight: [1, "mustDisplayHeight"], move: [1, "move"] }, features: [\u0275\u0275InheritDefinitionFeature], attrs: _c018, decls: 9, vars: 14, consts: [[3, "id", "ngClass"], ["x", "50", "y", "66", 1, "text-big", "text-center", 3, "id", "innerHTML"], ["id", "line-0-to-1", 1, "base", "manual-stroke", 3, "ngClass"], ["id", "line-0-to-2", 1, "base", "manual-stroke", 3, "ngClass"], ["id", "line-2-to-5", 1, "base", "manual-stroke", 3, "ngClass"], ["id", "line-3-to-6", 1, "base", "manual-stroke", 3, "ngClass"], ["id", "line-1-to-4", 1, "base", "manual-stroke", 3, "ngClass"], ["id", "line-2-to-3", 1, "base", "manual-stroke", 3, "ngClass"], ["id", "line-5-to-6", 1, "base", "manual-stroke", 3, "ngClass"], ["id", "line-1-to-3", 1, "base", "manual-stroke", 3, "ngClass"], ["id", "line-4-to-6", 1, "base", "manual-stroke", 3, "ngClass"]], template: function TrexoHalfPieceComponent_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275namespaceSVG();
       \u0275\u0275element(0, "polyline", 0);
@@ -42240,7 +42873,7 @@ var __decorate53 = function(decorators, target, key, desc) {
   else for (var i2 = decorators.length - 1; i2 >= 0; i2--) if (d2 = decorators[i2]) r2 = (c < 3 ? d2(r2) : c > 3 ? d2(target, key, r2) : d2(target, key)) || r2;
   return c > 3 && r2 && Object.defineProperty(target, key, r2), r2;
 };
-var _c018 = (a0) => [a0];
+var _c019 = (a0) => [a0];
 var _c13 = () => ["player0-fill"];
 function TrexoComponent_For_2_For_2_Template(rf, ctx) {
   if (rf & 1) {
@@ -42321,7 +42954,7 @@ function TrexoComponent_For_4_For_2_For_2_Conditional_2_Template(rf, ctx) {
     const \u0275$index_14_r8 = \u0275\u0275nextContext().$index;
     const \u0275$index_11_r11 = \u0275\u0275nextContext().$index;
     const ctx_r3 = \u0275\u0275nextContext();
-    \u0275\u0275property("id", \u0275\u0275interpolate3("dropped-piece-", \u0275$index_17_r7, "-", \u0275$index_14_r8, "-", \u0275$index_11_r11))("mode", ctx_r3.mode())("coord", ctx_r3.Coord3D.of(\u0275$index_17_r7, \u0275$index_14_r8, \u0275$index_11_r11))("pieceClasses", \u0275\u0275pureFunction1(8, _c018, ctx_r3.currentOpponentClass));
+    \u0275\u0275property("id", \u0275\u0275interpolate3("dropped-piece-", \u0275$index_17_r7, "-", \u0275$index_14_r8, "-", \u0275$index_11_r11))("mode", ctx_r3.mode())("coord", ctx_r3.Coord3D.of(\u0275$index_17_r7, \u0275$index_14_r8, \u0275$index_11_r11))("pieceClasses", \u0275\u0275pureFunction1(8, _c019, ctx_r3.currentOpponentClass));
     \u0275\u0275attribute("transform", ctx_r3.getTranslationAtXYZ(\u0275$index_17_r7, \u0275$index_14_r8, \u0275$index_11_r11 + 1));
   }
 }
@@ -42399,7 +43032,7 @@ function TrexoComponent_Conditional_8_Template(rf, ctx) {
   }
   if (rf & 2) {
     const ctx_r3 = \u0275\u0275nextContext();
-    \u0275\u0275property("mode", ctx_r3.TrexoComponent.modeMap["2D"])("coord", ctx_r3.Coord3D.of(12, 9, 0))("pieceClasses", \u0275\u0275pureFunction1(4, _c018, ctx_r3.currentPlayerClass));
+    \u0275\u0275property("mode", ctx_r3.TrexoComponent.modeMap["2D"])("coord", ctx_r3.Coord3D.of(12, 9, 0))("pieceClasses", \u0275\u0275pureFunction1(4, _c019, ctx_r3.currentPlayerClass));
     \u0275\u0275attribute("transform", ctx_r3.getTranslationAtXYZ(12, 9, 0));
   }
 }
@@ -43019,20 +43652,20 @@ var YinshRules = class _YinshRules extends Rules {
     return _YinshRules.singleton.get();
   }
   getInitialState() {
-    const _33 = YinshPiece.EMPTY;
+    const _34 = YinshPiece.EMPTY;
     const N10 = YinshPiece.UNREACHABLE;
     const board = [
-      [N10, N10, N10, N10, N10, N10, _33, _33, _33, _33, N10],
-      [N10, N10, N10, N10, _33, _33, _33, _33, _33, _33, _33],
-      [N10, N10, N10, _33, _33, _33, _33, _33, _33, _33, _33],
-      [N10, N10, _33, _33, _33, _33, _33, _33, _33, _33, _33],
-      [N10, _33, _33, _33, _33, _33, _33, _33, _33, _33, _33],
-      [N10, _33, _33, _33, _33, _33, _33, _33, _33, _33, N10],
-      [_33, _33, _33, _33, _33, _33, _33, _33, _33, _33, N10],
-      [_33, _33, _33, _33, _33, _33, _33, _33, _33, N10, N10],
-      [_33, _33, _33, _33, _33, _33, _33, _33, N10, N10, N10],
-      [_33, _33, _33, _33, _33, _33, _33, N10, N10, N10, N10],
-      [N10, _33, _33, _33, _33, N10, N10, N10, N10, N10, N10]
+      [N10, N10, N10, N10, N10, N10, _34, _34, _34, _34, N10],
+      [N10, N10, N10, N10, _34, _34, _34, _34, _34, _34, _34],
+      [N10, N10, N10, _34, _34, _34, _34, _34, _34, _34, _34],
+      [N10, N10, _34, _34, _34, _34, _34, _34, _34, _34, _34],
+      [N10, _34, _34, _34, _34, _34, _34, _34, _34, _34, _34],
+      [N10, _34, _34, _34, _34, _34, _34, _34, _34, _34, N10],
+      [_34, _34, _34, _34, _34, _34, _34, _34, _34, _34, N10],
+      [_34, _34, _34, _34, _34, _34, _34, _34, _34, N10, N10],
+      [_34, _34, _34, _34, _34, _34, _34, _34, N10, N10, N10],
+      [_34, _34, _34, _34, _34, _34, _34, N10, N10, N10, N10],
+      [N10, _34, _34, _34, _34, N10, N10, N10, N10, N10, N10]
     ];
     return new YinshState(board, PlayerNumberMap.of(5, 5), 0);
   }
@@ -43275,7 +43908,7 @@ var YinshRules = class _YinshRules extends Rules {
 };
 
 // src/app/games/yinsh/YinshTutorial.ts
-var _32 = YinshPiece.EMPTY;
+var _33 = YinshPiece.EMPTY;
 var N9 = YinshPiece.UNREACHABLE;
 var a2 = YinshPiece.MARKER_ZERO;
 var A8 = YinshPiece.RING_ZERO;
@@ -43288,17 +43921,17 @@ var YinshTutorialMessages = class {
 var YinshTutorial = class extends Tutorial {
   tutorial = [
     TutorialStep.informational(TutorialStepMessage.OBJECT_OF_THE_GAME(), $localize`The goal at Yinsh is to capture three rings in total. The rings taken are shown on the top left for Dark, and on the bottom right for Light. Here, Dark won the game. Note that on the board you have two types of pieces for each player: rings (empty circles) and markers (full circles).`, new YinshState([
-      [N9, N9, N9, N9, N9, N9, _32, _32, _32, _32, N9],
-      [N9, N9, N9, N9, _32, _32, _32, _32, _32, _32, _32],
-      [N9, N9, N9, a2, B6, _32, _32, _32, _32, _32, _32],
-      [N9, N9, _32, a2, _32, B6, _32, b4, _32, _32, _32],
-      [N9, _32, A8, b4, _32, _32, B6, a2, _32, _32, _32],
-      [N9, _32, _32, a2, b4, _32, _32, _32, _32, _32, N9],
-      [_32, _32, _32, a2, _32, _32, _32, B6, _32, _32, N9],
-      [_32, _32, _32, b4, a2, A8, _32, _32, _32, N9, N9],
-      [_32, _32, _32, _32, _32, _32, _32, _32, N9, N9, N9],
-      [_32, _32, _32, _32, _32, _32, _32, N9, N9, N9, N9],
-      [N9, _32, _32, _32, _32, N9, N9, N9, N9, N9, N9]
+      [N9, N9, N9, N9, N9, N9, _33, _33, _33, _33, N9],
+      [N9, N9, N9, N9, _33, _33, _33, _33, _33, _33, _33],
+      [N9, N9, N9, a2, B6, _33, _33, _33, _33, _33, _33],
+      [N9, N9, _33, a2, _33, B6, _33, b4, _33, _33, _33],
+      [N9, _33, A8, b4, _33, _33, B6, a2, _33, _33, _33],
+      [N9, _33, _33, a2, b4, _33, _33, _33, _33, _33, N9],
+      [_33, _33, _33, a2, _33, _33, _33, B6, _33, _33, N9],
+      [_33, _33, _33, b4, a2, A8, _33, _33, _33, N9, N9],
+      [_33, _33, _33, _33, _33, _33, _33, _33, N9, N9, N9],
+      [_33, _33, _33, _33, _33, _33, _33, N9, N9, N9, N9],
+      [N9, _33, _33, _33, _33, N9, N9, N9, N9, N9, N9]
     ], PlayerNumberMap.of(3, 1), 20)),
     TutorialStep.anyMove($localize`Initial board and placement phase`, $localize`The initial board is empty.
         At the beginning of the game, each player puts one of its ring on the board at their turn.
@@ -43311,17 +43944,17 @@ var YinshTutorial = class extends Tutorial {
         If it goes over a group of markers, your move must stop at the first empty space after that group.
         All markers in the group are then flipped and their color change.<br/><br/>
         You're playing Dark, do a move.`, new YinshState([
-      [N9, N9, N9, N9, N9, N9, _32, _32, _32, _32, N9],
-      [N9, N9, N9, N9, _32, _32, _32, _32, _32, _32, _32],
-      [N9, N9, N9, B6, _32, _32, _32, _32, _32, _32, _32],
-      [N9, N9, B6, _32, _32, B6, _32, _32, _32, _32, _32],
-      [N9, _32, A8, b4, _32, _32, B6, _32, _32, _32, _32],
-      [N9, _32, _32, b4, _32, _32, _32, _32, _32, _32, N9],
-      [_32, _32, _32, _32, A8, _32, _32, B6, _32, _32, N9],
-      [_32, _32, _32, _32, _32, A8, _32, _32, _32, N9, N9],
-      [_32, _32, _32, A8, _32, _32, _32, N9, N9, N9, N9],
-      [_32, _32, _32, _32, _32, _32, _32, N9, N9, N9, N9],
-      [N9, _32, _32, _32, _32, N9, N9, N9, N9, N9, N9]
+      [N9, N9, N9, N9, N9, N9, _33, _33, _33, _33, N9],
+      [N9, N9, N9, N9, _33, _33, _33, _33, _33, _33, _33],
+      [N9, N9, N9, B6, _33, _33, _33, _33, _33, _33, _33],
+      [N9, N9, B6, _33, _33, B6, _33, _33, _33, _33, _33],
+      [N9, _33, A8, b4, _33, _33, B6, _33, _33, _33, _33],
+      [N9, _33, _33, b4, _33, _33, _33, _33, _33, _33, N9],
+      [_33, _33, _33, _33, A8, _33, _33, B6, _33, _33, N9],
+      [_33, _33, _33, _33, _33, A8, _33, _33, _33, N9, N9],
+      [_33, _33, _33, A8, _33, _33, _33, N9, N9, N9, N9],
+      [_33, _33, _33, _33, _33, _33, _33, N9, N9, N9, N9],
+      [N9, _33, _33, _33, _33, N9, N9, N9, N9, N9, N9]
     ], PlayerNumberMap.of(0, 0), 20), new YinshMove([], new Coord(2, 4), MGPOptional.of(new Coord(4, 4)), []), TutorialStepMessage.CONGRATULATIONS()),
     TutorialStep.fromPredicate($localize`Getting a ring by aligning 5 markers`, $localize`Finally, the last mechanic you need is to be able to get a ring from the board in order to gain points.
         To do so, you need to align 5 markers of your color.
@@ -43329,17 +43962,17 @@ var YinshTutorial = class extends Tutorial {
         You will then have one more point.
         You must capture when you can.<br/><br/>
         You're playing Dark, perform a capture!`, new YinshState([
-      [N9, N9, N9, N9, N9, N9, _32, _32, _32, _32, N9],
-      [N9, N9, N9, N9, _32, _32, _32, _32, _32, _32, _32],
-      [N9, N9, N9, B6, _32, _32, _32, _32, _32, _32, _32],
-      [N9, N9, B6, _32, _32, B6, _32, _32, _32, _32, _32],
-      [N9, _32, a2, a2, A8, b4, b4, _32, _32, _32, _32],
-      [N9, _32, _32, B6, _32, _32, _32, _32, _32, _32, N9],
-      [_32, _32, _32, _32, A8, _32, _32, B6, _32, _32, N9],
-      [_32, _32, _32, _32, _32, A8, _32, _32, _32, N9, N9],
-      [_32, _32, _32, A8, _32, _32, _32, A8, N9, N9, N9],
-      [_32, _32, _32, _32, _32, _32, _32, N9, N9, N9, N9],
-      [N9, _32, _32, _32, _32, N9, N9, N9, N9, N9, N9]
+      [N9, N9, N9, N9, N9, N9, _33, _33, _33, _33, N9],
+      [N9, N9, N9, N9, _33, _33, _33, _33, _33, _33, _33],
+      [N9, N9, N9, B6, _33, _33, _33, _33, _33, _33, _33],
+      [N9, N9, B6, _33, _33, B6, _33, _33, _33, _33, _33],
+      [N9, _33, a2, a2, A8, b4, b4, _33, _33, _33, _33],
+      [N9, _33, _33, B6, _33, _33, _33, _33, _33, _33, N9],
+      [_33, _33, _33, _33, A8, _33, _33, B6, _33, _33, N9],
+      [_33, _33, _33, _33, _33, A8, _33, _33, _33, N9, N9],
+      [_33, _33, _33, A8, _33, _33, _33, A8, N9, N9, N9],
+      [_33, _33, _33, _33, _33, _33, _33, N9, N9, N9, N9],
+      [N9, _33, _33, _33, _33, N9, N9, N9, N9, N9, N9]
     ], PlayerNumberMap.of(0, 0), 20), new YinshMove([], new Coord(4, 4), MGPOptional.of(new Coord(7, 4)), [YinshCapture.of(new Coord(2, 4), new Coord(6, 4), MGPOptional.of(new Coord(7, 4)))]), (_move, _previous, result) => {
       if (result.sideRings.get(Player.ZERO) === 1) {
         return MGPValidation.SUCCESS;
@@ -43351,17 +43984,17 @@ var YinshTutorial = class extends Tutorial {
         or you could even capture multiple times!
         During the capture selection, if you see that the marker you clicked belongs to two captures, you have to click on a second marker to avoid any ambiguity.<br/><br/>
         Here, playing Dark, you can capture two rings, do it!`, new YinshState([
-      [N9, N9, N9, N9, N9, N9, _32, _32, _32, _32, N9],
-      [N9, N9, N9, N9, A8, _32, _32, B6, B6, A8, _32],
-      [N9, N9, N9, A8, _32, _32, b4, B6, _32, A8, _32],
-      [N9, N9, _32, A8, _32, _32, _32, _32, _32, B6, _32],
-      [N9, _32, _32, _32, _32, a2, _32, _32, B6, _32, _32],
-      [N9, _32, _32, _32, a2, a2, _32, b4, _32, _32, N9],
-      [_32, _32, _32, a2, _32, a2, _32, _32, _32, _32, N9],
-      [_32, _32, a2, _32, _32, a2, _32, _32, _32, N9, N9],
-      [_32, a2, _32, _32, _32, a2, _32, _32, N9, N9, N9],
-      [_32, _32, _32, _32, _32, a2, _32, N9, N9, N9, N9],
-      [N9, _32, _32, _32, _32, N9, N9, N9, N9, N9, N9]
+      [N9, N9, N9, N9, N9, N9, _33, _33, _33, _33, N9],
+      [N9, N9, N9, N9, A8, _33, _33, B6, B6, A8, _33],
+      [N9, N9, N9, A8, _33, _33, b4, B6, _33, A8, _33],
+      [N9, N9, _33, A8, _33, _33, _33, _33, _33, B6, _33],
+      [N9, _33, _33, _33, _33, a2, _33, _33, B6, _33, _33],
+      [N9, _33, _33, _33, a2, a2, _33, b4, _33, _33, N9],
+      [_33, _33, _33, a2, _33, a2, _33, _33, _33, _33, N9],
+      [_33, _33, a2, _33, _33, a2, _33, _33, _33, N9, N9],
+      [_33, a2, _33, _33, _33, a2, _33, _33, N9, N9, N9],
+      [_33, _33, _33, _33, _33, a2, _33, N9, N9, N9, N9],
+      [N9, _33, _33, _33, _33, N9, N9, N9, N9, N9, N9]
     ], PlayerNumberMap.of(0, 0), 10), new YinshMove([
       YinshCapture.of(new Coord(5, 4), new Coord(1, 8), MGPOptional.of(new Coord(3, 2))),
       YinshCapture.of(new Coord(5, 9), new Coord(5, 5), MGPOptional.of(new Coord(3, 3)))
@@ -43451,7 +44084,7 @@ var __decorate54 = function(decorators, target, key, desc) {
   else for (var i2 = decorators.length - 1; i2 >= 0; i2--) if (d2 = decorators[i2]) r2 = (c < 3 ? d2(r2) : c > 3 ? d2(target, key, r2) : d2(target, key)) || r2;
   return c > 3 && r2 && Object.defineProperty(target, key, r2), r2;
 };
-var _c019 = () => [];
+var _c020 = () => [];
 var _forTrack034 = ($index, $item) => $item.toString();
 var _forTrack119 = ($index, $item) => $item.getValue();
 function YinshComponent_For_2_For_2_Conditional_1_Conditional_3_Template(rf, ctx) {
@@ -43635,7 +44268,7 @@ function YinshComponent_For_9_Template(rf, ctx) {
     const ctx_r3 = \u0275\u0275nextContext();
     \u0275\u0275attribute("transform", "rotate(" + (ctx_r3.getPointOfView().getValue() + 1) * 180 + " 532.5 780)");
     \u0275\u0275advance();
-    \u0275\u0275repeater(\u0275\u0275pureFunction0(1, _c019).constructor(ctx_r3.viewInfo.sideRings.get(player_r14)));
+    \u0275\u0275repeater(\u0275\u0275pureFunction0(1, _c020).constructor(ctx_r3.viewInfo.sideRings.get(player_r14)));
   }
 }
 var YinshComponent = class _YinshComponent extends HexagonalGameComponent {
@@ -44234,6 +44867,7 @@ var GameDescription = class {
   static TREXO = () => $localize`Align 5 pieces of your color in a row, but beware, the pieces can be put on top of other pieces!`;
   static TRIANGULAR_GO = () => $localize`A version of Go on triangular spaces!`;
   static YINSH = () => $localize`Align your pieces to score points, but beware, pieces can flip!`;
+  static ZOOMED_GO = () => $localize`A multi-layered remix of the Go Game!`;
 };
 
 // src/app/components/normal-component/pick-game/GameInfo.ts
@@ -44346,8 +44980,10 @@ var GameInfo = class _GameInfo {
       // 42:                             * Martin
       new _GameInfo($localize`Toric Reversi`, "ToricReversi", ToricReversiComponent, new ToricReversiTutorial(), ToricReversiRules.get(), /* @__PURE__ */ new Date("2026-08-10"), GameDescription.TORIC_REVERSI()),
       // 43:                             * Martin
-      new _GameInfo($localize`Bashni`, "Bashni", BashniComponent, new BashniTutorial(), BashniRules.get(), /* @__PURE__ */ new Date("2026-08-17"), GameDescription.BASHNI())
+      new _GameInfo($localize`Bashni`, "Bashni", BashniComponent, new BashniTutorial(), BashniRules.get(), /* @__PURE__ */ new Date("2026-08-17"), GameDescription.BASHNI()),
       // 44:                             * Quentin
+      new _GameInfo($localize`Zoomed Go`, "ZoomedGo", ZoomedGoComponent, new ZoomedGoTutorial(), ZoomedGoRules.get(), /* @__PURE__ */ new Date("2026-08-20"), GameDescription.ZOOMED_GO())
+      // 45:                             * Martin
     ].sort((a3, b5) => a3.name.localeCompare(b5.name));
   }
   static getByUrlName(urlName) {
@@ -44411,4 +45047,4 @@ bulma-toast/dist/bulma-toast.min.js:
    * Released under the MIT License.
    *)
 */
-//# sourceMappingURL=chunk-JTWM7MON.js.map
+//# sourceMappingURL=chunk-5UYVVKMS.js.map

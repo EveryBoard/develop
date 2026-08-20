@@ -1,17 +1,18 @@
 import {
   TutorialGameWrapperMessages
-} from "./chunk-SIWVRVO7.js";
+} from "./chunk-VZD4ZKMT.js";
 import {
   GameWrapper
-} from "./chunk-AU5AUIL2.js";
+} from "./chunk-JTYRMBGC.js";
 import {
   PlayerOrNone
-} from "./chunk-JTWM7MON.js";
+} from "./chunk-5UYVVKMS.js";
 import {
   MGPValidation,
   Utils
 } from "./chunk-KI3WLQMB.js";
 import {
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ElementRef,
@@ -96,22 +97,23 @@ var DemoCardWrapperComponent = class _DemoCardWrapperComponent extends GameWrapp
       \u0275\u0275domElement(1, "div", null, 0);
       \u0275\u0275domElementEnd();
     }
-  }, encapsulation: 2 });
+  }, encapsulation: 2, changeDetection: 0 });
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(DemoCardWrapperComponent, [{
     type: Component,
     args: [{
       selector: "app-demo-card",
-      template: `<div class="is-fullheight"><div #board></div></div>`
+      template: `<div class="is-fullheight"><div #board></div></div>`,
+      changeDetection: ChangeDetectionStrategy.OnPush
     }]
   }], null, { demoNodeInfo: [{ type: Input, args: [{ isSignal: true, alias: "demoNodeInfo", required: true }] }] });
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(DemoCardWrapperComponent, { className: "DemoCardWrapperComponent", filePath: "src/app/components/wrapper-components/demo-card-wrapper/demo-card-wrapper.component.ts", lineNumber: 27 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(DemoCardWrapperComponent, { className: "DemoCardWrapperComponent", filePath: "src/app/components/wrapper-components/demo-card-wrapper/demo-card-wrapper.component.ts", lineNumber: 28 });
 })();
 
 export {
   DemoCardWrapperComponent
 };
-//# sourceMappingURL=chunk-7NKFQVMF.js.map
+//# sourceMappingURL=chunk-XEFVLBDH.js.map
