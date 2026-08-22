@@ -1,13 +1,13 @@
 import {
   ViewConfigComponent
-} from "./chunk-VZQNNT73.js";
+} from "./chunk-EEF32M4V.js";
 import {
   GameWrapper
-} from "./chunk-JTYRMBGC.js";
+} from "./chunk-WFDVQ53K.js";
 import {
   GameNode,
   Move
-} from "./chunk-5UYVVKMS.js";
+} from "./chunk-4PJI6VOE.js";
 import {
   Debug
 } from "./chunk-Y4TVVAIH.js";
@@ -514,6 +514,8 @@ var TutorialGameWrapperComponent = class TutorialGameWrapperComponent2 extends G
         yield this.showStep(this.stepIndex);
         const element = window.document.querySelector(solution);
         element.dispatchEvent(new Event("click"));
+        yield Promise.resolve();
+        yield this.gameComponent.updateBoardAndRedraw(false);
       }
       this.currentMessage = solutionStep.getSuccessMessage();
       this.moveAttemptMade = true;
@@ -757,4 +759,4 @@ export {
   TutorialGameWrapperMessages,
   TutorialGameWrapperComponent
 };
-//# sourceMappingURL=chunk-VZD4ZKMT.js.map
+//# sourceMappingURL=chunk-T2775526.js.map

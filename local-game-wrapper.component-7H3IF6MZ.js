@@ -1,10 +1,10 @@
 import {
   ViewConfigComponent
-} from "./chunk-VZQNNT73.js";
+} from "./chunk-EEF32M4V.js";
 import {
   GameWrapper,
   RulesConfigUtils
-} from "./chunk-JTYRMBGC.js";
+} from "./chunk-WFDVQ53K.js";
 import {
   AIStats,
   AbstractMinimax,
@@ -15,7 +15,7 @@ import {
   Minimax,
   Player,
   PlayerMap
-} from "./chunk-5UYVVKMS.js";
+} from "./chunk-4PJI6VOE.js";
 import "./chunk-2OERIB7G.js";
 import "./chunk-OTCO2WJN.js";
 import {
@@ -1195,8 +1195,7 @@ var LocalGameWrapperComponent = (_a = class extends GameWrapper {
     return __async(this, null, function* () {
       yield __superGet(_a.prototype, this, "onCancelMove").call(this, reason);
       if (this.gameComponent.node.previousMove.isPresent()) {
-        const move = this.gameComponent.node.previousMove.get();
-        yield this.gameComponent.showLastMove(move);
+        yield this.gameComponent.showLastMoveAndRedraw();
       }
     });
   }
@@ -1448,4 +1447,4 @@ LocalGameWrapperComponent = LocalGameWrapperComponent_1 = __decorate([
 export {
   LocalGameWrapperComponent
 };
-//# sourceMappingURL=local-game-wrapper.component-BIFBLTTA.js.map
+//# sourceMappingURL=local-game-wrapper.component-7H3IF6MZ.js.map

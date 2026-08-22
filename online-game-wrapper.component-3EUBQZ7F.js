@@ -1,22 +1,22 @@
 import {
   DemoCardWrapperComponent
-} from "./chunk-XEFVLBDH.js";
-import "./chunk-VZD4ZKMT.js";
+} from "./chunk-H6O56RD3.js";
+import "./chunk-T2775526.js";
 import {
   RulesConfigurationComponent,
   ViewConfigComponent
-} from "./chunk-VZQNNT73.js";
+} from "./chunk-EEF32M4V.js";
 import {
   BaseWrapperComponent,
   GameWrapper,
   GameWrapperMessages
-} from "./chunk-JTYRMBGC.js";
+} from "./chunk-WFDVQ53K.js";
 import {
   ConfigRoomService
-} from "./chunk-2GGE22VY.js";
+} from "./chunk-S26OOOET.js";
 import {
   GameService
-} from "./chunk-3PAUQALF.js";
+} from "./chunk-ZGJ33JTA.js";
 import {
   ChatComponent,
   EloComponent,
@@ -24,9 +24,9 @@ import {
   GameDuration,
   GameType,
   Status
-} from "./chunk-SZKCT3LC.js";
-import "./chunk-HJVAPY2O.js";
-import "./chunk-6TCC54KZ.js";
+} from "./chunk-UPLPO6AO.js";
+import "./chunk-A2T6HUSS.js";
+import "./chunk-HZU4WUEE.js";
 import {
   GameInfo,
   GameNode,
@@ -35,7 +35,7 @@ import {
   PlayerMap,
   PlayerNumberMap,
   PlayerOrNone
-} from "./chunk-5UYVVKMS.js";
+} from "./chunk-4PJI6VOE.js";
 import {
   FaIconComponent,
   faBackwardStep,
@@ -3271,8 +3271,7 @@ var OnlineGameWrapperComponent = class OnlineGameWrapperComponent2 extends GameW
     return __async(this, null, function* () {
       yield __superGet(OnlineGameWrapperComponent2.prototype, this, "onCancelMove").call(this, reason);
       if (this.gameComponent.node.previousMove.isPresent()) {
-        const move = this.gameComponent.node.previousMove.get();
-        yield this.gameComponent.showLastMove(move);
+        yield this.gameComponent.showLastMoveAndRedraw();
       }
       this.cdr.detectChanges();
     });
@@ -3779,4 +3778,4 @@ export {
   OnlineGameWrapperComponent,
   OnlineGameWrapperMessages
 };
-//# sourceMappingURL=online-game-wrapper.component-JGMBDEUV.js.map
+//# sourceMappingURL=online-game-wrapper.component-3EUBQZ7F.js.map

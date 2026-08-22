@@ -5,7 +5,7 @@ import {
   Player,
   PlayerMap,
   PlayerOrNone
-} from "./chunk-5UYVVKMS.js";
+} from "./chunk-4PJI6VOE.js";
 import {
   ActivatedRoute,
   Router
@@ -16,7 +16,7 @@ import {
   Utils
 } from "./chunk-KI3WLQMB.js";
 import {
-  Component,
+  Directive,
   ViewChild,
   ViewContainerRef,
   __async,
@@ -25,9 +25,8 @@ import {
   inject,
   setClassMetadata,
   viewChild,
-  ɵsetClassDebugInfo,
   ɵɵInheritDefinitionFeature,
-  ɵɵdefineComponent,
+  ɵɵdefineDirective,
   ɵɵgetInheritedFactory,
   ɵɵqueryAdvance,
   ɵɵviewQuerySignal
@@ -288,26 +287,19 @@ var GameWrapper = class _GameWrapper extends BaseWrapperComponent {
       return (\u0275GameWrapper_BaseFactory || (\u0275GameWrapper_BaseFactory = \u0275\u0275getInheritedFactory(_GameWrapper)))(__ngFactoryType__ || _GameWrapper);
     };
   })();
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _GameWrapper, selectors: [["ng-component"]], viewQuery: function GameWrapper_Query(rf, ctx) {
+  static \u0275dir = /* @__PURE__ */ \u0275\u0275defineDirective({ type: _GameWrapper, viewQuery: function GameWrapper_Query(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275viewQuerySignal(ctx.boardRef, _c0, 5, ViewContainerRef);
     }
     if (rf & 2) {
       \u0275\u0275queryAdvance();
     }
-  }, features: [\u0275\u0275InheritDefinitionFeature], decls: 0, vars: 0, template: function GameWrapper_Template(rf, ctx) {
-  }, encapsulation: 2 });
+  }, features: [\u0275\u0275InheritDefinitionFeature] });
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(GameWrapper, [{
-    type: Component,
-    args: [{
-      template: ""
-    }]
+    type: Directive
   }], null, { boardRef: [{ type: ViewChild, args: ["board", __spreadProps(__spreadValues({}, { read: ViewContainerRef }), { isSignal: true })] }] });
-})();
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(GameWrapper, { className: "GameWrapper", filePath: "src/app/components/wrapper-components/GameWrapper.ts", lineNumber: 33 });
 })();
 
 export {
@@ -316,4 +308,4 @@ export {
   GameWrapperMessages,
   GameWrapper
 };
-//# sourceMappingURL=chunk-JTYRMBGC.js.map
+//# sourceMappingURL=chunk-WFDVQ53K.js.map
