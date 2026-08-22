@@ -5855,14 +5855,14 @@ var routes = [
   { path: "demo", loadComponent: () => import("./demo-page.component-4ZI2V2RW.js").then((m) => m.DemoPageComponent) },
   { path: "**", loadComponent: () => import("./not-found.component-AWWRXZS2.js").then((m) => m.NotFoundComponent) }
 ];
-function initializeFirebase() {
+function initializeFirebase(terminateFirestore = terminate) {
   initializeApp(environment.firebaseConfig);
   const firestore = getFirestore();
   const host = firestore.toJSON()["settings"].host;
   if (environment.useEmulators && host !== "localhost:8080") {
     connectFirestoreEmulator(firestore, "localhost", 8080);
   }
-  window.addEventListener("pagehide", () => void terminate(firestore), { once: true });
+  window.addEventListener("pagehide", () => void terminateFirestore(firestore), { once: true });
   const fireauth = getAuth();
   if (environment.useEmulators && fireauth.config["emulator"] == null) {
     connectAuthEmulator(fireauth, "http://localhost:9099", { disableWarnings: true });
