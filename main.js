@@ -5845,7 +5845,7 @@ var routes = [
   { path: "verify-account", loadComponent: () => import("./verify-account.component-AVSGOHWQ.js").then((m) => m.VerifyAccountComponent), canActivate: [ConnectedButNotVerifiedGuard] },
   { path: "play", loadComponent: () => import("./online-game-selection.component-CKVMS3TS.js").then((m) => m.OnlineGameSelectionComponent), canActivate: [ExclusiveOnlineGameGuard, VerifiedAccountGuard] },
   { path: "play/:game", loadComponent: () => import("./online-game-creation.component-C6L3ILUE.js").then((m) => m.OnlineGameCreationComponent), canActivate: [ExclusiveOnlineGameGuard, VerifiedAccountGuard] },
-  { path: "play/:game/:id", loadComponent: () => import("./online-game-wrapper.component-3EUBQZ7F.js").then((m) => m.OnlineGameWrapperComponent), canActivate: [ExclusiveOnlineGameGuard, VerifiedAccountGuard] },
+  { path: "play/:game/:id", loadComponent: () => import("./online-game-wrapper.component-WF5AU6UV.js").then((m) => m.OnlineGameWrapperComponent), canActivate: [ExclusiveOnlineGameGuard, VerifiedAccountGuard] },
   { path: "local", loadComponent: () => import("./local-game-creation.component-QQXTA36S.js").then((m) => m.LocalGameCreationComponent) },
   { path: "local/:game/config", loadComponent: () => import("./local-game-configuration.component-7TS7ZKTM.js").then((m) => m.LocalGameConfigurationComponent) },
   { path: "local/:game", loadComponent: () => import("./local-game-wrapper.component-7H3IF6MZ.js").then((m) => m.LocalGameWrapperComponent) },
