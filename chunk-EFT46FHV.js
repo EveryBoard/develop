@@ -33137,12 +33137,16 @@ var QuebecCastlesRules = class _QuebecCastlesRules extends ConfigurableRules {
   getInitialCoords(player, state, config) {
     let pieceToDrop = this.getNumberOfPieces(player, config);
     const coordDirection = config.isRhombic ? Ordinal.UP_RIGHT : Ordinal.RIGHT;
-    let { lineDirection, lineToFillIndex } = this.getLineDirectionAndIndex(player, config);
+    const lineDirectionAndIndex = this.getLineDirectionAndIndex(player, config);
+    const lineDirection = lineDirectionAndIndex.lineDirection;
+    let lineToFillIndex = lineDirectionAndIndex.lineToFillIndex;
     const coords = [];
     while (pieceToDrop > 0) {
       const availableSpaceAtLine = this.getAvailableSpacesAtLine(lineToFillIndex, state, config);
       if (pieceToDrop < availableSpaceAtLine.length) {
-        let { coord, skipCenter } = this.getLineFirstCoord(availableSpaceAtLine, pieceToDrop);
+        const firstLineCoord = this.getLineFirstCoord(availableSpaceAtLine, pieceToDrop);
+        let coord = firstLineCoord.coord;
+        const skipCenter = firstLineCoord.skipCenter;
         coords.push(coord);
         pieceToDrop--;
         const center = availableSpaceAtLine[Math.floor(availableSpaceAtLine.length / 2)];
@@ -44910,4 +44914,4 @@ bulma-toast/dist/bulma-toast.min.js:
    * Released under the MIT License.
    *)
 */
-//# sourceMappingURL=chunk-4PJI6VOE.js.map
+//# sourceMappingURL=chunk-EFT46FHV.js.map

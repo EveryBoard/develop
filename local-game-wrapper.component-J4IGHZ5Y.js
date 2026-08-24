@@ -1,10 +1,10 @@
 import {
   ViewConfigComponent
-} from "./chunk-EEF32M4V.js";
+} from "./chunk-CWOUF3OU.js";
 import {
   GameWrapper,
   RulesConfigUtils
-} from "./chunk-WFDVQ53K.js";
+} from "./chunk-FSK5IXKN.js";
 import {
   AIStats,
   AbstractMinimax,
@@ -15,7 +15,7 @@ import {
   Minimax,
   Player,
   PlayerMap
-} from "./chunk-4PJI6VOE.js";
+} from "./chunk-EFT46FHV.js";
 import "./chunk-2OERIB7G.js";
 import "./chunk-OTCO2WJN.js";
 import {
@@ -1447,4 +1447,4 @@ LocalGameWrapperComponent = LocalGameWrapperComponent_1 = __decorate([
 export {
   LocalGameWrapperComponent
 };
-//# sourceMappingURL=local-game-wrapper.component-7H3IF6MZ.js.map
+//# sourceMappingURL=local-game-wrapper.component-J4IGHZ5Y.js.map
