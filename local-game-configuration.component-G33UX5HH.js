@@ -1,16 +1,16 @@
 import {
   DemoCardWrapperComponent
-} from "./chunk-OBQO5WVF.js";
-import "./chunk-IIFLGVNI.js";
+} from "./chunk-K5PWTOOO.js";
+import "./chunk-QRNQY2DC.js";
 import {
   RulesConfigurationComponent
-} from "./chunk-KRCYZTTO.js";
+} from "./chunk-QMR5S32W.js";
 import {
   BaseWrapperComponent
-} from "./chunk-NQCJDSPM.js";
+} from "./chunk-ACIXF3UM.js";
 import {
   GameNode
-} from "./chunk-VCVBDAWS.js";
+} from "./chunk-IRXKBJB2.js";
 import "./chunk-PC6ZDXKZ.js";
 import {
   Router
@@ -71,7 +71,8 @@ var LocalGameConfigurationComponent = class _LocalGameConfigurationComponent ext
         title: this.getGameName().get(),
         click: MGPOptional.empty(),
         name: this.getGameUrlName(),
-        node
+        node,
+        config
       };
       this.cdr.detectChanges();
     }
@@ -202,4 +203,4 @@ var LocalGameConfigurationComponent = class _LocalGameConfigurationComponent ext
 export {
   LocalGameConfigurationComponent
 };
-//# sourceMappingURL=local-game-configuration.component-KOQBWLFH.js.map
+//# sourceMappingURL=local-game-configuration.component-G33UX5HH.js.map

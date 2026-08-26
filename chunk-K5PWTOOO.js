@@ -1,12 +1,12 @@
 import {
   TutorialGameWrapperMessages
-} from "./chunk-IIFLGVNI.js";
+} from "./chunk-QRNQY2DC.js";
 import {
   GameWrapper
-} from "./chunk-NQCJDSPM.js";
+} from "./chunk-ACIXF3UM.js";
 import {
   PlayerOrNone
-} from "./chunk-VCVBDAWS.js";
+} from "./chunk-IRXKBJB2.js";
 import {
   MGPValidation,
   Utils
@@ -60,6 +60,7 @@ var DemoCardWrapperComponent = class _DemoCardWrapperComponent extends GameWrapp
   ngOnChanges(_changes) {
     return __async(this, null, function* () {
       if (this.gameComponent != null) {
+        this.gameComponent.setConfig(this.getConfig());
         this.gameComponent.node.set(this.demoNodeInfo().node);
         yield this.gameComponent.updateBoardAndRedraw(false);
       }
@@ -67,6 +68,9 @@ var DemoCardWrapperComponent = class _DemoCardWrapperComponent extends GameWrapp
   }
   getGameUrlName() {
     return this.demoNodeInfo().name;
+  }
+  getConfig() {
+    return this.demoNodeInfo().config;
   }
   onLegalUserMove(_move, _scores) {
     return __async(this, null, function* () {
@@ -110,10 +114,10 @@ var DemoCardWrapperComponent = class _DemoCardWrapperComponent extends GameWrapp
   }], null, { demoNodeInfo: [{ type: Input, args: [{ isSignal: true, alias: "demoNodeInfo", required: true }] }] });
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(DemoCardWrapperComponent, { className: "DemoCardWrapperComponent", filePath: "src/app/components/wrapper-components/demo-card-wrapper/demo-card-wrapper.component.ts", lineNumber: 28 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(DemoCardWrapperComponent, { className: "DemoCardWrapperComponent", filePath: "src/app/components/wrapper-components/demo-card-wrapper/demo-card-wrapper.component.ts", lineNumber: 25 });
 })();
 
 export {
   DemoCardWrapperComponent
 };
-//# sourceMappingURL=chunk-OBQO5WVF.js.map
+//# sourceMappingURL=chunk-K5PWTOOO.js.map

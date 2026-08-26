@@ -1,6 +1,6 @@
 import {
   BackendService
-} from "./chunk-RZWI2MDK.js";
+} from "./chunk-CDWEGVYY.js";
 import {
   Debug
 } from "./chunk-Y4TVVAIH.js";
@@ -188,4 +188,4 @@ GameService = __decorate([
 export {
   GameService
 };
-//# sourceMappingURL=chunk-4XL2VV6X.js.map
+//# sourceMappingURL=chunk-P2IQINTP.js.map

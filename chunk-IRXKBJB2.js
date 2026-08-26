@@ -25717,11 +25717,14 @@ var MancalaComponent = class _MancalaComponent extends RectangularGameComponent 
   getScoreName() {
     return ScoreName.CAPTURES;
   }
-  viewBoxWidth = computed(() => 60 + (2 + this.getState().getWidth()) * this.SPACE_SIZE, ...ngDevMode ? [{ debugName: "viewBoxWidth" }] : []);
+  viewBoxWidth = computed(() => this.viewBox().width - this.STROKE_WIDTH, ...ngDevMode ? [{ debugName: "viewBoxWidth" }] : []);
+  computeViewBoxWidth() {
+    return 60 + (2 + this.getState().getWidth()) * this.SPACE_SIZE;
+  }
   computeViewBox() {
     const left = -this.STROKE_WIDTH / 2;
     const up = -this.STROKE_WIDTH / 2;
-    const width = this.viewBoxWidth() + this.STROKE_WIDTH;
+    const width = this.computeViewBoxWidth() + this.STROKE_WIDTH;
     const height = this.getViewBoxHeight() + this.STROKE_WIDTH;
     return new ViewBox(left, up, width, height);
   }
@@ -44911,4 +44914,4 @@ bulma-toast/dist/bulma-toast.min.js:
    * Released under the MIT License.
    *)
 */
-//# sourceMappingURL=chunk-VCVBDAWS.js.map
+//# sourceMappingURL=chunk-IRXKBJB2.js.map
