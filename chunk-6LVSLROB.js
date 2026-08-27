@@ -2537,9 +2537,6 @@ var GameComponent = class GameComponent2 extends BaseGameComponent {
   rotation = "";
   tutorial;
   isPlayerTurn;
-  /**
-   * Called by the game component when the user creates a move
-   */
   chooseMove;
   canUserPlay;
   cancelMoveOnWrapper;
@@ -44914,4 +44911,4 @@ bulma-toast/dist/bulma-toast.min.js:
    * Released under the MIT License.
    *)
 */
-//# sourceMappingURL=chunk-IRXKBJB2.js.map
+//# sourceMappingURL=chunk-6LVSLROB.js.map

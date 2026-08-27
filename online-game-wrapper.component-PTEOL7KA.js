@@ -1,22 +1,22 @@
 import {
   DemoCardWrapperComponent
-} from "./chunk-K5PWTOOO.js";
-import "./chunk-QRNQY2DC.js";
+} from "./chunk-A77X2EJ6.js";
+import "./chunk-C34NEAOU.js";
 import {
   RulesConfigurationComponent,
   ViewConfigComponent
-} from "./chunk-QMR5S32W.js";
+} from "./chunk-R2CO53FA.js";
 import {
   BaseWrapperComponent,
   GameWrapper,
   GameWrapperMessages
-} from "./chunk-ACIXF3UM.js";
+} from "./chunk-YDP6VHNV.js";
 import {
   ConfigRoomService
-} from "./chunk-RCYJLRIW.js";
+} from "./chunk-3AB2HUJS.js";
 import {
   GameService
-} from "./chunk-P2IQINTP.js";
+} from "./chunk-25EBHX4F.js";
 import {
   ChatComponent,
   EloComponent,
@@ -24,9 +24,9 @@ import {
   GameDuration,
   GameType,
   Status
-} from "./chunk-GDSUWAIX.js";
-import "./chunk-LRCRBTCF.js";
-import "./chunk-CDWEGVYY.js";
+} from "./chunk-AP4KIV7C.js";
+import "./chunk-3IAHL62P.js";
+import "./chunk-H7E63IMN.js";
 import {
   GameInfo,
   GameNode,
@@ -35,7 +35,7 @@ import {
   PlayerMap,
   PlayerNumberMap,
   PlayerOrNone
-} from "./chunk-IRXKBJB2.js";
+} from "./chunk-6LVSLROB.js";
 import {
   FaIconComponent,
   faBackwardStep,
@@ -3816,4 +3816,4 @@ export {
   OnlineGameWrapperComponent,
   OnlineGameWrapperMessages
 };
-//# sourceMappingURL=online-game-wrapper.component-GSZ6MTDW.js.map
+//# sourceMappingURL=online-game-wrapper.component-PTEOL7KA.js.map

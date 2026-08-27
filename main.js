@@ -1,22 +1,22 @@
 import {
   ConfigRoomService
-} from "./chunk-RCYJLRIW.js";
+} from "./chunk-3AB2HUJS.js";
 import {
   GameService
-} from "./chunk-P2IQINTP.js";
+} from "./chunk-25EBHX4F.js";
 import {
   ChatService
-} from "./chunk-LRCRBTCF.js";
+} from "./chunk-3IAHL62P.js";
 import {
   CurrentGameService
-} from "./chunk-7S3G2JAM.js";
+} from "./chunk-J2KPYMYY.js";
 import {
   environment
-} from "./chunk-CDWEGVYY.js";
+} from "./chunk-H7E63IMN.js";
 import {
   GameInfo,
   MessageDisplayer
-} from "./chunk-IRXKBJB2.js";
+} from "./chunk-6LVSLROB.js";
 import {
   LocaleUtils,
   ThemeService
@@ -37,6 +37,7 @@ import {
   provideRouter
 } from "./chunk-VZWZQOY5.js";
 import {
+  AuthUser,
   ConnectedUserService,
   FirestoreDAO,
   UserService,
@@ -55,7 +56,8 @@ import {
 } from "./chunk-CIU2KL3F.js";
 import {
   MGPOptional,
-  MGPValidation
+  MGPValidation,
+  Utils
 } from "./chunk-KI3WLQMB.js";
 import {
   NgClass,
@@ -76,11 +78,13 @@ import {
   __async,
   __objRest,
   __spreadValues,
+  computed,
   enableProdMode,
   importProvidersFrom,
   inject,
   performanceMarkFeature,
   setClassMetadata,
+  signal,
   ɵsetClassDebugInfo,
   ɵɵadvance,
   ɵɵconditional,
@@ -90,16 +94,12 @@ import {
   ɵɵdefineInjector,
   ɵɵdefineNgModule,
   ɵɵelement,
-  ɵɵelementContainerEnd,
-  ɵɵelementContainerStart,
   ɵɵelementEnd,
   ɵɵelementStart,
   ɵɵgetCurrentView,
   ɵɵgetInheritedFactory,
   ɵɵi18n,
-  ɵɵi18nApply,
   ɵɵi18nEnd,
-  ɵɵi18nExp,
   ɵɵi18nStart,
   ɵɵinject,
   ɵɵlistener,
@@ -5035,76 +5035,27 @@ var _c4 = () => ["/tutorial"];
 var _c5 = () => ["/settings"];
 var _c6 = () => ["/register"];
 var _c7 = () => ["/login"];
-function HeaderComponent_Conditional_30_Conditional_1_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementContainerStart(0);
-    \u0275\u0275i18n(1, 7);
-    \u0275\u0275elementContainerEnd();
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext(2);
-    \u0275\u0275advance();
-    \u0275\u0275i18nExp(ctx_r1.getCurrentGameName())(ctx_r1.currentGame.get().creator.name);
-    \u0275\u0275i18nApply(1);
-  }
-}
-function HeaderComponent_Conditional_30_Conditional_2_Conditional_0_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementContainerStart(0);
-    \u0275\u0275i18n(1, 8);
-    \u0275\u0275elementContainerEnd();
-  }
-  if (rf & 2) {
-    let tmp_3_0;
-    const ctx_r1 = \u0275\u0275nextContext(3);
-    \u0275\u0275advance();
-    \u0275\u0275i18nExp(ctx_r1.getCurrentGameName())((tmp_3_0 = ctx_r1.currentGame.get().opponent) == null ? null : tmp_3_0.name);
-    \u0275\u0275i18nApply(1);
-  }
-}
-function HeaderComponent_Conditional_30_Conditional_2_Conditional_1_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementContainerStart(0);
-    \u0275\u0275i18n(1, 9);
-    \u0275\u0275elementContainerEnd();
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext(3);
-    \u0275\u0275advance();
-    \u0275\u0275i18nExp(ctx_r1.getCurrentGameName());
-    \u0275\u0275i18nApply(1);
-  }
-}
-function HeaderComponent_Conditional_30_Conditional_2_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275conditionalCreate(0, HeaderComponent_Conditional_30_Conditional_2_Conditional_0_Template, 2, 2, "ng-container")(1, HeaderComponent_Conditional_30_Conditional_2_Conditional_1_Template, 2, 1, "ng-container");
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext(2);
-    \u0275\u0275conditional(ctx_r1.currentGame.get().opponent ? 0 : 1);
-  }
-}
 function HeaderComponent_Conditional_30_Template(rf, ctx) {
   if (rf & 1) {
     const _r1 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "a", 35);
+    \u0275\u0275elementStart(0, "a", 32);
     \u0275\u0275listener("click", function HeaderComponent_Conditional_30_Template_a_click_0_listener() {
       \u0275\u0275restoreView(_r1);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.navigateToPart());
     });
-    \u0275\u0275conditionalCreate(1, HeaderComponent_Conditional_30_Conditional_1_Template, 2, 2, "ng-container")(2, HeaderComponent_Conditional_30_Conditional_2_Template, 2, 1);
+    \u0275\u0275text(1);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
     const ctx_r1 = \u0275\u0275nextContext();
     \u0275\u0275advance();
-    \u0275\u0275conditional(ctx_r1.currentGame.get().role === "Observer" || ctx_r1.currentGame.get().role === "Candidate" ? 1 : 2);
+    \u0275\u0275textInterpolate(ctx_r1.currentGameLabel());
   }
 }
 function HeaderComponent_Conditional_34_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275element(0, "fa-icon", 34);
+    \u0275\u0275element(0, "fa-icon", 31);
   }
   if (rf & 2) {
     const ctx_r1 = \u0275\u0275nextContext();
@@ -5114,34 +5065,34 @@ function HeaderComponent_Conditional_34_Template(rf, ctx) {
 function HeaderComponent_Conditional_35_Conditional_0_Template(rf, ctx) {
   if (rf & 1) {
     const _r3 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 23)(1, "a", 37);
+    \u0275\u0275elementStart(0, "div", 20)(1, "a", 34);
     \u0275\u0275text(2);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(3, "div", 25)(4, "a", 38);
-    \u0275\u0275i18n(5, 10);
+    \u0275\u0275elementStart(3, "div", 22)(4, "a", 35);
+    \u0275\u0275i18n(5, 7);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(6, "a", 39);
+    \u0275\u0275elementStart(6, "a", 36);
     \u0275\u0275listener("click", function HeaderComponent_Conditional_35_Conditional_0_Template_a_click_6_listener() {
       \u0275\u0275restoreView(_r3);
       const ctx_r1 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r1.logout());
     });
-    \u0275\u0275i18n(7, 11);
+    \u0275\u0275i18n(7, 8);
     \u0275\u0275elementEnd()()();
   }
   if (rf & 2) {
     const ctx_r1 = \u0275\u0275nextContext(2);
     \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(ctx_r1.username.get());
+    \u0275\u0275textInterpolate(ctx_r1.username().get());
   }
 }
 function HeaderComponent_Conditional_35_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 36)(1, "a", 40)(2, "strong");
-    \u0275\u0275i18n(3, 12);
+    \u0275\u0275elementStart(0, "div", 33)(1, "a", 37)(2, "strong");
+    \u0275\u0275i18n(3, 9);
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(4, "a", 41);
-    \u0275\u0275i18n(5, 13);
+    \u0275\u0275elementStart(4, "a", 38);
+    \u0275\u0275i18n(5, 10);
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
@@ -5153,36 +5104,46 @@ function HeaderComponent_Conditional_35_Conditional_1_Template(rf, ctx) {
 }
 function HeaderComponent_Conditional_35_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275conditionalCreate(0, HeaderComponent_Conditional_35_Conditional_0_Template, 8, 1, "div", 23)(1, HeaderComponent_Conditional_35_Conditional_1_Template, 6, 4, "div", 36);
+    \u0275\u0275conditionalCreate(0, HeaderComponent_Conditional_35_Conditional_0_Template, 8, 1, "div", 20)(1, HeaderComponent_Conditional_35_Conditional_1_Template, 6, 4, "div", 33);
   }
   if (rf & 2) {
     const ctx_r1 = \u0275\u0275nextContext();
-    \u0275\u0275conditional(ctx_r1.username.isPresent() ? 0 : 1);
+    \u0275\u0275conditional(ctx_r1.username().isPresent() ? 0 : 1);
   }
 }
 var HeaderComponent = class _HeaderComponent {
   router = inject(Router);
   connectedUserService = inject(ConnectedUserService);
   currentGameService = inject(CurrentGameService);
-  loading = true;
-  username = MGPOptional.empty();
   faCog = faCog;
   faSpinner = faSpinner;
   userSubscription = new Subscription();
   currentGameSubscription = new Subscription();
+  connectedUser = signal(AuthUser.NOT_CONNECTED, ...ngDevMode ? [{ debugName: "connectedUser" }] : []);
+  currentGameState = signal(MGPOptional.empty(), ...ngDevMode ? [{ debugName: "currentGameState" }] : []);
   showMenu = false;
-  currentGame = MGPOptional.empty();
+  currentGame = this.currentGameState.asReadonly();
+  loading = signal(true, ...ngDevMode ? [{ debugName: "loading" }] : []);
+  username = computed(() => this.connectedUser().username.orElse(this.connectedUser().email), ...ngDevMode ? [{ debugName: "username" }] : []);
+  currentGameLabel = computed(() => {
+    const currentGame = this.currentGame().get();
+    const gameName = GameInfo.getByUrlName(currentGame.gameName).get().name;
+    if (currentGame.role === "Observer" || currentGame.role === "Candidate") {
+      return $localize`${gameName} by ${currentGame.creator.name}`;
+    }
+    if (currentGame.opponent == null) {
+      return $localize`${gameName} (waiting for opponent)`;
+    }
+    const opponentName = this.connectedUser().id === currentGame.creator.id ? Utils.getNonNullable(currentGame.opponent.name) : currentGame.creator.name;
+    return $localize`${gameName} against ${opponentName}`;
+  }, ...ngDevMode ? [{ debugName: "currentGameLabel" }] : []);
   ngOnInit() {
     this.userSubscription = this.connectedUserService.subscribeToUser((user) => {
-      this.loading = false;
-      if (user.username.isPresent()) {
-        this.username = user.username;
-      } else {
-        this.username = user.email;
-      }
+      this.connectedUser.set(user);
+      this.loading.set(false);
     });
     this.currentGameSubscription = this.currentGameService.subscribeToCurrentGame((currentGame) => {
-      this.currentGame = currentGame;
+      this.currentGameState.set(currentGame);
     });
   }
   logout() {
@@ -5193,15 +5154,13 @@ var HeaderComponent = class _HeaderComponent {
   }
   navigateToPart() {
     return __async(this, null, function* () {
-      return this.router.navigate(["/play", this.currentGame.get().gameName, this.currentGame.get().id]);
+      const currentGame = this.currentGame().get();
+      return this.router.navigate(["/play", currentGame.gameName, currentGame.id]);
     });
   }
   ngOnDestroy() {
     this.userSubscription.unsubscribe();
     this.currentGameSubscription.unsubscribe();
-  }
-  getCurrentGameName() {
-    return GameInfo.getByUrlName(this.currentGame.get().gameName).get().name;
   }
   static \u0275fac = function HeaderComponent_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _HeaderComponent)();
@@ -5265,97 +5224,76 @@ var HeaderComponent = class _HeaderComponent {
     }
     let i18n_8;
     if (false) {
-      const MSG_EXTERNAL_4449968195504791652$$SRC_APP_COMPONENTS_NORMAL_COMPONENT_HEADER_HEADER_COMPONENT_TS_8 = goog.getMsg("{$interpolation} by {$interpolation_1}", { "interpolation": "\uFFFD0\uFFFD", "interpolation_1": "\uFFFD1\uFFFD" }, { original_code: { "interpolation": "{{ getCurrentGameName() }}", "interpolation_1": "{{ currentGame.get().creator.name }}" } });
-      i18n_8 = MSG_EXTERNAL_4449968195504791652$$SRC_APP_COMPONENTS_NORMAL_COMPONENT_HEADER_HEADER_COMPONENT_TS_8;
+      const MSG_EXTERNAL_4086606389696938932$$SRC_APP_COMPONENTS_NORMAL_COMPONENT_HEADER_HEADER_COMPONENT_TS_8 = goog.getMsg("Account");
+      i18n_8 = MSG_EXTERNAL_4086606389696938932$$SRC_APP_COMPONENTS_NORMAL_COMPONENT_HEADER_HEADER_COMPONENT_TS_8;
     } else {
-      i18n_8 = $localize`${"\uFFFD0\uFFFD"}:INTERPOLATION: by ${"\uFFFD1\uFFFD"}:INTERPOLATION_1:`;
+      i18n_8 = $localize`Account`;
     }
     let i18n_9;
     if (false) {
-      const MSG_EXTERNAL_7743945786432226733$$SRC_APP_COMPONENTS_NORMAL_COMPONENT_HEADER_HEADER_COMPONENT_TS_9 = goog.getMsg("{$interpolation} against {$interpolation_1}", { "interpolation": "\uFFFD0\uFFFD", "interpolation_1": "\uFFFD1\uFFFD" }, { original_code: { "interpolation": "{{ getCurrentGameName() }}", "interpolation_1": "{{ currentGame.get().opponent?.name }}" } });
-      i18n_9 = MSG_EXTERNAL_7743945786432226733$$SRC_APP_COMPONENTS_NORMAL_COMPONENT_HEADER_HEADER_COMPONENT_TS_9;
+      const MSG_EXTERNAL_7507948636555938109$$SRC_APP_COMPONENTS_NORMAL_COMPONENT_HEADER_HEADER_COMPONENT_TS_9 = goog.getMsg("Log out");
+      i18n_9 = MSG_EXTERNAL_7507948636555938109$$SRC_APP_COMPONENTS_NORMAL_COMPONENT_HEADER_HEADER_COMPONENT_TS_9;
     } else {
-      i18n_9 = $localize`${"\uFFFD0\uFFFD"}:INTERPOLATION: against ${"\uFFFD1\uFFFD"}:INTERPOLATION_1:`;
+      i18n_9 = $localize`Log out`;
     }
     let i18n_10;
     if (false) {
-      const MSG_EXTERNAL_1311227579774831037$$SRC_APP_COMPONENTS_NORMAL_COMPONENT_HEADER_HEADER_COMPONENT_TS_10 = goog.getMsg("{$interpolation} (waiting for opponent)", { "interpolation": "\uFFFD0\uFFFD" }, { original_code: { "interpolation": "{{ getCurrentGameName() }}" } });
-      i18n_10 = MSG_EXTERNAL_1311227579774831037$$SRC_APP_COMPONENTS_NORMAL_COMPONENT_HEADER_HEADER_COMPONENT_TS_10;
+      const MSG_EXTERNAL_3301086086650990787$$SRC_APP_COMPONENTS_NORMAL_COMPONENT_HEADER_HEADER_COMPONENT_TS_10 = goog.getMsg("Register");
+      i18n_10 = MSG_EXTERNAL_3301086086650990787$$SRC_APP_COMPONENTS_NORMAL_COMPONENT_HEADER_HEADER_COMPONENT_TS_10;
     } else {
-      i18n_10 = $localize`${"\uFFFD0\uFFFD"}:INTERPOLATION: (waiting for opponent)`;
+      i18n_10 = $localize`Register`;
     }
     let i18n_11;
     if (false) {
-      const MSG_EXTERNAL_4086606389696938932$$SRC_APP_COMPONENTS_NORMAL_COMPONENT_HEADER_HEADER_COMPONENT_TS_11 = goog.getMsg("Account");
-      i18n_11 = MSG_EXTERNAL_4086606389696938932$$SRC_APP_COMPONENTS_NORMAL_COMPONENT_HEADER_HEADER_COMPONENT_TS_11;
+      const MSG_EXTERNAL_2336550011721758066$$SRC_APP_COMPONENTS_NORMAL_COMPONENT_HEADER_HEADER_COMPONENT_TS_11 = goog.getMsg("Log in");
+      i18n_11 = MSG_EXTERNAL_2336550011721758066$$SRC_APP_COMPONENTS_NORMAL_COMPONENT_HEADER_HEADER_COMPONENT_TS_11;
     } else {
-      i18n_11 = $localize`Account`;
+      i18n_11 = $localize`Log in`;
     }
-    let i18n_12;
-    if (false) {
-      const MSG_EXTERNAL_7507948636555938109$$SRC_APP_COMPONENTS_NORMAL_COMPONENT_HEADER_HEADER_COMPONENT_TS_12 = goog.getMsg("Log out");
-      i18n_12 = MSG_EXTERNAL_7507948636555938109$$SRC_APP_COMPONENTS_NORMAL_COMPONENT_HEADER_HEADER_COMPONENT_TS_12;
-    } else {
-      i18n_12 = $localize`Log out`;
-    }
-    let i18n_13;
-    if (false) {
-      const MSG_EXTERNAL_3301086086650990787$$SRC_APP_COMPONENTS_NORMAL_COMPONENT_HEADER_HEADER_COMPONENT_TS_13 = goog.getMsg("Register");
-      i18n_13 = MSG_EXTERNAL_3301086086650990787$$SRC_APP_COMPONENTS_NORMAL_COMPONENT_HEADER_HEADER_COMPONENT_TS_13;
-    } else {
-      i18n_13 = $localize`Register`;
-    }
-    let i18n_14;
-    if (false) {
-      const MSG_EXTERNAL_2336550011721758066$$SRC_APP_COMPONENTS_NORMAL_COMPONENT_HEADER_HEADER_COMPONENT_TS_14 = goog.getMsg("Log in");
-      i18n_14 = MSG_EXTERNAL_2336550011721758066$$SRC_APP_COMPONENTS_NORMAL_COMPONENT_HEADER_HEADER_COMPONENT_TS_14;
-    } else {
-      i18n_14 = $localize`Log in`;
-    }
-    return [i18n_1, i18n_2, i18n_3, i18n_4, i18n_5, i18n_6, i18n_7, i18n_8, i18n_9, i18n_10, i18n_11, i18n_12, i18n_13, i18n_14, ["role", "navigation", "aria-label", "main navigation", 1, "navbar", "is-primary"], [1, "navbar-brand"], [1, "navbar-item", 3, "routerLink"], ["id", "logo", "src", "assets/images/logo.png", "width", "28", "height", "28"], ["role", "button", "aria-label", "menu", "aria-expanded", "false", "data-target", "menu", 1, "navbar-burger", 3, "click", "ngClass"], ["aria-hidden", "true"], ["id", "menu", 1, "navbar-menu", 3, "click", "ngClass"], [1, "navbar-start"], ["id", "home", 1, "navbar-item", 3, "routerLink"], [1, "navbar-item", "has-dropdown", "is-hoverable"], [1, "navbar-link"], [1, "navbar-dropdown"], ["id", "playOffline", 1, "navbar-link"], ["id", "playLocally", 1, "navbar-item", 3, "routerLink"], ["id", "tutorial", 1, "navbar-item", 3, "routerLink"], [1, "navbar-end"], ["id", "currentGameLink", 1, "navbar-item"], ["data-tooltip", i18n_0, 1, "navbar-item", 3, "routerLink"], [3, "icon"], [1, "navbar-item"], [1, "navbar-item", 3, "icon"], ["id", "currentGameLink", 1, "navbar-item", 3, "click"], [1, "buttons"], ["id", "connectedUserName", 1, "navbar-link"], ["id", "account", "routerLink", "/account", 1, "navbar-item"], ["id", "logout", 1, "navbar-item", 3, "click"], ["id", "register", 1, "button", "is-primary", 3, "routerLink"], ["id", "login", 1, "button", "is-light", 3, "routerLink"]];
+    return [i18n_1, i18n_2, i18n_3, i18n_4, i18n_5, i18n_6, i18n_7, i18n_8, i18n_9, i18n_10, i18n_11, ["role", "navigation", "aria-label", "main navigation", 1, "navbar", "is-primary"], [1, "navbar-brand"], [1, "navbar-item", 3, "routerLink"], ["id", "logo", "src", "assets/images/logo.png", "width", "28", "height", "28"], ["role", "button", "aria-label", "menu", "aria-expanded", "false", "data-target", "menu", 1, "navbar-burger", 3, "click", "ngClass"], ["aria-hidden", "true"], ["id", "menu", 1, "navbar-menu", 3, "click", "ngClass"], [1, "navbar-start"], ["id", "home", 1, "navbar-item", 3, "routerLink"], [1, "navbar-item", "has-dropdown", "is-hoverable"], [1, "navbar-link"], [1, "navbar-dropdown"], ["id", "playOffline", 1, "navbar-link"], ["id", "playLocally", 1, "navbar-item", 3, "routerLink"], ["id", "tutorial", 1, "navbar-item", 3, "routerLink"], [1, "navbar-end"], ["id", "currentGameLink", 1, "navbar-item"], ["data-tooltip", i18n_0, 1, "navbar-item", 3, "routerLink"], [3, "icon"], [1, "navbar-item"], ["id", "spinner", 1, "navbar-item", 3, "icon"], ["id", "currentGameLink", 1, "navbar-item", 3, "click"], [1, "buttons"], ["id", "connectedUserName", 1, "navbar-link"], ["id", "account", "routerLink", "/account", 1, "navbar-item"], ["id", "logout", 1, "navbar-item", 3, "click"], ["id", "register", 1, "button", "is-primary", 3, "routerLink"], ["id", "login", 1, "button", "is-light", 3, "routerLink"]];
   }, template: function HeaderComponent_Template(rf, ctx) {
     if (rf & 1) {
-      \u0275\u0275elementStart(0, "nav", 14)(1, "div", 15)(2, "a", 16);
-      \u0275\u0275element(3, "img", 17);
+      \u0275\u0275elementStart(0, "nav", 11)(1, "div", 12)(2, "a", 13);
+      \u0275\u0275element(3, "img", 14);
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(4, "a", 18);
+      \u0275\u0275elementStart(4, "a", 15);
       \u0275\u0275listener("click", function HeaderComponent_Template_a_click_4_listener() {
         return ctx.showMenu = !ctx.showMenu;
       });
-      \u0275\u0275element(5, "span", 19)(6, "span", 19)(7, "span", 19)(8, "span", 19);
+      \u0275\u0275element(5, "span", 16)(6, "span", 16)(7, "span", 16)(8, "span", 16);
       \u0275\u0275elementEnd()();
-      \u0275\u0275elementStart(9, "div", 20);
+      \u0275\u0275elementStart(9, "div", 17);
       \u0275\u0275listener("click", function HeaderComponent_Template_div_click_9_listener() {
         return ctx.showMenu = !ctx.showMenu;
       });
-      \u0275\u0275elementStart(10, "div", 21)(11, "a", 22);
+      \u0275\u0275elementStart(10, "div", 18)(11, "a", 19);
       \u0275\u0275i18n(12, 0);
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(13, "div", 23)(14, "a", 24);
+      \u0275\u0275elementStart(13, "div", 20)(14, "a", 21);
       \u0275\u0275i18n(15, 1);
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(16, "div", 25)(17, "a", 16);
+      \u0275\u0275elementStart(16, "div", 22)(17, "a", 13);
       \u0275\u0275i18n(18, 2);
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(19, "a", 16);
+      \u0275\u0275elementStart(19, "a", 13);
       \u0275\u0275i18n(20, 3);
       \u0275\u0275elementEnd()()();
-      \u0275\u0275elementStart(21, "div", 23)(22, "a", 26);
+      \u0275\u0275elementStart(21, "div", 20)(22, "a", 23);
       \u0275\u0275i18n(23, 4);
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(24, "div", 25)(25, "a", 27);
+      \u0275\u0275elementStart(24, "div", 22)(25, "a", 24);
       \u0275\u0275i18n(26, 5);
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(27, "a", 28);
+      \u0275\u0275elementStart(27, "a", 25);
       \u0275\u0275i18n(28, 6);
       \u0275\u0275elementEnd()()()();
-      \u0275\u0275elementStart(29, "div", 29);
-      \u0275\u0275conditionalCreate(30, HeaderComponent_Conditional_30_Template, 3, 1, "a", 30);
-      \u0275\u0275elementStart(31, "a", 31);
-      \u0275\u0275element(32, "fa-icon", 32);
+      \u0275\u0275elementStart(29, "div", 26);
+      \u0275\u0275conditionalCreate(30, HeaderComponent_Conditional_30_Template, 2, 1, "a", 27);
+      \u0275\u0275elementStart(31, "a", 28);
+      \u0275\u0275element(32, "fa-icon", 29);
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(33, "div", 33);
-      \u0275\u0275conditionalCreate(34, HeaderComponent_Conditional_34_Template, 1, 1, "fa-icon", 34)(35, HeaderComponent_Conditional_35_Template, 2, 1);
+      \u0275\u0275elementStart(33, "div", 30);
+      \u0275\u0275conditionalCreate(34, HeaderComponent_Conditional_34_Template, 1, 1, "fa-icon", 31)(35, HeaderComponent_Conditional_35_Template, 2, 1);
       \u0275\u0275elementEnd()()()();
     }
     if (rf & 2) {
@@ -5376,13 +5314,13 @@ var HeaderComponent = class _HeaderComponent {
       \u0275\u0275advance(2);
       \u0275\u0275property("routerLink", \u0275\u0275pureFunction0(17, _c4));
       \u0275\u0275advance(3);
-      \u0275\u0275conditional(ctx.currentGame.isPresent() ? 30 : -1);
+      \u0275\u0275conditional(ctx.currentGame().isPresent() ? 30 : -1);
       \u0275\u0275advance();
       \u0275\u0275property("routerLink", \u0275\u0275pureFunction0(18, _c5));
       \u0275\u0275advance();
       \u0275\u0275property("icon", ctx.faCog);
       \u0275\u0275advance(2);
-      \u0275\u0275conditional(ctx.loading ? 34 : 35);
+      \u0275\u0275conditional(ctx.loading() ? 34 : 35);
     }
   }, dependencies: [RouterLink, NgClass, FaIconComponent], encapsulation: 2 });
 };
@@ -5454,20 +5392,10 @@ var HeaderComponent = class _HeaderComponent {
         </div>
 
         <div class="navbar-end">
-            @if (currentGame.isPresent()) {
+            @if (currentGame().isPresent()) {
                 <a id="currentGameLink"
                    class="navbar-item"
-                   (click)="navigateToPart()">
-                    @if (currentGame.get().role === 'Observer' || currentGame.get().role === 'Candidate') {
-                        <ng-container i18n>{{ getCurrentGameName() }} by {{ currentGame.get().creator.name }}</ng-container>
-                    } @else {
-                        @if (currentGame.get().opponent) {
-                            <ng-container i18n>{{ getCurrentGameName() }} against {{ currentGame.get().opponent?.name }}</ng-container>
-                        } @else {
-                            <ng-container i18n>{{ getCurrentGameName() }} (waiting for opponent)</ng-container>
-                        }
-                    }
-                </a>
+                   (click)="navigateToPart()">{{ currentGameLabel() }}</a>
             }
 
             <a class="navbar-item"
@@ -5476,14 +5404,15 @@ var HeaderComponent = class _HeaderComponent {
                data-tooltip="Settings"><fa-icon [icon]="faCog"></fa-icon></a>
 
             <div class="navbar-item">
-                @if (loading) {
-                    <fa-icon [icon]="faSpinner"
+                @if (loading()) {
+                    <fa-icon id="spinner"
+                             [icon]="faSpinner"
                              class="navbar-item"></fa-icon>
                 } @else {
-                    @if (username.isPresent()) {
+                    @if (username().isPresent()) {
                         <div class="navbar-item has-dropdown is-hoverable">
                             <a id="connectedUserName"
-                               class="navbar-link">{{ username.get() }}</a>
+                               class="navbar-link">{{ username().get() }}</a>
                             <div class="navbar-dropdown">
                                 <a class="navbar-item"
                                    id="account"
@@ -5835,7 +5764,7 @@ var VerifiedAccountGuard = class _VerifiedAccountGuard extends AccountGuard {
 // src/app/app.routes.ts
 var routes = [
   { path: "login", loadComponent: () => import("./login.component-4ASTSW3A.js").then((m) => m.LoginComponent) },
-  { path: "lobby", loadComponent: () => import("./lobby.component-KUXDWPU6.js").then((m) => m.LobbyComponent), canActivate: [VerifiedAccountGuard] },
+  { path: "lobby", loadComponent: () => import("./lobby.component-ARSOSB6X.js").then((m) => m.LobbyComponent), canActivate: [VerifiedAccountGuard] },
   { path: "account", loadComponent: () => import("./account.component-LO77OLH2.js").then((m) => m.AccountComponent), canActivate: [VerifiedAccountGuard] },
   { path: "settings", loadComponent: () => import("./settings.component-7SLEZHU6.js").then((m) => m.SettingsComponent) },
   { path: "register", loadComponent: () => import("./register.component-RR64NNGO.js").then((m) => m.RegisterComponent), canActivate: [NotConnectedGuard] },
@@ -5843,16 +5772,16 @@ var routes = [
   { path: "notFound/:message", loadComponent: () => import("./not-found.component-FPXYUPJQ.js").then((m) => m.NotFoundComponent) },
   { path: "nextGameLoading", loadComponent: () => import("./next-game-loading.component-WNXCSHGO.js").then((m) => m.NextGameLoadingComponent), canActivate: [VerifiedAccountGuard] },
   { path: "verify-account", loadComponent: () => import("./verify-account.component-BK2D3YUS.js").then((m) => m.VerifyAccountComponent), canActivate: [ConnectedButNotVerifiedGuard] },
-  { path: "play", loadComponent: () => import("./online-game-selection.component-C5YRQKUP.js").then((m) => m.OnlineGameSelectionComponent), canActivate: [ExclusiveOnlineGameGuard, VerifiedAccountGuard] },
-  { path: "play/:game", loadComponent: () => import("./online-game-creation.component-B3W4Y5IR.js").then((m) => m.OnlineGameCreationComponent), canActivate: [ExclusiveOnlineGameGuard, VerifiedAccountGuard] },
-  { path: "play/:game/:id", loadComponent: () => import("./online-game-wrapper.component-GSZ6MTDW.js").then((m) => m.OnlineGameWrapperComponent), canActivate: [ExclusiveOnlineGameGuard, VerifiedAccountGuard] },
-  { path: "local", loadComponent: () => import("./local-game-creation.component-BLYD2DPX.js").then((m) => m.LocalGameCreationComponent) },
-  { path: "local/:game/config", loadComponent: () => import("./local-game-configuration.component-G33UX5HH.js").then((m) => m.LocalGameConfigurationComponent) },
-  { path: "local/:game", loadComponent: () => import("./local-game-wrapper.component-MMOXIGDZ.js").then((m) => m.LocalGameWrapperComponent) },
-  { path: "tutorial", loadComponent: () => import("./tutorial-game-creation.component-RZHKACME.js").then((m) => m.TutorialGameCreationComponent) },
-  { path: "tutorial/:game", loadComponent: () => import("./tutorial-game-wrapper.component-ZIUR6GD2.js").then((m) => m.TutorialGameWrapperComponent) },
-  { path: "", loadComponent: () => import("./welcome.component-EDZLZXM4.js").then((m) => m.WelcomeComponent) },
-  { path: "demo", loadComponent: () => import("./demo-page.component-VACQNJYC.js").then((m) => m.DemoPageComponent) },
+  { path: "play", loadComponent: () => import("./online-game-selection.component-32GGHAUO.js").then((m) => m.OnlineGameSelectionComponent), canActivate: [ExclusiveOnlineGameGuard, VerifiedAccountGuard] },
+  { path: "play/:game", loadComponent: () => import("./online-game-creation.component-7A6PLJDO.js").then((m) => m.OnlineGameCreationComponent), canActivate: [ExclusiveOnlineGameGuard, VerifiedAccountGuard] },
+  { path: "play/:game/:id", loadComponent: () => import("./online-game-wrapper.component-PTEOL7KA.js").then((m) => m.OnlineGameWrapperComponent), canActivate: [ExclusiveOnlineGameGuard, VerifiedAccountGuard] },
+  { path: "local", loadComponent: () => import("./local-game-creation.component-LDUI7BFQ.js").then((m) => m.LocalGameCreationComponent) },
+  { path: "local/:game/config", loadComponent: () => import("./local-game-configuration.component-CUXS6ST2.js").then((m) => m.LocalGameConfigurationComponent) },
+  { path: "local/:game", loadComponent: () => import("./local-game-wrapper.component-XLKMQZUB.js").then((m) => m.LocalGameWrapperComponent) },
+  { path: "tutorial", loadComponent: () => import("./tutorial-game-creation.component-TMCTJO3W.js").then((m) => m.TutorialGameCreationComponent) },
+  { path: "tutorial/:game", loadComponent: () => import("./tutorial-game-wrapper.component-XRAWIXOS.js").then((m) => m.TutorialGameWrapperComponent) },
+  { path: "", loadComponent: () => import("./welcome.component-JAB7GL5B.js").then((m) => m.WelcomeComponent) },
+  { path: "demo", loadComponent: () => import("./demo-page.component-27USO7J5.js").then((m) => m.DemoPageComponent) },
   { path: "**", loadComponent: () => import("./not-found.component-FPXYUPJQ.js").then((m) => m.NotFoundComponent) }
 ];
 function initializeFirebase(terminateFirestore = terminate) {
