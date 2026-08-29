@@ -93,6 +93,7 @@ import {
   input,
   output,
   setClassMetadata,
+  signal,
   takeUntil,
   viewChildren,
   ɵsetClassDebugInfo,
@@ -2407,7 +2408,7 @@ var _c1 = ["moveTimer"];
 function OnlineGameWrapperComponent_Conditional_1_Conditional_0_Template(rf, ctx) {
   if (rf & 1) {
     const _r1 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "app-game-creation", 26);
+    \u0275\u0275elementStart(0, "app-game-creation", 31);
     \u0275\u0275listener("gameStartNotification", function OnlineGameWrapperComponent_Conditional_1_Conditional_0_Template_app_game_creation_gameStartNotification_0_listener($event) {
       \u0275\u0275restoreView(_r1);
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -2422,14 +2423,14 @@ function OnlineGameWrapperComponent_Conditional_1_Conditional_0_Template(rf, ctx
 }
 function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_4_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 40);
+    \u0275\u0275elementStart(0, "span", 45);
     \u0275\u0275i18n(1, 4);
     \u0275\u0275elementEnd();
   }
 }
 function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_4_Conditional_2_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 41);
+    \u0275\u0275elementStart(0, "span", 46);
     \u0275\u0275i18n(1, 5);
     \u0275\u0275elementEnd();
   }
@@ -2442,8 +2443,8 @@ function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Co
 }
 function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_4_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "p", 38);
-    \u0275\u0275conditionalCreate(1, OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_4_Conditional_1_Template, 2, 0, "span", 40)(2, OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_4_Conditional_2_Template, 2, 1, "span", 41);
+    \u0275\u0275elementStart(0, "p", 43);
+    \u0275\u0275conditionalCreate(1, OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_4_Conditional_1_Template, 2, 0, "span", 45)(2, OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_4_Conditional_2_Template, 2, 1, "span", 46);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -2454,11 +2455,11 @@ function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Co
 }
 function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_For_6_Conditional_3_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "p", 42)(1, "span", 46);
+    \u0275\u0275elementStart(0, "p", 47)(1, "span", 51);
     \u0275\u0275text(2);
     \u0275\u0275elementEnd();
     \u0275\u0275text(3, " (");
-    \u0275\u0275element(4, "app-elo", 47);
+    \u0275\u0275element(4, "app-elo", 52);
     \u0275\u0275text(5, ") ");
     \u0275\u0275elementEnd();
   }
@@ -2478,7 +2479,7 @@ function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Fo
 }
 function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_For_6_Conditional_4_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "p", 43);
+    \u0275\u0275elementStart(0, "p", 48);
     \u0275\u0275text(1);
     \u0275\u0275elementEnd();
   }
@@ -2493,10 +2494,10 @@ function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Fo
   if (rf & 1) {
     const _r3 = \u0275\u0275getCurrentView();
     \u0275\u0275declareLet(0)(1);
-    \u0275\u0275elementStart(2, "div", 39);
-    \u0275\u0275conditionalCreate(3, OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_For_6_Conditional_3_Template, 6, 5, "p", 42);
-    \u0275\u0275conditionalCreate(4, OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_For_6_Conditional_4_Template, 2, 1, "p", 43);
-    \u0275\u0275elementStart(5, "app-timer", 44, 1);
+    \u0275\u0275elementStart(2, "div", 44);
+    \u0275\u0275conditionalCreate(3, OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_For_6_Conditional_3_Template, 6, 5, "p", 47);
+    \u0275\u0275conditionalCreate(4, OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_For_6_Conditional_4_Template, 2, 1, "p", 48);
+    \u0275\u0275elementStart(5, "app-timer", 49, 1);
     \u0275\u0275listener("outOfTimeAction", function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_For_6_Template_app_timer_outOfTimeAction_5_listener() {
       const player_r4 = \u0275\u0275restoreView(_r3).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(4);
@@ -2507,7 +2508,7 @@ function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Fo
       return \u0275\u0275resetView(ctx_r1.addGameTime());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(7, "app-timer", 45, 2);
+    \u0275\u0275elementStart(7, "app-timer", 50, 2);
     \u0275\u0275listener("outOfTimeAction", function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_For_6_Template_app_timer_outOfTimeAction_7_listener() {
       const player_r4 = \u0275\u0275restoreView(_r3).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(4);
@@ -2541,35 +2542,35 @@ function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Fo
 }
 function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_7_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "p", 49);
+    \u0275\u0275elementStart(0, "p", 54);
     \u0275\u0275i18n(1, 7);
     \u0275\u0275elementEnd();
   }
 }
 function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_7_Conditional_2_Conditional_0_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "p", 51);
+    \u0275\u0275elementStart(0, "p", 56);
     \u0275\u0275i18n(1, 8);
     \u0275\u0275elementEnd();
   }
 }
 function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_7_Conditional_2_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "p", 52);
+    \u0275\u0275elementStart(0, "p", 57);
     \u0275\u0275i18n(1, 9);
     \u0275\u0275elementEnd();
   }
 }
 function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_7_Conditional_2_Conditional_2_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "p", 53);
+    \u0275\u0275elementStart(0, "p", 58);
     \u0275\u0275i18n(1, 10);
     \u0275\u0275elementEnd();
   }
 }
 function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_7_Conditional_2_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275conditionalCreate(0, OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_7_Conditional_2_Conditional_0_Template, 2, 0, "p", 51)(1, OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_7_Conditional_2_Conditional_1_Template, 2, 0, "p", 52)(2, OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_7_Conditional_2_Conditional_2_Template, 2, 0, "p", 53);
+    \u0275\u0275conditionalCreate(0, OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_7_Conditional_2_Conditional_0_Template, 2, 0, "p", 56)(1, OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_7_Conditional_2_Conditional_1_Template, 2, 0, "p", 57)(2, OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_7_Conditional_2_Conditional_2_Template, 2, 0, "p", 58);
   }
   if (rf & 2) {
     const ctx_r1 = \u0275\u0275nextContext(5);
@@ -2578,7 +2579,7 @@ function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Co
 }
 function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_7_Conditional_3_Conditional_0_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "p", 54);
+    \u0275\u0275elementStart(0, "p", 59);
     \u0275\u0275i18n(1, 11);
     \u0275\u0275elementEnd();
   }
@@ -2591,21 +2592,21 @@ function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Co
 }
 function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_7_Conditional_3_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "p", 55);
+    \u0275\u0275elementStart(0, "p", 60);
     \u0275\u0275i18n(1, 12);
     \u0275\u0275elementEnd();
   }
 }
 function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_7_Conditional_3_Conditional_2_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "p", 56);
+    \u0275\u0275elementStart(0, "p", 61);
     \u0275\u0275i18n(1, 13);
     \u0275\u0275elementEnd();
   }
 }
 function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_7_Conditional_3_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275conditionalCreate(0, OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_7_Conditional_3_Conditional_0_Template, 2, 1, "p", 54)(1, OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_7_Conditional_3_Conditional_1_Template, 2, 0, "p", 55)(2, OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_7_Conditional_3_Conditional_2_Template, 2, 0, "p", 56);
+    \u0275\u0275conditionalCreate(0, OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_7_Conditional_3_Conditional_0_Template, 2, 1, "p", 59)(1, OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_7_Conditional_3_Conditional_1_Template, 2, 0, "p", 60)(2, OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_7_Conditional_3_Conditional_2_Template, 2, 0, "p", 61);
   }
   if (rf & 2) {
     const ctx_r1 = \u0275\u0275nextContext(5);
@@ -2614,7 +2615,7 @@ function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Co
 }
 function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_7_Conditional_4_Conditional_0_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "p", 54);
+    \u0275\u0275elementStart(0, "p", 59);
     \u0275\u0275i18n(1, 14);
     \u0275\u0275elementEnd();
   }
@@ -2627,7 +2628,7 @@ function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Co
 }
 function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_7_Conditional_4_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "p", 55);
+    \u0275\u0275elementStart(0, "p", 60);
     \u0275\u0275i18n(1, 15);
     \u0275\u0275elementEnd();
   }
@@ -2640,14 +2641,14 @@ function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Co
 }
 function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_7_Conditional_4_Conditional_2_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "p", 56);
+    \u0275\u0275elementStart(0, "p", 61);
     \u0275\u0275i18n(1, 16);
     \u0275\u0275elementEnd();
   }
 }
 function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_7_Conditional_4_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275conditionalCreate(0, OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_7_Conditional_4_Conditional_0_Template, 2, 1, "p", 54)(1, OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_7_Conditional_4_Conditional_1_Template, 2, 1, "p", 55)(2, OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_7_Conditional_4_Conditional_2_Template, 2, 0, "p", 56);
+    \u0275\u0275conditionalCreate(0, OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_7_Conditional_4_Conditional_0_Template, 2, 1, "p", 59)(1, OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_7_Conditional_4_Conditional_1_Template, 2, 1, "p", 60)(2, OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_7_Conditional_4_Conditional_2_Template, 2, 0, "p", 61);
   }
   if (rf & 2) {
     const ctx_r1 = \u0275\u0275nextContext(5);
@@ -2656,14 +2657,14 @@ function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Co
 }
 function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_7_Conditional_5_Conditional_0_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "p", 57);
+    \u0275\u0275elementStart(0, "p", 62);
     \u0275\u0275i18n(1, 17);
     \u0275\u0275elementEnd();
   }
 }
 function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_7_Conditional_5_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "p", 57);
+    \u0275\u0275elementStart(0, "p", 62);
     \u0275\u0275i18n(1, 18);
     \u0275\u0275elementEnd();
   }
@@ -2676,7 +2677,7 @@ function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Co
 }
 function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_7_Conditional_5_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275conditionalCreate(0, OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_7_Conditional_5_Conditional_0_Template, 2, 0, "p", 57)(1, OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_7_Conditional_5_Conditional_1_Template, 2, 1, "p", 57);
+    \u0275\u0275conditionalCreate(0, OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_7_Conditional_5_Conditional_0_Template, 2, 0, "p", 62)(1, OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_7_Conditional_5_Conditional_1_Template, 2, 1, "p", 62);
   }
   if (rf & 2) {
     const ctx_r1 = \u0275\u0275nextContext(5);
@@ -2685,10 +2686,10 @@ function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Co
 }
 function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_7_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 48);
-    \u0275\u0275conditionalCreate(1, OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_7_Conditional_1_Template, 2, 0, "p", 49)(2, OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_7_Conditional_2_Template, 3, 1)(3, OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_7_Conditional_3_Template, 3, 1)(4, OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_7_Conditional_4_Template, 3, 1)(5, OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_7_Conditional_5_Template, 2, 1);
+    \u0275\u0275elementStart(0, "div", 53);
+    \u0275\u0275conditionalCreate(1, OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_7_Conditional_1_Template, 2, 0, "p", 54)(2, OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_7_Conditional_2_Template, 3, 1)(3, OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_7_Conditional_3_Template, 3, 1)(4, OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_7_Conditional_4_Template, 3, 1)(5, OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_7_Conditional_5_Template, 2, 1);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(6, "button", 50);
+    \u0275\u0275elementStart(6, "button", 55);
     \u0275\u0275i18n(7, 6);
     \u0275\u0275elementEnd();
   }
@@ -2701,14 +2702,14 @@ function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Co
 function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_8_Conditional_0_For_5_Template(rf, ctx) {
   if (rf & 1) {
     const _r12 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "button", 64);
+    \u0275\u0275elementStart(0, "button", 69);
     \u0275\u0275listener("click", function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_8_Conditional_0_For_5_Template_button_click_0_listener() {
       const request_r13 = \u0275\u0275restoreView(_r12).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(6);
-      return \u0275\u0275resetView(ctx_r1.propose(request_r13));
+      return \u0275\u0275resetView(ctx_r1.onClickPropose(request_r13));
     });
     \u0275\u0275text(1);
-    \u0275\u0275element(2, "fa-icon", 65);
+    \u0275\u0275element(2, "fa-icon", 70);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -2724,15 +2725,15 @@ function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Co
 function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_8_Conditional_0_Template(rf, ctx) {
   if (rf & 1) {
     const _r11 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "button", 61);
+    \u0275\u0275elementStart(0, "button", 66);
     \u0275\u0275listener("click", function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_8_Conditional_0_Template_button_click_0_listener() {
       \u0275\u0275restoreView(_r11);
       const ctx_r1 = \u0275\u0275nextContext(5);
-      return \u0275\u0275resetView(ctx_r1.resign());
+      return \u0275\u0275resetView(ctx_r1.onClickResign());
     });
     \u0275\u0275i18n(1, 19);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(2, "button", 62);
+    \u0275\u0275elementStart(2, "button", 67);
     \u0275\u0275listener("click", function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_8_Conditional_0_Template_button_click_2_listener() {
       \u0275\u0275restoreView(_r11);
       const ctx_r1 = \u0275\u0275nextContext(5);
@@ -2740,7 +2741,7 @@ function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Co
     });
     \u0275\u0275i18n(3, 20);
     \u0275\u0275elementEnd();
-    \u0275\u0275repeaterCreate(4, OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_8_Conditional_0_For_5_Template, 3, 5, "button", 63, \u0275\u0275repeaterTrackByIdentity);
+    \u0275\u0275repeaterCreate(4, OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_8_Conditional_0_For_5_Template, 3, 5, "button", 68, \u0275\u0275repeaterTrackByIdentity);
   }
   if (rf & 2) {
     const ctx_r1 = \u0275\u0275nextContext(5);
@@ -2754,23 +2755,23 @@ function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Co
 function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_8_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
     const _r14 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 58)(1, "p");
+    \u0275\u0275elementStart(0, "div", 63)(1, "p");
     \u0275\u0275text(2);
-    \u0275\u0275element(3, "fa-icon", 65);
+    \u0275\u0275element(3, "fa-icon", 70);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(4, "button", 66);
+    \u0275\u0275elementStart(4, "button", 71);
     \u0275\u0275listener("click", function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_8_Conditional_1_Template_button_click_4_listener() {
       \u0275\u0275restoreView(_r14);
       const ctx_r1 = \u0275\u0275nextContext(5);
-      return \u0275\u0275resetView(ctx_r1.accept());
+      return \u0275\u0275resetView(ctx_r1.onClickAccept());
     });
     \u0275\u0275i18n(5, 21);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(6, "button", 67);
+    \u0275\u0275elementStart(6, "button", 72);
     \u0275\u0275listener("click", function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_8_Conditional_1_Template_button_click_6_listener() {
       \u0275\u0275restoreView(_r14);
       const ctx_r1 = \u0275\u0275nextContext(5);
-      return \u0275\u0275resetView(ctx_r1.reject());
+      return \u0275\u0275resetView(ctx_r1.onClickReject());
     });
     \u0275\u0275i18n(7, 22);
     \u0275\u0275elementEnd()();
@@ -2786,9 +2787,9 @@ function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Co
 }
 function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_8_Conditional_2_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 59)(1, "p")(2, "span");
+    \u0275\u0275elementStart(0, "div", 64)(1, "p")(2, "span");
     \u0275\u0275i18nStart(3, 23);
-    \u0275\u0275element(4, "fa-icon", 65);
+    \u0275\u0275element(4, "fa-icon", 70);
     \u0275\u0275i18nEnd();
     \u0275\u0275elementEnd()()();
   }
@@ -2803,9 +2804,9 @@ function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Co
 }
 function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_8_Conditional_3_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 60)(1, "p")(2, "span");
+    \u0275\u0275elementStart(0, "div", 65)(1, "p")(2, "span");
     \u0275\u0275i18nStart(3, 24);
-    \u0275\u0275element(4, "fa-icon", 65);
+    \u0275\u0275element(4, "fa-icon", 70);
     \u0275\u0275i18nEnd();
     \u0275\u0275elementEnd()()();
   }
@@ -2820,9 +2821,9 @@ function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Co
 }
 function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_8_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275conditionalCreate(0, OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_8_Conditional_0_Template, 6, 2)(1, OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_8_Conditional_1_Template, 8, 2, "div", 58);
-    \u0275\u0275conditionalCreate(2, OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_8_Conditional_2_Template, 5, 2, "div", 59);
-    \u0275\u0275conditionalCreate(3, OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_8_Conditional_3_Template, 5, 2, "div", 60);
+    \u0275\u0275conditionalCreate(0, OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_8_Conditional_0_Template, 6, 2)(1, OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_8_Conditional_1_Template, 8, 2, "div", 63);
+    \u0275\u0275conditionalCreate(2, OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_8_Conditional_2_Template, 5, 2, "div", 64);
+    \u0275\u0275conditionalCreate(3, OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_8_Conditional_3_Template, 5, 2, "div", 65);
   }
   if (rf & 2) {
     const ctx_r1 = \u0275\u0275nextContext(4);
@@ -2835,14 +2836,14 @@ function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Co
 }
 function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 35);
-    \u0275\u0275element(1, "app-view-config", 36);
-    \u0275\u0275elementStart(2, "p", 37);
+    \u0275\u0275elementStart(0, "div", 40);
+    \u0275\u0275element(1, "app-view-config", 41);
+    \u0275\u0275elementStart(2, "p", 42);
     \u0275\u0275i18n(3, 3);
     \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(4, OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_4_Template, 3, 1, "p", 38);
+    \u0275\u0275conditionalCreate(4, OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_4_Template, 3, 1, "p", 43);
     \u0275\u0275elementEnd();
-    \u0275\u0275repeaterCreate(5, OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_For_6_Template, 9, 19, "div", 39, \u0275\u0275repeaterTrackByIdentity);
+    \u0275\u0275repeaterCreate(5, OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_For_6_Template, 9, 19, "div", 44, \u0275\u0275repeaterTrackByIdentity);
     \u0275\u0275conditionalCreate(7, OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_7_Template, 8, 1);
     \u0275\u0275conditionalCreate(8, OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Conditional_8_Template, 4, 3);
   }
@@ -2866,13 +2867,13 @@ function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Te
 }
 function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div")(1, "div", 27)(2, "div", 28)(3, "div", 29);
+    \u0275\u0275elementStart(0, "div")(1, "div", 32)(2, "div", 33)(3, "div", 34);
     \u0275\u0275conditionalCreate(4, OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Template, 9, 7);
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(5, "div", 30)(6, "div", 31)(7, "div", 32);
+    \u0275\u0275elementStart(5, "div", 35)(6, "div", 36)(7, "div", 37);
     \u0275\u0275element(8, "div", null, 0);
     \u0275\u0275elementEnd()()()();
-    \u0275\u0275elementStart(10, "div", 33)(11, "div", 34);
+    \u0275\u0275elementStart(10, "div", 38)(11, "div", 39);
     \u0275\u0275element(12, "app-chat");
     \u0275\u0275elementEnd()()();
   }
@@ -2884,13 +2885,50 @@ function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Template(rf, ctx
     \u0275\u0275property("ngClass", ctx_r1.getBoardHighlight());
   }
 }
+function OnlineGameWrapperComponent_Conditional_1_Conditional_2_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r19 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "div", 30)(1, "div", 73);
+    \u0275\u0275listener("click", function OnlineGameWrapperComponent_Conditional_1_Conditional_2_Template_div_click_1_listener() {
+      \u0275\u0275restoreView(_r19);
+      const ctx_r1 = \u0275\u0275nextContext(2);
+      return \u0275\u0275resetView(ctx_r1.onClickCancelResign());
+    });
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(2, "div", 74)(3, "header", 75)(4, "p", 76);
+    \u0275\u0275i18n(5, 25);
+    \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(6, "section", 77)(7, "p");
+    \u0275\u0275i18n(8, 26);
+    \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(9, "footer", 78)(10, "button", 79);
+    \u0275\u0275listener("click", function OnlineGameWrapperComponent_Conditional_1_Conditional_2_Template_button_click_10_listener() {
+      \u0275\u0275restoreView(_r19);
+      const ctx_r1 = \u0275\u0275nextContext(2);
+      return \u0275\u0275resetView(ctx_r1.onClickCancelResign());
+    });
+    \u0275\u0275i18n(11, 27);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(12, "button", 80);
+    \u0275\u0275listener("click", function OnlineGameWrapperComponent_Conditional_1_Conditional_2_Template_button_click_12_listener() {
+      \u0275\u0275restoreView(_r19);
+      const ctx_r1 = \u0275\u0275nextContext(2);
+      return \u0275\u0275resetView(ctx_r1.onClickConfirmResign());
+    });
+    \u0275\u0275i18n(13, 28);
+    \u0275\u0275elementEnd()()()();
+  }
+}
 function OnlineGameWrapperComponent_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275conditionalCreate(0, OnlineGameWrapperComponent_Conditional_1_Conditional_0_Template, 1, 2, "app-game-creation", 25)(1, OnlineGameWrapperComponent_Conditional_1_Conditional_1_Template, 13, 2, "div");
+    \u0275\u0275conditionalCreate(0, OnlineGameWrapperComponent_Conditional_1_Conditional_0_Template, 1, 2, "app-game-creation", 29)(1, OnlineGameWrapperComponent_Conditional_1_Conditional_1_Template, 13, 2, "div");
+    \u0275\u0275conditionalCreate(2, OnlineGameWrapperComponent_Conditional_1_Conditional_2_Template, 14, 0, "div", 30);
   }
   if (rf & 2) {
     const ctx_r1 = \u0275\u0275nextContext();
     \u0275\u0275conditional(ctx_r1.gameStarted === false ? 0 : 1);
+    \u0275\u0275advance(2);
+    \u0275\u0275conditional(ctx_r1.confirmResignation() ? 2 : -1);
   }
 }
 var OnlineGameWrapperMessages = class {
@@ -2920,6 +2958,7 @@ var OnlineGameWrapperComponent = class OnlineGameWrapperComponent2 extends GameW
   requestInfos = OGWCRequestManagerService.requestInfos;
   allRequests = ["TakeBack", "Draw", "Rematch"];
   moveSentButNotReceivedYet = false;
+  confirmResignation = signal(false, ...ngDevMode ? [{ debugName: "confirmResignation" }] : []);
   extractGameIdFromURL() {
     return Utils.getNonNullable(this.activatedRoute.snapshot.paramMap.get("id"));
   }
@@ -3235,13 +3274,18 @@ var OnlineGameWrapperComponent = class OnlineGameWrapperComponent2 extends GameW
       yield this.showNewMove(triggerAnimation);
     });
   }
-  // Called by the resign button
-  resign() {
+  onClickResign() {
+    this.confirmResignation.set(true);
+  }
+  onClickConfirmResign() {
     return __async(this, null, function* () {
+      this.confirmResignation.set(false);
       yield this.gameService.resign();
     });
   }
-  // Called by the clocks
+  onClickCancelResign() {
+    this.confirmResignation.set(false);
+  }
   reachedOutOfTime(player) {
     return __async(this, null, function* () {
       if (this.isPlaying() === false) {
@@ -3250,8 +3294,7 @@ var OnlineGameWrapperComponent = class OnlineGameWrapperComponent2 extends GameW
       yield this.gameService.notifyTimeout(player);
     });
   }
-  // Called by the corresponding button
-  propose(request) {
+  onClickPropose(request) {
     return __async(this, null, function* () {
       Utils.assert(this.role.isPlayer(), "cannot propose request if not player");
       switch (request) {
@@ -3265,8 +3308,7 @@ var OnlineGameWrapperComponent = class OnlineGameWrapperComponent2 extends GameW
       }
     });
   }
-  // Called by the 'accept' button
-  accept() {
+  onClickAccept() {
     return __async(this, null, function* () {
       Utils.assert(this.role.isPlayer(), "cannot accept request if not player");
       const request = this.requestManager.getCurrentRequest().get().requestType;
@@ -3281,8 +3323,7 @@ var OnlineGameWrapperComponent = class OnlineGameWrapperComponent2 extends GameW
       }
     });
   }
-  // Called by the 'reject' button
-  reject() {
+  onClickReject() {
     return __async(this, null, function* () {
       Utils.assert(this.role.isPlayer(), "cannot reject request if not player");
       const request = this.requestManager.getCurrentRequest().get().requestType;
@@ -3297,11 +3338,9 @@ var OnlineGameWrapperComponent = class OnlineGameWrapperComponent2 extends GameW
       }
     });
   }
-  // Called by the 'AddGameTime' button
   addGameTime() {
     return this.gameService.addGameTime();
   }
-  // Called by the 'AddMoveTime' button
   addMoveTime() {
     return this.gameService.addMoveTime();
   }
@@ -3368,15 +3407,12 @@ var OnlineGameWrapperComponent = class OnlineGameWrapperComponent2 extends GameW
     }
   }
   getLoser() {
-    const result = Utils.getNonNullable(this.game).result;
-    switch (result) {
-      case "VictoryOfOne":
-      case "TimeoutOfZero":
-      case "ResignOfZero":
-        return Utils.getNonNullable(this.game).playerZero;
-      default:
-        Utils.expectToBeMultiple(result, ["VictoryOfZero", "TimeoutOfOne", "ResignOfOne"]);
-        return Utils.getNonNullable(this.game).playerOne;
+    const game = Utils.getNonNullable(this.game);
+    const winner = this.getWinner();
+    if (winner.id === game.playerZero.id) {
+      return Utils.getNonNullable(game.playerOne);
+    } else {
+      return game.playerZero;
     }
   }
   static \u0275fac = /* @__PURE__ */ (() => {
@@ -3551,16 +3587,44 @@ var OnlineGameWrapperComponent = class OnlineGameWrapperComponent2 extends GameW
     } else {
       i18n_21 = $localize`Your request for a ${"\uFFFD0\uFFFD"}:INTERPOLATION: has been sent.  ${"\uFFFD#4\uFFFD"}:START_TAG_FA_ICON:${"\uFFFD/#4\uFFFD"}:CLOSE_TAG_FA_ICON:`;
     }
-    return [["board", ""], ["gameTimer", ""], ["moveTimer", ""], i18n_0, i18n_1, i18n_2, i18n_3, i18n_4, i18n_5, i18n_6, i18n_7, i18n_8, i18n_9, i18n_10, i18n_11, i18n_12, i18n_13, i18n_14, i18n_15, i18n_16, i18n_17, i18n_18, i18n_19, i18n_20, i18n_21, ["id", "gameCreation", 3, "gameId", "rulesConfigDescription"], ["id", "gameCreation", 3, "gameStartNotification", "gameId", "rulesConfigDescription"], ["id", "game", 1, "columns", "is-vcentered", "is-align-items-stretch"], [1, "column", "is-one-quarter", "has-text-centered"], [1, "box", "is-fullheight"], [1, "column"], ["id", "board-highlight", 1, "box", "p-5", "is-fullheight", 3, "ngClass"], ["id", "board", 1, "box", "is-fullheight"], [1, "block", "mt-2"], ["id", "chat", 1, "box"], [1, "block"], [3, "rulesConfig", "rulesConfigDescription", "gameName"], ["id", "turn-number", 1, "subtitle", "mb-2"], ["id", "currentPlayerIndicator", 1, "subtitle", "mb-2"], [1, "block", 3, "ngClass"], ["id", "playerTurn"], ["id", "opponentTurn"], [1, "has-text-black", "is-size-5", 3, "id", "ngClass"], [1, "has-text-black"], [1, "data-game-time", 3, "outOfTimeAction", "addTimeToOpponent", "id", "dangerTimeLimit", "active", "canAddTime", "timeToAdd", "debugName", "player"], [1, "data-move-time", 3, "outOfTimeAction", "addTimeToOpponent", "id", "dangerTimeLimit", "active", "canAddTime", "timeToAdd", "debugName", "player"], [3, "id"], [3, "elo"], ["id", "winnerIndicator", 1, "block"], ["id", "hardDrawIndicator", 1, "title"], ["id", "backToServerButton", "routerLink", "/lobby", 1, "button", "is-primary", "is-fullwidth", "mb-1"], ["id", "playersAgreedToDraw", 1, "title"], ["id", "youAgreedToDrawIndicator", 1, "title"], ["id", "yourOpponentAgreedToDrawIndicator", 1, "title"], [1, "title"], ["id", "youWonIndicator", 1, "title"], ["id", "youLostIndicator", 1, "title"], ["id", "resignIndicator", 1, "title"], [1, "notification"], ["id", "requestRejected", 1, "notification", "is-danger"], ["id", "getRequestAwaitingReply", 1, "notification"], ["id", "resign", 1, "button", "is-fullwidth", "mb-1", "is-danger", 3, "click", "disabled"], ["id", "pass", 1, "button", "is-fullwidth", "mb-1", "is-success", 3, "click", "disabled"], [1, "button", "is-fullwidth", "mb-1", 3, "id", "disabled"], [1, "button", "is-fullwidth", "mb-1", 3, "click", "id", "disabled"], [3, "icon"], ["id", "accept", 1, "button", "is-fullwidth", "mb-1", "is-success", 3, "click"], ["id", "reject", 1, "button", "is-fullwidth", "mb-1", "is-danger", 3, "click"]];
+    let i18n_22;
+    if (false) {
+      const MSG_EXTERNAL_627419029234678391$$SRC_APP_COMPONENTS_WRAPPER_COMPONENTS_ONLINE_GAME_WRAPPER_ONLINE_GAME_WRAPPER_COMPONENT_TS_22 = goog.getMsg("Resignation");
+      i18n_22 = MSG_EXTERNAL_627419029234678391$$SRC_APP_COMPONENTS_WRAPPER_COMPONENTS_ONLINE_GAME_WRAPPER_ONLINE_GAME_WRAPPER_COMPONENT_TS_22;
+    } else {
+      i18n_22 = $localize`Resignation`;
+    }
+    let i18n_23;
+    if (false) {
+      const MSG_EXTERNAL_593989397325904316$$SRC_APP_COMPONENTS_WRAPPER_COMPONENTS_ONLINE_GAME_WRAPPER_ONLINE_GAME_WRAPPER_COMPONENT_TS_23 = goog.getMsg("Are you sure you want to resign from this game?");
+      i18n_23 = MSG_EXTERNAL_593989397325904316$$SRC_APP_COMPONENTS_WRAPPER_COMPONENTS_ONLINE_GAME_WRAPPER_ONLINE_GAME_WRAPPER_COMPONENT_TS_23;
+    } else {
+      i18n_23 = $localize`Are you sure you want to resign from this game?`;
+    }
+    let i18n_24;
+    if (false) {
+      const MSG_EXTERNAL_2159130950882492111$$SRC_APP_COMPONENTS_WRAPPER_COMPONENTS_ONLINE_GAME_WRAPPER_ONLINE_GAME_WRAPPER_COMPONENT_TS_24 = goog.getMsg("Cancel");
+      i18n_24 = MSG_EXTERNAL_2159130950882492111$$SRC_APP_COMPONENTS_WRAPPER_COMPONENTS_ONLINE_GAME_WRAPPER_ONLINE_GAME_WRAPPER_COMPONENT_TS_24;
+    } else {
+      i18n_24 = $localize`Cancel`;
+    }
+    let i18n_25;
+    if (false) {
+      const MSG_EXTERNAL_3492340771384313804$$SRC_APP_COMPONENTS_WRAPPER_COMPONENTS_ONLINE_GAME_WRAPPER_ONLINE_GAME_WRAPPER_COMPONENT_TS_25 = goog.getMsg("Resign");
+      i18n_25 = MSG_EXTERNAL_3492340771384313804$$SRC_APP_COMPONENTS_WRAPPER_COMPONENTS_ONLINE_GAME_WRAPPER_ONLINE_GAME_WRAPPER_COMPONENT_TS_25;
+    } else {
+      i18n_25 = $localize`Resign`;
+    }
+    return [["board", ""], ["gameTimer", ""], ["moveTimer", ""], i18n_0, i18n_1, i18n_2, i18n_3, i18n_4, i18n_5, i18n_6, i18n_7, i18n_8, i18n_9, i18n_10, i18n_11, i18n_12, i18n_13, i18n_14, i18n_15, i18n_16, i18n_17, i18n_18, i18n_19, i18n_20, i18n_21, i18n_22, i18n_23, i18n_24, i18n_25, ["id", "gameCreation", 3, "gameId", "rulesConfigDescription"], ["id", "resignModal", 1, "modal", "is-active"], ["id", "gameCreation", 3, "gameStartNotification", "gameId", "rulesConfigDescription"], ["id", "game", 1, "columns", "is-vcentered", "is-align-items-stretch"], [1, "column", "is-one-quarter", "has-text-centered"], [1, "box", "is-fullheight"], [1, "column"], ["id", "board-highlight", 1, "box", "p-5", "is-fullheight", 3, "ngClass"], ["id", "board", 1, "box", "is-fullheight"], [1, "block", "mt-2"], ["id", "chat", 1, "box"], [1, "block"], [3, "rulesConfig", "rulesConfigDescription", "gameName"], ["id", "turn-number", 1, "subtitle", "mb-2"], ["id", "currentPlayerIndicator", 1, "subtitle", "mb-2"], [1, "block", 3, "ngClass"], ["id", "playerTurn"], ["id", "opponentTurn"], [1, "has-text-black", "is-size-5", 3, "id", "ngClass"], [1, "has-text-black"], [1, "data-game-time", 3, "outOfTimeAction", "addTimeToOpponent", "id", "dangerTimeLimit", "active", "canAddTime", "timeToAdd", "debugName", "player"], [1, "data-move-time", 3, "outOfTimeAction", "addTimeToOpponent", "id", "dangerTimeLimit", "active", "canAddTime", "timeToAdd", "debugName", "player"], [3, "id"], [3, "elo"], ["id", "winnerIndicator", 1, "block"], ["id", "hardDrawIndicator", 1, "title"], ["id", "backToServerButton", "routerLink", "/lobby", 1, "button", "is-primary", "is-fullwidth", "mb-1"], ["id", "playersAgreedToDraw", 1, "title"], ["id", "youAgreedToDrawIndicator", 1, "title"], ["id", "yourOpponentAgreedToDrawIndicator", 1, "title"], [1, "title"], ["id", "youWonIndicator", 1, "title"], ["id", "youLostIndicator", 1, "title"], ["id", "resignIndicator", 1, "title"], [1, "notification"], ["id", "requestRejected", 1, "notification", "is-danger"], ["id", "getRequestAwaitingReply", 1, "notification"], ["id", "resign", 1, "button", "is-fullwidth", "mb-1", "is-danger", 3, "click", "disabled"], ["id", "pass", 1, "button", "is-fullwidth", "mb-1", "is-success", 3, "click", "disabled"], [1, "button", "is-fullwidth", "mb-1", 3, "id", "disabled"], [1, "button", "is-fullwidth", "mb-1", 3, "click", "id", "disabled"], [3, "icon"], ["id", "accept", 1, "button", "is-fullwidth", "mb-1", "is-success", 3, "click"], ["id", "reject", 1, "button", "is-fullwidth", "mb-1", "is-danger", 3, "click"], ["id", "modalBackground", 1, "modal-background", 3, "click"], [1, "modal-card"], [1, "modal-card-head", "is-danger"], [1, "modal-card-title"], [1, "modal-card-body"], [1, "modal-card-foot"], ["id", "cancelResign", 1, "button", "is-light", 3, "click"], ["id", "confirmResign", 1, "button", "is-danger", 3, "click"]];
   }, template: function OnlineGameWrapperComponent_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275declareLet(0);
-      \u0275\u0275conditionalCreate(1, OnlineGameWrapperComponent_Conditional_1_Template, 2, 1);
+      \u0275\u0275conditionalCreate(1, OnlineGameWrapperComponent_Conditional_1_Template, 3, 2);
     }
     if (rf & 2) {
-      const gameName_r19 = \u0275\u0275storeLet(ctx.getGameName());
+      const gameName_r20 = \u0275\u0275storeLet(ctx.getGameName());
       \u0275\u0275advance();
-      \u0275\u0275conditional(gameName_r19.isPresent() ? 1 : -1);
+      \u0275\u0275conditional(gameName_r20.isPresent() ? 1 : -1);
     }
   }, dependencies: [
     ChatComponent,
@@ -3737,7 +3801,7 @@ OnlineGameWrapperComponent = __decorate3([
                                 @if (mustReply() === false) {
                                     <button id="resign"
                                             class="button is-fullwidth mb-1 is-danger"
-                                            (click)="resign()"
+                                            (click)="onClickResign()"
                                             [disabled]="canResign() === false"
                                             i18n>Resign</button>
                                     <button id="pass"
@@ -3748,7 +3812,7 @@ OnlineGameWrapperComponent = __decorate3([
                                     @for (request of allRequests; track request) {
                                         <button id="propose{{ request }}"
                                                 class="button is-fullwidth mb-1"
-                                                (click)="propose(request)"
+                                                (click)="onClickPropose(request)"
                                                 [disabled]="requestAvailable(request) === false">{{ requestInfos[request].textForRequest() }}&nbsp;&nbsp;<fa-icon [icon]="requestInfos[request].icon"></fa-icon></button>
                                     }
                                 } @else {
@@ -3760,11 +3824,11 @@ OnlineGameWrapperComponent = __decorate3([
                                         </p>
                                         <button class="button is-fullwidth mb-1 is-success"
                                                 id="accept"
-                                                (click)="accept()"
+                                                (click)="onClickAccept()"
                                                 i18n>Accept</button>
                                         <button class="button is-fullwidth mb-1 is-danger"
                                                 id="reject"
-                                                (click)="reject()"
+                                                (click)="onClickReject()"
                                                 i18n>Reject</button>
                                     </div>
                                 }
@@ -3805,15 +3869,41 @@ OnlineGameWrapperComponent = __decorate3([
             </div>
         </div>
     }
+    @if (confirmResignation()) {
+        <div id="resignModal"
+             class="modal is-active">
+            <div id="modalBackground"
+                 class="modal-background"
+                 (click)="onClickCancelResign()"></div>
+            <div class="modal-card">
+                <header class="modal-card-head is-danger">
+                    <p class="modal-card-title" i18n>Resignation</p>
+                </header>
+                <section class="modal-card-body">
+                    <p i18n>Are you sure you want to resign from this game?</p>
+                </section>
+                <footer class="modal-card-foot">
+                    <button id="cancelResign"
+                            class="button is-light"
+                            (click)="onClickCancelResign()"
+                            i18n>Cancel</button>
+                    <button id="confirmResign"
+                            class="button is-danger"
+                            (click)="onClickConfirmResign()"
+                            i18n>Resign</button>
+                </footer>
+            </div>
+        </div>
+    }
 }
 ` }]
   }], null, { gameTimerComponents: [{ type: ViewChildren, args: ["gameTimer", { isSignal: true }] }], moveTimerComponents: [{ type: ViewChildren, args: ["moveTimer", { isSignal: true }] }] });
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(OnlineGameWrapperComponent, { className: "OnlineGameWrapperComponent", filePath: "src/app/components/wrapper-components/online-game-wrapper/online-game-wrapper.component.ts", lineNumber: 62 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(OnlineGameWrapperComponent, { className: "OnlineGameWrapperComponent", filePath: "src/app/components/wrapper-components/online-game-wrapper/online-game-wrapper.component.ts", lineNumber: 73 });
 })();
 export {
   OnlineGameWrapperComponent,
   OnlineGameWrapperMessages
 };
-//# sourceMappingURL=online-game-wrapper.component-PTEOL7KA.js.map
+//# sourceMappingURL=online-game-wrapper.component-QFHB57GQ.js.map
