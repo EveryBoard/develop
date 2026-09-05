@@ -1,6 +1,6 @@
 import {
   BaseWrapperComponent
-} from "./chunk-YDP6VHNV.js";
+} from "./chunk-JAFSLBC5.js";
 import {
   FaIconComponent,
   faCog
@@ -708,4 +708,4 @@ export {
   RulesConfigurationComponent,
   ViewConfigComponent
 };
-//# sourceMappingURL=chunk-R2CO53FA.js.map
+//# sourceMappingURL=chunk-XZHSVPAI.js.map

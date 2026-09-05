@@ -5,7 +5,7 @@ import {
   Player,
   PlayerMap,
   PlayerOrNone
-} from "./chunk-6LVSLROB.js";
+} from "./chunk-JBKFZJ3T.js";
 import {
   ActivatedRoute,
   Router
@@ -119,7 +119,7 @@ var GameWrapper = class _GameWrapper extends BaseWrapperComponent {
     return __async(this, null, function* () {
       yield this.createGameComponent(componentType);
       const config = this.getConfig();
-      this.gameComponent.setConfig(config);
+      this.gameComponent.config.set(config);
       const initialNode = this.gameComponent.rules.getInitialNode(config);
       this.gameComponent.node.set(initialNode);
       yield this.setRole(this.role);
@@ -309,4 +309,4 @@ export {
   GameWrapperMessages,
   GameWrapper
 };
-//# sourceMappingURL=chunk-YDP6VHNV.js.map
+//# sourceMappingURL=chunk-JAFSLBC5.js.map

@@ -1,12 +1,12 @@
 import {
   TutorialGameWrapperMessages
-} from "./chunk-C34NEAOU.js";
+} from "./chunk-3EFPJXTG.js";
 import {
   GameWrapper
-} from "./chunk-YDP6VHNV.js";
+} from "./chunk-JAFSLBC5.js";
 import {
   PlayerOrNone
-} from "./chunk-6LVSLROB.js";
+} from "./chunk-JBKFZJ3T.js";
 import {
   MGPValidation,
   Utils
@@ -60,7 +60,7 @@ var DemoCardWrapperComponent = class _DemoCardWrapperComponent extends GameWrapp
   ngOnChanges(_changes) {
     return __async(this, null, function* () {
       if (this.gameComponent != null) {
-        this.gameComponent.setConfig(this.getConfig());
+        this.gameComponent.config.set(this.getConfig());
         this.gameComponent.node.set(this.demoNodeInfo().node);
         yield this.gameComponent.updateBoardAndRedraw(false);
       }
@@ -120,4 +120,4 @@ var DemoCardWrapperComponent = class _DemoCardWrapperComponent extends GameWrapp
 export {
   DemoCardWrapperComponent
 };
-//# sourceMappingURL=chunk-A77X2EJ6.js.map
+//# sourceMappingURL=chunk-HK7XACYQ.js.map
