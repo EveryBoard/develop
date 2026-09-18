@@ -1,13 +1,13 @@
 import {
   ViewConfigComponent
-} from "./chunk-XZHSVPAI.js";
+} from "./chunk-HTP73FEZ.js";
 import {
   GameWrapper
-} from "./chunk-JAFSLBC5.js";
+} from "./chunk-E3FLN7GF.js";
 import {
   GameNode,
   Move
-} from "./chunk-JBKFZJ3T.js";
+} from "./chunk-5KXGTSIF.js";
 import {
   Debug
 } from "./chunk-Y4TVVAIH.js";
@@ -374,7 +374,7 @@ var TutorialGameWrapperComponent = class TutorialGameWrapperComponent2 extends G
       this.moveAttemptMade = true;
       if (currentStep.isPredicate()) {
         const previousState = this.gameComponent.getPreviousState();
-        const resultingState = this.gameComponent.getState();
+        const resultingState = this.gameComponent.state();
         const moveValidity = Utils.getNonNullable(currentStep.predicate)(move, previousState, resultingState);
         if (moveValidity.isSuccess()) {
           this.showStepSuccess(currentStep.getSuccessMessage());
@@ -763,4 +763,4 @@ export {
   TutorialGameWrapperMessages,
   TutorialGameWrapperComponent
 };
-//# sourceMappingURL=chunk-3EFPJXTG.js.map
+//# sourceMappingURL=chunk-INUDPM6L.js.map

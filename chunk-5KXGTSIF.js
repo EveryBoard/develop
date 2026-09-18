@@ -2559,6 +2559,7 @@ var GameComponent = class GameComponent2 extends BaseGameComponent {
     this.config = signal(defaultConfig28, ...ngDevMode ? [{ debugName: "config" }] : []);
     this.rules = gameInfo.rules;
     this.node = signal(this.rules.getInitialNode(defaultConfig28), ...ngDevMode ? [{ debugName: "node" }] : []);
+    this.state = computed(() => this.node().gameState, ...ngDevMode ? [{ debugName: "state" }] : []);
     this.tutorial = gameInfo.tutorial.tutorial;
   }
   setClickInterceptor(interceptor) {
@@ -2658,9 +2659,6 @@ var GameComponent = class GameComponent2 extends BaseGameComponent {
   }
   getCurrentOpponent() {
     return this.node().gameState.getCurrentOpponent();
-  }
-  getState() {
-    return this.node().gameState;
   }
   getPreviousState() {
     Utils.assert(this.node().parent.isPresent(), "getPreviousState called with no previous state");
@@ -3135,7 +3133,7 @@ var AbaloneComponent = class _AbaloneComponent extends HexagonalGameComponent {
   }
   setHexaLayout() {
     const halfStroke = this.STROKE_WIDTH / 2;
-    const configSize = Math.floor(this.getState().getWidth() / 2);
+    const configSize = Math.floor(this.state().getWidth() / 2);
     const hexaLayoutStartX = -halfStroke * (configSize + 1) + Math.sqrt(2) * this.SPACE_SIZE;
     const hexaLayoutStartY = this.SPACE_SIZE + halfStroke;
     const hexaLayoutStartingCoord = new Coord(hexaLayoutStartX, hexaLayoutStartY);
@@ -3145,7 +3143,7 @@ var AbaloneComponent = class _AbaloneComponent extends HexagonalGameComponent {
     return ScoreName.CAPTURES;
   }
   computeViewBox() {
-    const abstractSize = this.getState().getWidth() + 2;
+    const abstractSize = this.state().getWidth() + 2;
     const pieceSize = this.SPACE_SIZE * 1.5;
     const size = this.SPACE_SIZE * 0.5 + abstractSize * pieceSize;
     const configSize = Math.floor(abstractSize / 2);
@@ -3158,8 +3156,8 @@ var AbaloneComponent = class _AbaloneComponent extends HexagonalGameComponent {
   }
   updateBoard(_triggerAnimation) {
     return __async(this, null, function* () {
-      this.hexaBoard = this.getState().getCopiedBoard();
-      this.scores = MGPOptional.of(this.getState().getScores());
+      this.hexaBoard = this.state().getCopiedBoard();
+      this.scores = MGPOptional.of(this.state().getScores());
     });
   }
   hideLastMove() {
@@ -3207,10 +3205,10 @@ var AbaloneComponent = class _AbaloneComponent extends HexagonalGameComponent {
     while (processed.equals(last) === false) {
       this.moveds.push(processed);
       const landing = processed.getNext(move.dir);
-      if (this.getState().isOnBoard(landing)) {
+      if (this.state().isOnBoard(landing)) {
         this.moveds.push(landing);
       } else {
-        const previousPlayer = this.getState().getPreviousPlayer();
+        const previousPlayer = this.state().getPreviousPlayer();
         this.captureds.push({
           coord: landing,
           pieceClasses: [this.getPlayerClass(previousPlayer)]
@@ -3228,7 +3226,7 @@ var AbaloneComponent = class _AbaloneComponent extends HexagonalGameComponent {
     return __async(this, null, function* () {
       const x2 = coord.x;
       const y = coord.y;
-      const opponent = this.getState().getCurrentOpponent();
+      const opponent = this.state().getCurrentOpponent();
       if (this.hexaBoard[y][x2].is(opponent)) {
         return this.tryChoosingDirection(coord);
       }
@@ -3254,7 +3252,7 @@ var AbaloneComponent = class _AbaloneComponent extends HexagonalGameComponent {
     this.showDirection();
   }
   showDirection() {
-    const state = this.getState();
+    const state = this.state();
     const config = this.config();
     for (const dir of HexaDirection.factory.all) {
       const startToEnd = this.getArrowPath(dir);
@@ -3284,7 +3282,7 @@ var AbaloneComponent = class _AbaloneComponent extends HexagonalGameComponent {
   getPointed(start, end, direction) {
     const isPush = this.selecteds.length === 1 || start.getDirectionToward(end).get().equals(direction);
     if (isPush) {
-      const state = this.getState();
+      const state = this.state();
       const currentPlayer = state.getCurrentPlayer();
       let pointed = end;
       while (state.hasPieceBelongingTo(pointed, currentPlayer)) {
@@ -3316,7 +3314,7 @@ var AbaloneComponent = class _AbaloneComponent extends HexagonalGameComponent {
       this.selecteds = [firstPiece];
       for (let i2 = 0; i2 < distance; i2++) {
         const testedCoord = firstPiece.getNext(alignment, i2 + 1);
-        const player = this.getState().getCurrentPlayer();
+        const player = this.state().getCurrentPlayer();
         if (this.hexaBoard[testedCoord.y][testedCoord.x].is(player) === false) {
           return this.firstClick(coord);
         }
@@ -3404,7 +3402,7 @@ var AbaloneComponent = class _AbaloneComponent extends HexagonalGameComponent {
   }
   onSpaceClick(coord) {
     return __async(this, null, function* () {
-      if (this.getState().getPieceAt(coord).isPlayer()) {
+      if (this.state().getPieceAt(coord).isPlayer()) {
         return this.onLegalPieceClick(coord);
       }
       if (this.selecteds.length === 0) {
@@ -3432,7 +3430,7 @@ var AbaloneComponent = class _AbaloneComponent extends HexagonalGameComponent {
     return classes;
   }
   getPieceClasses(coord) {
-    const player = this.getState().getPieceAt(coord).getPlayer();
+    const player = this.state().getPieceAt(coord).getPlayer();
     const classes = [this.getPlayerClass(player)];
     if (this.selecteds.some((c) => c.equals(coord))) {
       classes.push("selected-stroke");
@@ -3457,7 +3455,7 @@ var AbaloneComponent = class _AbaloneComponent extends HexagonalGameComponent {
       \u0275\u0275advance();
       \u0275\u0275repeater(ctx.boardNeighboringCoords);
       \u0275\u0275advance(2);
-      \u0275\u0275repeater(ctx.getState().getCoordsAndContents());
+      \u0275\u0275repeater(ctx.state().getCoordsAndContents());
       \u0275\u0275advance(2);
       \u0275\u0275repeater(ctx.captureds);
       \u0275\u0275advance(2);
@@ -3480,7 +3478,7 @@ __decorate3([
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(AbaloneComponent, [{
     type: Component,
-    args: [{ changeDetection: ChangeDetectionStrategy.OnPush, selector: "app-abalone", imports: [NgClass, HexArrowComponent], template: '<svg xmlns="http://www.w3.org/2000/svg"\n     class="board"\n     [attr.viewBox]="viewBoxString()"\n     [attr.transform]="rotation"\n     preserveAspectRatio="xMidYMid meet">\n\n    @for (invisibleSpace of boardNeighboringCoords; track invisibleSpace.toString()) {\n        <polygon id="invisible-space-{{ invisibleSpace.x }}-{{ invisibleSpace.y }}"\n                 [attr.transform]="getHexaCenterTranslationAt(invisibleSpace)"\n                 (click)="onInvisibleSpaceClick(invisibleSpace)"\n                 class="transparent"\n                 [attr.points]="getHexaPoints()"\n                 stroke-linecap="round"/>\n    }\n\n    @for (coordAndContent of getState().getCoordsAndContents(); track coordAndContent.coord.toString()) {\n        <g>\n            @if (isReachable(coordAndContent.content)) {\n                <g [attr.transform]="getHexaCenterTranslationAt(coordAndContent.coord)">\n                    <polygon id="space-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n                             (click)="onSpaceClick(coordAndContent.coord)"\n                             [ngClass]="getSquareClassesAt(coordAndContent.coord)"\n                             class="base"\n                             [attr.points]="getHexaPoints()"\n                             stroke-linecap="round"/>\n                    @if (coordAndContent.content.isPlayer()) {\n                        <circle id="piece-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n                                (click)="onPieceClick(coordAndContent.coord)"\n                                cx="0"\n                                cy="0"\n                                [attr.r]="SPACE_SIZE * 0.5"\n                                [ngClass]="getPieceClasses(coordAndContent.coord)"\n                                class="base"/>\n                    }\n                </g>\n            }\n        </g>\n    }\n\n    @for (captured of captureds; track captured.coord.toString()) {\n        <g [attr.transform]="getHexaCenterTranslationAt(captured.coord)">\n            <polygon id="captured-space-{{ captured.coord.x }}-{{ captured.coord.y }}"\n                     [ngClass]="getSquareClassesAt(captured.coord)"\n                     class="base captured-fill"\n                     [attr.points]="getHexaPoints()"\n                     stroke-linecap="round"/>\n            <circle id="captured-piece-{{ captured.coord.x }}-{{ captured.coord.y }}"\n                    cx="0"\n                    cy="0"\n                    [attr.r]="SPACE_SIZE * 0.5"\n                    [ngClass]="captured.pieceClasses"\n                    class="base semi-transparent"/>\n        </g>\n    }\n\n    @for (arrow of directions; track arrow.start.toString() + arrow.landing.toString()) {\n        <g id="arrow-{{ arrow.start.x }}-{{ arrow.start.y }}-to-{{ arrow.landing.x }}-{{ arrow.landing.y }}"\n           (click)="chooseDirection(arrow.dir)"\n           app-hex-arrow\n           [arrow]="arrow"/>\n    }\n\n</svg>\n', styles: ["/* src/app/components/game-components/game-component/game-component.scss */\n.base {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke {\n  stroke-width: 0;\n}\n.base.manual-stroke {\n  fill: var(--base-stroke);\n}\n.base-no-stroke {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text {\n  fill: var(--base-stroke);\n}\n.white-background {\n  fill: white;\n}\n.background {\n  fill: var(--spaces-fill);\n}\n.transparent {\n  opacity: 0;\n}\n.background2 {\n  fill: var(--alt-background-fill);\n}\n.background3 {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill {\n  fill: var(--player0);\n}\n.player0-alternate-fill {\n  fill: var(--player0-alternate);\n}\n.player0-stroke {\n  stroke: var(--player0);\n}\n.player1-fill {\n  fill: var(--player1);\n}\n.player1-alternate-fill {\n  fill: var(--player1-alternate);\n}\n.player1-stroke {\n  stroke: var(--player1);\n}\n.nonplayer-fill {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill {\n  fill: var(--pre-captured);\n}\n.captured-fill {\n  fill: var(--captured);\n}\n.captured-alternate-fill {\n  fill: var(--alt-captured);\n}\n.captured-stroke {\n  stroke: var(--captured);\n}\n.moved-fill {\n  fill: var(--moved);\n}\n.moved-stroke {\n  stroke: var(--moved);\n}\n.indicator {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill {\n  fill: var(--indicator);\n}\n.selectable-stroke {\n  stroke: var(--selectable);\n}\n.selectable > .base-no-stroke {\n  fill: var(--selectable);\n}\n.last-move-stroke {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke {\n  fill: var(--last-move);\n}\n.last-move-fill {\n  fill: var(--last-move);\n}\n.victory-fill {\n  fill: var(--victory);\n}\n.victory-stroke {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke {\n  fill: var(--victory);\n}\n.defeat-fill {\n  fill: var(--defeat);\n}\n.defeat-stroke {\n  stroke: var(--defeat);\n}\n.selected-fill {\n  fill: var(--selected);\n}\n.selected-stroke {\n  stroke: var(--selected);\n}\n.clickable-stroke {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill {\n  fill: var(--capturable);\n}\n.capturable-stroke:hover {\n  stroke-width: 8;\n}\n.no-fill {\n  fill: none;\n}\n.no-stroke {\n  stroke: none;\n}\n.small-stroke {\n  stroke-width: 2;\n}\n.mid-small-stroke {\n  stroke-width: 3;\n}\n.mid-stroke {\n  stroke-width: 5;\n}\n.big-stroke {\n  stroke-width: 8;\n}\n.huge-stroke {\n  stroke-width: 12;\n}\n.semi-transparent {\n  opacity: 0.5;\n}\n.territory-opacity {\n  fill-opacity: 0.7;\n}\n.round {\n  stroke-linecap: round;\n}\n.text-giant {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big {\n  font: 50px sans-serif;\n}\n.backgrounded-text {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus {\n  font: 38px sans-serif;\n}\n.text-medium {\n  font: 35px sans-serif;\n}\n.text-small-plus {\n  font: 28px sans-serif;\n}\n.text-small {\n  font: 25px sans-serif;\n}\n.text-bold {\n  font-weight: bold;\n}\n.text-center {\n  text-anchor: middle;\n}\n.black-fill {\n  fill: black;\n}\n.darker {\n  filter: brightness(80%);\n}\n.lighter {\n  filter: brightness(110%);\n}\nsvg {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */\n"] }]
+    args: [{ changeDetection: ChangeDetectionStrategy.OnPush, selector: "app-abalone", imports: [NgClass, HexArrowComponent], template: '<svg xmlns="http://www.w3.org/2000/svg"\n     class="board"\n     [attr.viewBox]="viewBoxString()"\n     [attr.transform]="rotation"\n     preserveAspectRatio="xMidYMid meet">\n\n    @for (invisibleSpace of boardNeighboringCoords; track invisibleSpace.toString()) {\n        <polygon id="invisible-space-{{ invisibleSpace.x }}-{{ invisibleSpace.y }}"\n                 [attr.transform]="getHexaCenterTranslationAt(invisibleSpace)"\n                 (click)="onInvisibleSpaceClick(invisibleSpace)"\n                 class="transparent"\n                 [attr.points]="getHexaPoints()"\n                 stroke-linecap="round"/>\n    }\n\n    @for (coordAndContent of state().getCoordsAndContents(); track coordAndContent.coord.toString()) {\n        <g>\n            @if (isReachable(coordAndContent.content)) {\n                <g [attr.transform]="getHexaCenterTranslationAt(coordAndContent.coord)">\n                    <polygon id="space-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n                             (click)="onSpaceClick(coordAndContent.coord)"\n                             [ngClass]="getSquareClassesAt(coordAndContent.coord)"\n                             class="base"\n                             [attr.points]="getHexaPoints()"\n                             stroke-linecap="round"/>\n                    @if (coordAndContent.content.isPlayer()) {\n                        <circle id="piece-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n                                (click)="onPieceClick(coordAndContent.coord)"\n                                cx="0"\n                                cy="0"\n                                [attr.r]="SPACE_SIZE * 0.5"\n                                [ngClass]="getPieceClasses(coordAndContent.coord)"\n                                class="base"/>\n                    }\n                </g>\n            }\n        </g>\n    }\n\n    @for (captured of captureds; track captured.coord.toString()) {\n        <g [attr.transform]="getHexaCenterTranslationAt(captured.coord)">\n            <polygon id="captured-space-{{ captured.coord.x }}-{{ captured.coord.y }}"\n                     [ngClass]="getSquareClassesAt(captured.coord)"\n                     class="base captured-fill"\n                     [attr.points]="getHexaPoints()"\n                     stroke-linecap="round"/>\n            <circle id="captured-piece-{{ captured.coord.x }}-{{ captured.coord.y }}"\n                    cx="0"\n                    cy="0"\n                    [attr.r]="SPACE_SIZE * 0.5"\n                    [ngClass]="captured.pieceClasses"\n                    class="base semi-transparent"/>\n        </g>\n    }\n\n    @for (arrow of directions; track arrow.start.toString() + arrow.landing.toString()) {\n        <g id="arrow-{{ arrow.start.x }}-{{ arrow.start.y }}-to-{{ arrow.landing.x }}-{{ arrow.landing.y }}"\n           (click)="chooseDirection(arrow.dir)"\n           app-hex-arrow\n           [arrow]="arrow"/>\n    }\n\n</svg>\n', styles: ["/* src/app/components/game-components/game-component/game-component.scss */\n.base {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke {\n  stroke-width: 0;\n}\n.base.manual-stroke {\n  fill: var(--base-stroke);\n}\n.base-no-stroke {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text {\n  fill: var(--base-stroke);\n}\n.white-background {\n  fill: white;\n}\n.background {\n  fill: var(--spaces-fill);\n}\n.transparent {\n  opacity: 0;\n}\n.background2 {\n  fill: var(--alt-background-fill);\n}\n.background3 {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill {\n  fill: var(--player0);\n}\n.player0-alternate-fill {\n  fill: var(--player0-alternate);\n}\n.player0-stroke {\n  stroke: var(--player0);\n}\n.player1-fill {\n  fill: var(--player1);\n}\n.player1-alternate-fill {\n  fill: var(--player1-alternate);\n}\n.player1-stroke {\n  stroke: var(--player1);\n}\n.nonplayer-fill {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill {\n  fill: var(--pre-captured);\n}\n.captured-fill {\n  fill: var(--captured);\n}\n.captured-alternate-fill {\n  fill: var(--alt-captured);\n}\n.captured-stroke {\n  stroke: var(--captured);\n}\n.moved-fill {\n  fill: var(--moved);\n}\n.moved-stroke {\n  stroke: var(--moved);\n}\n.indicator {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill {\n  fill: var(--indicator);\n}\n.selectable-stroke {\n  stroke: var(--selectable);\n}\n.selectable > .base-no-stroke {\n  fill: var(--selectable);\n}\n.last-move-stroke {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke {\n  fill: var(--last-move);\n}\n.last-move-fill {\n  fill: var(--last-move);\n}\n.victory-fill {\n  fill: var(--victory);\n}\n.victory-stroke {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke {\n  fill: var(--victory);\n}\n.defeat-fill {\n  fill: var(--defeat);\n}\n.defeat-stroke {\n  stroke: var(--defeat);\n}\n.selected-fill {\n  fill: var(--selected);\n}\n.selected-stroke {\n  stroke: var(--selected);\n}\n.clickable-stroke {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill {\n  fill: var(--capturable);\n}\n.capturable-stroke:hover {\n  stroke-width: 8;\n}\n.no-fill {\n  fill: none;\n}\n.no-stroke {\n  stroke: none;\n}\n.small-stroke {\n  stroke-width: 2;\n}\n.mid-small-stroke {\n  stroke-width: 3;\n}\n.mid-stroke {\n  stroke-width: 5;\n}\n.big-stroke {\n  stroke-width: 8;\n}\n.huge-stroke {\n  stroke-width: 12;\n}\n.semi-transparent {\n  opacity: 0.5;\n}\n.territory-opacity {\n  fill-opacity: 0.7;\n}\n.round {\n  stroke-linecap: round;\n}\n.text-giant {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big {\n  font: 50px sans-serif;\n}\n.backgrounded-text {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus {\n  font: 38px sans-serif;\n}\n.text-medium {\n  font: 35px sans-serif;\n}\n.text-small-plus {\n  font: 28px sans-serif;\n}\n.text-small {\n  font: 25px sans-serif;\n}\n.text-bold {\n  font-weight: bold;\n}\n.text-center {\n  text-anchor: middle;\n}\n.black-fill {\n  fill: black;\n}\n.darker {\n  filter: brightness(80%);\n}\n.lighter {\n  filter: brightness(110%);\n}\nsvg {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */\n"] }]
   }], () => [], { onPieceClick: [], chooseDirection: [], onInvisibleSpaceClick: [], onSpaceClick: [] });
 })();
 (() => {
@@ -4079,7 +4077,7 @@ var ApagosComponent = class _ApagosComponent extends GameComponent {
   }
   updateBoard(_triggerAnimation) {
     return __async(this, null, function* () {
-      const state = this.getState();
+      const state = this.state();
       this.board = state.board;
       const width = this.board.length;
       this.BOARD_WIDTH = width * this.SPACE_SIZE;
@@ -4151,7 +4149,7 @@ var ApagosComponent = class _ApagosComponent extends GameComponent {
   }
   showPossibleDrops() {
     this.displayableArrow = [];
-    const state = this.getState();
+    const state = this.state();
     for (let x2 = 0; x2 < state.board.length; x2++) {
       if (state.board[x2].isFull() === false) {
         if (state.remaining.get(Player.ZERO) > 0) {
@@ -4223,7 +4221,7 @@ var ApagosComponent = class _ApagosComponent extends GameComponent {
         classes.push("captured-stroke");
         return classes;
       } else {
-        const opponent = this.getState().getCurrentOpponent();
+        const opponent = this.state().getCurrentOpponent();
         if (opponent === Player.ZERO)
           zero3++;
         else
@@ -4251,7 +4249,7 @@ var ApagosComponent = class _ApagosComponent extends GameComponent {
       if (this.selectedPiece.isPresent() && this.selectedPiece.get().square === x2) {
         return this.cancelMove();
       }
-      const currentPlayer = this.getState().getCurrentPlayer();
+      const currentPlayer = this.state().getCurrentPlayer();
       const square = this.board[x2];
       const nbPiecePresent = square.count(currentPlayer);
       if (nbPiecePresent <= 0) {
@@ -4270,7 +4268,7 @@ var ApagosComponent = class _ApagosComponent extends GameComponent {
   showAndGetPossibleTranfers() {
     this.displayableArrow = [];
     let landingX = this.selectedPiece.get().square - 1;
-    const currentPlayer = this.getState().getCurrentPlayer();
+    const currentPlayer = this.state().getCurrentPlayer();
     while (0 <= landingX) {
       if (this.board[landingX].isFull() === false) {
         this.displayableArrow.push({
@@ -5401,15 +5399,11 @@ var RectangularGameComponent = class extends GameComponent {
     super(urlName);
   }
   board;
-  getWidth() {
-    return this.getState().getWidth();
-  }
-  getHeight() {
-    return this.getState().getHeight();
-  }
+  width = computed(() => this.state().getWidth(), ...ngDevMode ? [{ debugName: "width" }] : []);
+  height = computed(() => this.state().getHeight(), ...ngDevMode ? [{ debugName: "height" }] : []);
   computeViewBox() {
-    const width = this.getWidth() * this.SPACE_SIZE;
-    const height = this.getHeight() * this.SPACE_SIZE;
+    const width = this.width() * this.SPACE_SIZE;
+    const height = this.height() * this.SPACE_SIZE;
     return this.getViewBoxFor(width, height);
   }
   getViewBoxFor(width, height) {
@@ -5451,7 +5445,7 @@ var ParallelogramGameComponent = class extends RectangularGameComponent {
     const spaceHeight = mode.parallelogramHeight;
     const spaceWidth = spaceHeight * mode.horizontalWidthRatio;
     const spaceOffset = mode.offsetRatio * spaceHeight;
-    const numberOfOffset = this.getState().getHeight() - y;
+    const numberOfOffset = this.state().getHeight() - y;
     const xBase = x2 * spaceWidth + numberOfOffset * spaceOffset;
     const yBase = y * spaceHeight - mode.pieceHeightRatio * spaceHeight * z;
     return new Coord(xBase, yBase);
@@ -5638,7 +5632,7 @@ var CheckersComponent = class extends ParallelogramGameComponent {
   }
   updateBoard(_triggerAnimation) {
     return __async(this, null, function* () {
-      this.setConstructedState(this.getState());
+      this.setConstructedState(this.state());
       this.legalMoves = this.moveGenerator.getListMoves(this.node(), this.config());
       this.scores = MGPOptional.of(this.constructedState().get().getScores());
       this.showPossibleClicks();
@@ -5728,7 +5722,7 @@ var CheckersComponent = class extends ParallelogramGameComponent {
     });
   }
   cancelMoveAttempt() {
-    this.setConstructedState(this.getState());
+    this.setConstructedState(this.state());
     this.currentMoveClicks = [];
     this.capturedCoords = [];
     this.flownOverCoords = [];
@@ -5774,13 +5768,13 @@ var CheckersComponent = class extends ParallelogramGameComponent {
     const lastSegmentStart = this.currentMoveClicks[this.currentMoveClicks.length - 1];
     const stack = this.constructedState().get().getPieceAt(lastSegmentStart);
     const isSimpleJump = this.currentMoveClicks.length === 1;
-    const stateWithoutStarting = this.getState().remove(this.currentMoveClicks[0]);
+    const stateWithoutStarting = this.state().remove(this.currentMoveClicks[0]);
     const validation = this.rules.getSubMoveValidity(stack, isSimpleJump, lastSegmentStart, clicked, stateWithoutStarting, this.config());
     if (validation.isFailure()) {
       return validation.getReason();
     }
     const attemptedMove = this.getMoveAttemptEndingAt(clicked);
-    const moveValidity = this.rules.isLegal(attemptedMove, this.getState(), this.config());
+    const moveValidity = this.rules.isLegal(attemptedMove, this.state(), this.config());
     Utils.assert(moveValidity.isFailure(), "A move absent from possibleClicks should be illegal");
     return moveValidity.getReason();
   }
@@ -5795,7 +5789,7 @@ var CheckersComponent = class extends ParallelogramGameComponent {
   doesMoveAttemptCapture(clicked) {
     const start = this.currentMoveClicks[0];
     const steppedOver = start.getCoordsToward(clicked);
-    return steppedOver.some((coord) => this.getState().getPieceAt(coord).isOccupied());
+    return steppedOver.some((coord) => this.state().getPieceAt(coord).isOccupied());
   }
   getMatchingLegalMove() {
     const currentMove = CheckersMove.fromCapture(this.currentMoveClicks);
@@ -5808,7 +5802,7 @@ var CheckersComponent = class extends ParallelogramGameComponent {
   }
   applyPartialCapture() {
     const currentMove = CheckersMove.fromCapture(this.currentMoveClicks);
-    this.setConstructedState(this.rules.applyMove(currentMove, this.getState(), this.config()));
+    this.setConstructedState(this.rules.applyMove(currentMove, this.state(), this.config()));
   }
   trySelectingPiece(clicked) {
     return __async(this, null, function* () {
@@ -5839,8 +5833,8 @@ var CheckersComponent = class extends ParallelogramGameComponent {
   }
   adaptXY(x2, y) {
     if (this.getPointOfView() === Player.ONE) {
-      const maxX = this.getState().getWidth() - 1;
-      const maxY = this.getState().getHeight() - 1;
+      const maxX = this.width() - 1;
+      const maxY = this.height() - 1;
       return new Coord(maxX - x2, maxY - y);
     } else {
       return new Coord(x2, y);
@@ -7915,14 +7909,13 @@ var CoerceoComponent = class _CoerceoComponent extends TriangularGameComponent {
   }
   updateBoard(_triggerAnimation) {
     return __async(this, null, function* () {
-      this.state = this.getState();
-      this.scores = MGPOptional.of(this.state.captures);
-      this.tiles = this.state.tiles;
-      this.board = this.getState().board;
+      this.scores = MGPOptional.of(this.state().captures);
+      this.tiles = this.state().tiles;
+      this.board = this.state().board;
     });
   }
   showHighlight() {
-    this.possibleLandings = this.state.getLegalLandings(this.chosenCoord.get());
+    this.possibleLandings = this.state().getLegalLandings(this.chosenCoord.get());
   }
   cancelMoveAttempt() {
     this.chosenCoord = MGPOptional.empty();
@@ -7952,10 +7945,10 @@ var CoerceoComponent = class _CoerceoComponent extends TriangularGameComponent {
   }
   onClick(coord) {
     return __async(this, null, function* () {
-      const currentPlayer = this.state.getCurrentPlayer();
+      const currentPlayer = this.state().getCurrentPlayer();
       if (this.chosenCoord.equalsValue(coord)) {
         return this.cancelMove();
-      } else if (this.chosenCoord.isAbsent() || this.state.getPieceAt(coord).is(currentPlayer)) {
+      } else if (this.chosenCoord.isAbsent() || this.state().getPieceAt(coord).is(currentPlayer)) {
         return this.firstClick(coord);
       } else {
         return this.secondClick(coord);
@@ -7964,11 +7957,11 @@ var CoerceoComponent = class _CoerceoComponent extends TriangularGameComponent {
   }
   firstClick(coord) {
     return __async(this, null, function* () {
-      const clickedPiece = this.state.getPieceAt(coord);
-      if (clickedPiece.is(this.state.getCurrentOpponent())) {
+      const clickedPiece = this.state().getPieceAt(coord);
+      if (clickedPiece.is(this.state().getCurrentOpponent())) {
         const move = CoerceoTileExchangeMove.of(coord);
         return this.chooseMove(move);
-      } else if (clickedPiece.is(this.state.getCurrentPlayer())) {
+      } else if (clickedPiece.is(this.state().getCurrentPlayer())) {
         this.chosenCoord = MGPOptional.of(coord);
         this.showHighlight();
         return MGPValidation.SUCCESS;
@@ -7988,7 +7981,7 @@ var CoerceoComponent = class _CoerceoComponent extends TriangularGameComponent {
     });
   }
   isPyramid(coord) {
-    const spaceContent = this.state.getPieceAt(coord);
+    const spaceContent = this.state().getPieceAt(coord);
     return spaceContent.isPlayer() || this.wasOpponent(coord);
   }
   wasOpponent(coord) {
@@ -8001,7 +7994,7 @@ var CoerceoComponent = class _CoerceoComponent extends TriangularGameComponent {
     }
   }
   getPyramidClass(coord) {
-    const spaceContent = this.state.getPieceAt(coord);
+    const spaceContent = this.state().getPieceAt(coord);
     if (spaceContent.isPlayer()) {
       return this.getPlayerClass(spaceContent.getPlayer());
     } else {
@@ -8009,7 +8002,7 @@ var CoerceoComponent = class _CoerceoComponent extends TriangularGameComponent {
     }
   }
   mustDraw(coord) {
-    const spaceContent = this.state.getPieceAt(coord);
+    const spaceContent = this.state().getPieceAt(coord);
     if (spaceContent === FourStatePiece.UNREACHABLE) {
       return this.wasRemoved(coord);
     } else {
@@ -8017,7 +8010,7 @@ var CoerceoComponent = class _CoerceoComponent extends TriangularGameComponent {
     }
   }
   wasRemoved(coord) {
-    const spaceContent = this.state.getPieceAt(coord);
+    const spaceContent = this.state().getPieceAt(coord);
     const parent = this.node().parent;
     if (spaceContent === FourStatePiece.UNREACHABLE && parent.isPresent()) {
       const previousState = parent.get().gameState;
@@ -8104,13 +8097,13 @@ var CoerceoComponent = class _CoerceoComponent extends TriangularGameComponent {
     return new ViewBox(left, up, width, height).expandAll(halfStroke);
   }
   getWidth() {
-    const abstractWidth = this.getState().getWidth();
+    const abstractWidth = this.state().getWidth();
     const blockWidth = abstractWidth / 3;
     const horizontalInterPiecesSum = 2 * (blockWidth - 1) * this.STROKE_WIDTH;
     return this.SPACE_SIZE * (0.5 * (abstractWidth + 1)) + horizontalInterPiecesSum;
   }
   getHeight() {
-    const abstractHeight = this.getState().getHeight();
+    const abstractHeight = this.state().getHeight();
     const verticalInterPiecesSum = (abstractHeight - 2) * this.STROKE_WIDTH;
     return this.SPACE_SIZE * abstractHeight + verticalInterPiecesSum;
   }
@@ -8139,9 +8132,9 @@ var CoerceoComponent = class _CoerceoComponent extends TriangularGameComponent {
     if (rf & 2) {
       \u0275\u0275attribute("viewBox", ctx.viewBoxString());
       \u0275\u0275advance();
-      \u0275\u0275repeater(ctx.state.getCoordsAndContents());
+      \u0275\u0275repeater(ctx.state().getCoordsAndContents());
       \u0275\u0275advance(2);
-      \u0275\u0275repeater(ctx.state.getCoordsAndContents());
+      \u0275\u0275repeater(ctx.state().getCoordsAndContents());
       \u0275\u0275advance(2);
       \u0275\u0275conditional(ctx.chosenCoord.isPresent() ? 5 : 6);
       \u0275\u0275advance(2);
@@ -8162,7 +8155,7 @@ __decorate8([
      class="board"
      [attr.viewBox]="viewBoxString()"
      preserveAspectRatio="xMidYMid meet">
-    @for (coordAndContent of state.getCoordsAndContents(); track coordAndContent.coord.toString()) {
+    @for (coordAndContent of state().getCoordsAndContents(); track coordAndContent.coord.toString()) {
         <g>
             @if (mustDraw(coordAndContent.coord)) {
                 <polygon id="space-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"
@@ -8175,7 +8168,7 @@ __decorate8([
             }
         </g>
     }
-    @for (coordAndContent of state.getCoordsAndContents(); track coordAndContent.coord.toString()) {
+    @for (coordAndContent of state().getCoordsAndContents(); track coordAndContent.coord.toString()) {
         <g>
             @if (isPyramid(coordAndContent.coord)) {
                 <polygon id="pyramid-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"
@@ -8613,8 +8606,8 @@ var GobanGameComponent = class extends RectangularGameComponent {
    * Must be called after `this.board` has been set, usually in `updateBoard`.
    */
   createHoshis() {
-    const height = this.getHeight();
-    const width = this.getWidth();
+    const height = this.height();
+    const width = this.width();
     this.hoshis = GobanUtils.getHoshis(width, height);
   }
 };
@@ -8945,7 +8938,7 @@ var ConnectSixComponent = class _ConnectSixComponent extends GobanGameComponent 
   }
   updateBoard(_triggerAnimation) {
     return __async(this, null, function* () {
-      const state = this.getState();
+      const state = this.state();
       this.board = state.getCopiedBoard();
       this.victoryCoords = ConnectSixRules.getVictoriousCoords(state);
       this.createHoshis();
@@ -8965,11 +8958,11 @@ var ConnectSixComponent = class _ConnectSixComponent extends GobanGameComponent 
   }
   onClick(coord) {
     return __async(this, null, function* () {
-      if (this.getState().turn === 0) {
+      if (this.state().turn === 0) {
         const move = ConnectSixFirstMove.of(coord);
         return this.chooseMove(move);
       } else {
-        if (this.getState().getPieceAt(coord).isPlayer()) {
+        if (this.state().getPieceAt(coord).isPlayer()) {
           return this.cancelMove(RulesFailure.MUST_CLICK_ON_EMPTY_SQUARE());
         } else if (this.droppedCoord.isPresent()) {
           if (this.droppedCoord.equalsValue(coord)) {
@@ -8987,10 +8980,10 @@ var ConnectSixComponent = class _ConnectSixComponent extends GobanGameComponent 
   }
   getSpaceClass(x2, y) {
     const coord = new Coord(x2, y);
-    const owner = this.getState().getPieceAt(coord);
+    const owner = this.state().getPieceAt(coord);
     const classes = [];
     if (this.droppedCoord.equalsValue(coord)) {
-      classes.push(this.getPlayerClass(this.getState().getCurrentPlayer()));
+      classes.push(this.getPlayerClass(this.state().getCurrentPlayer()));
       classes.push("highlighted-stroke");
     } else {
       classes.push(this.getPlayerClass(owner));
@@ -9026,7 +9019,7 @@ var ConnectSixComponent = class _ConnectSixComponent extends GobanGameComponent 
     if (rf & 2) {
       \u0275\u0275attribute("viewBox", ctx.viewBoxString());
       \u0275\u0275advance();
-      \u0275\u0275property("width", ctx.getState().getWidth())("height", ctx.getState().getHeight());
+      \u0275\u0275property("width", ctx.width())("height", ctx.height());
       \u0275\u0275advance(2);
       \u0275\u0275repeater(ctx.board);
       \u0275\u0275advance(2);
@@ -9040,7 +9033,7 @@ __decorate9([
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(ConnectSixComponent, [{
     type: Component,
-    args: [{ changeDetection: ChangeDetectionStrategy.OnPush, selector: "app-connect-six", imports: [BlankGobanComponent, NgClass], template: '<svg xmlns="http://www.w3.org/2000/svg"\n     class="board"\n     [attr.viewBox]="viewBoxString()"\n     preserveAspectRatio="xMidYMid meet">\n\n    <g app-blank-goban\n       [width]="getState().getWidth()"\n       [height]="getState().getHeight()"\n       (clickCallBack)="onClick($event)"/>\n\n    <g id="pieces">\n        @for (line of board; track $index; let y = $index) {\n            <g>\n                @for (spaceContent of line; track $index; let x = $index) {\n                    <g>\n                        @if (spaceContent.isPlayer()) {\n                            <circle id="piece-{{ x }}-{{ y }}"\n                                    [attr.cx]="(SPACE_SIZE * 0.5) + (SPACE_SIZE * x)"\n                                    [attr.cy]="(SPACE_SIZE * 0.5) + (SPACE_SIZE * y)"\n                                    [attr.r]="SPACE_SIZE * 0.44"\n                                    [ngClass]="getSpaceClass(x, y)"\n                                    class="base"/>\n                        }\n                    </g>\n                }\n            </g>\n        }\n    </g>\n    @if (droppedCoord.isPresent()) {\n        <circle id="dropped"\n                (click)="onClick(droppedCoord.get())"\n                [attr.cx]="(SPACE_SIZE * 0.5) + (SPACE_SIZE * droppedCoord.get().x)"\n                [attr.cy]="(SPACE_SIZE * 0.5) + (SPACE_SIZE * droppedCoord.get().y)"\n                [attr.r]="SPACE_SIZE * 0.44"\n                [ngClass]="getSpaceClass(droppedCoord.get().x, droppedCoord.get().y)"\n                class="base moved-stroke"/>\n    }\n</svg>\n', styles: ["/* src/app/components/game-components/game-component/game-component.scss */\n.base {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke {\n  stroke-width: 0;\n}\n.base.manual-stroke {\n  fill: var(--base-stroke);\n}\n.base-no-stroke {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text {\n  fill: var(--base-stroke);\n}\n.white-background {\n  fill: white;\n}\n.background {\n  fill: var(--spaces-fill);\n}\n.transparent {\n  opacity: 0;\n}\n.background2 {\n  fill: var(--alt-background-fill);\n}\n.background3 {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill {\n  fill: var(--player0);\n}\n.player0-alternate-fill {\n  fill: var(--player0-alternate);\n}\n.player0-stroke {\n  stroke: var(--player0);\n}\n.player1-fill {\n  fill: var(--player1);\n}\n.player1-alternate-fill {\n  fill: var(--player1-alternate);\n}\n.player1-stroke {\n  stroke: var(--player1);\n}\n.nonplayer-fill {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill {\n  fill: var(--pre-captured);\n}\n.captured-fill {\n  fill: var(--captured);\n}\n.captured-alternate-fill {\n  fill: var(--alt-captured);\n}\n.captured-stroke {\n  stroke: var(--captured);\n}\n.moved-fill {\n  fill: var(--moved);\n}\n.moved-stroke {\n  stroke: var(--moved);\n}\n.indicator {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill {\n  fill: var(--indicator);\n}\n.selectable-stroke {\n  stroke: var(--selectable);\n}\n.selectable > .base-no-stroke {\n  fill: var(--selectable);\n}\n.last-move-stroke {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke {\n  fill: var(--last-move);\n}\n.last-move-fill {\n  fill: var(--last-move);\n}\n.victory-fill {\n  fill: var(--victory);\n}\n.victory-stroke {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke {\n  fill: var(--victory);\n}\n.defeat-fill {\n  fill: var(--defeat);\n}\n.defeat-stroke {\n  stroke: var(--defeat);\n}\n.selected-fill {\n  fill: var(--selected);\n}\n.selected-stroke {\n  stroke: var(--selected);\n}\n.clickable-stroke {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill {\n  fill: var(--capturable);\n}\n.capturable-stroke:hover {\n  stroke-width: 8;\n}\n.no-fill {\n  fill: none;\n}\n.no-stroke {\n  stroke: none;\n}\n.small-stroke {\n  stroke-width: 2;\n}\n.mid-small-stroke {\n  stroke-width: 3;\n}\n.mid-stroke {\n  stroke-width: 5;\n}\n.big-stroke {\n  stroke-width: 8;\n}\n.huge-stroke {\n  stroke-width: 12;\n}\n.semi-transparent {\n  opacity: 0.5;\n}\n.territory-opacity {\n  fill-opacity: 0.7;\n}\n.round {\n  stroke-linecap: round;\n}\n.text-giant {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big {\n  font: 50px sans-serif;\n}\n.backgrounded-text {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus {\n  font: 38px sans-serif;\n}\n.text-medium {\n  font: 35px sans-serif;\n}\n.text-small-plus {\n  font: 28px sans-serif;\n}\n.text-small {\n  font: 25px sans-serif;\n}\n.text-bold {\n  font-weight: bold;\n}\n.text-center {\n  text-anchor: middle;\n}\n.black-fill {\n  fill: black;\n}\n.darker {\n  filter: brightness(80%);\n}\n.lighter {\n  filter: brightness(110%);\n}\nsvg {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */\n"] }]
+    args: [{ changeDetection: ChangeDetectionStrategy.OnPush, selector: "app-connect-six", imports: [BlankGobanComponent, NgClass], template: '<svg xmlns="http://www.w3.org/2000/svg"\n     class="board"\n     [attr.viewBox]="viewBoxString()"\n     preserveAspectRatio="xMidYMid meet">\n\n    <g app-blank-goban\n       [width]="width()"\n       [height]="height()"\n       (clickCallBack)="onClick($event)"/>\n\n    <g id="pieces">\n        @for (line of board; track $index; let y = $index) {\n            <g>\n                @for (spaceContent of line; track $index; let x = $index) {\n                    <g>\n                        @if (spaceContent.isPlayer()) {\n                            <circle id="piece-{{ x }}-{{ y }}"\n                                    [attr.cx]="(SPACE_SIZE * 0.5) + (SPACE_SIZE * x)"\n                                    [attr.cy]="(SPACE_SIZE * 0.5) + (SPACE_SIZE * y)"\n                                    [attr.r]="SPACE_SIZE * 0.44"\n                                    [ngClass]="getSpaceClass(x, y)"\n                                    class="base"/>\n                        }\n                    </g>\n                }\n            </g>\n        }\n    </g>\n    @if (droppedCoord.isPresent()) {\n        <circle id="dropped"\n                (click)="onClick(droppedCoord.get())"\n                [attr.cx]="(SPACE_SIZE * 0.5) + (SPACE_SIZE * droppedCoord.get().x)"\n                [attr.cy]="(SPACE_SIZE * 0.5) + (SPACE_SIZE * droppedCoord.get().y)"\n                [attr.r]="SPACE_SIZE * 0.44"\n                [ngClass]="getSpaceClass(droppedCoord.get().x, droppedCoord.get().y)"\n                class="base moved-stroke"/>\n    }\n</svg>\n', styles: ["/* src/app/components/game-components/game-component/game-component.scss */\n.base {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke {\n  stroke-width: 0;\n}\n.base.manual-stroke {\n  fill: var(--base-stroke);\n}\n.base-no-stroke {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text {\n  fill: var(--base-stroke);\n}\n.white-background {\n  fill: white;\n}\n.background {\n  fill: var(--spaces-fill);\n}\n.transparent {\n  opacity: 0;\n}\n.background2 {\n  fill: var(--alt-background-fill);\n}\n.background3 {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill {\n  fill: var(--player0);\n}\n.player0-alternate-fill {\n  fill: var(--player0-alternate);\n}\n.player0-stroke {\n  stroke: var(--player0);\n}\n.player1-fill {\n  fill: var(--player1);\n}\n.player1-alternate-fill {\n  fill: var(--player1-alternate);\n}\n.player1-stroke {\n  stroke: var(--player1);\n}\n.nonplayer-fill {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill {\n  fill: var(--pre-captured);\n}\n.captured-fill {\n  fill: var(--captured);\n}\n.captured-alternate-fill {\n  fill: var(--alt-captured);\n}\n.captured-stroke {\n  stroke: var(--captured);\n}\n.moved-fill {\n  fill: var(--moved);\n}\n.moved-stroke {\n  stroke: var(--moved);\n}\n.indicator {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill {\n  fill: var(--indicator);\n}\n.selectable-stroke {\n  stroke: var(--selectable);\n}\n.selectable > .base-no-stroke {\n  fill: var(--selectable);\n}\n.last-move-stroke {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke {\n  fill: var(--last-move);\n}\n.last-move-fill {\n  fill: var(--last-move);\n}\n.victory-fill {\n  fill: var(--victory);\n}\n.victory-stroke {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke {\n  fill: var(--victory);\n}\n.defeat-fill {\n  fill: var(--defeat);\n}\n.defeat-stroke {\n  stroke: var(--defeat);\n}\n.selected-fill {\n  fill: var(--selected);\n}\n.selected-stroke {\n  stroke: var(--selected);\n}\n.clickable-stroke {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill {\n  fill: var(--capturable);\n}\n.capturable-stroke:hover {\n  stroke-width: 8;\n}\n.no-fill {\n  fill: none;\n}\n.no-stroke {\n  stroke: none;\n}\n.small-stroke {\n  stroke-width: 2;\n}\n.mid-small-stroke {\n  stroke-width: 3;\n}\n.mid-stroke {\n  stroke-width: 5;\n}\n.big-stroke {\n  stroke-width: 8;\n}\n.huge-stroke {\n  stroke-width: 12;\n}\n.semi-transparent {\n  opacity: 0.5;\n}\n.territory-opacity {\n  fill-opacity: 0.7;\n}\n.round {\n  stroke-linecap: round;\n}\n.text-giant {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big {\n  font: 50px sans-serif;\n}\n.backgrounded-text {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus {\n  font: 38px sans-serif;\n}\n.text-medium {\n  font: 35px sans-serif;\n}\n.text-small-plus {\n  font: 28px sans-serif;\n}\n.text-small {\n  font: 25px sans-serif;\n}\n.text-bold {\n  font-weight: bold;\n}\n.text-center {\n  text-anchor: middle;\n}\n.black-fill {\n  fill: black;\n}\n.darker {\n  filter: brightness(80%);\n}\n.lighter {\n  filter: brightness(110%);\n}\nsvg {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */\n"] }]
   }], () => [], { onClick: [] });
 })();
 (() => {
@@ -9745,13 +9738,13 @@ var ConspirateursComponent = class _ConspirateursComponent extends GameComponent
     });
   }
   updateScores() {
-    this.scores = MGPOptional.of(this.rules.getProtectedPieces(this.getState()));
+    this.scores = MGPOptional.of(this.rules.getProtectedPieces(this.state()));
   }
   getScoreName() {
     return ScoreName.PROTECTED_PIECES;
   }
   updateViewInfo() {
-    const state = this.getState();
+    const state = this.state();
     this.viewInfo.dropPhase = state.isDropPhase();
     this.viewInfo.boardInfo = [];
     for (let y = 0; y < state.getHeight(); y++) {
@@ -9789,7 +9782,7 @@ var ConspirateursComponent = class _ConspirateursComponent extends GameComponent
     }
   }
   updateShelterHighlights() {
-    const state = this.getState();
+    const state = this.state();
     const gameStatus = ConspirateursRules.get().getGameStatus(this.node());
     const gameFinished = gameStatus.isEndGame;
     this.victoriousCoords = [];
@@ -9810,7 +9803,7 @@ var ConspirateursComponent = class _ConspirateursComponent extends GameComponent
     if (this.isStartingCoordOfMovingPiece(coord)) {
       return false;
     }
-    return this.getState().getPieceAt(coord).isPlayer() || this.isLandingCoordOfMovingPiece(coord);
+    return this.state().getPieceAt(coord).isPlayer() || this.isLandingCoordOfMovingPiece(coord);
   }
   isStartingCoordOfMovingPiece(coord) {
     return this.jumpInConstruction.isPresent() && this.jumpInConstruction.get().getStartingCoord().equals(coord);
@@ -9820,7 +9813,7 @@ var ConspirateursComponent = class _ConspirateursComponent extends GameComponent
   }
   getPieceClasses(x2, y) {
     const coord = new Coord(x2, y);
-    const piece = this.getState().getPieceAt(coord);
+    const piece = this.state().getPieceAt(coord);
     const classes = [
       this.getPlayerClass(piece)
     ];
@@ -9892,7 +9885,7 @@ var ConspirateursComponent = class _ConspirateursComponent extends GameComponent
   }
   onClick(coord) {
     return __async(this, null, function* () {
-      const state = this.getState();
+      const state = this.state();
       const piece = state.getPieceAt(coord);
       if (state.getPieceAt(coord) === this.getCurrentPlayer()) {
         if (this.selected.equalsValue(coord)) {
@@ -9920,7 +9913,7 @@ var ConspirateursComponent = class _ConspirateursComponent extends GameComponent
   constructJump(nextTarget) {
     return __async(this, null, function* () {
       const jump = this.jumpInConstruction.get();
-      const state = this.getState();
+      const state = this.state();
       if (nextTarget.equals(jump.getEndingCoord())) {
         return this.chooseMove(jump);
       } else {
@@ -9938,7 +9931,7 @@ var ConspirateursComponent = class _ConspirateursComponent extends GameComponent
   }
   updateJump(jump) {
     return __async(this, null, function* () {
-      const state = this.getState();
+      const state = this.state();
       if (this.rules.jumpHasPossibleNextTargets(jump, state)) {
         this.jumpInConstruction = MGPOptional.of(jump);
         this.updateViewInfo();
@@ -10852,7 +10845,7 @@ function DiaballikComponent_Conditional_11_Template(rf, ctx) {
   if (rf & 2) {
     const ctx_r3 = \u0275\u0275nextContext();
     \u0275\u0275advance();
-    \u0275\u0275attribute("transform", ctx_r3.getTranslationAtXY(0, ctx_r3.HEIGHT + 0.3) + " scale(0.5)");
+    \u0275\u0275attribute("transform", ctx_r3.getTranslationAtXY(0, ctx_r3.height() + 0.3) + " scale(0.5)");
     \u0275\u0275advance();
     \u0275\u0275attribute("x", 0)("y", 0)("width", ctx_r3.SPACE_SIZE)("height", ctx_r3.SPACE_SIZE);
     \u0275\u0275advance();
@@ -10867,7 +10860,7 @@ function DiaballikComponent_Conditional_11_Template(rf, ctx) {
     \u0275\u0275advance();
     \u0275\u0275textInterpolate(ctx_r3.translationsMade);
     \u0275\u0275advance();
-    \u0275\u0275attribute("transform", ctx_r3.getTranslationAtXY(ctx_r3.WIDTH - 1, ctx_r3.HEIGHT + 0.3) + " scale(0.5)");
+    \u0275\u0275attribute("transform", ctx_r3.getTranslationAtXY(ctx_r3.width() - 1, ctx_r3.height() + 0.3) + " scale(0.5)");
     \u0275\u0275advance();
     \u0275\u0275attribute("x", 0)("y", 0)("width", ctx_r3.SPACE_SIZE)("height", ctx_r3.SPACE_SIZE);
     \u0275\u0275advance();
@@ -10904,15 +10897,13 @@ function DiaballikComponent_Conditional_12_Template(rf, ctx) {
   }
   if (rf & 2) {
     const ctx_r3 = \u0275\u0275nextContext();
-    \u0275\u0275attribute("transform", ctx_r3.getTranslationAtXY(ctx_r3.WIDTH / 2, ctx_r3.HEIGHT + 0.5));
+    \u0275\u0275attribute("transform", ctx_r3.getTranslationAtXY(ctx_r3.width() / 2, ctx_r3.height() + 0.5));
     \u0275\u0275advance();
     \u0275\u0275attribute("cx", ctx_r3.STROKE_WIDTH / 2)("cy", ctx_r3.STROKE_WIDTH / 2)("r", ctx_r3.SPACE_SIZE / 2.5);
   }
 }
 var DiaballikComponent = class _DiaballikComponent extends RectangularGameComponent {
   stateInConstruction;
-  WIDTH;
-  HEIGHT;
   INDICATOR_SIZE = 20;
   victoryCoord = MGPOptional.empty();
   loserCoords = [];
@@ -10930,8 +10921,6 @@ var DiaballikComponent = class _DiaballikComponent extends RectangularGameCompon
   constructor() {
     super("Diaballik");
     this.hasAsymmetricBoard = true;
-    this.WIDTH = this.getState().getWidth();
-    this.HEIGHT = this.getState().getHeight();
     this.encoder = DiaballikMove.encoder;
     this.aiConfig = {
       minimax: [
@@ -11035,7 +11024,7 @@ var DiaballikComponent = class _DiaballikComponent extends RectangularGameCompon
     this.lastMovedBalls = [];
   }
   cancelMoveAttempt() {
-    this.stateInConstruction = this.getState();
+    this.stateInConstruction = this.state();
     this.currentSelection = MGPOptional.empty();
     this.hasMadePass = false;
     this.translationsMade = 0;
@@ -11197,8 +11186,8 @@ var DiaballikComponent = class _DiaballikComponent extends RectangularGameCompon
   }
   getBoardRotation() {
     const rotation = this.getPointOfView().getValue() * 180;
-    const boardWidth = this.getState().getWidth() * this.SPACE_SIZE + this.STROKE_WIDTH;
-    const boardHeight = this.getState().getHeight() * this.SPACE_SIZE + this.STROKE_WIDTH;
+    const boardWidth = this.width() * this.SPACE_SIZE + this.STROKE_WIDTH;
+    const boardHeight = this.height() * this.SPACE_SIZE + this.STROKE_WIDTH;
     const centerX = boardWidth / 2;
     const centerY = boardHeight / 2;
     return `rotate(${rotation} ${centerX} ${centerY})`;
@@ -11319,7 +11308,7 @@ __decorate11([
     @if (isInteractive()) {
         <g>
             <g id="translationCountIndicator"
-               [attr.transform]="getTranslationAtXY(0, HEIGHT + 0.3) + ' scale(0.5)'">
+               [attr.transform]="getTranslationAtXY(0, height() + 0.3) + ' scale(0.5)'">
                 <rect class="base"
                       [attr.x]="0"
                       [attr.y]="0"
@@ -11348,7 +11337,7 @@ __decorate11([
                       [attr.font-size]="SPACE_SIZE / 2">{{ translationsMade }}</text>
             </g>
             <g id="passCountIndicator"
-               [attr.transform]="getTranslationAtXY(WIDTH - 1, HEIGHT + 0.3) + ' scale(0.5)'">
+               [attr.transform]="getTranslationAtXY(width() - 1, height() + 0.3) + ' scale(0.5)'">
                 <rect class="base"
                       [attr.x]="0"
                       [attr.y]="0"
@@ -11392,7 +11381,7 @@ __decorate11([
     @if (showDoneButton()) {
         <g id="done"
            (click)="done()"
-           [attr.transform]="getTranslationAtXY(WIDTH / 2, HEIGHT + 0.5)">
+           [attr.transform]="getTranslationAtXY(width() / 2, height() + 0.5)">
             <circle [attr.cx]="STROKE_WIDTH / 2"
                     [attr.cy]="STROKE_WIDTH / 2"
                     [attr.r]="SPACE_SIZE / 2.5"
@@ -12021,7 +12010,7 @@ var DiamComponent = class _DiamComponent extends GameComponent {
   onPieceInGameClick(x2, y) {
     return __async(this, null, function* () {
       const clicked = new Coord(x2, y);
-      const clickedPiece = this.getState().getPieceAt(clicked);
+      const clickedPiece = this.state().getPieceAt(clicked);
       if (clickedPiece.owner === this.getCurrentPlayer()) {
         if (this.isSelected(null, clicked)) {
           return this.cancelMove();
@@ -12157,7 +12146,7 @@ var DiamComponent = class _DiamComponent extends GameComponent {
     ]);
     const isPlayerTurn = this.isPlayerTurn();
     for (const piece of DiamPiece.PLAYER_PIECES) {
-      const remaining = this.getState().getRemainingPiecesOf(piece);
+      const remaining = this.state().getRemainingPiecesOf(piece);
       for (let y = 0; y < remaining; y++) {
         const foregroundClasses = [];
         if (this.isTopPieceOfReserveAndSelected(y, remaining, piece)) {
@@ -12208,11 +12197,11 @@ var DiamComponent = class _DiamComponent extends GameComponent {
     return new Coord(x2, initialY).getNext(new Vector(0, -y * _DiamComponent.PIECE_HEIGHT));
   }
   getPieces(x2) {
-    const highestAlignment = this.rules.findHighestAlignment(this.getState());
+    const highestAlignment = this.rules.findHighestAlignment(this.state());
     const isPlayerTurn = this.isPlayerTurn();
     const infos = [];
     for (let y = 0; y < DiamState.HEIGHT; y++) {
-      const piece = this.getState().getPieceAtXY(x2, y);
+      const piece = this.state().getPieceAtXY(x2, y);
       const coord = new Coord(x2, y);
       if (piece !== DiamPiece.EMPTY) {
         const foregroundClasses = [];
@@ -12222,7 +12211,7 @@ var DiamComponent = class _DiamComponent extends GameComponent {
         if (this.isVictory(x2, y, highestAlignment)) {
           foregroundClasses.push("victory-stroke");
         }
-        if (isPlayerTurn && this.rules.pieceCanMove(this.getState(), coord)) {
+        if (isPlayerTurn && this.rules.pieceCanMove(this.state(), coord)) {
           foregroundClasses.push("clickable-stroke-hover");
         }
         infos.push({
@@ -13314,7 +13303,7 @@ function DvonnComponent_For_2_Template(rf, ctx) {
     const coord_r2 = ctx.$implicit;
     const ctx_r2 = \u0275\u0275nextContext();
     \u0275\u0275advance();
-    const spaceContent_r6 = \u0275\u0275storeLet(ctx_r2.state.getPieceAt(coord_r2));
+    const spaceContent_r6 = \u0275\u0275storeLet(ctx_r2.state().getPieceAt(coord_r2));
     \u0275\u0275advance();
     \u0275\u0275property("id", \u0275\u0275interpolate2("click-", coord_r2.x, "-", coord_r2.y));
     \u0275\u0275attribute("transform", ctx_r2.getHexaCenterTranslationAt(coord_r2));
@@ -13429,11 +13418,10 @@ var DvonnComponent = class _DvonnComponent extends HexagonalGameComponent {
       ]
     };
     this.encoder = DvonnMove.encoder;
-    this.scores = MGPOptional.of(DvonnRules.getScores(this.getState()));
+    this.scores = MGPOptional.of(DvonnRules.getScores(this.state()));
     this.SPACE_SIZE = 30;
     this.hexaLayout = new HexaLayout(this.SPACE_SIZE * 1.5, new Coord(-this.SPACE_SIZE, this.SPACE_SIZE * 2), PointyHexaOrientation.INSTANCE);
-    this.state = this.getState();
-    this.hexaBoard = this.getState().board;
+    this.hexaBoard = this.state().board;
   }
   hideLastMove() {
     this.lastMove = MGPOptional.empty();
@@ -13441,16 +13429,15 @@ var DvonnComponent = class _DvonnComponent extends HexagonalGameComponent {
   }
   updateBoard(_triggerAnimation) {
     return __async(this, null, function* () {
-      this.state = this.getState();
-      this.canPass = this.rules.canOnlyPass(this.state);
-      this.scores = MGPOptional.of(DvonnRules.getScores(this.state));
+      this.canPass = this.rules.canOnlyPass(this.state());
+      this.scores = MGPOptional.of(DvonnRules.getScores(this.state()));
     });
   }
   showLastMove(move) {
     return __async(this, null, function* () {
       this.lastMove = MGPOptional.of(move);
       const previousState = this.getPreviousState();
-      const state = this.getState();
+      const state = this.state();
       for (let y = 0; y < state.getHeight(); y++) {
         for (let x2 = 0; x2 < state.board[y].length; x2++) {
           const coord = new Coord(x2, y);
@@ -13489,7 +13476,7 @@ var DvonnComponent = class _DvonnComponent extends HexagonalGameComponent {
   choosePiece(x2, y) {
     return __async(this, null, function* () {
       const coord = new Coord(x2, y);
-      const legal = this.rules.isMovablePiece(this.getState(), coord);
+      const legal = this.rules.isMovablePiece(this.state(), coord);
       if (legal.isSuccess()) {
         this.chosen = MGPOptional.of(coord);
         return MGPValidation.SUCCESS;
@@ -13500,7 +13487,7 @@ var DvonnComponent = class _DvonnComponent extends HexagonalGameComponent {
   }
   chooseDestination(x2, y) {
     return __async(this, null, function* () {
-      const state = this.getState();
+      const state = this.state();
       const chosenPiece = this.chosen.get();
       const chosenDestination = new Coord(x2, y);
       const move = DvonnMove.from(chosenPiece, chosenDestination);
@@ -13582,7 +13569,7 @@ var DvonnComponent = class _DvonnComponent extends HexagonalGameComponent {
     if (rf & 2) {
       \u0275\u0275attribute("viewBox", ctx.viewBoxString());
       \u0275\u0275advance();
-      \u0275\u0275repeater(ctx.state.allCoords());
+      \u0275\u0275repeater(ctx.state().allCoords());
       \u0275\u0275advance(2);
       \u0275\u0275repeater(ctx.disconnectedSpaces);
       \u0275\u0275advance(2);
@@ -13598,7 +13585,7 @@ __decorate13([
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(DvonnComponent, [{
     type: Component,
-    args: [{ changeDetection: ChangeDetectionStrategy.OnPush, selector: "app-dvonn", imports: [NgClass], template: '<svg xmlns="http://www.w3.org/2000/svg"\n     class="board"\n     [attr.viewBox]="viewBoxString()"\n     preserveAspectRatio="xMidYMid meet">\n    @for (coord of state.allCoords(); track coord.toString()) {\n        <g>\n            @let spaceContent = state.getPieceAt(coord);\n            <g id="click-{{ coord.x }}-{{ coord.y }}"\n               (click)="onClick(coord.x, coord.y)"\n               [attr.transform]="getHexaCenterTranslationAt(coord)">\n                <!-- Background -->\n                <polygon [attr.points]="getHexaPoints()"\n                         class="base mid-stroke"/>\n                <!-- Piece -->\n                @if (spaceContent.getSize() > 0) {\n                    <circle id="piece-{{ coord.x }}-{{ coord.y }}"\n                            cx="0"\n                            cy="0"\n                            [attr.r]="SPACE_SIZE"\n                            [ngClass]="getPieceClasses(spaceContent)"\n                            class="base mid-stroke"/>\n                }\n                @if (spaceContent.containsSource()) {\n                    <polygon id="source-symbol-{{ coord.x }}-{{ coord.y }}"\n                             class="nonplayer-light-fill"\n                             points="157.055,0 90.798,196.319 164.417,196.319 88.344,400 289.571,159.509 218.405,159.509 311.656,0"\n                             [attr.transform]="getSourceSymbolTransform(spaceContent)"/>\n                }\n                @if (spaceContent.getSize() > 1) {\n                    <text (click)="onClick(coord.x, coord.y)"\n                          [attr.transform]="getTextTransform(spaceContent)"\n                          class="text-center"\n                          [ngClass]="getTextSizeClass(spaceContent)"\n                          dy="13">{{ spaceContent.getSize() }}</text>\n                }\n            </g>\n        </g>\n    }\n    <!-- Show disconnecteds -->\n    @for (disconnected of disconnectedSpaces; track disconnected.coord.toString()) {\n        <g id="disconnected-{{ disconnected.coord.x }}-{{ disconnected.coord.y }}">\n            <polygon [attr.points]="getHexaPoints()"\n                     [attr.transform]="getHexaCenterTranslationAt(disconnected.coord)"\n                     class="base mid-stroke captured-fill"/>\n            <circle id="captured-{{ disconnected.coord.x }}-{{ disconnected.coord.y }}"\n                    [attr.cx]="getCenterAt(disconnected.coord).x"\n                    [attr.cy]="getCenterAt(disconnected.coord).y"\n                    [attr.r]="SPACE_SIZE"\n                    class="base mid-stroke semi-transparent"\n                    [ngClass]="getPieceClasses(disconnected.spaceContent)"/>\n            @if (disconnected.spaceContent.getSize() > 1) {\n                <text [attr.x]="getCenterAt(disconnected.coord).x"\n                      [attr.y]="getCenterAt(disconnected.coord).y"\n                      class="text-center text-medium"\n                      dy="13">{{disconnected.spaceContent.getSize()}}</text>\n            }\n        </g>\n    }\n    <!-- Highlight last move -->\n    @if (lastMove.isPresent()) {\n        <ng-container>\n            <polygon [attr.points]="getHexaPoints()"\n                     [attr.transform]="getHexaCenterTranslationAt(lastMove.get().getStart())"\n                     class="base no-fill last-move-stroke"/>\n            <polygon [attr.points]="getHexaPoints()"\n                     [attr.transform]="getHexaCenterTranslationAt(lastMove.get().getEnd())"\n                     class="base no-fill last-move-stroke"/>\n        </ng-container>\n    }\n    <!-- Highlight selected piece -->\n    @if (chosen.isPresent()) {\n        <polygon id="chosen-{{ chosen.get().x }}-{{ chosen.get().y }}"\n                 [attr.transform]="getHexaCenterTranslationAt(chosen.get())"\n                 [attr.points]="getHexaPoints()"\n                 class="base no-fill selected-stroke"/>\n    }\n</svg>\n', styles: ["/* src/app/components/game-components/game-component/game-component.scss */\n.base {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke {\n  stroke-width: 0;\n}\n.base.manual-stroke {\n  fill: var(--base-stroke);\n}\n.base-no-stroke {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text {\n  fill: var(--base-stroke);\n}\n.white-background {\n  fill: white;\n}\n.background {\n  fill: var(--spaces-fill);\n}\n.transparent {\n  opacity: 0;\n}\n.background2 {\n  fill: var(--alt-background-fill);\n}\n.background3 {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill {\n  fill: var(--player0);\n}\n.player0-alternate-fill {\n  fill: var(--player0-alternate);\n}\n.player0-stroke {\n  stroke: var(--player0);\n}\n.player1-fill {\n  fill: var(--player1);\n}\n.player1-alternate-fill {\n  fill: var(--player1-alternate);\n}\n.player1-stroke {\n  stroke: var(--player1);\n}\n.nonplayer-fill {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill {\n  fill: var(--pre-captured);\n}\n.captured-fill {\n  fill: var(--captured);\n}\n.captured-alternate-fill {\n  fill: var(--alt-captured);\n}\n.captured-stroke {\n  stroke: var(--captured);\n}\n.moved-fill {\n  fill: var(--moved);\n}\n.moved-stroke {\n  stroke: var(--moved);\n}\n.indicator {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill {\n  fill: var(--indicator);\n}\n.selectable-stroke {\n  stroke: var(--selectable);\n}\n.selectable > .base-no-stroke {\n  fill: var(--selectable);\n}\n.last-move-stroke {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke {\n  fill: var(--last-move);\n}\n.last-move-fill {\n  fill: var(--last-move);\n}\n.victory-fill {\n  fill: var(--victory);\n}\n.victory-stroke {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke {\n  fill: var(--victory);\n}\n.defeat-fill {\n  fill: var(--defeat);\n}\n.defeat-stroke {\n  stroke: var(--defeat);\n}\n.selected-fill {\n  fill: var(--selected);\n}\n.selected-stroke {\n  stroke: var(--selected);\n}\n.clickable-stroke {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill {\n  fill: var(--capturable);\n}\n.capturable-stroke:hover {\n  stroke-width: 8;\n}\n.no-fill {\n  fill: none;\n}\n.no-stroke {\n  stroke: none;\n}\n.small-stroke {\n  stroke-width: 2;\n}\n.mid-small-stroke {\n  stroke-width: 3;\n}\n.mid-stroke {\n  stroke-width: 5;\n}\n.big-stroke {\n  stroke-width: 8;\n}\n.huge-stroke {\n  stroke-width: 12;\n}\n.semi-transparent {\n  opacity: 0.5;\n}\n.territory-opacity {\n  fill-opacity: 0.7;\n}\n.round {\n  stroke-linecap: round;\n}\n.text-giant {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big {\n  font: 50px sans-serif;\n}\n.backgrounded-text {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus {\n  font: 38px sans-serif;\n}\n.text-medium {\n  font: 35px sans-serif;\n}\n.text-small-plus {\n  font: 28px sans-serif;\n}\n.text-small {\n  font: 25px sans-serif;\n}\n.text-bold {\n  font-weight: bold;\n}\n.text-center {\n  text-anchor: middle;\n}\n.black-fill {\n  fill: black;\n}\n.darker {\n  filter: brightness(80%);\n}\n.lighter {\n  filter: brightness(110%);\n}\nsvg {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */\n"] }]
+    args: [{ changeDetection: ChangeDetectionStrategy.OnPush, selector: "app-dvonn", imports: [NgClass], template: '<svg xmlns="http://www.w3.org/2000/svg"\n     class="board"\n     [attr.viewBox]="viewBoxString()"\n     preserveAspectRatio="xMidYMid meet">\n    @for (coord of state().allCoords(); track coord.toString()) {\n        <g>\n            @let spaceContent = state().getPieceAt(coord);\n            <g id="click-{{ coord.x }}-{{ coord.y }}"\n               (click)="onClick(coord.x, coord.y)"\n               [attr.transform]="getHexaCenterTranslationAt(coord)">\n                <!-- Background -->\n                <polygon [attr.points]="getHexaPoints()"\n                         class="base mid-stroke"/>\n                <!-- Piece -->\n                @if (spaceContent.getSize() > 0) {\n                    <circle id="piece-{{ coord.x }}-{{ coord.y }}"\n                            cx="0"\n                            cy="0"\n                            [attr.r]="SPACE_SIZE"\n                            [ngClass]="getPieceClasses(spaceContent)"\n                            class="base mid-stroke"/>\n                }\n                @if (spaceContent.containsSource()) {\n                    <polygon id="source-symbol-{{ coord.x }}-{{ coord.y }}"\n                             class="nonplayer-light-fill"\n                             points="157.055,0 90.798,196.319 164.417,196.319 88.344,400 289.571,159.509 218.405,159.509 311.656,0"\n                             [attr.transform]="getSourceSymbolTransform(spaceContent)"/>\n                }\n                @if (spaceContent.getSize() > 1) {\n                    <text (click)="onClick(coord.x, coord.y)"\n                          [attr.transform]="getTextTransform(spaceContent)"\n                          class="text-center"\n                          [ngClass]="getTextSizeClass(spaceContent)"\n                          dy="13">{{ spaceContent.getSize() }}</text>\n                }\n            </g>\n        </g>\n    }\n    <!-- Show disconnecteds -->\n    @for (disconnected of disconnectedSpaces; track disconnected.coord.toString()) {\n        <g id="disconnected-{{ disconnected.coord.x }}-{{ disconnected.coord.y }}">\n            <polygon [attr.points]="getHexaPoints()"\n                     [attr.transform]="getHexaCenterTranslationAt(disconnected.coord)"\n                     class="base mid-stroke captured-fill"/>\n            <circle id="captured-{{ disconnected.coord.x }}-{{ disconnected.coord.y }}"\n                    [attr.cx]="getCenterAt(disconnected.coord).x"\n                    [attr.cy]="getCenterAt(disconnected.coord).y"\n                    [attr.r]="SPACE_SIZE"\n                    class="base mid-stroke semi-transparent"\n                    [ngClass]="getPieceClasses(disconnected.spaceContent)"/>\n            @if (disconnected.spaceContent.getSize() > 1) {\n                <text [attr.x]="getCenterAt(disconnected.coord).x"\n                      [attr.y]="getCenterAt(disconnected.coord).y"\n                      class="text-center text-medium"\n                      dy="13">{{disconnected.spaceContent.getSize()}}</text>\n            }\n        </g>\n    }\n    <!-- Highlight last move -->\n    @if (lastMove.isPresent()) {\n        <ng-container>\n            <polygon [attr.points]="getHexaPoints()"\n                     [attr.transform]="getHexaCenterTranslationAt(lastMove.get().getStart())"\n                     class="base no-fill last-move-stroke"/>\n            <polygon [attr.points]="getHexaPoints()"\n                     [attr.transform]="getHexaCenterTranslationAt(lastMove.get().getEnd())"\n                     class="base no-fill last-move-stroke"/>\n        </ng-container>\n    }\n    <!-- Highlight selected piece -->\n    @if (chosen.isPresent()) {\n        <polygon id="chosen-{{ chosen.get().x }}-{{ chosen.get().y }}"\n                 [attr.transform]="getHexaCenterTranslationAt(chosen.get())"\n                 [attr.points]="getHexaPoints()"\n                 class="base no-fill selected-stroke"/>\n    }\n</svg>\n', styles: ["/* src/app/components/game-components/game-component/game-component.scss */\n.base {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke {\n  stroke-width: 0;\n}\n.base.manual-stroke {\n  fill: var(--base-stroke);\n}\n.base-no-stroke {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text {\n  fill: var(--base-stroke);\n}\n.white-background {\n  fill: white;\n}\n.background {\n  fill: var(--spaces-fill);\n}\n.transparent {\n  opacity: 0;\n}\n.background2 {\n  fill: var(--alt-background-fill);\n}\n.background3 {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill {\n  fill: var(--player0);\n}\n.player0-alternate-fill {\n  fill: var(--player0-alternate);\n}\n.player0-stroke {\n  stroke: var(--player0);\n}\n.player1-fill {\n  fill: var(--player1);\n}\n.player1-alternate-fill {\n  fill: var(--player1-alternate);\n}\n.player1-stroke {\n  stroke: var(--player1);\n}\n.nonplayer-fill {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill {\n  fill: var(--pre-captured);\n}\n.captured-fill {\n  fill: var(--captured);\n}\n.captured-alternate-fill {\n  fill: var(--alt-captured);\n}\n.captured-stroke {\n  stroke: var(--captured);\n}\n.moved-fill {\n  fill: var(--moved);\n}\n.moved-stroke {\n  stroke: var(--moved);\n}\n.indicator {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill {\n  fill: var(--indicator);\n}\n.selectable-stroke {\n  stroke: var(--selectable);\n}\n.selectable > .base-no-stroke {\n  fill: var(--selectable);\n}\n.last-move-stroke {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke {\n  fill: var(--last-move);\n}\n.last-move-fill {\n  fill: var(--last-move);\n}\n.victory-fill {\n  fill: var(--victory);\n}\n.victory-stroke {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke {\n  fill: var(--victory);\n}\n.defeat-fill {\n  fill: var(--defeat);\n}\n.defeat-stroke {\n  stroke: var(--defeat);\n}\n.selected-fill {\n  fill: var(--selected);\n}\n.selected-stroke {\n  stroke: var(--selected);\n}\n.clickable-stroke {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill {\n  fill: var(--capturable);\n}\n.capturable-stroke:hover {\n  stroke-width: 8;\n}\n.no-fill {\n  fill: none;\n}\n.no-stroke {\n  stroke: none;\n}\n.small-stroke {\n  stroke-width: 2;\n}\n.mid-small-stroke {\n  stroke-width: 3;\n}\n.mid-stroke {\n  stroke-width: 5;\n}\n.big-stroke {\n  stroke-width: 8;\n}\n.huge-stroke {\n  stroke-width: 12;\n}\n.semi-transparent {\n  opacity: 0.5;\n}\n.territory-opacity {\n  fill-opacity: 0.7;\n}\n.round {\n  stroke-linecap: round;\n}\n.text-giant {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big {\n  font: 50px sans-serif;\n}\n.backgrounded-text {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus {\n  font: 38px sans-serif;\n}\n.text-medium {\n  font: 35px sans-serif;\n}\n.text-small-plus {\n  font: 28px sans-serif;\n}\n.text-small {\n  font: 25px sans-serif;\n}\n.text-bold {\n  font-weight: bold;\n}\n.text-center {\n  text-anchor: middle;\n}\n.black-fill {\n  fill: black;\n}\n.darker {\n  filter: brightness(80%);\n}\n.lighter {\n  filter: brightness(110%);\n}\nsvg {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */\n"] }]
   }], () => [], { onClick: [] });
 })();
 (() => {
@@ -14267,12 +14254,11 @@ var EncapsuleComponent = class _EncapsuleComponent extends RectangularGameCompon
   }
   updateBoard(_triggerAnimation) {
     return __async(this, null, function* () {
-      this.state = this.getState();
       const config = this.config();
-      this.board = this.state.getCopiedBoard();
+      this.board = this.state().getCopiedBoard();
       this.renderBoardPiece();
       this.calculateLeftPieceCoords();
-      this.victoryCoords = EncapsuleRules.get().getVictoriousCoords(this.state, config);
+      this.victoryCoords = EncapsuleRules.get().getVictoriousCoords(this.state(), config);
       this.setRingStrokeWidth();
     });
   }
@@ -14295,7 +14281,7 @@ var EncapsuleComponent = class _EncapsuleComponent extends RectangularGameCompon
     });
   }
   setRingStrokeWidth() {
-    const configSize = this.state.nbOfPieceSize;
+    const configSize = this.state().nbOfPieceSize;
     const innerRadius = (this.SPACE_SIZE - this.STROKE_WIDTH) / 2;
     this.ringStrokeWidth = innerRadius / configSize;
     this.ringStrokeWidth = 2 * this.ringStrokeWidth / 3;
@@ -14304,7 +14290,7 @@ var EncapsuleComponent = class _EncapsuleComponent extends RectangularGameCompon
   calculatePieceSizeToRadius() {
     this.pieceSizeToRadius = new MGPMap();
     for (const player of Player.PLAYERS) {
-      for (let size = 1; size <= this.state.nbOfPieceSize; size++) {
+      for (let size = 1; size <= this.state().nbOfPieceSize; size++) {
         const piece = EncapsulePiece.ofSizeAndPlayer(size, player);
         this.pieceSizeToRadius.set(piece, this.getPieceRadius(size));
       }
@@ -14314,7 +14300,7 @@ var EncapsuleComponent = class _EncapsuleComponent extends RectangularGameCompon
     return content.toList();
   }
   getRemainingPiecesTypeOfPlayer(player) {
-    const pieceMap = this.getState().getRemainingPiecesOfPlayer(player);
+    const pieceMap = this.state().getRemainingPiecesOfPlayer(player);
     const remainingSizeToNumber = pieceMap.filter((_key, value) => value > 0);
     const remainingPieceSet = remainingSizeToNumber.getKeySet();
     return remainingPieceSet.map((size) => EncapsulePiece.ofSizeAndPlayer(size, player));
@@ -14322,7 +14308,7 @@ var EncapsuleComponent = class _EncapsuleComponent extends RectangularGameCompon
   onBoardClick(x2, y) {
     return __async(this, null, function* () {
       const clickedCoord = new Coord(x2, y);
-      const state = this.getState();
+      const state = this.state();
       if (this.chosenCoord.isAbsent()) {
         this.chosenCoord = MGPOptional.of(clickedCoord);
         if (this.chosenPiece.isPresent()) {
@@ -14349,7 +14335,7 @@ var EncapsuleComponent = class _EncapsuleComponent extends RectangularGameCompon
   }
   onPieceClick(piece) {
     return __async(this, null, function* () {
-      const state = this.getState();
+      const state = this.state();
       if (state.isDroppable(piece) === false) {
         return this.cancelMove(EncapsuleFailure.NOT_DROPPABLE());
       } else if (this.chosenCoord.isAbsent()) {
@@ -14408,8 +14394,8 @@ var EncapsuleComponent = class _EncapsuleComponent extends RectangularGameCompon
   }
   calculateLeftPieceCoords() {
     this.remainingPieceCenterCoords = new MGPMap();
-    const height = this.state.getHeight();
-    const maxX = this.state.getWidth() - 1;
+    const height = this.height();
+    const maxX = this.width() - 1;
     const maxY = height - 1;
     for (const player of Player.PLAYERS) {
       const playersRemainingPieceLeftPieceCoords = [];
@@ -14446,13 +14432,13 @@ var EncapsuleComponent = class _EncapsuleComponent extends RectangularGameCompon
   }
   getRemainingPieceQuantity(piece) {
     const player = piece.getPlayer();
-    return this.state.remainingPieces.get(player).get(piece.getSize()).getOrElse(-1);
+    return this.state().remainingPieces.get(player).get(piece.getSize()).getOrElse(-1);
   }
   getRemainingPieceQuantityTransform(piece, pieceIdx) {
     const offsetX = 0.7 * this.SPACE_SIZE;
     let cx = -offsetX;
     let cy = 0;
-    if (pieceIdx > this.getState().getHeight()) {
+    if (pieceIdx > this.height()) {
       cx = 0;
       cy = offsetX;
     }
@@ -15207,12 +15193,12 @@ var EpaminondasComponent = class _EpaminondasComponent extends RectangularGameCo
   }
   updateBoard(_triggerAnimation) {
     return __async(this, null, function* () {
-      this.board = this.getState().getCopiedBoard();
+      this.board = this.state().getCopiedBoard();
       this.scores = this.getScores();
     });
   }
   getScores() {
-    const state = this.getState();
+    const state = this.state();
     const playerMap = PlayerNumberMap.of(state.countPieceOnBoard(Player.ZERO), state.countPieceOnBoard(Player.ONE));
     return MGPOptional.of(playerMap);
   }
@@ -15226,7 +15212,7 @@ var EpaminondasComponent = class _EpaminondasComponent extends RectangularGameCo
         this.moveds.push(moved);
       }
       const previousNode = this.node().parent.get();
-      const previousOpponent = this.getState().getPreviousOpponent();
+      const previousOpponent = this.state().getPreviousOpponent();
       while (previousNode.gameState.hasPieceAt(moved, previousOpponent)) {
         this.capturedCoords.push(moved);
         moved = moved.getNext(move.direction, 1);
@@ -15244,8 +15230,8 @@ var EpaminondasComponent = class _EpaminondasComponent extends RectangularGameCo
   }
   firstClick(x2, y) {
     return __async(this, null, function* () {
-      const opponent = this.getState().getCurrentOpponent();
-      const player = this.getState().getCurrentPlayer();
+      const opponent = this.state().getCurrentOpponent();
+      const player = this.state().getCurrentPlayer();
       switch (this.board[y][x2]) {
         case player:
           this.firstPiece = MGPOptional.of(new Coord(x2, y));
@@ -15264,7 +15250,7 @@ var EpaminondasComponent = class _EpaminondasComponent extends RectangularGameCo
     this.moveds = [];
   }
   getPossibleMoves() {
-    const state = this.getState();
+    const state = this.state();
     const possibleMoves = [];
     for (const direction of Ordinal.ORDINALS) {
       const phalanxSize = this.countPhalanxSize(direction);
@@ -15302,7 +15288,7 @@ var EpaminondasComponent = class _EpaminondasComponent extends RectangularGameCo
         return this.chooseMove(validMoves[0].relatedMove);
       }
       const player = this.getCurrentPlayer();
-      if (this.getState().getPieceAt(clicked) === player) {
+      if (this.state().getPieceAt(clicked) === player) {
         return this.firstClick(x2, y);
       }
       if (clicked.isAlignedWith(firstPiece) === false) {
@@ -15324,8 +15310,8 @@ var EpaminondasComponent = class _EpaminondasComponent extends RectangularGameCo
   countPhalanxSize(direction) {
     let phalanxSize = 1;
     let coord = this.firstPiece.get().getNext(direction, 1);
-    const currentPlayer = this.getState().getCurrentPlayer();
-    while (this.getState().hasPieceAt(coord, currentPlayer)) {
+    const currentPlayer = this.state().getCurrentPlayer();
+    while (this.state().hasPieceAt(coord, currentPlayer)) {
       phalanxSize++;
       coord = coord.getNext(direction, 1);
     }
@@ -15375,10 +15361,10 @@ var EpaminondasComponent = class _EpaminondasComponent extends RectangularGameCo
   }
   getCurrentPlayerPieces() {
     const pieces = [];
-    const state = this.getState();
+    const state = this.state();
     const player = state.getCurrentPlayer();
-    for (let y = 0; y < this.getHeight(); y++) {
-      for (let x2 = 0; x2 < this.getWidth(); x2++) {
+    for (let y = 0; y < this.height(); y++) {
+      for (let x2 = 0; x2 < this.width(); x2++) {
         if (this.board[y][x2] === player) {
           pieces.push(new Coord(x2, y));
         }
@@ -16319,7 +16305,7 @@ var GipfComponent = class _GipfComponent extends HexagonalGameComponent {
     this.hasAsymmetricBoard = true;
     this.scores = MGPOptional.of(PlayerNumberMap.of(0, 0));
     this.SPACE_SIZE = 40;
-    this.constructedState = this.getState();
+    this.constructedState = this.state();
     const size = this.SPACE_SIZE * 1.5;
     const origineX = this.hexagonWidth / 2 + 3 * this.STROKE_WIDTH / 4;
     const origineY = -this.hexagonWidth;
@@ -16328,7 +16314,7 @@ var GipfComponent = class _GipfComponent extends HexagonalGameComponent {
   }
   updateBoard(_triggerAnimation) {
     return __async(this, null, function* () {
-      this.constructedState = this.getState();
+      this.constructedState = this.state();
       this.scores = MGPOptional.of(this.constructedState.getScores());
       this.moveToInitialCaptureOrPlacementPhase();
     });
@@ -16515,7 +16501,7 @@ var GipfComponent = class _GipfComponent extends HexagonalGameComponent {
     return this.chooseMove(move);
   }
   cancelMoveAttempt() {
-    this.constructedState = this.getState();
+    this.constructedState = this.state();
     this.captured = new MGPMap();
     this.moved = [];
     this.initialCaptures = [];
@@ -17801,9 +17787,9 @@ var AbstractRectangularGoComponent = class _AbstractRectangularGoComponent exten
     const zooms = this.zooms().length;
     const zoomSeparatorCount = zooms - 1;
     const verticalSubBoardSeparatorCount = zooms * (zooms - 1) * 0.5;
-    const normalWidth = this.getState().getWidth() * this.SPACE_SIZE;
+    const normalWidth = this.width() * this.SPACE_SIZE;
     const width = normalWidth + (zooms - 1) * this.SUB_BOARD_SEPARATOR;
-    const normalHeight = this.getState().getHeight() * this.SPACE_SIZE;
+    const normalHeight = this.height() * this.SPACE_SIZE;
     let height = zooms * normalHeight;
     height += this.SUB_BOARD_SEPARATOR * verticalSubBoardSeparatorCount;
     height += this.ZOOM_SEPARATOR * zoomSeparatorCount;
@@ -17827,7 +17813,7 @@ var AbstractRectangularGoComponent = class _AbstractRectangularGoComponent exten
   }
   updateBoard(_triggerAnimation) {
     return __async(this, null, function* () {
-      const state = this.getState();
+      const state = this.state();
       const phase = state.phase;
       this.board = state.getCopiedBoard();
       const subBoards = GoSubBoardHelper.splitInSubBoards(this.board, this.config().zoom);
@@ -17845,16 +17831,16 @@ var AbstractRectangularGoComponent = class _AbstractRectangularGoComponent exten
     });
   }
   updateScores() {
-    this.scores = MGPOptional.of(this.getState().captured);
+    this.scores = MGPOptional.of(this.state().captured);
   }
   getScoreName() {
-    return this.getState().phase.getScoreName();
+    return this.state().phase.getScoreName();
   }
   showCaptures() {
     const previousState = this.getPreviousState();
     const captures = [];
-    for (let y = 0; y < this.getHeight(); y++) {
-      for (let x2 = 0; x2 < this.getWidth(); x2++) {
+    for (let y = 0; y < this.height(); y++) {
+      for (let x2 = 0; x2 < this.width(); x2++) {
         const coord = new Coord(x2, y);
         const wasOccupied = previousState.getPieceAt(coord).isOccupied();
         const isEmpty = this.board[y][x2] === GoPiece.EMPTY;
@@ -17868,7 +17854,7 @@ var AbstractRectangularGoComponent = class _AbstractRectangularGoComponent exten
   }
   pass() {
     return __async(this, null, function* () {
-      const phase = this.getState().phase;
+      const phase = this.state().phase;
       if (phase.isPlaying() || phase.isPassed()) {
         return this.onClick(GoMove.PASS.coord);
       }
@@ -17886,7 +17872,7 @@ var AbstractRectangularGoComponent = class _AbstractRectangularGoComponent exten
     return (totalZooms - zoom - 1) * 0.5 * this.SUB_BOARD_SEPARATOR;
   }
   yZoomTranslate(zoom) {
-    const normalheight = this.getState().getHeight() * this.SPACE_SIZE;
+    const normalheight = this.height() * this.SPACE_SIZE;
     let translate = zoom * normalheight;
     translate += zoom * this.ZOOM_SEPARATOR;
     translate += zoom * (zoom - 1) * 0.5 * this.SUB_BOARD_SEPARATOR;
@@ -18593,7 +18579,7 @@ var HexagonalGoComponent = class HexagonalGoComponent2 extends HexagonalGameComp
   }
   setHexaLayout() {
     const halfStroke = this.STROKE_WIDTH / 2;
-    const configSize = Math.floor(this.getState().getWidth() / 2);
+    const configSize = Math.floor(this.state().getWidth() / 2);
     const hexaLayoutStartX = -halfStroke * (configSize + 1) + Math.sqrt(2) * this.SPACE_SIZE;
     const hexaLayoutStartY = this.SPACE_SIZE + halfStroke;
     const hexaLayoutStartingCoord = new Coord(hexaLayoutStartX, hexaLayoutStartY);
@@ -18610,7 +18596,7 @@ var HexagonalGoComponent = class HexagonalGoComponent2 extends HexagonalGameComp
     this.last = MGPOptional.empty();
   }
   computeViewBox() {
-    return ViewBox.fromHexa(this.getState().allCoords(), this.hexaLayout, this.STROKE_WIDTH).expandAbove(this.SPACE_SIZE).expandBelow(this.SPACE_SIZE);
+    return ViewBox.fromHexa(this.state().allCoords(), this.hexaLayout, this.STROKE_WIDTH).expandAbove(this.SPACE_SIZE).expandBelow(this.SPACE_SIZE);
   }
   onClick(coord) {
     return __async(this, null, function* () {
@@ -18620,7 +18606,7 @@ var HexagonalGoComponent = class HexagonalGoComponent2 extends HexagonalGameComp
   }
   updateBoard(_triggerAnimation) {
     return __async(this, null, function* () {
-      const state = this.getState();
+      const state = this.state();
       const phase = state.phase;
       this.hexaBoard = state.getCopiedBoard();
       this.updateScores();
@@ -18629,15 +18615,15 @@ var HexagonalGoComponent = class HexagonalGoComponent2 extends HexagonalGameComp
     });
   }
   updateScores() {
-    this.scores = MGPOptional.of(this.getState().captured);
+    this.scores = MGPOptional.of(this.state().captured);
   }
   getScoreName() {
-    return this.getState().phase.getScoreName();
+    return this.state().phase.getScoreName();
   }
   showCaptures() {
     const previousState = this.getPreviousState();
     this.captures = [];
-    for (const coordAndContent of this.getState().getCoordsAndContents()) {
+    for (const coordAndContent of this.state().getCoordsAndContents()) {
       const coord = coordAndContent.coord;
       const wasOccupied = previousState.getPieceAt(coord).isOccupied();
       const isEmpty = this.hexaBoard[coord.y][coord.x] === GoPiece.EMPTY;
@@ -18649,7 +18635,7 @@ var HexagonalGoComponent = class HexagonalGoComponent2 extends HexagonalGameComp
   }
   pass() {
     return __async(this, null, function* () {
-      const phase = this.getState().phase;
+      const phase = this.state().phase;
       if (phase.isPlaying() || phase.isPassed()) {
         return this.onClick(GoMove.PASS.coord);
       }
@@ -18658,7 +18644,7 @@ var HexagonalGoComponent = class HexagonalGoComponent2 extends HexagonalGameComp
     });
   }
   getPlayerClassAt(coord) {
-    const piece = this.getState().getPieceAt(coord);
+    const piece = this.state().getPieceAt(coord);
     const classes = [];
     if (this.captures.some((c) => c.equals(coord))) {
       classes.push("captured-fill");
@@ -18688,9 +18674,9 @@ var HexagonalGoComponent = class HexagonalGoComponent2 extends HexagonalGameComp
     if (rf & 2) {
       \u0275\u0275attribute("viewBox", ctx.viewBoxString());
       \u0275\u0275advance();
-      \u0275\u0275repeater(ctx.getState().getCoordsAndContents());
+      \u0275\u0275repeater(ctx.state().getCoordsAndContents());
       \u0275\u0275advance(2);
-      \u0275\u0275conditional(ctx.last.isPresent() && ctx.getState().isOnBoard(ctx.last.get()) ? 3 : -1);
+      \u0275\u0275conditional(ctx.last.isPresent() && ctx.state().isOnBoard(ctx.last.get()) ? 3 : -1);
     }
   }, dependencies: [NgClass], styles: ["\n\n.base[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke[_ngcontent-%COMP%] {\n  stroke-width: 0;\n}\n.base.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n}\n.base-no-stroke[_ngcontent-%COMP%] {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n}\n.white-background[_ngcontent-%COMP%] {\n  fill: white;\n}\n.background[_ngcontent-%COMP%] {\n  fill: var(--spaces-fill);\n}\n.transparent[_ngcontent-%COMP%] {\n  opacity: 0;\n}\n.background2[_ngcontent-%COMP%] {\n  fill: var(--alt-background-fill);\n}\n.background3[_ngcontent-%COMP%] {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill[_ngcontent-%COMP%] {\n  fill: var(--player0);\n}\n.player0-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--player0-alternate);\n}\n.player0-stroke[_ngcontent-%COMP%] {\n  stroke: var(--player0);\n}\n.player1-fill[_ngcontent-%COMP%] {\n  fill: var(--player1);\n}\n.player1-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--player1-alternate);\n}\n.player1-stroke[_ngcontent-%COMP%] {\n  stroke: var(--player1);\n}\n.nonplayer-fill[_ngcontent-%COMP%] {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill[_ngcontent-%COMP%] {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke[_ngcontent-%COMP%] {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke[_ngcontent-%COMP%] {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill[_ngcontent-%COMP%] {\n  fill: var(--pre-captured);\n}\n.captured-fill[_ngcontent-%COMP%] {\n  fill: var(--captured);\n}\n.captured-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--alt-captured);\n}\n.captured-stroke[_ngcontent-%COMP%] {\n  stroke: var(--captured);\n}\n.moved-fill[_ngcontent-%COMP%] {\n  fill: var(--moved);\n}\n.moved-stroke[_ngcontent-%COMP%] {\n  stroke: var(--moved);\n}\n.indicator[_ngcontent-%COMP%] {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill[_ngcontent-%COMP%] {\n  fill: var(--indicator);\n}\n.selectable-stroke[_ngcontent-%COMP%] {\n  stroke: var(--selectable);\n}\n.selectable[_ngcontent-%COMP%]    > .base-no-stroke[_ngcontent-%COMP%] {\n  fill: var(--selectable);\n}\n.last-move-stroke[_ngcontent-%COMP%] {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--last-move);\n}\n.last-move-fill[_ngcontent-%COMP%] {\n  fill: var(--last-move);\n}\n.victory-fill[_ngcontent-%COMP%] {\n  fill: var(--victory);\n}\n.victory-stroke[_ngcontent-%COMP%] {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--victory);\n}\n.defeat-fill[_ngcontent-%COMP%] {\n  fill: var(--defeat);\n}\n.defeat-stroke[_ngcontent-%COMP%] {\n  stroke: var(--defeat);\n}\n.selected-fill[_ngcontent-%COMP%] {\n  fill: var(--selected);\n}\n.selected-stroke[_ngcontent-%COMP%] {\n  stroke: var(--selected);\n}\n.clickable-stroke[_ngcontent-%COMP%] {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover[_ngcontent-%COMP%]:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke[_ngcontent-%COMP%] {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill[_ngcontent-%COMP%] {\n  fill: var(--capturable);\n}\n.capturable-stroke[_ngcontent-%COMP%]:hover {\n  stroke-width: 8;\n}\n.no-fill[_ngcontent-%COMP%] {\n  fill: none;\n}\n.no-stroke[_ngcontent-%COMP%] {\n  stroke: none;\n}\n.small-stroke[_ngcontent-%COMP%] {\n  stroke-width: 2;\n}\n.mid-small-stroke[_ngcontent-%COMP%] {\n  stroke-width: 3;\n}\n.mid-stroke[_ngcontent-%COMP%] {\n  stroke-width: 5;\n}\n.big-stroke[_ngcontent-%COMP%] {\n  stroke-width: 8;\n}\n.huge-stroke[_ngcontent-%COMP%] {\n  stroke-width: 12;\n}\n.semi-transparent[_ngcontent-%COMP%] {\n  opacity: 0.5;\n}\n.territory-opacity[_ngcontent-%COMP%] {\n  fill-opacity: 0.7;\n}\n.round[_ngcontent-%COMP%] {\n  stroke-linecap: round;\n}\n.text-giant[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big[_ngcontent-%COMP%] {\n  font: 50px sans-serif;\n}\n.backgrounded-text[_ngcontent-%COMP%] {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus[_ngcontent-%COMP%] {\n  font: 38px sans-serif;\n}\n.text-medium[_ngcontent-%COMP%] {\n  font: 35px sans-serif;\n}\n.text-small-plus[_ngcontent-%COMP%] {\n  font: 28px sans-serif;\n}\n.text-small[_ngcontent-%COMP%] {\n  font: 25px sans-serif;\n}\n.text-bold[_ngcontent-%COMP%] {\n  font-weight: bold;\n}\n.text-center[_ngcontent-%COMP%] {\n  text-anchor: middle;\n}\n.black-fill[_ngcontent-%COMP%] {\n  fill: black;\n}\n.darker[_ngcontent-%COMP%] {\n  filter: brightness(80%);\n}\n.lighter[_ngcontent-%COMP%] {\n  filter: brightness(110%);\n}\nsvg[_ngcontent-%COMP%] {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator[_ngcontent-%COMP%] {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */"], changeDetection: 0 });
 };
@@ -18703,7 +18689,7 @@ HexagonalGoComponent = __decorate22([
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(HexagonalGoComponent, [{
     type: Component,
-    args: [{ changeDetection: ChangeDetectionStrategy.OnPush, selector: "app-hexagonal-go", imports: [NgClass], template: '<svg xmlns="http://www.w3.org/2000/svg"\n     class="board"\n     [attr.viewBox]="viewBoxString()"\n     preserveAspectRatio="xMidYMid meet">\n    @for (coordAndContent of getState().getCoordsAndContents(); track coordAndContent.coord.toString()) {\n        <g id="click-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n           [attr.transform]="getHexaCenterTranslationAt(coordAndContent.coord)"\n           (click)="onClick(coordAndContent.coord)">\n            @if (coordAndContent.content.isReachable()) {\n                <polygon id="space-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n                         [attr.points]="getHexaPoints()"\n                         [ngClass]="getPlayerClassAt(coordAndContent.coord)"\n                         class="base mid-stroke"/>\n            }\n            @if (coordAndContent.content.isDead()) {\n                <g id="dead-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}">\n                    <polygon [attr.points]="getHexaDiagonalPoints()"\n                             class="base no-fill captured-stroke"/>\n                    />\n                </g>\n            }\n            @if (coordAndContent.content.isTerritory()) {\n                <polygon id="territory-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n                         [attr.points]="getHexaPoints()"\n                         [attr.transform]="getTerritoryHexagonalTransform()"\n                         [ngClass]="getPlayerClass(coordAndContent.content.player)"/>\n            }\n        </g>\n    }\n\n    @if (last.isPresent() && getState().isOnBoard(last.get())) {\n        <polygon id="last-{{ last.get().x }}-{{ last.get().y }}"\n                 [attr.transform]="getHexaCenterTranslationAt(last.get())"\n                 [attr.points]="getHexaPoints()"\n                 [ngClass]="getPlayerClassAt(last.get())"\n                 class="last-move-stroke big-stroke no-fill"/>\n    }\n\n</svg>\n', styles: ["/* src/app/components/game-components/game-component/game-component.scss */\n.base {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke {\n  stroke-width: 0;\n}\n.base.manual-stroke {\n  fill: var(--base-stroke);\n}\n.base-no-stroke {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text {\n  fill: var(--base-stroke);\n}\n.white-background {\n  fill: white;\n}\n.background {\n  fill: var(--spaces-fill);\n}\n.transparent {\n  opacity: 0;\n}\n.background2 {\n  fill: var(--alt-background-fill);\n}\n.background3 {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill {\n  fill: var(--player0);\n}\n.player0-alternate-fill {\n  fill: var(--player0-alternate);\n}\n.player0-stroke {\n  stroke: var(--player0);\n}\n.player1-fill {\n  fill: var(--player1);\n}\n.player1-alternate-fill {\n  fill: var(--player1-alternate);\n}\n.player1-stroke {\n  stroke: var(--player1);\n}\n.nonplayer-fill {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill {\n  fill: var(--pre-captured);\n}\n.captured-fill {\n  fill: var(--captured);\n}\n.captured-alternate-fill {\n  fill: var(--alt-captured);\n}\n.captured-stroke {\n  stroke: var(--captured);\n}\n.moved-fill {\n  fill: var(--moved);\n}\n.moved-stroke {\n  stroke: var(--moved);\n}\n.indicator {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill {\n  fill: var(--indicator);\n}\n.selectable-stroke {\n  stroke: var(--selectable);\n}\n.selectable > .base-no-stroke {\n  fill: var(--selectable);\n}\n.last-move-stroke {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke {\n  fill: var(--last-move);\n}\n.last-move-fill {\n  fill: var(--last-move);\n}\n.victory-fill {\n  fill: var(--victory);\n}\n.victory-stroke {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke {\n  fill: var(--victory);\n}\n.defeat-fill {\n  fill: var(--defeat);\n}\n.defeat-stroke {\n  stroke: var(--defeat);\n}\n.selected-fill {\n  fill: var(--selected);\n}\n.selected-stroke {\n  stroke: var(--selected);\n}\n.clickable-stroke {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill {\n  fill: var(--capturable);\n}\n.capturable-stroke:hover {\n  stroke-width: 8;\n}\n.no-fill {\n  fill: none;\n}\n.no-stroke {\n  stroke: none;\n}\n.small-stroke {\n  stroke-width: 2;\n}\n.mid-small-stroke {\n  stroke-width: 3;\n}\n.mid-stroke {\n  stroke-width: 5;\n}\n.big-stroke {\n  stroke-width: 8;\n}\n.huge-stroke {\n  stroke-width: 12;\n}\n.semi-transparent {\n  opacity: 0.5;\n}\n.territory-opacity {\n  fill-opacity: 0.7;\n}\n.round {\n  stroke-linecap: round;\n}\n.text-giant {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big {\n  font: 50px sans-serif;\n}\n.backgrounded-text {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus {\n  font: 38px sans-serif;\n}\n.text-medium {\n  font: 35px sans-serif;\n}\n.text-small-plus {\n  font: 28px sans-serif;\n}\n.text-small {\n  font: 25px sans-serif;\n}\n.text-bold {\n  font-weight: bold;\n}\n.text-center {\n  text-anchor: middle;\n}\n.black-fill {\n  fill: black;\n}\n.darker {\n  filter: brightness(80%);\n}\n.lighter {\n  filter: brightness(110%);\n}\nsvg {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */\n"] }]
+    args: [{ changeDetection: ChangeDetectionStrategy.OnPush, selector: "app-hexagonal-go", imports: [NgClass], template: '<svg xmlns="http://www.w3.org/2000/svg"\n     class="board"\n     [attr.viewBox]="viewBoxString()"\n     preserveAspectRatio="xMidYMid meet">\n    @for (coordAndContent of state().getCoordsAndContents(); track coordAndContent.coord.toString()) {\n        <g id="click-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n           [attr.transform]="getHexaCenterTranslationAt(coordAndContent.coord)"\n           (click)="onClick(coordAndContent.coord)">\n            @if (coordAndContent.content.isReachable()) {\n                <polygon id="space-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n                         [attr.points]="getHexaPoints()"\n                         [ngClass]="getPlayerClassAt(coordAndContent.coord)"\n                         class="base mid-stroke"/>\n            }\n            @if (coordAndContent.content.isDead()) {\n                <g id="dead-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}">\n                    <polygon [attr.points]="getHexaDiagonalPoints()"\n                             class="base no-fill captured-stroke"/>\n                    />\n                </g>\n            }\n            @if (coordAndContent.content.isTerritory()) {\n                <polygon id="territory-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n                         [attr.points]="getHexaPoints()"\n                         [attr.transform]="getTerritoryHexagonalTransform()"\n                         [ngClass]="getPlayerClass(coordAndContent.content.player)"/>\n            }\n        </g>\n    }\n\n    @if (last.isPresent() && state().isOnBoard(last.get())) {\n        <polygon id="last-{{ last.get().x }}-{{ last.get().y }}"\n                 [attr.transform]="getHexaCenterTranslationAt(last.get())"\n                 [attr.points]="getHexaPoints()"\n                 [ngClass]="getPlayerClassAt(last.get())"\n                 class="last-move-stroke big-stroke no-fill"/>\n    }\n\n</svg>\n', styles: ["/* src/app/components/game-components/game-component/game-component.scss */\n.base {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke {\n  stroke-width: 0;\n}\n.base.manual-stroke {\n  fill: var(--base-stroke);\n}\n.base-no-stroke {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text {\n  fill: var(--base-stroke);\n}\n.white-background {\n  fill: white;\n}\n.background {\n  fill: var(--spaces-fill);\n}\n.transparent {\n  opacity: 0;\n}\n.background2 {\n  fill: var(--alt-background-fill);\n}\n.background3 {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill {\n  fill: var(--player0);\n}\n.player0-alternate-fill {\n  fill: var(--player0-alternate);\n}\n.player0-stroke {\n  stroke: var(--player0);\n}\n.player1-fill {\n  fill: var(--player1);\n}\n.player1-alternate-fill {\n  fill: var(--player1-alternate);\n}\n.player1-stroke {\n  stroke: var(--player1);\n}\n.nonplayer-fill {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill {\n  fill: var(--pre-captured);\n}\n.captured-fill {\n  fill: var(--captured);\n}\n.captured-alternate-fill {\n  fill: var(--alt-captured);\n}\n.captured-stroke {\n  stroke: var(--captured);\n}\n.moved-fill {\n  fill: var(--moved);\n}\n.moved-stroke {\n  stroke: var(--moved);\n}\n.indicator {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill {\n  fill: var(--indicator);\n}\n.selectable-stroke {\n  stroke: var(--selectable);\n}\n.selectable > .base-no-stroke {\n  fill: var(--selectable);\n}\n.last-move-stroke {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke {\n  fill: var(--last-move);\n}\n.last-move-fill {\n  fill: var(--last-move);\n}\n.victory-fill {\n  fill: var(--victory);\n}\n.victory-stroke {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke {\n  fill: var(--victory);\n}\n.defeat-fill {\n  fill: var(--defeat);\n}\n.defeat-stroke {\n  stroke: var(--defeat);\n}\n.selected-fill {\n  fill: var(--selected);\n}\n.selected-stroke {\n  stroke: var(--selected);\n}\n.clickable-stroke {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill {\n  fill: var(--capturable);\n}\n.capturable-stroke:hover {\n  stroke-width: 8;\n}\n.no-fill {\n  fill: none;\n}\n.no-stroke {\n  stroke: none;\n}\n.small-stroke {\n  stroke-width: 2;\n}\n.mid-small-stroke {\n  stroke-width: 3;\n}\n.mid-stroke {\n  stroke-width: 5;\n}\n.big-stroke {\n  stroke-width: 8;\n}\n.huge-stroke {\n  stroke-width: 12;\n}\n.semi-transparent {\n  opacity: 0.5;\n}\n.territory-opacity {\n  fill-opacity: 0.7;\n}\n.round {\n  stroke-linecap: round;\n}\n.text-giant {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big {\n  font: 50px sans-serif;\n}\n.backgrounded-text {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus {\n  font: 38px sans-serif;\n}\n.text-medium {\n  font: 35px sans-serif;\n}\n.text-small-plus {\n  font: 28px sans-serif;\n}\n.text-small {\n  font: 25px sans-serif;\n}\n.text-bold {\n  font-weight: bold;\n}\n.text-center {\n  text-anchor: middle;\n}\n.black-fill {\n  fill: black;\n}\n.darker {\n  filter: brightness(80%);\n}\n.lighter {\n  filter: brightness(110%);\n}\nsvg {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */\n"] }]
   }], () => [], { onClick: [] });
 })();
 (() => {
@@ -18964,7 +18950,7 @@ var TriangularGoComponent = class TriangularGoComponent2 extends TriangularGameC
     this.last = MGPOptional.empty();
   }
   computeViewBox() {
-    const state = this.getState();
+    const state = this.state();
     const leftmostOccupiedX = TableUtils.getLeftmostMatchColumn(state.board, GoPiece.isReachable).get();
     const width = state.board[0].length;
     const occupiedWidth = width - leftmostOccupiedX;
@@ -18981,7 +18967,7 @@ var TriangularGoComponent = class TriangularGoComponent2 extends TriangularGameC
   }
   updateBoard(_triggerAnimation) {
     return __async(this, null, function* () {
-      const state = this.getState();
+      const state = this.state();
       const phase = state.phase;
       this.board = state.getCopiedBoard();
       this.updateScores();
@@ -18990,15 +18976,15 @@ var TriangularGoComponent = class TriangularGoComponent2 extends TriangularGameC
     });
   }
   updateScores() {
-    this.scores = MGPOptional.of(this.getState().captured);
+    this.scores = MGPOptional.of(this.state().captured);
   }
   getScoreName() {
-    return this.getState().phase.getScoreName();
+    return this.state().phase.getScoreName();
   }
   showCaptures() {
     const previousState = this.getPreviousState();
     this.captures = [];
-    for (const coordAndContent of this.getState().getCoordsAndContents()) {
+    for (const coordAndContent of this.state().getCoordsAndContents()) {
       const coord = coordAndContent.coord;
       const wasOccupied = previousState.getPieceAt(coord).isOccupied();
       const isEmpty = this.board[coord.y][coord.x] === GoPiece.EMPTY;
@@ -19010,7 +18996,7 @@ var TriangularGoComponent = class TriangularGoComponent2 extends TriangularGameC
   }
   pass() {
     return __async(this, null, function* () {
-      const phase = this.getState().phase;
+      const phase = this.state().phase;
       if (phase.isPlaying() || phase.isPassed()) {
         return this.onClick(GoMove.PASS.coord);
       }
@@ -19019,7 +19005,7 @@ var TriangularGoComponent = class TriangularGoComponent2 extends TriangularGameC
     });
   }
   getPlayerClassAt(coord) {
-    const piece = this.getState().getPieceAt(coord);
+    const piece = this.state().getPieceAt(coord);
     const classes = [];
     if (this.captures.some((c) => c.equals(coord))) {
       classes.push("captured-fill");
@@ -19070,11 +19056,11 @@ var TriangularGoComponent = class TriangularGoComponent2 extends TriangularGameC
     if (rf & 2) {
       \u0275\u0275attribute("viewBox", ctx.viewBoxString());
       \u0275\u0275advance();
-      \u0275\u0275repeater(ctx.getState().getCoordsAndContents());
+      \u0275\u0275repeater(ctx.state().getCoordsAndContents());
       \u0275\u0275advance(2);
       \u0275\u0275conditional(ctx.ko.isPresent() ? 3 : -1);
       \u0275\u0275advance();
-      \u0275\u0275conditional(ctx.last.isPresent() && ctx.getState().isOnBoard(ctx.last.get()) ? 4 : -1);
+      \u0275\u0275conditional(ctx.last.isPresent() && ctx.state().isOnBoard(ctx.last.get()) ? 4 : -1);
     }
   }, dependencies: [NgClass], styles: ["\n\n.base[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke[_ngcontent-%COMP%] {\n  stroke-width: 0;\n}\n.base.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n}\n.base-no-stroke[_ngcontent-%COMP%] {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow[_ngcontent-%COMP%] {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n}\n.white-background[_ngcontent-%COMP%] {\n  fill: white;\n}\n.background[_ngcontent-%COMP%] {\n  fill: var(--spaces-fill);\n}\n.transparent[_ngcontent-%COMP%] {\n  opacity: 0;\n}\n.background2[_ngcontent-%COMP%] {\n  fill: var(--alt-background-fill);\n}\n.background3[_ngcontent-%COMP%] {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill[_ngcontent-%COMP%] {\n  fill: var(--player0);\n}\n.player0-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--player0-alternate);\n}\n.player0-stroke[_ngcontent-%COMP%] {\n  stroke: var(--player0);\n}\n.player1-fill[_ngcontent-%COMP%] {\n  fill: var(--player1);\n}\n.player1-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--player1-alternate);\n}\n.player1-stroke[_ngcontent-%COMP%] {\n  stroke: var(--player1);\n}\n.nonplayer-fill[_ngcontent-%COMP%] {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill[_ngcontent-%COMP%] {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke[_ngcontent-%COMP%] {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke[_ngcontent-%COMP%] {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill[_ngcontent-%COMP%] {\n  fill: var(--pre-captured);\n}\n.captured-fill[_ngcontent-%COMP%] {\n  fill: var(--captured);\n}\n.captured-alternate-fill[_ngcontent-%COMP%] {\n  fill: var(--alt-captured);\n}\n.captured-stroke[_ngcontent-%COMP%] {\n  stroke: var(--captured);\n}\n.moved-fill[_ngcontent-%COMP%] {\n  fill: var(--moved);\n}\n.moved-stroke[_ngcontent-%COMP%] {\n  stroke: var(--moved);\n}\n.indicator[_ngcontent-%COMP%] {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill[_ngcontent-%COMP%] {\n  fill: var(--indicator);\n}\n.selectable-stroke[_ngcontent-%COMP%] {\n  stroke: var(--selectable);\n}\n.selectable[_ngcontent-%COMP%]    > .base-no-stroke[_ngcontent-%COMP%] {\n  fill: var(--selectable);\n}\n.last-move-stroke[_ngcontent-%COMP%] {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--last-move);\n}\n.last-move-fill[_ngcontent-%COMP%] {\n  fill: var(--last-move);\n}\n.victory-fill[_ngcontent-%COMP%] {\n  fill: var(--victory);\n}\n.victory-stroke[_ngcontent-%COMP%] {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke[_ngcontent-%COMP%] {\n  fill: var(--victory);\n}\n.defeat-fill[_ngcontent-%COMP%] {\n  fill: var(--defeat);\n}\n.defeat-stroke[_ngcontent-%COMP%] {\n  stroke: var(--defeat);\n}\n.selected-fill[_ngcontent-%COMP%] {\n  fill: var(--selected);\n}\n.selected-stroke[_ngcontent-%COMP%] {\n  stroke: var(--selected);\n}\n.clickable-stroke[_ngcontent-%COMP%] {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover[_ngcontent-%COMP%]:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke[_ngcontent-%COMP%] {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill[_ngcontent-%COMP%] {\n  fill: var(--capturable);\n}\n.capturable-stroke[_ngcontent-%COMP%]:hover {\n  stroke-width: 8;\n}\n.no-fill[_ngcontent-%COMP%] {\n  fill: none;\n}\n.no-stroke[_ngcontent-%COMP%] {\n  stroke: none;\n}\n.small-stroke[_ngcontent-%COMP%] {\n  stroke-width: 2;\n}\n.mid-small-stroke[_ngcontent-%COMP%] {\n  stroke-width: 3;\n}\n.mid-stroke[_ngcontent-%COMP%] {\n  stroke-width: 5;\n}\n.big-stroke[_ngcontent-%COMP%] {\n  stroke-width: 8;\n}\n.huge-stroke[_ngcontent-%COMP%] {\n  stroke-width: 12;\n}\n.semi-transparent[_ngcontent-%COMP%] {\n  opacity: 0.5;\n}\n.territory-opacity[_ngcontent-%COMP%] {\n  fill-opacity: 0.7;\n}\n.round[_ngcontent-%COMP%] {\n  stroke-linecap: round;\n}\n.text-giant[_ngcontent-%COMP%] {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big[_ngcontent-%COMP%] {\n  font: 50px sans-serif;\n}\n.backgrounded-text[_ngcontent-%COMP%] {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus[_ngcontent-%COMP%] {\n  font: 38px sans-serif;\n}\n.text-medium[_ngcontent-%COMP%] {\n  font: 35px sans-serif;\n}\n.text-small-plus[_ngcontent-%COMP%] {\n  font: 28px sans-serif;\n}\n.text-small[_ngcontent-%COMP%] {\n  font: 25px sans-serif;\n}\n.text-bold[_ngcontent-%COMP%] {\n  font-weight: bold;\n}\n.text-center[_ngcontent-%COMP%] {\n  text-anchor: middle;\n}\n.black-fill[_ngcontent-%COMP%] {\n  fill: black;\n}\n.darker[_ngcontent-%COMP%] {\n  filter: brightness(80%);\n}\n.lighter[_ngcontent-%COMP%] {\n  filter: brightness(110%);\n}\nsvg[_ngcontent-%COMP%] {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator[_ngcontent-%COMP%] {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */"], changeDetection: 0 });
 };
@@ -19087,7 +19073,7 @@ TriangularGoComponent = __decorate23([
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(TriangularGoComponent, [{
     type: Component,
-    args: [{ changeDetection: ChangeDetectionStrategy.OnPush, selector: "app-triangular-go", imports: [NgClass], template: '<svg xmlns="http://www.w3.org/2000/svg"\n     class="board"\n     [attr.viewBox]="viewBoxString()"\n     preserveAspectRatio="xMidYMid meet">\n    @for (coordAndContent of getState().getCoordsAndContents(); track coordAndContent.coord.toString()) {\n        <g id="click-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n           [attr.transform]="getTriangleTranslationAt(coordAndContent.coord)"\n           (click)="onClick(coordAndContent.coord)">\n            @if (coordAndContent.content.isReachable()) {\n                <polygon id="space-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n                         [attr.points]="getTrianglePointsAt(coordAndContent.coord)"\n                         [ngClass]="getPlayerClassAt(coordAndContent.coord)"\n                         class="base mid-stroke"/>\n            }\n            @if (coordAndContent.content.isDead()) {\n                <g id="dead-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}">\n                    @if (isUpward(coordAndContent.coord)) {\n                        <line [attr.x1]="25"\n                              [attr.y1]="50"\n                              [attr.x2]="SPACE_SIZE"\n                              [attr.y2]="SPACE_SIZE"\n                              class="base no-fill captured-stroke"/>\n                    }\n                    @if (isDownward(coordAndContent.coord)) {\n                        <line [attr.x1]="0"\n                              [attr.y1]="0"\n                              [attr.x2]="75"\n                              [attr.y2]="50"\n                              class="base no-fill captured-stroke"/>\n                    }\n                </g>\n            }\n            @if (coordAndContent.content.isTerritory()) {\n                <polygon id="territory-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n                         [attr.points]="getTrianglePointsAt(coordAndContent.coord)"\n                         [attr.transform]="getTerritoryTriangleTransform(coordAndContent.coord)"\n                         [ngClass]="getPlayerClass(coordAndContent.content.player)"/>\n            }\n        </g>\n    }\n\n    @if (ko.isPresent()) {\n        <rect id="ko-{{ ko.get().x }}-{{ ko.get().y }}"\n              [attr.transform]="getKoTranslationAt(ko.get())"\n              [attr.width]="SPACE_SIZE * 0.25"\n              [attr.height]="SPACE_SIZE * 0.25"\n              [attr.x]="SPACE_SIZE * 0.375"\n              [attr.y]="SPACE_SIZE * 0.25"\n              class="captured-stroke mid-stroke no-fill"/>\n    }\n\n    @if (last.isPresent() && getState().isOnBoard(last.get())) {\n        <polygon id="last-{{ last.get().x }}-{{ last.get().y }}"\n                 [attr.transform]="getTriangleTranslationAt(last.get())"\n                 [attr.points]="getTrianglePointsAt(last.get())"\n                 [ngClass]="getPlayerClassAt(last.get())"\n                 class="last-move-stroke big-stroke no-fill"/>\n    }\n\n</svg>\n', styles: ["/* src/app/components/game-components/game-component/game-component.scss */\n.base {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke {\n  stroke-width: 0;\n}\n.base.manual-stroke {\n  fill: var(--base-stroke);\n}\n.base-no-stroke {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text {\n  fill: var(--base-stroke);\n}\n.white-background {\n  fill: white;\n}\n.background {\n  fill: var(--spaces-fill);\n}\n.transparent {\n  opacity: 0;\n}\n.background2 {\n  fill: var(--alt-background-fill);\n}\n.background3 {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill {\n  fill: var(--player0);\n}\n.player0-alternate-fill {\n  fill: var(--player0-alternate);\n}\n.player0-stroke {\n  stroke: var(--player0);\n}\n.player1-fill {\n  fill: var(--player1);\n}\n.player1-alternate-fill {\n  fill: var(--player1-alternate);\n}\n.player1-stroke {\n  stroke: var(--player1);\n}\n.nonplayer-fill {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill {\n  fill: var(--pre-captured);\n}\n.captured-fill {\n  fill: var(--captured);\n}\n.captured-alternate-fill {\n  fill: var(--alt-captured);\n}\n.captured-stroke {\n  stroke: var(--captured);\n}\n.moved-fill {\n  fill: var(--moved);\n}\n.moved-stroke {\n  stroke: var(--moved);\n}\n.indicator {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill {\n  fill: var(--indicator);\n}\n.selectable-stroke {\n  stroke: var(--selectable);\n}\n.selectable > .base-no-stroke {\n  fill: var(--selectable);\n}\n.last-move-stroke {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke {\n  fill: var(--last-move);\n}\n.last-move-fill {\n  fill: var(--last-move);\n}\n.victory-fill {\n  fill: var(--victory);\n}\n.victory-stroke {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke {\n  fill: var(--victory);\n}\n.defeat-fill {\n  fill: var(--defeat);\n}\n.defeat-stroke {\n  stroke: var(--defeat);\n}\n.selected-fill {\n  fill: var(--selected);\n}\n.selected-stroke {\n  stroke: var(--selected);\n}\n.clickable-stroke {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill {\n  fill: var(--capturable);\n}\n.capturable-stroke:hover {\n  stroke-width: 8;\n}\n.no-fill {\n  fill: none;\n}\n.no-stroke {\n  stroke: none;\n}\n.small-stroke {\n  stroke-width: 2;\n}\n.mid-small-stroke {\n  stroke-width: 3;\n}\n.mid-stroke {\n  stroke-width: 5;\n}\n.big-stroke {\n  stroke-width: 8;\n}\n.huge-stroke {\n  stroke-width: 12;\n}\n.semi-transparent {\n  opacity: 0.5;\n}\n.territory-opacity {\n  fill-opacity: 0.7;\n}\n.round {\n  stroke-linecap: round;\n}\n.text-giant {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big {\n  font: 50px sans-serif;\n}\n.backgrounded-text {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus {\n  font: 38px sans-serif;\n}\n.text-medium {\n  font: 35px sans-serif;\n}\n.text-small-plus {\n  font: 28px sans-serif;\n}\n.text-small {\n  font: 25px sans-serif;\n}\n.text-bold {\n  font-weight: bold;\n}\n.text-center {\n  text-anchor: middle;\n}\n.black-fill {\n  fill: black;\n}\n.darker {\n  filter: brightness(80%);\n}\n.lighter {\n  filter: brightness(110%);\n}\nsvg {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */\n"] }]
+    args: [{ changeDetection: ChangeDetectionStrategy.OnPush, selector: "app-triangular-go", imports: [NgClass], template: '<svg xmlns="http://www.w3.org/2000/svg"\n     class="board"\n     [attr.viewBox]="viewBoxString()"\n     preserveAspectRatio="xMidYMid meet">\n    @for (coordAndContent of state().getCoordsAndContents(); track coordAndContent.coord.toString()) {\n        <g id="click-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n           [attr.transform]="getTriangleTranslationAt(coordAndContent.coord)"\n           (click)="onClick(coordAndContent.coord)">\n            @if (coordAndContent.content.isReachable()) {\n                <polygon id="space-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n                         [attr.points]="getTrianglePointsAt(coordAndContent.coord)"\n                         [ngClass]="getPlayerClassAt(coordAndContent.coord)"\n                         class="base mid-stroke"/>\n            }\n            @if (coordAndContent.content.isDead()) {\n                <g id="dead-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}">\n                    @if (isUpward(coordAndContent.coord)) {\n                        <line [attr.x1]="25"\n                              [attr.y1]="50"\n                              [attr.x2]="SPACE_SIZE"\n                              [attr.y2]="SPACE_SIZE"\n                              class="base no-fill captured-stroke"/>\n                    }\n                    @if (isDownward(coordAndContent.coord)) {\n                        <line [attr.x1]="0"\n                              [attr.y1]="0"\n                              [attr.x2]="75"\n                              [attr.y2]="50"\n                              class="base no-fill captured-stroke"/>\n                    }\n                </g>\n            }\n            @if (coordAndContent.content.isTerritory()) {\n                <polygon id="territory-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n                         [attr.points]="getTrianglePointsAt(coordAndContent.coord)"\n                         [attr.transform]="getTerritoryTriangleTransform(coordAndContent.coord)"\n                         [ngClass]="getPlayerClass(coordAndContent.content.player)"/>\n            }\n        </g>\n    }\n\n    @if (ko.isPresent()) {\n        <rect id="ko-{{ ko.get().x }}-{{ ko.get().y }}"\n              [attr.transform]="getKoTranslationAt(ko.get())"\n              [attr.width]="SPACE_SIZE * 0.25"\n              [attr.height]="SPACE_SIZE * 0.25"\n              [attr.x]="SPACE_SIZE * 0.375"\n              [attr.y]="SPACE_SIZE * 0.25"\n              class="captured-stroke mid-stroke no-fill"/>\n    }\n\n    @if (last.isPresent() && state().isOnBoard(last.get())) {\n        <polygon id="last-{{ last.get().x }}-{{ last.get().y }}"\n                 [attr.transform]="getTriangleTranslationAt(last.get())"\n                 [attr.points]="getTrianglePointsAt(last.get())"\n                 [ngClass]="getPlayerClassAt(last.get())"\n                 class="last-move-stroke big-stroke no-fill"/>\n    }\n\n</svg>\n', styles: ["/* src/app/components/game-components/game-component/game-component.scss */\n.base {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke {\n  stroke-width: 0;\n}\n.base.manual-stroke {\n  fill: var(--base-stroke);\n}\n.base-no-stroke {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text {\n  fill: var(--base-stroke);\n}\n.white-background {\n  fill: white;\n}\n.background {\n  fill: var(--spaces-fill);\n}\n.transparent {\n  opacity: 0;\n}\n.background2 {\n  fill: var(--alt-background-fill);\n}\n.background3 {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill {\n  fill: var(--player0);\n}\n.player0-alternate-fill {\n  fill: var(--player0-alternate);\n}\n.player0-stroke {\n  stroke: var(--player0);\n}\n.player1-fill {\n  fill: var(--player1);\n}\n.player1-alternate-fill {\n  fill: var(--player1-alternate);\n}\n.player1-stroke {\n  stroke: var(--player1);\n}\n.nonplayer-fill {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill {\n  fill: var(--pre-captured);\n}\n.captured-fill {\n  fill: var(--captured);\n}\n.captured-alternate-fill {\n  fill: var(--alt-captured);\n}\n.captured-stroke {\n  stroke: var(--captured);\n}\n.moved-fill {\n  fill: var(--moved);\n}\n.moved-stroke {\n  stroke: var(--moved);\n}\n.indicator {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill {\n  fill: var(--indicator);\n}\n.selectable-stroke {\n  stroke: var(--selectable);\n}\n.selectable > .base-no-stroke {\n  fill: var(--selectable);\n}\n.last-move-stroke {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke {\n  fill: var(--last-move);\n}\n.last-move-fill {\n  fill: var(--last-move);\n}\n.victory-fill {\n  fill: var(--victory);\n}\n.victory-stroke {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke {\n  fill: var(--victory);\n}\n.defeat-fill {\n  fill: var(--defeat);\n}\n.defeat-stroke {\n  stroke: var(--defeat);\n}\n.selected-fill {\n  fill: var(--selected);\n}\n.selected-stroke {\n  stroke: var(--selected);\n}\n.clickable-stroke {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill {\n  fill: var(--capturable);\n}\n.capturable-stroke:hover {\n  stroke-width: 8;\n}\n.no-fill {\n  fill: none;\n}\n.no-stroke {\n  stroke: none;\n}\n.small-stroke {\n  stroke-width: 2;\n}\n.mid-small-stroke {\n  stroke-width: 3;\n}\n.mid-stroke {\n  stroke-width: 5;\n}\n.big-stroke {\n  stroke-width: 8;\n}\n.huge-stroke {\n  stroke-width: 12;\n}\n.semi-transparent {\n  opacity: 0.5;\n}\n.territory-opacity {\n  fill-opacity: 0.7;\n}\n.round {\n  stroke-linecap: round;\n}\n.text-giant {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big {\n  font: 50px sans-serif;\n}\n.backgrounded-text {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus {\n  font: 38px sans-serif;\n}\n.text-medium {\n  font: 35px sans-serif;\n}\n.text-small-plus {\n  font: 28px sans-serif;\n}\n.text-small {\n  font: 25px sans-serif;\n}\n.text-bold {\n  font-weight: bold;\n}\n.text-center {\n  text-anchor: middle;\n}\n.black-fill {\n  fill: black;\n}\n.darker {\n  filter: brightness(80%);\n}\n.lighter {\n  filter: brightness(110%);\n}\nsvg {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */\n"] }]
   }], () => [], { onClick: [] });
 })();
 (() => {
@@ -19860,14 +19846,14 @@ var HexodiaComponent = class _HexodiaComponent extends HexagonalGameComponent {
   }
   setHexaLayout() {
     const halfStroke = this.STROKE_WIDTH / 2;
-    const configSize = Math.floor(this.getState().getWidth() / 2);
+    const configSize = Math.floor(this.state().getWidth() / 2);
     const hexaLayoutStartX = -halfStroke * (configSize + 1) + Math.sqrt(2) * this.SPACE_SIZE;
     const hexaLayoutStartY = this.SPACE_SIZE + halfStroke;
     const hexaLayoutStartingCoord = new Coord(hexaLayoutStartX, hexaLayoutStartY);
     this.hexaLayout = new HexaLayout(this.SPACE_SIZE, hexaLayoutStartingCoord, PointyHexaOrientation.INSTANCE);
   }
   computeViewBox() {
-    const abstractSize = this.getState().getWidth();
+    const abstractSize = this.state().getWidth();
     const pieceSize = this.SPACE_SIZE * 1.5;
     const size = this.SPACE_SIZE * 0.5 + abstractSize * pieceSize;
     const configSize = Math.floor(abstractSize / 2);
@@ -19879,7 +19865,7 @@ var HexodiaComponent = class _HexodiaComponent extends HexagonalGameComponent {
   }
   updateBoard(_triggerAnimation) {
     return __async(this, null, function* () {
-      const state = this.getState();
+      const state = this.state();
       this.hexaBoard = state.getCopiedBoard();
       const config = this.config();
       this.victoryCoords = HexodiaRules.getVictoriousCoords(state, config);
@@ -19896,11 +19882,11 @@ var HexodiaComponent = class _HexodiaComponent extends HexagonalGameComponent {
   onClick(coord) {
     return __async(this, null, function* () {
       const totalDrop = this.config().numberOfDrops;
-      if (this.getState().turn === 0) {
+      if (this.state().turn === 0) {
         const move = HexodiaMove.of([coord]);
         return this.chooseMove(move);
       } else {
-        if (this.getState().getPieceAt(coord).isPlayer()) {
+        if (this.state().getPieceAt(coord).isPlayer()) {
           return this.cancelMove(RulesFailure.MUST_CLICK_ON_EMPTY_SQUARE());
         } else if (this.droppedCoords.some((c) => c.equals(coord))) {
           return this.cancelMove();
@@ -19917,7 +19903,7 @@ var HexodiaComponent = class _HexodiaComponent extends HexagonalGameComponent {
     });
   }
   getSquareClassesAt(coord) {
-    const owner = this.getState().getPieceAt(coord).getPlayer();
+    const owner = this.state().getPieceAt(coord).getPlayer();
     const classes = [];
     classes.push(this.getPlayerClass(owner));
     if (this.victoryCoords.some((c) => c.equals(coord))) {
@@ -19948,7 +19934,7 @@ var HexodiaComponent = class _HexodiaComponent extends HexagonalGameComponent {
     if (rf & 2) {
       \u0275\u0275attribute("viewBox", ctx.viewBoxString());
       \u0275\u0275advance();
-      \u0275\u0275repeater(ctx.getState().getCoordsAndContents());
+      \u0275\u0275repeater(ctx.state().getCoordsAndContents());
       \u0275\u0275advance(2);
       \u0275\u0275repeater(ctx.droppedCoords);
     }
@@ -19964,7 +19950,7 @@ __decorate24([
      class="board"
      [attr.viewBox]="viewBoxString()"
      preserveAspectRatio="xMidYMid meet">
-    @for (coordAndContent of getState().getCoordsAndContents(); track coordAndContent.coord.toString()) {
+    @for (coordAndContent of state().getCoordsAndContents(); track coordAndContent.coord.toString()) {
         <g>
             @if (isReachable(coordAndContent.content)) {
                 <g id="click-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"
@@ -21459,8 +21445,8 @@ var HiveComponent = class _HiveComponent extends HexagonalGameComponent {
   updateBoard(_triggerAnimation) {
     return __async(this, null, function* () {
       this.layers = [];
-      for (const coord of this.getState().occupiedSpaces()) {
-        const stack = this.getState().getAt(coord);
+      for (const coord of this.state().occupiedSpaces()) {
+        const stack = this.state().getAt(coord);
         const x2 = coord.x;
         const y = coord.y;
         for (let z = 0; z < stack.size(); z++) {
@@ -21471,25 +21457,25 @@ var HiveComponent = class _HiveComponent extends HexagonalGameComponent {
         }
       }
       this.ground = this.getGround();
-      this.remainingStacks = this.getState().remainingPieces.toListOfStacks();
-      this.canPass = HiveRules.get().shouldPass(this.getState());
+      this.remainingStacks = this.state().remainingPieces.toListOfStacks();
+      this.canPass = HiveRules.get().shouldPass(this.state());
       const gameStatus = HiveRules.get().getGameStatus(this.node());
       switch (gameStatus) {
         case GameStatus.ONGOING:
           break;
         case GameStatus.DRAW:
-          this.highlight(this.getState().queenBeeLocation(Player.ZERO).get(), "victory-stroke");
-          this.highlight(this.getState().queenBeeLocation(Player.ONE).get(), "victory-stroke");
+          this.highlight(this.state().queenBeeLocation(Player.ZERO).get(), "victory-stroke");
+          this.highlight(this.state().queenBeeLocation(Player.ONE).get(), "victory-stroke");
           break;
         default:
           const winner = gameStatus.winner;
           const loser = winner.getOpponent();
-          this.highlight(this.getState().queenBeeLocation(loser).get(), "victory-stroke");
+          this.highlight(this.state().queenBeeLocation(loser).get(), "victory-stroke");
       }
     });
   }
   highlight(coord, stroke) {
-    const stackSize = this.getState().getAt(coord).size();
+    const stackSize = this.state().getAt(coord).size();
     if (stackSize - 1 in this.layers) {
       this.layers[stackSize - 1].highlight(coord, stroke);
     }
@@ -21507,11 +21493,11 @@ var HiveComponent = class _HiveComponent extends HexagonalGameComponent {
     const minimalViewBox = new ViewBox(this.getRemainingPieceTransformAsCoord(new HivePiece(Player.ZERO, "QueenBee")).x, 0, this.SPACE_SIZE * 4 * 5, 0);
     const spaceForRemainingPieces = this.SPACE_SIZE * 5.5;
     let spaceForZero = 0;
-    if (this.getState().remainingPieces.getAny(Player.ZERO).isPresent()) {
+    if (this.state().remainingPieces.getAny(Player.ZERO).isPresent()) {
       spaceForZero = spaceForRemainingPieces;
     }
     let spaceForOne = 0;
-    if (this.getState().remainingPieces.getAny(Player.ONE).isPresent()) {
+    if (this.state().remainingPieces.getAny(Player.ONE).isPresent()) {
       spaceForOne = spaceForRemainingPieces;
     }
     const boardAndRemainingViewBox = this.boardViewBox.containingAtLeast(minimalViewBox).expandAbove(spaceForZero).expandBelow(spaceForOne);
@@ -21527,7 +21513,7 @@ var HiveComponent = class _HiveComponent extends HexagonalGameComponent {
     }
   }
   getPieceCoords() {
-    const coords = this.getState().pieces.getKeySet().toList();
+    const coords = this.state().pieces.getKeySet().toList();
     return new CoordSet(coords);
   }
   getGround() {
@@ -21540,7 +21526,7 @@ var HiveComponent = class _HiveComponent extends HexagonalGameComponent {
   getAllNeighbors() {
     let neighbors = new CoordSet();
     for (const piece of this.getPieceCoords()) {
-      const pieceNeighboors = this.getState().emptyNeighbors(piece);
+      const pieceNeighboors = this.state().emptyNeighbors(piece);
       neighbors = neighbors.unionList(pieceNeighboors);
     }
     if (neighbors.isEmpty()) {
@@ -21599,7 +21585,7 @@ var HiveComponent = class _HiveComponent extends HexagonalGameComponent {
   }
   getRemainingPieceHighlightTransform(piece) {
     const transform = this.getRemainingPieceTransformAsCoord(piece);
-    const size = this.getState().remainingPieces.getQuantity(piece);
+    const size = this.state().remainingPieces.getQuantity(piece);
     return this.getSVGTranslation(transform.x, transform.y - this.PIECE_HEIGHT * size);
   }
   getRemainingPieceShift(piece) {
@@ -21622,7 +21608,7 @@ var HiveComponent = class _HiveComponent extends HexagonalGameComponent {
       if (piece.owner === this.getCurrentOpponent()) {
         return this.cancelMove(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
       }
-      if (piece.kind !== "QueenBee" && HiveRules.get().mustPlaceQueenBee(this.getState())) {
+      if (piece.kind !== "QueenBee" && HiveRules.get().mustPlaceQueenBee(this.state())) {
         return this.cancelMove(HiveFailure.MUST_PLACE_QUEEN_BEE_LATEST_AT_FOURTH_TURN());
       }
       if (this.selectedRemaining.equalsValue(piece)) {
@@ -21631,7 +21617,7 @@ var HiveComponent = class _HiveComponent extends HexagonalGameComponent {
         this.cancelMoveAttempt();
         this.selectedRemaining = MGPOptional.of(piece);
         this.clearHighlights();
-        const possibleDropLocations = HiveRules.get().getPossibleDropLocations(this.getState()).toList();
+        const possibleDropLocations = HiveRules.get().getPossibleDropLocations(this.state()).toList();
         for (const coord of possibleDropLocations) {
           this.ground.highlightStroke(coord, "clickable-stroke");
         }
@@ -21651,7 +21637,7 @@ var HiveComponent = class _HiveComponent extends HexagonalGameComponent {
   }
   select(coord) {
     return __async(this, null, function* () {
-      const state = this.getState();
+      const state = this.state();
       const stack = state.getAt(coord);
       if (this.selectedRemaining.isPresent()) {
         const move = HiveMove.drop(this.selectedRemaining.get(), coord);
@@ -21685,7 +21671,7 @@ var HiveComponent = class _HiveComponent extends HexagonalGameComponent {
   }
   selectStart(coord, stack) {
     return __async(this, null, function* () {
-      const state = this.getState();
+      const state = this.state();
       const piece = stack.topPiece();
       if (piece.owner === state.getCurrentOpponent()) {
         if (stack.size() === 1) {
@@ -21726,7 +21712,7 @@ var HiveComponent = class _HiveComponent extends HexagonalGameComponent {
     }
   }
   getNextPossibleCoords(coord) {
-    const state = this.getState();
+    const state = this.state();
     const topPiece = state.getAt(coord).topPiece();
     const moves = HiveRules.get().getPossibleMovesFrom(state, coord);
     if (topPiece.kind === "Spider") {
@@ -21743,7 +21729,7 @@ var HiveComponent = class _HiveComponent extends HexagonalGameComponent {
         const move = HiveMove.spiderMove(this.selectedSpiderCoords);
         return this.chooseMove(move);
       }
-      const validity = HiveSpiderRules.get().prefixLegality(this.selectedSpiderCoords, this.getState());
+      const validity = HiveSpiderRules.get().prefixLegality(this.selectedSpiderCoords, this.state());
       if (validity.isFailure()) {
         return this.cancelMove(validity.getReason());
       }
@@ -22573,7 +22559,7 @@ var KamisadoComponent = class _KamisadoComponent extends RectangularGameComponen
   }
   updateBoard(_triggerAnimation) {
     return __async(this, null, function* () {
-      const state = this.getState();
+      const state = this.state();
       this.board = state.getCopiedBoard();
       this.canPass = KamisadoRules.mustPass(state);
       const isFinished = this.rules.getGameStatus(this.node()) !== GameStatus.ONGOING;
@@ -22613,8 +22599,8 @@ var KamisadoComponent = class _KamisadoComponent extends RectangularGameComponen
       } else if (this.chosenAutomatically === false && this.chosen.equalsValue(clickedCoord)) {
         return this.cancelMove();
       } else {
-        const piece = this.getState().getPieceAtXY(x2, y);
-        const player = this.getState().getCurrentPlayer();
+        const piece = this.state().getPieceAtXY(x2, y);
+        const player = this.state().getCurrentPlayer();
         if (piece.belongsTo(player)) {
           if (this.chosenAutomatically) {
             return this.cancelMove(KamisadoFailure.PLAY_WITH_SELECTED_PIECE());
@@ -22630,8 +22616,8 @@ var KamisadoComponent = class _KamisadoComponent extends RectangularGameComponen
   }
   choosePiece(x2, y) {
     return __async(this, null, function* () {
-      const piece = this.getState().getPieceAtXY(x2, y);
-      const opponent = this.getState().getCurrentOpponent();
+      const piece = this.state().getPieceAtXY(x2, y);
+      const opponent = this.state().getCurrentOpponent();
       if (piece.belongsTo(opponent)) {
         return this.cancelMove(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
       }
@@ -23142,8 +23128,8 @@ var LinesOfActionComponent = class _LinesOfActionComponent extends RectangularGa
       if (this.selected.equalsValue(coord)) {
         return this.cancelMove();
       }
-      const currentPlayer = this.getState().getCurrentPlayer();
-      if (this.selected.isAbsent() || this.getState().getPieceAt(coord) === currentPlayer) {
+      const currentPlayer = this.state().getCurrentPlayer();
+      if (this.selected.isAbsent() || this.state().getPieceAt(coord) === currentPlayer) {
         return this.select(coord);
       } else {
         return this.concludeMove(coord);
@@ -23162,14 +23148,14 @@ var LinesOfActionComponent = class _LinesOfActionComponent extends RectangularGa
   }
   select(coord) {
     return __async(this, null, function* () {
-      const piece = this.getState().getPieceAt(coord);
+      const piece = this.state().getPieceAt(coord);
       if (piece.isNone()) {
         return this.cancelMove(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_EMPTY());
-      } else if (piece === this.getState().getCurrentOpponent()) {
+      } else if (piece === this.state().getCurrentOpponent()) {
         return this.cancelMove(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
       }
       this.selected = MGPOptional.of(coord);
-      this.targets = LinesOfActionRules.possibleTargets(this.getState(), this.selected.get()).toList();
+      this.targets = LinesOfActionRules.possibleTargets(this.state(), this.selected.get()).toList();
       if (this.targets.length === 0) {
         return this.cancelMove(LinesOfActionFailure.PIECE_CANNOT_MOVE());
       }
@@ -23178,7 +23164,7 @@ var LinesOfActionComponent = class _LinesOfActionComponent extends RectangularGa
   }
   updateBoard(_triggerAnimation) {
     return __async(this, null, function* () {
-      this.board = this.getState().board;
+      this.board = this.state().board;
     });
   }
   showLastMove(move) {
@@ -24459,7 +24445,7 @@ var LodestoneComponent = class _LodestoneComponent extends GameComponent {
     };
     this.encoder = LodestoneMove.encoder;
     this.PIECE_RADIUS = (this.SPACE_SIZE - 2 * this.STROKE_WIDTH) * 0.5;
-    this.displayedState = this.getState();
+    this.displayedState = this.state();
     this.scores = MGPOptional.of(PlayerNumberMap.of(0, 0));
   }
   getScoreName() {
@@ -24478,7 +24464,7 @@ var LodestoneComponent = class _LodestoneComponent extends GameComponent {
       if (this.capturesToPlace > 0) {
         return this.cancelMove(LodestoneFailure.MUST_PLACE_CAPTURES());
       }
-      const targetValidity = LodestoneRules.get().isTargetLegal(this.getState(), coord);
+      const targetValidity = LodestoneRules.get().isTargetLegal(this.state(), coord);
       if (targetValidity.isFailure()) {
         return this.cancelMove(targetValidity.getReason());
       }
@@ -24522,7 +24508,7 @@ var LodestoneComponent = class _LodestoneComponent extends GameComponent {
       Utils.assert(this.selectedLodestone.isPresent(), "lodestone should have been selected");
       const coord = this.selectedCoord.get();
       const lodestone = this.selectedLodestone.get();
-      const state = this.getState();
+      const state = this.state();
       const validity = LodestoneRules.get().isLegalWithoutCaptures(state, coord, lodestone.direction);
       Utils.assert(validity.isSuccess(), "Lodestone component should only allow creation of legal moves");
       const infos = LodestoneRules.get().applyMoveWithoutPlacingCaptures(state, coord, lodestone);
@@ -24567,7 +24553,7 @@ var LodestoneComponent = class _LodestoneComponent extends GameComponent {
         return this.applyMove();
       } else {
         this.updateViewInfo();
-        this.showPressurePlateDifferences(this.getState(), this.displayedState, true);
+        this.showPressurePlateDifferences(this.state(), this.displayedState, true);
       }
       return MGPValidation.SUCCESS;
     });
@@ -24584,23 +24570,23 @@ var LodestoneComponent = class _LodestoneComponent extends GameComponent {
       LodestoneRules.get().updatePressurePlates(board, pressurePlates, lodestones, opponent, this.captures);
       this.displayedState = new LodestoneState(board, state.turn, lodestones, pressurePlates);
       this.updateViewInfo();
-      this.showPressurePlateDifferences(this.getState(), this.displayedState, true);
+      this.showPressurePlateDifferences(this.state(), this.displayedState, true);
       return MGPValidation.SUCCESS;
     });
   }
   updateBoard(_triggerAnimation) {
     return __async(this, null, function* () {
-      this.displayedState = this.getState();
+      this.displayedState = this.state();
       this.removePlayerLodestoneFromDisplayedState();
-      this.scores = MGPOptional.of(this.getState().getScores());
-      this.boardSize = this.getState().board.length * this.SPACE_SIZE;
-      const abstractPlateWidth = this.getState().pressurePlates.top.plates.length;
+      this.scores = MGPOptional.of(this.state().getScores());
+      this.boardSize = this.state().board.length * this.SPACE_SIZE;
+      const abstractPlateWidth = this.state().pressurePlates.top.plates.length;
       this.platesGroupSize = abstractPlateWidth * this.SPACE_SIZE * 1.2;
       this.updateViewInfo();
     });
   }
   cancelMoveAttempt() {
-    this.displayedState = this.getState();
+    this.displayedState = this.state();
     this.stateAfterPlacingLodestone = MGPOptional.empty();
     this.ongoingCaptures = [];
     this.ongoingMoves = [];
@@ -24663,7 +24649,7 @@ var LodestoneComponent = class _LodestoneComponent extends GameComponent {
     if (this.selectedCoord.isPresent() && this.selectedLodestone.isPresent()) {
       return MGPOptional.of({
         preCaptureMove: new LodestoneMove(this.selectedCoord.get(), this.selectedLodestone.get().direction, this.selectedLodestone.get().orientation),
-        preCaptureState: this.getState()
+        preCaptureState: this.state()
       });
     } else if (this.node().previousMove.isPresent()) {
       return MGPOptional.of({
@@ -24766,8 +24752,8 @@ var LodestoneComponent = class _LodestoneComponent extends GameComponent {
     if (this.capturesToPlace > 0) {
       this.viewInfo.availableLodestones = [];
     } else {
-      const player = this.getState().getCurrentPlayer();
-      const nextDirection = this.getState().nextLodestoneDirection();
+      const player = this.state().getCurrentPlayer();
+      const nextDirection = this.state().nextLodestoneDirection();
       if (nextDirection.isPresent()) {
         const direction = nextDirection.get();
         this.viewInfo.availableLodestones = [
@@ -24859,7 +24845,7 @@ var LodestoneComponent = class _LodestoneComponent extends GameComponent {
       this.lastCaptures = infos.captures;
       this.lastMoves = infos.moved;
       this.updateViewInfo();
-      const currentState = this.getState();
+      const currentState = this.state();
       this.showPressurePlateDifferences(lastState, currentState, false);
     });
   }
@@ -25710,7 +25696,7 @@ var MancalaComponent = class _MancalaComponent extends RectangularGameComponent 
   }
   viewBoxWidth = computed(() => this.viewBox().width - this.STROKE_WIDTH, ...ngDevMode ? [{ debugName: "viewBoxWidth" }] : []);
   computeViewBoxWidth() {
-    return 60 + (2 + this.getState().getWidth()) * this.SPACE_SIZE;
+    return 60 + (2 + this.width()) * this.SPACE_SIZE;
   }
   computeViewBox() {
     const left = -this.STROKE_WIDTH / 2;
@@ -25760,12 +25746,12 @@ var MancalaComponent = class _MancalaComponent extends RectangularGameComponent 
         captureResult = this.rules.monsoon(Player.ZERO, captureResult);
         this.captured = captureResult.captureMap;
       }
-      this.changeVisibleState(this.getState());
+      this.changeVisibleState(this.state());
     });
   }
   updateBoard(triggerAnimation) {
     return __async(this, null, function* () {
-      const state = this.getState();
+      const state = this.state();
       if (triggerAnimation) {
         this.opponentMoveIsBeingAnimated = true;
         this.animationOngoing = true;
@@ -25802,7 +25788,7 @@ var MancalaComponent = class _MancalaComponent extends RectangularGameComponent 
   onLegalClick(x2, y) {
     return __async(this, null, function* () {
       const config = this.config();
-      if (this.rules.getSpaceOwner(new Coord(x2, y), config) === this.getState().getCurrentOpponent()) {
+      if (this.rules.getSpaceOwner(new Coord(x2, y), config) === this.state().getCurrentOpponent()) {
         return this.cancelMove(MancalaFailure.MUST_DISTRIBUTE_YOUR_OWN_HOUSES());
       }
       this.updateOrCreateCurrentMove(x2, y);
@@ -25839,12 +25825,12 @@ var MancalaComponent = class _MancalaComponent extends RectangularGameComponent 
       if (distributionResult.endsUpInStore && config.mustContinueDistributionAfterStore) {
         const player = this.constructedState.getCurrentPlayer();
         if (MancalaRules.isStarving(player, distributionResult.resultingState.board, this.config())) {
-          return this.rules.isLegal(this.currentMove.get(), this.getState(), config);
+          return this.rules.isLegal(this.currentMove.get(), this.state(), config);
         } else {
           return MGPValidation.SUCCESS;
         }
       } else {
-        return this.rules.isLegal(this.currentMove.get(), this.getState(), config);
+        return this.rules.isLegal(this.currentMove.get(), this.state(), config);
       }
     });
   }
@@ -25934,19 +25920,19 @@ var MancalaComponent = class _MancalaComponent extends RectangularGameComponent 
     });
   }
   hideLastMove() {
-    const width = this.getState().getWidth();
-    const height = this.getState().getHeight();
+    const width = this.width();
+    const height = this.height();
     this.captured = TableUtils.create(width, height, 0);
     this.filledCoords = [];
     this.lastDistributedHouses = [];
-    this.changeVisibleState(this.getState());
+    this.changeVisibleState(this.state());
   }
   cancelMoveAttempt() {
     this.currentMove = MGPOptional.empty();
     this.droppedInStore = PlayerNumberMap.of(0, 0);
     this.filledCoords = [];
     this.lastDistributedHouses = [];
-    this.changeVisibleState(this.getState());
+    this.changeVisibleState(this.state());
   }
   getSpaceClasses(x2, y) {
     const coord = new Coord(x2, y);
@@ -26002,14 +25988,14 @@ var MancalaComponent = class _MancalaComponent extends RectangularGameComponent 
       Utils.assert(this.getTurn() > 0, "Kalah: Should not animate move at turn 0");
       return this.node().parent.get().gameState;
     } else {
-      if (this.constructedState.equals(this.getState())) {
+      if (this.constructedState.equals(this.state())) {
         if (this.node().parent.isPresent()) {
           return this.node().parent.get().gameState;
         } else {
-          return this.getState();
+          return this.state();
         }
       } else {
-        return this.getState();
+        return this.state();
       }
     }
   }
@@ -28272,7 +28258,7 @@ function MartianChessComponent_For_17_Template(rf, ctx) {
     \u0275\u0275property("id", \u0275\u0275interpolate1("capture-of-player-", player_r10.toString()));
     \u0275\u0275attribute("transform", ctx_r2.getCapturesTransformation(player_r10));
     \u0275\u0275advance();
-    \u0275\u0275repeater(ctx_r2.state.getCapturesOf(player_r10));
+    \u0275\u0275repeater(ctx_r2.state().getCapturesOf(player_r10));
   }
 }
 var MartianChessComponent = class _MartianChessComponent extends RectangularGameComponent {
@@ -28356,11 +28342,10 @@ var MartianChessComponent = class _MartianChessComponent extends RectangularGame
   }
   updateBoard(_triggerAnimation) {
     return __async(this, null, function* () {
-      this.state = this.getState();
-      this.board = this.state.board;
-      const scoreZero = this.state.getScoreOf(Player.ZERO);
-      const scoreOne = this.state.getScoreOf(Player.ONE);
-      this.countDown = this.state.countDown;
+      this.board = this.state().board;
+      const scoreZero = this.state().getScoreOf(Player.ZERO);
+      const scoreOne = this.state().getScoreOf(Player.ONE);
+      this.countDown = this.state().countDown;
       this.scores = MGPOptional.of(PlayerNumberMap.of(scoreZero, scoreOne));
     });
   }
@@ -28426,7 +28411,7 @@ var MartianChessComponent = class _MartianChessComponent extends RectangularGame
     });
   }
   getLegalLandings(coord) {
-    const firstPiece = this.state.getPieceAt(coord);
+    const firstPiece = this.state().getPieceAt(coord);
     let landingSquares;
     if (firstPiece === MartianChessPiece.PAWN) {
       landingSquares = Ordinal.DIAGONALS.map((d2) => coord.getNext(d2));
@@ -28438,7 +28423,7 @@ var MartianChessComponent = class _MartianChessComponent extends RectangularGame
     return landingSquares.filter((c) => {
       const moveCreated = MartianChessMove.from(coord, c);
       if (moveCreated.isSuccess()) {
-        return this.rules.isLegal(moveCreated.get(), this.getState()).isSuccess();
+        return this.rules.isLegal(moveCreated.get(), this.state()).isSuccess();
       } else {
         return false;
       }
@@ -28451,7 +28436,7 @@ var MartianChessComponent = class _MartianChessComponent extends RectangularGame
       let steps = 1;
       while (MartianChessState.isOnBoard(landing) && steps <= until) {
         landings.push(landing);
-        if (this.getState().getPieceAt(landing) === MartianChessPiece.EMPTY) {
+        if (this.state().getPieceAt(landing) === MartianChessPiece.EMPTY) {
           landing = landing.getNext(d2);
           steps++;
         } else {
@@ -28483,7 +28468,7 @@ var MartianChessComponent = class _MartianChessComponent extends RectangularGame
     });
   }
   isOneOfUsersPieces(coord) {
-    return this.state.getPieceAt(coord) !== MartianChessPiece.EMPTY && this.state.isInPlayerTerritory(coord);
+    return this.state().getPieceAt(coord) !== MartianChessPiece.EMPTY && this.state().isInPlayerTerritory(coord);
   }
   cancelMoveAttempt() {
     this.selectedPieceInfo = MGPOptional.empty();
@@ -28491,7 +28476,7 @@ var MartianChessComponent = class _MartianChessComponent extends RectangularGame
   }
   onClockClick() {
     return __async(this, null, function* () {
-      const canCallTheClock = this.getState().countDown.isAbsent();
+      const canCallTheClock = this.state().countDown.isAbsent();
       if (canCallTheClock) {
         this.callTheClock = this.callTheClock === false;
       }
@@ -28584,7 +28569,7 @@ var MartianChessComponent = class _MartianChessComponent extends RectangularGame
       \u0275\u0275advance();
       \u0275\u0275attribute("transform", ctx.getBoardTransformation());
       \u0275\u0275advance();
-      \u0275\u0275repeater(ctx.state.getCoordsAndContents());
+      \u0275\u0275repeater(ctx.state().getCoordsAndContents());
       \u0275\u0275advance(2);
       \u0275\u0275conditional(ctx.selectedPieceInfo.isPresent() ? 4 : -1);
       \u0275\u0275advance();
@@ -28626,7 +28611,7 @@ __decorate30([
      [attr.viewBox]="viewBoxString()"
      preserveAspectRatio="xMidYMid meet">
     <g [attr.transform]="getBoardTransformation()">
-        @for (coordAndContent of state.getCoordsAndContents(); track coordAndContent.coord.toString()) {
+        @for (coordAndContent of state().getCoordsAndContents(); track coordAndContent.coord.toString()) {
             <g id="click-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"
                (click)="onClick(coordAndContent.coord)"
                [attr.transform]="getPieceTranslation(coordAndContent.coord)">
@@ -28744,7 +28729,7 @@ __decorate30([
             <g>
                 <g id="capture-of-player-{{ player.toString() }}"
                    [attr.transform]="getCapturesTransformation(player)">
-                    @for (value of state.getCapturesOf(player); track $index; let piece = $index) {
+                    @for (value of state().getCapturesOf(player); track $index; let piece = $index) {
                         <g>
                             @if (value > 0) {
                                 <g [attr.transform]="getTranslationAtXY(0, 2 * piece)">
@@ -29137,14 +29122,14 @@ var P4Component = class _P4Component extends RectangularGameComponent {
   }
   updateBoard(_triggerAnimation) {
     return __async(this, null, function* () {
-      const state = this.getState();
+      const state = this.state();
       this.victoryCoords = P4Rules.get().getVictoriousCoords(state);
       this.board = state.board;
     });
   }
   showLastMove(move) {
     return __async(this, null, function* () {
-      const state = this.getState();
+      const state = this.state();
       const y = P4Rules.get().getLowestUnoccupiedSpace(state.board, move.x) + 1;
       this.last = MGPOptional.of(new Coord(move.x, y));
     });
@@ -29734,8 +29719,7 @@ var PentagoComponent = class _PentagoComponent extends RectangularGameComponent 
   }
   updateBoard(_triggerAnimation) {
     return __async(this, null, function* () {
-      this.state = this.getState();
-      this.victoryCoords = this.rules.getVictoryCoords(this.getState());
+      this.victoryCoords = this.rules.getVictoryCoords(this.state());
     });
   }
   showLastMove(move) {
@@ -29825,14 +29809,14 @@ var PentagoComponent = class _PentagoComponent extends RectangularGameComponent 
     return __async(this, null, function* () {
       const x2 = coord.x;
       const y = coord.y;
-      if (this.state.board[y][x2].isPlayer()) {
+      if (this.state().board[y][x2].isPlayer()) {
         return this.cancelMove(RulesFailure.MUST_LAND_ON_EMPTY_SPACE());
       }
       if (this.currentDrop.equalsValue(coord)) {
         return this.cancelMove();
       }
       const drop = PentagoMove.rotationless(x2, y);
-      const state = this.getState();
+      const state = this.state();
       const postDropState = state.applyLegalDrop(drop);
       if (postDropState.neutralBlocks.length === 4) {
         return this.chooseMove(drop);
@@ -29866,7 +29850,7 @@ var PentagoComponent = class _PentagoComponent extends RectangularGameComponent 
     const x2 = coord.x;
     const y = coord.y;
     const classes = [];
-    const player = this.getPlayerClass(this.state.board[y][x2]);
+    const player = this.getPlayerClass(this.state().board[y][x2]);
     classes.push(player);
     if (this.lastDrop.equalsValue(coord)) {
       classes.push("last-move-stroke");
@@ -29917,7 +29901,7 @@ var PentagoComponent = class _PentagoComponent extends RectangularGameComponent 
       \u0275\u0275advance(7);
       \u0275\u0275repeater(\u0275\u0275pureFunction1(4, _c015, ctx.BLOCK_WIDTH + ctx.BLOCK_SEPARATION));
       \u0275\u0275advance(2);
-      \u0275\u0275repeater(ctx.state.getCoordsAndContents());
+      \u0275\u0275repeater(ctx.state().getCoordsAndContents());
       \u0275\u0275advance(2);
       \u0275\u0275conditional(ctx.currentDrop.isPresent() ? 11 : -1);
       \u0275\u0275advance();
@@ -29986,7 +29970,7 @@ __decorate34([
         </ng-container>
     }
 
-    @for (coordAndContent of state.getCoordsAndContents(); track coordAndContent.coord.toString()) {
+    @for (coordAndContent of state().getCoordsAndContents(); track coordAndContent.coord.toString()) {
         <circle id="click-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"
                 [attr.transform]="getPieceTranslate(coordAndContent.coord)"
                 (click)="onClick(coordAndContent.coord)"
@@ -30369,9 +30353,9 @@ var PenteComponent = class _PenteComponent extends GobanGameComponent {
   }
   updateBoard(_triggerAnimation) {
     return __async(this, null, function* () {
-      const state = this.getState();
+      const state = this.state();
       this.board = state.board;
-      this.scores = MGPOptional.of(this.getState().captures);
+      this.scores = MGPOptional.of(this.state().captures);
       const config = this.config();
       this.victoryCoords = this.rules.getHelper(config).getVictoriousCoord(state);
       this.createHoshis();
@@ -30394,7 +30378,7 @@ var PenteComponent = class _PenteComponent extends GobanGameComponent {
     });
   }
   getSpaceClass(coord) {
-    const owner = this.getState().getPieceAt(coord);
+    const owner = this.state().getPieceAt(coord);
     const classes = [];
     classes.push(this.getPlayerClass(owner));
     if (this.victoryCoords.some((c) => c.equals(coord))) {
@@ -30423,9 +30407,9 @@ var PenteComponent = class _PenteComponent extends GobanGameComponent {
     if (rf & 2) {
       \u0275\u0275attribute("viewBox", ctx.viewBoxString());
       \u0275\u0275advance();
-      \u0275\u0275property("width", ctx.getState().getWidth())("height", ctx.getState().getHeight());
+      \u0275\u0275property("width", ctx.width())("height", ctx.height());
       \u0275\u0275advance();
-      \u0275\u0275repeater(ctx.getState().getPlayerCoordsAndContent());
+      \u0275\u0275repeater(ctx.state().getPlayerCoordsAndContent());
       \u0275\u0275advance(2);
       \u0275\u0275repeater(ctx.captured);
     }
@@ -30437,7 +30421,7 @@ __decorate35([
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(PenteComponent, [{
     type: Component,
-    args: [{ changeDetection: ChangeDetectionStrategy.OnPush, selector: "app-new-game", imports: [BlankGobanComponent, NgClass], template: '<svg xmlns="http://www.w3.org/2000/svg"\n     class="board"\n     [attr.viewBox]="viewBoxString()"\n     preserveAspectRatio="xMidYMid meet">\n    <g app-blank-goban\n       id="blank-goban"\n       [width]="getState().getWidth()"\n       [height]="getState().getHeight()"\n       (clickCallBack)="onClick($event)"/>\n    @for (coordAndContent of getState().getPlayerCoordsAndContent(); track coordAndContent.coord.toString()) {\n        <circle (click)="onClick(coordAndContent.coord)"\n                id="piece-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n                [attr.cx]="(SPACE_SIZE * 0.5) + (SPACE_SIZE * coordAndContent.coord.x)"\n                [attr.cy]="(SPACE_SIZE * 0.5) + (SPACE_SIZE * coordAndContent.coord.y)"\n                [attr.r]="SPACE_SIZE * 0.44"\n                [ngClass]="getSpaceClass(coordAndContent.coord)"\n                class="base"/>\n    }\n    @for (capture of captured; track capture.toString()) {\n        <circle id="capture-{{ capture.x }}-{{ capture.y }}"\n                (click)="onClick(capture)"\n                [attr.cx]="(SPACE_SIZE * 0.5) + (SPACE_SIZE * capture.x)"\n                [attr.cy]="(SPACE_SIZE * 0.5) + (SPACE_SIZE * capture.y)"\n                [attr.r]="SPACE_SIZE * 0.14"\n                class="captured-fill"/>\n    }\n</svg>\n', styles: ["/* src/app/components/game-components/game-component/game-component.scss */\n.base {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke {\n  stroke-width: 0;\n}\n.base.manual-stroke {\n  fill: var(--base-stroke);\n}\n.base-no-stroke {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text {\n  fill: var(--base-stroke);\n}\n.white-background {\n  fill: white;\n}\n.background {\n  fill: var(--spaces-fill);\n}\n.transparent {\n  opacity: 0;\n}\n.background2 {\n  fill: var(--alt-background-fill);\n}\n.background3 {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill {\n  fill: var(--player0);\n}\n.player0-alternate-fill {\n  fill: var(--player0-alternate);\n}\n.player0-stroke {\n  stroke: var(--player0);\n}\n.player1-fill {\n  fill: var(--player1);\n}\n.player1-alternate-fill {\n  fill: var(--player1-alternate);\n}\n.player1-stroke {\n  stroke: var(--player1);\n}\n.nonplayer-fill {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill {\n  fill: var(--pre-captured);\n}\n.captured-fill {\n  fill: var(--captured);\n}\n.captured-alternate-fill {\n  fill: var(--alt-captured);\n}\n.captured-stroke {\n  stroke: var(--captured);\n}\n.moved-fill {\n  fill: var(--moved);\n}\n.moved-stroke {\n  stroke: var(--moved);\n}\n.indicator {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill {\n  fill: var(--indicator);\n}\n.selectable-stroke {\n  stroke: var(--selectable);\n}\n.selectable > .base-no-stroke {\n  fill: var(--selectable);\n}\n.last-move-stroke {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke {\n  fill: var(--last-move);\n}\n.last-move-fill {\n  fill: var(--last-move);\n}\n.victory-fill {\n  fill: var(--victory);\n}\n.victory-stroke {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke {\n  fill: var(--victory);\n}\n.defeat-fill {\n  fill: var(--defeat);\n}\n.defeat-stroke {\n  stroke: var(--defeat);\n}\n.selected-fill {\n  fill: var(--selected);\n}\n.selected-stroke {\n  stroke: var(--selected);\n}\n.clickable-stroke {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill {\n  fill: var(--capturable);\n}\n.capturable-stroke:hover {\n  stroke-width: 8;\n}\n.no-fill {\n  fill: none;\n}\n.no-stroke {\n  stroke: none;\n}\n.small-stroke {\n  stroke-width: 2;\n}\n.mid-small-stroke {\n  stroke-width: 3;\n}\n.mid-stroke {\n  stroke-width: 5;\n}\n.big-stroke {\n  stroke-width: 8;\n}\n.huge-stroke {\n  stroke-width: 12;\n}\n.semi-transparent {\n  opacity: 0.5;\n}\n.territory-opacity {\n  fill-opacity: 0.7;\n}\n.round {\n  stroke-linecap: round;\n}\n.text-giant {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big {\n  font: 50px sans-serif;\n}\n.backgrounded-text {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus {\n  font: 38px sans-serif;\n}\n.text-medium {\n  font: 35px sans-serif;\n}\n.text-small-plus {\n  font: 28px sans-serif;\n}\n.text-small {\n  font: 25px sans-serif;\n}\n.text-bold {\n  font-weight: bold;\n}\n.text-center {\n  text-anchor: middle;\n}\n.black-fill {\n  fill: black;\n}\n.darker {\n  filter: brightness(80%);\n}\n.lighter {\n  filter: brightness(110%);\n}\nsvg {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */\n"] }]
+    args: [{ changeDetection: ChangeDetectionStrategy.OnPush, selector: "app-new-game", imports: [BlankGobanComponent, NgClass], template: '<svg xmlns="http://www.w3.org/2000/svg"\n     class="board"\n     [attr.viewBox]="viewBoxString()"\n     preserveAspectRatio="xMidYMid meet">\n    <g app-blank-goban\n       id="blank-goban"\n       [width]="width()"\n       [height]="height()"\n       (clickCallBack)="onClick($event)"/>\n    @for (coordAndContent of state().getPlayerCoordsAndContent(); track coordAndContent.coord.toString()) {\n        <circle (click)="onClick(coordAndContent.coord)"\n                id="piece-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n                [attr.cx]="(SPACE_SIZE * 0.5) + (SPACE_SIZE * coordAndContent.coord.x)"\n                [attr.cy]="(SPACE_SIZE * 0.5) + (SPACE_SIZE * coordAndContent.coord.y)"\n                [attr.r]="SPACE_SIZE * 0.44"\n                [ngClass]="getSpaceClass(coordAndContent.coord)"\n                class="base"/>\n    }\n    @for (capture of captured; track capture.toString()) {\n        <circle id="capture-{{ capture.x }}-{{ capture.y }}"\n                (click)="onClick(capture)"\n                [attr.cx]="(SPACE_SIZE * 0.5) + (SPACE_SIZE * capture.x)"\n                [attr.cy]="(SPACE_SIZE * 0.5) + (SPACE_SIZE * capture.y)"\n                [attr.r]="SPACE_SIZE * 0.14"\n                class="captured-fill"/>\n    }\n</svg>\n', styles: ["/* src/app/components/game-components/game-component/game-component.scss */\n.base {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke {\n  stroke-width: 0;\n}\n.base.manual-stroke {\n  fill: var(--base-stroke);\n}\n.base-no-stroke {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text {\n  fill: var(--base-stroke);\n}\n.white-background {\n  fill: white;\n}\n.background {\n  fill: var(--spaces-fill);\n}\n.transparent {\n  opacity: 0;\n}\n.background2 {\n  fill: var(--alt-background-fill);\n}\n.background3 {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill {\n  fill: var(--player0);\n}\n.player0-alternate-fill {\n  fill: var(--player0-alternate);\n}\n.player0-stroke {\n  stroke: var(--player0);\n}\n.player1-fill {\n  fill: var(--player1);\n}\n.player1-alternate-fill {\n  fill: var(--player1-alternate);\n}\n.player1-stroke {\n  stroke: var(--player1);\n}\n.nonplayer-fill {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill {\n  fill: var(--pre-captured);\n}\n.captured-fill {\n  fill: var(--captured);\n}\n.captured-alternate-fill {\n  fill: var(--alt-captured);\n}\n.captured-stroke {\n  stroke: var(--captured);\n}\n.moved-fill {\n  fill: var(--moved);\n}\n.moved-stroke {\n  stroke: var(--moved);\n}\n.indicator {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill {\n  fill: var(--indicator);\n}\n.selectable-stroke {\n  stroke: var(--selectable);\n}\n.selectable > .base-no-stroke {\n  fill: var(--selectable);\n}\n.last-move-stroke {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke {\n  fill: var(--last-move);\n}\n.last-move-fill {\n  fill: var(--last-move);\n}\n.victory-fill {\n  fill: var(--victory);\n}\n.victory-stroke {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke {\n  fill: var(--victory);\n}\n.defeat-fill {\n  fill: var(--defeat);\n}\n.defeat-stroke {\n  stroke: var(--defeat);\n}\n.selected-fill {\n  fill: var(--selected);\n}\n.selected-stroke {\n  stroke: var(--selected);\n}\n.clickable-stroke {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill {\n  fill: var(--capturable);\n}\n.capturable-stroke:hover {\n  stroke-width: 8;\n}\n.no-fill {\n  fill: none;\n}\n.no-stroke {\n  stroke: none;\n}\n.small-stroke {\n  stroke-width: 2;\n}\n.mid-small-stroke {\n  stroke-width: 3;\n}\n.mid-stroke {\n  stroke-width: 5;\n}\n.big-stroke {\n  stroke-width: 8;\n}\n.huge-stroke {\n  stroke-width: 12;\n}\n.semi-transparent {\n  opacity: 0.5;\n}\n.territory-opacity {\n  fill-opacity: 0.7;\n}\n.round {\n  stroke-linecap: round;\n}\n.text-giant {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big {\n  font: 50px sans-serif;\n}\n.backgrounded-text {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus {\n  font: 38px sans-serif;\n}\n.text-medium {\n  font: 35px sans-serif;\n}\n.text-small-plus {\n  font: 28px sans-serif;\n}\n.text-small {\n  font: 25px sans-serif;\n}\n.text-bold {\n  font-weight: bold;\n}\n.text-center {\n  text-anchor: middle;\n}\n.black-fill {\n  fill: black;\n}\n.darker {\n  filter: brightness(80%);\n}\n.lighter {\n  filter: brightness(110%);\n}\nsvg {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */\n"] }]
   }], () => [], { onClick: [] });
 })();
 (() => {
@@ -31319,8 +31303,8 @@ var PylosComponent = class _PylosComponent extends GameComponent {
   onPieceClick(x2, y, z) {
     return __async(this, null, function* () {
       const coord = new PylosCoord(x2, y, z);
-      const clickedPiece = this.state.getPieceAt(coord);
-      const pieceBelongToOpponent = clickedPiece === this.state.getCurrentOpponent();
+      const clickedPiece = this.state().getPieceAt(coord);
+      const pieceBelongToOpponent = clickedPiece === this.state().getCurrentOpponent();
       if (pieceBelongToOpponent) {
         return this.cancelMove(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
       }
@@ -31333,7 +31317,7 @@ var PylosComponent = class _PylosComponent extends GameComponent {
         }
         return this.onCaptureClick(coord);
       } else {
-        if (this.isSupporting(coord, this.getState())) {
+        if (this.isSupporting(coord, this.state())) {
           return this.cancelMove(PylosFailure.CANNOT_MOVE_SUPPORTING_PIECE());
         }
         return this.onClimbClick(coord);
@@ -31415,7 +31399,7 @@ var PylosComponent = class _PylosComponent extends GameComponent {
     });
   }
   cancelMoveAttempt() {
-    this.constructedState = this.state;
+    this.constructedState = this.state();
     this.chosenStartingCoord = MGPOptional.empty();
     this.chosenLandingCoord = MGPOptional.empty();
     this.chosenFirstCapture = MGPOptional.empty();
@@ -31476,7 +31460,7 @@ var PylosComponent = class _PylosComponent extends GameComponent {
     if (this.justClimbed(coord)) {
       return false;
     }
-    const reallyOccupied = this.getState().getPieceAt(coord).isPlayer();
+    const reallyOccupied = this.state().getPieceAt(coord).isPlayer();
     const landingCoord = this.chosenLandingCoord.equalsValue(coord);
     return reallyOccupied || landingCoord;
   }
@@ -31496,9 +31480,9 @@ var PylosComponent = class _PylosComponent extends GameComponent {
   }
   getPieceFillClass(c) {
     if (this.chosenLandingCoord.equalsValue(c)) {
-      return this.getPlayerClass(this.state.getCurrentPlayer());
+      return this.getPlayerClass(this.state().getCurrentPlayer());
     }
-    return this.getPlayerClass(this.state.getPieceAt(c));
+    return this.getPlayerClass(this.state().getPieceAt(c));
   }
   getPlayerSidePieces(player) {
     const nPieces = this.remainingPieces.get(player);
@@ -31510,9 +31494,8 @@ var PylosComponent = class _PylosComponent extends GameComponent {
   }
   updateBoard(_triggerAnimation) {
     return __async(this, null, function* () {
-      this.state = this.getState();
-      this.constructedState = this.state;
-      const repartition = this.state.getPiecesRepartition();
+      this.constructedState = this.state();
+      const repartition = this.state().getPiecesRepartition();
       this.remainingPieces = PlayerNumberMap.of(15 - repartition.get(Player.ZERO), 15 - repartition.get(Player.ONE));
       this.updateScores();
     });
@@ -32734,11 +32717,11 @@ var QuartoComponent = class _QuartoComponent extends RectangularGameComponent {
       }]
     };
     this.encoder = QuartoMove.encoder;
-    this.pieceInHand = this.getState().pieceInHand;
+    this.pieceInHand = this.state().pieceInHand;
   }
   updateBoard(_triggerAnimation) {
     return __async(this, null, function* () {
-      const state = this.getState();
+      const state = this.state();
       this.board = state.getCopiedBoard();
       this.pieceInHand = state.pieceInHand;
       const config = this.config();
@@ -32752,7 +32735,7 @@ var QuartoComponent = class _QuartoComponent extends RectangularGameComponent {
       }
       if (this.board[coord.y][coord.x] === QuartoPiece.EMPTY) {
         this.showPieceInHandOnBoard(coord);
-        if (this.getState().turn === 15) {
+        if (this.state().turn === 15) {
           const chosenMove = new QuartoMove(coord.x, coord.y, QuartoPiece.EMPTY);
           return this.chooseMove(chosenMove);
         } else if (this.pieceToGive.isAbsent()) {
@@ -32848,7 +32831,7 @@ var QuartoComponent = class _QuartoComponent extends RectangularGameComponent {
     if (rf & 2) {
       \u0275\u0275attribute("viewBox", ctx.viewBoxString());
       \u0275\u0275advance(2);
-      \u0275\u0275repeater(ctx.getState().getCoordsAndContents());
+      \u0275\u0275repeater(ctx.state().getCoordsAndContents());
       \u0275\u0275advance(2);
       \u0275\u0275conditional(ctx.lastMove.isPresent() ? 4 : -1);
       \u0275\u0275advance();
@@ -32879,7 +32862,7 @@ __decorate37([
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(QuartoComponent, [{
     type: Component,
-    args: [{ changeDetection: ChangeDetectionStrategy.OnPush, selector: "app-quarto", imports: [NgClass], template: '<svg xmlns="http://www.w3.org/2000/svg"\n     class="board"\n     [attr.viewBox]="viewBoxString()"\n     preserveAspectRatio="xMidYMid meet">\n    <g transform="translate(5 5)">\n        @for (coordAndContent of getState().getCoordsAndContents(); track coordAndContent.coord.toString()) {\n            <g [attr.transform]="getTranslationAt(coordAndContent.coord)">\n                <rect id="click-coord-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n                      (click)="clickCoord(coordAndContent.coord)"\n                      x="0"\n                      y="0"\n                      [attr.width]="SPACE_SIZE"\n                      [attr.height]="SPACE_SIZE"\n                      [ngClass]="getSquareClasses(coordAndContent.coord)"\n                      class="base"/>\n                @if (coordAndContent.content !== EMPTY) {\n                    <g>\n                        @if (coordAndContent.content.isRectangle()) {\n                            <rect [attr.x]="SPACE_SIZE/2 - getPieceSize(coordAndContent.content.value)"\n                                  [attr.y]="SPACE_SIZE/2 - getPieceSize(coordAndContent.content.value)"\n                                  [attr.width]="getPieceSize(coordAndContent.content.value) * 2"\n                                  [attr.height]="getPieceSize(coordAndContent.content.value) * 2"\n                                  [ngClass]="getPieceClasses(coordAndContent.content.value)"\n                                  class="base"/>\n                        } @else {\n                            <circle [attr.cx]="SPACE_SIZE / 2"\n                                    [attr.cy]="SPACE_SIZE / 2"\n                                    [attr.r]="getPieceSize(coordAndContent.content.value)"\n                                    [ngClass]="getPieceClasses(coordAndContent.content.value)"\n                                    class="base"/>\n                        }\n                        @if (pieceHasDot(coordAndContent.content.value)) {\n                            <circle [attr.cx]="SPACE_SIZE / 2"\n                                    [attr.cy]="SPACE_SIZE / 2"\n                                    [attr.r]="10"/>\n                        }\n                    </g>\n                }\n            </g>\n        }\n        @if (lastMove.isPresent()) {\n            <rect id="last-move-{{ lastMove.get().x }}-{{ lastMove.get().y }}"\n                  [attr.x]="SPACE_SIZE * lastMove.get().x"\n                  [attr.y]="SPACE_SIZE * lastMove.get().y"\n                  [attr.width]="SPACE_SIZE"\n                  [attr.height]="SPACE_SIZE"\n                  class="base no-fill last-move-stroke mid-stroke"/>\n        }\n\n        @if (chosen.isPresent()) {\n            <g id="dropped-piece-{{ chosen.get().x }}-{{ chosen.get().y }}"\n               (click)="clickCoord(chosen.get())"\n               [attr.transform]="getTranslationAt(chosen.get())">\n                <rect id="dropped-piece-highlight"\n                      x="0"\n                      y="0"\n                      [attr.width]="SPACE_SIZE"\n                      [attr.height]="SPACE_SIZE"\n                      class="base no-fill selected-stroke mid-stroke"/>\n                @if (pieceInHand.isRectangle()) {\n                    <rect x="0"\n                          y="0"\n                          [attr.x]="(SPACE_SIZE / 2) - getPieceSize(pieceInHand.value)"\n                          [attr.y]="(SPACE_SIZE / 2) - getPieceSize(pieceInHand.value)"\n                          [attr.width]="getPieceSize(pieceInHand.value) * 2"\n                          [attr.height]="getPieceSize(pieceInHand.value) * 2"\n                          [ngClass]="getPieceClasses(pieceInHand.value)"\n                          class="base"/>\n                } @else {\n                    <circle [attr.cx]="SPACE_SIZE / 2"\n                            [attr.cy]="SPACE_SIZE / 2"\n                            [attr.r]="getPieceSize(pieceInHand.value)"\n                            [ngClass]="getPieceClasses(pieceInHand.value)"\n                            class="base"/>\n                }\n                @if (pieceHasDot(pieceInHand.value)) {\n                    <circle [attr.cx]="SPACE_SIZE / 2"\n                            [attr.cy]="SPACE_SIZE / 2"\n                            [attr.r]="10"/>\n                }\n            </g>\n        }\n\n        @for (coord of victoriousCoords; track coord.toString()) {\n            <g>\n                <rect id="victory-{{ coord.x }}-{{ coord.y }}"\n                      x="0"\n                      y="0"\n                      [attr.width]="SPACE_SIZE"\n                      [attr.height]="SPACE_SIZE"\n                      [attr.transform]="getTranslationAt(coord)"\n                      class="base no-fill victory-stroke"/>\n            </g>\n        }\n\n        <g [attr.transform]="getTranslationAtXY(2, 4.5)">\n            <rect x="0"\n                  y="0"\n                  [attr.width]="1.5 * SPACE_SIZE"\n                  [attr.height]="1.5 * SPACE_SIZE"\n                  [attr.transform]="getTranslationAtXY(-0.75, 0)"\n                  class="base no-fill"/>\n            @if (chosen.isAbsent() && pieceInHand !== EMPTY) {\n                <g id="piece-in-hand">\n                    @if (pieceInHand.isRectangle()) {\n                        <rect [attr.x]="0"\n                              [attr.y]="SPACE_SIZE * 0.75"\n                              [attr.transform]="getSVGTranslation(- getPieceSize(pieceInHand.value), - getPieceSize(pieceInHand.value))"\n                              [attr.width]="getPieceSize(pieceInHand.value) * 2"\n                              [attr.height]="getPieceSize(pieceInHand.value) * 2"\n                              [ngClass]="getPieceClasses(pieceInHand.value)"\n                              class="base"/>\n                    } @else {\n                        <circle cx="0"\n                                [attr.cy]="SPACE_SIZE * 0.75"\n                                [attr.r]="getPieceSize(pieceInHand.value)"\n                                [ngClass]="getPieceClasses(pieceInHand.value)"\n                                class="base"/>\n                    }\n                    @if (pieceHasDot(pieceInHand.value)) {\n                        <circle cx="0"\n                                [attr.cy]="SPACE_SIZE * 0.75"\n                                [attr.r]="10"/>\n                    }\n                </g>\n            }\n        </g>\n        <g [attr.transform]="getTranslationAtXY(0, 6.5)">\n            <rect [attr.x]="0"\n                  [attr.y]="0"\n                  [attr.width]="SPACE_SIZE * 4"\n                  [attr.height]="SPACE_SIZE * 4"\n                  stroke-dasharray="10, 10"\n                  class="base no-fill"/>\n            @for (line of board; track $index; let y = $index) {\n                <g>\n                    @for (spaceContent of line; track $index; let x = $index) {\n                        <g>\n                            @if (isRemaining((4 * y) + x)) {\n                                <g id="click-piece-{{ (4 * y) + x }}"\n                                   (click)="clickPiece((4 * y) + x)">\n                                    @if (pieceToGive.equalsValue(QuartoPiece.ofInt((4 * y) + x))) {\n                                        <rect id="chosen-piece-{{ (4 * y) + x }}"\n                                              [attr.x]="SPACE_SIZE * x"\n                                              [attr.y]="SPACE_SIZE * y"\n                                              [attr.width]="SPACE_SIZE"\n                                              [attr.height]="SPACE_SIZE"\n                                              class="base no-fill selected-stroke mid-stroke"/>\n                                    }\n                                    @if (((4*y)+x) % 4 < 2) {\n                                        <rect [attr.x]="(SPACE_SIZE * x) + (SPACE_SIZE / 2) - getPieceSize((4 * y) + x)"\n                                              [attr.y]="(SPACE_SIZE * y) + (SPACE_SIZE / 2) - getPieceSize((4 * y) + x)"\n                                              [attr.width]="getPieceSize((4*y)+x)*2"\n                                              [attr.height]="getPieceSize((4*y)+x)*2"\n                                              [ngClass]="getPieceClasses((4*y)+x)"\n                                              class="base"/>\n                                    } @else {\n                                        <circle [attr.cx]="(SPACE_SIZE * x) + (SPACE_SIZE / 2)"\n                                                [attr.cy]="(SPACE_SIZE * y) + (SPACE_SIZE / 2)"\n                                                [attr.r]="getPieceSize((4*y)+x)"\n                                                [ngClass]="getPieceClasses((4*y)+x)"\n                                                class="base"/>\n                                    }\n                                    @if (pieceHasDot((4*y)+x)) {\n                                        <circle [attr.cx]="(SPACE_SIZE * x) + (SPACE_SIZE / 2)"\n                                                [attr.cy]="(SPACE_SIZE * y) + (SPACE_SIZE / 2)"\n                                                [attr.r]="10"/>\n                                    }\n                                </g>\n                            }\n                        </g>\n                    }\n                </g>\n            }\n        </g>\n    </g>\n</svg>\n', styles: ["/* src/app/components/game-components/game-component/game-component.scss */\n.base {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke {\n  stroke-width: 0;\n}\n.base.manual-stroke {\n  fill: var(--base-stroke);\n}\n.base-no-stroke {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text {\n  fill: var(--base-stroke);\n}\n.white-background {\n  fill: white;\n}\n.background {\n  fill: var(--spaces-fill);\n}\n.transparent {\n  opacity: 0;\n}\n.background2 {\n  fill: var(--alt-background-fill);\n}\n.background3 {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill {\n  fill: var(--player0);\n}\n.player0-alternate-fill {\n  fill: var(--player0-alternate);\n}\n.player0-stroke {\n  stroke: var(--player0);\n}\n.player1-fill {\n  fill: var(--player1);\n}\n.player1-alternate-fill {\n  fill: var(--player1-alternate);\n}\n.player1-stroke {\n  stroke: var(--player1);\n}\n.nonplayer-fill {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill {\n  fill: var(--pre-captured);\n}\n.captured-fill {\n  fill: var(--captured);\n}\n.captured-alternate-fill {\n  fill: var(--alt-captured);\n}\n.captured-stroke {\n  stroke: var(--captured);\n}\n.moved-fill {\n  fill: var(--moved);\n}\n.moved-stroke {\n  stroke: var(--moved);\n}\n.indicator {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill {\n  fill: var(--indicator);\n}\n.selectable-stroke {\n  stroke: var(--selectable);\n}\n.selectable > .base-no-stroke {\n  fill: var(--selectable);\n}\n.last-move-stroke {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke {\n  fill: var(--last-move);\n}\n.last-move-fill {\n  fill: var(--last-move);\n}\n.victory-fill {\n  fill: var(--victory);\n}\n.victory-stroke {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke {\n  fill: var(--victory);\n}\n.defeat-fill {\n  fill: var(--defeat);\n}\n.defeat-stroke {\n  stroke: var(--defeat);\n}\n.selected-fill {\n  fill: var(--selected);\n}\n.selected-stroke {\n  stroke: var(--selected);\n}\n.clickable-stroke {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill {\n  fill: var(--capturable);\n}\n.capturable-stroke:hover {\n  stroke-width: 8;\n}\n.no-fill {\n  fill: none;\n}\n.no-stroke {\n  stroke: none;\n}\n.small-stroke {\n  stroke-width: 2;\n}\n.mid-small-stroke {\n  stroke-width: 3;\n}\n.mid-stroke {\n  stroke-width: 5;\n}\n.big-stroke {\n  stroke-width: 8;\n}\n.huge-stroke {\n  stroke-width: 12;\n}\n.semi-transparent {\n  opacity: 0.5;\n}\n.territory-opacity {\n  fill-opacity: 0.7;\n}\n.round {\n  stroke-linecap: round;\n}\n.text-giant {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big {\n  font: 50px sans-serif;\n}\n.backgrounded-text {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus {\n  font: 38px sans-serif;\n}\n.text-medium {\n  font: 35px sans-serif;\n}\n.text-small-plus {\n  font: 28px sans-serif;\n}\n.text-small {\n  font: 25px sans-serif;\n}\n.text-bold {\n  font-weight: bold;\n}\n.text-center {\n  text-anchor: middle;\n}\n.black-fill {\n  fill: black;\n}\n.darker {\n  filter: brightness(80%);\n}\n.lighter {\n  filter: brightness(110%);\n}\nsvg {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */\n"] }]
+    args: [{ changeDetection: ChangeDetectionStrategy.OnPush, selector: "app-quarto", imports: [NgClass], template: '<svg xmlns="http://www.w3.org/2000/svg"\n     class="board"\n     [attr.viewBox]="viewBoxString()"\n     preserveAspectRatio="xMidYMid meet">\n    <g transform="translate(5 5)">\n        @for (coordAndContent of state().getCoordsAndContents(); track coordAndContent.coord.toString()) {\n            <g [attr.transform]="getTranslationAt(coordAndContent.coord)">\n                <rect id="click-coord-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n                      (click)="clickCoord(coordAndContent.coord)"\n                      x="0"\n                      y="0"\n                      [attr.width]="SPACE_SIZE"\n                      [attr.height]="SPACE_SIZE"\n                      [ngClass]="getSquareClasses(coordAndContent.coord)"\n                      class="base"/>\n                @if (coordAndContent.content !== EMPTY) {\n                    <g>\n                        @if (coordAndContent.content.isRectangle()) {\n                            <rect [attr.x]="SPACE_SIZE/2 - getPieceSize(coordAndContent.content.value)"\n                                  [attr.y]="SPACE_SIZE/2 - getPieceSize(coordAndContent.content.value)"\n                                  [attr.width]="getPieceSize(coordAndContent.content.value) * 2"\n                                  [attr.height]="getPieceSize(coordAndContent.content.value) * 2"\n                                  [ngClass]="getPieceClasses(coordAndContent.content.value)"\n                                  class="base"/>\n                        } @else {\n                            <circle [attr.cx]="SPACE_SIZE / 2"\n                                    [attr.cy]="SPACE_SIZE / 2"\n                                    [attr.r]="getPieceSize(coordAndContent.content.value)"\n                                    [ngClass]="getPieceClasses(coordAndContent.content.value)"\n                                    class="base"/>\n                        }\n                        @if (pieceHasDot(coordAndContent.content.value)) {\n                            <circle [attr.cx]="SPACE_SIZE / 2"\n                                    [attr.cy]="SPACE_SIZE / 2"\n                                    [attr.r]="10"/>\n                        }\n                    </g>\n                }\n            </g>\n        }\n        @if (lastMove.isPresent()) {\n            <rect id="last-move-{{ lastMove.get().x }}-{{ lastMove.get().y }}"\n                  [attr.x]="SPACE_SIZE * lastMove.get().x"\n                  [attr.y]="SPACE_SIZE * lastMove.get().y"\n                  [attr.width]="SPACE_SIZE"\n                  [attr.height]="SPACE_SIZE"\n                  class="base no-fill last-move-stroke mid-stroke"/>\n        }\n\n        @if (chosen.isPresent()) {\n            <g id="dropped-piece-{{ chosen.get().x }}-{{ chosen.get().y }}"\n               (click)="clickCoord(chosen.get())"\n               [attr.transform]="getTranslationAt(chosen.get())">\n                <rect id="dropped-piece-highlight"\n                      x="0"\n                      y="0"\n                      [attr.width]="SPACE_SIZE"\n                      [attr.height]="SPACE_SIZE"\n                      class="base no-fill selected-stroke mid-stroke"/>\n                @if (pieceInHand.isRectangle()) {\n                    <rect x="0"\n                          y="0"\n                          [attr.x]="(SPACE_SIZE / 2) - getPieceSize(pieceInHand.value)"\n                          [attr.y]="(SPACE_SIZE / 2) - getPieceSize(pieceInHand.value)"\n                          [attr.width]="getPieceSize(pieceInHand.value) * 2"\n                          [attr.height]="getPieceSize(pieceInHand.value) * 2"\n                          [ngClass]="getPieceClasses(pieceInHand.value)"\n                          class="base"/>\n                } @else {\n                    <circle [attr.cx]="SPACE_SIZE / 2"\n                            [attr.cy]="SPACE_SIZE / 2"\n                            [attr.r]="getPieceSize(pieceInHand.value)"\n                            [ngClass]="getPieceClasses(pieceInHand.value)"\n                            class="base"/>\n                }\n                @if (pieceHasDot(pieceInHand.value)) {\n                    <circle [attr.cx]="SPACE_SIZE / 2"\n                            [attr.cy]="SPACE_SIZE / 2"\n                            [attr.r]="10"/>\n                }\n            </g>\n        }\n\n        @for (coord of victoriousCoords; track coord.toString()) {\n            <g>\n                <rect id="victory-{{ coord.x }}-{{ coord.y }}"\n                      x="0"\n                      y="0"\n                      [attr.width]="SPACE_SIZE"\n                      [attr.height]="SPACE_SIZE"\n                      [attr.transform]="getTranslationAt(coord)"\n                      class="base no-fill victory-stroke"/>\n            </g>\n        }\n\n        <g [attr.transform]="getTranslationAtXY(2, 4.5)">\n            <rect x="0"\n                  y="0"\n                  [attr.width]="1.5 * SPACE_SIZE"\n                  [attr.height]="1.5 * SPACE_SIZE"\n                  [attr.transform]="getTranslationAtXY(-0.75, 0)"\n                  class="base no-fill"/>\n            @if (chosen.isAbsent() && pieceInHand !== EMPTY) {\n                <g id="piece-in-hand">\n                    @if (pieceInHand.isRectangle()) {\n                        <rect [attr.x]="0"\n                              [attr.y]="SPACE_SIZE * 0.75"\n                              [attr.transform]="getSVGTranslation(- getPieceSize(pieceInHand.value), - getPieceSize(pieceInHand.value))"\n                              [attr.width]="getPieceSize(pieceInHand.value) * 2"\n                              [attr.height]="getPieceSize(pieceInHand.value) * 2"\n                              [ngClass]="getPieceClasses(pieceInHand.value)"\n                              class="base"/>\n                    } @else {\n                        <circle cx="0"\n                                [attr.cy]="SPACE_SIZE * 0.75"\n                                [attr.r]="getPieceSize(pieceInHand.value)"\n                                [ngClass]="getPieceClasses(pieceInHand.value)"\n                                class="base"/>\n                    }\n                    @if (pieceHasDot(pieceInHand.value)) {\n                        <circle cx="0"\n                                [attr.cy]="SPACE_SIZE * 0.75"\n                                [attr.r]="10"/>\n                    }\n                </g>\n            }\n        </g>\n        <g [attr.transform]="getTranslationAtXY(0, 6.5)">\n            <rect [attr.x]="0"\n                  [attr.y]="0"\n                  [attr.width]="SPACE_SIZE * 4"\n                  [attr.height]="SPACE_SIZE * 4"\n                  stroke-dasharray="10, 10"\n                  class="base no-fill"/>\n            @for (line of board; track $index; let y = $index) {\n                <g>\n                    @for (spaceContent of line; track $index; let x = $index) {\n                        <g>\n                            @if (isRemaining((4 * y) + x)) {\n                                <g id="click-piece-{{ (4 * y) + x }}"\n                                   (click)="clickPiece((4 * y) + x)">\n                                    @if (pieceToGive.equalsValue(QuartoPiece.ofInt((4 * y) + x))) {\n                                        <rect id="chosen-piece-{{ (4 * y) + x }}"\n                                              [attr.x]="SPACE_SIZE * x"\n                                              [attr.y]="SPACE_SIZE * y"\n                                              [attr.width]="SPACE_SIZE"\n                                              [attr.height]="SPACE_SIZE"\n                                              class="base no-fill selected-stroke mid-stroke"/>\n                                    }\n                                    @if (((4*y)+x) % 4 < 2) {\n                                        <rect [attr.x]="(SPACE_SIZE * x) + (SPACE_SIZE / 2) - getPieceSize((4 * y) + x)"\n                                              [attr.y]="(SPACE_SIZE * y) + (SPACE_SIZE / 2) - getPieceSize((4 * y) + x)"\n                                              [attr.width]="getPieceSize((4*y)+x)*2"\n                                              [attr.height]="getPieceSize((4*y)+x)*2"\n                                              [ngClass]="getPieceClasses((4*y)+x)"\n                                              class="base"/>\n                                    } @else {\n                                        <circle [attr.cx]="(SPACE_SIZE * x) + (SPACE_SIZE / 2)"\n                                                [attr.cy]="(SPACE_SIZE * y) + (SPACE_SIZE / 2)"\n                                                [attr.r]="getPieceSize((4*y)+x)"\n                                                [ngClass]="getPieceClasses((4*y)+x)"\n                                                class="base"/>\n                                    }\n                                    @if (pieceHasDot((4*y)+x)) {\n                                        <circle [attr.cx]="(SPACE_SIZE * x) + (SPACE_SIZE / 2)"\n                                                [attr.cy]="(SPACE_SIZE * y) + (SPACE_SIZE / 2)"\n                                                [attr.r]="10"/>\n                                    }\n                                </g>\n                            }\n                        </g>\n                    }\n                </g>\n            }\n        </g>\n    </g>\n</svg>\n', styles: ["/* src/app/components/game-components/game-component/game-component.scss */\n.base {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke {\n  stroke-width: 0;\n}\n.base.manual-stroke {\n  fill: var(--base-stroke);\n}\n.base-no-stroke {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text {\n  fill: var(--base-stroke);\n}\n.white-background {\n  fill: white;\n}\n.background {\n  fill: var(--spaces-fill);\n}\n.transparent {\n  opacity: 0;\n}\n.background2 {\n  fill: var(--alt-background-fill);\n}\n.background3 {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill {\n  fill: var(--player0);\n}\n.player0-alternate-fill {\n  fill: var(--player0-alternate);\n}\n.player0-stroke {\n  stroke: var(--player0);\n}\n.player1-fill {\n  fill: var(--player1);\n}\n.player1-alternate-fill {\n  fill: var(--player1-alternate);\n}\n.player1-stroke {\n  stroke: var(--player1);\n}\n.nonplayer-fill {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill {\n  fill: var(--pre-captured);\n}\n.captured-fill {\n  fill: var(--captured);\n}\n.captured-alternate-fill {\n  fill: var(--alt-captured);\n}\n.captured-stroke {\n  stroke: var(--captured);\n}\n.moved-fill {\n  fill: var(--moved);\n}\n.moved-stroke {\n  stroke: var(--moved);\n}\n.indicator {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill {\n  fill: var(--indicator);\n}\n.selectable-stroke {\n  stroke: var(--selectable);\n}\n.selectable > .base-no-stroke {\n  fill: var(--selectable);\n}\n.last-move-stroke {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke {\n  fill: var(--last-move);\n}\n.last-move-fill {\n  fill: var(--last-move);\n}\n.victory-fill {\n  fill: var(--victory);\n}\n.victory-stroke {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke {\n  fill: var(--victory);\n}\n.defeat-fill {\n  fill: var(--defeat);\n}\n.defeat-stroke {\n  stroke: var(--defeat);\n}\n.selected-fill {\n  fill: var(--selected);\n}\n.selected-stroke {\n  stroke: var(--selected);\n}\n.clickable-stroke {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill {\n  fill: var(--capturable);\n}\n.capturable-stroke:hover {\n  stroke-width: 8;\n}\n.no-fill {\n  fill: none;\n}\n.no-stroke {\n  stroke: none;\n}\n.small-stroke {\n  stroke-width: 2;\n}\n.mid-small-stroke {\n  stroke-width: 3;\n}\n.mid-stroke {\n  stroke-width: 5;\n}\n.big-stroke {\n  stroke-width: 8;\n}\n.huge-stroke {\n  stroke-width: 12;\n}\n.semi-transparent {\n  opacity: 0.5;\n}\n.territory-opacity {\n  fill-opacity: 0.7;\n}\n.round {\n  stroke-linecap: round;\n}\n.text-giant {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big {\n  font: 50px sans-serif;\n}\n.backgrounded-text {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus {\n  font: 38px sans-serif;\n}\n.text-medium {\n  font: 35px sans-serif;\n}\n.text-small-plus {\n  font: 28px sans-serif;\n}\n.text-small {\n  font: 25px sans-serif;\n}\n.text-bold {\n  font-weight: bold;\n}\n.text-center {\n  text-anchor: middle;\n}\n.black-fill {\n  fill: black;\n}\n.darker {\n  filter: brightness(80%);\n}\n.lighter {\n  filter: brightness(110%);\n}\nsvg {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */\n"] }]
   }], () => [], { clickCoord: [], clickPiece: [] });
 })();
 (() => {
@@ -33678,7 +33661,7 @@ function QuebecCastlesComponent_For_3_For_3_Conditional_1_Template(rf, ctx) {
   if (rf & 2) {
     const player_r4 = \u0275\u0275nextContext().$implicit;
     const ctx_r2 = \u0275\u0275nextContext(2);
-    \u0275\u0275property("id", \u0275\u0275interpolate3("castle-", player_r4.toString(), "-", ctx_r2.getState().castles.get(player_r4).get().x, "-", ctx_r2.getState().castles.get(player_r4).get().y));
+    \u0275\u0275property("id", \u0275\u0275interpolate3("castle-", player_r4.toString(), "-", ctx_r2.state().castles.get(player_r4).get().x, "-", ctx_r2.state().castles.get(player_r4).get().y));
   }
 }
 function QuebecCastlesComponent_For_3_For_3_Template(rf, ctx) {
@@ -33927,7 +33910,7 @@ var QuebecCastlesComponent = class _QuebecCastlesComponent extends RectangularGa
   onDrop(coord, config) {
     return __async(this, null, function* () {
       Utils.assert(config.dropMode !== "AUTO" || config.playersPlaceCastle, 'enterred "onDrop" on a non-dropping-config');
-      const expectedDropThisTurn = this.rules.getExpectedDropsThisTurn(this.getState(), this.config());
+      const expectedDropThisTurn = this.rules.getExpectedDropsThisTurn(this.state(), this.config());
       if (expectedDropThisTurn === 1) {
         const chosenMove = QuebecCastlesDrop.of([coord]);
         return yield this.chooseMove(chosenMove);
@@ -33938,7 +33921,7 @@ var QuebecCastlesComponent = class _QuebecCastlesComponent extends RectangularGa
           this.dropped = this.dropped.removeElement(coord);
         } else {
           if (0 < this.getNumberOfAwaitedDrop()) {
-            const dropValidity = this.rules.isValidDrop(this.getState(), coord, currentPlayer, config);
+            const dropValidity = this.rules.isValidDrop(this.state(), coord, currentPlayer, config);
             if (dropValidity) {
               this.constructedState = this.constructedState.setPieceAt(coord, currentPlayer);
               this.dropped = this.dropped.addElement(coord);
@@ -33950,7 +33933,7 @@ var QuebecCastlesComponent = class _QuebecCastlesComponent extends RectangularGa
     });
   }
   isPlayerCastle(player, coord) {
-    const castle = this.getState().castles.get(player);
+    const castle = this.state().castles.get(player);
     return castle.equalsValue(coord);
   }
   onMove(coord) {
@@ -33983,7 +33966,7 @@ var QuebecCastlesComponent = class _QuebecCastlesComponent extends RectangularGa
   }
   selectedCoord(coord) {
     this.selected = MGPOptional.of(coord);
-    const possibleLanding = this.rules.getPossibleMovesFor(coord, this.getState()).map((move) => move.getEnd());
+    const possibleLanding = this.rules.getPossibleMovesFor(coord, this.state()).map((move) => move.getEnd());
     this.possibleLanding = new Set2(possibleLanding);
   }
   validateGroupDrop() {
@@ -33994,7 +33977,7 @@ var QuebecCastlesComponent = class _QuebecCastlesComponent extends RectangularGa
   }
   updateBoard(_triggerAnimation) {
     return __async(this, null, function* () {
-      const state = this.getState();
+      const state = this.state();
       this.constructedState = state;
       this.board = state.getCopiedBoard();
       this.updateMissingPieces();
@@ -34115,11 +34098,11 @@ var QuebecCastlesComponent = class _QuebecCastlesComponent extends RectangularGa
         y = this.upperCorner.y - halfRadius;
       }
     } else {
-      x2 = this.getState().getWidth() * 0.5 * this.SPACE_SIZE;
+      x2 = this.width() * 0.5 * this.SPACE_SIZE;
       if (this.getCurrentPlayer() === Player.ZERO) {
         y = -halfRadius;
       } else {
-        y = (this.getState().getHeight() + 0.5) * this.SPACE_SIZE;
+        y = (this.height() + 0.5) * this.SPACE_SIZE;
       }
     }
     return "translate(" + x2 + ", " + y + ")";
@@ -34163,7 +34146,7 @@ __decorate38([
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(QuebecCastlesComponent, [{
     type: Component,
-    args: [{ changeDetection: ChangeDetectionStrategy.OnPush, selector: "app-quebec-castles", imports: [NgClass], template: '<svg xmlns="http://www.w3.org/2000/svg"\n     class="board"\n     [attr.viewBox]="viewBoxString()"\n     preserveAspectRatio="xMidYMid meet">\n    <g id="quebec"\n       [attr.transform]="getBoardTransform()">\n        @for (coordAndContent of constructedState.getCoordsAndContents(); track coordAndContent.coord.toString()) {\n            <g id="click-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n               [attr.transform]="getTranslationAt(coordAndContent.coord)"\n               (click)="onClick(coordAndContent.coord)">\n                <rect id="square-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n                      x="0"\n                      y="0"\n                      [attr.width]="SPACE_SIZE"\n                      [attr.height]="SPACE_SIZE"\n                      [ngClass]="getSquareClasses(coordAndContent.coord)"\n                      class="base"/>\n                @for (player of Player.PLAYERS; track player.getValue()) {\n                    <ng-container>\n                        @if (isPlayerCastle(player, coordAndContent.coord)) {\n                            <g id="castle-{{ player.toString() }}-{{ getState().castles.get(player).get().x }}-{{ getState().castles.get(player).get().y }}"\n                               style="pointer-events: none">\n                                <polyline points="0 0, 100 100, 50 50, 100 0, 0, 100, 50 50, 0 50, 100 50, 50 50, 50 0, 50 100, 50 50"\n                                          class="base-no-fill"/>\n                            </g>\n                        }\n                    </ng-container>\n                }\n                @if (coordAndContent.content !== PlayerOrNone.NONE) {\n                    <circle id="piece-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n                            [attr.r]="(SPACE_SIZE / 2) - STROKE_WIDTH"\n                            [attr.cx]="SPACE_SIZE / 2"\n                            [attr.cy]="SPACE_SIZE / 2"\n                            [ngClass]="getPieceClasses(coordAndContent.coord)"\n                            class="base"/>\n                }\n                @if (possibleLanding.contains(coordAndContent.coord)) {\n                    <rect id="landing-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n                          [attr.x]="SPACE_SIZE * 0.4"\n                          [attr.y]="SPACE_SIZE * 0.4"\n                          [attr.width]="SPACE_SIZE * 0.2"\n                          [attr.height]="SPACE_SIZE * 0.2"\n                          class="indicator"/>\n                }\n            </g>\n        }\n    </g>\n    @if (isPlayerDropping()) {\n        <g>\n            @if (getNumberOfAwaitedDrop() === 0) {\n                <g id="drop-validator"\n                   (click)="validateGroupDrop()"\n                   [attr.transform]="getGroupValidatorTransform()">\n                    <circle [attr.cx]="STROKE_WIDTH / 2"\n                            [attr.cy]="STROKE_WIDTH / 2"\n                            [attr.r]="SPACE_SIZE / 2"\n                            fill="red"\n                            class="base-no-fill mid-stroke"\n                            [ngClass]="getGroupDropValidationButtonClasses()"/>\n                    <polygon points="-32.5,-2.5 -32.5,12.5 -10,35 -2.5,35 35,-21.25 25,-21.275 -5,25 -32.5,-2.5"\n                             fill="green"\n                             class="base-no-fill mid-stroke"/>\n                </g>\n            } @else {\n                @for (i of ArrayUtils.range(getNumberOfAwaitedDrop()); track i) {\n                    <circle id="remaining-piece-{{ i }}"\n                            [attr.cx]="getRemainingCx(i)"\n                            [attr.cy]="getRemainingCy()"\n                            class="base"\n                            [ngClass]="getRemaininPieceClasses()"\n                            [attr.r]="SPACE_SIZE / 2"/>\n                }\n            }\n        </g>\n    }\n</svg>\n', styles: ["/* src/app/components/game-components/game-component/game-component.scss */\n.base {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke {\n  stroke-width: 0;\n}\n.base.manual-stroke {\n  fill: var(--base-stroke);\n}\n.base-no-stroke {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text {\n  fill: var(--base-stroke);\n}\n.white-background {\n  fill: white;\n}\n.background {\n  fill: var(--spaces-fill);\n}\n.transparent {\n  opacity: 0;\n}\n.background2 {\n  fill: var(--alt-background-fill);\n}\n.background3 {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill {\n  fill: var(--player0);\n}\n.player0-alternate-fill {\n  fill: var(--player0-alternate);\n}\n.player0-stroke {\n  stroke: var(--player0);\n}\n.player1-fill {\n  fill: var(--player1);\n}\n.player1-alternate-fill {\n  fill: var(--player1-alternate);\n}\n.player1-stroke {\n  stroke: var(--player1);\n}\n.nonplayer-fill {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill {\n  fill: var(--pre-captured);\n}\n.captured-fill {\n  fill: var(--captured);\n}\n.captured-alternate-fill {\n  fill: var(--alt-captured);\n}\n.captured-stroke {\n  stroke: var(--captured);\n}\n.moved-fill {\n  fill: var(--moved);\n}\n.moved-stroke {\n  stroke: var(--moved);\n}\n.indicator {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill {\n  fill: var(--indicator);\n}\n.selectable-stroke {\n  stroke: var(--selectable);\n}\n.selectable > .base-no-stroke {\n  fill: var(--selectable);\n}\n.last-move-stroke {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke {\n  fill: var(--last-move);\n}\n.last-move-fill {\n  fill: var(--last-move);\n}\n.victory-fill {\n  fill: var(--victory);\n}\n.victory-stroke {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke {\n  fill: var(--victory);\n}\n.defeat-fill {\n  fill: var(--defeat);\n}\n.defeat-stroke {\n  stroke: var(--defeat);\n}\n.selected-fill {\n  fill: var(--selected);\n}\n.selected-stroke {\n  stroke: var(--selected);\n}\n.clickable-stroke {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill {\n  fill: var(--capturable);\n}\n.capturable-stroke:hover {\n  stroke-width: 8;\n}\n.no-fill {\n  fill: none;\n}\n.no-stroke {\n  stroke: none;\n}\n.small-stroke {\n  stroke-width: 2;\n}\n.mid-small-stroke {\n  stroke-width: 3;\n}\n.mid-stroke {\n  stroke-width: 5;\n}\n.big-stroke {\n  stroke-width: 8;\n}\n.huge-stroke {\n  stroke-width: 12;\n}\n.semi-transparent {\n  opacity: 0.5;\n}\n.territory-opacity {\n  fill-opacity: 0.7;\n}\n.round {\n  stroke-linecap: round;\n}\n.text-giant {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big {\n  font: 50px sans-serif;\n}\n.backgrounded-text {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus {\n  font: 38px sans-serif;\n}\n.text-medium {\n  font: 35px sans-serif;\n}\n.text-small-plus {\n  font: 28px sans-serif;\n}\n.text-small {\n  font: 25px sans-serif;\n}\n.text-bold {\n  font-weight: bold;\n}\n.text-center {\n  text-anchor: middle;\n}\n.black-fill {\n  fill: black;\n}\n.darker {\n  filter: brightness(80%);\n}\n.lighter {\n  filter: brightness(110%);\n}\nsvg {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */\n"] }]
+    args: [{ changeDetection: ChangeDetectionStrategy.OnPush, selector: "app-quebec-castles", imports: [NgClass], template: '<svg xmlns="http://www.w3.org/2000/svg"\n     class="board"\n     [attr.viewBox]="viewBoxString()"\n     preserveAspectRatio="xMidYMid meet">\n    <g id="quebec"\n       [attr.transform]="getBoardTransform()">\n        @for (coordAndContent of constructedState.getCoordsAndContents(); track coordAndContent.coord.toString()) {\n            <g id="click-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n               [attr.transform]="getTranslationAt(coordAndContent.coord)"\n               (click)="onClick(coordAndContent.coord)">\n                <rect id="square-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n                      x="0"\n                      y="0"\n                      [attr.width]="SPACE_SIZE"\n                      [attr.height]="SPACE_SIZE"\n                      [ngClass]="getSquareClasses(coordAndContent.coord)"\n                      class="base"/>\n                @for (player of Player.PLAYERS; track player.getValue()) {\n                    <ng-container>\n                        @if (isPlayerCastle(player, coordAndContent.coord)) {\n                            <g id="castle-{{ player.toString() }}-{{ state().castles.get(player).get().x }}-{{ state().castles.get(player).get().y }}"\n                               style="pointer-events: none">\n                                <polyline points="0 0, 100 100, 50 50, 100 0, 0, 100, 50 50, 0 50, 100 50, 50 50, 50 0, 50 100, 50 50"\n                                          class="base-no-fill"/>\n                            </g>\n                        }\n                    </ng-container>\n                }\n                @if (coordAndContent.content !== PlayerOrNone.NONE) {\n                    <circle id="piece-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n                            [attr.r]="(SPACE_SIZE / 2) - STROKE_WIDTH"\n                            [attr.cx]="SPACE_SIZE / 2"\n                            [attr.cy]="SPACE_SIZE / 2"\n                            [ngClass]="getPieceClasses(coordAndContent.coord)"\n                            class="base"/>\n                }\n                @if (possibleLanding.contains(coordAndContent.coord)) {\n                    <rect id="landing-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n                          [attr.x]="SPACE_SIZE * 0.4"\n                          [attr.y]="SPACE_SIZE * 0.4"\n                          [attr.width]="SPACE_SIZE * 0.2"\n                          [attr.height]="SPACE_SIZE * 0.2"\n                          class="indicator"/>\n                }\n            </g>\n        }\n    </g>\n    @if (isPlayerDropping()) {\n        <g>\n            @if (getNumberOfAwaitedDrop() === 0) {\n                <g id="drop-validator"\n                   (click)="validateGroupDrop()"\n                   [attr.transform]="getGroupValidatorTransform()">\n                    <circle [attr.cx]="STROKE_WIDTH / 2"\n                            [attr.cy]="STROKE_WIDTH / 2"\n                            [attr.r]="SPACE_SIZE / 2"\n                            fill="red"\n                            class="base-no-fill mid-stroke"\n                            [ngClass]="getGroupDropValidationButtonClasses()"/>\n                    <polygon points="-32.5,-2.5 -32.5,12.5 -10,35 -2.5,35 35,-21.25 25,-21.275 -5,25 -32.5,-2.5"\n                             fill="green"\n                             class="base-no-fill mid-stroke"/>\n                </g>\n            } @else {\n                @for (i of ArrayUtils.range(getNumberOfAwaitedDrop()); track i) {\n                    <circle id="remaining-piece-{{ i }}"\n                            [attr.cx]="getRemainingCx(i)"\n                            [attr.cy]="getRemainingCy()"\n                            class="base"\n                            [ngClass]="getRemaininPieceClasses()"\n                            [attr.r]="SPACE_SIZE / 2"/>\n                }\n            }\n        </g>\n    }\n</svg>\n', styles: ["/* src/app/components/game-components/game-component/game-component.scss */\n.base {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke {\n  stroke-width: 0;\n}\n.base.manual-stroke {\n  fill: var(--base-stroke);\n}\n.base-no-stroke {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text {\n  fill: var(--base-stroke);\n}\n.white-background {\n  fill: white;\n}\n.background {\n  fill: var(--spaces-fill);\n}\n.transparent {\n  opacity: 0;\n}\n.background2 {\n  fill: var(--alt-background-fill);\n}\n.background3 {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill {\n  fill: var(--player0);\n}\n.player0-alternate-fill {\n  fill: var(--player0-alternate);\n}\n.player0-stroke {\n  stroke: var(--player0);\n}\n.player1-fill {\n  fill: var(--player1);\n}\n.player1-alternate-fill {\n  fill: var(--player1-alternate);\n}\n.player1-stroke {\n  stroke: var(--player1);\n}\n.nonplayer-fill {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill {\n  fill: var(--pre-captured);\n}\n.captured-fill {\n  fill: var(--captured);\n}\n.captured-alternate-fill {\n  fill: var(--alt-captured);\n}\n.captured-stroke {\n  stroke: var(--captured);\n}\n.moved-fill {\n  fill: var(--moved);\n}\n.moved-stroke {\n  stroke: var(--moved);\n}\n.indicator {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill {\n  fill: var(--indicator);\n}\n.selectable-stroke {\n  stroke: var(--selectable);\n}\n.selectable > .base-no-stroke {\n  fill: var(--selectable);\n}\n.last-move-stroke {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke {\n  fill: var(--last-move);\n}\n.last-move-fill {\n  fill: var(--last-move);\n}\n.victory-fill {\n  fill: var(--victory);\n}\n.victory-stroke {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke {\n  fill: var(--victory);\n}\n.defeat-fill {\n  fill: var(--defeat);\n}\n.defeat-stroke {\n  stroke: var(--defeat);\n}\n.selected-fill {\n  fill: var(--selected);\n}\n.selected-stroke {\n  stroke: var(--selected);\n}\n.clickable-stroke {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill {\n  fill: var(--capturable);\n}\n.capturable-stroke:hover {\n  stroke-width: 8;\n}\n.no-fill {\n  fill: none;\n}\n.no-stroke {\n  stroke: none;\n}\n.small-stroke {\n  stroke-width: 2;\n}\n.mid-small-stroke {\n  stroke-width: 3;\n}\n.mid-stroke {\n  stroke-width: 5;\n}\n.big-stroke {\n  stroke-width: 8;\n}\n.huge-stroke {\n  stroke-width: 12;\n}\n.semi-transparent {\n  opacity: 0.5;\n}\n.territory-opacity {\n  fill-opacity: 0.7;\n}\n.round {\n  stroke-linecap: round;\n}\n.text-giant {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big {\n  font: 50px sans-serif;\n}\n.backgrounded-text {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus {\n  font: 38px sans-serif;\n}\n.text-medium {\n  font: 35px sans-serif;\n}\n.text-small-plus {\n  font: 28px sans-serif;\n}\n.text-small {\n  font: 25px sans-serif;\n}\n.text-bold {\n  font-weight: bold;\n}\n.text-center {\n  text-anchor: middle;\n}\n.black-fill {\n  fill: black;\n}\n.darker {\n  filter: brightness(80%);\n}\n.lighter {\n  filter: brightness(110%);\n}\nsvg {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */\n"] }]
   }], () => [], { onClick: [], validateGroupDrop: [] });
 })();
 (() => {
@@ -34545,7 +34528,7 @@ var QuixoComponent = class _QuixoComponent extends RectangularGameComponent {
   showLastMove(move) {
     return __async(this, null, function* () {
       let coord = move.coord;
-      while (this.state.isOnBoard(coord)) {
+      while (this.state().isOnBoard(coord)) {
         this.lastMoveCoords.push(coord);
         coord = coord.getNext(move.direction);
       }
@@ -34556,9 +34539,8 @@ var QuixoComponent = class _QuixoComponent extends RectangularGameComponent {
   }
   updateBoard(_triggerAnimation) {
     return __async(this, null, function* () {
-      this.state = this.getState();
-      this.board = this.state.board;
-      this.victoriousCoords = QuixoRules.getVictoriousCoords(this.state);
+      this.board = this.state().board;
+      this.victoriousCoords = QuixoRules.getVictoriousCoords(this.state());
     });
   }
   cancelMoveAttempt() {
@@ -34582,12 +34564,12 @@ var QuixoComponent = class _QuixoComponent extends RectangularGameComponent {
   onBoardClick(x2, y) {
     return __async(this, null, function* () {
       const clickedCoord = new Coord(x2, y);
-      const state = this.getState();
+      const state = this.state();
       const coordLegality = this.rules.isValidCoord(state, clickedCoord);
       if (coordLegality.isFailure()) {
         return this.cancelMove(coordLegality.getReason());
       }
-      if (this.board[y][x2] === this.state.getCurrentOpponent()) {
+      if (this.board[y][x2] === this.state().getCurrentOpponent()) {
         return this.cancelMove(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
       } else {
         if (this.chosenCoord.equalsValue(clickedCoord)) {
@@ -34602,7 +34584,7 @@ var QuixoComponent = class _QuixoComponent extends RectangularGameComponent {
   getPossiblesDirections() {
     const directions = [];
     const chosenCoord = this.chosenCoord.get();
-    const state = this.getState();
+    const state = this.state();
     if (chosenCoord.x < state.getWidth() - 1)
       directions.push(Orthogonal.RIGHT);
     if (0 < chosenCoord.x)
@@ -34627,7 +34609,7 @@ var QuixoComponent = class _QuixoComponent extends RectangularGameComponent {
     });
   }
   getQuixoArrowTransform(orientation) {
-    const state = this.getState();
+    const state = this.state();
     const boardWidth = state.getWidth() * this.SPACE_SIZE;
     const boardHeight = state.getHeight() * this.SPACE_SIZE;
     return this.getArrowTransform(boardWidth, boardHeight, orientation);
@@ -35013,7 +34995,7 @@ var AbstractReversiComponent = class extends RectangularGameComponent {
   }
   updateBoard(_triggerAnimation) {
     return __async(this, null, function* () {
-      const state = this.getState();
+      const state = this.state();
       this.board = state.getCopiedBoard();
       this.scores = MGPOptional.of(state.countScore());
       this.canPass = this.rules.playerCanOnlyPass(state, this.config());
@@ -35022,7 +35004,7 @@ var AbstractReversiComponent = class extends RectangularGameComponent {
   showLastMove(move) {
     return __async(this, null, function* () {
       this.lastMove = MGPOptional.of(move.coord);
-      const player = this.getState().getCurrentOpponent();
+      const player = this.state().getCurrentOpponent();
       this.captured = this.rules.getAllSwitchedCoords(move, player, this.getPreviousState(), this.config());
     });
   }
@@ -35867,7 +35849,7 @@ function SaharaComponent_Conditional_4_Template(rf, ctx) {
 }
 var SaharaComponent = class _SaharaComponent extends TriangularGameComponent {
   computeViewBox() {
-    const state = this.getState();
+    const state = this.state();
     const width = (state.getWidth() + 1) / 2 * this.SPACE_SIZE;
     const height = state.getHeight() * this.SPACE_SIZE;
     return ViewBox.fromLimits(0, width, 0, height).expandAll(this.STROKE_WIDTH / 2);
@@ -35920,7 +35902,7 @@ var SaharaComponent = class _SaharaComponent extends TriangularGameComponent {
   }
   onClick(x2, y) {
     return __async(this, null, function* () {
-      const currentPlayer = this.getState().getCurrentPlayer();
+      const currentPlayer = this.state().getCurrentPlayer();
       const player = FourStatePiece.ofPlayer(currentPlayer);
       if (this.chosenCoord.equalsValue(new Coord(x2, y))) {
         return this.cancelMove();
@@ -35946,7 +35928,7 @@ var SaharaComponent = class _SaharaComponent extends TriangularGameComponent {
   }
   selectPiece(coord) {
     this.chosenCoord = MGPOptional.of(coord);
-    this.possibleLandings = this.rules.getLegalLandingCoords(this.getState(), coord);
+    this.possibleLandings = this.rules.getLegalLandingCoords(this.state(), coord);
   }
   chooseLandingCoord(x2, y) {
     return __async(this, null, function* () {
@@ -35960,11 +35942,11 @@ var SaharaComponent = class _SaharaComponent extends TriangularGameComponent {
   }
   updateBoard(_triggerAnimation) {
     return __async(this, null, function* () {
-      this.board = this.getState().board;
+      this.board = this.state().board;
     });
   }
   getPlayerClassAtXY(x2, y) {
-    const piece = this.getState().getPieceAtXY(x2, y);
+    const piece = this.state().getPieceAtXY(x2, y);
     return this.getPlayerClass(piece.getPlayer());
   }
   static \u0275fac = function SaharaComponent_Factory(__ngFactoryType__) {
@@ -36972,7 +36954,7 @@ function SiamComponent_For_8_Template(rf, ctx) {
     const coord_r12 = ctx.$implicit;
     const ctx_r3 = \u0275\u0275nextContext();
     \u0275\u0275advance();
-    \u0275\u0275conditional(ctx_r3.getState().isNotOnBoard(coord_r12) ? 1 : -1);
+    \u0275\u0275conditional(ctx_r3.state().isNotOnBoard(coord_r12) ? 1 : -1);
     \u0275\u0275advance();
     \u0275\u0275attribute("x", ctx_r3.SPACE_SIZE * coord_r12.x)("y", ctx_r3.SPACE_SIZE * coord_r12.y)("width", ctx_r3.SPACE_SIZE)("height", ctx_r3.SPACE_SIZE);
   }
@@ -37121,7 +37103,7 @@ var SiamComponent = class SiamComponent2 extends RectangularGameComponent {
   }
   updateBoard(_triggerAnimation) {
     return __async(this, null, function* () {
-      const state = this.getState();
+      const state = this.state();
       this.board = state.board;
     });
   }
@@ -37155,7 +37137,7 @@ var SiamComponent = class SiamComponent2 extends RectangularGameComponent {
       }
       this.cancelMoveAttempt();
       const config = this.config();
-      for (const move of SiamRules.get().getInsertions(this.getState(), config)) {
+      for (const move of SiamRules.get().getInsertions(this.state(), config)) {
         const target = move.coord.getNext(move.direction.get());
         if (this.board[target.y][target.x] !== SiamPiece.EMPTY) {
           const arrow = {
@@ -37192,13 +37174,13 @@ var SiamComponent = class SiamComponent2 extends RectangularGameComponent {
           return this.cancelMove();
         } else if (this.selectedPiece.isPresent()) {
           this.selectedLanding = MGPOptional.of(clickedCoord);
-          const moves = SiamRules.get().getMovesBetween(this.getState(), this.getState().getPieceAt(this.selectedPiece.get()), this.selectedPiece.get(), clickedCoord);
+          const moves = SiamRules.get().getMovesBetween(this.state(), this.state().getPieceAt(this.selectedPiece.get()), this.selectedPiece.get(), clickedCoord);
           if (moves.length === 0) {
             return this.changeMoveDestinationClick(clickedCoord);
           }
           return this.performMoveOrShowOrientationArrows(moves);
         } else {
-          Utils.assert(this.getState().isOnBoard(clickedCoord), "SiamComponent: user clicked outside of board when it should not be possible");
+          Utils.assert(this.state().isOnBoard(clickedCoord), "SiamComponent: user clicked outside of board when it should not be possible");
           const clickedPiece = this.board[y][x2];
           if (clickedPiece.getOwner().isNone()) {
             return this.cancelMove(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_EMPTY());
@@ -37219,7 +37201,7 @@ var SiamComponent = class SiamComponent2 extends RectangularGameComponent {
       }
       this.selectedLanding = MGPOptional.of(clickedCoord);
       const config = this.config();
-      const insertions = SiamRules.get().getInsertionsAt(this.getState(), clickedCoord.x, clickedCoord.y, config);
+      const insertions = SiamRules.get().getInsertionsAt(this.state(), clickedCoord.x, clickedCoord.y, config);
       if (insertions.length === 0) {
         return this.changeMoveDestinationClick(clickedCoord);
       }
@@ -37229,7 +37211,7 @@ var SiamComponent = class SiamComponent2 extends RectangularGameComponent {
   changeMoveDestinationClick(clickedCoord) {
     return __async(this, null, function* () {
       this.cancelMoveAttempt();
-      const piece = this.getState().getPieceAt(clickedCoord);
+      const piece = this.state().getPieceAt(clickedCoord);
       if (piece.getOwner() === this.getCurrentPlayer()) {
         return this.doSquareClick(clickedCoord.x, clickedCoord.y);
       } else {
@@ -37252,7 +37234,7 @@ var SiamComponent = class SiamComponent2 extends RectangularGameComponent {
   }
   selectPiece(clickedCoord, clickedPiece) {
     this.cancelMoveAttempt();
-    const state = this.getState();
+    const state = this.state();
     this.selectedPiece = MGPOptional.of(clickedCoord);
     const moves = SiamRules.get().getMovesFrom(state, clickedPiece, clickedCoord.x, clickedCoord.y);
     for (const move of moves) {
@@ -37311,7 +37293,7 @@ var SiamComponent = class SiamComponent2 extends RectangularGameComponent {
     const config = this.config();
     const cx = config.width / 2;
     const offset = 1 / 2;
-    const pieceOnBoard = this.getState().countPlayersPawn().get(player);
+    const pieceOnBoard = this.state().countPlayersPawn().get(player);
     const nbPieceToDraw = config.numberOfPiece - pieceOnBoard;
     const width = 1 + (nbPieceToDraw - 1) * offset;
     let x2;
@@ -37352,7 +37334,7 @@ var SiamComponent = class SiamComponent2 extends RectangularGameComponent {
   }
   playerPieces(player) {
     const maxPiece = this.config().numberOfPiece;
-    const pieceOnBoard = this.getState().countPlayersPawn().get(player);
+    const pieceOnBoard = this.state().countPlayersPawn().get(player);
     return maxPiece - pieceOnBoard;
   }
   static \u0275fac = function SiamComponent_Factory(__ngFactoryType__) {
@@ -37415,7 +37397,7 @@ SiamComponent = __decorate45([
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(SiamComponent, [{
     type: Component,
-    args: [{ changeDetection: ChangeDetectionStrategy.OnPush, selector: "app-siam", imports: [NgClass, SiamOrientationArrowComponent], template: '<svg xmlns="http://www.w3.org/2000/svg"\n     class="board"\n     [attr.viewBox]="viewBoxString()"\n     preserveAspectRatio="xMidYMid meet">\n    <defs>\n        <polygon id="triangle"\n                 points="0 -6, 10 0, 0 6"/>\n        <polygon id="mountain"\n                 points="5 95, 16 68, 24 76, 48 28, 64 60, 72 44, 95 95, 5 95"/>\n    </defs>\n    <g id="siamBoard">\n        @for (line of board; track $index; let y = $index) {\n            <g>\n                @for (c of line; track $index; let x = $index) {\n                    <g [attr.transform]="getTranslationAtXY(x, y)">\n                        <rect id="square-{{ x }}-{{ y }}"\n                              (click)="clickSquare(x, y)"\n                              [attr.x]="SPACE_SIZE * x * 0"\n                              [attr.y]="SPACE_SIZE * y * 0"\n                              [attr.width]="SPACE_SIZE"\n                              [attr.height]="SPACE_SIZE"\n                              [ngClass]="getSquareClasses(x, y)"\n                              class="base"/>\n                        @if (c.isPlayer()) {\n                            <use id="piece-{{ x }}-{{ y }}"\n                                 class="base mid-stroke"\n                                 [ngClass]="getPieceClasses(x, y, c)"\n                                 (click)="clickSquare(x, y)"\n                                 xlink:href="#arrow"\n                                 [attr.transform]="getPieceRotation(x, y)"/>\n                        }\n                        @if (isMountain(c)) {\n                            <use xlink:href="#mountain"\n                                 class="nonplayer-fill"\n                                 (click)="clickSquare(x, y)"/>\n                        }\n                    </g>\n                }\n            </g>\n        }\n    </g>\n    @for (coord of clickableCoords; track $index) {\n        <g>\n            @if (getState().isNotOnBoard(coord)) {\n                <rect id="square-{{ coord.x }}-{{ coord.y }}"\n                      (click)="clickSquare(coord.x, coord.y)"\n                      [attr.x]="SPACE_SIZE * coord.x"\n                      [attr.y]="SPACE_SIZE * coord.y"\n                      [attr.width]="SPACE_SIZE"\n                      [attr.height]="SPACE_SIZE"\n                      [ngClass]="getSquareClasses(coord.x, coord.y)"\n                      class="base semi-transparent"/>\n            }\n            <rect [attr.x]="SPACE_SIZE * coord.x"\n                  [attr.y]="SPACE_SIZE * coord.y"\n                  [attr.width]="SPACE_SIZE"\n                  [attr.height]="SPACE_SIZE"\n                  class="base no-fill small-stroke clickable-stroke"\n                  (click)="clickSquare(coord.x, coord.y)"/>\n        </g>\n    }\n    @if (selectedLanding.isPresent()) {\n        <rect (click)="clickSquare(selectedLanding.get().x, selectedLanding.get().y)"\n              [attr.x]="SPACE_SIZE * selectedLanding.get().x"\n              [attr.y]="SPACE_SIZE * selectedLanding.get().y"\n              [attr.width]="SPACE_SIZE"\n              [attr.height]="SPACE_SIZE"\n              class="base no-fill small-stroke selected-stroke"/>\n    }\n    @if (selectedPiece.isPresent()) {\n        <rect (click)="clickSquare(selectedPiece.get().x, selectedPiece.get().y)"\n              [attr.x]="SPACE_SIZE * selectedPiece.get().x"\n              [attr.y]="SPACE_SIZE * selectedPiece.get().y"\n              [attr.width]="SPACE_SIZE"\n              [attr.height]="SPACE_SIZE"\n              class="base no-fill small-stroke selected-stroke"/>\n    }\n    @for (player of Player.PLAYERS; track $index) {\n        <g id="remaining-pieces-{{ player.toString() }}"\n           (click)="selectPieceForInsertion(player)">\n            @for (x of ArrayUtils.range(playerPieces(player)); track $index) {\n                <use id="remaining-pieces-{{ player.toString() }}-{{ x }}"\n                     class="base mid-stroke"\n                     [ngClass]="getRemainingPieceClasses(player, x)"\n                     xlink:href="#arrow"\n                     [attr.transform]="getRemainingPieceTransform(x, player)"/>\n            }\n        </g>\n    }\n    @for (arrow of indicatorArrows; track $index) {\n        <g>\n            <use id="indicator-{{ arrow.target.x }}-{{ arrow.target.y }}-{{ arrow.direction.toString() }}"\n                 class="base mid-stroke indicator-fill"\n                 (click)="clickArrow(arrow)"\n                 xlink:href="#arrow"\n                 [attr.transform]="getIndicatorTransform(arrow)"/>\n            <!-- Need to redraw the source piece, if it is not an insertion -->\n            @if (arrow.source.isPresent()) {\n                <use class="base mid-stroke"\n                     [ngClass]="getPieceClasses(arrow.source.get().coord.x, arrow.source.get().coord.y, arrow.source.get().piece)"\n                     (click)="clickSquare(arrow.source.get().coord.x, arrow.source.get().coord.y)"\n                     xlink:href="#arrow"\n                     [attr.transform]="getPieceTransform(arrow.source.get().coord.x, arrow.source.get().coord.y)"/>\n            }\n        </g>\n    }\n    <g app-siam-orientation-arrow\n       [orientations]="orientations"\n       [currentPlayer]="getCurrentPlayer()"\n       [config]="config()"\n       (moveEmitter)="selectOrientation($event)"/>\n</svg>\n', styles: ["/* src/app/components/game-components/game-component/game-component.scss */\n.base {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke {\n  stroke-width: 0;\n}\n.base.manual-stroke {\n  fill: var(--base-stroke);\n}\n.base-no-stroke {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text {\n  fill: var(--base-stroke);\n}\n.white-background {\n  fill: white;\n}\n.background {\n  fill: var(--spaces-fill);\n}\n.transparent {\n  opacity: 0;\n}\n.background2 {\n  fill: var(--alt-background-fill);\n}\n.background3 {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill {\n  fill: var(--player0);\n}\n.player0-alternate-fill {\n  fill: var(--player0-alternate);\n}\n.player0-stroke {\n  stroke: var(--player0);\n}\n.player1-fill {\n  fill: var(--player1);\n}\n.player1-alternate-fill {\n  fill: var(--player1-alternate);\n}\n.player1-stroke {\n  stroke: var(--player1);\n}\n.nonplayer-fill {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill {\n  fill: var(--pre-captured);\n}\n.captured-fill {\n  fill: var(--captured);\n}\n.captured-alternate-fill {\n  fill: var(--alt-captured);\n}\n.captured-stroke {\n  stroke: var(--captured);\n}\n.moved-fill {\n  fill: var(--moved);\n}\n.moved-stroke {\n  stroke: var(--moved);\n}\n.indicator {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill {\n  fill: var(--indicator);\n}\n.selectable-stroke {\n  stroke: var(--selectable);\n}\n.selectable > .base-no-stroke {\n  fill: var(--selectable);\n}\n.last-move-stroke {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke {\n  fill: var(--last-move);\n}\n.last-move-fill {\n  fill: var(--last-move);\n}\n.victory-fill {\n  fill: var(--victory);\n}\n.victory-stroke {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke {\n  fill: var(--victory);\n}\n.defeat-fill {\n  fill: var(--defeat);\n}\n.defeat-stroke {\n  stroke: var(--defeat);\n}\n.selected-fill {\n  fill: var(--selected);\n}\n.selected-stroke {\n  stroke: var(--selected);\n}\n.clickable-stroke {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill {\n  fill: var(--capturable);\n}\n.capturable-stroke:hover {\n  stroke-width: 8;\n}\n.no-fill {\n  fill: none;\n}\n.no-stroke {\n  stroke: none;\n}\n.small-stroke {\n  stroke-width: 2;\n}\n.mid-small-stroke {\n  stroke-width: 3;\n}\n.mid-stroke {\n  stroke-width: 5;\n}\n.big-stroke {\n  stroke-width: 8;\n}\n.huge-stroke {\n  stroke-width: 12;\n}\n.semi-transparent {\n  opacity: 0.5;\n}\n.territory-opacity {\n  fill-opacity: 0.7;\n}\n.round {\n  stroke-linecap: round;\n}\n.text-giant {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big {\n  font: 50px sans-serif;\n}\n.backgrounded-text {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus {\n  font: 38px sans-serif;\n}\n.text-medium {\n  font: 35px sans-serif;\n}\n.text-small-plus {\n  font: 28px sans-serif;\n}\n.text-small {\n  font: 25px sans-serif;\n}\n.text-bold {\n  font-weight: bold;\n}\n.text-center {\n  text-anchor: middle;\n}\n.black-fill {\n  fill: black;\n}\n.darker {\n  filter: brightness(80%);\n}\n.lighter {\n  filter: brightness(110%);\n}\nsvg {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */\n"] }]
+    args: [{ changeDetection: ChangeDetectionStrategy.OnPush, selector: "app-siam", imports: [NgClass, SiamOrientationArrowComponent], template: '<svg xmlns="http://www.w3.org/2000/svg"\n     class="board"\n     [attr.viewBox]="viewBoxString()"\n     preserveAspectRatio="xMidYMid meet">\n    <defs>\n        <polygon id="triangle"\n                 points="0 -6, 10 0, 0 6"/>\n        <polygon id="mountain"\n                 points="5 95, 16 68, 24 76, 48 28, 64 60, 72 44, 95 95, 5 95"/>\n    </defs>\n    <g id="siamBoard">\n        @for (line of board; track $index; let y = $index) {\n            <g>\n                @for (c of line; track $index; let x = $index) {\n                    <g [attr.transform]="getTranslationAtXY(x, y)">\n                        <rect id="square-{{ x }}-{{ y }}"\n                              (click)="clickSquare(x, y)"\n                              [attr.x]="SPACE_SIZE * x * 0"\n                              [attr.y]="SPACE_SIZE * y * 0"\n                              [attr.width]="SPACE_SIZE"\n                              [attr.height]="SPACE_SIZE"\n                              [ngClass]="getSquareClasses(x, y)"\n                              class="base"/>\n                        @if (c.isPlayer()) {\n                            <use id="piece-{{ x }}-{{ y }}"\n                                 class="base mid-stroke"\n                                 [ngClass]="getPieceClasses(x, y, c)"\n                                 (click)="clickSquare(x, y)"\n                                 xlink:href="#arrow"\n                                 [attr.transform]="getPieceRotation(x, y)"/>\n                        }\n                        @if (isMountain(c)) {\n                            <use xlink:href="#mountain"\n                                 class="nonplayer-fill"\n                                 (click)="clickSquare(x, y)"/>\n                        }\n                    </g>\n                }\n            </g>\n        }\n    </g>\n    @for (coord of clickableCoords; track $index) {\n        <g>\n            @if (state().isNotOnBoard(coord)) {\n                <rect id="square-{{ coord.x }}-{{ coord.y }}"\n                      (click)="clickSquare(coord.x, coord.y)"\n                      [attr.x]="SPACE_SIZE * coord.x"\n                      [attr.y]="SPACE_SIZE * coord.y"\n                      [attr.width]="SPACE_SIZE"\n                      [attr.height]="SPACE_SIZE"\n                      [ngClass]="getSquareClasses(coord.x, coord.y)"\n                      class="base semi-transparent"/>\n            }\n            <rect [attr.x]="SPACE_SIZE * coord.x"\n                  [attr.y]="SPACE_SIZE * coord.y"\n                  [attr.width]="SPACE_SIZE"\n                  [attr.height]="SPACE_SIZE"\n                  class="base no-fill small-stroke clickable-stroke"\n                  (click)="clickSquare(coord.x, coord.y)"/>\n        </g>\n    }\n    @if (selectedLanding.isPresent()) {\n        <rect (click)="clickSquare(selectedLanding.get().x, selectedLanding.get().y)"\n              [attr.x]="SPACE_SIZE * selectedLanding.get().x"\n              [attr.y]="SPACE_SIZE * selectedLanding.get().y"\n              [attr.width]="SPACE_SIZE"\n              [attr.height]="SPACE_SIZE"\n              class="base no-fill small-stroke selected-stroke"/>\n    }\n    @if (selectedPiece.isPresent()) {\n        <rect (click)="clickSquare(selectedPiece.get().x, selectedPiece.get().y)"\n              [attr.x]="SPACE_SIZE * selectedPiece.get().x"\n              [attr.y]="SPACE_SIZE * selectedPiece.get().y"\n              [attr.width]="SPACE_SIZE"\n              [attr.height]="SPACE_SIZE"\n              class="base no-fill small-stroke selected-stroke"/>\n    }\n    @for (player of Player.PLAYERS; track $index) {\n        <g id="remaining-pieces-{{ player.toString() }}"\n           (click)="selectPieceForInsertion(player)">\n            @for (x of ArrayUtils.range(playerPieces(player)); track $index) {\n                <use id="remaining-pieces-{{ player.toString() }}-{{ x }}"\n                     class="base mid-stroke"\n                     [ngClass]="getRemainingPieceClasses(player, x)"\n                     xlink:href="#arrow"\n                     [attr.transform]="getRemainingPieceTransform(x, player)"/>\n            }\n        </g>\n    }\n    @for (arrow of indicatorArrows; track $index) {\n        <g>\n            <use id="indicator-{{ arrow.target.x }}-{{ arrow.target.y }}-{{ arrow.direction.toString() }}"\n                 class="base mid-stroke indicator-fill"\n                 (click)="clickArrow(arrow)"\n                 xlink:href="#arrow"\n                 [attr.transform]="getIndicatorTransform(arrow)"/>\n            <!-- Need to redraw the source piece, if it is not an insertion -->\n            @if (arrow.source.isPresent()) {\n                <use class="base mid-stroke"\n                     [ngClass]="getPieceClasses(arrow.source.get().coord.x, arrow.source.get().coord.y, arrow.source.get().piece)"\n                     (click)="clickSquare(arrow.source.get().coord.x, arrow.source.get().coord.y)"\n                     xlink:href="#arrow"\n                     [attr.transform]="getPieceTransform(arrow.source.get().coord.x, arrow.source.get().coord.y)"/>\n            }\n        </g>\n    }\n    <g app-siam-orientation-arrow\n       [orientations]="orientations"\n       [currentPlayer]="getCurrentPlayer()"\n       [config]="config()"\n       (moveEmitter)="selectOrientation($event)"/>\n</svg>\n', styles: ["/* src/app/components/game-components/game-component/game-component.scss */\n.base {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke {\n  stroke-width: 0;\n}\n.base.manual-stroke {\n  fill: var(--base-stroke);\n}\n.base-no-stroke {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text {\n  fill: var(--base-stroke);\n}\n.white-background {\n  fill: white;\n}\n.background {\n  fill: var(--spaces-fill);\n}\n.transparent {\n  opacity: 0;\n}\n.background2 {\n  fill: var(--alt-background-fill);\n}\n.background3 {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill {\n  fill: var(--player0);\n}\n.player0-alternate-fill {\n  fill: var(--player0-alternate);\n}\n.player0-stroke {\n  stroke: var(--player0);\n}\n.player1-fill {\n  fill: var(--player1);\n}\n.player1-alternate-fill {\n  fill: var(--player1-alternate);\n}\n.player1-stroke {\n  stroke: var(--player1);\n}\n.nonplayer-fill {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill {\n  fill: var(--pre-captured);\n}\n.captured-fill {\n  fill: var(--captured);\n}\n.captured-alternate-fill {\n  fill: var(--alt-captured);\n}\n.captured-stroke {\n  stroke: var(--captured);\n}\n.moved-fill {\n  fill: var(--moved);\n}\n.moved-stroke {\n  stroke: var(--moved);\n}\n.indicator {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill {\n  fill: var(--indicator);\n}\n.selectable-stroke {\n  stroke: var(--selectable);\n}\n.selectable > .base-no-stroke {\n  fill: var(--selectable);\n}\n.last-move-stroke {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke {\n  fill: var(--last-move);\n}\n.last-move-fill {\n  fill: var(--last-move);\n}\n.victory-fill {\n  fill: var(--victory);\n}\n.victory-stroke {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke {\n  fill: var(--victory);\n}\n.defeat-fill {\n  fill: var(--defeat);\n}\n.defeat-stroke {\n  stroke: var(--defeat);\n}\n.selected-fill {\n  fill: var(--selected);\n}\n.selected-stroke {\n  stroke: var(--selected);\n}\n.clickable-stroke {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill {\n  fill: var(--capturable);\n}\n.capturable-stroke:hover {\n  stroke-width: 8;\n}\n.no-fill {\n  fill: none;\n}\n.no-stroke {\n  stroke: none;\n}\n.small-stroke {\n  stroke-width: 2;\n}\n.mid-small-stroke {\n  stroke-width: 3;\n}\n.mid-stroke {\n  stroke-width: 5;\n}\n.big-stroke {\n  stroke-width: 8;\n}\n.huge-stroke {\n  stroke-width: 12;\n}\n.semi-transparent {\n  opacity: 0.5;\n}\n.territory-opacity {\n  fill-opacity: 0.7;\n}\n.round {\n  stroke-linecap: round;\n}\n.text-giant {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big {\n  font: 50px sans-serif;\n}\n.backgrounded-text {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus {\n  font: 38px sans-serif;\n}\n.text-medium {\n  font: 35px sans-serif;\n}\n.text-small-plus {\n  font: 28px sans-serif;\n}\n.text-small {\n  font: 25px sans-serif;\n}\n.text-bold {\n  font-weight: bold;\n}\n.text-center {\n  text-anchor: middle;\n}\n.black-fill {\n  fill: black;\n}\n.darker {\n  filter: brightness(80%);\n}\n.lighter {\n  filter: brightness(110%);\n}\nsvg {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */\n"] }]
   }], () => [], { selectPieceForInsertion: [], selectOrientation: [], clickSquare: [], clickArrow: [] });
 })();
 (() => {
@@ -38545,7 +38527,7 @@ function SixComponent_Conditional_5_Template(rf, ctx) {
   }
   if (rf & 2) {
     const ctx_r2 = \u0275\u0275nextContext();
-    \u0275\u0275property("id", \u0275\u0275interpolate2("chosen-landing-", ctx_r2.chosenLanding.get().x, "-", ctx_r2.chosenLanding.get().y))("ngClass", ctx_r2.getPlayerClass(ctx_r2.state.getCurrentPlayer()));
+    \u0275\u0275property("id", \u0275\u0275interpolate2("chosen-landing-", ctx_r2.chosenLanding.get().x, "-", ctx_r2.chosenLanding.get().y))("ngClass", ctx_r2.getPlayerClass(ctx_r2.state().getCurrentPlayer()));
     \u0275\u0275attribute("points", ctx_r2.getHexaPoints())("transform", ctx_r2.getHexaCenterTranslationAtXY(ctx_r2.chosenLanding.get().x, ctx_r2.chosenLanding.get().y));
   }
 }
@@ -38690,7 +38672,7 @@ var SixComponent = class _SixComponent extends HexagonalGameComponent {
     this.hexaLayout = new HexaLayout(this.SPACE_SIZE * 1.5, new Coord(this.SPACE_SIZE * 2, 0), FlatHexaOrientation.INSTANCE);
   }
   getScoreName() {
-    if (this.rules.isInDropPhase(this.getState(), this.config())) {
+    if (this.rules.isInDropPhase(this.state(), this.config())) {
       return ScoreName.PIECES_TO_DROP;
     } else {
       return ScoreName.REMAINING_PIECES;
@@ -38712,7 +38694,7 @@ var SixComponent = class _SixComponent extends HexagonalGameComponent {
     });
   }
   getScores() {
-    const state = this.getState();
+    const state = this.state();
     if (this.rules.isInDropPhase(state, this.config())) {
       return MGPOptional.of(state.countPiecesToDrop(this.config()));
     } else {
@@ -38720,8 +38702,7 @@ var SixComponent = class _SixComponent extends HexagonalGameComponent {
     }
   }
   resetPiecesAndNeighbors() {
-    this.state = this.node().gameState;
-    this.pieces = this.state.getPieceCoords();
+    this.pieces = this.state().getPieceCoords();
     this.neighbors = this.getEmptyNeighbors();
   }
   hideLastMove() {
@@ -38743,7 +38724,7 @@ var SixComponent = class _SixComponent extends HexagonalGameComponent {
       } else {
         this.leftCoord = MGPOptional.empty();
       }
-      const state = this.getState();
+      const state = this.state();
       if (this.rules.getGameStatus(this.node(), this.config()).isEndGame) {
         this.victoryCoords = this.rules.getShapeVictory(move, state);
       }
@@ -38753,7 +38734,7 @@ var SixComponent = class _SixComponent extends HexagonalGameComponent {
   getDisconnected() {
     const oldState = this.getPreviousState();
     const oldPieces = oldState.getPieceCoords();
-    const newPieces = this.getState().getPieceCoords();
+    const newPieces = this.state().getPieceCoords();
     const disconnecteds = [];
     for (const oldPiece of oldPieces) {
       const start = this.node().previousMove.get().start;
@@ -38774,7 +38755,7 @@ var SixComponent = class _SixComponent extends HexagonalGameComponent {
     return disconnecteds;
   }
   getEmptyNeighbors() {
-    let legalLandings = this.rules.getLegalLandings(this.state);
+    let legalLandings = this.rules.getLegalLandings(this.state());
     if (this.chosenLanding.isPresent()) {
       const chosenLanding = this.chosenLanding.get();
       legalLandings = legalLandings.filter((c) => c.equals(chosenLanding) === false);
@@ -38782,17 +38763,17 @@ var SixComponent = class _SixComponent extends HexagonalGameComponent {
     return legalLandings;
   }
   getPieceClass(coord) {
-    const player = this.getState().getPieceAt(coord);
+    const player = this.state().getPieceAt(coord);
     return this.getPlayerClass(player);
   }
   onPieceClick(piece) {
     return __async(this, null, function* () {
       const config = this.config();
       const maxPiece = 2 * config.piecesPerPlayer;
-      if (this.state.turn < maxPiece) {
+      if (this.state().turn < maxPiece) {
         return this.cancelMove(SixFailure.CANNOT_MOVE_YET());
       } else if (this.chosenLanding.isAbsent()) {
-        if (this.state.getPieceAt(piece) === this.state.getCurrentOpponent()) {
+        if (this.state().getPieceAt(piece) === this.state().getCurrentOpponent()) {
           return this.cancelMove(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
         } else if (this.selectedPiece.equalsValue(piece)) {
           return this.cancelMove();
@@ -38813,14 +38794,14 @@ var SixComponent = class _SixComponent extends HexagonalGameComponent {
       }
       const config = this.config();
       const maxPiece = 2 * config.piecesPerPlayer;
-      if (this.state.turn < maxPiece) {
+      if (this.state().turn < maxPiece) {
         return this.chooseMove(SixMove.ofDrop(neighbor));
       } else {
         if (this.selectedPiece.isAbsent()) {
           return this.cancelMove(SixFailure.CAN_NO_LONGER_DROP());
         } else {
           const movement = SixMove.ofTranslation(this.selectedPiece.get(), neighbor);
-          const legality = this.rules.isLegalPhaseTwoMove(movement, this.state);
+          const legality = this.rules.isLegalPhaseTwoMove(movement, this.state());
           if (this.neededCutting(legality)) {
             this.chosenLanding = MGPOptional.of(neighbor);
             this.moveVirtuallyPiece();
@@ -38844,7 +38825,7 @@ var SixComponent = class _SixComponent extends HexagonalGameComponent {
   }
   showCuttable() {
     const movement = SixMove.ofTranslation(this.selectedPiece.get(), this.chosenLanding.get());
-    const stateAfterMove = this.state.movePiece(movement);
+    const stateAfterMove = this.state().movePiece(movement);
     const groupsAfterMove = stateAfterMove.getGroups();
     const biggerGroups = this.rules.getLargestGroups(groupsAfterMove);
     this.cuttableGroups = [];
@@ -38909,7 +38890,7 @@ __decorate48([
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(SixComponent, [{
     type: Component,
-    args: [{ changeDetection: ChangeDetectionStrategy.OnPush, selector: "app-six", imports: [NgClass], template: '<svg xmlns="http://www.w3.org/2000/svg"\n     class="board"\n     [attr.viewBox]="viewBoxString()"\n     preserveAspectRatio="xMidYMid meet">\n    <!-- PIECES AND NEIGHBORS -->\n    @for (piece of pieces; track piece.toString()) {\n        <polygon id="piece-{{ piece.x }}-{{ piece.y }}"\n                 (click)="onPieceClick(piece)"\n                 [attr.points]="getHexaPoints()"\n                 [attr.transform]="getHexaCenterTranslationAtXY(piece.x, piece.y)"\n                 [ngClass]="getPieceClass(piece)"\n                 class="base round"/>\n    }\n    @for (neighbor of neighbors; track neighbor.toString()) {\n        <polygon id="neighbor-{{ neighbor.x }}-{{ neighbor.y }}"\n                 (click)="onNeighborClick(neighbor)"\n                 [attr.points]="getHexaPoints()"\n                 [attr.transform]="getHexaCenterTranslationAtXY(neighbor.x, neighbor.y)"\n                 class="base round"/>\n    }\n    @if (chosenLanding.isPresent()) {\n        <polygon id="chosen-landing-{{ chosenLanding.get().x }}-{{ chosenLanding.get().y }}"\n                 (click)="onPieceClick(chosenLanding.get())"\n                 [attr.points]="getHexaPoints()"\n                 [attr.transform]="getHexaCenterTranslationAtXY(chosenLanding.get().x, chosenLanding.get().y)"\n                 [ngClass]="getPlayerClass(state.getCurrentPlayer())"\n                 class="base round"/>\n    }\n    <!-- LAST MOVE -->\n    @if (leftCoord.isPresent()) {\n        <polygon id="left-coord-{{ leftCoord.get().x }}-{{ leftCoord.get().y }}"\n                 (click)="onNeighborClick(leftCoord.get())"\n                 [attr.points]="getHexaPoints()"\n                 [attr.transform]="getHexaCenterTranslationAtXY(leftCoord.get().x, leftCoord.get().y)"\n                 class="base round moved-fill mid-stroke"/>\n    }\n    @for (disconnected of disconnectedCoords; track disconnected.coord.toString()) {\n        <polygon id="disconnected-{{ disconnected.coord.x }}-{{ disconnected.coord.y }}"\n                 [attr.points]="getHexaPoints()"\n                 [attr.transform]="getHexaCenterTranslationAt(disconnected.coord)"\n                 class="base round captured-stroke"\n                 [ngClass]="disconnected.class"/>\n    }\n    @if (lastDrop.isPresent()) {\n        <polygon id="last-drop-{{ lastDrop.get().x }}-{{ lastDrop.get().y }}"\n                 (click)="onPieceClick(lastDrop.get())"\n                 [attr.points]="getHexaPoints()"\n                 [attr.transform]="getHexaCenterTranslationAtXY(lastDrop.get().x, lastDrop.get().y)"\n                 class="base no-fill round last-move-stroke mid-stroke"/>\n    }\n    <!-- HIGHLIGHTS -->\n    @if (selectedPiece.isPresent()) {\n        <polygon id="selected-piece-{{ selectedPiece.get().x }}-{{ selectedPiece.get().y }}"\n                 (click)="onPieceClick(selectedPiece.get())"\n                 [attr.points]="getHexaPoints()"\n                 [attr.transform]="getHexaCenterTranslationAtXY(selectedPiece.get().x, selectedPiece.get().y)"\n                 [ngClass]="getSelectedPieceClass()"\n                 class="base no-fill round"/>\n    }\n    @for (victoryCoord of victoryCoords; track victoryCoord.toString()) {\n        <polygon id="victory-coord-{{ victoryCoord.x }}-{{ victoryCoord.y }}"\n                 [attr.points]="getHexaPoints()"\n                 [attr.transform]="getHexaCenterTranslationAtXY(victoryCoord.x, victoryCoord.y)"\n                 class="base no-fill round victory-stroke mid-stroke"/>\n    }\n    @for (cuttableGroup of cuttableGroups; track $index) {\n        <g pointer-events="fill"\n           class="capturable-stroke">\n            @for (cuttable of cuttableGroup; track cuttable.toString()) {\n                <polygon id="cuttable-{{ cuttable.x }}-{{ cuttable.y }}"\n                         (click)="onPieceClick(cuttable)"\n                         [attr.points]="getHexaPoints()"\n                         [attr.transform]="getHexaCenterTranslationAtXY(cuttable.x, cuttable.y)"\n                         class="no-fill"\n                         stroke-linecap="round"/>\n            }\n        </g>\n    }\n</svg>\n', styles: ["/* src/app/components/game-components/game-component/game-component.scss */\n.base {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke {\n  stroke-width: 0;\n}\n.base.manual-stroke {\n  fill: var(--base-stroke);\n}\n.base-no-stroke {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text {\n  fill: var(--base-stroke);\n}\n.white-background {\n  fill: white;\n}\n.background {\n  fill: var(--spaces-fill);\n}\n.transparent {\n  opacity: 0;\n}\n.background2 {\n  fill: var(--alt-background-fill);\n}\n.background3 {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill {\n  fill: var(--player0);\n}\n.player0-alternate-fill {\n  fill: var(--player0-alternate);\n}\n.player0-stroke {\n  stroke: var(--player0);\n}\n.player1-fill {\n  fill: var(--player1);\n}\n.player1-alternate-fill {\n  fill: var(--player1-alternate);\n}\n.player1-stroke {\n  stroke: var(--player1);\n}\n.nonplayer-fill {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill {\n  fill: var(--pre-captured);\n}\n.captured-fill {\n  fill: var(--captured);\n}\n.captured-alternate-fill {\n  fill: var(--alt-captured);\n}\n.captured-stroke {\n  stroke: var(--captured);\n}\n.moved-fill {\n  fill: var(--moved);\n}\n.moved-stroke {\n  stroke: var(--moved);\n}\n.indicator {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill {\n  fill: var(--indicator);\n}\n.selectable-stroke {\n  stroke: var(--selectable);\n}\n.selectable > .base-no-stroke {\n  fill: var(--selectable);\n}\n.last-move-stroke {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke {\n  fill: var(--last-move);\n}\n.last-move-fill {\n  fill: var(--last-move);\n}\n.victory-fill {\n  fill: var(--victory);\n}\n.victory-stroke {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke {\n  fill: var(--victory);\n}\n.defeat-fill {\n  fill: var(--defeat);\n}\n.defeat-stroke {\n  stroke: var(--defeat);\n}\n.selected-fill {\n  fill: var(--selected);\n}\n.selected-stroke {\n  stroke: var(--selected);\n}\n.clickable-stroke {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill {\n  fill: var(--capturable);\n}\n.capturable-stroke:hover {\n  stroke-width: 8;\n}\n.no-fill {\n  fill: none;\n}\n.no-stroke {\n  stroke: none;\n}\n.small-stroke {\n  stroke-width: 2;\n}\n.mid-small-stroke {\n  stroke-width: 3;\n}\n.mid-stroke {\n  stroke-width: 5;\n}\n.big-stroke {\n  stroke-width: 8;\n}\n.huge-stroke {\n  stroke-width: 12;\n}\n.semi-transparent {\n  opacity: 0.5;\n}\n.territory-opacity {\n  fill-opacity: 0.7;\n}\n.round {\n  stroke-linecap: round;\n}\n.text-giant {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big {\n  font: 50px sans-serif;\n}\n.backgrounded-text {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus {\n  font: 38px sans-serif;\n}\n.text-medium {\n  font: 35px sans-serif;\n}\n.text-small-plus {\n  font: 28px sans-serif;\n}\n.text-small {\n  font: 25px sans-serif;\n}\n.text-bold {\n  font-weight: bold;\n}\n.text-center {\n  text-anchor: middle;\n}\n.black-fill {\n  fill: black;\n}\n.darker {\n  filter: brightness(80%);\n}\n.lighter {\n  filter: brightness(110%);\n}\nsvg {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */\n"] }]
+    args: [{ changeDetection: ChangeDetectionStrategy.OnPush, selector: "app-six", imports: [NgClass], template: '<svg xmlns="http://www.w3.org/2000/svg"\n     class="board"\n     [attr.viewBox]="viewBoxString()"\n     preserveAspectRatio="xMidYMid meet">\n    <!-- PIECES AND NEIGHBORS -->\n    @for (piece of pieces; track piece.toString()) {\n        <polygon id="piece-{{ piece.x }}-{{ piece.y }}"\n                 (click)="onPieceClick(piece)"\n                 [attr.points]="getHexaPoints()"\n                 [attr.transform]="getHexaCenterTranslationAtXY(piece.x, piece.y)"\n                 [ngClass]="getPieceClass(piece)"\n                 class="base round"/>\n    }\n    @for (neighbor of neighbors; track neighbor.toString()) {\n        <polygon id="neighbor-{{ neighbor.x }}-{{ neighbor.y }}"\n                 (click)="onNeighborClick(neighbor)"\n                 [attr.points]="getHexaPoints()"\n                 [attr.transform]="getHexaCenterTranslationAtXY(neighbor.x, neighbor.y)"\n                 class="base round"/>\n    }\n    @if (chosenLanding.isPresent()) {\n        <polygon id="chosen-landing-{{ chosenLanding.get().x }}-{{ chosenLanding.get().y }}"\n                 (click)="onPieceClick(chosenLanding.get())"\n                 [attr.points]="getHexaPoints()"\n                 [attr.transform]="getHexaCenterTranslationAtXY(chosenLanding.get().x, chosenLanding.get().y)"\n                 [ngClass]="getPlayerClass(state().getCurrentPlayer())"\n                 class="base round"/>\n    }\n    <!-- LAST MOVE -->\n    @if (leftCoord.isPresent()) {\n        <polygon id="left-coord-{{ leftCoord.get().x }}-{{ leftCoord.get().y }}"\n                 (click)="onNeighborClick(leftCoord.get())"\n                 [attr.points]="getHexaPoints()"\n                 [attr.transform]="getHexaCenterTranslationAtXY(leftCoord.get().x, leftCoord.get().y)"\n                 class="base round moved-fill mid-stroke"/>\n    }\n    @for (disconnected of disconnectedCoords; track disconnected.coord.toString()) {\n        <polygon id="disconnected-{{ disconnected.coord.x }}-{{ disconnected.coord.y }}"\n                 [attr.points]="getHexaPoints()"\n                 [attr.transform]="getHexaCenterTranslationAt(disconnected.coord)"\n                 class="base round captured-stroke"\n                 [ngClass]="disconnected.class"/>\n    }\n    @if (lastDrop.isPresent()) {\n        <polygon id="last-drop-{{ lastDrop.get().x }}-{{ lastDrop.get().y }}"\n                 (click)="onPieceClick(lastDrop.get())"\n                 [attr.points]="getHexaPoints()"\n                 [attr.transform]="getHexaCenterTranslationAtXY(lastDrop.get().x, lastDrop.get().y)"\n                 class="base no-fill round last-move-stroke mid-stroke"/>\n    }\n    <!-- HIGHLIGHTS -->\n    @if (selectedPiece.isPresent()) {\n        <polygon id="selected-piece-{{ selectedPiece.get().x }}-{{ selectedPiece.get().y }}"\n                 (click)="onPieceClick(selectedPiece.get())"\n                 [attr.points]="getHexaPoints()"\n                 [attr.transform]="getHexaCenterTranslationAtXY(selectedPiece.get().x, selectedPiece.get().y)"\n                 [ngClass]="getSelectedPieceClass()"\n                 class="base no-fill round"/>\n    }\n    @for (victoryCoord of victoryCoords; track victoryCoord.toString()) {\n        <polygon id="victory-coord-{{ victoryCoord.x }}-{{ victoryCoord.y }}"\n                 [attr.points]="getHexaPoints()"\n                 [attr.transform]="getHexaCenterTranslationAtXY(victoryCoord.x, victoryCoord.y)"\n                 class="base no-fill round victory-stroke mid-stroke"/>\n    }\n    @for (cuttableGroup of cuttableGroups; track $index) {\n        <g pointer-events="fill"\n           class="capturable-stroke">\n            @for (cuttable of cuttableGroup; track cuttable.toString()) {\n                <polygon id="cuttable-{{ cuttable.x }}-{{ cuttable.y }}"\n                         (click)="onPieceClick(cuttable)"\n                         [attr.points]="getHexaPoints()"\n                         [attr.transform]="getHexaCenterTranslationAtXY(cuttable.x, cuttable.y)"\n                         class="no-fill"\n                         stroke-linecap="round"/>\n            }\n        </g>\n    }\n</svg>\n', styles: ["/* src/app/components/game-components/game-component/game-component.scss */\n.base {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke {\n  stroke-width: 0;\n}\n.base.manual-stroke {\n  fill: var(--base-stroke);\n}\n.base-no-stroke {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text {\n  fill: var(--base-stroke);\n}\n.white-background {\n  fill: white;\n}\n.background {\n  fill: var(--spaces-fill);\n}\n.transparent {\n  opacity: 0;\n}\n.background2 {\n  fill: var(--alt-background-fill);\n}\n.background3 {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill {\n  fill: var(--player0);\n}\n.player0-alternate-fill {\n  fill: var(--player0-alternate);\n}\n.player0-stroke {\n  stroke: var(--player0);\n}\n.player1-fill {\n  fill: var(--player1);\n}\n.player1-alternate-fill {\n  fill: var(--player1-alternate);\n}\n.player1-stroke {\n  stroke: var(--player1);\n}\n.nonplayer-fill {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill {\n  fill: var(--pre-captured);\n}\n.captured-fill {\n  fill: var(--captured);\n}\n.captured-alternate-fill {\n  fill: var(--alt-captured);\n}\n.captured-stroke {\n  stroke: var(--captured);\n}\n.moved-fill {\n  fill: var(--moved);\n}\n.moved-stroke {\n  stroke: var(--moved);\n}\n.indicator {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill {\n  fill: var(--indicator);\n}\n.selectable-stroke {\n  stroke: var(--selectable);\n}\n.selectable > .base-no-stroke {\n  fill: var(--selectable);\n}\n.last-move-stroke {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke {\n  fill: var(--last-move);\n}\n.last-move-fill {\n  fill: var(--last-move);\n}\n.victory-fill {\n  fill: var(--victory);\n}\n.victory-stroke {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke {\n  fill: var(--victory);\n}\n.defeat-fill {\n  fill: var(--defeat);\n}\n.defeat-stroke {\n  stroke: var(--defeat);\n}\n.selected-fill {\n  fill: var(--selected);\n}\n.selected-stroke {\n  stroke: var(--selected);\n}\n.clickable-stroke {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill {\n  fill: var(--capturable);\n}\n.capturable-stroke:hover {\n  stroke-width: 8;\n}\n.no-fill {\n  fill: none;\n}\n.no-stroke {\n  stroke: none;\n}\n.small-stroke {\n  stroke-width: 2;\n}\n.mid-small-stroke {\n  stroke-width: 3;\n}\n.mid-stroke {\n  stroke-width: 5;\n}\n.big-stroke {\n  stroke-width: 8;\n}\n.huge-stroke {\n  stroke-width: 12;\n}\n.semi-transparent {\n  opacity: 0.5;\n}\n.territory-opacity {\n  fill-opacity: 0.7;\n}\n.round {\n  stroke-linecap: round;\n}\n.text-giant {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big {\n  font: 50px sans-serif;\n}\n.backgrounded-text {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus {\n  font: 38px sans-serif;\n}\n.text-medium {\n  font: 35px sans-serif;\n}\n.text-small-plus {\n  font: 28px sans-serif;\n}\n.text-small {\n  font: 25px sans-serif;\n}\n.text-bold {\n  font-weight: bold;\n}\n.text-center {\n  text-anchor: middle;\n}\n.black-fill {\n  fill: black;\n}\n.darker {\n  filter: brightness(80%);\n}\n.lighter {\n  filter: brightness(110%);\n}\nsvg {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */\n"] }]
   }], () => [], { onPieceClick: [], onNeighborClick: [] });
 })();
 (() => {
@@ -39319,9 +39300,9 @@ var SquarzComponent = class _SquarzComponent extends RectangularGameComponent {
   }
   updateBoard(_triggerAnimation) {
     return __async(this, null, function* () {
-      const state = this.getState();
+      const state = this.state();
       this.board = state.getCopiedBoard();
-      this.scores = MGPOptional.of(this.getState().getScores());
+      this.scores = MGPOptional.of(this.state().getScores());
     });
   }
   showLastMove(move) {
@@ -39368,13 +39349,13 @@ var SquarzComponent = class _SquarzComponent extends RectangularGameComponent {
     });
   }
   pieceBelongsToCurrentPlayer(coord) {
-    const state = this.getState();
+    const state = this.state();
     const player = state.getCurrentPlayer();
     return state.getPieceAt(coord) === player;
   }
   choosePiece(coord) {
     return __async(this, null, function* () {
-      if (this.getState().getPieceAt(coord).isNone()) {
+      if (this.state().getPieceAt(coord).isNone()) {
         return this.cancelMove(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_EMPTY());
       }
       if (this.pieceBelongsToCurrentPlayer(coord) === false) {
@@ -39386,7 +39367,7 @@ var SquarzComponent = class _SquarzComponent extends RectangularGameComponent {
     });
   }
   showIndicators() {
-    this.moves = this.rules.getPossiblesMoves(this.getState(), this.selected.get(), this.config());
+    this.moves = this.rules.getPossiblesMoves(this.state(), this.selected.get(), this.config());
   }
   chooseDestination(x2, y) {
     return __async(this, null, function* () {
@@ -39409,7 +39390,7 @@ var SquarzComponent = class _SquarzComponent extends RectangularGameComponent {
   getPieceClasses(x2, y) {
     const classes = [];
     const coord = new Coord(x2, y);
-    const owner = this.getState().getPieceAt(coord);
+    const owner = this.state().getPieceAt(coord);
     classes.push(this.getPlayerClass(owner));
     if (this.selected.equalsValue(coord)) {
       classes.push("selected-stroke");
@@ -40397,13 +40378,13 @@ var TaflComponent = class extends RectangularGameComponent {
   }
   updateBoard(_triggerAnimation) {
     return __async(this, null, function* () {
-      this.board = this.getState().getCopiedBoard();
+      this.board = this.state().getCopiedBoard();
       this.updateViewInfo();
       this.updateScores();
     });
   }
   updateScores() {
-    const state = this.getState();
+    const state = this.state();
     const scoreZero = this.rules.getPlayerListPawns(Player.ZERO, state).length;
     const scoreOne = this.rules.getPlayerListPawns(Player.ONE, state).length;
     this.scores = MGPOptional.of(PlayerNumberMap.of(scoreZero, scoreOne));
@@ -40414,13 +40395,13 @@ var TaflComponent = class extends RectangularGameComponent {
   showLastMove(move) {
     return __async(this, null, function* () {
       const previousState = this.getPreviousState();
-      const opponent = this.getState().getCurrentOpponent();
+      const opponent = this.state().getCurrentOpponent();
       for (const orthogonal of Orthogonal.ORTHOGONALS) {
         const captured = move.getEnd().getNext(orthogonal, 1);
         if (previousState.isOnBoard(captured)) {
           const previousOwner = previousState.getRelativeOwner(opponent, captured);
           const wasOpponent = previousOwner === RelativePlayer.OPPONENT;
-          const currentPiece = this.getState().getPieceAt(captured);
+          const currentPiece = this.state().getPieceAt(captured);
           const isEmpty = currentPiece === TaflPawn.UNOCCUPIED;
           if (wasOpponent && isEmpty) {
             this.capturedCoords.push(captured);
@@ -40436,10 +40417,10 @@ var TaflComponent = class extends RectangularGameComponent {
   }
   updateViewInfo() {
     const pieceClasses = [];
-    this.board = this.getState().getCopiedBoard();
-    for (let y = 0; y < this.getHeight(); y++) {
+    this.board = this.state().getCopiedBoard();
+    for (let y = 0; y < this.height(); y++) {
       const newLine = [];
-      for (let x2 = 0; x2 < this.getWidth(); x2++) {
+      for (let x2 = 0; x2 < this.width(); x2++) {
         let newSpace = [];
         if (this.board[y][x2].getOwner().isNone()) {
           newSpace = [""];
@@ -40491,7 +40472,7 @@ var TaflComponent = class extends RectangularGameComponent {
     });
   }
   pieceBelongsToCurrentPlayer(coord) {
-    const state = this.getState();
+    const state = this.state();
     const player = state.getCurrentPlayer();
     return state.getRelativeOwner(player, coord) === RelativePlayer.PLAYER;
   }
@@ -40500,16 +40481,16 @@ var TaflComponent = class extends RectangularGameComponent {
     this.updateViewInfo();
   }
   isThrone(x2, y) {
-    const state = this.getState();
+    const state = this.state();
     return this.rules.isThrone(state, new Coord(x2, y));
   }
   isCentralThrone(x2, y) {
-    return this.getState().isCentralThrone(new Coord(x2, y));
+    return this.state().isCentralThrone(new Coord(x2, y));
   }
   getPieceClasses(x2, y) {
     const classes = [];
     const coord = new Coord(x2, y);
-    const owner = this.getState().getAbsoluteOwner(coord);
+    const owner = this.state().getAbsoluteOwner(coord);
     classes.push(this.getPlayerClass(owner));
     if (this.chosen.equalsValue(coord)) {
       classes.push("selected-stroke");
@@ -40529,7 +40510,7 @@ var TaflComponent = class extends RectangularGameComponent {
   getClickables() {
     if (this.chosen.isPresent()) {
       const coord = this.chosen.get();
-      const state = this.getState();
+      const state = this.state();
       return this.rules.getPossibleDestinations(coord, state, this.config());
     } else {
       return this.getInteractivePlayerPieces();
@@ -40540,7 +40521,7 @@ var TaflComponent = class extends RectangularGameComponent {
       return [];
     }
     const coords = [];
-    for (let y = 0; y < this.getHeight(); y++) {
+    for (let y = 0; y < this.height(); y++) {
       for (let x2 = 0; x2 < this.board[y].length; x2++) {
         const coord = new Coord(x2, y);
         if (this.pieceBelongsToCurrentPlayer(coord)) {
@@ -41918,7 +41899,7 @@ var TeekoComponent = class _TeekoComponent extends RectangularGameComponent {
       } else {
         this.moved = [];
       }
-      this.victory = this.rules.getVictoryCoord(this.getState());
+      this.victory = this.rules.getVictoryCoord(this.state());
     });
   }
   hideLastMove() {
@@ -41934,7 +41915,7 @@ var TeekoComponent = class _TeekoComponent extends RectangularGameComponent {
   onClick(x2, y) {
     return __async(this, null, function* () {
       const clickedCoord = new Coord(x2, y);
-      if (this.getState().isInDropPhase()) {
+      if (this.state().isInDropPhase()) {
         const move = TeekoDropMove.from(clickedCoord);
         return this.chooseMove(move);
       } else {
@@ -41946,8 +41927,8 @@ var TeekoComponent = class _TeekoComponent extends RectangularGameComponent {
             return this.chooseMove(move);
           }
         } else {
-          const currentPlayer = this.getState().getCurrentPlayer();
-          const clickedPiece = this.getState().getPieceAt(clickedCoord);
+          const currentPlayer = this.state().getCurrentPlayer();
+          const clickedPiece = this.state().getPieceAt(clickedCoord);
           if (clickedPiece === currentPlayer) {
             this.selected = MGPOptional.of(clickedCoord);
             return MGPValidation.SUCCESS;
@@ -41962,7 +41943,7 @@ var TeekoComponent = class _TeekoComponent extends RectangularGameComponent {
   }
   getPieceClasses(x2, y) {
     const coord = new Coord(x2, y);
-    const playerClass = this.getPlayerClass(this.getState().getPieceAt(coord));
+    const playerClass = this.getPlayerClass(this.state().getPieceAt(coord));
     const classes = [playerClass];
     if (this.victory.some((c) => c.equals(coord))) {
       classes.push("victory-stroke");
@@ -42989,7 +42970,7 @@ var TrexoComponent = class _TrexoComponent extends ParallelogramGameComponent {
   }
   updateBoard(_triggerAnimation) {
     return __async(this, null, function* () {
-      const state = this.getState();
+      const state = this.state();
       this.board = state.getCopiedBoard();
       this.currentOpponentClass = this.getPlayerClass(state.getCurrentOpponent());
       this.currentPlayerClass = this.getPlayerClass(state.getCurrentPlayer());
@@ -43013,7 +42994,7 @@ var TrexoComponent = class _TrexoComponent extends ParallelogramGameComponent {
     const moveByCoord = Table3DUtils.create(1, TrexoState.SIZE, TrexoState.SIZE, _TrexoComponent.INITIAL_PIECE_ON_BOARD);
     let maxZ = 1;
     for (let z = 0; z <= maxZ; z++) {
-      for (const coordAndContent of this.getState().getCoordsAndContents()) {
+      for (const coordAndContent of this.state().getCoordsAndContents()) {
         const coord = coordAndContent.coord;
         const stackHeight = coordAndContent.content.getHeight();
         maxZ = Math.max(maxZ, stackHeight);
@@ -43026,13 +43007,13 @@ var TrexoComponent = class _TrexoComponent extends ParallelogramGameComponent {
     return moveByCoord;
   }
   extractMoveFromState(x2, y, z) {
-    const piece = this.getState().getPieceAtXYZ(x2, y, z);
+    const piece = this.state().getPieceAtXYZ(x2, y, z);
     const pieceCoord = new Coord(x2, y);
     let otherCoord = new Coord(-2, -2);
     for (const dir of Ordinal.ORTHOGONALS) {
       const neighborCoord = pieceCoord.getNext(dir);
       if (TrexoState.isOnBoard(neighborCoord)) {
-        const neighborStack = this.getState().getPieceAt(neighborCoord);
+        const neighborStack = this.state().getPieceAt(neighborCoord);
         if (neighborStack.getHeight() > z) {
           const neighborPiece = neighborStack.getPieceAt(z);
           if (neighborPiece.tileId === piece.tileId) {
@@ -43071,7 +43052,7 @@ var TrexoComponent = class _TrexoComponent extends ParallelogramGameComponent {
           return this.cancelMove();
         }
         if (this.possibleNextClicks.some((c) => c.equals(clicked))) {
-          const isPlayerZero = this.getState().getCurrentPlayer() === Player.ZERO;
+          const isPlayerZero = this.state().getCurrentPlayer() === Player.ZERO;
           const first = isPlayerZero ? clicked : dropped;
           const second = isPlayerZero ? dropped : clicked;
           const move = TrexoMove.from(first, second).get();
@@ -43084,7 +43065,7 @@ var TrexoComponent = class _TrexoComponent extends ParallelogramGameComponent {
     });
   }
   deselectPiece() {
-    const z = this.getState().getPieceAt(this.droppedPiece.get()).getHeight();
+    const z = this.state().getPieceAt(this.droppedPiece.get()).getHeight();
     const y = this.droppedPiece.get().y;
     const x2 = this.droppedPiece.get().x;
     const pieceOnBoard = this.pieceOnBoard();
@@ -43097,7 +43078,7 @@ var TrexoComponent = class _TrexoComponent extends ParallelogramGameComponent {
   selectPiece(clicked) {
     return __async(this, null, function* () {
       if (this.possibleMoves.some((move) => move.getZero().equals(clicked))) {
-        const pieceHeight = this.getState().getPieceAt(clicked).getHeight();
+        const pieceHeight = this.state().getPieceAt(clicked).getHeight();
         const pieceOnBoard = this.pieceOnBoard();
         if (pieceOnBoard.length <= pieceHeight) {
           pieceOnBoard.push(TableUtils.create(TrexoState.SIZE, TrexoState.SIZE, _TrexoComponent.INITIAL_PIECE_ON_BOARD));
@@ -43142,7 +43123,7 @@ var TrexoComponent = class _TrexoComponent extends ParallelogramGameComponent {
   }
   getPieceClasses(x2, y, z) {
     const piece = new Coord(x2, y);
-    const pieceOwner = this.getState().getPieceAtXYZ(x2, y, z).owner;
+    const pieceOwner = this.state().getPieceAtXYZ(x2, y, z).owner;
     let classes = [this.getPlayerClass(pieceOwner)];
     classes = classes.concat(this.getSpaceClasses(x2, y));
     if (this.victoryCoords.some((coord) => coord.equals(piece))) {
@@ -44184,11 +44165,11 @@ var YinshComponent = class _YinshComponent extends HexagonalGameComponent {
     this.encoder = YinshMove.encoder;
     this.scores = MGPOptional.of(PlayerNumberMap.of(0, 0));
     this.hexaLayout = new HexaLayout(_YinshComponent.RING_OUTER_SIZE * 1.5, new Coord(_YinshComponent.RING_OUTER_SIZE * 2, 0), FlatHexaOrientation.INSTANCE);
-    this.constructedState = this.getState();
+    this.constructedState = this.state();
   }
   updateBoard(_triggerAnimation) {
     return __async(this, null, function* () {
-      const state = this.getState();
+      const state = this.state();
       this.constructedState = state;
       this.hexaBoard = this.constructedState.board;
       this.scores = MGPOptional.of(state.countScores());
@@ -44215,7 +44196,7 @@ var YinshComponent = class _YinshComponent extends HexagonalGameComponent {
         this.selectableCoords = this.selectableCoords.unionList(this.constructedState.getRingCoords(currentPlayer));
         break;
       case "MOVE_START":
-        if (this.getState().isInitialPlacementPhase() === false) {
+        if (this.state().isInitialPlacementPhase() === false) {
           this.selectableCoords = this.selectableCoords.unionList(this.constructedState.getRingCoords(currentPlayer));
         }
         break;
@@ -44313,7 +44294,7 @@ var YinshComponent = class _YinshComponent extends HexagonalGameComponent {
     return classes;
   }
   cancelMoveAttempt() {
-    this.constructedState = this.getState();
+    this.constructedState = this.state();
     this.possibleCaptures = [];
     this.initialCaptures = [];
     this.finalCaptures = [];
@@ -44512,7 +44493,7 @@ var YinshComponent = class _YinshComponent extends HexagonalGameComponent {
       if (this.moveStart.equalsValue(coord)) {
         return this.cancelMove();
       }
-      const currentPlayerRing = YinshPiece.RINGS.get(this.getState().getCurrentPlayer());
+      const currentPlayerRing = YinshPiece.RINGS.get(this.state().getCurrentPlayer());
       if (this.constructedState.getPieceAt(coord) === currentPlayerRing) {
         this.cancelMoveAttempt();
         return this.selectMoveStart(coord);
@@ -44905,4 +44886,4 @@ bulma-toast/dist/bulma-toast.min.js:
    * Released under the MIT License.
    *)
 */
-//# sourceMappingURL=chunk-JBKFZJ3T.js.map
+//# sourceMappingURL=chunk-5KXGTSIF.js.map
