@@ -2553,7 +2553,10 @@ var GameComponent = class GameComponent2 extends BaseGameComponent {
   // This is where the player is seeing the board from.
   pointOfView = Player.ZERO;
   // This is true when the view is interactive, e.g., to display clickable pieces
-  interactive = false;
+  interactive = signal(false, ...ngDevMode ? [{ debugName: "interactive" }] : (
+    /* istanbul ignore next */
+    []
+  ));
   animationOngoing = false;
   state;
   gameViewBoxRevision = signal(0, ...ngDevMode ? [{ debugName: "gameViewBoxRevision" }] : (
@@ -2619,13 +2622,6 @@ var GameComponent = class GameComponent2 extends BaseGameComponent {
       this.rotation = "rotate(" + pointOfView.getValue() * 180 + ")";
     }
     this.cdr.markForCheck();
-  }
-  setInteractive(interactive) {
-    this.interactive = interactive;
-    this.cdr.markForCheck();
-  }
-  isInteractive() {
-    return this.interactive;
   }
   /**
    * Put the view back where it was before move attempt.
@@ -5739,7 +5735,7 @@ var CheckersComponent = class extends ParallelogramGameComponent {
   }
   showPossibleClicks() {
     this.possibleClicks = new Set2();
-    if (this.interactive) {
+    if (this.interactive()) {
       for (const validMove of this.legalMoves) {
         const numberOfClicks = this.currentMoveClicks.length;
         if (numberOfClicks < validMove.coords.length) {
@@ -11243,7 +11239,7 @@ var DiaballikComponent = class _DiaballikComponent extends RectangularGameCompon
     }
   }
   showDoneButton() {
-    return this.interactive && this.subMoves.length >= 1;
+    return this.interactive() && this.subMoves.length >= 1;
   }
   done() {
     return __async(this, null, function* () {
@@ -11295,7 +11291,7 @@ var DiaballikComponent = class _DiaballikComponent extends RectangularGameCompon
       \u0275\u0275advance(2);
       \u0275\u0275repeater(ctx.indicators);
       \u0275\u0275advance(2);
-      \u0275\u0275conditional(ctx.isInteractive() ? 11 : -1);
+      \u0275\u0275conditional(ctx.interactive() ? 11 : -1);
       \u0275\u0275advance();
       \u0275\u0275conditional(ctx.showDoneButton() ? 12 : -1);
     }
@@ -11376,7 +11372,7 @@ __decorate11([
                   class="indicator"/>
         }
     </g>
-    @if (isInteractive()) {
+    @if (interactive()) {
         <g>
             <g id="translationCountIndicator"
                [attr.transform]="getTranslationAtXY(0, height() + 0.3) + ' scale(0.5)'">
@@ -15461,7 +15457,7 @@ var EpaminondasComponent = class _EpaminondasComponent extends RectangularGameCo
     return [];
   }
   getHighlightedCoords() {
-    if (this.interactive === false) {
+    if (this.interactive() === false) {
       return [];
     }
     if (this.firstPiece.isPresent()) {
@@ -25097,7 +25093,7 @@ var LodestoneComponent = class _LodestoneComponent extends GameComponent {
       \u0275\u0275advance(2);
       \u0275\u0275repeater(ctx.viewInfo.capturesToPlace);
       \u0275\u0275advance(2);
-      \u0275\u0275conditional(ctx.isInteractive() ? 5 : -1);
+      \u0275\u0275conditional(ctx.interactive() ? 5 : -1);
       \u0275\u0275advance();
       \u0275\u0275repeater(ctx.viewInfo.pressurePlateGroupInfos);
       \u0275\u0275advance(2);
@@ -25184,7 +25180,7 @@ __decorate28([
         </g>
     }
 
-    @if (isInteractive()) {
+    @if (interactive()) {
         <g id="available-lodestones">
             @for (lodestone of viewInfo.availableLodestones; track $index; let x = $index) {
                 <g id="lodestone-{{ lodestone.direction }}-{{ lodestone.orientation }}-{{ lodestone.owner.toString() }}"
@@ -34113,7 +34109,7 @@ var QuebecCastlesComponent = class _QuebecCastlesComponent extends RectangularGa
     }
   }
   isPlayerDropping() {
-    return this.isInteractive() && this.isDroppingGroup;
+    return this.interactive() && this.isDroppingGroup;
   }
   getRotated(coord, center, rotationInRadius) {
     let x2 = center.x;
@@ -40778,7 +40774,7 @@ var TaflComponent = class extends RectangularGameComponent {
     }
   }
   getInteractivePlayerPieces() {
-    if (this.interactive === false) {
+    if (this.interactive() === false) {
       return [];
     }
     const coords = [];
@@ -45162,4 +45158,4 @@ export {
   Minimax,
   GameInfo
 };
-//# sourceMappingURL=chunk-YGRR4XOQ.js.map
+//# sourceMappingURL=chunk-CZ7Y3NV3.js.map

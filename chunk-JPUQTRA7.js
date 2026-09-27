@@ -5,7 +5,7 @@ import {
   Player,
   PlayerMap,
   PlayerOrNone
-} from "./chunk-YGRR4XOQ.js";
+} from "./chunk-CZ7Y3NV3.js";
 import {
   ActivatedRoute,
   Router
@@ -181,9 +181,9 @@ var GameWrapper = class _GameWrapper extends BaseWrapperComponent {
   }
   setInteractive(interactive, updateBoard = true) {
     return __async(this, null, function* () {
-      const interactivityChanged = this.gameComponent.isInteractive() !== interactive;
+      const interactivityChanged = this.gameComponent.interactive() !== interactive;
       if (interactivityChanged) {
-        this.gameComponent.setInteractive(interactive);
+        this.gameComponent.interactive.set(interactive);
         if (updateBoard) {
           yield this.gameComponent.updateBoardAndRedraw(false);
         }
@@ -312,4 +312,4 @@ export {
   GameWrapperMessages,
   GameWrapper
 };
-//# sourceMappingURL=chunk-FI6FXIAJ.js.map
+//# sourceMappingURL=chunk-JPUQTRA7.js.map
