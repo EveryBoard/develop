@@ -2464,9 +2464,10 @@ function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Co
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
+    let tmp_7_0;
     const ctx_r1 = \u0275\u0275nextContext(5);
     \u0275\u0275advance();
-    \u0275\u0275i18nExp(ctx_r1.currentUser == null ? null : ctx_r1.currentUser.name);
+    \u0275\u0275i18nExp((tmp_7_0 = ctx_r1.currentUser()) == null ? null : tmp_7_0.name);
     \u0275\u0275i18nApply(1);
   }
 }
@@ -2477,9 +2478,10 @@ function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_Co
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
+    let tmp_6_0;
     const ctx_r1 = \u0275\u0275nextContext(4);
     \u0275\u0275advance();
-    \u0275\u0275conditional((ctx_r1.currentUser == null ? null : ctx_r1.currentUser.name) === ctx_r1.getPlayer().name ? 1 : 2);
+    \u0275\u0275conditional(((tmp_6_0 = ctx_r1.currentUser()) == null ? null : tmp_6_0.name) === ctx_r1.getPlayer().name ? 1 : 2);
   }
 }
 function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Conditional_4_For_6_Conditional_3_Template(rf, ctx) {
@@ -2909,7 +2911,7 @@ function OnlineGameWrapperComponent_Conditional_1_Conditional_1_Template(rf, ctx
   if (rf & 2) {
     const ctx_r1 = \u0275\u0275nextContext(2);
     \u0275\u0275advance(4);
-    \u0275\u0275conditional(ctx_r1.game ? 4 : -1);
+    \u0275\u0275conditional(ctx_r1.game() ? 4 : -1);
     \u0275\u0275advance(2);
     \u0275\u0275property("ngClass", ctx_r1.getBoardHighlight());
   }
@@ -2955,7 +2957,7 @@ function OnlineGameWrapperComponent_Conditional_1_Template(rf, ctx) {
   }
   if (rf & 2) {
     const ctx_r1 = \u0275\u0275nextContext();
-    \u0275\u0275conditional(ctx_r1.gameStarted === false ? 0 : 1);
+    \u0275\u0275conditional(ctx_r1.gameStarted() === false ? 0 : 1);
     \u0275\u0275advance(2);
     \u0275\u0275conditional(ctx_r1.confirmResignation() ? 2 : -1);
   }
@@ -2978,12 +2980,21 @@ var OnlineGameWrapperComponent = class OnlineGameWrapperComponent2 extends GameW
     /* istanbul ignore next */
     []
   ));
-  game = null;
+  game = signal(null, ...ngDevMode ? [{ debugName: "game" }] : (
+    /* istanbul ignore next */
+    []
+  ));
   gameId;
   // Initialized in ngOnInit
-  gameStarted = false;
+  gameStarted = signal(false, ...ngDevMode ? [{ debugName: "gameStarted" }] : (
+    /* istanbul ignore next */
+    []
+  ));
   opponent = null;
-  currentUser = null;
+  currentUser = signal(null, ...ngDevMode ? [{ debugName: "currentUser" }] : (
+    /* istanbul ignore next */
+    []
+  ));
   isSynced = false;
   configRoom;
   gameSubscription = new Subscription();
@@ -3027,9 +3038,9 @@ var OnlineGameWrapperComponent = class OnlineGameWrapperComponent2 extends GameW
   }
   startGame(configRoom) {
     return __async(this, null, function* () {
-      Utils.assert(this.gameStarted === false, "Should not start already started game");
+      Utils.assert(this.gameStarted() === false, "Should not start already started game");
       this.configRoom = configRoom;
-      this.gameStarted = true;
+      this.gameStarted.set(true);
       setTimeout(() => __async(this, null, function* () {
         const createdSuccessfully = yield this.createMatchingGameComponent();
         Utils.assert(createdSuccessfully, "Game should be created successfully, otherwise game-creation would have redirected");
@@ -3060,7 +3071,7 @@ var OnlineGameWrapperComponent = class OnlineGameWrapperComponent2 extends GameW
   }
   onGameUpdate(game) {
     return __async(this, null, function* () {
-      this.game = game;
+      this.game.set(game);
       this.cdr.detectChanges();
       this.registerTimersOnce();
     });
@@ -3081,7 +3092,7 @@ var OnlineGameWrapperComponent = class OnlineGameWrapperComponent2 extends GameW
       const turn = this.gameComponent.getTurn();
       Utils.assert(turn === 0, "turn should always be 0 upon game start");
       yield this.initializePlayersData();
-      this.timeManager.onGameStart(this.configRoom, Utils.getNonNullable(this.game), this.players);
+      this.timeManager.onGameStart(this.configRoom, Utils.getNonNullable(this.game()), this.players);
       this.requestManager.onGameStart();
     });
   }
@@ -3162,8 +3173,8 @@ var OnlineGameWrapperComponent = class OnlineGameWrapperComponent2 extends GameW
   }
   setCurrentPlayerAccordingToCurrentTurn() {
     return __async(this, null, function* () {
-      this.currentUser = this.getPlayerAt(Player.ofTurn(this.getTurn())).get();
-      yield this.setInteractive(this.currentUser.name === this.getPlayer().name, false);
+      this.currentUser.set(this.getPlayerAt(Player.ofTurn(this.getTurn())).get());
+      yield this.setInteractive(Utils.getNonNullable(this.currentUser()).name === this.getPlayer().name, false);
     });
   }
   takeBackToPreviousPlayerTurn(player) {
@@ -3208,7 +3219,7 @@ var OnlineGameWrapperComponent = class OnlineGameWrapperComponent2 extends GameW
   }
   getRequestAwaitingReplyFromOpponent() {
     Utils.assert(this.role.isPlayer(), "User should be playing");
-    return this.requestManager.getUnrespondedRequestFrom(Utils.getNonNullable(this.currentUser));
+    return this.requestManager.getUnrespondedRequestFrom(Utils.getNonNullable(this.currentUser()));
   }
   deniedRequest() {
     return this.requestManager.deniedRequest();
@@ -3217,13 +3228,13 @@ var OnlineGameWrapperComponent = class OnlineGameWrapperComponent2 extends GameW
     Utils.assert(this.isPlaying(), "Non playing should not call canPass");
     if (this.endGame)
       return false;
-    if (this.currentUser?.name !== this.getPlayer().name)
+    if (this.currentUser()?.name !== this.getPlayer().name)
       return false;
     return this.gameComponent.canPass;
   }
   canAskTakeBack() {
     Utils.assert(this.isPlaying(), "Non playing should not call canAskTakeBack");
-    Utils.assert(this.game != null, "should not call canAskTakeBack when game is not defined yet");
+    Utils.assert(this.game() != null, "should not call canAskTakeBack when game is not defined yet");
     if (this.endGame)
       return false;
     if (this.gameComponent.getTurn() <= this.role.getValue())
@@ -3257,7 +3268,7 @@ var OnlineGameWrapperComponent = class OnlineGameWrapperComponent2 extends GameW
   }
   initializePlayersData() {
     return __async(this, null, function* () {
-      const game = Utils.getNonNullable(this.game);
+      const game = Utils.getNonNullable(this.game());
       this.players = PlayerMap.ofValues(MGPOptional.of(game.playerZero), MGPOptional.ofNullable(game.playerOne));
       yield this.setCurrentPlayerAccordingToCurrentTurn();
       yield this.setRealObserverRole();
@@ -3400,52 +3411,52 @@ var OnlineGameWrapperComponent = class OnlineGameWrapperComponent2 extends GameW
     return this.configRoom.rulesConfig;
   }
   getPlayerElo(player) {
-    const game = Utils.getNonNullable(this.game);
+    const game = Utils.getNonNullable(this.game());
     return player === Player.ZERO ? game.playerZeroElo : game.playerOneElo;
   }
   isHardDraw() {
-    return Utils.getNonNullable(this.game).result === "HardDraw";
+    return Utils.getNonNullable(this.game()).result === "HardDraw";
   }
   isAgreedDraw() {
-    const result = Utils.getNonNullable(this.game).result;
+    const result = Utils.getNonNullable(this.game()).result;
     return result === "AgreedDrawByZero" || result === "AgreedDrawByOne";
   }
   getDrawAccepter() {
-    const result = Utils.getNonNullable(this.game).result;
+    const result = Utils.getNonNullable(this.game()).result;
     switch (result) {
       case "AgreedDrawByZero":
-        return Utils.getNonNullable(this.game).playerZero;
+        return Utils.getNonNullable(this.game()).playerZero;
       default:
         Utils.expectToBe(result, "AgreedDrawByOne");
-        return Utils.getNonNullable(this.game).playerOne;
+        return Utils.getNonNullable(this.game()).playerOne;
     }
   }
   isWin() {
-    const result = Utils.getNonNullable(this.game).result;
+    const result = Utils.getNonNullable(this.game()).result;
     return result === "VictoryOfZero" || result === "VictoryOfOne";
   }
   isTimeout() {
-    const result = Utils.getNonNullable(this.game).result;
+    const result = Utils.getNonNullable(this.game()).result;
     return result === "TimeoutOfZero" || result === "TimeoutOfOne";
   }
   isResign() {
-    const result = Utils.getNonNullable(this.game).result;
+    const result = Utils.getNonNullable(this.game()).result;
     return result === "ResignOfZero" || result === "ResignOfOne";
   }
   getWinner() {
-    const result = Utils.getNonNullable(this.game).result;
+    const result = Utils.getNonNullable(this.game()).result;
     switch (result) {
       case "VictoryOfOne":
       case "TimeoutOfZero":
       case "ResignOfZero":
-        return Utils.getNonNullable(this.game).playerOne;
+        return Utils.getNonNullable(this.game()).playerOne;
       default:
         Utils.expectToBeMultiple(result, ["VictoryOfZero", "TimeoutOfOne", "ResignOfOne"]);
-        return Utils.getNonNullable(this.game).playerZero;
+        return Utils.getNonNullable(this.game()).playerZero;
     }
   }
   getLoser() {
-    const game = Utils.getNonNullable(this.game);
+    const game = Utils.getNonNullable(this.game());
     const winner = this.getWinner();
     if (winner.id === game.playerZero.id) {
       return Utils.getNonNullable(game.playerOne);
@@ -3486,8 +3497,8 @@ var OnlineGameWrapperComponent = class OnlineGameWrapperComponent2 extends GameW
     }
     let i18n_2;
     if (false) {
-      const MSG_EXTERNAL_8760030364734366861$$SRC_APP_COMPONENTS_WRAPPER_COMPONENTS_ONLINE_GAME_WRAPPER_ONLINE_GAME_WRAPPER_COMPONENT_TS_2 = goog.getMsg("It is {$interpolation}'s turn.", { "interpolation": "\uFFFD0\uFFFD" }, { original_code: { "interpolation": "{{ currentUser?.name }}" } });
-      i18n_2 = MSG_EXTERNAL_8760030364734366861$$SRC_APP_COMPONENTS_WRAPPER_COMPONENTS_ONLINE_GAME_WRAPPER_ONLINE_GAME_WRAPPER_COMPONENT_TS_2;
+      const MSG_EXTERNAL_2773657925564098090$$SRC_APP_COMPONENTS_WRAPPER_COMPONENTS_ONLINE_GAME_WRAPPER_ONLINE_GAME_WRAPPER_COMPONENT_TS_2 = goog.getMsg("It is {$interpolation}'s turn.", { "interpolation": "\uFFFD0\uFFFD" }, { original_code: { "interpolation": "{{ currentUser()?.name }}" } });
+      i18n_2 = MSG_EXTERNAL_2773657925564098090$$SRC_APP_COMPONENTS_WRAPPER_COMPONENTS_ONLINE_GAME_WRAPPER_ONLINE_GAME_WRAPPER_COMPONENT_TS_2;
     } else {
       i18n_2 = $localize`It is ${"\uFFFD0\uFFFD"}:INTERPOLATION:'s turn.`;
     }
@@ -3694,7 +3705,7 @@ OnlineGameWrapperComponent = __decorate3([
       ViewConfigComponent
     ], template: `@let gameName = getGameName();
 @if (gameName.isPresent()) {
-    @if (gameStarted === false) {
+    @if (gameStarted() === false) {
         <app-game-creation id="gameCreation"
                            [gameId]="gameId"
                            [rulesConfigDescription]="getRulesConfigDescription()"
@@ -3706,7 +3717,7 @@ OnlineGameWrapperComponent = __decorate3([
                  class="columns is-vcentered is-align-items-stretch">
                 <div class="column is-one-quarter has-text-centered">
                     <div class="box is-fullheight">
-                        @if (game) {
+                        @if (game()) {
                             <div class="block">
                                 <app-view-config [rulesConfig]="getConfig()"
                                                  [rulesConfigDescription]="getRulesConfigDescription()"
@@ -3718,12 +3729,12 @@ OnlineGameWrapperComponent = __decorate3([
                                 @if (endGame === false) {
                                     <p class="subtitle mb-2"
                                        id="currentPlayerIndicator">
-                                        @if (currentUser?.name === getPlayer().name) {
+                                        @if (currentUser()?.name === getPlayer().name) {
                                             <span id="playerTurn"
                                                   i18n>It is your turn.</span>
                                         } @else {
                                             <span id="opponentTurn"
-                                                  i18n>It is {{ currentUser?.name }}'s turn.</span>
+                                                  i18n>It is {{ currentUser()?.name }}'s turn.</span>
                                         }
                                     </p>
                                 }
@@ -3943,4 +3954,4 @@ export {
   OnlineGameWrapperComponent,
   OnlineGameWrapperMessages
 };
-//# sourceMappingURL=online-game-wrapper.component-ZU7JTVJI.js.map
+//# sourceMappingURL=online-game-wrapper.component-744REIS2.js.map
