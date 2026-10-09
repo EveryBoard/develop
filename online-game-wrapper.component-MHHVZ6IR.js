@@ -13,7 +13,7 @@ import {
 } from "./chunk-ATLIWBVF.js";
 import {
   ConfigRoomService
-} from "./chunk-F7GFQ4NO.js";
+} from "./chunk-LBJS3OUR.js";
 import {
   GameService
 } from "./chunk-QEBO2DL4.js";
@@ -24,7 +24,7 @@ import {
   GameDuration,
   GameType,
   Status
-} from "./chunk-KLGT5IOC.js";
+} from "./chunk-W2GKMNPE.js";
 import "./chunk-3F6WIVNB.js";
 import "./chunk-BMRFK4EQ.js";
 import {
@@ -1316,11 +1316,11 @@ var GameCreationComponent = class GameCreationComponent2 extends BaseWrapperComp
     this.viewInfo.canReviewConfig = configRoom.status === Status.CONFIG_PROPOSED;
     this.viewInfo.canEditConfig = configRoom.status !== Status.CONFIG_PROPOSED;
     this.viewInfo.userIsCreator = this.userIsCreator(configRoom);
-    this.viewInfo.userIsChosenOpponent = authUser.id === configRoom.chosenOpponent?.id;
+    this.viewInfo.userIsChosenOpponent = authUser.id === configRoom.chosenOpponent?.user.id;
     this.viewInfo.userIsObserver = this.viewInfo.userIsChosenOpponent === false && this.viewInfo.userIsCreator === false;
     this.viewInfo.creatorIsModifyingConfig = configRoom.status !== Status.CONFIG_PROPOSED;
     this.viewInfo.showCustomTime = this.getForm("gameType").value === GameType.CUSTOM;
-    this.viewInfo.creator = configRoom.creator.name;
+    this.viewInfo.creator = configRoom.creator.user.name;
     this.viewInfo.candidates = this.candidates.map((c) => {
       return {
         name: c.user.name,
@@ -1334,7 +1334,7 @@ var GameCreationComponent = class GameCreationComponent2 extends BaseWrapperComp
       this.viewInfo.moveDuration = configRoom.moveDuration;
       this.viewInfo.gameDuration = configRoom.gameDuration;
       this.viewInfo.gameType = configRoom.gameType;
-      this.viewInfo.chosenOpponent = configRoom.chosenOpponent?.name;
+      this.viewInfo.chosenOpponent = configRoom.chosenOpponent?.user.name;
       this.viewInfo.firstPlayer = configRoom.firstPlayer;
     }
     switch (configRoom.gameType) {
@@ -1355,7 +1355,7 @@ var GameCreationComponent = class GameCreationComponent2 extends BaseWrapperComp
     this.viewInfo.gameDuration = this.viewInfo.gameDuration ?? configRoom.gameDuration;
     let opponent = this.viewInfo.chosenOpponent;
     if (opponent == null || opponent === "") {
-      opponent = configRoom.chosenOpponent?.name ?? "";
+      opponent = configRoom.chosenOpponent?.user.name ?? "";
     } else {
       const chosenOpponentIsCandidate = this.candidates.some((candidate) => {
         return candidate.user.name === opponent;
@@ -1423,7 +1423,7 @@ var GameCreationComponent = class GameCreationComponent2 extends BaseWrapperComp
         this.onRulesConfigUpdate(MGPOptional.of(configRoom.rulesConfig));
       }
       if (this.chosenOpponentJustLeft(oldConfigRoom, configRoom) && this.userIsCreator(configRoom)) {
-        const userName = Utils.getNonNullable(oldConfigRoom?.chosenOpponent).name;
+        const userName = Utils.getNonNullable(oldConfigRoom?.chosenOpponent).user.name;
         this.messageDisplayer.infoMessage($localize`${userName} left the game, please pick another opponent.`);
       }
       this.updateViewInfo(configRoom);
@@ -1468,7 +1468,7 @@ var GameCreationComponent = class GameCreationComponent2 extends BaseWrapperComp
   }
   userIsCreator(configRoom) {
     const currentUserId = this.connectedUserService.user.get().id;
-    return currentUserId === configRoom.creator.id;
+    return currentUserId === configRoom.creator.user.id;
   }
   acceptConfig() {
     return this.configRoomService.acceptConfig();
@@ -3269,7 +3269,7 @@ var OnlineGameWrapperComponent = class OnlineGameWrapperComponent2 extends GameW
   initializePlayersData() {
     return __async(this, null, function* () {
       const game = Utils.getNonNullable(this.game());
-      this.players = PlayerMap.ofValues(MGPOptional.of(game.playerZero), MGPOptional.ofNullable(game.playerOne));
+      this.players = PlayerMap.ofValues(MGPOptional.of(game.playerZero.user), MGPOptional.of(game.playerOne.user));
       yield this.setCurrentPlayerAccordingToCurrentTurn();
       yield this.setRealObserverRole();
     });
@@ -3412,7 +3412,7 @@ var OnlineGameWrapperComponent = class OnlineGameWrapperComponent2 extends GameW
   }
   getPlayerElo(player) {
     const game = Utils.getNonNullable(this.game());
-    return player === Player.ZERO ? game.playerZeroElo : game.playerOneElo;
+    return player === Player.ZERO ? game.playerZero.elo : game.playerOne.elo;
   }
   isHardDraw() {
     return Utils.getNonNullable(this.game()).result === "HardDraw";
@@ -3425,10 +3425,10 @@ var OnlineGameWrapperComponent = class OnlineGameWrapperComponent2 extends GameW
     const result = Utils.getNonNullable(this.game()).result;
     switch (result) {
       case "AgreedDrawByZero":
-        return Utils.getNonNullable(this.game()).playerZero;
+        return Utils.getNonNullable(this.game()).playerZero.user;
       default:
         Utils.expectToBe(result, "AgreedDrawByOne");
-        return Utils.getNonNullable(this.game()).playerOne;
+        return Utils.getNonNullable(this.game()).playerOne.user;
     }
   }
   isWin() {
@@ -3449,19 +3449,19 @@ var OnlineGameWrapperComponent = class OnlineGameWrapperComponent2 extends GameW
       case "VictoryOfOne":
       case "TimeoutOfZero":
       case "ResignOfZero":
-        return Utils.getNonNullable(this.game()).playerOne;
+        return Utils.getNonNullable(this.game()).playerOne.user;
       default:
         Utils.expectToBeMultiple(result, ["VictoryOfZero", "TimeoutOfOne", "ResignOfOne"]);
-        return Utils.getNonNullable(this.game()).playerZero;
+        return Utils.getNonNullable(this.game()).playerZero.user;
     }
   }
   getLoser() {
     const game = Utils.getNonNullable(this.game());
     const winner = this.getWinner();
-    if (winner.id === game.playerZero.id) {
-      return Utils.getNonNullable(game.playerOne);
+    if (winner.id === game.playerZero.user.id) {
+      return game.playerOne.user;
     } else {
-      return game.playerZero;
+      return game.playerZero.user;
     }
   }
   static \u0275fac = /* @__PURE__ */ (() => {
@@ -3954,4 +3954,4 @@ export {
   OnlineGameWrapperComponent,
   OnlineGameWrapperMessages
 };
-//# sourceMappingURL=online-game-wrapper.component-744REIS2.js.map
+//# sourceMappingURL=online-game-wrapper.component-MHHVZ6IR.js.map

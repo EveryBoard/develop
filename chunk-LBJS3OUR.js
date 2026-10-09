@@ -35,7 +35,7 @@ var ConfigRoomService = class ConfigRoomService2 extends AbstractConfigRoomServi
         configRoomDeleted();
       });
       const candidateJoinedSubscription = this.backendService.setCallback("CandidateJoined", (message) => {
-        candidateJoined({ user: message.getArgument("candidate"), elo: message.getArgument("elo") });
+        candidateJoined(message.getArgument("candidate"));
       });
       const candidateLeftSubscription = this.backendService.setCallback("CandidateLeft", (message) => {
         candidateLeft(message.getArgument("candidate"));
@@ -100,4 +100,4 @@ ConfigRoomService = __decorate([
 export {
   ConfigRoomService
 };
-//# sourceMappingURL=chunk-F7GFQ4NO.js.map
+//# sourceMappingURL=chunk-LBJS3OUR.js.map

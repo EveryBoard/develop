@@ -2,7 +2,7 @@ import {
   ChatComponent,
   EloComponent,
   Status
-} from "./chunk-KLGT5IOC.js";
+} from "./chunk-W2GKMNPE.js";
 import "./chunk-3F6WIVNB.js";
 import {
   OnlineGameSelectionComponent
@@ -120,7 +120,7 @@ function LobbyComponent_For_26_Conditional_8_Template(rf, ctx) {
   }
   if (rf & 2) {
     const configRoom_r2 = \u0275\u0275nextContext().$implicit;
-    \u0275\u0275textInterpolate1(" ", configRoom_r2.chosenOpponent.name, " ");
+    \u0275\u0275textInterpolate1(" ", configRoom_r2.chosenOpponent.user.name, " ");
   }
 }
 function LobbyComponent_For_26_Conditional_9_Template(rf, ctx) {
@@ -162,11 +162,11 @@ function LobbyComponent_For_26_Template(rf, ctx) {
     \u0275\u0275advance(2);
     \u0275\u0275textInterpolate(ctx_r2.getGameName(configRoom_r2));
     \u0275\u0275advance();
-    \u0275\u0275property("id", \u0275\u0275interpolate1("part-of-", configRoom_r2.creator.name));
+    \u0275\u0275property("id", \u0275\u0275interpolate1("part-of-", configRoom_r2.creator.user.name));
     \u0275\u0275advance();
-    \u0275\u0275textInterpolate1("", configRoom_r2.creator.name, " (");
+    \u0275\u0275textInterpolate1("", configRoom_r2.creator.user.name, " (");
     \u0275\u0275advance();
-    \u0275\u0275property("elo", configRoom_r2.creatorElo);
+    \u0275\u0275property("elo", configRoom_r2.creator.elo);
     \u0275\u0275advance(3);
     \u0275\u0275conditional(configRoom_r2.chosenOpponent ? 8 : 9);
     \u0275\u0275advance(3);
@@ -442,10 +442,10 @@ LobbyComponent = __decorate([
                         (click)="joinGame(configRoom)">
                         <td class="td data-game-name">{{ getGameName(configRoom) }}</td>
                         <td class="td"
-                            id="part-of-{{ configRoom.creator.name}}">{{ configRoom.creator.name }} (<app-elo [elo]="configRoom.creatorElo"/>)</td>
+                            id="part-of-{{ configRoom.creator.user.name}}">{{ configRoom.creator.user.name }} (<app-elo [elo]="configRoom.creator.elo"/>)</td>
                         <td class="td">
                             @if (configRoom.chosenOpponent) {
-                                {{ configRoom.chosenOpponent.name }}
+                                {{ configRoom.chosenOpponent.user.name }}
                             } @else {
                                 <ng-container i18n>Waiting for opponent</ng-container>
                             }
@@ -483,4 +483,4 @@ LobbyComponent = __decorate([
 export {
   LobbyComponent
 };
-//# sourceMappingURL=lobby.component-222IFZ5Z.js.map
+//# sourceMappingURL=lobby.component-HE7VLMGR.js.map

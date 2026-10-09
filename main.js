@@ -1,6 +1,6 @@
 import {
   ConfigRoomService
-} from "./chunk-F7GFQ4NO.js";
+} from "./chunk-LBJS3OUR.js";
 import {
   GameService
 } from "./chunk-QEBO2DL4.js";
@@ -1200,7 +1200,7 @@ var VerifiedAccountGuard = class _VerifiedAccountGuard extends AccountGuard {
 // src/app/app.routes.ts
 var routes = [
   { path: "login", loadComponent: () => import("./login.component-Y7VQ7YGS.js").then((m) => m.LoginComponent) },
-  { path: "lobby", loadComponent: () => import("./lobby.component-222IFZ5Z.js").then((m) => m.LobbyComponent), canActivate: [VerifiedAccountGuard] },
+  { path: "lobby", loadComponent: () => import("./lobby.component-HE7VLMGR.js").then((m) => m.LobbyComponent), canActivate: [VerifiedAccountGuard] },
   { path: "account", loadComponent: () => import("./account.component-EWMMECQJ.js").then((m) => m.AccountComponent), canActivate: [VerifiedAccountGuard] },
   { path: "settings", loadComponent: () => import("./settings.component-PBZGZKUO.js").then((m) => m.SettingsComponent) },
   { path: "register", loadComponent: () => import("./register.component-YCFRPIWI.js").then((m) => m.RegisterComponent), canActivate: [NotConnectedGuard] },
@@ -1210,7 +1210,7 @@ var routes = [
   { path: "verify-account", loadComponent: () => import("./verify-account.component-ZUOUQL22.js").then((m) => m.VerifyAccountComponent), canActivate: [ConnectedButNotVerifiedGuard] },
   { path: "play", loadComponent: () => import("./online-game-selection.component-ZX43O6MX.js").then((m) => m.OnlineGameSelectionComponent), canActivate: [ExclusiveOnlineGameGuard, VerifiedAccountGuard] },
   { path: "play/:game", loadComponent: () => import("./online-game-creation.component-2PYKANR2.js").then((m) => m.OnlineGameCreationComponent), canActivate: [ExclusiveOnlineGameGuard, VerifiedAccountGuard] },
-  { path: "play/:game/:id", loadComponent: () => import("./online-game-wrapper.component-744REIS2.js").then((m) => m.OnlineGameWrapperComponent), canActivate: [ExclusiveOnlineGameGuard, VerifiedAccountGuard] },
+  { path: "play/:game/:id", loadComponent: () => import("./online-game-wrapper.component-MHHVZ6IR.js").then((m) => m.OnlineGameWrapperComponent), canActivate: [ExclusiveOnlineGameGuard, VerifiedAccountGuard] },
   { path: "local", loadComponent: () => import("./local-game-creation.component-6VA5ETD6.js").then((m) => m.LocalGameCreationComponent) },
   { path: "local/:game/config", loadComponent: () => import("./local-game-configuration.component-WCZ2YYQY.js").then((m) => m.LocalGameConfigurationComponent) },
   { path: "local/:game", loadComponent: () => import("./local-game-wrapper.component-EZJGBIIM.js").then((m) => m.LocalGameWrapperComponent) },
