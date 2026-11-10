@@ -2255,7 +2255,7 @@ var AbstractCheckersRules = class extends ConfigurableRules {
     }
     resultingState = resultingState.set(moveEnd, movingStack);
     const finishLine = state.getFinishLineOf(state.getCurrentPlayer());
-    const promotedMidCapture = config.canPromoteMidCapture && move.coords.some((c) => c.y === finishLine);
+    const promotedMidCapture = config.canPromoteMidCapture && move.coords.map((c) => c.y).some((y) => y === finishLine);
     if (moveEnd.y === finishLine || promotedMidCapture) {
       resultingState = resultingState.set(moveEnd, movingStack.promoteCommander());
     }
@@ -20588,17 +20588,70 @@ var CheckersComponent = class extends ParallelogramGameComponent {
     /* istanbul ignore next */
     []
   ));
-  currentMoveClicks = [];
-  lastCaptures = [];
-  lastMoved = [];
-  possibleClicks = new Set2();
-  selectedStack = MGPOptional.empty();
-  capturedCoords = [];
+  currentMoveClicks = signal([], ...ngDevMode ? [{ debugName: "currentMoveClicks" }] : (
+    /* istanbul ignore next */
+    []
+  ));
+  lastCaptures = signal(new Set2(), ...ngDevMode ? [{ debugName: "lastCaptures" }] : (
+    /* istanbul ignore next */
+    []
+  ));
+  lastMoved = signal(new Set2(), ...ngDevMode ? [{ debugName: "lastMoved" }] : (
+    /* istanbul ignore next */
+    []
+  ));
+  possibleClicks = signal(new Set2(), ...ngDevMode ? [{ debugName: "possibleClicks" }] : (
+    /* istanbul ignore next */
+    []
+  ));
+  selectedStack = signal(MGPOptional.empty(), ...ngDevMode ? [{ debugName: "selectedStack" }] : (
+    /* istanbul ignore next */
+    []
+  ));
   // Only the coords capture by active player during this turn
-  flownOverCoords = [];
+  capturedCoords = signal(new Set2(), ...ngDevMode ? [{ debugName: "capturedCoords" }] : (
+    /* istanbul ignore next */
+    []
+  ));
   // Coord that where flown over during ongoing turn
-  legalMoves = [];
+  flownOverCoords = signal(new Set2(), ...ngDevMode ? [{ debugName: "flownOverCoords" }] : (
+    /* istanbul ignore next */
+    []
+  ));
+  legalMoves = signal(new Set2(), ...ngDevMode ? [{ debugName: "legalMoves" }] : (
+    /* istanbul ignore next */
+    []
+  ));
   moveGenerator = new CheckersMoveGenerator(this.rules);
+  parallelogramPoints = computed(() => {
+    return this.getParallelogramCoords(this.mode()).map((coord) => coord.x + ", " + coord.y).join(" ");
+  }, ...ngDevMode ? [{ debugName: "parallelogramPoints" }] : (
+    /* istanbul ignore next */
+    []
+  ));
+  parallelogramCenter = computed(() => {
+    const coords = this.getParallelogramCoords(this.mode());
+    return this.getParallelogramCenterOf(coords[0], coords[1], coords[2], coords[3]);
+  }, ...ngDevMode ? [{ debugName: "parallelogramCenter" }] : (
+    /* istanbul ignore next */
+    []
+  ));
+  rightEdge = computed(() => {
+    const width = this.basicWidth() * this.mode().horizontalWidthRatio;
+    const offset = this.basicHeight() * this.mode().offsetRatio;
+    const x0 = offset + width;
+    const y0 = 0;
+    const x1 = offset + width;
+    const y1 = this.THICKNESS;
+    const x2 = width;
+    const y2 = this.basicHeight() + this.THICKNESS;
+    const x3 = width;
+    const y3 = this.basicHeight();
+    return [x0, y0, x1, y1, x2, y2, x3, y3].join(" ");
+  }, ...ngDevMode ? [{ debugName: "rightEdge" }] : (
+    /* istanbul ignore next */
+    []
+  ));
   computeViewBox() {
     const h = this.boardSize().y;
     const boardOffset = h * this.mode().offsetRatio * this.mode().parallelogramHeight;
@@ -20653,7 +20706,7 @@ var CheckersComponent = class extends ParallelogramGameComponent {
   updateBoard(_triggerAnimation) {
     return __async(this, null, function* () {
       this.setConstructedState(this.state());
-      this.legalMoves = this.moveGenerator.getListMoves(this.node(), this.config());
+      this.legalMoves.set(new Set2(this.moveGenerator.getListMoves(this.node(), this.config())));
       this.scores = MGPOptional.of(this.constructedState().get().getScores());
       this.showPossibleClicks();
     });
@@ -20661,10 +20714,13 @@ var CheckersComponent = class extends ParallelogramGameComponent {
   getSquareClass(x2, y) {
     const coord = new Coord(x2, y);
     const classes = [];
-    if (this.capturedCoords.concat(this.lastCaptures).some((c) => c.equals(coord))) {
+    if (this.capturedCoords().union(this.lastCaptures()).contains(coord)) {
       classes.push("captured-fill");
     }
-    const flownOverCoords = this.currentMoveClicks.concat(this.lastMoved.concat(this.flownOverCoords));
+    const flownOverCoords = [
+      ...this.currentMoveClicks(),
+      ...this.lastMoved().union(this.flownOverCoords())
+    ];
     if (flownOverCoords.some((c) => c.equals(coord))) {
       classes.push("moved-fill");
     }
@@ -20676,7 +20732,7 @@ var CheckersComponent = class extends ParallelogramGameComponent {
     const max = square.getStackSize() - 1;
     const piece = square.get(max - z);
     const classes = [this.getPlayerClass(piece.player)];
-    if (this.selectedStack.equalsValue(coord)) {
+    if (this.selectedStack().equalsValue(coord)) {
       classes.push("selected-stroke");
     }
     return classes;
@@ -20690,41 +20746,44 @@ var CheckersComponent = class extends ParallelogramGameComponent {
   }
   showLastMove(move) {
     return __async(this, null, function* () {
-      this.lastCaptures = [];
-      this.lastMoved = [];
+      let lastCaptures = new Set2();
+      let lastMoved = new Set2();
       for (let i2 = 0; i2 < move.coords.length - 1; i2++) {
         const start = move.coords[i2];
         const end = move.coords[i2 + 1];
-        this.lastMoved.push(start);
+        lastMoved = lastMoved.addElement(start);
         for (const coord of start.getCoordsToward(end)) {
           const isCapture = move.isStep === false && this.getPreviousState().getPieceAt(coord).isOccupied();
           if (isCapture) {
-            this.lastCaptures.push(coord);
+            lastCaptures = lastCaptures.addElement(coord);
           } else {
-            this.lastMoved.push(coord);
+            lastMoved = lastMoved.addElement(coord);
           }
         }
       }
-      this.lastMoved.push(move.getEndingCoord());
+      lastMoved = lastMoved.addElement(move.getEndingCoord());
+      this.lastCaptures.set(lastCaptures);
+      this.lastMoved.set(lastMoved);
     });
   }
   showPossibleClicks() {
-    this.possibleClicks = new Set2();
+    let possibleClicks = new Set2();
     if (this.interactive()) {
-      for (const validMove of this.legalMoves) {
-        const numberOfClicks = this.currentMoveClicks.length;
+      for (const validMove of this.legalMoves()) {
+        const numberOfClicks = this.currentMoveClicks().length;
         if (numberOfClicks < validMove.coords.length) {
           const possibleCoord = validMove.coords[numberOfClicks];
-          if (CheckersMove.getRelation(this.currentMoveClicks, validMove.coords) === "PREFIX") {
-            this.possibleClicks = this.possibleClicks.addElement(possibleCoord);
+          if (CheckersMove.getRelation(this.currentMoveClicks(), validMove.coords) === "PREFIX") {
+            possibleClicks = possibleClicks.addElement(possibleCoord);
           }
         }
       }
     }
+    this.possibleClicks.set(possibleClicks);
   }
   hideLastMove() {
-    this.lastCaptures = [];
-    this.lastMoved = [];
+    this.lastCaptures.set(new Set2());
+    this.lastMoved.set(new Set2());
   }
   onClick(x2, y) {
     return __async(this, null, function* () {
@@ -20734,7 +20793,7 @@ var CheckersComponent = class extends ParallelogramGameComponent {
       if (clickedSpace.isCommandedBy(opponent)) {
         return this.cancelMove(RulesFailure.MUST_CHOOSE_OWN_PIECE_NOT_OPPONENT());
       }
-      if (this.currentMoveClicks.length === 0) {
+      if (this.currentMoveClicks().length === 0) {
         return this.trySelectingPiece(clickedCoord);
       } else {
         return this.moveClick(clickedCoord);
@@ -20743,16 +20802,16 @@ var CheckersComponent = class extends ParallelogramGameComponent {
   }
   cancelMoveAttempt() {
     this.setConstructedState(this.state());
-    this.currentMoveClicks = [];
-    this.capturedCoords = [];
-    this.flownOverCoords = [];
-    this.selectedStack = MGPOptional.empty();
+    this.currentMoveClicks.set([]);
+    this.capturedCoords.set(new Set2());
+    this.flownOverCoords.set(new Set2());
+    this.selectedStack.set(MGPOptional.empty());
     this.showPossibleClicks();
   }
   moveClick(clicked) {
     return __async(this, null, function* () {
-      const start = this.currentMoveClicks[0];
-      if (clicked.equals(start) && this.possibleClicks.contains(clicked) === false) {
+      const start = this.currentMoveClicks()[0];
+      if (clicked.equals(start) && this.possibleClicks().contains(clicked) === false) {
         return this.cancelMove();
       }
       const clickedSpace = this.constructedState().get().getPieceAt(clicked);
@@ -20761,19 +20820,26 @@ var CheckersComponent = class extends ParallelogramGameComponent {
         this.cancelMoveAttempt();
         return this.trySelectingPiece(clicked);
       }
-      if (this.possibleClicks.contains(clicked) === false) {
+      if (this.possibleClicks().contains(clicked) === false) {
         return this.cancelMove(this.getClickFailureReason(clicked));
       }
-      const lastCoord = this.currentMoveClicks[this.currentMoveClicks.length - 1];
+      const lastCoord = this.currentMoveClicks()[this.currentMoveClicks().length - 1];
       const steppedOver = lastCoord.getCoordsToward(clicked);
+      let capturedCoords = this.capturedCoords();
+      let flownOverCoords = this.flownOverCoords();
       for (const coord of steppedOver) {
         if (this.constructedState().get().getPieceAt(coord).isOccupied()) {
-          this.capturedCoords.push(coord);
+          capturedCoords = capturedCoords.addElement(coord);
         } else {
-          this.flownOverCoords.push(coord);
+          flownOverCoords = flownOverCoords.addElement(coord);
         }
       }
-      this.currentMoveClicks.push(clicked);
+      this.flownOverCoords.set(flownOverCoords);
+      this.capturedCoords.set(capturedCoords);
+      this.currentMoveClicks.set([
+        ...this.currentMoveClicks(),
+        clicked
+      ]);
       const matchingMove = this.getMatchingLegalMove();
       if (matchingMove.isPresent()) {
         return this.chooseMove(matchingMove.get());
@@ -20785,10 +20851,10 @@ var CheckersComponent = class extends ParallelogramGameComponent {
     });
   }
   getClickFailureReason(clicked) {
-    const lastSegmentStart = this.currentMoveClicks[this.currentMoveClicks.length - 1];
+    const lastSegmentStart = this.currentMoveClicks()[this.currentMoveClicks().length - 1];
     const stack = this.constructedState().get().getPieceAt(lastSegmentStart);
-    const isSimpleJump = this.currentMoveClicks.length === 1;
-    const stateWithoutStarting = this.state().remove(this.currentMoveClicks[0]);
+    const isSimpleJump = this.currentMoveClicks().length === 1;
+    const stateWithoutStarting = this.state().remove(this.currentMoveClicks()[0]);
     const validation = this.rules.getSubMoveValidity(stack, isSimpleJump, lastSegmentStart, clicked, stateWithoutStarting, this.config());
     if (validation.isFailure()) {
       return validation.getReason();
@@ -20799,7 +20865,10 @@ var CheckersComponent = class extends ParallelogramGameComponent {
     return moveValidity.getReason();
   }
   getMoveAttemptEndingAt(clicked) {
-    const clickedCoords = this.currentMoveClicks.concat(clicked);
+    const clickedCoords = [
+      ...this.currentMoveClicks(),
+      clicked
+    ];
     if (clickedCoords.length === 2 && this.doesMoveAttemptCapture(clicked) === false) {
       return CheckersMove.fromStep(clickedCoords[0], clickedCoords[1]);
     } else {
@@ -20807,13 +20876,13 @@ var CheckersComponent = class extends ParallelogramGameComponent {
     }
   }
   doesMoveAttemptCapture(clicked) {
-    const start = this.currentMoveClicks[0];
+    const start = this.currentMoveClicks()[0];
     const steppedOver = start.getCoordsToward(clicked);
     return steppedOver.some((coord) => this.state().getPieceAt(coord).isOccupied());
   }
   getMatchingLegalMove() {
-    const currentMove = CheckersMove.fromCapture(this.currentMoveClicks);
-    for (const move of this.legalMoves) {
+    const currentMove = CheckersMove.fromCapture(this.currentMoveClicks());
+    for (const move of this.legalMoves()) {
       if (move.equals(currentMove)) {
         return MGPOptional.of(move);
       }
@@ -20821,7 +20890,7 @@ var CheckersComponent = class extends ParallelogramGameComponent {
     return MGPOptional.empty();
   }
   applyPartialCapture() {
-    const currentMove = CheckersMove.fromCapture(this.currentMoveClicks);
+    const currentMove = CheckersMove.fromCapture(this.currentMoveClicks());
     this.setConstructedState(this.rules.applyMove(currentMove, this.state(), this.config()));
   }
   trySelectingPiece(clicked) {
@@ -20836,9 +20905,9 @@ var CheckersComponent = class extends ParallelogramGameComponent {
   }
   selectPiece(coord) {
     return __async(this, null, function* () {
-      this.selectedStack = MGPOptional.of(coord);
-      if (this.legalMoves.some((move) => move.getStartingCoord().equals(coord))) {
-        this.currentMoveClicks = [coord];
+      this.selectedStack.set(MGPOptional.of(coord));
+      if (this.legalMoves().map((move) => move.getStartingCoord()).contains(coord)) {
+        this.currentMoveClicks.set([coord]);
         this.showPossibleClicks();
         return MGPValidation.SUCCESS;
       } else {
@@ -20860,19 +20929,6 @@ var CheckersComponent = class extends ParallelogramGameComponent {
       return new Coord(x2, y);
     }
   }
-  parallelogramPoints = computed(() => {
-    return this.getParallelogramCoords(this.mode()).map((coord) => coord.x + ", " + coord.y).join(" ");
-  }, ...ngDevMode ? [{ debugName: "parallelogramPoints" }] : (
-    /* istanbul ignore next */
-    []
-  ));
-  parallelogramCenter = computed(() => {
-    const coords = this.getParallelogramCoords(this.mode());
-    return this.getParallelogramCenterOf(coords[0], coords[1], coords[2], coords[3]);
-  }, ...ngDevMode ? [{ debugName: "parallelogramCenter" }] : (
-    /* istanbul ignore next */
-    []
-  ));
   /**
    * @returns the center of the parallelogram delineated by four points, @param a, @param b, @param c, and @param d
    */
@@ -20885,22 +20941,6 @@ var CheckersComponent = class extends ParallelogramGameComponent {
     const y = (maxY - minY) / 2;
     return new Coord(x2, y);
   }
-  rightEdge = computed(() => {
-    const width = this.basicWidth() * this.mode().horizontalWidthRatio;
-    const offset = this.basicHeight() * this.mode().offsetRatio;
-    const x0 = offset + width;
-    const y0 = 0;
-    const x1 = offset + width;
-    const y1 = this.THICKNESS;
-    const x2 = width;
-    const y2 = this.basicHeight() + this.THICKNESS;
-    const x3 = width;
-    const y3 = this.basicHeight();
-    return [x0, y0, x1, y1, x2, y2, x3, y3].join(" ");
-  }, ...ngDevMode ? [{ debugName: "rightEdge" }] : (
-    /* istanbul ignore next */
-    []
-  ));
   getPieceTranslation(z) {
     const cy = this.parallelogramCenter().y;
     const pieceCy = (50 + 15) / 2;
@@ -21036,7 +21076,7 @@ var BashniComponent = class _BashniComponent extends CheckersComponent {
       \u0275\u0275advance();
       \u0275\u0275attribute("points", ctx.rightEdge());
       \u0275\u0275advance();
-      \u0275\u0275repeater(ctx.possibleClicks);
+      \u0275\u0275repeater(ctx.possibleClicks());
       \u0275\u0275advance(2);
       \u0275\u0275repeater(ctx.constructedState().get().getCoordsAndContents());
     }
@@ -21045,7 +21085,7 @@ var BashniComponent = class _BashniComponent extends CheckersComponent {
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(BashniComponent, [{
     type: Component,
-    args: [{ changeDetection: ChangeDetectionStrategy.OnPush, selector: "app-bashni", imports: [NgClass], template: '<svg xmlns="http://www.w3.org/2000/svg"\n     class="board"\n     [attr.viewBox]="viewBoxString()"\n     preserveAspectRatio="xMidYMid meet">\n\n    <defs>\n        <g id="piece">\n            <path d="M 0 25 v 15 a 40 25, 0, 0, 0, 80 0 v -15 a 40 25, 0, 0, 0, -80 0 Z"/>\n            <ellipse cx="40"\n                     cy="25"\n                     rx="40"\n                     ry="25"/>\n        </g>\n    </defs>\n\n    <!-- Empty board -->\n    @for (coordAndContent of constructedState().get().getCoordsAndContents(); track coordAndContent.coord.toString()) {\n        <polygon id="square-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n                 [attr.transform]="getTranslationAtXYZ(coordAndContent.coord.x, coordAndContent.coord.y, 0)"\n                 (click)="onClick(coordAndContent.coord.x, coordAndContent.coord.y)"\n                 [attr.points]="parallelogramPoints()"\n                 [ngClass]="getSquareClass(coordAndContent.coord.x, coordAndContent.coord.y)"\n                 class="base"/>\n    }\n\n    <rect id="bottomEdge"\n          x="0"\n          [attr.y]="basicHeight()"\n          [attr.width]="basicWidth() * mode().horizontalWidthRatio"\n          [attr.height]="THICKNESS"\n          class="base"/>\n    <polygon id="rightEdge"\n             [attr.points]="rightEdge()"\n             class="base"/>\n\n    <!-- Clickable highlights -->\n    @for (coord of possibleClicks; track coord.toString()) {\n        <polygon id="clickable-highlight-{{ coord.x }}-{{ coord.y }}"\n                 [attr.transform]="getTranslationAtXYZ(coord.x, coord.y, 0)"\n                 (click)="onClick(coord.x, coord.y)"\n                 [attr.points]="parallelogramPoints()"\n                 class="base no-fill clickable-stroke small-stroke"/>\n    }\n\n    <!-- Pieces -->\n    @for (coordAndContent of constructedState().get().getCoordsAndContents(); track coordAndContent.coord.toString()) {\n        <g id="coord-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n           [attr.transform]="getTranslationAtXYZ(coordAndContent.coord.x, coordAndContent.coord.y, 0)"\n           (click)="onClick(coordAndContent.coord.x, coordAndContent.coord.y)">\n            @for (pieceInfo of coordAndContent.content.pieces; track $index; let z = $index) {\n                <g pointer-events="fill"\n                   [attr.transform]="getPieceTranslation(z)"\n                   class="base mid-small-stroke">\n                    <use id="square-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}-piece-{{ z }}"\n                         xlink:href="#piece"\n                         [ngClass]="getPieceClasses(coordAndContent.coord.x, coordAndContent.coord.y, z)"\n                         class="base mid-stroke"/>\n                    @if (isPiecePromoted(coordAndContent.coord.x, coordAndContent.coord.y, z)) {\n                        <circle id="square-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}-piece-{{ z }}-promoted-symbol"\n                                [attr.cx]="SPACE_SIZE * 0.4"\n                                [attr.cy]="SPACE_SIZE * 0.575"\n                                [attr.r]="SPACE_SIZE * 0.045"\n                                [ngClass]="getPieceClasses(coordAndContent.coord.x, coordAndContent.coord.y, z)"/>\n                    }\n                </g>\n            }\n        </g>\n    }\n\n</svg>\n', styles: ["/* src/app/components/game-components/game-component/game-component.scss */\n.base {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke {\n  stroke-width: 0;\n}\n.base.manual-stroke {\n  fill: var(--base-stroke);\n}\n.base-no-stroke {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text {\n  fill: var(--base-stroke);\n}\n.white-background {\n  fill: white;\n}\n.background {\n  fill: var(--spaces-fill);\n}\n.transparent {\n  opacity: 0;\n}\n.background2 {\n  fill: var(--alt-background-fill);\n}\n.background3 {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill {\n  fill: var(--player0);\n}\n.player0-alternate-fill {\n  fill: var(--player0-alternate);\n}\n.player0-stroke {\n  stroke: var(--player0);\n}\n.player1-fill {\n  fill: var(--player1);\n}\n.player1-alternate-fill {\n  fill: var(--player1-alternate);\n}\n.player1-stroke {\n  stroke: var(--player1);\n}\n.nonplayer-fill {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill {\n  fill: var(--pre-captured);\n}\n.captured-fill {\n  fill: var(--captured);\n}\n.captured-alternate-fill {\n  fill: var(--alt-captured);\n}\n.captured-stroke {\n  stroke: var(--captured);\n}\n.moved-fill {\n  fill: var(--moved);\n}\n.moved-stroke {\n  stroke: var(--moved);\n}\n.indicator {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill {\n  fill: var(--indicator);\n}\n.selectable-stroke {\n  stroke: var(--selectable);\n}\n.selectable > .base-no-stroke {\n  fill: var(--selectable);\n}\n.last-move-stroke {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke {\n  fill: var(--last-move);\n}\n.last-move-fill {\n  fill: var(--last-move);\n}\n.victory-fill {\n  fill: var(--victory);\n}\n.victory-stroke {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke {\n  fill: var(--victory);\n}\n.defeat-fill {\n  fill: var(--defeat);\n}\n.defeat-stroke {\n  stroke: var(--defeat);\n}\n.selected-fill {\n  fill: var(--selected);\n}\n.selected-stroke {\n  stroke: var(--selected);\n}\n.clickable-stroke {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill {\n  fill: var(--capturable);\n}\n.capturable-stroke:hover {\n  stroke-width: 8;\n}\n.no-fill {\n  fill: none;\n}\n.no-stroke {\n  stroke: none;\n}\n.small-stroke {\n  stroke-width: 2;\n}\n.mid-small-stroke {\n  stroke-width: 3;\n}\n.mid-stroke {\n  stroke-width: 5;\n}\n.big-stroke {\n  stroke-width: 8;\n}\n.huge-stroke {\n  stroke-width: 12;\n}\n.semi-transparent {\n  opacity: 0.5;\n}\n.territory-opacity {\n  fill-opacity: 0.7;\n}\n.round {\n  stroke-linecap: round;\n}\n.text-giant {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big {\n  font: 50px sans-serif;\n}\n.backgrounded-text {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus {\n  font: 38px sans-serif;\n}\n.text-medium {\n  font: 35px sans-serif;\n}\n.text-small-plus {\n  font: 28px sans-serif;\n}\n.text-small {\n  font: 25px sans-serif;\n}\n.text-bold {\n  font-weight: bold;\n}\n.text-center {\n  text-anchor: middle;\n}\n.black-fill {\n  fill: black;\n}\n.darker {\n  filter: brightness(80%);\n}\n.lighter {\n  filter: brightness(110%);\n}\nsvg {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */\n"] }]
+    args: [{ changeDetection: ChangeDetectionStrategy.OnPush, selector: "app-bashni", imports: [NgClass], template: '<svg xmlns="http://www.w3.org/2000/svg"\n     class="board"\n     [attr.viewBox]="viewBoxString()"\n     preserveAspectRatio="xMidYMid meet">\n\n    <defs>\n        <g id="piece">\n            <path d="M 0 25 v 15 a 40 25, 0, 0, 0, 80 0 v -15 a 40 25, 0, 0, 0, -80 0 Z"/>\n            <ellipse cx="40"\n                     cy="25"\n                     rx="40"\n                     ry="25"/>\n        </g>\n    </defs>\n\n    <!-- Empty board -->\n    @for (coordAndContent of constructedState().get().getCoordsAndContents(); track coordAndContent.coord.toString()) {\n        <polygon id="square-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n                 [attr.transform]="getTranslationAtXYZ(coordAndContent.coord.x, coordAndContent.coord.y, 0)"\n                 (click)="onClick(coordAndContent.coord.x, coordAndContent.coord.y)"\n                 [attr.points]="parallelogramPoints()"\n                 [ngClass]="getSquareClass(coordAndContent.coord.x, coordAndContent.coord.y)"\n                 class="base"/>\n    }\n\n    <rect id="bottomEdge"\n          x="0"\n          [attr.y]="basicHeight()"\n          [attr.width]="basicWidth() * mode().horizontalWidthRatio"\n          [attr.height]="THICKNESS"\n          class="base"/>\n    <polygon id="rightEdge"\n             [attr.points]="rightEdge()"\n             class="base"/>\n\n    <!-- Clickable highlights -->\n    @for (coord of possibleClicks(); track coord.toString()) {\n        <polygon id="clickable-highlight-{{ coord.x }}-{{ coord.y }}"\n                 [attr.transform]="getTranslationAtXYZ(coord.x, coord.y, 0)"\n                 (click)="onClick(coord.x, coord.y)"\n                 [attr.points]="parallelogramPoints()"\n                 class="base no-fill clickable-stroke small-stroke"/>\n    }\n\n    <!-- Pieces -->\n    @for (coordAndContent of constructedState().get().getCoordsAndContents(); track coordAndContent.coord.toString()) {\n        <g id="coord-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n           [attr.transform]="getTranslationAtXYZ(coordAndContent.coord.x, coordAndContent.coord.y, 0)"\n           (click)="onClick(coordAndContent.coord.x, coordAndContent.coord.y)">\n            @for (pieceInfo of coordAndContent.content.pieces; track $index; let z = $index) {\n                <g pointer-events="fill"\n                   [attr.transform]="getPieceTranslation(z)"\n                   class="base mid-small-stroke">\n                    <use id="square-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}-piece-{{ z }}"\n                         xlink:href="#piece"\n                         [ngClass]="getPieceClasses(coordAndContent.coord.x, coordAndContent.coord.y, z)"\n                         class="base mid-stroke"/>\n                    @if (isPiecePromoted(coordAndContent.coord.x, coordAndContent.coord.y, z)) {\n                        <circle id="square-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}-piece-{{ z }}-promoted-symbol"\n                                [attr.cx]="SPACE_SIZE * 0.4"\n                                [attr.cy]="SPACE_SIZE * 0.575"\n                                [attr.r]="SPACE_SIZE * 0.045"\n                                [ngClass]="getPieceClasses(coordAndContent.coord.x, coordAndContent.coord.y, z)"/>\n                    }\n                </g>\n            }\n        </g>\n    }\n\n</svg>\n', styles: ["/* src/app/components/game-components/game-component/game-component.scss */\n.base {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke {\n  stroke-width: 0;\n}\n.base.manual-stroke {\n  fill: var(--base-stroke);\n}\n.base-no-stroke {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text {\n  fill: var(--base-stroke);\n}\n.white-background {\n  fill: white;\n}\n.background {\n  fill: var(--spaces-fill);\n}\n.transparent {\n  opacity: 0;\n}\n.background2 {\n  fill: var(--alt-background-fill);\n}\n.background3 {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill {\n  fill: var(--player0);\n}\n.player0-alternate-fill {\n  fill: var(--player0-alternate);\n}\n.player0-stroke {\n  stroke: var(--player0);\n}\n.player1-fill {\n  fill: var(--player1);\n}\n.player1-alternate-fill {\n  fill: var(--player1-alternate);\n}\n.player1-stroke {\n  stroke: var(--player1);\n}\n.nonplayer-fill {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill {\n  fill: var(--pre-captured);\n}\n.captured-fill {\n  fill: var(--captured);\n}\n.captured-alternate-fill {\n  fill: var(--alt-captured);\n}\n.captured-stroke {\n  stroke: var(--captured);\n}\n.moved-fill {\n  fill: var(--moved);\n}\n.moved-stroke {\n  stroke: var(--moved);\n}\n.indicator {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill {\n  fill: var(--indicator);\n}\n.selectable-stroke {\n  stroke: var(--selectable);\n}\n.selectable > .base-no-stroke {\n  fill: var(--selectable);\n}\n.last-move-stroke {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke {\n  fill: var(--last-move);\n}\n.last-move-fill {\n  fill: var(--last-move);\n}\n.victory-fill {\n  fill: var(--victory);\n}\n.victory-stroke {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke {\n  fill: var(--victory);\n}\n.defeat-fill {\n  fill: var(--defeat);\n}\n.defeat-stroke {\n  stroke: var(--defeat);\n}\n.selected-fill {\n  fill: var(--selected);\n}\n.selected-stroke {\n  stroke: var(--selected);\n}\n.clickable-stroke {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill {\n  fill: var(--capturable);\n}\n.capturable-stroke:hover {\n  stroke-width: 8;\n}\n.no-fill {\n  fill: none;\n}\n.no-stroke {\n  stroke: none;\n}\n.small-stroke {\n  stroke-width: 2;\n}\n.mid-small-stroke {\n  stroke-width: 3;\n}\n.mid-stroke {\n  stroke-width: 5;\n}\n.big-stroke {\n  stroke-width: 8;\n}\n.huge-stroke {\n  stroke-width: 12;\n}\n.semi-transparent {\n  opacity: 0.5;\n}\n.territory-opacity {\n  fill-opacity: 0.7;\n}\n.round {\n  stroke-linecap: round;\n}\n.text-giant {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big {\n  font: 50px sans-serif;\n}\n.backgrounded-text {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus {\n  font: 38px sans-serif;\n}\n.text-medium {\n  font: 35px sans-serif;\n}\n.text-small-plus {\n  font: 28px sans-serif;\n}\n.text-small {\n  font: 25px sans-serif;\n}\n.text-bold {\n  font-weight: bold;\n}\n.text-center {\n  text-anchor: middle;\n}\n.black-fill {\n  fill: black;\n}\n.darker {\n  filter: brightness(80%);\n}\n.lighter {\n  filter: brightness(110%);\n}\nsvg {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */\n"] }]
   }], () => [], null);
 })();
 (() => {
@@ -21299,7 +21339,7 @@ var InternationalCheckersComponent = class _InternationalCheckersComponent exten
       \u0275\u0275advance();
       \u0275\u0275attribute("points", ctx.rightEdge());
       \u0275\u0275advance();
-      \u0275\u0275repeater(ctx.possibleClicks);
+      \u0275\u0275repeater(ctx.possibleClicks());
       \u0275\u0275advance(2);
       \u0275\u0275repeater(ctx.constructedState().get().getCoordsAndContents());
     }
@@ -21308,7 +21348,7 @@ var InternationalCheckersComponent = class _InternationalCheckersComponent exten
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(InternationalCheckersComponent, [{
     type: Component,
-    args: [{ changeDetection: ChangeDetectionStrategy.OnPush, selector: "app-international-checkers", imports: [NgClass], template: '<svg xmlns="http://www.w3.org/2000/svg"\n     class="board"\n     [attr.viewBox]="viewBoxString()"\n     preserveAspectRatio="xMidYMid meet">\n\n    <defs>\n        <g id="piece">\n            <path d="M 0 25 v 15 a 40 25, 0, 0, 0, 80 0 v -15 a 40 25, 0, 0, 0, -80 0 Z"/>\n            <ellipse cx="40"\n                     cy="25"\n                     rx="40"\n                     ry="25"/>\n        </g>\n    </defs>\n\n    <!-- Empty board -->\n    @for (coordAndContent of constructedState().get().getCoordsAndContents(); track coordAndContent.coord.toString()) {\n        <polygon id="square-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n                 [attr.transform]="getTranslationAtXYZ(coordAndContent.coord.x, coordAndContent.coord.y, 0)"\n                 (click)="onClick(coordAndContent.coord.x, coordAndContent.coord.y)"\n                 [attr.points]="parallelogramPoints()"\n                 [ngClass]="getSquareClass(coordAndContent.coord.x, coordAndContent.coord.y)"\n                 class="base"/>\n    }\n\n    <rect id="bottomEdge"\n          x="0"\n          [attr.y]="basicHeight()"\n          [attr.width]="basicWidth() * mode().horizontalWidthRatio"\n          [attr.height]="THICKNESS"\n          class="base"/>\n    <polygon id="rightEdge"\n             [attr.points]="rightEdge()"\n             class="base"/>\n\n    <!-- Clickable highlights -->\n    @for (coord of possibleClicks; track coord.toString()) {\n        <polygon id="clickable-highlight-{{ coord.x }}-{{ coord.y }}"\n                 [attr.transform]="getTranslationAtXYZ(coord.x, coord.y, 0)"\n                 (click)="onClick(coord.x, coord.y)"\n                 [attr.points]="parallelogramPoints()"\n                 class="base no-fill clickable-stroke small-stroke"/>\n    }\n\n    <!-- Pieces -->\n    @for (coordAndContent of constructedState().get().getCoordsAndContents(); track coordAndContent.coord.toString()) {\n        <g id="coord-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n           [attr.transform]="getTranslationAtXYZ(coordAndContent.coord.x, coordAndContent.coord.y, 0)"\n           (click)="onClick(coordAndContent.coord.x, coordAndContent.coord.y)">\n            @for (pieceInfo of coordAndContent.content.pieces; track $index; let z = $index) {\n                <g pointer-events="fill"\n                   [attr.transform]="getPieceTranslation(z)"\n                   class="base mid-small-stroke">\n                    <use id="square-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}-piece-{{ z }}"\n                         xlink:href="#piece"\n                         [ngClass]="getPieceClasses(coordAndContent.coord.x, coordAndContent.coord.y, z)"\n                         class="base mid-stroke"/>\n                    @if (isPiecePromoted(coordAndContent.coord.x, coordAndContent.coord.y, z)) {\n                        <circle id="square-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}-piece-{{ z }}-promoted-symbol"\n                                [attr.cx]="SPACE_SIZE * 0.4"\n                                [attr.cy]="SPACE_SIZE * 0.575"\n                                [attr.r]="SPACE_SIZE * 0.045"\n                                [ngClass]="getPieceClasses(coordAndContent.coord.x, coordAndContent.coord.y, z)"/>\n                    }\n                </g>\n            }\n        </g>\n    }\n\n</svg>\n', styles: ["/* src/app/components/game-components/game-component/game-component.scss */\n.base {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke {\n  stroke-width: 0;\n}\n.base.manual-stroke {\n  fill: var(--base-stroke);\n}\n.base-no-stroke {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text {\n  fill: var(--base-stroke);\n}\n.white-background {\n  fill: white;\n}\n.background {\n  fill: var(--spaces-fill);\n}\n.transparent {\n  opacity: 0;\n}\n.background2 {\n  fill: var(--alt-background-fill);\n}\n.background3 {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill {\n  fill: var(--player0);\n}\n.player0-alternate-fill {\n  fill: var(--player0-alternate);\n}\n.player0-stroke {\n  stroke: var(--player0);\n}\n.player1-fill {\n  fill: var(--player1);\n}\n.player1-alternate-fill {\n  fill: var(--player1-alternate);\n}\n.player1-stroke {\n  stroke: var(--player1);\n}\n.nonplayer-fill {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill {\n  fill: var(--pre-captured);\n}\n.captured-fill {\n  fill: var(--captured);\n}\n.captured-alternate-fill {\n  fill: var(--alt-captured);\n}\n.captured-stroke {\n  stroke: var(--captured);\n}\n.moved-fill {\n  fill: var(--moved);\n}\n.moved-stroke {\n  stroke: var(--moved);\n}\n.indicator {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill {\n  fill: var(--indicator);\n}\n.selectable-stroke {\n  stroke: var(--selectable);\n}\n.selectable > .base-no-stroke {\n  fill: var(--selectable);\n}\n.last-move-stroke {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke {\n  fill: var(--last-move);\n}\n.last-move-fill {\n  fill: var(--last-move);\n}\n.victory-fill {\n  fill: var(--victory);\n}\n.victory-stroke {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke {\n  fill: var(--victory);\n}\n.defeat-fill {\n  fill: var(--defeat);\n}\n.defeat-stroke {\n  stroke: var(--defeat);\n}\n.selected-fill {\n  fill: var(--selected);\n}\n.selected-stroke {\n  stroke: var(--selected);\n}\n.clickable-stroke {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill {\n  fill: var(--capturable);\n}\n.capturable-stroke:hover {\n  stroke-width: 8;\n}\n.no-fill {\n  fill: none;\n}\n.no-stroke {\n  stroke: none;\n}\n.small-stroke {\n  stroke-width: 2;\n}\n.mid-small-stroke {\n  stroke-width: 3;\n}\n.mid-stroke {\n  stroke-width: 5;\n}\n.big-stroke {\n  stroke-width: 8;\n}\n.huge-stroke {\n  stroke-width: 12;\n}\n.semi-transparent {\n  opacity: 0.5;\n}\n.territory-opacity {\n  fill-opacity: 0.7;\n}\n.round {\n  stroke-linecap: round;\n}\n.text-giant {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big {\n  font: 50px sans-serif;\n}\n.backgrounded-text {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus {\n  font: 38px sans-serif;\n}\n.text-medium {\n  font: 35px sans-serif;\n}\n.text-small-plus {\n  font: 28px sans-serif;\n}\n.text-small {\n  font: 25px sans-serif;\n}\n.text-bold {\n  font-weight: bold;\n}\n.text-center {\n  text-anchor: middle;\n}\n.black-fill {\n  fill: black;\n}\n.darker {\n  filter: brightness(80%);\n}\n.lighter {\n  filter: brightness(110%);\n}\nsvg {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */\n"] }]
+    args: [{ changeDetection: ChangeDetectionStrategy.OnPush, selector: "app-international-checkers", imports: [NgClass], template: '<svg xmlns="http://www.w3.org/2000/svg"\n     class="board"\n     [attr.viewBox]="viewBoxString()"\n     preserveAspectRatio="xMidYMid meet">\n\n    <defs>\n        <g id="piece">\n            <path d="M 0 25 v 15 a 40 25, 0, 0, 0, 80 0 v -15 a 40 25, 0, 0, 0, -80 0 Z"/>\n            <ellipse cx="40"\n                     cy="25"\n                     rx="40"\n                     ry="25"/>\n        </g>\n    </defs>\n\n    <!-- Empty board -->\n    @for (coordAndContent of constructedState().get().getCoordsAndContents(); track coordAndContent.coord.toString()) {\n        <polygon id="square-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n                 [attr.transform]="getTranslationAtXYZ(coordAndContent.coord.x, coordAndContent.coord.y, 0)"\n                 (click)="onClick(coordAndContent.coord.x, coordAndContent.coord.y)"\n                 [attr.points]="parallelogramPoints()"\n                 [ngClass]="getSquareClass(coordAndContent.coord.x, coordAndContent.coord.y)"\n                 class="base"/>\n    }\n\n    <rect id="bottomEdge"\n          x="0"\n          [attr.y]="basicHeight()"\n          [attr.width]="basicWidth() * mode().horizontalWidthRatio"\n          [attr.height]="THICKNESS"\n          class="base"/>\n    <polygon id="rightEdge"\n             [attr.points]="rightEdge()"\n             class="base"/>\n\n    <!-- Clickable highlights -->\n    @for (coord of possibleClicks(); track coord.toString()) {\n        <polygon id="clickable-highlight-{{ coord.x }}-{{ coord.y }}"\n                 [attr.transform]="getTranslationAtXYZ(coord.x, coord.y, 0)"\n                 (click)="onClick(coord.x, coord.y)"\n                 [attr.points]="parallelogramPoints()"\n                 class="base no-fill clickable-stroke small-stroke"/>\n    }\n\n    <!-- Pieces -->\n    @for (coordAndContent of constructedState().get().getCoordsAndContents(); track coordAndContent.coord.toString()) {\n        <g id="coord-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n           [attr.transform]="getTranslationAtXYZ(coordAndContent.coord.x, coordAndContent.coord.y, 0)"\n           (click)="onClick(coordAndContent.coord.x, coordAndContent.coord.y)">\n            @for (pieceInfo of coordAndContent.content.pieces; track $index; let z = $index) {\n                <g pointer-events="fill"\n                   [attr.transform]="getPieceTranslation(z)"\n                   class="base mid-small-stroke">\n                    <use id="square-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}-piece-{{ z }}"\n                         xlink:href="#piece"\n                         [ngClass]="getPieceClasses(coordAndContent.coord.x, coordAndContent.coord.y, z)"\n                         class="base mid-stroke"/>\n                    @if (isPiecePromoted(coordAndContent.coord.x, coordAndContent.coord.y, z)) {\n                        <circle id="square-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}-piece-{{ z }}-promoted-symbol"\n                                [attr.cx]="SPACE_SIZE * 0.4"\n                                [attr.cy]="SPACE_SIZE * 0.575"\n                                [attr.r]="SPACE_SIZE * 0.045"\n                                [ngClass]="getPieceClasses(coordAndContent.coord.x, coordAndContent.coord.y, z)"/>\n                    }\n                </g>\n            }\n        </g>\n    }\n\n</svg>\n', styles: ["/* src/app/components/game-components/game-component/game-component.scss */\n.base {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke {\n  stroke-width: 0;\n}\n.base.manual-stroke {\n  fill: var(--base-stroke);\n}\n.base-no-stroke {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text {\n  fill: var(--base-stroke);\n}\n.white-background {\n  fill: white;\n}\n.background {\n  fill: var(--spaces-fill);\n}\n.transparent {\n  opacity: 0;\n}\n.background2 {\n  fill: var(--alt-background-fill);\n}\n.background3 {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill {\n  fill: var(--player0);\n}\n.player0-alternate-fill {\n  fill: var(--player0-alternate);\n}\n.player0-stroke {\n  stroke: var(--player0);\n}\n.player1-fill {\n  fill: var(--player1);\n}\n.player1-alternate-fill {\n  fill: var(--player1-alternate);\n}\n.player1-stroke {\n  stroke: var(--player1);\n}\n.nonplayer-fill {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill {\n  fill: var(--pre-captured);\n}\n.captured-fill {\n  fill: var(--captured);\n}\n.captured-alternate-fill {\n  fill: var(--alt-captured);\n}\n.captured-stroke {\n  stroke: var(--captured);\n}\n.moved-fill {\n  fill: var(--moved);\n}\n.moved-stroke {\n  stroke: var(--moved);\n}\n.indicator {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill {\n  fill: var(--indicator);\n}\n.selectable-stroke {\n  stroke: var(--selectable);\n}\n.selectable > .base-no-stroke {\n  fill: var(--selectable);\n}\n.last-move-stroke {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke {\n  fill: var(--last-move);\n}\n.last-move-fill {\n  fill: var(--last-move);\n}\n.victory-fill {\n  fill: var(--victory);\n}\n.victory-stroke {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke {\n  fill: var(--victory);\n}\n.defeat-fill {\n  fill: var(--defeat);\n}\n.defeat-stroke {\n  stroke: var(--defeat);\n}\n.selected-fill {\n  fill: var(--selected);\n}\n.selected-stroke {\n  stroke: var(--selected);\n}\n.clickable-stroke {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill {\n  fill: var(--capturable);\n}\n.capturable-stroke:hover {\n  stroke-width: 8;\n}\n.no-fill {\n  fill: none;\n}\n.no-stroke {\n  stroke: none;\n}\n.small-stroke {\n  stroke-width: 2;\n}\n.mid-small-stroke {\n  stroke-width: 3;\n}\n.mid-stroke {\n  stroke-width: 5;\n}\n.big-stroke {\n  stroke-width: 8;\n}\n.huge-stroke {\n  stroke-width: 12;\n}\n.semi-transparent {\n  opacity: 0.5;\n}\n.territory-opacity {\n  fill-opacity: 0.7;\n}\n.round {\n  stroke-linecap: round;\n}\n.text-giant {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big {\n  font: 50px sans-serif;\n}\n.backgrounded-text {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus {\n  font: 38px sans-serif;\n}\n.text-medium {\n  font: 35px sans-serif;\n}\n.text-small-plus {\n  font: 28px sans-serif;\n}\n.text-small {\n  font: 25px sans-serif;\n}\n.text-bold {\n  font-weight: bold;\n}\n.text-center {\n  text-anchor: middle;\n}\n.black-fill {\n  fill: black;\n}\n.darker {\n  filter: brightness(80%);\n}\n.lighter {\n  filter: brightness(110%);\n}\nsvg {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */\n"] }]
   }], () => [], null);
 })();
 (() => {
@@ -21541,7 +21581,7 @@ var LascaComponent = class _LascaComponent extends CheckersComponent {
       \u0275\u0275advance();
       \u0275\u0275attribute("points", ctx.rightEdge());
       \u0275\u0275advance();
-      \u0275\u0275repeater(ctx.possibleClicks);
+      \u0275\u0275repeater(ctx.possibleClicks());
       \u0275\u0275advance(2);
       \u0275\u0275repeater(ctx.constructedState().get().getCoordsAndContents());
     }
@@ -21550,7 +21590,7 @@ var LascaComponent = class _LascaComponent extends CheckersComponent {
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(LascaComponent, [{
     type: Component,
-    args: [{ changeDetection: ChangeDetectionStrategy.OnPush, selector: "app-lasca", imports: [NgClass], template: '<svg xmlns="http://www.w3.org/2000/svg"\n     class="board"\n     [attr.viewBox]="viewBoxString()"\n     preserveAspectRatio="xMidYMid meet">\n\n    <defs>\n        <g id="piece">\n            <path d="M 0 25 v 15 a 40 25, 0, 0, 0, 80 0 v -15 a 40 25, 0, 0, 0, -80 0 Z"/>\n            <ellipse cx="40"\n                     cy="25"\n                     rx="40"\n                     ry="25"/>\n        </g>\n    </defs>\n\n    <!-- Empty board -->\n    @for (coordAndContent of constructedState().get().getCoordsAndContents(); track coordAndContent.coord.toString()) {\n        <polygon id="square-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n                 [attr.transform]="getTranslationAtXYZ(coordAndContent.coord.x, coordAndContent.coord.y, 0)"\n                 (click)="onClick(coordAndContent.coord.x, coordAndContent.coord.y)"\n                 [attr.points]="parallelogramPoints()"\n                 [ngClass]="getSquareClass(coordAndContent.coord.x, coordAndContent.coord.y)"\n                 class="base"/>\n    }\n\n    <rect id="bottomEdge"\n          x="0"\n          [attr.y]="basicHeight()"\n          [attr.width]="basicWidth() * mode().horizontalWidthRatio"\n          [attr.height]="THICKNESS"\n          class="base"/>\n    <polygon id="rightEdge"\n             [attr.points]="rightEdge()"\n             class="base"/>\n\n    <!-- Clickable highlights -->\n    @for (coord of possibleClicks; track coord.toString()) {\n        <polygon id="clickable-highlight-{{ coord.x }}-{{ coord.y }}"\n                 [attr.transform]="getTranslationAtXYZ(coord.x, coord.y, 0)"\n                 (click)="onClick(coord.x, coord.y)"\n                 [attr.points]="parallelogramPoints()"\n                 class="base no-fill clickable-stroke small-stroke"/>\n    }\n\n    <!-- Pieces -->\n    @for (coordAndContent of constructedState().get().getCoordsAndContents(); track coordAndContent.coord.toString()) {\n        <g id="coord-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n           [attr.transform]="getTranslationAtXYZ(coordAndContent.coord.x, coordAndContent.coord.y, 0)"\n           (click)="onClick(coordAndContent.coord.x, coordAndContent.coord.y)">\n            @for (pieceInfo of coordAndContent.content.pieces; track $index; let z = $index) {\n                <g pointer-events="fill"\n                   [attr.transform]="getPieceTranslation(z)"\n                   class="base mid-small-stroke">\n                    <use id="square-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}-piece-{{ z }}"\n                         xlink:href="#piece"\n                         [ngClass]="getPieceClasses(coordAndContent.coord.x, coordAndContent.coord.y, z)"\n                         class="base mid-stroke"/>\n                    @if (isPiecePromoted(coordAndContent.coord.x, coordAndContent.coord.y, z)) {\n                        <circle id="square-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}-piece-{{ z }}-promoted-symbol"\n                                [attr.cx]="SPACE_SIZE * 0.4"\n                                [attr.cy]="SPACE_SIZE * 0.575"\n                                [attr.r]="SPACE_SIZE * 0.045"\n                                [ngClass]="getPieceClasses(coordAndContent.coord.x, coordAndContent.coord.y, z)"/>\n                    }\n                </g>\n            }\n        </g>\n    }\n\n</svg>\n', styles: ["/* src/app/components/game-components/game-component/game-component.scss */\n.base {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke {\n  stroke-width: 0;\n}\n.base.manual-stroke {\n  fill: var(--base-stroke);\n}\n.base-no-stroke {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text {\n  fill: var(--base-stroke);\n}\n.white-background {\n  fill: white;\n}\n.background {\n  fill: var(--spaces-fill);\n}\n.transparent {\n  opacity: 0;\n}\n.background2 {\n  fill: var(--alt-background-fill);\n}\n.background3 {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill {\n  fill: var(--player0);\n}\n.player0-alternate-fill {\n  fill: var(--player0-alternate);\n}\n.player0-stroke {\n  stroke: var(--player0);\n}\n.player1-fill {\n  fill: var(--player1);\n}\n.player1-alternate-fill {\n  fill: var(--player1-alternate);\n}\n.player1-stroke {\n  stroke: var(--player1);\n}\n.nonplayer-fill {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill {\n  fill: var(--pre-captured);\n}\n.captured-fill {\n  fill: var(--captured);\n}\n.captured-alternate-fill {\n  fill: var(--alt-captured);\n}\n.captured-stroke {\n  stroke: var(--captured);\n}\n.moved-fill {\n  fill: var(--moved);\n}\n.moved-stroke {\n  stroke: var(--moved);\n}\n.indicator {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill {\n  fill: var(--indicator);\n}\n.selectable-stroke {\n  stroke: var(--selectable);\n}\n.selectable > .base-no-stroke {\n  fill: var(--selectable);\n}\n.last-move-stroke {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke {\n  fill: var(--last-move);\n}\n.last-move-fill {\n  fill: var(--last-move);\n}\n.victory-fill {\n  fill: var(--victory);\n}\n.victory-stroke {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke {\n  fill: var(--victory);\n}\n.defeat-fill {\n  fill: var(--defeat);\n}\n.defeat-stroke {\n  stroke: var(--defeat);\n}\n.selected-fill {\n  fill: var(--selected);\n}\n.selected-stroke {\n  stroke: var(--selected);\n}\n.clickable-stroke {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill {\n  fill: var(--capturable);\n}\n.capturable-stroke:hover {\n  stroke-width: 8;\n}\n.no-fill {\n  fill: none;\n}\n.no-stroke {\n  stroke: none;\n}\n.small-stroke {\n  stroke-width: 2;\n}\n.mid-small-stroke {\n  stroke-width: 3;\n}\n.mid-stroke {\n  stroke-width: 5;\n}\n.big-stroke {\n  stroke-width: 8;\n}\n.huge-stroke {\n  stroke-width: 12;\n}\n.semi-transparent {\n  opacity: 0.5;\n}\n.territory-opacity {\n  fill-opacity: 0.7;\n}\n.round {\n  stroke-linecap: round;\n}\n.text-giant {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big {\n  font: 50px sans-serif;\n}\n.backgrounded-text {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus {\n  font: 38px sans-serif;\n}\n.text-medium {\n  font: 35px sans-serif;\n}\n.text-small-plus {\n  font: 28px sans-serif;\n}\n.text-small {\n  font: 25px sans-serif;\n}\n.text-bold {\n  font-weight: bold;\n}\n.text-center {\n  text-anchor: middle;\n}\n.black-fill {\n  fill: black;\n}\n.darker {\n  filter: brightness(80%);\n}\n.lighter {\n  filter: brightness(110%);\n}\nsvg {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */\n"] }]
+    args: [{ changeDetection: ChangeDetectionStrategy.OnPush, selector: "app-lasca", imports: [NgClass], template: '<svg xmlns="http://www.w3.org/2000/svg"\n     class="board"\n     [attr.viewBox]="viewBoxString()"\n     preserveAspectRatio="xMidYMid meet">\n\n    <defs>\n        <g id="piece">\n            <path d="M 0 25 v 15 a 40 25, 0, 0, 0, 80 0 v -15 a 40 25, 0, 0, 0, -80 0 Z"/>\n            <ellipse cx="40"\n                     cy="25"\n                     rx="40"\n                     ry="25"/>\n        </g>\n    </defs>\n\n    <!-- Empty board -->\n    @for (coordAndContent of constructedState().get().getCoordsAndContents(); track coordAndContent.coord.toString()) {\n        <polygon id="square-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n                 [attr.transform]="getTranslationAtXYZ(coordAndContent.coord.x, coordAndContent.coord.y, 0)"\n                 (click)="onClick(coordAndContent.coord.x, coordAndContent.coord.y)"\n                 [attr.points]="parallelogramPoints()"\n                 [ngClass]="getSquareClass(coordAndContent.coord.x, coordAndContent.coord.y)"\n                 class="base"/>\n    }\n\n    <rect id="bottomEdge"\n          x="0"\n          [attr.y]="basicHeight()"\n          [attr.width]="basicWidth() * mode().horizontalWidthRatio"\n          [attr.height]="THICKNESS"\n          class="base"/>\n    <polygon id="rightEdge"\n             [attr.points]="rightEdge()"\n             class="base"/>\n\n    <!-- Clickable highlights -->\n    @for (coord of possibleClicks(); track coord.toString()) {\n        <polygon id="clickable-highlight-{{ coord.x }}-{{ coord.y }}"\n                 [attr.transform]="getTranslationAtXYZ(coord.x, coord.y, 0)"\n                 (click)="onClick(coord.x, coord.y)"\n                 [attr.points]="parallelogramPoints()"\n                 class="base no-fill clickable-stroke small-stroke"/>\n    }\n\n    <!-- Pieces -->\n    @for (coordAndContent of constructedState().get().getCoordsAndContents(); track coordAndContent.coord.toString()) {\n        <g id="coord-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}"\n           [attr.transform]="getTranslationAtXYZ(coordAndContent.coord.x, coordAndContent.coord.y, 0)"\n           (click)="onClick(coordAndContent.coord.x, coordAndContent.coord.y)">\n            @for (pieceInfo of coordAndContent.content.pieces; track $index; let z = $index) {\n                <g pointer-events="fill"\n                   [attr.transform]="getPieceTranslation(z)"\n                   class="base mid-small-stroke">\n                    <use id="square-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}-piece-{{ z }}"\n                         xlink:href="#piece"\n                         [ngClass]="getPieceClasses(coordAndContent.coord.x, coordAndContent.coord.y, z)"\n                         class="base mid-stroke"/>\n                    @if (isPiecePromoted(coordAndContent.coord.x, coordAndContent.coord.y, z)) {\n                        <circle id="square-{{ coordAndContent.coord.x }}-{{ coordAndContent.coord.y }}-piece-{{ z }}-promoted-symbol"\n                                [attr.cx]="SPACE_SIZE * 0.4"\n                                [attr.cy]="SPACE_SIZE * 0.575"\n                                [attr.r]="SPACE_SIZE * 0.045"\n                                [ngClass]="getPieceClasses(coordAndContent.coord.x, coordAndContent.coord.y, z)"/>\n                    }\n                </g>\n            }\n        </g>\n    }\n\n</svg>\n', styles: ["/* src/app/components/game-components/game-component/game-component.scss */\n.base {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n  fill: var(--spaces-fill);\n  stroke-linecap: butt;\n  stroke-linejoin: round;\n}\n.manual-stroke {\n  stroke-width: 0;\n}\n.base.manual-stroke {\n  fill: var(--base-stroke);\n}\n.base-no-stroke {\n  stroke: none;\n  stroke-width: 0;\n  fill: var(--base-stroke);\n}\n.base-no-fill {\n  stroke: var(--base-stroke);\n  stroke-width: 8;\n}\n.arrow {\n  stroke: var(--base-stroke);\n  stroke-width: 3;\n}\n.text {\n  fill: var(--base-stroke);\n}\n.white-background {\n  fill: white;\n}\n.background {\n  fill: var(--spaces-fill);\n}\n.transparent {\n  opacity: 0;\n}\n.background2 {\n  fill: var(--alt-background-fill);\n}\n.background3 {\n  fill: var(--alt-alt-background-fill);\n}\n.player0-fill {\n  fill: var(--player0);\n}\n.player0-alternate-fill {\n  fill: var(--player0-alternate);\n}\n.player0-stroke {\n  stroke: var(--player0);\n}\n.player1-fill {\n  fill: var(--player1);\n}\n.player1-alternate-fill {\n  fill: var(--player1-alternate);\n}\n.player1-stroke {\n  stroke: var(--player1);\n}\n.nonplayer-fill {\n  fill: var(--nonplayer);\n}\n.nonplayer-light-fill {\n  fill: var(--nonplayer-light);\n}\n.nonplayer-stroke {\n  stroke: var(--nonplayer);\n}\n.dashed-stroke {\n  stroke-dasharray: 2;\n}\n.pre-captured-fill {\n  fill: var(--pre-captured);\n}\n.captured-fill {\n  fill: var(--captured);\n}\n.captured-alternate-fill {\n  fill: var(--alt-captured);\n}\n.captured-stroke {\n  stroke: var(--captured);\n}\n.moved-fill {\n  fill: var(--moved);\n}\n.moved-stroke {\n  stroke: var(--moved);\n}\n.indicator {\n  fill: var(--indicator);\n  stroke: none;\n}\n.indicator-fill {\n  fill: var(--indicator);\n}\n.selectable-stroke {\n  stroke: var(--selectable);\n}\n.selectable > .base-no-stroke {\n  fill: var(--selectable);\n}\n.last-move-stroke {\n  stroke: var(--last-move);\n}\n.last-move-stroke.manual-stroke {\n  fill: var(--last-move);\n}\n.last-move-fill {\n  fill: var(--last-move);\n}\n.victory-fill {\n  fill: var(--victory);\n}\n.victory-stroke {\n  stroke: var(--victory);\n}\n.victory-stroke.manual-stroke {\n  fill: var(--victory);\n}\n.defeat-fill {\n  fill: var(--defeat);\n}\n.defeat-stroke {\n  stroke: var(--defeat);\n}\n.selected-fill {\n  fill: var(--selected);\n}\n.selected-stroke {\n  stroke: var(--selected);\n}\n.clickable-stroke {\n  stroke: var(--clickable);\n}\n.clickable-stroke-hover:hover {\n  stroke: var(--clickable);\n}\n.capturable-stroke {\n  stroke-width: 2;\n  stroke: var(--capturable);\n}\n.capturable-fill {\n  fill: var(--capturable);\n}\n.capturable-stroke:hover {\n  stroke-width: 8;\n}\n.no-fill {\n  fill: none;\n}\n.no-stroke {\n  stroke: none;\n}\n.small-stroke {\n  stroke-width: 2;\n}\n.mid-small-stroke {\n  stroke-width: 3;\n}\n.mid-stroke {\n  stroke-width: 5;\n}\n.big-stroke {\n  stroke-width: 8;\n}\n.huge-stroke {\n  stroke-width: 12;\n}\n.semi-transparent {\n  opacity: 0.5;\n}\n.territory-opacity {\n  fill-opacity: 0.7;\n}\n.round {\n  stroke-linecap: round;\n}\n.text-giant {\n  fill: var(--base-stroke);\n  font: 3.7rem sans-serif;\n  stroke-width: 0.37rem;\n  dominant-baseline: central;\n}\n.text-big {\n  font: 50px sans-serif;\n}\n.backgrounded-text {\n  fill: var(--backgrounded-text-color);\n}\n.text-medium-plus {\n  font: 38px sans-serif;\n}\n.text-medium {\n  font: 35px sans-serif;\n}\n.text-small-plus {\n  font: 28px sans-serif;\n}\n.text-small {\n  font: 25px sans-serif;\n}\n.text-bold {\n  font-weight: bold;\n}\n.text-center {\n  text-anchor: middle;\n}\n.black-fill {\n  fill: black;\n}\n.darker {\n  filter: brightness(80%);\n}\n.lighter {\n  filter: brightness(110%);\n}\nsvg {\n  max-height: calc(100vh - 15rem);\n}\n.click-delegator {\n  pointer-events: none;\n}\n/*# sourceMappingURL=game-component.css.map */\n"] }]
   }], () => [], null);
 })();
 (() => {
@@ -42767,4 +42807,4 @@ export {
   BaseComponent,
   GameInfo
 };
-//# sourceMappingURL=chunk-HG7FBYFF.js.map
+//# sourceMappingURL=chunk-25CP5OHQ.js.map

@@ -1,9 +1,9 @@
 import {
   TutorialGameWrapperMessages
-} from "./chunk-HG72J4KS.js";
+} from "./chunk-YYW5TCVF.js";
 import {
   GameWrapper
-} from "./chunk-NSUCSEBP.js";
+} from "./chunk-H4UEVLIQ.js";
 import {
   MGPValidation,
   PlayerOrNone,
@@ -121,4 +121,4 @@ var DemoCardWrapperComponent = class _DemoCardWrapperComponent extends GameWrapp
 export {
   DemoCardWrapperComponent
 };
-//# sourceMappingURL=chunk-CNCYP76O.js.map
+//# sourceMappingURL=chunk-23XOKD5X.js.map
