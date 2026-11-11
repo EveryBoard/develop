@@ -1,11 +1,11 @@
 import {
   ViewConfigComponent
-} from "./chunk-ZGCSYYAH.js";
+} from "./chunk-T5FZBTD3.js";
 import {
   GameWrapper,
   RulesConfigUtils
-} from "./chunk-GQ7X7XLO.js";
-import "./chunk-LI2VRTV6.js";
+} from "./chunk-UDO3E2AU.js";
+import "./chunk-7D3XZ7W7.js";
 import "./chunk-LBQNMOIH.js";
 import "./chunk-VNLMPUFV.js";
 import {
@@ -1137,4 +1137,4 @@ LocalGameWrapperComponent = LocalGameWrapperComponent_1 = __decorate([
 export {
   LocalGameWrapperComponent
 };
-//# sourceMappingURL=local-game-wrapper.component-JKDIY3BW.js.map
+//# sourceMappingURL=local-game-wrapper.component-NGYULYYU.js.map
